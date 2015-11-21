@@ -109,7 +109,7 @@
                                             <fieldset>
                                                 <div class="row">
                                                     <section class="col col-3">
-                                                        <label class="label" for="">Name</label>
+                                                        <label class="label" for="">Name11</label>
 
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
                                                             <input type="text" name="name" placeholder="Name" value="{{$campaign_obj->name}}">
