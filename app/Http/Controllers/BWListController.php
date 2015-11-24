@@ -12,6 +12,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class BWListController extends Controller
 {
@@ -22,6 +24,95 @@ class BWListController extends Controller
 //                return dd($bwlist);
                 return view('bwlist.list')->with('bwlist_obj',$bwlist)->with('permission',\Permission_Check::getPermission());
             }else{
+            }
+        }else{
+            return Redirect::to('/user/login');
+        }
+    }
+    public function UploadBwlist(Request $request){
+        $pattern= '/(((http|ftp|https):\/{2})?+(([0-9a-z_-]+\.)+(aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|cz|de|dj|dk|dm|do|dz|ec|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mn|mn|mo|mp|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|nom|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ra|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw|arpa)(:[0-9]+)?((\/([~0-9a-zA-Z\#\+\%@\.\/_-]+))?(\?[0-9a-zA-Z\+\%@\/&\[\];=_-]+)?)?))\b/imuS
+';
+        if(Auth::check()){
+            if(1==1){    //permission goes here
+                if($request->hasFile('upload')) {
+//            $response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=6LdOJAcTAAAAAFnwVTSg4GLCuDhvXXTOaGlgj1sj&response=' . $request->input('g-recaptcha-response'));
+//            $captchaCheck = json_decode($response);
+//            if ($captchaCheck->{'success'} == true) {
+                    $chkUser=Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
+                    if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                        $destpath=public_path();
+                        $extension = $request->file('upload')->getClientOriginalExtension(); // getting image extension
+                        $fileName = str_random(32).'.'.$extension;
+                        $request->file('upload')->move($destpath.'/cdn/test/', $fileName);
+                        $upload = Excel::load('public/cdn/test/'.$fileName,function($reader){
+                            return $reader->all();
+                            });
+//                        return dd($upload->parsed);
+                        $a = array();
+                        $flg=0;
+                        foreach($upload->parsed as $test) {
+                            foreach ($test as $key => $value) {
+                                if($flg==0){
+                                    array_push($a,$key);
+                                }
+                                array_push($a, $value);
+                                $flg++;
+                            }
+                        }
+                        $first_array=array_slice($a,0,2);
+                        $second_array=array_slice($a,2);
+
+                        if((count($first_array) == 2) and ($first_array[1]=='black' or $first_array[1] =='white')) {
+                            $flg = 0;
+                            $chk = BWList::where('advertiser_id', $request->input('advertiser_id'))->get();
+
+                            foreach ($chk as $index) {
+                                if ($index->name == $first_array[0] and $index->list_type == $first_array[1]) {
+                                    $flg = 1;
+                                }
+                            }
+                            if ($flg == 0) {
+//                                return dd($first_array);
+                                $lost= array();
+                                $bwlist = new BWList();
+                                $bwlist->name = $first_array[0];
+                                $bwlist->list_type = $first_array[1];
+                                $bwlist->advertiser_id = $request->input('advertiser_id');
+                                $bwlist->save();
+                                foreach ($second_array as $index) {
+                                    if(preg_match($pattern,$index)){
+                                        $bwlistentries = new BWEntries();
+                                        $bwlistentries->domain_name = $index;
+                                        $bwlistentries->bwlist_id = $bwlist->id;
+                                        $bwlistentries->save();
+                                    }else{
+                                        array_push($lost,$index);
+                                    }
+                                }
+                                $msg = "B/W List added successfully";
+                                if(count($lost)>0){
+                                    $msg.=" exept: ";
+                                    foreach($lost as $index){
+                                        $msg .=$index.',';
+                                    }
+                                }
+                                return Redirect::back()->withErrors(['success' => false, 'msg' => $msg]);
+                            }else{
+                                return Redirect::back()->withErrors(['success'=>false,'msg'=>'this name already existed !!!'])->withInput();
+                            }
+                        }else{
+                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'make sure that youe Upload file is correct'])->withInput();
+                        }
+                        }else{
+                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                        }
+                    }else{
+                       return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select a file'])->withInput();
+                    }
+//            }
+//            return \Redirect::back()->withErrors(['success'=>false,'msg'=> 'ﮐﺪ اﻣﻨﯿﺘﯽ ﺭا ﻭاﺭﺩ ﮐﻨﯿﺪ']);
+                //return print_r($validate->messages());
+//                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
         }else{
             return Redirect::to('/user/login');

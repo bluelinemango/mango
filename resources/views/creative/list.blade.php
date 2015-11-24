@@ -86,25 +86,17 @@
                                         <th>Client Name</th>
                                         <th>advertiser name</th>
                                         <th>Creative Size</th>
-                                        <th>Created At</th>
-                                        <th>Modify</th>
+                                        <th>Date of Modify</th>
                                         </thead>
                                         <tbody>
                                         @foreach($creative_obj as $index)
                                             <tr>
-                                                <td>crt{{$index->crid}}</td>
-                                                <td><a href="{{url('/creative/edit/'.$index->crid)}}">{{$index->crname}}</a></td>
-                                                <td><a href="{{url('/client/edit/'.$index->cid)}}">{{$index->cname}}</a></td>
-                                                <td><a href="{{url('/advertiser/edit/'.$index->aid)}}">{{$index->aname}}</a></td>
+                                                <td>crt{{$index->id}}</td>
+                                                <td><a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/crt'.$index->id.'/edit')}}">{{$index->name}}</a></td>
+                                                <td><a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/edit')}}">{{$index->getAdvertiser->GetClientID->name}}</a></td>
+                                                <td><a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a></td>
                                                 <td>{{$index->size}}</td>
-                                                <td>{{$index->crcreated_at}}</td>
-                                                <td>
-                                                    @foreach($permission as $per_obj)
-                                                        @if($per_obj->getPermission->name != 'EDIT_ADVERTISER')
-                                                            <a href="{{url('creative/edit/'.$index->crid)}}">Edit</a> |
-                                                        @endif
-                                                    @endforeach
-                                                    <a href="{{url('creative/delete/'.$index->crid)}}" target="_self">Delete</a></td>
+                                                <td>{{$index->updated_at}}</td>
                                             </tr>
                                         @endforeach
                                         </tbody>

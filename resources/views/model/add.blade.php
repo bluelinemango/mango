@@ -18,7 +18,10 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home></li><li>Model Registration</li>
+                <li>Home</li>
+                <li>Client: <a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/edit')}}">cl{{$advertiser_obj->GetClientID->id}}</a></li>
+                <li>Advertiser: <a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$advertiser_obj->id.'/edit')}}">adv{{$advertiser_obj->id}}</a></li>
+                <li>Model Registration</li>
             </ol>
             <!-- end breadcrumb -->
 
@@ -97,29 +100,53 @@
 
                                         <form id="order-form" class="smart-form" action="{{URL::route('model_create')}}" method="post" novalidate="novalidate" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <input type="hidden" name="advertiser_id" value="{{$advertiser_obj->id }}">
                                             <header>
                                                 General Information
                                             </header>
 
                                             <fieldset>
                                                 <div class="row">
-                                                    <section class="col col-6">
+                                                    <section class="col col-3">
+                                                        <label class="label" for=""> name</label>
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
                                                             <input type="text" name="name" placeholder="Name">
                                                         </label>
                                                     </section>
-                                                    <section class="col col-6">
+                                                    <section class="col col-3">
+                                                        <label class="label" for="">Segment name seed</label>
                                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
                                                             <input type="text" name="segment_name_seed" placeholder="Segment Name Seed">
                                                         </label>
                                                     </section>
+                                                    <section class="col col-3">
+                                                        <label class="label" for="">Advertiser name</label>
+                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
+                                                            <input type="text" value="{{$advertiser_obj->name}}" disabled>
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label class="label" for="">Client name</label>
+                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
+                                                            <input type="text" value="{{$advertiser_obj->GetClientID->name}}">
+                                                        </label>
+                                                    </section>
                                                 </div>
                                                 <div class="row">
-                                                    <section class="col col-6">
+                                                    <section class="col col-3">
                                                         <label class="label">WebSite Seed </label>
                                                         <input name="seed_web_sites" class="form-control tagsinput" value="" data-role="tagsinput" placeholder="Enter website then click Enter">
                                                     </section>
-                                                    <section class="col col-6">
+
+                                                    <section class="col col-3">
+                                                        <label class="label">Negative Features Requested </label>
+                                                        <input name="negative_features_requested" class="tagsinput" value="" data-role="tagsinput" placeholder="Enter website then click Enter">
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label class="label">Negative Features Used </label>
+                                                        <input name="negative_feature_used" class=" tagsinput" value="" data-role="tagsinput" placeholder="Enter website then click Enter">
+                                                    </section>
+                                                    <section class="col col-3">
                                                         <label class="label">ALGO </label>
                                                         <label class="select">
                                                             <select name="algo">
@@ -132,53 +159,32 @@
                                                     </section>
                                                 </div>
                                                 <div class="row">
-                                                    <section class="col col-6">
-                                                        <label class="select">
-                                                            <select name="advertiser_id">
-                                                                <option value="0" selected="" disabled="">Select Advertiser name...</option>
-                                                                @foreach($advertiser_obj as $index)
-                                                                    <option value="{{$index->aid}}">{{$index->aname}}</option>
-                                                                @endforeach
-                                                            </select> <i></i>
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-6">
-                                                        <label class="input"> <i class="icon-append fa fa-phone"></i>
-                                                            <input type="text" name="process_result" placeholder="Process Result" >
-                                                        </label>
-                                                    </section>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col col-6">
-                                                        <label class="label">Negative Features Requested </label>
-                                                        <input name="negative_features_requested" class="tagsinput" value="" data-role="tagsinput" placeholder="Enter website then click Enter">
-                                                    </section>
-                                                    <section class="col col-6">
-                                                        <label class="label">Negative Features Used </label>
-                                                        <input name="negative_feature_used" class=" tagsinput" value="" data-role="tagsinput" placeholder="Enter website then click Enter">
-                                                    </section>
-                                                </div>
-                                                <div class="row">
-                                                    <section class="col col-6">
-                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                            <input type="text" name="num_neg_devices_used" placeholder="Number of Negative Devices Used">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-6">
-                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                            <input type="text" name="num_pos_devices_used" placeholder="Number of Posetive Devices Used">
-                                                        </label>
-                                                    </section>
-                                                </div>
-                                                <div class="row">
-                                                    <section class="col col-6">
+                                                    <section class="col col-4">
                                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
                                                             <input type="text" name="feature_recency_in_sec" placeholder="Feature Recency in Sec">
                                                         </label>
                                                     </section>
-                                                    <section class="col col-6">
+
+                                                </div>
+                                            </fieldset>
+                                            <fieldset>
+                                                <div class="row">
+                                                    <section class="col col-3">
+                                                        <label class="input"> <i class="icon-append fa fa-phone"></i>
+                                                            <input type="text" name="process_result" placeholder="Process Result" >
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
+                                                            <input type="text" name="num_neg_devices_used" placeholder="Number of Negative Devices Used">
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
+                                                            <input type="text" name="num_pos_devices_used" placeholder="Number of Posetive Devices Used">
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-3">
                                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
                                                             <input type="text" name="max_num_both_neg_pos_devices" placeholder="Max Number of Both Negative & Posetive Devices">
                                                         </label>
@@ -186,19 +192,20 @@
                                                 </div>
                                             </fieldset>
                                             <fieldset>
-                                                <section>
+                                                <div class="row">
+                                                    <section class="col col-3">
+                                                        <div class="input-group">
+                                                            <input type="text" name="date_of_request" placeholder="Expected Date of Request" class="form-control datepicker" data-dateformat="dd/mm/yy">
+                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                        </div>
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label class="textarea"> <i class="icon-append fa fa-comment"></i>
+                                                            <textarea rows="5" name="description" placeholder="Tell us about your Campaign"></textarea>
+                                                        </label>
+                                                    </section>
+                                                </div>
 
-                                                    <div class="input-group">
-                                                        <input type="text" name="date_of_request" placeholder="Expected Date of Request" class="form-control datepicker" data-dateformat="dd/mm/yy">
-                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                    </div>
-                                                </section>
-
-                                                <section>
-                                                    <label class="textarea"> <i class="icon-append fa fa-comment"></i>
-                                                        <textarea rows="5" name="description" placeholder="Tell us about your Campaign"></textarea>
-                                                    </label>
-                                                </section>
                                             </fieldset>
                                             <footer>
                                                 <button type="submit" class="btn btn-success">

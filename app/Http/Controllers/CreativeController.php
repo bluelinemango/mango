@@ -21,11 +21,7 @@ class CreativeController extends Controller
     public function GetView(){
         if(Auth::check()){
             if(1==1){ //permission goes here
-                $creative = DB::table('creative')
-                    ->join('advertiser','creative.advertiser_id','=','advertiser.id')
-                    ->join('client','advertiser.client_id','=','client.id')
-                    ->select('creative.created_at as crcreated_at','creative.id as crid','creative.name as crname','creative.advertiser_domain_name as cradvertiser_domain_name','creative.*','advertiser.id as aid','advertiser.name as aname','advertiser.*','client.name as cname','client.id as cid','client.*')
-                    ->where('client.user_id',Auth::user()->id)->get();
+                $creative=Creative::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->get();
 //                return dd($targetgroup);
                 return view('creative.list')->with('creative_obj',$creative)->with('permission',\Permission_Check::getPermission());
             }else{

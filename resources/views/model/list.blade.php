@@ -83,29 +83,20 @@
                                         <thead>
                                         <th>mdl id</th>
                                         <th>Model name</th>
-                                        <th>advertiser ID</th>
                                         <th>advertiser name</th>
                                         <th>ALGO</th>
                                         <th>Date of Request</th>
-                                        <th>Created At</th>
-                                        <th>Modify</th>
+                                        <th>Date Of Modify</th>
                                         </thead>
                                         <tbody>
                                         @foreach($model_obj as $index)
                                             <tr>
-                                                <td><a href="{{url('/model/edit/'.$index->id)}}"> mdl{{$index->id}} </a></td>
+                                                <td><a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/mdl'.$index->id.'/edit')}}"> mdl{{$index->id}} </a></td>
                                                 <td>{{$index->name}}</td>
-                                                <td><a href="{{url('/advertiser/edit/'.$index->advertiser_id)}}">adv{{$index->advertiser_id}}</a></td>
-                                                <td>{{$index->getAdvertiser->name}}</td>
+                                                <td><a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a></td>
                                                 <td>{{$index->algo}}</td>
                                                 <td>{{$index->date_of_request}}</td>
-                                                <td>{{$index->created_at}}</td>
-                                                <td>
-                                                    @foreach($permission as $per_obj)
-                                                        @if($per_obj->getPermission->name != 'EDIT_ADVERTISER')
-                                                            <a href="{{url('model/edit/'.$index->id)}}">Edit</a>
-                                                        @endif
-                                                    @endforeach
+                                                <td>{{$index->updated_at}}</td>
                                             </tr>
                                         @endforeach
                                         </tbody>

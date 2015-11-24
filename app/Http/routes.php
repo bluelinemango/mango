@@ -75,6 +75,8 @@ Route::get('/client/cl{clid?}/advertiser/adv{advid?}/geosegment/add','GeoSegment
 //Route::get('/creative/delete/{id?}','CreativeController@DeleteCreative');
 //Route::post('/creative/add/create', ['uses'=>'CreativeController@add_creative','as'=>'creative_create']);
 //Route::put('/creative/edit/update', ['uses'=>'CreativeController@edit_creative','as'=>'creative_update']);
+Route::post('/geosegment/upload', ['uses'=>'GeoSegmentController@UploadGeosegment','as'=>'geosegment_upload']);
+
 /////////////////////////END GeoSegment///////////////////////////////////////////
 
 /////////////////////////BWLIST///////////////////////////////////////////
@@ -84,14 +86,17 @@ Route::get('/client/cl{clid?}/advertiser/adv{advid?}/bwlist/bwl{crtid?}/edit','B
 Route::get('/creative/delete/{id?}','CreativeController@DeleteCreative');
 Route::post('/bwlist/add/create', ['uses'=>'BWListController@add_bwlist','as'=>'bwlist_create']);
 Route::put('/bwlist/edit/update', ['uses'=>'BWListController@edit_bwlist','as'=>'bwlist_update']);
+Route::post('/bwlist/upload', ['uses'=>'BWListController@UploadBwlist','as'=>'bwlist_upload']);
 /////////////////////////END BWLIST///////////////////////////////////////////
 
+/////////////////////////MODELS///////////////////////////////////////////
 Route::get('/model','ModelController@GetView');
-Route::get('/model/add','ModelController@ModelAddView');
-Route::get('/model/edit/{id?}','ModelController@ModelEditView');
+Route::get('/client/cl{clid?}/advertiser/adv{advid?}/model/add','ModelController@ModelAddView');
+Route::get('/client/cl{clid?}/advertiser/adv{advid?}/model/mdl{mdlid?}/edit','ModelController@ModelEditView');
 Route::get('/model/delete/{id?}','ModelController@DeleteModel');
 Route::post('/model/add/create', ['uses'=>'ModelController@add_model','as'=>'model_create']);
 Route::put('/model/edit/update', ['uses'=>'ModelController@edit_model','as'=>'model_update']);
+/////////////////////////END MODELS///////////////////////////////////////////
 
 
 Route::post('/user/login/do',['uses'=>'LoginController@postLogin','as'=>'user_login']);

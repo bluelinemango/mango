@@ -43,6 +43,9 @@
                 <a href="{{url('model')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Model</span></a>
             </li>
             <li>
+                <a href="{{url('/bwlist')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Black & white list</span></a>
+            </li>
+            <li>
                 <a href="{{url('campaign')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Segment</span></a>
             </li>
             {{--<li>--}}

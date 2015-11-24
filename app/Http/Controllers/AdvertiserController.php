@@ -22,12 +22,6 @@ class AdvertiserController extends Controller
         if(Auth::check()){
             if(1==1){ //permission goes here
                 $advertiser=Advertiser::with(['Campaign'=>function($q){$q->select(DB::raw('*,count(advertiser_id) as advertiser_count'))->groupBy('advertiser_id');}])->with('GetClientID')->get();
-//                $advertiser=Campaign::select(DB::raw('*,count(advertiser_id) as advertiser_count'))->groupBy('advertiser_id')->with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->orderBy('advertiser_count','desc')->get();
-//                return dd($advertiser);
-//                $advertis = DB::table('advertiser')
-//                    ->join('client','advertiser.client_id','=','client.id')
-//                    ->select('advertiser.id as aid','advertiser.name as aname','advertiser.created_at as acreated_at','advertiser.*','client.name as cname','client.id as cid','client.*')
-//                    ->where('client.user_id',Auth::user()->id)->get();
 //                return dd($advertiser);
                 return view('advertiser.list')->with('adver_obj',$advertiser)->with('permission',\Permission_Check::getPermission());
             }else{
@@ -100,7 +94,7 @@ class AdvertiserController extends Controller
                     $chkUser=Client::find($clid);
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->user_id) {
 //                    $client_obj = Client::where('user_id',Auth::user()->id)->get();
-                        $adver = Advertiser::with('Campaign')->with('Creative')->with('GetClientID')->find($advid);
+                        $adver = Advertiser::with('Campaign')->with('Model')->with('GeoSegment')->with('BWList')->with('Creative')->with('GetClientID')->find($advid);
 //                    return dd($adver);
                         return view('advertiser.edit_advertiser')->with('adver_obj', $adver)->with('permission', \Permission_Check::getPermission());
                     }else{

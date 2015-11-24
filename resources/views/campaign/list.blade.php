@@ -90,29 +90,26 @@
                                         <th>MAX Budget</th>
                                         <th>Daily MAX Budget</th>
                                         <th>CPM</th>
-                                        <th>Created At</th>
-                                        <th>Modify</th>
+                                        <th>Date Of modifay</th>
                                         </thead>
                                         <tbody>
                                         @foreach($campaign_obj as $index)
                                             <tr>
-                                                <td><a href="{{url('/campaign/edit/'.$index->caid)}}"> cmp{{$index->caid}} </a></td>
-                                                <td><a href="{{url('/campaign/edit/'.$index->caid)}}">{{$index->caname}}</a></td>
-                                                <td><a href="{{url('/client/edit/'.$index->cid)}}">{{$index->cname}}</a></td>
-                                                <td><a href="{{url('/advertiser/edit/'.$index->aid)}}">{{$index->aname}}</a></td>
+                                                <td><a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/edit')}}"> cmp{{$index->id}} </a></td>
+                                                <td><a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/edit')}}">{{$index->name}}</a></td>
+                                                <td><a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/edit')}}">{{$index->getAdvertiser->GetClientID->name}}</a></td>
+                                                <td><a href="{{url('client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a></td>
                                                 <td>{{$index->max_impression}}</td>
                                                 <td>{{$index->daily_max_impression}}</td>
                                                 <td>{{$index->max_budget}}</td>
                                                 <td>{{$index->daily_max_budget}}</td>
                                                 <td>{{$index->cpm}}</td>
-                                                <td>{{$index->cacreated_at}}</td>
-                                                <td>
-                                                    @foreach($permission as $per_obj)
-                                                        @if($per_obj->getPermission->name != 'EDIT_ADVERTISER')
-                                                            <a href="{{url('campaign/edit/'.$index->caid)}}">Edit</a> |
-                                                        @endif
-                                                    @endforeach
-                                                    <a href="{{url('campaign/delete/'.$index->caid)}}" target="_self">Delete</a></td>
+                                                <td>{{$index->updated_at}}</td>
+                                                    {{--@foreach($permission as $per_obj)--}}
+                                                        {{--@if($per_obj->getPermission->name != 'EDIT_ADVERTISER')--}}
+                                                            {{--<a href="{{url('campaign/edit/'.$index->caid)}}">Edit</a> |--}}
+                                                        {{--@endif--}}
+                                                    {{--@endforeach--}}
                                             </tr>
                                         @endforeach
                                         </tbody>

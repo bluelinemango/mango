@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Advertiser;
 use App\Models\ModelTable;
 use Illuminate\Http\Request;
 
@@ -28,14 +29,16 @@ class ModelController extends Controller
 
     }
 
-    public function ModelAddView(){
+    public function ModelAddView($clid,$advid){
         if(Auth::check()) {
             if (1 == 1) { //      permission goes here
-                $advertiser_obj = DB::table('advertiser')
-                    ->join('client','advertiser.client_id','=','client.id')
-                    ->select('advertiser.id as aid','advertiser.name as aname','advertiser.created_at as acreated_at','advertiser.*','client.name as cname','client.*')
-                    ->where('user_id',Auth::user()->id)->get();
-                return view('model.add')->with('advertiser_obj',$advertiser_obj)->with('permission',\Permission_Check::getPermission());
+                $chkUser = Advertiser::with('GetClientID')->find($advid);
+                if(count($chkUser) > 0 and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                    $advertiser_obj = Advertiser::with('GetClientID')->find($advid);
+                    return view('model.add')->with('advertiser_obj', $advertiser_obj)->with('permission', \Permission_Check::getPermission());
+                } else{
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                }
             }
         }
     }
@@ -48,24 +51,29 @@ class ModelController extends Controller
 //            $response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=6LdOJAcTAAAAAFnwVTSg4GLCuDhvXXTOaGlgj1sj&response=' . $request->input('g-recaptcha-response'));
 //            $captchaCheck = json_decode($response);
 //            if ($captchaCheck->{'success'} == true) {
-                    $date_of_request = \DateTime::createFromFormat('m/d/Y', $request->input('date_of_request'));
-                    $modelTable=new ModelTable();
-                    $modelTable->name=$request->input('name');
-                    $modelTable->algo=$request->input('algo');
-                    $modelTable->seed_web_sites=json_encode($request->input('seed_web_sites'));
-                    $modelTable->negative_features_requested=json_encode($request->input('negative_features_requested'));
-                    $modelTable->negative_feature_used=json_encode($request->input('negative_feature_used'));
-                    $modelTable->segment_name_seed=$request->input('segment_name_seed');
-                    $modelTable->process_result=$request->input('process_result');
-                    $modelTable->num_neg_devices_used=$request->input('num_neg_devices_used');
-                    $modelTable->num_pos_devices_used=$request->input('num_pos_devices_used');
-                    $modelTable->feature_recency_in_sec=$request->input('feature_recency_in_sec');
-                    $modelTable->max_num_both_neg_pos_devices=$request->input('max_num_both_neg_pos_devices');
-                    $modelTable->description=$request->input('description');
-                    $modelTable->advertiser_id=$request->input('advertiser_id');
-                    $modelTable->date_of_request=$date_of_request;
-                    $modelTable->save();
-                    return Redirect::to(url('/model/edit/'.$modelTable->id))->withErrors(['success'=>true,'msg'=>"Model added successfully"]);
+                    $chkUser=Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
+                    if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                        $date_of_request = \DateTime::createFromFormat('m/d/Y', $request->input('date_of_request'));
+                        $modelTable = new ModelTable();
+                        $modelTable->name = $request->input('name');
+                        $modelTable->algo = $request->input('algo');
+                        $modelTable->seed_web_sites = json_encode($request->input('seed_web_sites'));
+                        $modelTable->negative_features_requested = json_encode($request->input('negative_features_requested'));
+                        $modelTable->negative_feature_used = json_encode($request->input('negative_feature_used'));
+                        $modelTable->segment_name_seed = $request->input('segment_name_seed');
+                        $modelTable->process_result = $request->input('process_result');
+                        $modelTable->num_neg_devices_used = $request->input('num_neg_devices_used');
+                        $modelTable->num_pos_devices_used = $request->input('num_pos_devices_used');
+                        $modelTable->feature_recency_in_sec = $request->input('feature_recency_in_sec');
+                        $modelTable->max_num_both_neg_pos_devices = $request->input('max_num_both_neg_pos_devices');
+                        $modelTable->description = $request->input('description');
+                        $modelTable->advertiser_id = $request->input('advertiser_id');
+                        $modelTable->date_of_request = $date_of_request;
+                        $modelTable->save();
+                        return Redirect::to(url('/client/cl'.$chkUser->GetClientID->id.'/advertiser/adv'.$request->input('advertiser_id').'/model/mdl'.$modelTable->id.'/edit'))->withErrors(['success' => true, 'msg' => "Model added successfully"]);
+                    }else{
+                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    }
 //            }
 //            return \Redirect::back()->withErrors(['success'=>false,'msg'=> 'ﮐﺪ اﻣﻨﯿﺘﯽ ﺭا ﻭاﺭﺩ ﮐﻨﯿﺪ']);
                 }
@@ -89,16 +97,18 @@ class ModelController extends Controller
         }
     }
 
-    public function ModelEditView($id){
-        if(!is_null($id)){
+    public function ModelEditView($clid,$advid,$mdlid){
+        if(!is_null($mdlid)){
             if(Auth::check()){
                 if(1==1){ // Permission goes here
-//                    $advertiser_obj = DB::table('advertiser')
-//                        ->join('client','advertiser.client_id','=','client.id')
-//                        ->select('advertiser.id as aid','advertiser.name as aname','advertiser.created_at as acreated_at','advertiser.*','client.name as cname','client.*')
-//                        ->where('user_id',Auth::user()->id)->get();
-                    $model_obj = ModelTable::with('getAdvertiser')->find($id);
-                    return view('model.edit')->with('model_obj',$model_obj)->with('permission',\Permission_Check::getPermission());
+                    $chkUser=Advertiser::with('GetClientID')->find($advid);
+                    if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                        $model_obj = ModelTable::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->find($mdlid);
+//                        return dd($campaign_obj);
+                        return view('model.edit')->with('model_obj', $model_obj)->with('permission', \Permission_Check::getPermission());
+                    }else{
+                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    }
                 }
             }
         }

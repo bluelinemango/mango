@@ -22,12 +22,7 @@ class CampaignController extends Controller
     public function GetView(){
         if(Auth::check()){
             if(1==1){ //permission goes here
-                $campaign = DB::table('campaign')
-                    ->join('advertiser','campaign.advertiser_id','=','advertiser.id')
-                    ->join('client','advertiser.client_id','=','client.id')
-                    ->select('campaign.*','campaign.id as caid','campaign.name as caname','campaign.created_at as cacreated_at','advertiser.id as aid','advertiser.name as aname','advertiser.created_at as acreated_at','advertiser.*','client.name as cname','client.id as cid','client.*')
-                    ->orderBy('max_budget','desc')
-                    ->where('client.user_id',Auth::user()->id)->get();
+                $campaign=Campaign::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->get();
 //                return dd($campaign);
                 return view('campaign.list')->with('campaign_obj',$campaign)->with('permission',\Permission_Check::getPermission());
             }else{

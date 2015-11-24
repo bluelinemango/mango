@@ -146,9 +146,18 @@
                                                 <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/bwlist/add')}}" class=" btn btn-primary pull-left">
                                                     Add B/W List
                                                 </a>
+                                                <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/model/add')}}" class=" btn btn-primary pull-left">
+                                                    Add Model
+                                                </a>
                                                 <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/geosegment/add')}}" class=" btn btn-primary pull-left">
                                                     Add Geo Segment List
                                                 </a>
+                                                <button type="reset" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                                    Upload BW list
+                                                </button>
+                                                <button type="reset" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal_geo">
+                                                    Upload Geo list
+                                                </button>
                                             </footer>
                                         </form>
                                     </div>
@@ -170,7 +179,7 @@
                     <div class="row">
 
                         <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                        <article class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
                             <!-- Widget ID (each widget will need unique ID)-->
                             <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
@@ -219,7 +228,7 @@
                                             @foreach($adver_obj->Creative as $index_crt)
                                                 <tr>
                                                     <td>crt{{$index_crt->id}}</td>
-                                                    <td><a href="{{url('/creative/edit/'.$index_crt->id)}}">{{$index_crt->name}}</a></td>
+                                                    <td><a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/creative/crt'.$index_crt->id.'/edit')}}">{{$index_crt->name}}</a></td>
                                                     <td>{{$index_crt->start_date}}</td>
                                                     <td>{{$index_crt->end_date}}</td>
                                                 </tr>
@@ -241,10 +250,10 @@
                         <!-- WIDGET END -->
 
                         <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                        <article class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
+                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-1" data-widget-editbutton="false">
                                 <!-- widget options:
                             usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
@@ -290,7 +299,7 @@
                                             @foreach($adver_obj->Campaign as $index_cmp)
                                                 <tr>
                                                     <td>cmp{{$index_cmp->id}}</td>
-                                                    <td><a href="{{url('/campaign/edit/'.$index_cmp->id)}}">{{$index_cmp->name}}</a></td>
+                                                    <td><a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/cmp'.$index_cmp->id.'/edit')}}">{{$index_cmp->name}}</a></td>
                                                     <td>{{$index_cmp->start_date}}</td>
                                                     <td>{{$index_cmp->end_date}}</td>
                                                 </tr>
@@ -312,7 +321,220 @@
                         <!-- WIDGET END -->
 
                     </div>
+                    <div class="row">
 
+                        <!-- NEW WIDGET START -->
+                        <article class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-2" data-widget-editbutton="false">
+                                <!-- widget options:
+                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                            data-widget-colorbutton="false"
+                            data-widget-editbutton="false"
+                            data-widget-togglebutton="false"
+                            data-widget-deletebutton="false"
+                            data-widget-fullscreenbutton="false"
+                            data-widget-custombutton="false"
+                            data-widget-collapsed="true"
+                            data-widget-sortable="false"
+
+                            -->
+                                <header>
+                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                                    <h2>List Of Models </h2>
+
+                                </header>
+
+                                <!-- widget div-->
+                                <div>
+
+                                    <!-- widget edit box -->
+                                    <div class="jarviswidget-editbox">
+                                        <!-- This area used as dropdown edit box -->
+
+                                    </div>
+                                    <!-- end widget edit box -->
+
+                                    <!-- widget content -->
+                                    <div class="widget-body no-padding">
+
+                                        <table id="dt_basic2" class="table table-striped table-bordered table-hover" width="100%">
+                                            <thead>
+                                            <tr>
+                                                <th data-hide="phone">ID</th>
+                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Name</th>
+                                                <th data-hide="phone,tablet"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Date Of modifay</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($adver_obj->Model as $index_mdl)
+                                                <tr>
+                                                    <td>mdl{{$index_mdl->id}}</td>
+                                                    <td><a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/model/mdl'.$index_mdl->id.'/edit')}}">{{$index_mdl->name}}</a></td>
+                                                    <td>{{$index_mdl->updated_at}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <!-- end widget content -->
+
+                                </div>
+                                <!-- end widget div -->
+
+                            </div>
+                            <!-- end widget -->
+
+
+                        </article>
+                        <!-- WIDGET END -->
+
+                        <!-- NEW WIDGET START -->
+                        <article class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-3" data-widget-editbutton="false">
+                                <!-- widget options:
+                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                            data-widget-colorbutton="false"
+                            data-widget-editbutton="false"
+                            data-widget-togglebutton="false"
+                            data-widget-deletebutton="false"
+                            data-widget-fullscreenbutton="false"
+                            data-widget-custombutton="false"
+                            data-widget-collapsed="true"
+                            data-widget-sortable="false"
+
+                            -->
+                                <header>
+                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                                    <h2>List Of Black White List </h2>
+
+                                </header>
+
+                                <!-- widget div-->
+                                <div>
+
+                                    <!-- widget edit box -->
+                                    <div class="jarviswidget-editbox">
+                                        <!-- This area used as dropdown edit box -->
+
+                                    </div>
+                                    <!-- end widget edit box -->
+
+                                    <!-- widget content -->
+                                    <div class="widget-body no-padding">
+
+                                        <table id="dt_basic3" class="table table-striped table-bordered table-hover" width="100%">
+                                            <thead>
+                                            <tr>
+                                                <th data-hide="phone">ID</th>
+                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Name</th>
+                                                <th data-hide="phone,tablet"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Date Of modifay</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($adver_obj->BWList as $index_bwl)
+                                                <tr>
+                                                    <td>mdl{{$index_bwl->id}}</td>
+                                                    <td><a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/bwlist/bwl'.$index_bwl->id.'/edit')}}">{{$index_bwl->name}}</a></td>
+                                                    <td>{{$index_bwl->updated_at}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <!-- end widget content -->
+
+                                </div>
+                                <!-- end widget div -->
+
+                            </div>
+                            <!-- end widget -->
+
+
+                        </article>
+                        <!-- WIDGET END -->
+
+                    </div>
+
+                    <div class="row">
+
+                        <!-- NEW WIDGET START -->
+                        <article class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-4" data-widget-editbutton="false">
+                                <!-- widget options:
+                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                            data-widget-colorbutton="false"
+                            data-widget-editbutton="false"
+                            data-widget-togglebutton="false"
+                            data-widget-deletebutton="false"
+                            data-widget-fullscreenbutton="false"
+                            data-widget-custombutton="false"
+                            data-widget-collapsed="true"
+                            data-widget-sortable="false"
+
+                            -->
+                                <header>
+                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                                    <h2>List Of Geo Segment List </h2>
+
+                                </header>
+
+                                <!-- widget div-->
+                                <div>
+
+                                    <!-- widget edit box -->
+                                    <div class="jarviswidget-editbox">
+                                        <!-- This area used as dropdown edit box -->
+
+                                    </div>
+                                    <!-- end widget edit box -->
+
+                                    <!-- widget content -->
+                                    <div class="widget-body no-padding">
+
+                                        <table id="dt_basic4" class="table table-striped table-bordered table-hover" width="100%">
+                                            <thead>
+                                            <tr>
+                                                <th data-hide="phone">ID</th>
+                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Name</th>
+                                                <th data-hide="phone,tablet"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Date Of modifay</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($adver_obj->GeoSegment as $index_gsm)
+                                                <tr>
+                                                    <td>mdl{{$index_gsm->id}}</td>
+                                                    <td><a href="{{url()}}">{{$index_gsm->name}}</a></td>
+                                                    <td>{{$index_gsm->updated_at}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <!-- end widget content -->
+
+                                </div>
+                                <!-- end widget div -->
+
+                            </div>
+                            <!-- end widget -->
+
+
+                        </article>
+                        <!-- WIDGET END -->
+
+                    </div>
                     <!-- end row -->
 
                     <!-- end row -->
@@ -324,6 +546,103 @@
         <!-- END MAIN CONTENT -->
     </div>
     <!-- END MAIN PANEL -->
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Upload Black/White List Excel File</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="well well-sm well-primary">
+                                <form id="order-form" class="smart-form" role="form" action="{{URL::route('bwlist_upload')}}" method="post" novalidate="novalidate" enctype="multipart/form-data" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="advertiser_id" value="{{$adver_obj->id}}"/>
+                                {{--<form class="form form-inline " role="form" method="post" action="">--}}
+                                    <section>
+                                        <label class="label">File input</label>
+                                        <div class="input input-file">
+                                            <span class="button"><input type="file" id="file" name="upload" onchange="this.parentNode.nextSibling.value = this.value">Browse</span><input type="text" placeholder="Include some files" readonly="">
+                                        </div>
+                                    </section>
+
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <span class="glyphicon glyphicon-floppy-disk"></span> Upload
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal_geo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Upload Geo Segment List Excel File</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="well well-sm well-primary">
+                                <form id="order-form" class="smart-form" role="form" action="{{URL::route('geosegment_upload')}}" method="post" novalidate="novalidate" enctype="multipart/form-data" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="advertiser_id" value="{{$adver_obj->id}}"/>
+                                    {{--<form class="form form-inline " role="form" method="post" action="">--}}
+
+                                    <section>
+                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                            <input type="text" name="name" placeholder="Name">
+                                        </label>
+                                    </section>
+                                    <section>
+                                        <label class="label">File input</label>
+                                        <div class="input input-file">
+                                            <span class="button"><input type="file" id="file" name="upload_geo" onchange="this.parentNode.nextSibling.value = this.value">Browse</span><input type="text" placeholder="Include some files" readonly="">
+                                        </div>
+                                    </section>
+
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <span class="glyphicon glyphicon-floppy-disk"></span> Upload
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
 @endsection
 @section('FooterScripts')
 
@@ -338,6 +657,10 @@
     <script>
         /* BASIC ;*/
         var responsiveHelper_dt_basic = undefined;
+        var responsiveHelper_dt_basic1 = undefined;
+        var responsiveHelper_dt_basic2 = undefined;
+        var responsiveHelper_dt_basic3 = undefined;
+        var responsiveHelper_dt_basic4 = undefined;
         var responsiveHelper_datatable_fixed_column = undefined;
         var responsiveHelper_datatable_col_reorder = undefined;
         var responsiveHelper_datatable_tabletools = undefined;
@@ -372,15 +695,69 @@
             "autoWidth" : true,
             "preDrawCallback" : function() {
                 // Initialize the responsive datatables helper once.
-                if (!responsiveHelper_dt_basic) {
-                    responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic1'), breakpointDefinition);
+                if (!responsiveHelper_dt_basic1) {
+                    responsiveHelper_dt_basic1 = new ResponsiveDatatablesHelper($('#dt_basic1'), breakpointDefinition);
                 }
             },
             "rowCallback" : function(nRow) {
-                responsiveHelper_dt_basic.createExpandIcon(nRow);
+                responsiveHelper_dt_basic1.createExpandIcon(nRow);
             },
             "drawCallback" : function(oSettings) {
-                responsiveHelper_dt_basic.respond();
+                responsiveHelper_dt_basic1.respond();
+            }
+        });
+        $('#dt_basic2').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
+            "t"+
+            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth" : true,
+            "preDrawCallback" : function() {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_basic2) {
+                    responsiveHelper_dt_basic2 = new ResponsiveDatatablesHelper($('#dt_basic2'), breakpointDefinition);
+                }
+            },
+            "rowCallback" : function(nRow) {
+                responsiveHelper_dt_basic2.createExpandIcon(nRow);
+            },
+            "drawCallback" : function(oSettings) {
+                responsiveHelper_dt_basic2.respond();
+            }
+        });
+        $('#dt_basic3').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
+            "t"+
+            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth" : true,
+            "preDrawCallback" : function() {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_basic3) {
+                    responsiveHelper_dt_basic3 = new ResponsiveDatatablesHelper($('#dt_basic3'), breakpointDefinition);
+                }
+            },
+            "rowCallback" : function(nRow) {
+                responsiveHelper_dt_basic3.createExpandIcon(nRow);
+            },
+            "drawCallback" : function(oSettings) {
+                responsiveHelper_dt_basic3.respond();
+            }
+        });
+        $('#dt_basic4').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
+            "t"+
+            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth" : true,
+            "preDrawCallback" : function() {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_basic4) {
+                    responsiveHelper_dt_basic4 = new ResponsiveDatatablesHelper($('#dt_basic4'), breakpointDefinition);
+                }
+            },
+            "rowCallback" : function(nRow) {
+                responsiveHelper_dt_basic4.createExpandIcon(nRow);
+            },
+            "drawCallback" : function(oSettings) {
+                responsiveHelper_dt_basic4.respond();
             }
         });
 
