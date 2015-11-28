@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'url' => 'http://localhost',
+    'url' => 'http://104.236.255.179/mango/public',
 
     /*
     |--------------------------------------------------------------------------
@@ -208,8 +208,8 @@ return [
     */
 
     'cdn' => array(
-        // "static.ejazire.com" => "",
-        "localhost:8000/cdn" => "",
+         "104.236.255.179/Mango-laravel/public/cdn" => "",
+        //"localhost:8000/cdn" => "",
     ),
 ];
 
