@@ -1,5 +1,5 @@
 @extends('Layout')
-@section('siteTitle')List Of Model for {{\Illuminate\Support\Facades\Auth::user()->name}} @endsection
+@section('siteTitle')List Of Geo Segment for {{\Illuminate\Support\Facades\Auth::user()->name}} @endsection
 
 @section('content')
     <!-- MAIN PANEL -->
@@ -62,7 +62,7 @@
                                         -->
                             <header>
                                 <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                <h2>B/W List</h2>
+                                <h2>Geo Segment List</h2>
 
                             </header>
 
@@ -81,19 +81,19 @@
 
                                     <table id="datatable_tabletools" class="table table-striped table-bordered table-hover" width="100%">
                                         <thead>
-                                        <th>bwl id</th>
+                                        <th>gsm id</th>
                                         <th>name</th>
                                         <th>advertiser name</th>
-                                        <th># of WebSite</th>
+                                        <th># of Entries</th>
                                         <th>Modified At</th>
                                         </thead>
                                         <tbody>
-                                        @foreach($bwlist_obj as $index)
+                                        @foreach($geosegment_obj as $index)
                                             <tr>
                                                 <td> bwl{{$index->id}} </td>
-                                                <td><a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bwlist/bwl'.$index->id.'/edit')}}">{{$index->name}}</a></td>
+                                                <td><a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/gsm'.$index->id.'/edit')}}">{{$index->name}}</a></td>
                                                 <td>{{$index->getAdvertiser->name}}</td>
-                                                @if(count($index->getEntries)>0)<td>{{$index->getEntries[0]->bwlist_count}}</td>
+                                                @if(count($index->getGeoEntries)>0)<td>{{$index->getGeoEntries[0]->geosegment_count}}</td>
                                                 @else
                                                     <td>0</td>
                                                 @endif

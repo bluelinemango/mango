@@ -168,80 +168,18 @@
                             <!-- NEW WIDGET START -->
                             <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-                                <!-- Widget ID (each widget will need unique ID)-->
-                                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3" data-widget-editbutton="false">
-                                    <!-- widget options:
-                                                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                                <table id="jqgrid"></table>
+                                <div id="pjqgrid"></div>
 
-                                                data-widget-colorbutton="false"
-                                                data-widget-editbutton="false"
-                                                data-widget-togglebutton="false"
-                                                data-widget-deletebutton="false"
-                                                data-widget-fullscreenbutton="false"
-                                                data-widget-custombutton="false"
-                                                data-widget-collapsed="true"
-                                                data-widget-sortable="false"
-
-                                                -->
-                                    <header>
-                                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                        <h2>B/W List</h2>
-
-                                    </header>
-
-                                    <!-- widget div-->
-                                    <div>
-
-                                        <!-- widget edit box -->
-                                        <div class="jarviswidget-editbox">
-                                            <!-- This area used as dropdown edit box -->
-
-                                        </div>
-                                        <!-- end widget edit box -->
-
-                                        <!-- widget content -->
-                                        <div class="widget-body no-padding">
-
-                                            <table id="datatable_tabletools" class="table table-striped table-bordered table-hover" width="100%">
-                                                <thead>
-                                                <th>bwl id</th>
-                                                <th>name</th>
-                                                <th>Date of Modified</th>
-                                                <th>Actions</th>
-                                                </thead>
-                                                <tbody>
-                                                @foreach($bwlist_obj->getEntries as $index)
-                                                    <tr>
-                                                        <td> bwl{{$index->id}} </td>
-                                                        <td>{{$index->domain_name}}</td>
-                                                        <td>{{$index->updated_at}}</td>
-                                                        <td><button class='btn btn-xs btn-default' data-original-title='Edit Row' onclick=""><i class='fa fa-pencil'></i></button>
-                                                            <button class='btn btn-xs btn-default' data-original-title='Save Row'><i class='fa fa-save'></i></button>
-                                                            <button class='btn btn-xs btn-default' data-original-title='Cancel' ><i class='fa fa-times'></i></button>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-
-                                                </tbody>
-
-
-                                            </table>
-
-                                        </div>
-                                        <!-- end widget content -->
-
-                                    </div>
-                                    <!-- end widget div -->
-
-                                </div>
-                                <!-- end widget -->
+                                <br>
+                                <a href="javascript:void(0)" id="m1">Get Selected id's</a>
+                                <br>
+                                <a href="javascript:void(0)" id="m1s">Select(Unselect) row 13</a>
 
                             </article>
                             <!-- WIDGET END -->
 
                         </div>
-
-                        <!-- end row -->
 
                         <!-- end row -->
 
@@ -257,11 +195,8 @@
 @endsection
 @section('FooterScripts')
     <!-- PAGE RELATED PLUGIN(S) -->
-    <script src="{{cdn('js/plugin/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatables/dataTables.colVis.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatables/dataTables.tableTools.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatables/dataTables.bootstrap.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatable-responsive/datatables.responsive.min.js')}}"></script>
+    <script src="{{cdn('js/plugin/jqgrid/jquery.jqGrid.min.js')}}"></script>
+    <script src="{{cdn('js/plugin/jqgrid/grid.locale-en.min.js')}}"></script>
 
     <script src="{{cdn('js/plugin/bootstrap-tags/bootstrap-tagsinput.min.js')}}"></script>
 
@@ -269,6 +204,111 @@
 
         $(document).ready(function() {
             pageSetUp();
+
+            var jqgrid_data = [
+                @foreach($bwlist_obj->getEntries as $index)
+                {
+                    id : '{{$index->id}}',
+                    name : '{{$index->domain_name}}'
+                },
+                @endforeach
+            ];
+
+            jQuery("#jqgrid").jqGrid({
+                data : jqgrid_data,
+                datatype : "local",
+                height : 'auto',
+                colNames : ['Actions', 'ID', 'Domain name'],
+                colModel : [{
+                    name : 'act',
+                    index : 'act',
+                    sortable : false
+                }, {
+                    name : 'id',
+                    index : 'id'
+                }, {
+                    name : 'name',
+                    index : 'name',
+                    editable : true
+                }],
+                rowNum : 10,
+                rowList : [10, 20, 30],
+                pager : '#pjqgrid',
+                sortname : 'id',
+                toolbarfilter : true,
+                viewrecords : true,
+                sortorder : "asc",
+                gridComplete : function() {
+                    var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var cl = ids[i];
+                        be = "<button class='btn btn-xs btn-default' data-original-title='Edit Row' onclick=\"jQuery('#jqgrid').editRow('" + cl + "');\"><i class='fa fa-pencil'></i></button>";
+                        se = "<button class='btn btn-xs btn-default' data-original-title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('" + cl + "');\"><i class='fa fa-save'></i></button>";
+                        ca = "<button class='btn btn-xs btn-default' data-original-title='Cancel' onclick=\"jQuery('#jqgrid').restoreRow('" + cl + "');\"><i class='fa fa-times'></i></button>";
+                        //ce = "<button class='btn btn-xs btn-default' onclick=\"jQuery('#jqgrid').restoreRow('"+cl+"');\"><i class='fa fa-times'></i></button>";
+                        //jQuery("#jqgrid").jqGrid('setRowData',ids[i],{act:be+se+ce});
+                        jQuery("#jqgrid").jqGrid('setRowData', ids[i], {
+                            act : be + se + ca
+                        });
+                    }
+                },
+                editurl : "dummy.php",
+                caption : "SmartAdmin jQgrid Skin",
+                multiselect : true,
+                autowidth : true,
+
+            });
+            jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {
+                edit : false,
+                add : false,
+                del : true
+            });
+            jQuery("#jqgrid").jqGrid('inlineNav', "#pjqgrid");
+            /* Add tooltips */
+            $('.navtable .ui-pg-button').tooltip({
+                container : 'body'
+            });
+
+            jQuery("#m1").click(function() {
+                var s;
+                s = jQuery("#jqgrid").jqGrid('getGridParam', 'selarrrow');
+                alert(s);
+            });
+            jQuery("#m1s").click(function() {
+                jQuery("#jqgrid").jqGrid('setSelection', "13");
+            });
+
+            // remove classes
+            $(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
+            $(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
+            $(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
+            $(".ui-jqgrid-pager").removeClass("ui-state-default");
+            $(".ui-jqgrid").removeClass("ui-widget-content");
+
+            // add classes
+            $(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
+            $(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
+
+            $(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
+            $(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
+            $(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
+            $(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
+            $(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
+            $(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
+            $(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
+            $(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
+
+            $(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
+
+            $(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
+
+            $(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
+
+            $(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
 
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
@@ -331,141 +371,6 @@
                 }
             });
 
-            /* BASIC ;*/
-            var responsiveHelper_dt_basic = undefined;
-            var responsiveHelper_datatable_fixed_column = undefined;
-            var responsiveHelper_datatable_col_reorder = undefined;
-            var responsiveHelper_datatable_tabletools = undefined;
-
-            var breakpointDefinition = {
-                tablet : 1024,
-                phone : 480
-            };
-
-            $('#dt_basic').dataTable({
-                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
-                "t"+
-                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-                "autoWidth" : true,
-                "preDrawCallback" : function() {
-                    // Initialize the responsive datatables helper once.
-                    if (!responsiveHelper_dt_basic) {
-                        responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
-                    }
-                },
-                "rowCallback" : function(nRow) {
-                    responsiveHelper_dt_basic.createExpandIcon(nRow);
-                },
-                "drawCallback" : function(oSettings) {
-                    responsiveHelper_dt_basic.respond();
-                }
-            });
-
-            /* END BASIC */
-
-            /* COLUMN FILTER  */
-            var otable = $('#datatable_fixed_column').DataTable({
-                //"bFilter": false,
-                //"bInfo": false,
-                //"bLengthChange": false
-                //"bAutoWidth": false,
-                //"bPaginate": false,
-                //"bStateSave": true // saves sort state using localStorage
-                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6 hidden-xs'f><'col-sm-6 col-xs-12 hidden-xs'<'toolbar'>>r>"+
-                "t"+
-                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-                "autoWidth" : true,
-                "preDrawCallback" : function() {
-                    // Initialize the responsive datatables helper once.
-                    if (!responsiveHelper_datatable_fixed_column) {
-                        responsiveHelper_datatable_fixed_column = new ResponsiveDatatablesHelper($('#datatable_fixed_column'), breakpointDefinition);
-                    }
-                },
-                "rowCallback" : function(nRow) {
-                    responsiveHelper_datatable_fixed_column.createExpandIcon(nRow);
-                },
-                "drawCallback" : function(oSettings) {
-                    responsiveHelper_datatable_fixed_column.respond();
-                }
-
-            });
-
-            // custom toolbar
-            $("div.toolbar").html('<div class="text-right"><img src="img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
-
-            // Apply the filter
-            $("#datatable_fixed_column thead th input[type=text]").on( 'keyup change', function () {
-
-                otable
-                        .column( $(this).parent().index()+':visible' )
-                        .search( this.value )
-                        .draw();
-
-            } );
-            /* END COLUMN FILTER */
-
-            /* COLUMN SHOW - HIDE */
-            $('#datatable_col_reorder').dataTable({
-                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'C>r>"+
-                "t"+
-                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
-                "autoWidth" : true,
-                "preDrawCallback" : function() {
-                    // Initialize the responsive datatables helper once.
-                    if (!responsiveHelper_datatable_col_reorder) {
-                        responsiveHelper_datatable_col_reorder = new ResponsiveDatatablesHelper($('#datatable_col_reorder'), breakpointDefinition);
-                    }
-                },
-                "rowCallback" : function(nRow) {
-                    responsiveHelper_datatable_col_reorder.createExpandIcon(nRow);
-                },
-                "drawCallback" : function(oSettings) {
-                    responsiveHelper_datatable_col_reorder.respond();
-                }
-            });
-
-            /* END COLUMN SHOW - HIDE */
-
-            /* TABLETOOLS */
-            $('#datatable_tabletools').dataTable({
-
-                // Tabletools options:
-                //   https://datatables.net/extensions/tabletools/button_options
-                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'T>r>"+
-                "t"+
-                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
-                "oTableTools": {
-                    "aButtons": [
-                        "copy",
-                        "csv",
-                        "xls",
-                        {
-                            "sExtends": "pdf",
-                            "sTitle": "SmartAdmin_PDF",
-                            "sPdfMessage": "SmartAdmin PDF Export",
-                            "sPdfSize": "letter"
-                        },
-                        {
-                            "sExtends": "print",
-                            "sMessage": "Generated by SmartAdmin <i>(press Esc to close)</i>"
-                        }
-                    ],
-                    "sSwfPath": "js/plugin/datatables/swf/copy_csv_xls_pdf.swf"
-                },
-                "autoWidth" : true,
-                "preDrawCallback" : function() {
-                    // Initialize the responsive datatables helper once.
-                    if (!responsiveHelper_datatable_tabletools) {
-                        responsiveHelper_datatable_tabletools = new ResponsiveDatatablesHelper($('#datatable_tabletools'), breakpointDefinition);
-                    }
-                },
-                "rowCallback" : function(nRow) {
-                    responsiveHelper_datatable_tabletools.createExpandIcon(nRow);
-                },
-                "drawCallback" : function(oSettings) {
-                    responsiveHelper_datatable_tabletools.respond();
-                }
-            });
 
 
         })

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
@@ -19,9 +20,9 @@ class GeoSegmentController extends Controller
     public function GetView(){
         if(Auth::check()){
             if(1==1){ //permission goes here
-//                $bwlist=BWList::with(['getEntries'=>function($q){$q->select(DB::raw('*,count(bwlist_id) as bwlist_count'))->groupBy('bwlist_id');}])->with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->get();
-//                return dd($bwlist);
-//                return view('geosegment.list')->with('bwlist_obj',$bwlist)->with('permission',\Permission_Check::getPermission());
+                $geosegment_obj=GeoSegmentList::with(['getGeoEntries'=>function($q){$q->select(DB::raw('*,count(geosegmentlist_id) as geosegment_count'))->groupBy('geosegmentlist_id');}])->with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->get();
+//                return dd($geosegment_obj);
+                return view('geosegment.list')->with('geosegment_obj',$geosegment_obj)->with('permission',\Permission_Check::getPermission());
             }else{
             }
         }else{
@@ -168,17 +169,17 @@ class GeoSegmentController extends Controller
         }
     }
 
-    public function BwlistEditView($clid,$advid,$bwlid){
+    public function GeosegmentEditView($clid,$advid,$bwlid){
         if(!is_null($bwlid)){
             if(Auth::check()){
                 if(1==1){ // Permission goes here
                     $chkUser=Advertiser::with('GetClientID')->find($advid);
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
-                        $bwlist_obj = BWList::with(['getAdvertiser' => function ($q) {
+                        $geosegment_obj = GeoSegmentList::with(['getAdvertiser' => function ($q) {
                             $q->with('GetClientID');
-                        }])->with('getEntries')->find($bwlid);
+                        }])->with('getGeoEntries')->find($bwlid);
 //                    return dd($bwlist_obj);
-                        return view('bwlist.edit')->with('bwlist_obj', $bwlist_obj)->with('permission', \Permission_Check::getPermission());
+                        return view('geosegment.edit')->with('geosegment_obj', $geosegment_obj)->with('permission', \Permission_Check::getPermission());
                     }else{
                         return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                     }
