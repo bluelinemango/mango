@@ -208,7 +208,7 @@ return [
     */
 
     'cdn' => array(
-         "104.236.255.179/Mango-laravel/public/cdn" => "",
+         "104.236.255.179/mango/public/cdn" => "",
         //"localhost:8000/cdn" => "",
     ),
 ];
