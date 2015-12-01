@@ -207,7 +207,7 @@
                                                 <button type="submit" class="btn btn-success">
                                                     Submit
                                                 </button>
-                                                <a href="#" class=" btn btn-primary pull-left">
+                                                <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/campaign/cmp'.$campaign_obj->id.'/targetgroup/add')}}" class=" btn btn-primary pull-left">
                                                     Add Target Group
                                                 </a>
                                             </footer>

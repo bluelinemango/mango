@@ -1,7 +1,6 @@
 @extends('Layout')
 @section('siteTitle')Add Target Group @endsection
 @section('content')
-
     <!-- MAIN PANEL -->
     <div id="main" role="main">
 
@@ -11,8 +10,16 @@
             <!-- breadcrumb -->
             <ol class="breadcrumb">
                 <li>Home</li>
-                <li>Forms</li>
-                <li>Wizards</li>
+                <li>Client: <a
+                            href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/edit')}}">cl{{$campaign_obj->getAdvertiser->GetClientID->id}}</a>
+                </li>
+                <li>Advertiser: <a
+                            href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/edit')}}">adv{{$campaign_obj->getAdvertiser->id}}</a>
+                </li>
+                <li>Campaign : <a
+                            href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/campaign/cmp'.$campaign_obj->id.'/edit')}}">cmp{{$campaign_obj->id}}</a>
+                </li>
+                <li>Target Group Registration</li>
             </ol>
             <!-- end breadcrumb -->
 
@@ -32,42 +39,6 @@
 
         <!-- MAIN CONTENT -->
         <div id="content">
-
-            <div class="row">
-                <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-                    <h1 class="page-title txt-color-blueDark"><i class="fa fa-pencil-square-o fa-fw "></i> Forms <span>>
-							Wizards </span></h1>
-                </div>
-                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-                    <ul id="sparks" class="">
-                        <li class="sparks-info">
-                            <h5> My Income <span class="txt-color-blue">$47,171</span></h5>
-
-                            <div class="sparkline txt-color-blue hidden-mobile hidden-md hidden-sm">
-                                1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471
-                            </div>
-                        </li>
-                        <li class="sparks-info">
-                            <h5> Site Traffic <span class="txt-color-purple"><i class="fa fa-arrow-circle-up"
-                                                                                data-rel="bootstrap-tooltip"
-                                                                                title="Increased"></i>&nbsp;45%</span>
-                            </h5>
-
-                            <div class="sparkline txt-color-purple hidden-mobile hidden-md hidden-sm">
-                                110,150,300,130,400,240,220,310,220,300, 270, 210
-                            </div>
-                        </li>
-                        <li class="sparks-info">
-                            <h5> Site Orders <span class="txt-color-greenDark"><i class="fa fa-shopping-cart"></i>&nbsp;2447</span>
-                            </h5>
-
-                            <div class="sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm">
-                                110,150,300,130,400,240,220,310,220,300, 270, 210
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
 
             <!-- widget grid -->
             <section id="widget-grid" class="">
@@ -115,7 +86,11 @@
                                 <div class="widget-body">
 
                                     <div class="row">
-                                        <form id="wizard-1" novalidate="novalidate">
+                                        <form id="wizard-1" novalidate="novalidate"
+                                              action="{{URL::route('targetgroup_create')}}" method="post">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <input type="hidden" name="campaign_id" value="{{$campaign_obj->id}}">
+
                                             <div id="bootstrap-wizard-1" class="col-sm-12">
                                                 <div class="form-bootstrapWizard">
                                                     <ul class="bootstrapWizard form-wizard">
@@ -140,7 +115,8 @@
                                                             </a>
                                                         </li>
                                                         <li data-target="#step5">
-                                                            <a href="#tab5" data-toggle="tab"> <span
+                                                            <a href="#tab5" data-toggle="tab"
+                                                               onclick="setReview()"> <span
                                                                         class="step">5</span> <span class="title">Save Form</span>
                                                             </a>
                                                         </li>
@@ -238,30 +214,80 @@
                                                                                  id="s1">
 
                                                                                 <div class="row">
-                                                                                    <div class="col-sm-6">
+                                                                                    <div class="col-sm-3">
                                                                                         <div class="form-group">
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-user fa-lg fa-fw"></i></span>
                                                                                                 <input class="form-control input-lg"
-                                                                                                       placeholder="First Name"
+                                                                                                       placeholder="Name Of Target Group"
                                                                                                        type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
+                                                                                                       name="name"
+                                                                                                       id="name">
 
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="col-sm-6">
+                                                                                    <div class="col-sm-3">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                                <select name="iab_category"
+                                                                                                        class="form-control "
+                                                                                                        id=""
+                                                                                                        style="height: 45px"
+                                                                                                        onchange="ShowSubCategory(this.value)">
+                                                                                                    <option value="0"
+                                                                                                            disabled>
+                                                                                                        Select one ...
+                                                                                                    </option>
+                                                                                                    @foreach($iab_category_obj as $index)
+                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                    @endforeach
+                                                                                                </select>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    {{--[7:28:13 PM] Mahmoud Taabodi: entertainment--}}
+                                                                                    {{--[7:28:15 PM] Mahmoud Taabodi: financial--}}
+                                                                                    {{--[7:28:19 PM] Mahmoud Taabodi: health--}}
+                                                                                    {{--[7:28:38 PM] Mahmoud Taabodi: ke entertainment in sub category haaro dare :   movies, theater, sport--}}
+                                                                                    {{--[7:28:59 PM] Mahmoud Taabodi: financial  inaaro dare :  banking, insurance, investment--}}
+                                                                                    {{--[7:29:13 PM] Mahmoud Taabodi: health :  women health, family health, insurance                                                                                    --}}
+
+                                                                                    <div class="col-sm-3">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                                <select name="iab_sub_category"
+                                                                                                        class="form-control "
+                                                                                                        style="height: 45px"
+                                                                                                        id="iab_sub_category">
+                                                                                                    <option value="0"
+                                                                                                            disabled>
+                                                                                                        Select Iab
+                                                                                                        Category First
+                                                                                                        ...
+                                                                                                    </option>
+                                                                                                </select>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-sm-3">
                                                                                         <div class="form-group">
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-user fa-lg fa-fw"></i></span>
                                                                                                 <input class="form-control input-lg"
-                                                                                                       placeholder="Last Name"
                                                                                                        type="text"
-                                                                                                       name="lname"
-                                                                                                       id="lname">
+                                                                                                       placeholder="Domain Name"
+                                                                                                       name="advertiser_domain_name"
+                                                                                                       id="advertiser_domain_name"
+                                                                                                        >
 
                                                                                             </div>
                                                                                         </div>
@@ -271,7 +297,7 @@
                                                                             </div>
                                                                             <div class="tab-pane fade" id="s2">
                                                                                 <div class="row">
-                                                                                    <div class="col-sm-6">
+                                                                                    <div class="col-sm-3">
                                                                                         <div class="form-group">
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
@@ -279,13 +305,13 @@
                                                                                                 <input class="form-control input-lg"
                                                                                                        placeholder="Max Impressions"
                                                                                                        type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
+                                                                                                       name="max_impression"
+                                                                                                       id="max_impression">
 
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="col-sm-6">
+                                                                                    <div class="col-sm-3">
                                                                                         <div class="form-group">
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
@@ -293,15 +319,13 @@
                                                                                                 <input class="form-control input-lg"
                                                                                                        placeholder="Daily Max Imps"
                                                                                                        type="text"
-                                                                                                       name="lname"
-                                                                                                       id="lname">
+                                                                                                       name="daily_max_impression"
+                                                                                                       id="daily_max_impression">
 
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-6">
+                                                                                    <div class="col-sm-3">
                                                                                         <div class="form-group">
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
@@ -309,13 +333,13 @@
                                                                                                 <input class="form-control input-lg"
                                                                                                        placeholder="Max Budget"
                                                                                                        type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
+                                                                                                       name="max_budget"
+                                                                                                       id="max_budget">
 
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="col-sm-6">
+                                                                                    <div class="col-sm-3">
                                                                                         <div class="form-group">
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
@@ -323,8 +347,8 @@
                                                                                                 <input class="form-control input-lg"
                                                                                                        placeholder="Daily Max Budget"
                                                                                                        type="text"
-                                                                                                       name="lname"
-                                                                                                       id="lname">
+                                                                                                       name="daily_max_budget"
+                                                                                                       id="daily_max_budget">
 
                                                                                             </div>
                                                                                         </div>
@@ -333,7 +357,7 @@
                                                                             </div>
                                                                             <div class="tab-pane fade" id="s3">
                                                                                 <div class="row">
-                                                                                    <div class="col-sm-6">
+                                                                                    <div class="col-sm-3">
                                                                                         <div class="form-group">
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
@@ -341,13 +365,13 @@
                                                                                                 <input class="form-control input-lg"
                                                                                                        placeholder="Frequency per sec"
                                                                                                        type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
+                                                                                                       name="frequency_in_sec"
+                                                                                                       id="frequency_in_sec">
 
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="col-sm-6">
+                                                                                    <div class="col-sm-3">
                                                                                         <div class="form-group">
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
@@ -355,8 +379,22 @@
                                                                                                 <input class="form-control input-lg"
                                                                                                        placeholder="MAX CPM"
                                                                                                        type="text"
-                                                                                                       name="lname"
-                                                                                                       id="lname">
+                                                                                                       name="cpm"
+                                                                                                       id="cpm">
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-sm-3">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-eye fa-lg fa-fw"></i></span>
+                                                                                                <input class="form-control input-lg"
+                                                                                                       placeholder="Pacing Plan"
+                                                                                                       type="text"
+                                                                                                       name="pacing_plan"
+                                                                                                       id="pacing_plan">
 
                                                                                             </div>
                                                                                         </div>
@@ -1341,7 +1379,7 @@
                                                                                             <thead>
                                                                                             <tr>
                                                                                                 <th>id</th>
-                                                                                                <th>Publisher name </th>
+                                                                                                <th>Publisher name</th>
                                                                                                 <th>Bid :</th>
                                                                                             </tr>
                                                                                             </thead>
@@ -1349,42 +1387,66 @@
                                                                                             <tr>
                                                                                                 <td>134</td>
                                                                                                 <td>b2</td>
-                                                                                                <td><input type="text" class="form-control" value="23"></td>
+                                                                                                <td><input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="23">
+                                                                                                </td>
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td>135</td>
                                                                                                 <td>b7</td>
-                                                                                                <td><input type="text" class="form-control" value="3"></td>
+                                                                                                <td><input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="3">
+                                                                                                </td>
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td>136</td>
                                                                                                 <td>b12</td>
-                                                                                                <td><input type="text" class="form-control" value="14"></td>
+                                                                                                <td><input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="14">
+                                                                                                </td>
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td>137</td>
                                                                                                 <td>b1</td>
-                                                                                                <td><input type="text" class="form-control" value="26"></td>
+                                                                                                <td><input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="26">
+                                                                                                </td>
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td>138</td>
                                                                                                 <td>b15</td>
-                                                                                                <td><input type="text" class="form-control" value="20"></td>
+                                                                                                <td><input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="20">
+                                                                                                </td>
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td>139</td>
                                                                                                 <td>b1</td>
-                                                                                                <td><input type="text" class="form-control" value="23"></td>
+                                                                                                <td><input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="23">
+                                                                                                </td>
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td>140</td>
                                                                                                 <td>b15</td>
-                                                                                                <td><input type="text" class="form-control" value="20"></td>
+                                                                                                <td><input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="20">
+                                                                                                </td>
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td>141</td>
                                                                                                 <td>b1</td>
-                                                                                                <td><input type="text" class="form-control" value="23"></td>
+                                                                                                <td><input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="23">
+                                                                                                </td>
                                                                                             </tr>
                                                                                             </tbody>
                                                                                         </table>
@@ -1469,7 +1531,8 @@
                                                                         <hr class="simple">
                                                                         <ul id="myTab1" class="nav nav-tabs bordered">
                                                                             <li class="active">
-                                                                                <a href="#v1" data-toggle="tab">Set Geo Target</a>
+                                                                                <a href="#v1" data-toggle="tab">Set Geo
+                                                                                    Target</a>
                                                                             </li>
                                                                             <li>
                                                                                 <a href="#v2" data-toggle="tab"><i
@@ -1539,39 +1602,114 @@
 
                                                                                 <div class="row">
                                                                                     <div class="col-sm-12">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
-                                                                                                       placeholder="Publisher Name"
-                                                                                                       type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
+
+                                                                                        <div class="panel-group"
+                                                                                             id="accordion">
+                                                                                            <!-- accordion 1 -->
+                                                                                            <div class="panel panel-primary">
+
+                                                                                                <div class="panel-heading">
+                                                                                                    <!-- panel-heading -->
+                                                                                                    <h4 class="panel-title">
+                                                                                                        <!-- title 1 -->
+                                                                                                        <a data-toggle="collapse"
+                                                                                                           data-parent="#accordion"
+                                                                                                           href="#blacklist"
+                                                                                                                onclick="taggleBWList('blacklist')">
+                                                                                                            Assign Black List
+                                                                                                        </a>
+                                                                                                    </h4>
+                                                                                                </div>
+                                                                                                <!-- panel body -->
+                                                                                                <div id="blacklist"
+                                                                                                     class="panel-collapse collapse in">
+                                                                                                    <div class="panel-body">
+                                                                                                        <!-- widget content -->
+                                                                                                        <div class="widget-body">
+
+                                                                                                            <select multiple="multiple"
+                                                                                                                    size="10"
+                                                                                                                    name="blacklist[]"
+                                                                                                                    id="initializeDuallistbox_blacklist">
+
+                                                                                                                @foreach($campaign_obj->getAdvertiser->BWList as $index)
+                                                                                                                    @if($index->list_type == 'black')
+                                                                                                                    <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                                    @endif
+                                                                                                                @endforeach
+                                                                                                            </select>
+
+                                                                                                        </div>
+                                                                                                        <!-- end widget content -->
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="panel panel-success">
+                                                                                                <!-- accordion 2 -->
+
+                                                                                                <div class="panel-heading">
+                                                                                                    <h4 class="panel-title">
+                                                                                                        <!-- title 2 -->
+                                                                                                        <a data-toggle="collapse"
+                                                                                                           data-parent="#accordion"
+                                                                                                           href="#accordionTwo">
+                                                                                                            Assign White List
+                                                                                                        </a>
+                                                                                                    </h4>
+                                                                                                </div>
+                                                                                                <!-- panel body -->
+                                                                                                <div id="accordionTwo"
+                                                                                                     class="panel-collapse collapse">
+                                                                                                    <div class="panel-body">
+                                                                                                        <!-- widget content -->
+                                                                                                        <div class="widget-body">
+
+                                                                                                            <select multiple="multiple"
+                                                                                                                    size="10"
+                                                                                                                    name="whitelist[]"
+                                                                                                                    id="initializeDuallistbox_whitelist">
+
+                                                                                                                @foreach($campaign_obj->getAdvertiser->BWList as $index)
+                                                                                                                    @if($index->list_type == 'white')
+                                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                                    @endif
+                                                                                                                @endforeach
+                                                                                                            </select>
+
+                                                                                                        </div>
+                                                                                                        <!-- end widget content -->
+                                                                                                    </div>
+                                                                                                </div>
 
                                                                                             </div>
+
                                                                                         </div>
                                                                                     </div>
-                                                                                </div>
 
+                                                                                </div>
                                                                             </div>
                                                                             <div class="tab-pane fade in active"
                                                                                  id="v4">
 
                                                                                 <div class="row">
                                                                                     <div class="col-sm-12">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
-                                                                                                       placeholder="Publisher Name"
-                                                                                                       type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
+                                                                                        <!-- widget content -->
+                                                                                        <div class="widget-body">
 
-                                                                                            </div>
+                                                                                            <select multiple="multiple"
+                                                                                                    size="10"
+                                                                                                    name="geosegment[]"
+                                                                                                    id="initializeDuallistbox">
+
+                                                                                                @foreach($campaign_obj->getAdvertiser->GeoSegment as $index)
+                                                                                                    <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                @endforeach
+                                                                                            </select>
+
                                                                                         </div>
+                                                                                        <!-- end widget content -->
+
                                                                                     </div>
                                                                                 </div>
 
@@ -1599,10 +1737,13 @@
                                                         <h3><strong>Step 5</strong> - Save Form</h3>
                                                         <br>
 
+                                                        <div class="row" id="step1_review">
+
+                                                        </div>
                                                         <h1 class="text-center text-success"><strong><i
                                                                         class="fa fa-check fa-lg"></i> Complete</strong>
                                                         </h1>
-                                                        <h4 class="text-center">Click next to finish</h4>
+                                                        <input type="submit" value="SUBMIT"/>
                                                         <br>
                                                         <br>
                                                     </div>
@@ -1662,8 +1803,42 @@
     <!-- END MAIN PANEL -->
 @endsection
 @section('FooterScripts')
+    <script src="{{cdn('js/plugin/bootstrap-duallistbox/jquery.bootstrap-duallistbox.min.js')}}"></script>
+
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        function ShowSubCategory(id) {
+            $.ajax({
+                url: "/get_iab_sub_category/" + id
+            }).success(function (response) {
+                var cb = '';
+                var data = jQuery.parseJSON(response);
+                var len = data.length;
+                cb = '<option value="0" disabled>select one</option>';
+                for (var i = 0; i < len; i++) {
+                    cb += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                }
+                $('#iab_sub_category').html(cb);
+            });
+        }
+        function setReview() {
+            console.log($('#initializeDuallistbox'));
+            $('#step1_review').html('name of target group:' + $('#name').val());
+        }
+        function taggleBWList(type){
+            if(type == 'blacklist'){
+                var conf = confirm('are u sure?');
+                if(conf){}
+            }
+        }
+    </script>
     <script>
         $(document).ready(function () {
+
 
             pageSetUp();
 
@@ -1757,6 +1932,28 @@
                 onSelect: function (selectedDate) {
                     $('#startdate').datepicker('option', 'maxDate', selectedDate);
                 }
+            });
+
+            var initializeDuallistbox = $('#initializeDuallistbox').bootstrapDualListbox({
+                nonSelectedListLabel: 'Non-selected',
+                selectedListLabel: 'Selected',
+                preserveSelectionOnMove: 'moved',
+                moveOnSelect: false,
+                nonSelectedFilter: ''
+            });
+            var initializeDuallistbox_blacklist = $('#initializeDuallistbox_blacklist').bootstrapDualListbox({
+                nonSelectedListLabel: 'Non-selected',
+                selectedListLabel: 'Selected',
+                preserveSelectionOnMove: 'moved',
+                moveOnSelect: false,
+                nonSelectedFilter: ''
+            });
+            var initializeDuallistbox_whitelist = $('#initializeDuallistbox_whitelist').bootstrapDualListbox({
+                nonSelectedListLabel: 'Non-selected',
+                selectedListLabel: 'Selected',
+                preserveSelectionOnMove: 'moved',
+                moveOnSelect: false,
+                nonSelectedFilter: ''
             });
 
             var $validator = $("#wizard-1").validate({

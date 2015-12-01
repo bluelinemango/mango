@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Advertiser;
+use App\Models\Campaign;
+use App\Models\Iab_Category;
+use App\Models\Iab_Sub_Category;
 use App\Models\Targetgroup;
+use App\Models\Targetgroup_Geosegmentlist_Map;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -32,20 +37,26 @@ class TargetgroupController extends Controller
         }
     }
 
-    public function TargetgroupAddView(){
+    public function TargetgroupAddView($clid,$advid,$cmpid){
         if(Auth::check()) {
             if (1 == 1) { //      permission goes here
-                $campaign_obj = DB::table('campaign')
-                    ->join('advertiser','campaign.advertiser_id','=','advertiser.id')
-                    ->join('client','advertiser.client_id','=','client.id')
-                    ->select('campaign.id as caid','campaign.name as caname','campaign.*','advertiser.id as aid','advertiser.name as aname','advertiser.created_at as acreated_at','advertiser.*','client.name as cname','client.*')
-                    ->where('user_id',Auth::user()->id)->get();
-                return view('targetgroup.add')->with('campaign_obj',$campaign_obj)->with('permission',\Permission_Check::getPermission());
+                $chkUser = Advertiser::with('GetClientID')->find($advid);
+                if(count($chkUser) > 0 and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                    $campaign_obj=Campaign::with(['getAdvertiser'=>function($q){
+                        $q->with('Creative')->with('GeoSegment')->with('BWList');
+                    }])->find($cmpid);
+                    $iab_category_obj=Iab_Category::get();
+//                    return dd($iab_category_obj);
+                    return view('targetgroup.add')->with('campaign_obj',$campaign_obj)->with('iab_category_obj',$iab_category_obj)->with('permission',\Permission_Check::getPermission());
+                }else{
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                }
             }
         }
     }
 
     public function add_targetgroup(Request $request){
+//        return dd($request->all());
         if(Auth::check()){
             if(1==1){    //permission goes here
                 $validate=\Validator::make($request->all(),['name' => 'required']);
@@ -53,26 +64,43 @@ class TargetgroupController extends Controller
 //            $response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=6LdOJAcTAAAAAFnwVTSg4GLCuDhvXXTOaGlgj1sj&response=' . $request->input('g-recaptcha-response'));
 //            $captchaCheck = json_decode($response);
 //            if ($captchaCheck->{'success'} == true) {
-                    $start_date = \DateTime::createFromFormat('m/d/Y', $request->input('start_date'));
-                    $end_date = \DateTime::createFromFormat('m/d/Y', $request->input('end_date'));
-                    $targetgroup=new Targetgroup();
-                    $targetgroup->name=$request->input('name');
-                    $targetgroup->max_impression=$request->input('max_impression');
-                    $targetgroup->daily_max_impression=$request->input('daily_max_impression');
-                    $targetgroup->max_budget=$request->input('max_budget');
-                    $targetgroup->daily_max_budget=$request->input('daily_max_budget');
-                    $targetgroup->cpm=$request->input('cpm');
-                    $targetgroup->advertiser_domain_name=$request->input('advertiser_domain_name');
-                    $targetgroup->description=$request->input('description');
-                    $targetgroup->campaign_id=$request->input('campaign_id');
-                    $targetgroup->pacing_plan=$request->input('pacing_plan');
-                    $targetgroup->frequency_in_sec=$request->input('frequency_in_sec');
-                    $targetgroup->iab_category=$request->input('iab_category');
-                    $targetgroup->iab_sub_category=$request->input('iab_sub_category');
-                    $targetgroup->start_date=$start_date;
-                    $targetgroup->end_date=$end_date;
-                    $targetgroup->save();
-                    return Redirect::to(url('/targetgroup/edit/'.$targetgroup->id))->withErrors(['success'=>true,'msg'=>"Target Group added successfully"]);
+                    $checkAdv=Campaign::find($request->input('campaign_id'));
+                    $chekUser=Advertiser::with('GetClientID')->find($checkAdv->advertiser_id);
+                    if(count($chekUser) > 0 and Auth::user()->id == $chekUser->GetClientID->user_id) {
+                        $start_date = \DateTime::createFromFormat('m/d/Y', $request->input('start_date'));
+                        $end_date = \DateTime::createFromFormat('m/d/Y', $request->input('end_date'));
+                        $targetgroup = new Targetgroup();
+                        $targetgroup->name = $request->input('name');
+                        $targetgroup->max_impression = $request->input('max_impression');
+                        $targetgroup->daily_max_impression = $request->input('daily_max_impression');
+                        $targetgroup->max_budget = $request->input('max_budget');
+                        $targetgroup->daily_max_budget = $request->input('daily_max_budget');
+                        $targetgroup->cpm = $request->input('cpm');
+                        $targetgroup->advertiser_domain_name = $request->input('advertiser_domain_name');
+//                        $targetgroup->description = $request->input('description');
+                        $targetgroup->campaign_id = $request->input('campaign_id');
+                        $targetgroup->pacing_plan = $request->input('pacing_plan');
+                        $targetgroup->frequency_in_sec = $request->input('frequency_in_sec');
+                        $targetgroup->iab_category = $request->input('iab_category');
+                        $targetgroup->iab_sub_category = $request->input('iab_sub_category');
+                        $targetgroup->start_date = $start_date;
+                        $targetgroup->end_date = $end_date;
+                        $targetgroup->save();
+                        if(count($request->input('geosegment'))>0){
+                            $chk = array();
+                            foreach($request->input('geosegment') as $index) {
+                                if(!in_array($index,$chk)) {
+                                    $geosegment_assign = new Targetgroup_Geosegmentlist_Map();
+                                    $geosegment_assign->targetgroup_id = $targetgroup->id;
+                                    $geosegment_assign->geosegmentlist_id = $index;
+                                    $geosegment_assign->save();
+                                    array_push($chk,$index);
+                                }
+
+                            }
+                        }
+                        //return Redirect::to(url('/targetgroup/edit/' . $targetgroup->id))->withErrors(['success' => true, 'msg' => "Target Group added successfully"]);
+                    }
 //            }
 //            return \Redirect::back()->withErrors(['success'=>false,'msg'=> 'ﮐﺪ اﻣﻨﯿﺘﯽ ﺭا ﻭاﺭﺩ ﮐﻨﯿﺪ']);
                 }
@@ -148,6 +176,13 @@ class TargetgroupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function Iab_Category($id){
+        if(is($id)){
+            $sub_category=Iab_Sub_Category::where('iab_category_id',$id)->get();
+            return json_encode($sub_category);
+        }
+    }
+
     public function index()
     {
         //

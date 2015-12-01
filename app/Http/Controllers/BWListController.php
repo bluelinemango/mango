@@ -134,9 +134,58 @@ class BWListController extends Controller
             }
         }
     }
+    public function jqgrid(Request $request){
+        $pattern= '/(((http|ftp|https):\/{2})?+(([0-9a-z_-]+\.)+(aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|cz|de|dj|dk|dm|do|dz|ec|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mn|mn|mo|mp|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|nom|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ra|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw|arpa)(:[0-9]+)?((\/([~0-9a-zA-Z\#\+\%@\.\/_-]+))?(\?[0-9a-zA-Z\+\%@\/&\[\];=_-]+)?)?))\b/imuS
+';
+//        return dd($request->all());
+        if(Auth::check()){
+            if(1==1){    //permission goes here
+                $validate=\Validator::make($request->all(),['domain_name' => 'required']);
+                if($validate->passes()) {
+                    $chkUser=BWList::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->find($request->input('bwlist_id'));
+//                    return dd($chkUser);
+                    if(!is_null($chkUser) and Auth::user()->id == $chkUser->getAdvertiser->GetClientID->user_id) {
+                        if(preg_match($pattern,$request->input('domain_name'))) {
+                            switch ($request->input('oper')) {
+                                case 'add':
+                                    $bwentries = new BWEntries();
+                                    $bwentries->domain_name = $request->input('domain_name');
+                                    $bwentries->bwlist_id = $request->input('bwlist_id');
+                                    $bwentries->save();
+                                    $bwentries=BWEntries::where('bwlist_id',$request->input('bwlist_id'))->get();
 
+//                                    return dd($result);
+                                    return json_encode($bwentries);
+                                break;
+                                case 'edit':
+                                    $bwentries = BWEntries::find($request->input('id'));
+                                    $bwentries->domain_name = $request->input('domain_name');
+                                    $bwentries->save();
+                                    return 'ok';
+                                break;
+                                case 'del':
+                                    BWEntries::delete($request->input('id'));
+                                    return 'ok';
+                                break;
+                            }
+                        }
+                    }
+                    switch ($request->input('oper')) {
+                        case 'del':
+                            BWEntries::delete($request->input('id'));
+                            return 'ok';
+                        break;
+                    }
+
+                }
+                //return print_r($validate->messages());
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+            }
+        }else{
+            return Redirect::to('/user/login');
+        }
+    }
     public function add_bwlist(Request $request){
-//        return $request->input('domain_name');
         if(Auth::check()){
             if(1==1){    //permission goes here
                 $validate=\Validator::make($request->all(),['name' => 'required']);

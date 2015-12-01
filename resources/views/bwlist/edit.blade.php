@@ -201,7 +201,11 @@
     <script src="{{cdn('js/plugin/bootstrap-tags/bootstrap-tagsinput.min.js')}}"></script>
 
     <script type="text/javascript">
-
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         $(document).ready(function() {
             pageSetUp();
 
@@ -209,7 +213,10 @@
                 @foreach($bwlist_obj->getEntries as $index)
                 {
                     id : '{{$index->id}}',
-                    name : '{{$index->domain_name}}'
+                    domain_name : '{{$index->domain_name}}',
+                    bwlist_id : '{{$bwlist_obj->id}}',
+                    created_at : '{{$index->created_at}}',
+                    updated_at : '{{$index->updated_at}}'
                 },
                 @endforeach
             ];
@@ -218,23 +225,41 @@
                 data : jqgrid_data,
                 datatype : "local",
                 height : 'auto',
-                colNames : ['Actions', 'ID', 'Domain name'],
+                colNames : ['Actions', 'ID', 'Domain name','BWList','created_at','updated_at'],
                 colModel : [{
                     name : 'act',
                     index : 'act',
                     sortable : false
                 }, {
                     name : 'id',
-                    index : 'id'
+                    index : 'id',
+                    hidden: true
                 }, {
-                    name : 'name',
-                    index : 'name',
+                    name : 'domain_name',
+                    index : 'domain_name',
                     editable : true
+                }, {
+                    name : 'bwlist_id',
+                    index : 'bwlist_id',
+                    editable : true ,
+                    editoptions: { defaultValue: '{{$bwlist_obj->id}}'},
+                    hidden:true
+                }, {
+                    name : 'created_at',
+                    index : 'created_at',
+                    hidden: true,
+                    editable : false
+                }, {
+                    name : 'updated_at',
+                    index : 'updated_at',
+                    hidden: true,
+                    editable : false
                 }],
                 rowNum : 10,
                 rowList : [10, 20, 30],
                 pager : '#pjqgrid',
                 sortname : 'id',
+                ajaxRowOptions: { async: true },
                 toolbarfilter : true,
                 viewrecords : true,
                 sortorder : "asc",
@@ -245,23 +270,56 @@
                         be = "<button class='btn btn-xs btn-default' data-original-title='Edit Row' onclick=\"jQuery('#jqgrid').editRow('" + cl + "');\"><i class='fa fa-pencil'></i></button>";
                         se = "<button class='btn btn-xs btn-default' data-original-title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('" + cl + "');\"><i class='fa fa-save'></i></button>";
                         ca = "<button class='btn btn-xs btn-default' data-original-title='Cancel' onclick=\"jQuery('#jqgrid').restoreRow('" + cl + "');\"><i class='fa fa-times'></i></button>";
-                        //ce = "<button class='btn btn-xs btn-default' onclick=\"jQuery('#jqgrid').restoreRow('"+cl+"');\"><i class='fa fa-times'></i></button>";
-                        //jQuery("#jqgrid").jqGrid('setRowData',ids[i],{act:be+se+ce});
+//                        ce = "<button class='btn btn-xs btn-default' onclick=\"jQuery('#jqgrid').restoreRow('"+cl+"');\"><i class='fa fa-times'></i></button>";
+//                        jQuery("#jqgrid").jqGrid('setRowData',ids[i],{act:be+se+ce});
                         jQuery("#jqgrid").jqGrid('setRowData', ids[i], {
                             act : be + se + ca
                         });
                     }
                 },
-                editurl : "dummy.php",
-                caption : "SmartAdmin jQgrid Skin",
+                editurl : "{{url('/test')}}",
+                caption : "SmartAdmin jQgrid Skin1",
                 multiselect : true,
-                autowidth : true,
+                autowidth : true
 
             });
+//            jQuery('#jqgrid').jqGrid('clearGridData');
+//            jQuery('#jqgrid').jqGrid('setGridParam', {data: [{id:2,name:"sss"},{id:3,name:"ddd"}]});
+//            jQuery('#jqgrid').trigger('reloadGrid');
+
+
             jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {
                 edit : false,
-                add : false,
+                add : true,
                 del : true
+            },{
+                afterSubmit:function(response)
+                {
+                    jQuery('#jqgrid').jqGrid('clearGridData');
+                    jQuery('#jqgrid').jqGrid('setGridParam', {data: [{id:2,name:"sss"},{id:3,name:"ddd"}]});
+                    jQuery('#jqgrid').trigger('reloadGrid');
+                    alert('dd');
+                    console.log(response);
+                },
+                closeAfterAdd: true,
+                closeAfterEdit: true,
+                reloadAfterSubmit:true
+            },{
+                afterSubmit:function(response)
+                {
+                    var r ='[';
+                    for (var sss in JSON.parse(response['responseText'])){
+                        r += '{ ' + sss.id + sss.domain_name;
+                    }
+                    alert(r);
+                    jQuery('#jqgrid').jqGrid('clearGridData');
+                    jQuery('#jqgrid').jqGrid('setGridParam', {data: response['responseText']});
+                    jQuery('#jqgrid').trigger('reloadGrid');
+                    console.log(JSON.parse(response['responseText']));
+                },
+                closeAfterAdd: true,
+                closeAfterEdit: true,
+                reloadAfterSubmit:true
             });
             jQuery("#jqgrid").jqGrid('inlineNav', "#pjqgrid");
             /* Add tooltips */

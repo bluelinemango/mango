@@ -51,12 +51,14 @@ Route::put('/campaign/edit/update', ['uses'=>'CampaignController@edit_campaign',
 /////////////////////////END CAMPAIGN///////////////////////////////////////////
 
 
+/////////////////////////TARGET GROUP///////////////////////////////////////////
 Route::get('/targetgroup','TargetgroupController@GetView');
-Route::get('/targetgroup/add','TargetgroupController@TargetgroupAddView');
+Route::get('/client/cl{clid?}/advertiser/adv{advid?}/campaign/cmp{cmpid?}/targetgroup/add','TargetgroupController@TargetgroupAddView');
 Route::get('/targetgroup/edit/{id?}','TargetgroupController@TargetgroupEditView');
 Route::get('/targetgroup/delete/{id?}','TargetgroupController@DeleteTargetgroup');
 Route::post('/targetgroup/add/create', ['uses'=>'TargetgroupController@add_targetgroup','as'=>'targetgroup_create']);
 Route::put('/targetgroup/edit/update', ['uses'=>'TargetgroupController@edit_targetgroup','as'=>'targetgroup_update']);
+/////////////////////////END TARGET GROUP///////////////////////////////////////////
 
 
 /////////////////////////CREATIVE///////////////////////////////////////////
@@ -101,3 +103,6 @@ Route::put('/model/edit/update', ['uses'=>'ModelController@edit_model','as'=>'mo
 
 Route::post('/user/login/do',['uses'=>'LoginController@postLogin','as'=>'user_login']);
 Route::get('/user/logout',['uses'=>'LoginController@getLogout','as'=>'user_logout']);
+
+Route::post('/test', ['uses'=>'BWListController@jqgrid','as'=>'bwlist_create']);
+Route::get('/get_iab_sub_category/{id?}', ['uses'=>'TargetgroupController@Iab_Category','as'=>'get_iab_sub_category']);
