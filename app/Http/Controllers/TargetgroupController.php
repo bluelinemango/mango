@@ -7,6 +7,8 @@ use App\Models\Campaign;
 use App\Models\Iab_Category;
 use App\Models\Iab_Sub_Category;
 use App\Models\Targetgroup;
+use App\Models\Targetgroup_Bwlist_Map;
+use App\Models\Targetgroup_Creative_Map;
 use App\Models\Targetgroup_Geosegmentlist_Map;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -99,6 +101,45 @@ class TargetgroupController extends Controller
 
                             }
                         }
+                        if(count($request->input('creative'))>0){
+                            $chk = array();
+                            foreach($request->input('creative') as $index) {
+                                if(!in_array($index,$chk)) {
+                                    $creative_assign = new Targetgroup_Creative_Map();
+                                    $creative_assign->targetgroup_id = $targetgroup->id;
+                                    $creative_assign->creative_id = $index;
+                                    $creative_assign->save();
+                                    array_push($chk,$index);
+                                }
+
+                            }
+                        }
+                        if(count($request->input('blacklist'))>0 and count($request->input('whitelist'))==0) {
+                            $chk = array();
+                            foreach ($request->input('blacklist') as $index) {
+                                if (!in_array($index, $chk)) {
+                                    $blacklist_assign = new Targetgroup_Bwlist_Map();
+                                    $blacklist_assign->targetgroup_id = $targetgroup->id;
+                                    $blacklist_assign->bwlist_id = $index;
+                                    $blacklist_assign->save();
+                                    array_push($chk, $index);
+                                }
+                            }
+                        }elseif(count($request->input('blacklist'))==0 and count($request->input('whitelist'))>0){
+                            $chk = array();
+                            foreach ($request->input('whitelist') as $index) {
+                                if (!in_array($index, $chk)) {
+                                    $whitelist_assign = new Targetgroup_Bwlist_Map();
+                                    $whitelist_assign->targetgroup_id = $targetgroup->id;
+                                    $whitelist_assign->bwlist_id = $index;
+                                    $whitelist_assign->save();
+                                    array_push($chk, $index);
+                                }
+                            }
+                        }else{
+                            //return 2 ta chiz baham select shode
+                        }
+
                         //return Redirect::to(url('/targetgroup/edit/' . $targetgroup->id))->withErrors(['success' => true, 'msg' => "Target Group added successfully"]);
                     }
 //            }

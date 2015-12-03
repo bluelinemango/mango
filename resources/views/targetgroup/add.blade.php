@@ -101,12 +101,12 @@
                                                         </li>
                                                         <li data-target="#step2">
                                                             <a href="#tab2" data-toggle="tab"> <span
-                                                                        class="step">2</span> <span class="title">Billing information</span>
+                                                                        class="step">2</span> <span class="title">Configuration</span>
                                                             </a>
                                                         </li>
                                                         <li data-target="#step3">
                                                             <a href="#tab3" data-toggle="tab"> <span
-                                                                        class="step">3</span> <span class="title">Domain Setup</span>
+                                                                        class="step">3</span> <span class="title">Bid Adjustment</span>
                                                             </a>
                                                         </li>
                                                         <li data-target="#step4">
@@ -117,7 +117,7 @@
                                                         <li data-target="#step5">
                                                             <a href="#tab5" data-toggle="tab"
                                                                onclick="setReview()"> <span
-                                                                        class="step">5</span> <span class="title">Save Form</span>
+                                                                        class="step">5</span> <span class="title">Review And Submition</span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -184,29 +184,7 @@
                                                                             (Bordered Tabs)
                                                                         </p>
                                                                         <hr class="simple">
-                                                                        <ul id="myTab1" class="nav nav-tabs bordered">
-                                                                            <li class="active">
-                                                                                <a href="#s1" data-toggle="tab">Editing
-                                                                                    target group</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#s2" data-toggle="tab"><i
-                                                                                            class="fa fa-fw fa-lg fa-gear"></i>
-                                                                                    Budget And Impressions</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#s3" data-toggle="tab"><i
-                                                                                            class="fa fa-fw fa-lg fa-gear"></i>
-                                                                                    Frequency and Pacing</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#s4" data-toggle="tab"><i
-                                                                                            class="fa fa-fw fa-lg fa-gear"></i>
-                                                                                    Run Dates</a>
-                                                                            </li>
 
-
-                                                                        </ul>
 
                                                                         <div id="myTabContent1"
                                                                              class="tab-content padding-10">
@@ -294,8 +272,6 @@
                                                                                     </div>
                                                                                 </div>
 
-                                                                            </div>
-                                                                            <div class="tab-pane fade" id="s2">
                                                                                 <div class="row">
                                                                                     <div class="col-sm-3">
                                                                                         <div class="form-group">
@@ -354,8 +330,6 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
-                                                                            <div class="tab-pane fade" id="s3">
                                                                                 <div class="row">
                                                                                     <div class="col-sm-3">
                                                                                         <div class="form-group">
@@ -400,31 +374,36 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
-                                                                            <div class="tab-pane fade" id="s4">
-                                                                                <form id="order-form" class="smart-form"
-                                                                                      novalidate="novalidate">
-                                                                                    <div class="row">
-                                                                                        <section class="col col-12">
-                                                                                            <label class="input"> <i
-                                                                                                        class="icon-append fa fa-calendar"></i>
-                                                                                                <input type="text"
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-3">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                    <span class="input-group-addon"><i
+                                                                                                                class="fa fa-calendar fa-lg fa-fw"></i></span>
+                                                                                                <input class="form-control input-lg"
+                                                                                                       type="text"
                                                                                                        name="startdate"
                                                                                                        id="startdate"
                                                                                                        placeholder="Expected start date">
-                                                                                            </label>
-                                                                                        </section>
-                                                                                        <section class="col col-12">
-                                                                                            <label class="input"> <i
-                                                                                                        class="icon-append fa fa-calendar"></i>
-                                                                                                <input type="text"
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-sm-3">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                    <span class="input-group-addon"><i
+                                                                                                                class="fa fa-calendar fa-lg fa-fw"></i></span>
+                                                                                                <input class="form-control input-lg"
+                                                                                                       type="text"
                                                                                                        name="finishdate"
                                                                                                        id="finishdate"
                                                                                                        placeholder="Expected finish date">
-                                                                                            </label>
-                                                                                        </section>
+
+                                                                                            </div>
+                                                                                        </div>
                                                                                     </div>
-                                                                                </form>
+                                                                                </div>
                                                                             </div>
 
                                                                         </div>
@@ -444,6 +423,599 @@
                                                         <div class="clearfix"></div>
                                                     </div>
                                                     <div class="tab-pane" id="tab2">
+                                                        <br>
+
+                                                        <h3><strong>Step 4</strong> - CONFIGURATION</h3>
+                                                        <!-- NEW WIDGET START -->
+                                                        <article class="col-sm-12 col-md-12 col-lg-12">
+
+                                                            <!-- Widget ID (each widget will need unique ID)-->
+                                                            <div class="jarviswidget well" id="wid-id-3"
+                                                                 data-widget-colorbutton="false"
+                                                                 data-widget-editbutton="false"
+                                                                 data-widget-togglebutton="false"
+                                                                 data-widget-deletebutton="false"
+                                                                 data-widget-fullscreenbutton="false"
+                                                                 data-widget-custombutton="false"
+                                                                 data-widget-sortable="false">
+                                                                <!-- widget options:
+                                                                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                                                                data-widget-colorbutton="false"
+                                                                data-widget-editbutton="false"
+                                                                data-widget-togglebutton="false"
+                                                                data-widget-deletebutton="false"
+                                                                data-widget-fullscreenbutton="false"
+                                                                data-widget-custombutton="false"
+                                                                data-widget-collapsed="true"
+                                                                data-widget-sortable="false"
+
+                                                                -->
+                                                                <header>
+                                                                    <span class="widget-icon"> <i
+                                                                                class="fa fa-comments"></i> </span>
+
+                                                                    <h2>Default Tabs with border </h2>
+
+                                                                </header>
+
+                                                                <!-- widget div-->
+                                                                <div>
+
+                                                                    <!-- widget edit box -->
+                                                                    <div class="jarviswidget-editbox">
+                                                                        <!-- This area used as dropdown edit box -->
+
+                                                                    </div>
+                                                                    <!-- end widget edit box -->
+
+                                                                    <!-- widget content -->
+                                                                    <div class="widget-body">
+
+                                                                        <p>
+                                                                            Tabs inside
+                                                                            <code>
+                                                                                .jarviswidget .well
+                                                                            </code>
+                                                                            (Bordered Tabs)
+                                                                        </p>
+                                                                        <hr class="simple">
+                                                                        <ul id="myTab1" class="nav nav-tabs bordered">
+                                                                            <li class="active">
+                                                                                <a href="#v1" data-toggle="tab">Set Geo
+                                                                                    Target</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="#v2" data-toggle="tab"><i
+                                                                                            class="fa fa-fw fa-lg fa-gear"></i>
+                                                                                    Assign Creative</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="#v3" data-toggle="tab"><i
+                                                                                            class="fa fa-fw fa-lg fa-gear"></i>
+                                                                                    Set Black\white list</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="#v4" data-toggle="tab"><i
+                                                                                            class="fa fa-fw fa-lg fa-gear"></i>
+                                                                                    Set Geo Segments</a>
+                                                                            </li>
+
+
+                                                                        </ul>
+
+                                                                        <div id="myTabContent1"
+                                                                             class="tab-content padding-10">
+                                                                            <div class="tab-pane fade in active"
+                                                                                 id="v1">
+
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-12">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                                <input class="form-control input-lg"
+                                                                                                       placeholder="Publisher Name"
+                                                                                                       type="text"
+                                                                                                       name="fname"
+                                                                                                       id="fname">
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="tab-pane fade in active"
+                                                                                 id="v2">
+
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-12">
+                                                                                        <!-- widget content -->
+                                                                                        <div class="widget-body">
+
+                                                                                            <select multiple="multiple"
+                                                                                                    size="10"
+                                                                                                    name="creative[]"
+                                                                                                    id="initializeDuallistbox_creative">
+
+                                                                                                @foreach($campaign_obj->getAdvertiser->Creative as $index)
+                                                                                                    <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                @endforeach
+                                                                                            </select>
+
+                                                                                        </div>
+                                                                                        <!-- end widget content -->
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="tab-pane fade in active"
+                                                                                 id="v3">
+
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-12">
+
+                                                                                        <div class="panel-group"
+                                                                                             id="accordion">
+                                                                                            <!-- accordion 1 -->
+                                                                                            <div class="panel panel-primary">
+
+                                                                                                <div class="panel-heading">
+                                                                                                    <!-- panel-heading -->
+                                                                                                    <h4 class="panel-title">
+                                                                                                        <!-- title 1 -->
+                                                                                                        <a data-toggle="collapse"
+                                                                                                           data-parent="#accordion"
+                                                                                                           href="#blacklist"
+                                                                                                           onclick="taggleBWList('blacklist')">
+                                                                                                            Assign Black List
+                                                                                                        </a>
+                                                                                                    </h4>
+                                                                                                </div>
+                                                                                                <!-- panel body -->
+                                                                                                <div id="blacklist"
+                                                                                                     class="panel-collapse collapse in">
+                                                                                                    <div class="panel-body">
+                                                                                                        <!-- widget content -->
+                                                                                                        <div class="widget-body" id="blacklist_select">
+
+                                                                                                            <select multiple="multiple"
+                                                                                                                    size="10"
+                                                                                                                    name="blacklist[]"
+                                                                                                                    id="initializeDuallistbox_blacklist">
+
+                                                                                                                @foreach($campaign_obj->getAdvertiser->BWList as $index)
+                                                                                                                    @if($index->list_type == 'black')
+                                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                                    @endif
+                                                                                                                @endforeach
+                                                                                                            </select>
+
+                                                                                                        </div>
+                                                                                                        <!-- end widget content -->
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="panel panel-success">
+                                                                                                <!-- accordion 2 -->
+
+                                                                                                <div class="panel-heading">
+                                                                                                    <h4 class="panel-title">
+                                                                                                        <!-- title 2 -->
+                                                                                                        <a data-toggle="collapse"
+                                                                                                           data-parent="#accordion"
+                                                                                                           href="#accordionTwo"
+                                                                                                           onclick="taggleBWList('whitelist')">
+                                                                                                            Assign White List
+                                                                                                        </a>
+                                                                                                    </h4>
+                                                                                                </div>
+                                                                                                <!-- panel body -->
+                                                                                                <div id="accordionTwo"
+                                                                                                     class="panel-collapse collapse">
+                                                                                                    <div class="panel-body">
+                                                                                                        <!-- widget content -->
+                                                                                                        <div class="widget-body">
+
+                                                                                                            <select multiple="multiple"
+                                                                                                                    size="10"
+                                                                                                                    name="whitelist[]"
+                                                                                                                    id="initializeDuallistbox_whitelist">
+
+                                                                                                                @foreach($campaign_obj->getAdvertiser->BWList as $index)
+                                                                                                                    @if($index->list_type == 'white')
+                                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                                    @endif
+                                                                                                                @endforeach
+                                                                                                            </select>
+
+                                                                                                        </div>
+                                                                                                        <!-- end widget content -->
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="tab-pane fade in active"
+                                                                                 id="v4">
+
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-12">
+                                                                                        <!-- widget content -->
+                                                                                        <div class="widget-body">
+
+                                                                                            <select multiple="multiple"
+                                                                                                    size="10"
+                                                                                                    name="geosegment[]"
+                                                                                                    id="initializeDuallistbox">
+
+                                                                                                @foreach($campaign_obj->getAdvertiser->GeoSegment as $index)
+                                                                                                    <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                @endforeach
+                                                                                            </select>
+
+                                                                                        </div>
+                                                                                        <!-- end widget content -->
+
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <!-- end widget content -->
+
+                                                                </div>
+                                                                <!-- end widget div -->
+
+                                                            </div>
+                                                            <!-- end widget -->
+
+
+                                                        </article>
+                                                        <!-- WIDGET END -->
+                                                        <div class="clearfix"></div>
+
+                                                    </div>
+                                                    <div class="tab-pane" id="tab3">
+                                                        <br>
+
+                                                        <h3><strong>Step 3</strong> - Domain Setup</h3>
+                                                        <!-- NEW WIDGET START -->
+                                                        <article class="col-sm-12 col-md-12 col-lg-12">
+
+                                                            <!-- Widget ID (each widget will need unique ID)-->
+                                                            <div class="jarviswidget well" id="wid-id-3"
+                                                                 data-widget-colorbutton="false"
+                                                                 data-widget-editbutton="false"
+                                                                 data-widget-togglebutton="false"
+                                                                 data-widget-deletebutton="false"
+                                                                 data-widget-fullscreenbutton="false"
+                                                                 data-widget-custombutton="false"
+                                                                 data-widget-sortable="false">
+                                                                <!-- widget options:
+                                                                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                                                                data-widget-colorbutton="false"
+                                                                data-widget-editbutton="false"
+                                                                data-widget-togglebutton="false"
+                                                                data-widget-deletebutton="false"
+                                                                data-widget-fullscreenbutton="false"
+                                                                data-widget-custombutton="false"
+                                                                data-widget-collapsed="true"
+                                                                data-widget-sortable="false"
+
+                                                                -->
+                                                                <header>
+                                                                    <span class="widget-icon"> <i
+                                                                                class="fa fa-comments"></i> </span>
+
+                                                                    <h2>Default Tabs with border </h2>
+
+                                                                </header>
+
+                                                                <!-- widget div-->
+                                                                <div>
+
+                                                                    <!-- widget edit box -->
+                                                                    <div class="jarviswidget-editbox">
+                                                                        <!-- This area used as dropdown edit box -->
+
+                                                                    </div>
+                                                                    <!-- end widget edit box -->
+
+                                                                    <!-- widget content -->
+                                                                    <div class="widget-body">
+
+                                                                        <p>
+                                                                            Tabs inside
+                                                                            <code>
+                                                                                .jarviswidget .well
+                                                                            </code>
+                                                                            (Bordered Tabs)
+                                                                        </p>
+                                                                        <hr class="simple">
+                                                                        <ul id="myTab1" class="nav nav-tabs bordered">
+                                                                            <li class="active">
+                                                                                <a href="#u1" data-toggle="tab">Bid by
+                                                                                    publisher</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="#u2" data-toggle="tab"><i
+                                                                                            class="fa fa-fw fa-lg fa-gear"></i>
+                                                                                    Publisher name</a>
+                                                                            </li>
+
+
+                                                                        </ul>
+
+                                                                        <div id="myTabContent1"
+                                                                             class="tab-content padding-10">
+                                                                            <div class="tab-pane fade in active"
+                                                                                 id="u1">
+
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-6">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                                <input class="form-control input-lg"
+                                                                                                       placeholder="Publisher Name"
+                                                                                                       type="text"
+                                                                                                       name="fname"
+                                                                                                       id="fname">
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-sm-2">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                                <input class="form-control input-lg"
+                                                                                                       placeholder="Bid"
+                                                                                                       type="text"
+                                                                                                       name="lname"
+                                                                                                       id="lname">
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-6">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                                <input class="form-control input-lg"
+                                                                                                       placeholder="Publisher Name"
+                                                                                                       type="text"
+                                                                                                       name="fname"
+                                                                                                       id="fname">
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-sm-2">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                                <input class="form-control input-lg"
+                                                                                                       placeholder="Bid"
+                                                                                                       type="text"
+                                                                                                       name="lname"
+                                                                                                       id="lname">
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-6">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                                <input class="form-control input-lg"
+                                                                                                       placeholder="Publisher Name"
+                                                                                                       type="text"
+                                                                                                       name="fname"
+                                                                                                       id="fname">
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-sm-2">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                                <input class="form-control input-lg"
+                                                                                                       placeholder="Bid"
+                                                                                                       type="text"
+                                                                                                       name="lname"
+                                                                                                       id="lname">
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-6">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                                <input class="form-control input-lg"
+                                                                                                       placeholder="Publisher Name"
+                                                                                                       type="text"
+                                                                                                       name="fname"
+                                                                                                       id="fname">
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-sm-2">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                                <input class="form-control input-lg"
+                                                                                                       placeholder="Bid"
+                                                                                                       type="text"
+                                                                                                       name="lname"
+                                                                                                       id="lname">
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-6">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                                <input class="form-control input-lg"
+                                                                                                       placeholder="Publisher Name"
+                                                                                                       type="text"
+                                                                                                       name="fname"
+                                                                                                       id="fname">
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-sm-2">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                                <input class="form-control input-lg"
+                                                                                                       placeholder="Bid"
+                                                                                                       type="text"
+                                                                                                       name="lname"
+                                                                                                       id="lname">
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="tab-pane fade" id="u2">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        <table class="table table-striped table-bordered ">
+                                                                                            <thead>
+                                                                                            <tr>
+                                                                                                <th>id</th>
+                                                                                                <th>Publisher name</th>
+                                                                                                <th>Bid :</th>
+                                                                                            </tr>
+                                                                                            </thead>
+                                                                                            <tbody>
+                                                                                            <tr>
+                                                                                                <td>134</td>
+                                                                                                <td>b2</td>
+                                                                                                <td><input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="23">
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td>135</td>
+                                                                                                <td>b7</td>
+                                                                                                <td><input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="3">
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td>136</td>
+                                                                                                <td>b12</td>
+                                                                                                <td><input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="14">
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td>137</td>
+                                                                                                <td>b1</td>
+                                                                                                <td><input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="26">
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td>138</td>
+                                                                                                <td>b15</td>
+                                                                                                <td><input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="20">
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td>139</td>
+                                                                                                <td>b1</td>
+                                                                                                <td><input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="23">
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td>140</td>
+                                                                                                <td>b15</td>
+                                                                                                <td><input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="20">
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td>141</td>
+                                                                                                <td>b1</td>
+                                                                                                <td><input type="text"
+                                                                                                           class="form-control"
+                                                                                                           value="23">
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <!-- end widget content -->
+
+                                                                </div>
+                                                                <!-- end widget div -->
+
+                                                            </div>
+                                                            <!-- end widget -->
+
+
+                                                        </article>
+                                                        <!-- WIDGET END -->
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="tab-pane" id="tab4">
                                                         <br>
 
                                                         <h3><strong>Step 2</strong> - BID BY HOUR</h3>
@@ -1142,594 +1714,7 @@
                                                         </article>
                                                         <!-- WIDGET END -->
                                                         <div class="clearfix"></div>
-                                                    </div>
-                                                    <div class="tab-pane" id="tab3">
-                                                        <br>
 
-                                                        <h3><strong>Step 3</strong> - Domain Setup</h3>
-                                                        <!-- NEW WIDGET START -->
-                                                        <article class="col-sm-12 col-md-12 col-lg-12">
-
-                                                            <!-- Widget ID (each widget will need unique ID)-->
-                                                            <div class="jarviswidget well" id="wid-id-3"
-                                                                 data-widget-colorbutton="false"
-                                                                 data-widget-editbutton="false"
-                                                                 data-widget-togglebutton="false"
-                                                                 data-widget-deletebutton="false"
-                                                                 data-widget-fullscreenbutton="false"
-                                                                 data-widget-custombutton="false"
-                                                                 data-widget-sortable="false">
-                                                                <!-- widget options:
-                                                                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                                                data-widget-colorbutton="false"
-                                                                data-widget-editbutton="false"
-                                                                data-widget-togglebutton="false"
-                                                                data-widget-deletebutton="false"
-                                                                data-widget-fullscreenbutton="false"
-                                                                data-widget-custombutton="false"
-                                                                data-widget-collapsed="true"
-                                                                data-widget-sortable="false"
-
-                                                                -->
-                                                                <header>
-                                                                    <span class="widget-icon"> <i
-                                                                                class="fa fa-comments"></i> </span>
-
-                                                                    <h2>Default Tabs with border </h2>
-
-                                                                </header>
-
-                                                                <!-- widget div-->
-                                                                <div>
-
-                                                                    <!-- widget edit box -->
-                                                                    <div class="jarviswidget-editbox">
-                                                                        <!-- This area used as dropdown edit box -->
-
-                                                                    </div>
-                                                                    <!-- end widget edit box -->
-
-                                                                    <!-- widget content -->
-                                                                    <div class="widget-body">
-
-                                                                        <p>
-                                                                            Tabs inside
-                                                                            <code>
-                                                                                .jarviswidget .well
-                                                                            </code>
-                                                                            (Bordered Tabs)
-                                                                        </p>
-                                                                        <hr class="simple">
-                                                                        <ul id="myTab1" class="nav nav-tabs bordered">
-                                                                            <li class="active">
-                                                                                <a href="#u1" data-toggle="tab">Bid by
-                                                                                    publisher</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#u2" data-toggle="tab"><i
-                                                                                            class="fa fa-fw fa-lg fa-gear"></i>
-                                                                                    Publisher name</a>
-                                                                            </li>
-
-
-                                                                        </ul>
-
-                                                                        <div id="myTabContent1"
-                                                                             class="tab-content padding-10">
-                                                                            <div class="tab-pane fade in active"
-                                                                                 id="u1">
-
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-6">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
-                                                                                                       placeholder="Publisher Name"
-                                                                                                       type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-2">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
-                                                                                                       placeholder="Bid"
-                                                                                                       type="text"
-                                                                                                       name="lname"
-                                                                                                       id="lname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-6">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
-                                                                                                       placeholder="Publisher Name"
-                                                                                                       type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-2">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
-                                                                                                       placeholder="Bid"
-                                                                                                       type="text"
-                                                                                                       name="lname"
-                                                                                                       id="lname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-6">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
-                                                                                                       placeholder="Publisher Name"
-                                                                                                       type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-2">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
-                                                                                                       placeholder="Bid"
-                                                                                                       type="text"
-                                                                                                       name="lname"
-                                                                                                       id="lname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-6">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
-                                                                                                       placeholder="Publisher Name"
-                                                                                                       type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-2">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
-                                                                                                       placeholder="Bid"
-                                                                                                       type="text"
-                                                                                                       name="lname"
-                                                                                                       id="lname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-6">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
-                                                                                                       placeholder="Publisher Name"
-                                                                                                       type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-2">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
-                                                                                                       placeholder="Bid"
-                                                                                                       type="text"
-                                                                                                       name="lname"
-                                                                                                       id="lname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                            </div>
-                                                                            <div class="tab-pane fade" id="u2">
-                                                                                <div class="row">
-                                                                                    <div class="col-md-12">
-                                                                                        <table class="table table-striped table-bordered ">
-                                                                                            <thead>
-                                                                                            <tr>
-                                                                                                <th>id</th>
-                                                                                                <th>Publisher name</th>
-                                                                                                <th>Bid :</th>
-                                                                                            </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                            <tr>
-                                                                                                <td>134</td>
-                                                                                                <td>b2</td>
-                                                                                                <td><input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="23">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>135</td>
-                                                                                                <td>b7</td>
-                                                                                                <td><input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="3">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>136</td>
-                                                                                                <td>b12</td>
-                                                                                                <td><input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="14">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>137</td>
-                                                                                                <td>b1</td>
-                                                                                                <td><input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="26">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>138</td>
-                                                                                                <td>b15</td>
-                                                                                                <td><input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="20">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>139</td>
-                                                                                                <td>b1</td>
-                                                                                                <td><input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="23">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>140</td>
-                                                                                                <td>b15</td>
-                                                                                                <td><input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="20">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>141</td>
-                                                                                                <td>b1</td>
-                                                                                                <td><input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="23">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div>
-
-                                                                                </div>
-                                                                            </div>
-
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <!-- end widget content -->
-
-                                                                </div>
-                                                                <!-- end widget div -->
-
-                                                            </div>
-                                                            <!-- end widget -->
-
-
-                                                        </article>
-                                                        <!-- WIDGET END -->
-                                                        <div class="clearfix"></div>
-                                                    </div>
-                                                    <div class="tab-pane" id="tab4">
-                                                        <br>
-
-                                                        <h3><strong>Step 4</strong> - EDITING TARGETGROUP</h3>
-                                                        <!-- NEW WIDGET START -->
-                                                        <article class="col-sm-12 col-md-12 col-lg-12">
-
-                                                            <!-- Widget ID (each widget will need unique ID)-->
-                                                            <div class="jarviswidget well" id="wid-id-3"
-                                                                 data-widget-colorbutton="false"
-                                                                 data-widget-editbutton="false"
-                                                                 data-widget-togglebutton="false"
-                                                                 data-widget-deletebutton="false"
-                                                                 data-widget-fullscreenbutton="false"
-                                                                 data-widget-custombutton="false"
-                                                                 data-widget-sortable="false">
-                                                                <!-- widget options:
-                                                                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                                                data-widget-colorbutton="false"
-                                                                data-widget-editbutton="false"
-                                                                data-widget-togglebutton="false"
-                                                                data-widget-deletebutton="false"
-                                                                data-widget-fullscreenbutton="false"
-                                                                data-widget-custombutton="false"
-                                                                data-widget-collapsed="true"
-                                                                data-widget-sortable="false"
-
-                                                                -->
-                                                                <header>
-                                                                    <span class="widget-icon"> <i
-                                                                                class="fa fa-comments"></i> </span>
-
-                                                                    <h2>Default Tabs with border </h2>
-
-                                                                </header>
-
-                                                                <!-- widget div-->
-                                                                <div>
-
-                                                                    <!-- widget edit box -->
-                                                                    <div class="jarviswidget-editbox">
-                                                                        <!-- This area used as dropdown edit box -->
-
-                                                                    </div>
-                                                                    <!-- end widget edit box -->
-
-                                                                    <!-- widget content -->
-                                                                    <div class="widget-body">
-
-                                                                        <p>
-                                                                            Tabs inside
-                                                                            <code>
-                                                                                .jarviswidget .well
-                                                                            </code>
-                                                                            (Bordered Tabs)
-                                                                        </p>
-                                                                        <hr class="simple">
-                                                                        <ul id="myTab1" class="nav nav-tabs bordered">
-                                                                            <li class="active">
-                                                                                <a href="#v1" data-toggle="tab">Set Geo
-                                                                                    Target</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#v2" data-toggle="tab"><i
-                                                                                            class="fa fa-fw fa-lg fa-gear"></i>
-                                                                                    Assign Creative</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#v3" data-toggle="tab"><i
-                                                                                            class="fa fa-fw fa-lg fa-gear"></i>
-                                                                                    Set Black\white list</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#v4" data-toggle="tab"><i
-                                                                                            class="fa fa-fw fa-lg fa-gear"></i>
-                                                                                    Set Geo Segments</a>
-                                                                            </li>
-
-
-                                                                        </ul>
-
-                                                                        <div id="myTabContent1"
-                                                                             class="tab-content padding-10">
-                                                                            <div class="tab-pane fade in active"
-                                                                                 id="v1">
-
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-12">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
-                                                                                                       placeholder="Publisher Name"
-                                                                                                       type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                            </div>
-                                                                            <div class="tab-pane fade in active"
-                                                                                 id="v2">
-
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-12">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
-                                                                                                       placeholder="Publisher Name"
-                                                                                                       type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                            </div>
-                                                                            <div class="tab-pane fade in active"
-                                                                                 id="v3">
-
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-12">
-
-                                                                                        <div class="panel-group"
-                                                                                             id="accordion">
-                                                                                            <!-- accordion 1 -->
-                                                                                            <div class="panel panel-primary">
-
-                                                                                                <div class="panel-heading">
-                                                                                                    <!-- panel-heading -->
-                                                                                                    <h4 class="panel-title">
-                                                                                                        <!-- title 1 -->
-                                                                                                        <a data-toggle="collapse"
-                                                                                                           data-parent="#accordion"
-                                                                                                           href="#blacklist"
-                                                                                                                onclick="taggleBWList('blacklist')">
-                                                                                                            Assign Black List
-                                                                                                        </a>
-                                                                                                    </h4>
-                                                                                                </div>
-                                                                                                <!-- panel body -->
-                                                                                                <div id="blacklist"
-                                                                                                     class="panel-collapse collapse in">
-                                                                                                    <div class="panel-body">
-                                                                                                        <!-- widget content -->
-                                                                                                        <div class="widget-body">
-
-                                                                                                            <select multiple="multiple"
-                                                                                                                    size="10"
-                                                                                                                    name="blacklist[]"
-                                                                                                                    id="initializeDuallistbox_blacklist">
-
-                                                                                                                @foreach($campaign_obj->getAdvertiser->BWList as $index)
-                                                                                                                    @if($index->list_type == 'black')
-                                                                                                                    <option value="{{$index->id}}">{{$index->name}}</option>
-                                                                                                                    @endif
-                                                                                                                @endforeach
-                                                                                                            </select>
-
-                                                                                                        </div>
-                                                                                                        <!-- end widget content -->
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <div class="panel panel-success">
-                                                                                                <!-- accordion 2 -->
-
-                                                                                                <div class="panel-heading">
-                                                                                                    <h4 class="panel-title">
-                                                                                                        <!-- title 2 -->
-                                                                                                        <a data-toggle="collapse"
-                                                                                                           data-parent="#accordion"
-                                                                                                           href="#accordionTwo">
-                                                                                                            Assign White List
-                                                                                                        </a>
-                                                                                                    </h4>
-                                                                                                </div>
-                                                                                                <!-- panel body -->
-                                                                                                <div id="accordionTwo"
-                                                                                                     class="panel-collapse collapse">
-                                                                                                    <div class="panel-body">
-                                                                                                        <!-- widget content -->
-                                                                                                        <div class="widget-body">
-
-                                                                                                            <select multiple="multiple"
-                                                                                                                    size="10"
-                                                                                                                    name="whitelist[]"
-                                                                                                                    id="initializeDuallistbox_whitelist">
-
-                                                                                                                @foreach($campaign_obj->getAdvertiser->BWList as $index)
-                                                                                                                    @if($index->list_type == 'white')
-                                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
-                                                                                                                    @endif
-                                                                                                                @endforeach
-                                                                                                            </select>
-
-                                                                                                        </div>
-                                                                                                        <!-- end widget content -->
-                                                                                                    </div>
-                                                                                                </div>
-
-                                                                                            </div>
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="tab-pane fade in active"
-                                                                                 id="v4">
-
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-12">
-                                                                                        <!-- widget content -->
-                                                                                        <div class="widget-body">
-
-                                                                                            <select multiple="multiple"
-                                                                                                    size="10"
-                                                                                                    name="geosegment[]"
-                                                                                                    id="initializeDuallistbox">
-
-                                                                                                @foreach($campaign_obj->getAdvertiser->GeoSegment as $index)
-                                                                                                    <option value="{{$index->id}}">{{$index->name}}</option>
-                                                                                                @endforeach
-                                                                                            </select>
-
-                                                                                        </div>
-                                                                                        <!-- end widget content -->
-
-                                                                                    </div>
-                                                                                </div>
-
-                                                                            </div>
-
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <!-- end widget content -->
-
-                                                                </div>
-                                                                <!-- end widget div -->
-
-                                                            </div>
-                                                            <!-- end widget -->
-
-
-                                                        </article>
-                                                        <!-- WIDGET END -->
-                                                        <div class="clearfix"></div>
                                                     </div>
                                                     <div class="tab-pane" id="tab5">
                                                         <br>
@@ -1832,7 +1817,15 @@
         function taggleBWList(type){
             if(type == 'blacklist'){
                 var conf = confirm('are u sure?');
-                if(conf){}
+                if(conf){
+                    jQuery('#whitelist_select .removeall').click();
+                }
+            }
+            if(type == 'whitelist'){
+                var conf = confirm('are u sure?');
+                if(conf){
+                    jQuery('#blacklist_select .removeall').click();
+                }
             }
         }
     </script>
@@ -1949,6 +1942,13 @@
                 nonSelectedFilter: ''
             });
             var initializeDuallistbox_whitelist = $('#initializeDuallistbox_whitelist').bootstrapDualListbox({
+                nonSelectedListLabel: 'Non-selected',
+                selectedListLabel: 'Selected',
+                preserveSelectionOnMove: 'moved',
+                moveOnSelect: false,
+                nonSelectedFilter: ''
+            });
+            var initializeDuallistbox_creative = $('#initializeDuallistbox_creative').bootstrapDualListbox({
                 nonSelectedListLabel: 'Non-selected',
                 selectedListLabel: 'Selected',
                 preserveSelectionOnMove: 'moved',
