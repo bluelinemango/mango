@@ -16,7 +16,9 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home></li><li>Advertiser registration</li>
+                <li>Home</li>
+                <li>Client: <a href="{{url('/client/cl'.$client_obj->id.'/edit')}}">cl{{$client_obj->id}}</a></li>
+                <li>Advertiser Registration</li>
             </ol>
             <!-- end breadcrumb -->
 
@@ -95,7 +97,7 @@
 
                                         <form id="order-form" class="smart-form" action="{{URL::route('advertiser_create')}}" method="post" novalidate="novalidate" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="client_id" value="{{$client_obj[0]->id}}">
+                                            <input type="hidden" name="client_id" value="{{$client_obj->id}}">
                                             <header>
                                                 General Information
                                             </header>
@@ -122,7 +124,7 @@
                                                     <section class="col col-3">
                                                         <label for="" class="label">Client Name</label>
                                                         <label class="input"><i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="client_name" value="{{$client_obj[0]->name}}" disabled>
+                                                            <input type="text" name="client_name" value="{{$client_obj->name}}" disabled>
                                                         </label>
                                                     </section>
 

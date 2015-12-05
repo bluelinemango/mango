@@ -35,8 +35,9 @@ class AdvertiserController extends Controller
     public function AddAdvertiserView($clid){
         if(Auth::check()) {
             if (1 == 1) { //      permission goes here
-                $client_obj = Client::where('user_id',Auth::user()->id)->where('id',$clid)->get();
-                if(!is_null($client_obj)) {
+                $chkUser = Client::find($clid);
+                if(count($chkUser) > 0 and Auth::user()->id == $chkUser->user_id) {
+                    $client_obj = $chkUser;
 //                    return dd($client_obj);
                     return view('advertiser.add_advertiser')->with('client_obj', $client_obj)->with('permission', \Permission_Check::getPermission());
                 }else{

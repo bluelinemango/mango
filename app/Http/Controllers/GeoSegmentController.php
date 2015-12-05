@@ -118,8 +118,8 @@ class GeoSegmentController extends Controller
 
 
 
-    public function add_bwlist(Request $request){
-//        return $request->input('domain_name');
+    public function add_geosegmentlist(Request $request){
+//        return dd($request->all());
         if(Auth::check()){
             if(1==1){    //permission goes here
                 $validate=\Validator::make($request->all(),['name' => 'required']);
@@ -129,29 +129,33 @@ class GeoSegmentController extends Controller
 //            if ($captchaCheck->{'success'} == true) {
                     $chkUser=Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
-                        $chk=BWList::where('advertiser_id',$request->input('advertiser_id'))->get();
+                        $chk=GeoSegmentList::where('advertiser_id',$request->input('advertiser_id'))->get();
 //                        return dd($chk);
                         $flg=0;
                         foreach($chk as $index){
-                            if($index->name == $request->input('name') and $index->list_type == $request->input('list_type')){
+                            if($index->name == $request->input('name')){
                                 $flg=1;
                             }
                         }
                         if($flg==0) {
-                            $bwlist = new BWList();
-                            $bwlist->name = $request->input('name');
-                            $bwlist->list_type = $request->input('list_type');
-                            $bwlist->advertiser_id = $request->input('advertiser_id');
-                            $bwlist->save();
-                            $entries = explode(',', $request->input('domain_name'));
-                            foreach ($entries as $index) {
-                                $bwlistentries = new BWEntries();
-                                $bwlistentries->domain_name = $index;
-                                $bwlistentries->bwlist_id = $bwlist->id;
-                                $bwlistentries->save();
+                            $geosegmentlist = new GeoSegmentList();
+                            $geosegmentlist->name = $request->input('name');
+                            $geosegmentlist->advertiser_id = $request->input('advertiser_id');
+                            $geosegmentlist->save();
+
+                            for($i=0;$i<5;$i++) {
+                                if(!is_null($request->input('name'.$i)) and $request->input('name'.$i) !="") {
+                                    $geosegment = new GeoSegment();
+                                    $geosegment->name = $request->input('name' . $i);
+                                    $geosegment->lat = $request->input('lat' . $i);
+                                    $geosegment->lon = $request->input('lon' . $i);
+                                    $geosegment->segment_radius = $request->input('segment_radius' . $i);
+                                    $geosegment->geosegmentlist_id = $geosegmentlist->id;
+                                    $geosegment->save();
+                                }
                             }
 
-                            return Redirect::to(url('/client/cl' . $chkUser->GetClientID->id . '/advertiser/adv' . $request->input('advertiser_id') . '/bwlist/bwl' . $bwlist->id . '/edit'))->withErrors(['success' => true, 'msg' => "B/W List added successfully"]);
+                            return Redirect::to(url('/client/cl' . $chkUser->GetClientID->id . '/advertiser/adv' . $request->input('advertiser_id') . '/geosegment/gsm' . $geosegmentlist->id . '/edit'))->withErrors(['success' => true, 'msg' => "Geo Segmnet List added successfully"]);
                         }else{
                             return Redirect::back()->withErrors(['success'=>false,'msg'=>'this name already existed !!!'])->withInput();
                         }
@@ -169,15 +173,15 @@ class GeoSegmentController extends Controller
         }
     }
 
-    public function GeosegmentEditView($clid,$advid,$bwlid){
-        if(!is_null($bwlid)){
+    public function GeosegmentEditView($clid,$advid,$gsmid){
+        if(!is_null($gsmid)){
             if(Auth::check()){
                 if(1==1){ // Permission goes here
                     $chkUser=Advertiser::with('GetClientID')->find($advid);
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
                         $geosegment_obj = GeoSegmentList::with(['getAdvertiser' => function ($q) {
                             $q->with('GetClientID');
-                        }])->with('getGeoEntries')->find($bwlid);
+                        }])->with('getGeoEntries')->find($gsmid);
 //                    return dd($bwlist_obj);
                         return view('geosegment.edit')->with('geosegment_obj', $geosegment_obj)->with('permission', \Permission_Check::getPermission());
                     }else{
@@ -188,27 +192,18 @@ class GeoSegmentController extends Controller
         }
     }
 
-    public function edit_bwlist(Request $request){
+    public function edit_geosegmentlist(Request $request){
         if(Auth::check()){
             if(1==1){ //permission goes here
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
-                    $bwlist_id = $request->input('bwlist_id');
-                    $bwlist=BWList::find($bwlist_id);
-                    if($bwlist){
-                        $bwlist->name=$request->input('name');
-                        $bwlist->list_type=$request->input('list_type');
-                        $bwlist->save();
-                        BWEntries::where('bwlist_id',$bwlist_id)->delete();
-                        $entries = explode(',', $request->input('domain_name'));
-                        foreach($entries as $index){
-                            $bwlistentries = new BWEntries();
-                            $bwlistentries->domain_name = $index;
-                            $bwlistentries->bwlist_id = $bwlist_id;
-                            $bwlistentries->save();
-
-                        }
-                        return Redirect::back()->withErrors(['success'=>true,'msg'=> 'B/W List Edited Successfully']);
+//                    return dd($request->all());
+                    $geosegmentlist_id = $request->input('geosegmentlist_id');
+                    $geosegmentlist=GeoSegmentList::find($geosegmentlist_id);
+                    if($geosegmentlist){
+                        $geosegmentlist->name=$request->input('name');
+                        $geosegmentlist->save();
+                        return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Geo Segment List Edited Successfully']);
                     }
                 }else{
                     return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();

@@ -19,7 +19,10 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home></li><li>Model Editing</li>
+                <li>Home</li>
+                <li>Client: <a href="{{url('/client/cl'.$model_obj->getAdvertiser->GetClientID->id.'/edit')}}">cl{{$model_obj->getAdvertiser->GetClientID->id}}</a></li>
+                <li>Advertiser: <a href="{{url('/client/cl'.$model_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$model_obj->advertiser_id.'/edit')}}">adv{{$model_obj->advertiser_id}}</a></li>
+                <li>Model: mdl{{$model_obj->id}}</li>
             </ol>
             <!-- end breadcrumb -->
 

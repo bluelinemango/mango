@@ -153,7 +153,6 @@ class BWListController extends Controller
                                     $bwentries->bwlist_id = $request->input('bwlist_id');
                                     $bwentries->save();
                                     $bwentries=BWEntries::where('bwlist_id',$request->input('bwlist_id'))->get();
-
 //                                    return dd($result);
                                     return json_encode($bwentries);
                                 break;
@@ -216,7 +215,6 @@ class BWListController extends Controller
                                 $bwlistentries->bwlist_id = $bwlist->id;
                                 $bwlistentries->save();
                             }
-
                             return Redirect::to(url('/client/cl' . $chkUser->GetClientID->id . '/advertiser/adv' . $request->input('advertiser_id') . '/bwlist/bwl' . $bwlist->id . '/edit'))->withErrors(['success' => true, 'msg' => "B/W List added successfully"]);
                         }else{
                             return Redirect::back()->withErrors(['success'=>false,'msg'=>'this name already existed !!!'])->withInput();

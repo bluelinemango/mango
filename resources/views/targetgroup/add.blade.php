@@ -1798,7 +1798,7 @@
         });
         function ShowSubCategory(id) {
             $.ajax({
-                url: "/get_iab_sub_category/" + id
+                url: "{{url('/get_iab_sub_category')}}" +'/'+ id
             }).success(function (response) {
                 var cb = '';
                 var data = jQuery.parseJSON(response);

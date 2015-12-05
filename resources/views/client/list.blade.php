@@ -91,7 +91,7 @@
                                         @foreach($clients as $index)
                                             <tr>
                                                 <td>cl{{$index->id}}</td>
-                                                <td><a href="{{url('/client/edit/'.$index->id)}}">{{$index->name}}</a></td>
+                                                <td><a href="{{url('/client/cl'.$index->id.'/edit')}}">{{$index->name}}</a></td>
                                                 <td>{{$index->company}}</td>
 
                                                 @if(count($index->getAdvertiser)>0)

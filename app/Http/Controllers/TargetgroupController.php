@@ -24,12 +24,7 @@ class TargetgroupController extends Controller
     public function GetView(){
         if(Auth::check()){
             if(1==1){ //permission goes here
-                $targetgroup = DB::table('targetgroup')
-                    ->join('campaign','targetgroup.campaign_id','=','campaign.id')
-                    ->join('advertiser','campaign.advertiser_id','=','advertiser.id')
-                    ->join('client','advertiser.client_id','=','client.id')
-                    ->select('targetgroup.created_at as tcreated_at','targetgroup.id as tid','targetgroup.name as tname','targetgroup.advertiser_domain_name as tadvertiser_domain_name','targetgroup.*','campaign.*','campaign.id as caid','campaign.name as caname','campaign.created_at as cacreated_at','advertiser.id as aid','advertiser.name as aname','advertiser.*','client.name as cname','client.*')
-                    ->where('client.user_id',Auth::user()->id)->get();
+                $targetgroup=Targetgroup::with(['getCampaign'=>function($q){$q->with(['getAdvertiser'=>function($p){$p->with('GetClientID');}]);}])->get();
 //                return dd($targetgroup);
                 return view('targetgroup.list')->with('targetgroup_obj',$targetgroup)->with('permission',\Permission_Check::getPermission());
             }else{
@@ -154,20 +149,56 @@ class TargetgroupController extends Controller
     }
 
 
-    public function TargetgroupEditView($id){
-        if(!is_null($id)){
+    public function TargetgroupEditView($clid,$advid,$cmpid,$tgid){
+        if(!is_null($tgid)){
             if(Auth::check()){
                 if(1==1){ // Permission goes here
-                    $campaign_obj = DB::table('campaign')
-                        ->join('advertiser','campaign.advertiser_id','=','advertiser.id')
-                        ->join('client','advertiser.client_id','=','client.id')
-                        ->select('campaign.id as caid','campaign.name as caname')
-                        ->where('user_id',Auth::user()->id)->get();
-                    $targetgroup_obj = Targetgroup::with(['getCampaign'=>function($q){
-                        $q->with('getAdvertiser');
-                    }])->find($id);
+                    //todo : Check Campaign
+                    $chkUser=Targetgroup::with(['getCampaign'=>function($q){$q->with(['getAdvertiser'=>function($p){$p->with('GetClientID');}]);}])->find($tgid);
+                    $usrId=$chkUser->getCampaign->getAdvertiser->GetClientID->user_id;
+                    if(!is_null($chkUser) and Auth::user()->id ==$usrId ) {
+                        $targetgroup_obj = Targetgroup::with(['getCampaign'=>function($q){$q->with(['getAdvertiser'=>function($p){$p->with('GetClientID');}]);}])
+                            ->with('getCreative')
+                            ->with('getBWList')
+                            ->with('getGeoSegment')
+                            ->find($tgid);
+                        $campaign_obj=Campaign::with(['getAdvertiser'=>function($q){
+                            $q->with('Creative')->with('GeoSegment')->with('BWList');
+                        }])->find($cmpid);
+                        $targetgroupCreative = array();
+                        $targetgroupBWList = array();
+                        $targetgroupGeoSegment = array();
+                        if(count($targetgroup_obj->getCreative)>0) {
+                            foreach($targetgroup_obj->getCreative as $index) {
+                                array_push($targetgroupCreative,$index->creative_id);
+                            }
+                        }
+                        if(count($targetgroup_obj->getBWList)>0) {
+                            foreach ($targetgroup_obj->getBWList as $index) {
+                                array_push($targetgroupBWList,$index->bwlist_id);
+                            }
+                        }
+                        if(count($targetgroup_obj->getGeoSegment)>0) {
+                            foreach ($targetgroup_obj->getGeoSegment as $index) {
+                                array_push($targetgroupGeoSegment,$index->geosegmentlist_id);
+                            }
+                        }
+                        $iab_category_obj=Iab_Category::get();
+
+
 //                    return dd($targetgroup_obj);
-                    return view('targetgroup.edit')->with('campaign_obj',$campaign_obj)->with('targetgroup_obj',$targetgroup_obj)->with('permission',\Permission_Check::getPermission());
+                        return view('targetgroup.edit')
+                            ->with('targetgroup_obj', $targetgroup_obj)
+                            ->with('campaign_obj',$campaign_obj)
+                            ->with('targetgroupCreative',$targetgroupCreative)
+                            ->with('targetgroupBWList',$targetgroupBWList)
+                            ->with('targetgroupGeoSegment',$targetgroupGeoSegment)
+                            ->with('iab_category_obj',$iab_category_obj)
+                            ->with('permission', \Permission_Check::getPermission());
+                    }else{
+                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    }
+
                 }
             }
         }
@@ -181,8 +212,8 @@ class TargetgroupController extends Controller
                     $targetgroup_id = $request->input('targetgroup_id');
                     $targetgroup=Targetgroup::find($targetgroup_id);
                     if($targetgroup){
-                        $start_date = \DateTime::createFromFormat('m/d/Y', $request->input('start_date'));
-                        $end_date = \DateTime::createFromFormat('m/d/Y', $request->input('end_date'));
+                        $start_date = \DateTime::createFromFormat('m.d.Y', $request->input('startdate'));
+                        $end_date = \DateTime::createFromFormat('m.d.Y', $request->input('finishdate'));
                         $targetgroup->name=$request->input('name');
                         $targetgroup->max_impression=$request->input('max_impression');
                         $targetgroup->daily_max_impression=$request->input('daily_max_impression');
@@ -191,7 +222,6 @@ class TargetgroupController extends Controller
                         $targetgroup->cpm=$request->input('cpm');
                         $targetgroup->advertiser_domain_name=$request->input('advertiser_domain_name');
                         $targetgroup->description=$request->input('description');
-                        $targetgroup->campaign_id=$request->input('campaign_id');
                         $targetgroup->pacing_plan=$request->input('pacing_plan');
                         $targetgroup->frequency_in_sec=$request->input('frequency_in_sec');
                         $targetgroup->iab_category=$request->input('iab_category');
@@ -199,6 +229,61 @@ class TargetgroupController extends Controller
                         $targetgroup->start_date=$start_date;
                         $targetgroup->end_date=$end_date;
                         $targetgroup->save();
+                        Targetgroup_Geosegmentlist_Map::where('targetgroup_id',$targetgroup_id)->delete();
+                        if(count($request->input('geosegment'))>0){
+                            $chk = array();
+                            foreach($request->input('geosegment') as $index) {
+                                if(!in_array($index,$chk)) {
+                                    $geosegment_assign = new Targetgroup_Geosegmentlist_Map();
+                                    $geosegment_assign->targetgroup_id = $targetgroup->id;
+                                    $geosegment_assign->geosegmentlist_id = $index;
+                                    $geosegment_assign->save();
+                                    array_push($chk,$index);
+                                }
+
+                            }
+                        }
+                        Targetgroup_Creative_Map::where('targetgroup_id',$targetgroup_id)->delete();
+                        if(count($request->input('creative'))>0){
+                            $chk = array();
+                            foreach($request->input('creative') as $index) {
+                                if(!in_array($index,$chk)) {
+                                    $creative_assign = new Targetgroup_Creative_Map();
+                                    $creative_assign->targetgroup_id = $targetgroup->id;
+                                    $creative_assign->creative_id = $index;
+                                    $creative_assign->save();
+                                    array_push($chk,$index);
+                                }
+
+                            }
+                        }
+                        Targetgroup_Bwlist_Map::where('targetgroup_id',$targetgroup_id)->delete();
+                        if(count($request->input('blacklist'))>0 and count($request->input('whitelist'))==0) {
+                            $chk = array();
+                            foreach ($request->input('blacklist') as $index) {
+                                if (!in_array($index, $chk)) {
+                                    $blacklist_assign = new Targetgroup_Bwlist_Map();
+                                    $blacklist_assign->targetgroup_id = $targetgroup->id;
+                                    $blacklist_assign->bwlist_id = $index;
+                                    $blacklist_assign->save();
+                                    array_push($chk, $index);
+                                }
+                            }
+                        }elseif(count($request->input('blacklist'))==0 and count($request->input('whitelist'))>0){
+                            $chk = array();
+                            foreach ($request->input('whitelist') as $index) {
+                                if (!in_array($index, $chk)) {
+                                    $whitelist_assign = new Targetgroup_Bwlist_Map();
+                                    $whitelist_assign->targetgroup_id = $targetgroup->id;
+                                    $whitelist_assign->bwlist_id = $index;
+                                    $whitelist_assign->save();
+                                    array_push($chk, $index);
+                                }
+                            }
+                        }else{
+                            //return 2 ta chiz baham select shode
+                        }
+
                         return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Target Group Edited Successfully']);
                     }
                 }else{

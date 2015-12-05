@@ -1,5 +1,5 @@
 @extends('Layout')
-@section('siteTitle')Edit B/W List: {{$bwlist_obj->name}} @endsection
+@section('siteTitle')Edit Geo Segment List: {{$geosegment_obj->name}} @endsection
 @section('header_extra')
     <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/your_style.css')}}">
 @endsection
@@ -20,9 +20,9 @@
             <!-- breadcrumb -->
             <ol class="breadcrumb">
                 <li>Home></li>
-                <li><a href="{{url('/client/cl'.$bwlist_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client : cl{{$bwlist_obj->getAdvertiser->GetClientID->id}}</a></li>
-                <li><a href="{{url('/client/cl'.$bwlist_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$bwlist_obj->advertiser_id.'/edit/')}}">Advertiser : adv{{$bwlist_obj->getAdvertiser->id}}</a></li>
-                <li>B/W List Editing</li>
+                <li><a href="{{url('/client/cl'.$geosegment_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client : cl{{$geosegment_obj->getAdvertiser->GetClientID->id}}</a></li>
+                <li><a href="{{url('/client/cl'.$geosegment_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$geosegment_obj->advertiser_id.'/edit/')}}">Advertiser : adv{{$geosegment_obj->getAdvertiser->id}}</a></li>
+                <li>Geo Segment List Editing</li>
             </ol>
             <!-- end breadcrumb -->
 
@@ -82,7 +82,7 @@
                                 -->
                                 <header>
                                     <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-                                    <h2>b/w list edit: {{$bwlist_obj->name}} </h2>
+                                    <h2>Geo Segment list edit: {{$geosegment_obj->name}} </h2>
 
                                 </header>
 
@@ -99,10 +99,10 @@
                                     <!-- widget content -->
                                     <div class="widget-body no-padding">
 
-                                        <form id="order-form" class="smart-form" action="{{URL::route('bwlist_update')}}" method="post" novalidate="novalidate" >
+                                        <form id="order-form" class="smart-form" action="{{URL::route('geosegmentlist_update')}}" method="post" novalidate="novalidate" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="hidden" name="_method" value="PUT"/>
-                                            <input type="hidden" name="bwlist_id" value="{{$bwlist_obj->id}}"/>
+                                            <input type="hidden" name="geosegmentlist_id" value="{{$geosegment_obj->id}}"/>
                                             <header>
                                                 General Information
                                             </header>
@@ -111,41 +111,20 @@
                                                 <div class="row">
                                                     <section class="col col-3">
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="name" placeholder="Name" value="{{$bwlist_obj->name}}">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="select">
-                                                            <select name="list_type">
-                                                                <option value="black" @if($bwlist_obj->list_type == 'black') selected @endif>Black List</option>
-                                                                <option value="white" @if($bwlist_obj->list_type == 'white') selected @endif>White List</option>
-                                                            </select> <i></i>
-                                                        </label>
-
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" value="{{$bwlist_obj->getAdvertiser->name}}" disabled>
+                                                            <input type="text" name="name" placeholder="Name" value="{{$geosegment_obj->name}}">
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
                                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" value="{{$bwlist_obj->getAdvertiser->GetClientID->name}}" disabled>
+                                                            <input type="text" value="{{$geosegment_obj->getAdvertiser->name}}" disabled>
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
+                                                            <input type="text" value="{{$geosegment_obj->getAdvertiser->GetClientID->name}}" disabled>
                                                         </label>
                                                     </section>
                                                 </div>
-                                            </fieldset>
-                                            <?php $val = ''; ?>
-                                            @foreach($bwlist_obj->getEntries as $index)
-                                                <?php
-                                                    $val .= $index->domain_name.',';
-                                                ?>
-                                            @endforeach
-                                            <fieldset>
-                                                <section>
-                                                    <label class="label">Domain Name </label>
-                                                    <input name="domain_name" class="tagsinput" value="{{$val}}" data-role="tagsinput" style="min-height: 50px;"  placeholder="Enter website then click Enter">
-                                                </section>
                                             </fieldset>
                                             <footer>
                                                 <button type="submit" class="btn btn-success">

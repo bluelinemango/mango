@@ -98,7 +98,7 @@
                                     <!-- widget content -->
                                     <div class="widget-body no-padding">
 
-                                        <form id="order-form" class="smart-form" action="{{URL::route('bwlist_create')}}" method="post" novalidate="novalidate" >
+                                        <form id="order-form" class="smart-form" action="{{URL::route('geosegmentlist_create')}}" method="post" novalidate="novalidate" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="hidden" name="advertiser_id" value="{{$advertiser_obj->id}}">
                                             <header>
@@ -128,11 +128,36 @@
                                                 </div>
                                             </fieldset>
                                             <fieldset>
-                                                <input id="clone" type="text" value="value"/>
-                                                <div class="addprop">
-                                                    hello
+                                                @for($i=0;$i<5;$i++)
+                                                <div class="row">
+                                                    <section class="col col-3">
+                                                        <label class="label" for="">Name</label>
+                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                            <input type="text" name="name{{$i}}" placeholder="Name">
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label class="label" for="">lat</label>
+                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
+                                                            <input type="text" name="lat{{$i}}">
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label class="label" for="">lon</label>
+                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
+                                                            <input type="text"  name="lon{{$i}}">
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label class="label" for="">Radios</label>
+                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
+                                                            <input type="text" name="segment_radius{{$i}}">
+                                                        </label>
+                                                    </section>
                                                 </div>
+                                                @endfor
                                             </fieldset>
+
                                             <footer>
                                                 <button type="submit" class="btn btn-success">
                                                     Submit
