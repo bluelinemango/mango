@@ -16,7 +16,7 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li><li>Model List</li>
+                <li>Home</li><li>Geo Segment List</li>
             </ol>
             <!-- end breadcrumb -->
 
@@ -90,7 +90,7 @@
                                         <tbody>
                                         @foreach($geosegment_obj as $index)
                                             <tr>
-                                                <td> bwl{{$index->id}} </td>
+                                                <td> gsm{{$index->id}} </td>
                                                 <td><a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/gsm'.$index->id.'/edit')}}">{{$index->name}}</a></td>
                                                 <td>{{$index->getAdvertiser->name}}</td>
                                                 @if(count($index->getGeoEntries)>0)<td>{{$index->getGeoEntries[0]->geosegment_count}}</td>

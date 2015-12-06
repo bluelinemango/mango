@@ -1,92 +1,181 @@
 @extends('Layout')
 @section('siteTitle')Edit User: {{$user_obj->name}} @endsection
 @section('content')
-    <div class="main_content">
-        <div class="breadCrumb module">
-            <ul>
-                <li>
-                    <a href="#"><i class="glyphicon glyphicon-home"></i></a>
-                </li>
-                <li>
-                    <a href="#">Edit User</a>
-                </li>
-                <li>
-                    <a href="{{url('/user/edit/'.$user_obj->id)}}">User : usr{{$user_obj->id}}</a>
-                </li>
-            </ul>
-        </div>
-        <div class="formSep">
+    <!-- MAIN PANEL -->
+    <div id="main" role="main">
+        <!-- RIBBON -->
+        <div id="ribbon">
+
+				<span class="ribbon-button-alignment">
+					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+						<i class="fa fa-refresh"></i>
+					</span>
+				</span>
+
+            <!-- breadcrumb -->
+            <ol class="breadcrumb">
+                <li>Home</li>
+                <li>User Edit: usr{{$user_obj->id}}</li>
+            </ol>
+            <!-- end breadcrumb -->
+
+            <!-- You can also add more buttons to the
+            ribbon for further usability
+
+            Example below:
+                        <span class="ribbon-button-alignment pull-right">
+            <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
+            <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
+            <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
+            </span>
+
+ -->
 
         </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="heading clearfix">
-                        <h3 class="pull-left"><i class="splashy-calendar_day"></i>Edit User: {{$user_obj->name}}</h3>
+        <!-- END RIBBON -->
+        <!-- MAIN CONTENT -->
+        <div id="content">
+            @if(isset($errors))
+                @foreach($errors->get('msg') as $error)
+                    <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
+                        <a class="close" data-dismiss="alert" href="#">×</a>
+                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
+                        <p>
+                            {{$error}}
+                        </p>
                     </div>
-                </div>
-                <div class="col-md-12">
-                    @if(isset($errors))
-                        @foreach($errors->get('msg') as $error)
-                            <div class="alert alert-{{($errors->get('success')[0] == true)?'success':'danger'}} alert-dismissible" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <strong>{{$error}}</strong>
-                            </div>
-                        @endforeach
-                    @endif
-                    @if(Session::has('CaptchaError'))
-                        <ul>
-                            <li>{{Session::get('CaptchaError')}}</li>
-                        </ul>
-                    @endif
+                @endforeach
+            @endif
+            @if(Session::has('CaptchaError'))
+                <ul>
+                    <li>{{Session::get('CaptchaError')}}</li>
+                </ul>
+                @endif
+                        <!-- widget grid -->
+                <section id="widget-grid" class="">
+                    <!-- START ROW -->
+                    <div class="row">
+                        <!-- NEW COL START -->
+                        <article class="col-sm-12 col-md-12 col-lg-12">
 
-                        <form class="form-horizontal" action="{{URL::route('user_update')}}" method="post" >
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="_method" value="PUT"/>
-                            <input type="hidden" name="user_id" value="{{$user_obj->id}}"/>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">name <i style="color:#F00" >*</i> </label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" name="name" placeholder="Please Fill your name" value="{{$user_obj->name}}" >
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">company <i style="color:#F00" >*</i> </label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" name="company" placeholder="Please Fill your Company" value="{{$user_obj->company}}" >
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Email <i style="color:#F00" >*</i> </label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" name="email" value="{{$user_obj->email}}"/>
-                                </div>
-                            </div>
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false" data-widget-custombutton="false">
+                                <!-- widget options:
+                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Password <i style="color:#F00" >*</i> </label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" name="password" placeholder="Please Fill your Password" >
+                                    data-widget-colorbutton="false"
+                                    data-widget-editbutton="false"
+                                    data-widget-togglebutton="false"
+                                    data-widget-deletebutton="false"
+                                    data-widget-fullscreenbutton="false"
+                                    data-widget-custombutton="false"
+                                    data-widget-collapsed="true"
+                                    data-widget-sortable="false"
+
+                                -->
+                                <header>
+                                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                                    <h2>Edit User: {{$user_obj->name}} </h2>
+
+                                </header>
+
+                                <!-- widget div-->
+                                <div>
+
+                                    <!-- widget edit box -->
+                                    <div class="jarviswidget-editbox">
+                                        <!-- This area used as dropdown edit box -->
+
+                                    </div>
+                                    <!-- end widget edit box -->
+
+                                    <!-- widget content -->
+                                    <div class="widget-body no-padding">
+
+                                        <form id="order-form" class="smart-form" action="{{URL::route('user_update')}}" method="post" novalidate="novalidate" >
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <input type="hidden" name="_method" value="PUT"/>
+                                            <input type="hidden" name="user_id" value="{{$user_obj->id}}"/>
+                                            <header>
+                                                General Information
+                                            </header>
+
+                                            <fieldset>
+                                                <div class="row">
+                                                    <section class="col col-3">
+                                                        <label for="" class="label">Name</label>
+                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                            <input type="text" name="name" placeholder="Name" value="{{$user_obj->name}}">
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label for="" class="label">Email Address</label>
+                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
+                                                            <input type="text" name="email" placeholder="Email Address" value="{{$user_obj->email}}">
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label for="" class="label">Password</label>
+                                                        <label class="input"><i class="icon-append fa fa-briefcase"></i>
+                                                            <input type="password" name="password">
+                                                        </label>
+                                                    </section>
+                                                </div>
+
+
+                                            </fieldset>
+
+                                            <fieldset>
+                                                <div class="row">
+                                                    <section class="col col-3">
+                                                        <label for="" class="label">Select Role</label>
+                                                        <label class="select"><i></i>
+                                                            <select name="role_group">
+                                                                <option value="0" disabled>Select One</option>
+                                                                @foreach($role_obj as $index)
+                                                                    <option value="{{$index->id}}"@if($index->id==$user_obj->role_id) selected @endif>{{$index->name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label for="" class="label">status</label>
+                                                        <label class="checkbox">
+                                                            <input type="checkbox" name="active" @if($user_obj->active==1) checked @endif>
+                                                            <i></i>Active Status
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                            </fieldset>
+                                            <fieldset>
+                                                <section>
+                                                    <label class="textarea"> <i class="icon-append fa fa-comment"></i>
+                                                        <textarea rows="5" name="description" placeholder="Tell us about your advertiser"></textarea>
+                                                    </label>
+                                                </section>
+                                            </fieldset>
+                                            <footer>
+                                                <button type="submit" class="btn btn-success">
+                                                    Submit
+                                                </button>
+                                            </footer>
+                                        </form>
+                                    </div>
+                                    <!-- end widget content -->
                                 </div>
+                                <!-- end widget div -->
                             </div>
-                            <div class="form-group col-sm-4">
-                                <input type="submit" class="btn btn-primary btn-block" style="font-size:18px; font-weight:bolder;" value="submit">
-                            </div>
-                        </form>
-                </div>
-
-            </div>
-
+                            <!-- end widget -->
+                        </article>
+                        <!-- END COL -->
+                    </div>
+                    <!-- END ROW -->
+                </section>
+                <!-- end widget grid -->
         </div>
-        <div class="formSep">
-
-        </div>
-        <div class="row">
-            <div class="col-sm-6 col-md-6">
-                <a href="#" class="btn btn-default btn-sm"><i class="splashy-check"></i> Save</a>
-            </div>
-        </div>
+        <!-- END MAIN CONTENT -->
     </div>
+    <!-- END MAIN PANEL -->
 @endsection
 @section('FooterScripts')
 

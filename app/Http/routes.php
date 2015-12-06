@@ -15,10 +15,11 @@
 Route::get('/', function () {
 //    return view('welcome');
 });
-Route::post('/user/register/new', ['uses'=>'UsersController@create','as'=>'user_create']);
 
+Route::post('/user/register/new', ['uses'=>'UsersController@user_create','as'=>'user_create']);
+Route::get('/user','UsersController@GetView');
 Route::get('/user/register','UsersController@RegisterView');
-Route::get('/user/edit/{id}','UsersController@EditView');
+Route::get('/user/usr{id?}/edit','UsersController@EditView');
 Route::get('/user/login','LoginController@LoginView');
 Route::put('/user/edit/update', ['uses'=>'UsersController@edit_user','as'=>'user_update']);
 
@@ -104,5 +105,5 @@ Route::put('/model/edit/update', ['uses'=>'ModelController@edit_model','as'=>'mo
 Route::post('/user/login/do',['uses'=>'LoginController@postLogin','as'=>'user_login']);
 Route::get('/user/logout',['uses'=>'LoginController@getLogout','as'=>'user_logout']);
 
-Route::post('/test', ['uses'=>'BWListController@jqgrid']);
+Route::post('/test', 'BWListController@jqgrid');
 Route::get('/get_iab_sub_category/{id?}', ['uses'=>'TargetgroupController@Iab_Category','as'=>'get_iab_sub_category']);

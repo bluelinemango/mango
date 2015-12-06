@@ -21,6 +21,13 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var string
      */
+    public static $rule=array(
+        'email'=>'required|email|max:50|unique:users,email',
+        'password'=>'required|min:4',
+//        'password'=>'required|confirmed|min:4',
+//        'password_confirmation'=>'required|min:4',
+    );
+
     protected $table = 'users';
 
     /**

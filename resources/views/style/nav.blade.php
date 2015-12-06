@@ -37,7 +37,7 @@
                 <a href="{{url('creative')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Creative</span></a>
             </li>
             <li>
-                <a href="{{url('campaign')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Target Group</span></a>
+                <a href="{{url('targetgroup')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Target Group</span></a>
             </li>
             <li>
                 <a href="{{url('model')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Model</span></a>
@@ -46,7 +46,7 @@
                 <a href="{{url('/bwlist')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Black & white list</span></a>
             </li>
             <li>
-                <a href="{{url('campaign')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Segment</span></a>
+                <a href="{{url('geosegment')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Geo Segment</span></a>
             </li>
             {{--<li>--}}
                 {{--<a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">Graphs</span></a>--}}

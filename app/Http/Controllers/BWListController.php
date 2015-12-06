@@ -152,7 +152,7 @@ class BWListController extends Controller
                                     $bwentries->domain_name = $request->input('domain_name');
                                     $bwentries->bwlist_id = $request->input('bwlist_id');
                                     $bwentries->save();
-                                    $bwentries=BWEntries::where('bwlist_id',$request->input('bwlist_id'))->get();
+                                    $bwentries=BWEntries::where('id',$bwentries->id)->get();
 //                                    return dd($result);
                                     return json_encode($bwentries);
                                 break;
@@ -167,15 +167,20 @@ class BWListController extends Controller
                                     return 'ok';
                                 break;
                             }
+                        }else{
+                            return "PLZ enter valid Web site domain";
                         }
                     }
-                    switch ($request->input('oper')) {
-                        case 'del':
-                            BWEntries::delete($request->input('id'));
-                            return 'ok';
-                        break;
-                    }
 
+                }
+                switch ($request->input('oper')) {
+                    case 'del':
+                        $a=explode(',',$request->input('id'));
+                        foreach($a as $index){
+                            BWEntries::where('id',$index)->delete();
+                        }
+                        return 'ok';
+                    break;
                 }
                 //return print_r($validate->messages());
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();

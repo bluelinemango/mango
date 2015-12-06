@@ -258,11 +258,11 @@
                 rowNum : 10,
                 rowList : [10, 20, 30],
                 pager : '#pjqgrid',
-                sortname : 'id',
+                sortname : 'updated_at',
                 ajaxRowOptions: { async: true },
                 toolbarfilter : true,
                 viewrecords : true,
-                sortorder : "asc",
+                sortorder : "desc",
                 gridComplete : function() {
                     var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
                     for (var i = 0; i < ids.length; i++) {
@@ -307,16 +307,16 @@
             },{
                 afterSubmit:function(response)
                 {
-                    var r ='[';
-                    for (var sss in JSON.parse(response['responseText'])){
-                        r += '{ ' + sss.id + sss.domain_name;
-                    }
-                    alert(r);
-                    jQuery('#jqgrid').jqGrid('clearGridData');
-                    jQuery('#jqgrid').jqGrid('setGridParam', {data: response['responseText']});
-                    jQuery('#jqgrid').trigger('reloadGrid');
-                    console.log(JSON.parse(response['responseText']));
+                    var data = JSON.parse(response['responseText']);
+                    var id = data[0].id;
+                    var domain_name=String(data[0].domain_name);
+                    $("#jqgrid").addRowData(id,{ id: + id ,domain_name:domain_name ,bwlist_id: +data[0].bwlist_id,created_at:data[0].created_at,updated_at:data[0].updated_at }, 'first');
+                    $("#jqgrid").trigger("reloadGrid");
                 },
+                closeAfterAdd: true,
+                closeAfterEdit: true,
+                reloadAfterSubmit:true
+            },{
                 closeAfterAdd: true,
                 closeAfterEdit: true,
                 reloadAfterSubmit:true

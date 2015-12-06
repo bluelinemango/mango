@@ -1,5 +1,5 @@
 @extends('Layout')
-@section('siteTitle')List Of Target Group for {{\Illuminate\Support\Facades\Auth::user()->name}} @endsection
+@section('siteTitle')List Of Users @endsection
 
 @section('content')
     <!-- MAIN PANEL -->
@@ -16,7 +16,8 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li><li>Target Group List</li>
+                <li>Home</li>
+                <li>List Of Users</li>
             </ol>
             <!-- end breadcrumb -->
 
@@ -62,7 +63,7 @@
                                         -->
                             <header>
                                 <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                <h2>Target Group List</h2>
+                                <h2>Users List</h2>
 
                             </header>
 
@@ -81,20 +82,36 @@
 
                                     <table id="datatable_tabletools" class="table table-striped table-bordered table-hover" width="100%">
                                         <thead>
-                                        <th>Target group id</th>
-                                        <th>Target Group Name</th>
-                                        <th>Campaign name</th>
-                                        <th>Domain name</th>
-                                        <th>Date Of modifay</th>
+                                        <th>User id</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Status</th>
+                                        <th>Date Of modify</th>
+                                        <th>Modify</th>
                                         </thead>
                                         <tbody>
-                                        @foreach($targetgroup_obj as $index)
+                                        @foreach($user_obj as $index)
                                             <tr>
                                                 <td>tg{{$index->id}}</td>
-                                                <td><a href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/tg'.$index->id.'/edit')}}">{{$index->name}}</a></td>
-                                                <td><a href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/edit')}}">{{$index->getCampaign->name}}</a></td>
-                                                <td>{{$index->advertiser_domain_name}}</td>
+                                                <td><a href="{{url('user/usr'.$index->id.'/edit')}}">{{$index->name}}</a></td>
+                                                <td>{{$index->email}}</td>
+                                                @if($index->active==1)
+                                                    <td><span class="label label-success">Active</span></td>
+                                                @elseif($index->active==0)
+                                                    <td><span class="label label-danger">InActive</span></td>
+                                                @endif
                                                 <td>{{$index->updated_at}}</td>
+                                                <td>
+                                                    <a class="btn btn-success" href="">
+                                                        <i class="fa fa-search-plus "></i>
+                                                    </a>
+                                                    <a class="btn btn-info" href="{{url('user/usr'.$index->id.'/edit')}}">
+                                                        <i class="fa fa-edit "></i>
+                                                    </a>
+                                                    <a class="btn btn-danger" href="">
+                                                        <i class="fa fa-trash-o "></i>
+                                                    </a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                         </tbody>
