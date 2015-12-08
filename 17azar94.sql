@@ -3,10 +3,11 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2015 at 04:35 PM
+-- Generation Time: Dec 08, 2015 at 04:21 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -38,12 +39,6 @@ CREATE TABLE IF NOT EXISTS `advertiser` (
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- RELATIONS FOR TABLE `advertiser`:
---   `client_id`
---       `client` -> `id`
---
-
---
 -- Dumping data for table `advertiser`
 --
 
@@ -68,20 +63,13 @@ CREATE TABLE IF NOT EXISTS `bwentries` (
   `bwlist_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- RELATIONS FOR TABLE `bwentries`:
---   `bwlist_id`
---       `bwlist` -> `id`
---
+) ENGINE=InnoDB AUTO_INCREMENT=149 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `bwentries`
 --
 
 INSERT INTO `bwentries` (`id`, `domain_name`, `bwlist_id`, `created_at`, `updated_at`) VALUES
-(1, 'cnn.com', 17, '2015-11-28 13:13:17', '2015-11-28 13:13:17'),
 (2, 'ssss', 2, '2015-11-20 12:38:15', '2015-11-20 12:38:15'),
 (3, 'dddd', 2, '2015-11-20 12:38:15', '2015-11-20 12:38:15'),
 (4, 'ffff', 2, '2015-11-20 12:38:15', '2015-11-20 12:38:15'),
@@ -90,9 +78,6 @@ INSERT INTO `bwentries` (`id`, `domain_name`, `bwlist_id`, `created_at`, `update
 (12, '', 5, '2015-11-20 12:54:09', '2015-11-20 12:54:09'),
 (13, '', 6, '2015-11-20 12:54:17', '2015-11-20 12:54:17'),
 (14, '', 7, '2015-11-20 12:56:12', '2015-11-20 12:56:12'),
-(15, 'aaa', 3, '2015-11-20 13:23:39', '2015-11-20 13:23:39'),
-(16, 'ssss', 3, '2015-11-20 13:23:39', '2015-11-20 13:23:39'),
-(17, 'dddd', 3, '2015-11-20 13:23:39', '2015-11-20 13:23:39'),
 (22, 'cnn.com', 8, '2015-11-21 13:12:46', '2015-11-21 13:12:46'),
 (23, 'bb.com', 8, '2015-11-21 13:12:46', '2015-11-21 13:12:46'),
 (24, 'kk.com', 8, '2015-11-21 13:12:46', '2015-11-21 13:12:46'),
@@ -100,8 +85,6 @@ INSERT INTO `bwentries` (`id`, `domain_name`, `bwlist_id`, `created_at`, `update
 (51, 'ddd.com', 17, '2015-11-28 13:13:17', '2015-11-28 13:13:17'),
 (53, 'asdasdasdas', 17, '2015-11-29 10:42:09', '2015-11-29 10:42:09'),
 (54, 'ddd.com', 17, '2015-11-29 10:48:38', '2015-11-29 10:48:38'),
-(55, 'asdasdas.com', 17, '2015-11-29 10:54:47', '2015-11-29 10:54:47'),
-(56, 'asd.com', 17, '2015-11-29 10:55:26', '2015-11-29 10:55:26'),
 (57, 'asdasdasd.com', 17, '2015-11-29 10:58:10', '2015-11-29 10:58:10'),
 (58, 'asdas.com', 17, '2015-11-29 10:58:52', '2015-11-29 10:58:52'),
 (59, 'alisss.com', 17, '2015-11-29 10:59:59', '2015-11-29 10:59:59'),
@@ -121,7 +104,28 @@ INSERT INTO `bwentries` (`id`, `domain_name`, `bwlist_id`, `created_at`, `update
 (73, 'aaa.com', 17, '2015-11-29 11:28:55', '2015-11-29 11:28:55'),
 (74, 'a.com', 17, '2015-11-29 11:30:14', '2015-11-29 11:30:14'),
 (75, 'ssss.com', 17, '2015-11-29 11:31:29', '2015-11-29 11:31:29'),
-(76, 'aaaa.com', 17, '2015-11-29 11:38:17', '2015-11-29 11:38:17');
+(76, 'aaaa.com', 17, '2015-11-29 11:38:17', '2015-11-29 11:38:17'),
+(77, '', 18, '2015-12-05 12:29:45', '2015-12-05 12:29:45'),
+(78, 'asdasd.com', 17, '2015-12-06 08:04:08', '2015-12-06 08:04:08'),
+(79, 'asd.com', 17, '2015-12-06 10:36:59', '2015-12-06 10:36:59'),
+(80, 'asd.com', 17, '2015-12-06 10:37:17', '2015-12-06 10:37:17'),
+(81, 'asd.com', 17, '2015-12-06 10:37:56', '2015-12-06 10:37:56'),
+(82, 'asdasd.com', 17, '2015-12-06 10:38:51', '2015-12-06 10:38:51'),
+(83, 'a123sd.com', 17, '2015-12-06 10:39:07', '2015-12-06 10:39:07'),
+(84, 'asdc.com', 17, '2015-12-06 10:47:33', '2015-12-06 10:47:33'),
+(85, 'asd.com', 17, '2015-12-06 10:49:11', '2015-12-06 10:49:11'),
+(86, 'asd.com', 17, '2015-12-06 10:50:43', '2015-12-06 10:50:43'),
+(87, 'asd.com', 17, '2015-12-06 10:51:42', '2015-12-06 10:51:42'),
+(88, 'aaa.com', 17, '2015-12-06 10:52:23', '2015-12-06 10:52:23'),
+(89, 'aaa.com', 17, '2015-12-06 10:53:15', '2015-12-06 10:53:15'),
+(90, 'aaaaa.com', 17, '2015-12-06 10:54:32', '2015-12-06 10:54:32'),
+(91, 'asdas.com', 17, '2015-12-06 10:55:18', '2015-12-06 10:55:18'),
+(93, 'lololo.com', 3, '2015-12-06 11:48:26', '2015-12-06 11:48:26'),
+(94, 'asldashdasjkd.com', 3, '2015-12-06 11:48:51', '2015-12-06 11:48:51'),
+(95, 'sadasd.com', 3, '2015-12-06 11:49:41', '2015-12-06 11:49:41'),
+(96, 'asdasd.com', 3, '2015-12-06 11:50:08', '2015-12-06 11:50:08'),
+(97, 'sdasdasd.com', 3, '2015-12-06 11:50:46', '2015-12-06 11:50:46'),
+(98, 'asdasd.com', 3, '2015-12-06 11:52:53', '2015-12-06 11:52:53');
 
 -- --------------------------------------------------------
 
@@ -136,13 +140,7 @@ CREATE TABLE IF NOT EXISTS `bwlist` (
   `advertiser_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- RELATIONS FOR TABLE `bwlist`:
---   `advertiser_id`
---       `advertiser` -> `id`
---
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `bwlist`
@@ -157,7 +155,8 @@ INSERT INTO `bwlist` (`id`, `name`, `list_type`, `advertiser_id`, `created_at`, 
 (6, 'aa', 'black', 8, '2015-11-20 12:54:17', '2015-11-20 12:54:17'),
 (7, 'aa', 'white', 8, '2015-11-20 12:56:12', '2015-11-20 12:56:12'),
 (8, 'ali', 'white', 8, '2015-11-21 13:12:34', '2015-11-21 13:12:34'),
-(17, 'alireza', 'black', 8, '2015-11-28 13:13:17', '2015-11-28 13:13:17');
+(17, 'alireza', 'black', 8, '2015-11-28 13:13:17', '2015-11-28 13:13:17'),
+(18, 'alio', 'black', 9, '2015-12-05 12:29:45', '2015-12-05 12:29:45');
 
 -- --------------------------------------------------------
 
@@ -183,12 +182,6 @@ CREATE TABLE IF NOT EXISTS `campaign` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- RELATIONS FOR TABLE `campaign`:
---   `advertiser_id`
---       `advertiser` -> `id`
---
 
 --
 -- Dumping data for table `campaign`
@@ -219,12 +212,6 @@ CREATE TABLE IF NOT EXISTS `client` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- RELATIONS FOR TABLE `client`:
---   `user_id`
---       `users` -> `id`
---
-
---
 -- Dumping data for table `client`
 --
 
@@ -234,6 +221,27 @@ INSERT INTO `client` (`id`, `user_id`, `name`, `company`, `created_at`, `updated
 (3, 1, 'alireza_pepsi', 'aaa', '2015-10-08 11:47:15', '2015-10-08 11:47:15'),
 (4, 2, 'ali', 'ssss', '2015-10-08 11:50:08', '2015-10-08 11:50:08'),
 (5, 2, 'aaaa', 'aaaaaaaa', '2015-10-10 12:29:23', '2015-10-10 12:29:23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `company`
+--
+
+CREATE TABLE IF NOT EXISTS `company` (
+  `id` int(10) unsigned NOT NULL,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `company`
+--
+
+INSERT INTO `company` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Google', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, 'Apple', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -257,12 +265,6 @@ CREATE TABLE IF NOT EXISTS `creative` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- RELATIONS FOR TABLE `creative`:
---   `advertiser_id`
---       `advertiser` -> `id`
---
 
 --
 -- Dumping data for table `creative`
@@ -290,13 +292,7 @@ CREATE TABLE IF NOT EXISTS `geosegment` (
   `geosegmentlist_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- RELATIONS FOR TABLE `geosegment`:
---   `geosegmentlist_id`
---       `geosegmentlist` -> `id`
---
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `geosegment`
@@ -312,7 +308,15 @@ INSERT INTO `geosegment` (`id`, `name`, `lat`, `lon`, `segment_radius`, `geosegm
 (12, 'mmm', '32.656', '12.4564', 5, 6, '2015-11-28 13:14:23', '2015-11-28 13:14:23'),
 (13, 'asdas', '55.66541', '32.654', 2, 6, '2015-11-28 13:14:23', '2015-11-28 13:14:23'),
 (14, 'adada', '12.233', '6.1234', 12, 6, '2015-11-28 13:14:23', '2015-11-28 13:14:23'),
-(15, 'fffff', '12.233', '6.1234', 12, 6, '2015-11-28 13:14:23', '2015-11-28 13:14:23');
+(15, 'fffff', '12.233', '6.1234', 12, 6, '2015-11-28 13:14:23', '2015-11-28 13:14:23'),
+(17, 'alasdghakj', '23', '213', 1, 11, '2015-12-05 13:53:02', '2015-12-05 13:53:02'),
+(18, 'hasdgkjag', '213', '32', 12, 11, '2015-12-05 13:53:02', '2015-12-05 13:53:02'),
+(19, 'adf', '123', '21', 2, 11, '2015-12-05 13:53:02', '2015-12-05 13:53:02'),
+(20, '', '', '', 0, 11, '2015-12-05 13:53:02', '2015-12-05 13:53:02'),
+(21, '', '', '', 0, 11, '2015-12-05 13:53:02', '2015-12-05 13:53:02'),
+(22, 'alasdghakj', '23', '213', 0, 12, '2015-12-05 13:57:05', '2015-12-05 13:57:05'),
+(23, 'hasdgkjag', '213', '32', 0, 12, '2015-12-05 13:57:05', '2015-12-05 13:57:05'),
+(24, 'adf', '123', '21', 0, 12, '2015-12-05 13:57:05', '2015-12-05 13:57:05');
 
 -- --------------------------------------------------------
 
@@ -326,13 +330,7 @@ CREATE TABLE IF NOT EXISTS `geosegmentlist` (
   `advertiser_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- RELATIONS FOR TABLE `geosegmentlist`:
---   `advertiser_id`
---       `advertiser` -> `id`
---
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `geosegmentlist`
@@ -342,7 +340,10 @@ INSERT INTO `geosegmentlist` (`id`, `name`, `advertiser_id`, `created_at`, `upda
 (5, 'aa', 4, '2015-11-24 07:48:26', '2015-11-24 07:48:26'),
 (6, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 4, '2015-11-28 13:14:23', '2015-11-28 13:14:23'),
 (7, 'aaaaaaaasdasdas', 4, '2015-11-28 13:14:23', '2015-11-28 13:14:23'),
-(8, 'gggggggggggg', 4, '2015-11-28 13:14:23', '2015-11-28 13:14:23');
+(8, 'gggggggggggg', 4, '2015-11-28 13:14:23', '2015-11-28 13:14:23'),
+(9, 'ali', 9, '2015-12-05 13:25:30', '2015-12-05 13:25:30'),
+(11, 'asdasdasdasd', 9, '2015-12-05 13:53:02', '2015-12-05 13:53:02'),
+(12, 'aa11', 9, '2015-12-05 13:57:05', '2015-12-05 14:06:14');
 
 -- --------------------------------------------------------
 
@@ -356,10 +357,6 @@ CREATE TABLE IF NOT EXISTS `iab_category` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- RELATIONS FOR TABLE `iab_category`:
---
 
 --
 -- Dumping data for table `iab_category`
@@ -383,12 +380,6 @@ CREATE TABLE IF NOT EXISTS `iab_sub_category` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- RELATIONS FOR TABLE `iab_sub_category`:
---   `iab_category_id`
---       `iab_category` -> `id`
---
 
 --
 -- Dumping data for table `iab_sub_category`
@@ -417,10 +408,6 @@ CREATE TABLE IF NOT EXISTS `migrations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- RELATIONS FOR TABLE `migrations`:
---
-
---
 -- Dumping data for table `migrations`
 --
 
@@ -446,7 +433,8 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 ('2015_11_30_160427_creat-iab-category-table', 12),
 ('2015_11_30_160433_creat-iab-sub-category-table', 12),
 ('2015_12_01_155625_create-targetgroup-geosegment-map-table', 13),
-('2015_12_03_151710_targetgroup-bwlist-map-table', 14);
+('2015_12_03_151710_targetgroup-bwlist-map-table', 14),
+('2015_12_07_151734_create-company-table', 15);
 
 -- --------------------------------------------------------
 
@@ -476,18 +464,12 @@ CREATE TABLE IF NOT EXISTS `model` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- RELATIONS FOR TABLE `model`:
---   `advertiser_id`
---       `advertiser` -> `id`
---
-
---
 -- Dumping data for table `model`
 --
 
 INSERT INTO `model` (`id`, `name`, `advertiser_id`, `seed_web_sites`, `algo`, `segment_name_seed`, `process_result`, `description`, `num_neg_devices_used`, `num_pos_devices_used`, `feature_recency_in_sec`, `max_num_both_neg_pos_devices`, `negative_features_requested`, `feature_avg_num_history_used`, `negative_feature_used`, `date_of_request`, `created_at`, `updated_at`) VALUES
 (1, 'aaa', 6, '"asd,dd,d"', 'heat', 'aaa', 'asdas', '1111', 1, 1, 1, 1, '"asd,fgsd,fg,df,w"', '', '"asd,ac,zc,sdf,g"', '2016-01-11 07:00:06', '2015-11-12 06:34:38', '2015-11-12 07:06:34'),
-(2, 'sad', 8, '"sad"', 'heat', 'asdas', '234', 'asdasd', 234, 24, 34324, 234, '"asd,addd"', '', '"aaaa"', '2016-07-11 10:25:15', '2015-11-24 11:25:15', '2015-11-24 11:25:15');
+(2, 'sad', 8, '"sad"', '', 'asdas', '234', 'asdasd', 234, 24, 34324, 234, '"asd,addd"', '', '"aaaa"', '2016-05-12 13:36:09', '2015-11-24 11:25:15', '2015-12-05 14:36:09');
 
 -- --------------------------------------------------------
 
@@ -501,10 +483,6 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- RELATIONS FOR TABLE `password_resets`:
---
-
 -- --------------------------------------------------------
 
 --
@@ -517,11 +495,7 @@ CREATE TABLE IF NOT EXISTS `permission` (
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- RELATIONS FOR TABLE `permission`:
---
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `permission`
@@ -530,7 +504,28 @@ CREATE TABLE IF NOT EXISTS `permission` (
 INSERT INTO `permission` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
 (1, 'ADD_CLIENT', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (2, 'EDIT_CLIENT', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(3, 'VIEW_CLIENT', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(3, 'VIEW_CLIENT', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 'ADD_CAMPAIGN', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(5, 'EDIT_CAMPAIGN', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(6, 'VIEW_CAMPAIGN', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(7, 'ADD_ADVERTISER', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(8, 'EDIT_ADVERTISER', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(9, 'VIEW_ADVERTISER', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(10, 'ADD_CREATIVE', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(11, 'EDIT_CREATIVE', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(12, 'VIEW_CREATIVE', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(13, 'ADD_TARGETGROUP', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(14, 'EDIT_TARGETGROUP', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(15, 'VIEW_TARGETGROUP', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(16, 'ADD_MODEL', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(17, 'EDIT_MODEL', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(18, 'VIEW_MODEL', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(19, 'ADD_BWLIST', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(20, 'EDIT_BWLIST', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(21, 'VIEW_BWLIST', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(22, 'ADD_GEOSEGMENTLIST', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(23, 'EDIT_GEOSEGMENTLIST', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(24, 'VIEW_GEOSEGMENTLIST', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -544,21 +539,18 @@ CREATE TABLE IF NOT EXISTS `role` (
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- RELATIONS FOR TABLE `role`:
---
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `role`
 --
 
 INSERT INTO `role` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'super_admin', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(2, 'admin', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(3, 'acount_manager', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(4, 'guest', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(1, 'Super Admin', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, 'Admin', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(3, 'Acount Manager', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 'Account Analyst', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(5, 'kkkkk1', '', '2015-12-08 04:25:17', '2015-12-08 04:25:29');
 
 -- --------------------------------------------------------
 
@@ -572,15 +564,7 @@ CREATE TABLE IF NOT EXISTS `role_permission_mapping` (
   `role_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- RELATIONS FOR TABLE `role_permission_mapping`:
---   `permission_id`
---       `permission` -> `id`
---   `role_id`
---       `role` -> `id`
---
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `role_permission_mapping`
@@ -589,7 +573,12 @@ CREATE TABLE IF NOT EXISTS `role_permission_mapping` (
 INSERT INTO `role_permission_mapping` (`id`, `permission_id`, `role_id`, `created_at`, `updated_at`) VALUES
 (3, 1, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (4, 2, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(5, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(5, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(15, 7, 3, '2015-12-07 13:09:51', '2015-12-07 13:09:51'),
+(16, 16, 3, '2015-12-07 13:09:51', '2015-12-07 13:09:51'),
+(17, 8, 4, '2015-12-07 13:16:32', '2015-12-07 13:16:32'),
+(18, 11, 4, '2015-12-07 13:16:32', '2015-12-07 13:16:32'),
+(19, 17, 4, '2015-12-07 13:16:32', '2015-12-07 13:16:32');
 
 -- --------------------------------------------------------
 
@@ -620,12 +609,6 @@ CREATE TABLE IF NOT EXISTS `targetgroup` (
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- RELATIONS FOR TABLE `targetgroup`:
---   `campaign_id`
---       `campaign` -> `id`
---
-
---
 -- Dumping data for table `targetgroup`
 --
 
@@ -641,7 +624,7 @@ INSERT INTO `targetgroup` (`id`, `name`, `campaign_id`, `description`, `status`,
 (9, 'sadas', 3, '', 0, '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-01 12:37:34', '2015-12-01 12:37:34'),
 (10, 'asdads', 3, '', 0, '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-01 12:42:18', '2015-12-01 12:42:18'),
 (11, 'ali', 3, '', 0, '2', '6', 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'aaa', '2015-12-01 13:36:24', '2015-12-01 13:36:24'),
-(12, 'aaa', 3, '', 0, '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-03 11:27:16', '2015-12-03 11:27:16'),
+(12, 'aaa', 3, '', 0, '1', '2', 12, 12, 123, 34, '5', 45, 56, '2015-05-12 14:37:06', '2016-11-12 15:37:06', 'aaaaa', '2015-12-03 11:27:16', '2015-12-05 15:37:06'),
 (13, 'asdasd', 3, '', 0, '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-03 11:50:47', '2015-12-03 11:50:47');
 
 -- --------------------------------------------------------
@@ -656,22 +639,14 @@ CREATE TABLE IF NOT EXISTS `targetgroup_bwlist_map` (
   `bwlist_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- RELATIONS FOR TABLE `targetgroup_bwlist_map`:
---   `bwlist_id`
---       `bwlist` -> `id`
---   `targetgroup_id`
---       `targetgroup` -> `id`
---
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `targetgroup_bwlist_map`
 --
 
 INSERT INTO `targetgroup_bwlist_map` (`id`, `targetgroup_id`, `bwlist_id`, `created_at`, `updated_at`) VALUES
-(1, 13, 1, '2015-12-03 11:50:47', '2015-12-03 11:50:47');
+(4, 12, 1, '2015-12-05 15:37:06', '2015-12-05 15:37:06');
 
 -- --------------------------------------------------------
 
@@ -685,26 +660,18 @@ CREATE TABLE IF NOT EXISTS `targetgroup_creative_map` (
   `creative_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- RELATIONS FOR TABLE `targetgroup_creative_map`:
---   `creative_id`
---       `creative` -> `id`
---   `targetgroup_id`
---       `targetgroup` -> `id`
---
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `targetgroup_creative_map`
 --
 
 INSERT INTO `targetgroup_creative_map` (`id`, `targetgroup_id`, `creative_id`, `created_at`, `updated_at`) VALUES
-(1, 12, 3, '2015-12-03 11:27:16', '2015-12-03 11:27:16'),
-(2, 12, 4, '2015-12-03 11:27:16', '2015-12-03 11:27:16'),
-(3, 12, 5, '2015-12-03 11:27:16', '2015-12-03 11:27:16'),
 (4, 13, 3, '2015-12-03 11:50:47', '2015-12-03 11:50:47'),
-(5, 13, 4, '2015-12-03 11:50:47', '2015-12-03 11:50:47');
+(5, 13, 4, '2015-12-03 11:50:47', '2015-12-03 11:50:47'),
+(12, 12, 3, '2015-12-05 15:37:06', '2015-12-05 15:37:06'),
+(13, 12, 4, '2015-12-05 15:37:06', '2015-12-05 15:37:06'),
+(14, 12, 5, '2015-12-05 15:37:06', '2015-12-05 15:37:06');
 
 -- --------------------------------------------------------
 
@@ -718,15 +685,7 @@ CREATE TABLE IF NOT EXISTS `targetgroup_geosegmentlist_map` (
   `geosegmentlist_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- RELATIONS FOR TABLE `targetgroup_geosegmentlist_map`:
---   `geosegmentlist_id`
---       `geosegmentlist` -> `id`
---   `targetgroup_id`
---       `targetgroup` -> `id`
---
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `targetgroup_geosegmentlist_map`
@@ -744,11 +703,11 @@ INSERT INTO `targetgroup_geosegmentlist_map` (`id`, `targetgroup_id`, `geosegmen
 (9, 9, 6, '2015-12-01 12:37:35', '2015-12-01 12:37:35'),
 (10, 10, 6, '2015-12-01 12:42:18', '2015-12-01 12:42:18'),
 (11, 11, 6, '2015-12-01 13:36:24', '2015-12-01 13:36:24'),
-(12, 12, 5, '2015-12-03 11:27:16', '2015-12-03 11:27:16'),
-(13, 12, 6, '2015-12-03 11:27:16', '2015-12-03 11:27:16'),
 (14, 13, 5, '2015-12-03 11:50:47', '2015-12-03 11:50:47'),
 (15, 13, 6, '2015-12-03 11:50:47', '2015-12-03 11:50:47'),
-(16, 13, 7, '2015-12-03 11:50:47', '2015-12-03 11:50:47');
+(16, 13, 7, '2015-12-03 11:50:47', '2015-12-03 11:50:47'),
+(21, 12, 7, '2015-12-05 15:37:06', '2015-12-05 15:37:06'),
+(22, 12, 8, '2015-12-05 15:37:06', '2015-12-05 15:37:06');
 
 -- --------------------------------------------------------
 
@@ -759,28 +718,28 @@ INSERT INTO `targetgroup_geosegmentlist_map` (`id`, `targetgroup_id`, `geosegmen
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) unsigned NOT NULL,
   `role_id` int(10) unsigned NOT NULL,
+  `company_id` int(10) unsigned NOT NULL,
   `company` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
+  `active` int(11) NOT NULL,
   `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `last_login_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- RELATIONS FOR TABLE `users`:
---   `role_id`
---       `role` -> `id`
---
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `role_id`, `company`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 1, 'aaa11', 'alireza', '09364991494@yahoo.com', '$2y$10$eLI/.WWqZAkuL8zEJkgOeuncPWv42Fhn7yDwmDdH7SoUKVns3Ac5q', 'gYeNTvlaVHgu7cT7s7bpbOqZW1Ur6VdyCkcGFg6PGGa8Z476rjTRqE6fbKvN', '0000-00-00 00:00:00', '2015-10-31 13:35:45'),
-(2, 1, '', 'alireza11111', 'a@b.com', '$2y$10$eLI/.WWqZAkuL8zEJkgOeuncPWv42Fhn7yDwmDdH7SoUKVns3Ac5q', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `users` (`id`, `role_id`, `company_id`, `company`, `name`, `email`, `password`, `active`, `remember_token`, `last_login_time`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, 'aaa11', 'alireza', '09364991494@yahoo.com', '$2y$10$q0O2WoGF6tKnk7s638v/wue4N4iSKeZ21JwH7JY0XGyj06MDyfF2K', 1, 'iNR8fcfsMctyQ1QhXZsZZvW5u8heAlxbSmCLhoeUWV2SHbCL6Kxyr1rHL5pT', '2015-12-08 05:53:22', '0000-00-00 00:00:00', '2015-12-08 05:53:22'),
+(2, 2, 2, '', 'alireza11111', 'a@b.com', '$2y$10$q0O2WoGF6tKnk7s638v/wue4N4iSKeZ21JwH7JY0XGyj06MDyfF2K', 0, 'wbEqCaXMvVOVvc2rbjhBh5aeEdqW05qjv85rHERzLV7MuomjOC6jx0VN4Blf', NULL, '0000-00-00 00:00:00', '2015-12-08 04:34:02'),
+(3, 2, 1, '', 'asdasd1', '09364sad4@yahoo.com', '$2y$10$Y4lkrHpSphWo6Qgk52xLlOS0lemOrUHjvkfOWY1pLiYrtu.bwNev.', 0, NULL, '0000-00-00 00:00:00', '2015-12-06 08:35:25', '2015-12-07 12:14:36'),
+(4, 4, 1, '', 'asdasdas222', '123213494@yahoo.com', '$2y$10$q0O2WoGF6tKnk7s638v/wue4N4iSKeZ21JwH7JY0XGyj06MDyfF2K', 1, '1NGp5eILuC7ZyxXAn5ZyVTvAX8HKoYftF5HQfvDywy8o0vg1nPpGrXWnVm7n', '0000-00-00 00:00:00', '2015-12-06 08:38:53', '2015-12-08 05:53:18'),
+(5, 3, 2, '', 'asdas', 'asdasdafdsff494@yahoo.com', '$2y$10$Z.GwzLNeDhDF5SFwThGp9Oiey/jA3ea1GLjjVIhZvWtqGlBzDo9Ae', 1, NULL, '0000-00-00 00:00:00', '2015-12-06 10:18:58', '2015-12-07 11:57:27');
 
 -- --------------------------------------------------------
 
@@ -795,14 +754,6 @@ CREATE TABLE IF NOT EXISTS `user_role_mapping` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- RELATIONS FOR TABLE `user_role_mapping`:
---   `role_id`
---       `role` -> `id`
---   `user_id`
---       `users` -> `id`
---
 
 --
 -- Indexes for dumped tables
@@ -842,6 +793,12 @@ ALTER TABLE `campaign`
 ALTER TABLE `client`
   ADD PRIMARY KEY (`id`),
   ADD KEY `client_user_id_foreign` (`id`);
+
+--
+-- Indexes for table `company`
+--
+ALTER TABLE `company`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `creative`
@@ -948,7 +905,8 @@ ALTER TABLE `targetgroup_geosegmentlist_map`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`),
-  ADD KEY `users_role_id` (`id`);
+  ADD KEY `users_role_id` (`id`),
+  ADD KEY `user_company_id` (`id`);
 
 --
 -- Indexes for table `user_role_mapping`
@@ -971,12 +929,12 @@ ALTER TABLE `advertiser`
 -- AUTO_INCREMENT for table `bwentries`
 --
 ALTER TABLE `bwentries`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=77;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=149;
 --
 -- AUTO_INCREMENT for table `bwlist`
 --
 ALTER TABLE `bwlist`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `campaign`
 --
@@ -988,6 +946,11 @@ ALTER TABLE `campaign`
 ALTER TABLE `client`
   MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
+-- AUTO_INCREMENT for table `company`
+--
+ALTER TABLE `company`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `creative`
 --
 ALTER TABLE `creative`
@@ -996,12 +959,12 @@ ALTER TABLE `creative`
 -- AUTO_INCREMENT for table `geosegment`
 --
 ALTER TABLE `geosegment`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `geosegmentlist`
 --
 ALTER TABLE `geosegmentlist`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `iab_category`
 --
@@ -1021,17 +984,17 @@ ALTER TABLE `model`
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `role_permission_mapping`
 --
 ALTER TABLE `role_permission_mapping`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `targetgroup`
 --
@@ -1041,22 +1004,22 @@ ALTER TABLE `targetgroup`
 -- AUTO_INCREMENT for table `targetgroup_bwlist_map`
 --
 ALTER TABLE `targetgroup_bwlist_map`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `targetgroup_creative_map`
 --
 ALTER TABLE `targetgroup_creative_map`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `targetgroup_geosegmentlist_map`
 --
 ALTER TABLE `targetgroup_geosegmentlist_map`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `user_role_mapping`
 --
@@ -1160,6 +1123,7 @@ ALTER TABLE `targetgroup_geosegmentlist_map`
 ALTER TABLE `user_role_mapping`
   ADD CONSTRAINT `user_role_mapping_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_role_mapping_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

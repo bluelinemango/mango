@@ -24,6 +24,8 @@ class User extends Model implements AuthenticatableContract,
     public static $rule=array(
         'email'=>'required|email|max:50|unique:users,email',
         'password'=>'required|min:4',
+        'company_group'=>'required',
+        'role_group'=>'required',
 //        'password'=>'required|confirmed|min:4',
 //        'password_confirmation'=>'required|min:4',
     );
@@ -49,5 +51,9 @@ class User extends Model implements AuthenticatableContract,
     }
     public function role_permission_mapping(){
         return $this->hasMany('App\Models\role_permission','role_id');
+    }
+
+    public function getCompany(){
+        return $this->belongsTo('App\Models\Company','company_id');
     }
 }

@@ -199,7 +199,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Name Of Target Group"
                                                                                                        type="text"
                                                                                                        name="name"
@@ -217,7 +217,6 @@
                                                                                                 <select name="iab_category"
                                                                                                         class="form-control "
                                                                                                         id=""
-                                                                                                        style="height: 45px"
                                                                                                         onchange="ShowSubCategory(this.value)">
                                                                                                     <option value="0"
                                                                                                             disabled>
@@ -245,7 +244,6 @@
                                                                                                             class="fa fa-user fa-lg fa-fw"></i></span>
                                                                                                 <select name="iab_sub_category"
                                                                                                         class="form-control "
-                                                                                                        style="height: 45px"
                                                                                                         id="iab_sub_category">
 
                                                                                                 @if(!is_null($targetgroup_obj->iab_sub_category))
@@ -271,7 +269,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        type="text"
                                                                                                        placeholder="Domain Name"
                                                                                                        name="advertiser_domain_name"
@@ -290,7 +288,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-eye fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Max Impressions"
                                                                                                        type="text"
                                                                                                        name="max_impression"
@@ -305,7 +303,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-eye fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Daily Max Imps"
                                                                                                        type="text"
                                                                                                        name="daily_max_impression"
@@ -320,7 +318,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-dollar fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Max Budget"
                                                                                                        type="text"
                                                                                                        name="max_budget"
@@ -335,7 +333,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-dollar fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Daily Max Budget"
                                                                                                        type="text"
                                                                                                        name="daily_max_budget"
@@ -352,7 +350,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-eye fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Frequency per sec"
                                                                                                        type="text"
                                                                                                        name="frequency_in_sec"
@@ -367,7 +365,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-eye fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="MAX CPM"
                                                                                                        type="text"
                                                                                                        name="cpm"
@@ -382,7 +380,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-eye fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Pacing Plan"
                                                                                                        type="text"
                                                                                                        name="pacing_plan"
@@ -399,7 +397,7 @@
                                                                                             <div class="input-group">
                                                                                                     <span class="input-group-addon"><i
                                                                                                                 class="fa fa-calendar fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        type="text"
                                                                                                        name="startdate"
                                                                                                        id="startdate"
@@ -415,7 +413,7 @@
                                                                                             <div class="input-group">
                                                                                                     <span class="input-group-addon"><i
                                                                                                                 class="fa fa-calendar fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        type="text"
                                                                                                        name="finishdate"
                                                                                                        id="finishdate"
@@ -538,7 +536,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Publisher Name"
                                                                                                        type="text"
                                                                                                        name="fname"
@@ -793,7 +791,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Publisher Name"
                                                                                                        type="text"
                                                                                                        name="fname"
@@ -807,7 +805,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Bid"
                                                                                                        type="text"
                                                                                                        name="lname"
@@ -823,7 +821,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Publisher Name"
                                                                                                        type="text"
                                                                                                        name="fname"
@@ -837,7 +835,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Bid"
                                                                                                        type="text"
                                                                                                        name="lname"
@@ -853,7 +851,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Publisher Name"
                                                                                                        type="text"
                                                                                                        name="fname"
@@ -867,7 +865,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Bid"
                                                                                                        type="text"
                                                                                                        name="lname"
@@ -883,7 +881,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Publisher Name"
                                                                                                        type="text"
                                                                                                        name="fname"
@@ -897,7 +895,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Bid"
                                                                                                        type="text"
                                                                                                        name="lname"
@@ -913,7 +911,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Publisher Name"
                                                                                                        type="text"
                                                                                                        name="fname"
@@ -927,7 +925,7 @@
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
                                                                                                             class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-lg"
+                                                                                                <input class="form-control input-md"
                                                                                                        placeholder="Bid"
                                                                                                        type="text"
                                                                                                        name="lname"

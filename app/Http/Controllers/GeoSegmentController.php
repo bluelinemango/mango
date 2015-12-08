@@ -26,7 +26,7 @@ class GeoSegmentController extends Controller
             }else{
             }
         }else{
-            return Redirect::to('/user/login');
+            return Redirect::to(url('/user/login'));
         }
     }
 
@@ -111,7 +111,7 @@ class GeoSegmentController extends Controller
                 //return print_r($validate->messages());
 //                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             } else {
-                return Redirect::to('/user/login');
+                return Redirect::to(url('/user/login'));
             }
         }
     }
@@ -169,7 +169,7 @@ class GeoSegmentController extends Controller
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
         }else{
-            return Redirect::to('/user/login');
+            return Redirect::to(url('/user/login'));
         }
     }
 
@@ -213,7 +213,7 @@ class GeoSegmentController extends Controller
             }
 
         }else{
-            return Redirect::to('user/login');
+            return Redirect::to(url('/user/login'));
         }
     }
 

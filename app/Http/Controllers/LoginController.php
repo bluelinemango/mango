@@ -1,11 +1,11 @@
 <?php namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-//use App\Models\User;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -22,7 +22,7 @@ class LoginController extends Controller {
     }
     public function LoginView(){
         if(Auth::check()){
-            return Redirect::to('/client');
+            return Redirect::to(url('client'));
         }else {
             return view('login');
         }
@@ -33,15 +33,18 @@ class LoginController extends Controller {
         if($validate->passes()){
             $credentials = $request->only('email','password');
             if ($this->auth->attempt($credentials, $request->has('remember'))){
+                $user=User::find(Auth::user()->id);
+                $user->last_login_time=date('Y-m-d:h:i:s');
+                $user->save();
                 \Session::put('UserID', Auth::user()->id);
-                return Redirect::to('/client');
+                return Redirect::to(url('client'));
             }
-            return redirect('/user/login')
+            return redirect(url('/user/login'))
                 ->withInput($request->only('email', 'remember'))
-                ->withErrors(['success'=>false,'msg'=>'ایمیل یا رمز ورود اشباه میباشد.']);
+                ->withErrors(['success'=>false,'msg'=>'invalid Email or Password!']);
         }
 
-        return redirect('/user/login')
+        return redirect(url('/user/login'))
             ->withInput($request->only('email', 'remember'))
             ->withErrors(['success'=>false,'msg'=>$validate->messages()->all()]);
 
@@ -54,7 +57,7 @@ class LoginController extends Controller {
         }
         $this->auth->logout();
 
-        return redirect('/user/login');
+        return redirect(url('/user/login'));
     }
 
 }

@@ -27,7 +27,7 @@ class CreativeController extends Controller
             }else{
             }
         }else{
-            return Redirect::to('/user/login');
+            return Redirect::to(url('/user/login'));
         }
     }
     public function CreativeAddView($clid,$advid){
@@ -79,7 +79,7 @@ class CreativeController extends Controller
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
         }else{
-            return Redirect::to('/user/login');
+            return Redirect::to(url('/user/login'));
         }
     }
 
@@ -131,7 +131,7 @@ class CreativeController extends Controller
             }
 
         }else{
-            return Redirect::to('user/login');
+            return Redirect::to(url('/user/login'));
         }
     }
 

@@ -21,7 +21,9 @@ class AdvertiserController extends Controller
     public function GetView(){
         if(Auth::check()){
             if(1==1){ //permission goes here
-                $advertiser=Advertiser::with(['Campaign'=>function($q){$q->select(DB::raw('*,count(advertiser_id) as advertiser_count'))->groupBy('advertiser_id');}])->with('GetClientID')->get();
+                $usr_company=User::select('id')->where('company_id',Auth::user()->company_id)->get()->toArray();
+//                return dd($usr_company);
+                $advertiser=Advertiser::with(['Campaign'=>function($q){$q->select(DB::raw('*,count(advertiser_id) as advertiser_count'))->groupBy('advertiser_id');}])->with(['GetClientID'=>function($p)use($usr_company){$p->whereIn('user_id',$usr_company);}])->get();
 //                return dd($advertiser);
                 return view('advertiser.list')->with('adver_obj',$advertiser)->with('permission',\Permission_Check::getPermission());
             }else{

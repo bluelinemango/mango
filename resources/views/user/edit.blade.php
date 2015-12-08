@@ -139,6 +139,17 @@
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
+                                                        <label for="" class="label">Select Company</label>
+                                                        <label class="select"><i></i>
+                                                            <select name="company_group">
+                                                                <option value="0" disabled>Select One</option>
+                                                                @foreach($company_obj as $index)
+                                                                    <option value="{{$index->id}}"@if($index->id==$user_obj->company_id) selected @endif>{{$index->name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-3">
                                                         <label for="" class="label">status</label>
                                                         <label class="checkbox">
                                                             <input type="checkbox" name="active" @if($user_obj->active==1) checked @endif>

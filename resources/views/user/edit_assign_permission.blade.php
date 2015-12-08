@@ -1,6 +1,6 @@
 @extends('Layout')
 @section('siteTitle')
-    Register New User
+    Edit assign permission
 @endsection
 @section('content')
     <!-- MAIN PANEL -->
@@ -17,7 +17,7 @@
             <!-- breadcrumb -->
             <ol class="breadcrumb">
                 <li>Home</li>
-                <li>User Registration</li>
+                <li>Edit Role Permission: {{$role_obj->name}}</li>
             </ol>
             <!-- end breadcrumb -->
 
@@ -77,7 +77,7 @@
                                 -->
                                 <header>
                                     <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-                                    <h2>Add User </h2>
+                                    <h2>Assign Permission To Role</h2>
 
                                 </header>
 
@@ -94,8 +94,10 @@
                                     <!-- widget content -->
                                     <div class="widget-body no-padding">
 
-                                        <form id="order-form" class="smart-form" action="{{URL::route('user_create')}}" method="post" novalidate="novalidate" >
+                                        <form id="order-form" class="smart-form" action="{{URL::route('edit_permission_assign')}}" method="post" novalidate="novalidate" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <input type="hidden" name="role_group" value="{{$role_obj->id}}"/>
+                                            <input type="hidden" name="_method" value="PUT"/>
                                             <header>
                                                 General Information
                                             </header>
@@ -103,68 +105,24 @@
                                             <fieldset>
                                                 <div class="row">
                                                     <section class="col col-3">
-                                                        <label for="" class="label">Name</label>
+                                                        <label for="" class="label">Role Name</label>
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="name" placeholder="Name">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label for="" class="label">Email Address</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="email" placeholder="Email Address">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label for="" class="label">Password</label>
-                                                        <label class="input"><i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="password" name="password">
+                                                            <input type="text" placeholder="Name" value="{{$role_obj->name}}" disabled>
                                                         </label>
                                                     </section>
                                                 </div>
-
-
                                             </fieldset>
-
                                             <fieldset>
                                                 <div class="row">
-                                                    <section class="col col-3">
-                                                        <label for="" class="label">Select Role</label>
-                                                        <label class="select"><i></i>
-                                                            <select name="role_group">
-                                                                <option value="0" disabled>Select One</option>
-                                                                @foreach($role_obj as $index)
-                                                                    <option value="{{$index->id}}">{{$index->name}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label for="" class="label">Select Comapny</label>
-                                                        <label class="select"><i></i>
-                                                            <select name="company_group">
-                                                                <option value="0" disabled>Select One</option>
-                                                                @foreach($company_obj as $index)
-                                                                    <option value="{{$index->id}}">{{$index->name}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label for="" class="label">status</label>
+                                                    @foreach($permission_obj as $index)
+                                                    <section class="col col-4">
                                                         <label class="checkbox">
-                                                            <input type="checkbox" name="active">
-                                                            <i></i>Active Status
+                                                            <input type="checkbox" name="{{$index->name}}" @if(in_array($index->id,$role_permission_obj)) checked @endif>
+                                                            <i></i>{{$index->name}}
                                                         </label>
                                                     </section>
-
+                                                    @endforeach
                                                 </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <section>
-                                                    <label class="textarea"> <i class="icon-append fa fa-comment"></i>
-                                                        <textarea rows="5" name="description" placeholder="Tell us about your advertiser"></textarea>
-                                                    </label>
-                                                </section>
                                             </fieldset>
                                             <footer>
                                                 <button type="submit" class="btn btn-success">

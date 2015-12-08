@@ -100,6 +100,7 @@
                                         </thead>
                                         <tbody>
                                         @foreach($adver_obj as $index)
+                                            @if(!is_null($index->GetClientID))
                                             <tr>
                                                 <td>adv{{$index->id}}</td>
                                                 <td><a href="{{url('/client/cl'.$index->GetClientID->id.'/advertiser/adv'.$index->id.'/edit')}}">{{$index->name}}</a></td>
@@ -117,6 +118,7 @@
                                                     @endforeach
                                                     <a href="{{url('advertiser/delete/'.$index->aid)}}">Delete</a></td>
                                             </tr>
+                                            @endif
                                         @endforeach
                                         </tbody>
 

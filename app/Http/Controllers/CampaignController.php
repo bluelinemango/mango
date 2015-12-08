@@ -28,7 +28,7 @@ class CampaignController extends Controller
             }else{
             }
         }else{
-            return Redirect::to('/user/login');
+            return Redirect::to(url('/user/login'));
         }
 
 
@@ -84,7 +84,7 @@ class CampaignController extends Controller
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
         }else{
-            return Redirect::to('/user/login');
+            return Redirect::to(url('/user/login'));
         }
     }
 
@@ -96,7 +96,7 @@ class CampaignController extends Controller
                 return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Campaign Deleted Successfully']);
             }
         }else{
-            return Redirect::to('user/login');
+            return Redirect::to(url('/user/login'));
         }
     }
 
@@ -153,7 +153,7 @@ class CampaignController extends Controller
             }
 
         }else{
-            return Redirect::to('user/login');
+            return Redirect::to(url('/user/login'));
         }
     }
     public function index()

@@ -22,6 +22,14 @@ Route::get('/user/register','UsersController@RegisterView');
 Route::get('/user/usr{id?}/edit','UsersController@EditView');
 Route::get('/user/login','LoginController@LoginView');
 Route::put('/user/edit/update', ['uses'=>'UsersController@edit_user','as'=>'user_update']);
+Route::get('/user/add-role','UsersController@AddRoleView');
+Route::post('/user/add-role/create', ['uses'=>'UsersController@role_create','as'=>'role_create']);
+Route::get('/user/assign-permission/edit/{id?}','UsersController@AssignPermissionEditView');
+Route::get('/user/role/edit/{id?}','UsersController@RoleEditView');
+Route::put('/user/assign-permission/edit/update', ['uses'=>'UsersController@edit_permission_assign','as'=>'edit_permission_assign']);
+Route::put('/user/role/edit/update', ['uses'=>'UsersController@edit_role','as'=>'edit_role']);
+Route::get('/user/role-permission','UsersController@GetRolePermissionView');
+
 
 /////////////////////////CLIENT///////////////////////////////////////////
 Route::get('/client','ClientController@ListView');

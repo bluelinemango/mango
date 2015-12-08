@@ -48,26 +48,30 @@
             <li>
                 <a href="{{url('geosegment')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Geo Segment</span></a>
             </li>
-            {{--<li>--}}
-                {{--<a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">Graphs</span></a>--}}
-                {{--<ul>--}}
-                    {{--<li>--}}
-                        {{--<a href="flot.html">Flot Chart</a>--}}
-                    {{--</li>--}}
-                    {{--<li>--}}
-                        {{--<a href="morris.html">Morris Charts</a>--}}
-                    {{--</li>--}}
-                    {{--<li>--}}
-                        {{--<a href="inline-charts.html">Inline Charts</a>--}}
-                    {{--</li>--}}
-                    {{--<li>--}}
-                        {{--<a href="dygraphs.html">Dygraphs</a>--}}
-                    {{--</li>--}}
-                    {{--<li>--}}
-                        {{--<a href="chartjs.html">Chart.js <span class="badge pull-right inbox-badge bg-color-yellow">new</span></a>--}}
-                    {{--</li>--}}
-                {{--</ul>--}}
-            {{--</li>--}}
+            @if(\Illuminate\Support\Facades\Auth::user()->role_id==1)
+                <li>
+                    <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">Role Permission</span></a>
+                    <ul>
+                        <li>
+                            <a href="{{url('user/role-permission')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Role Permission List</span></a>
+                        </li>
+                        <li>
+                            <a href="{{url('user/add-role')}}">Add Role <span class="badge pull-right inbox-badge bg-color-yellow">new</span></a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
+            <li>
+                <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">User</span></a>
+                <ul>
+                    <li>
+                        <a href="{{url('user/register')}}">Add User <span class="badge pull-right inbox-badge bg-color-yellow">new</span></a>
+                    </li>
+                    <li>
+                        <a href="{{url('user')}}">List User <span class="badge pull-right inbox-badge bg-color-yellow">new</span></a>
+                    </li>
+                </ul>
+            </li>
 
 
         </ul>

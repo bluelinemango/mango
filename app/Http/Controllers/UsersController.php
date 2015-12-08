@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Company;
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Role_Permission;
 use App\Models\User;
@@ -21,13 +23,68 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function GetView(){
-        $user_obj=User::all();
-        return view('user.user_list')->with('user_obj', $user_obj)->with('permission', \Permission_Check::getPermission());
+        if(Auth::check()) {
+            if (Auth::user()->role_id == 1) {
+                $user_obj = User::with('getCompany')->get();
+            } else {
+                $user_obj = User::with('getCompany')->where('company_id', Auth::user()->company_id)->get();
+            }
+//        return dd($user_obj);
+            return view('user.user_list')->with('user_obj', $user_obj)->with('permission', \Permission_Check::getPermission());
+        }
+        return Redirect::to(url('user/login'));
+    }
+    public function GetRolePermissionView(){
+        if(Auth::user()->role_id==1){
+            $role_obj = Role::all();
+            return view('user.role_permission_list')
+                ->with('role_obj', $role_obj)
+                ->with('permission', \Permission_Check::getPermission());
+        }else {
+            return "dont have permission";
+        }
+//        return dd($user_obj);
     }
     public function RegisterView()
     {
         $role_obj = Role::get();
-        return view('user.register')->with('role_obj', $role_obj)->with('permission', \Permission_Check::getPermission());
+        $company_obj=Company::all();
+
+        return view('user.register')
+            ->with('role_obj', $role_obj)
+            ->with('company_obj', $company_obj)
+            ->with('permission', \Permission_Check::getPermission());
+    }
+
+    public function AddRoleView()
+    {
+        if(Auth::check()) {
+            return view('user.add_role')
+                ->with('permission', \Permission_Check::getPermission());
+        }
+        return Redirect::to(url('user/login'));
+    }
+    public function AssignPermissionEditView($id)
+    {
+        if(!is_null($id)) {
+            if (Auth::user()->role_id == 1) {
+                $role_obj = Role::find($id);
+                $role_permission_obj=Role_Permission::where('role_id',$id)->get();
+                $permission_obj = Permission::all();
+                $role_permission=array();
+                foreach($role_permission_obj as $index){
+                    array_push($role_permission,$index->permission_id);
+                }
+                return view('user.edit_assign_permission')
+                    ->with('role_obj', $role_obj)
+                    ->with('permission_obj', $permission_obj)
+                    ->with('role_permission_obj', $role_permission)
+                    ->with('permission', \Permission_Check::getPermission());
+            }else{
+                return \Redirect::back()->withErrors(['success' => false, 'msg' => 'You don\'t have permission']);
+
+            }
+        }
     }
 
     public function LoginView()
@@ -41,9 +98,29 @@ class UsersController extends Controller
             if (Auth::check()) {
                 if (1 == 1) { // Permission goes here
                     $user_obj = User::find($id);
+                    $company_obj=Company::all();
                     $role_obj = Role::get();
  //                    return dd($targetgroup_obj);
-                    return view('user.edit')->with('user_obj', $user_obj)->with('role_obj', $role_obj)->with('permission', \Permission_Check::getPermission());
+                    return view('user.edit')
+                        ->with('user_obj', $user_obj)
+                        ->with('company_obj', $company_obj)
+                        ->with('role_obj', $role_obj)
+                        ->with('permission', \Permission_Check::getPermission());
+                }
+            }
+        }
+    }
+
+    public function RoleEditView($id)
+    {
+        if (!is_null($id)) {
+            if (Auth::check()) {
+                if (1 == 1) { // Permission goes here
+                    $role_obj = Role::find($id);
+ //                    return dd($targetgroup_obj);
+                    return view('user.edit_role')
+                        ->with('role_obj', $role_obj)
+                        ->with('permission', \Permission_Check::getPermission());
                 }
             }
         }
@@ -66,6 +143,7 @@ class UsersController extends Controller
                 }
                 $user->name = $request->input('name');
                 $user->role_id = $request->input('role_group');
+                $user->company_id = $request->input('company_group');
                 $user->active = $active;
                 $user->email = $request->input('email');
                 $user->password = \Hash::make($request->input('password'));
@@ -76,13 +154,51 @@ class UsersController extends Controller
         //return print_r($validate->messages());
         return \Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();
     }
+    public function role_create(Request $request){
+//        return dd($request->all());
+        $validate = \Validator::make($request->all(), ['name'=>'required']);
+        if ($validate->passes()) {
+            $role_check = Role::where('name', $request->input('name'))->first();
+            if (!is_null($role_check)) {
+                return \Redirect::back()->withErrors(['success' => false, 'msg' => 'Role name already existed !']);
+            }
+            $role=new Role();
+            $role->name=$request->input('name');
+            $role->save();
+            return \Redirect::to(url('/user/role/edit/'.$role->id))->withErrors(['success' => true, 'msg' =>"Role Added Successfully"]);
+        }
+        //return print_r($validate->messages());
+        return \Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();
+    }
+    public function edit_permission_assign(Request $request){
+//        return dd($request->all());
+        if(!is_null($request->input('role_group')) and $request->input('role_group') != "") {
+            if (Auth::user()->role_id == 1) {
+                Role_Permission::where('role_id', $request->input('role_group'))->delete();
+                $prm_obj = Permission::all();
+                foreach ($prm_obj as $index) {
+                    if ($request->input($index->name) == "on") {
+                        $perm_role = new Role_Permission();
+                        $perm_role->permission_id = $index->id;
+                        $perm_role->role_id = $request->input('role_group');
+                        $perm_role->save();
+                    }
+                }
+                return \Redirect::back()->withErrors(['success' => true, 'msg' => "Permission Role Assigned Successfully"]);
+                //return print_r($validate->messages());
+            } else {
+                return \Redirect::back()->withErrors(['success' => false, 'msg' => 'You don\'t have permission']);
+            }
+        }
+        return \Redirect::back()->withErrors(['success' => false, 'msg' => 'Select One Role plz']);
+    }
 
     public function edit_user(Request $request)
     {
 //        return dd($request->all());
         if (Auth::check()) {
             if (1 == 1) { //permission goes here
-                $validate = \Validator::make($request->all(), ['name' => 'required','email' => 'required']);
+                $validate = \Validator::make($request->all(), ['name' => 'required','email' => 'required','company_group' => 'required','role_group' => 'required']);
                 if ($validate->passes()) {
                     $active=0;
                     if($request->input('active')=='on'){
@@ -94,6 +210,7 @@ class UsersController extends Controller
                     $user->name = $request->input('name');
                     $user->active = $active;
                     $user->role_id = $request->input('role_group');
+                    $user->company_id = $request->input('company_group');
                     $user->email = $request->input('email');
                     if (!is_null($password) and $password!="") {
                         $user->password = Hash::make($password);
@@ -109,6 +226,28 @@ class UsersController extends Controller
 
         } else {
             return Redirect::to('user/login');
+        }
+    }
+    public function edit_role(Request $request)
+    {
+//        return dd($request->all());
+        if (Auth::check()) {
+            if (1 == 1) { //permission goes here
+                $validate = \Validator::make($request->all(), ['name' => 'required']);
+                if ($validate->passes()) {
+                    $role = Role::find($request->input('role_id'));
+                    $role->name = $request->input('name');
+                    $role->save();
+                    return Redirect::back()->withErrors(['success' => true, 'msg' => 'Role Edited Successfully']);
+                } else {
+                    return Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();
+                }
+            } else {
+                return Redirect::back()->withErrors(['success' => false, 'msg' => 'dont have Edit Permission']);
+            }
+
+        } else {
+            return Redirect::to(url('user/login'));
         }
     }
 

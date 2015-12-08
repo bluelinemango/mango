@@ -1,5 +1,5 @@
 @extends('Layout')
-@section('siteTitle')List Of Users @endsection
+@section('siteTitle')List Of Role Permission @endsection
 
 @section('content')
     <!-- MAIN PANEL -->
@@ -17,7 +17,7 @@
             <!-- breadcrumb -->
             <ol class="breadcrumb">
                 <li>Home</li>
-                <li>List Of Users</li>
+                <li>List Of Role Permission</li>
             </ol>
             <!-- end breadcrumb -->
 
@@ -63,7 +63,7 @@
                                         -->
                             <header>
                                 <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                <h2>Users List</h2>
+                                <h2>Role Permission List</h2>
 
                             </header>
 
@@ -82,40 +82,14 @@
 
                                     <table id="datatable_tabletools" class="table table-striped table-bordered table-hover" width="100%">
                                         <thead>
-                                        <th>User id</th>
+                                        <th>id</th>
                                         <th>Name</th>
-                                        <th>Comapany</th>
-                                        <th>Email</th>
-                                        <th>Last Login Time</th>
-                                        <th>Status</th>
-                                        <th>Date Of modify</th>
-                                        <th>Modify</th>
                                         </thead>
                                         <tbody>
-                                        @foreach($user_obj as $index)
+                                        @foreach($role_obj as $index)
                                             <tr>
-                                                <td>tg{{$index->id}}</td>
-                                                <td><a href="{{url('user/usr'.$index->id.'/edit')}}">{{$index->name}}</a></td>
-                                                <td>{{$index->getCompany->name}}</td>
-                                                <td>{{$index->email}}</td>
-                                                <td>{{$index->last_login_time}}</td>
-                                                @if($index->active==1)
-                                                    <td><span class="label label-success">Active</span></td>
-                                                @elseif($index->active==0)
-                                                    <td><span class="label label-danger">InActive</span></td>
-                                                @endif
-                                                <td>{{$index->updated_at}}</td>
-                                                <td>
-                                                    <a class="btn btn-success" href="">
-                                                        <i class="fa fa-search-plus "></i>
-                                                    </a>
-                                                    <a class="btn btn-info" href="{{url('user/usr'.$index->id.'/edit')}}">
-                                                        <i class="fa fa-edit "></i>
-                                                    </a>
-                                                    <a class="btn btn-danger" href="">
-                                                        <i class="fa fa-trash-o "></i>
-                                                    </a>
-                                                </td>
+                                                <td>{{$index->id}}</td>
+                                                <td><a href="{{url('/user/assign-permission/edit/'.$index->id)}}">{{$index->name}}</a></td>
                                             </tr>
                                         @endforeach
                                         </tbody>
