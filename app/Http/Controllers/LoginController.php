@@ -37,7 +37,7 @@ class LoginController extends Controller {
                 $user->last_login_time=date('Y-m-d:h:i:s');
                 $user->save();
                 \Session::put('UserID', Auth::user()->id);
-                return Redirect::to(url('client'));
+                return Redirect::to(url('dashboard'));
             }
             return redirect(url('/user/login'))
                 ->withInput($request->only('email', 'remember'))

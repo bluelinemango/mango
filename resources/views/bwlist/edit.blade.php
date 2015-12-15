@@ -159,32 +159,32 @@
                     <!-- END ROW -->
                 </section>
                 <!-- end widget grid -->
-                    <!-- widget grid -->
-                    <section id="widget-grid" class="">
+                <!-- widget grid -->
+                <section id="widget-grid" class="">
 
-                        <!-- row -->
-                        <div class="row">
+                    <!-- row -->
+                    <div class="row">
 
-                            <!-- NEW WIDGET START -->
-                            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <!-- NEW WIDGET START -->
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-                                <table id="jqgrid"></table>
-                                <div id="pjqgrid"></div>
+                            <table id="jqgrid"></table>
+                            <div id="pjqgrid"></div>
 
-                                <br>
-                                <a href="javascript:void(0)" id="m1">Get Selected id's</a>
-                                <br>
-                                <a href="javascript:void(0)" id="m1s">Select(Unselect) row 13</a>
+                            <br>
+                            <a href="javascript:void(0)" id="m1">Get Selected id's</a>
+                            <br>
+                            <a href="javascript:void(0)" id="m1s">Select(Unselect) row 13</a>
 
-                            </article>
-                            <!-- WIDGET END -->
+                        </article>
+                        <!-- WIDGET END -->
 
-                        </div>
+                    </div>
 
-                        <!-- end row -->
+                    <!-- end row -->
 
-                    </section>
-                    <!-- end widget grid -->
+                </section>
+                <!-- end widget grid -->
 
         </div>
         <!-- END MAIN CONTENT -->

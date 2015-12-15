@@ -46,13 +46,13 @@ class User extends Model implements AuthenticatableContract,
      */
     protected $hidden = ['password', 'remember_token'];
 
-    public function posts(){
-        return $this->hasManyThrough('App\Models\Advertiser', 'App\Models\Client', 'user_id', 'client_id');
-    }
     public function role_permission_mapping(){
         return $this->hasMany('App\Models\role_permission','role_id');
     }
 
+    public function getRole(){
+        return $this->belongsTo('App\Models\Role','role_id');
+    }
     public function getCompany(){
         return $this->belongsTo('App\Models\Company','company_id');
     }

@@ -138,6 +138,7 @@
                                                             </select>
                                                         </label>
                                                     </section>
+                                                    @if(\Illuminate\Support\Facades\Auth::user()->role_id==1)
                                                     <section class="col col-3">
                                                         <label for="" class="label">Select Company</label>
                                                         <label class="select"><i></i>
@@ -149,6 +150,16 @@
                                                             </select>
                                                         </label>
                                                     </section>
+                                                    @else
+                                                    <section class="col col-3">
+                                                        <label for="" class="label">Comapny Name</label>
+                                                        <label class="input"><i></i>
+                                                            <input type="text" value="{{$company_obj->getCompany->name}}" disabled/>
+                                                        </label>
+                                                        <input type="hidden" name="company_group" value="{{$company_obj->getCompany->id}}"/>
+                                                    </section>
+
+                                                    @endif
                                                     <section class="col col-3">
                                                         <label for="" class="label">status</label>
                                                         <label class="checkbox">

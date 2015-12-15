@@ -217,6 +217,62 @@ class GeoSegmentController extends Controller
         }
     }
 
+    public function jqgrid(Request $request){
+//        return dd($request->all());
+        if(Auth::check()){
+            if(1==1){    //permission goes here
+                $validate=\Validator::make($request->all(),['name' => 'required','lat' => 'required','lon' => 'required','segment_radius' => 'required',]);
+                if($validate->passes()) {
+                    $chkUser=GeoSegmentList::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->find($request->input('geosegment_id'));
+//                    return dd($chkUser);
+                    if(!is_null($chkUser) and Auth::user()->id == $chkUser->getAdvertiser->GetClientID->user_id) {
+                        switch ($request->input('oper')) {
+                            case 'add':
+                                $geosegment = new GeoSegment();
+                                $geosegment->name = $request->input('name');
+                                $geosegment->lat = $request->input('lat');
+                                $geosegment->lon = $request->input('lon');
+                                $geosegment->segment_radius = $request->input('segment_radius');
+                                $geosegment->geosegmentlist_id = $request->input('geosegment_id');
+                                $geosegment->save();
+                                $geosegment=GeoSegment::where('id',$geosegment->id)->get();
+//                                    return dd($result);
+                                return json_encode($geosegment);
+                                break;
+                            case 'edit':
+                                $geosegmententries = GeoSegment::find($request->input('id'));
+                                $geosegmententries->name = $request->input('name');
+                                $geosegmententries->lat = $request->input('lat');
+                                $geosegmententries->lon = $request->input('lon');
+                                $geosegmententries->segment_radius = $request->input('segment_radius');
+                                $geosegmententries->save();
+                                return 'ok';
+                                break;
+                            case 'del':
+                                GeoSegment::delete($request->input('id'));
+                                return 'ok';
+                                break;
+                        }
+                    }
+
+                }
+                switch ($request->input('oper')) {
+                    case 'del':
+                        $a=explode(',',$request->input('id'));
+                        foreach($a as $index){
+                            GeoSegment::where('id',$index)->delete();
+                        }
+                        return 'ok';
+                        break;
+                }
+                //return print_r($validate->messages());
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+            }
+        }else{
+            return Redirect::to('/user/login');
+        }
+    }
+
     public function index()
     {
         //

@@ -3,7 +3,7 @@
     <div id="logo-group">
 
         <!-- PLACE YOUR LOGO HERE -->
-        <span id="logo"> <img src="{{cdn('img/logo.png')}}" alt="SmartAdmin"> </span>
+        <span id="logo"> <img src="{{cdn('img/logo-white.png')}}" alt="SmartAdmin"> </span>
         <!-- END LOGO PLACEHOLDER -->
 
         <!-- Note: The activity badge color changes when clicked and resets the number to 0
@@ -169,13 +169,13 @@
         <!-- multiple lang dropdown : find all flags in the flags page -->
         <ul class="header-dropdown-list hidden-xs">
             <li>
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img src="img/blank.gif" class="flag flag-us" alt="United States"> <span> English (US) </span> <i class="fa fa-angle-down"></i> </a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img src="{{cdn('img/blank.gif')}}" class="flag flag-us" alt="United States"> <span> English (US) </span> <i class="fa fa-angle-down"></i> </a>
                 <ul class="dropdown-menu pull-right">
                     <li class="active">
-                        <a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-us" alt="United States"> English (US)</a>
+                        <a href="javascript:void(0);"><img src="{{cdn('img/blank.gif')}}" class="flag flag-us" alt="United States"> English (US)</a>
                     </li>
                     <li>
-                        <a href="javascript:void(0);"><img src="img/blank.gif" class="flag flag-fr" alt="France"> Français</a>
+                        <a href="javascript:void(0);"><img src="{{cdn('img/blank.gif')}}" class="flag flag-fr" alt="France"> Français</a>
                     </li>
 
                 </ul>

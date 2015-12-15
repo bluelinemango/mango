@@ -144,6 +144,34 @@
                     <!-- END ROW -->
                 </section>
                 <!-- end widget grid -->
+
+                <!-- widget grid -->
+                <section id="widget-grid" class="">
+
+                    <!-- row -->
+                    <div class="row">
+
+                        <!-- NEW WIDGET START -->
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <table id="jqgrid"></table>
+                            <div id="pjqgrid"></div>
+
+                            <br>
+                            <a href="javascript:void(0)" id="m1">Get Selected id's</a>
+                            <br>
+                            <a href="javascript:void(0)" id="m1s">Select(Unselect) row 13</a>
+
+                        </article>
+                        <!-- WIDGET END -->
+
+                    </div>
+
+                    <!-- end row -->
+
+                </section>
+                <!-- end widget grid -->
+
         </div>
         <!-- END MAIN CONTENT -->
     </div>
@@ -153,12 +181,196 @@
 @endsection
 @section('FooterScripts')
     <!-- PAGE RELATED PLUGIN(S) -->
+    <script src="{{cdn('js/plugin/jqgrid/jquery.jqGrid.min.js')}}"></script>
+    <script src="{{cdn('js/plugin/jqgrid/grid.locale-en.min.js')}}"></script>
+
     <script src="{{cdn('js/plugin/bootstrap-tags/bootstrap-tagsinput.min.js')}}"></script>
 
     <script type="text/javascript">
-
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         $(document).ready(function() {
             pageSetUp();
+
+            var jqgrid_data = [
+                @foreach($geosegment_obj->getGeoEntries as $index)
+                {
+                    id : '{{$index->id}}',
+                    name : '{{$index->name}}',
+                    lat : '{{$index->lat}}',
+                    lon : '{{$index->lon}}',
+                    segment_radius : '{{$index->segment_radius}}',
+                    geosegment_id : '{{$geosegment_obj->id}}',
+                    created_at : '{{$index->created_at}}',
+                    updated_at : '{{$index->updated_at}}'
+                },
+                @endforeach
+            ];
+
+            jQuery("#jqgrid").jqGrid({
+                data : jqgrid_data,
+                datatype : "local",
+                height : 'auto',
+                colNames : ['Actions', 'ID', 'Name','Lat','Lon','Radius','Geo Segment List','created_at','updated_at'],
+                colModel : [{
+                    name : 'act',
+                    index : 'act',
+                    sortable : false
+                }, {
+                    name : 'id',
+                    index : 'id',
+                    hidden: true
+                }, {
+                    name : 'name',
+                    index : 'name',
+                    editable : true
+                }, {
+                    name : 'lat',
+                    index : 'lat',
+                    editable : true
+                }, {
+                    name : 'lon',
+                    index : 'lon',
+                    editable : true
+                }, {
+                    name : 'segment_radius',
+                    index : 'segment_radius',
+                    editable : true
+                }, {
+                    name : 'geosegment_id',
+                    index : 'geosegment_id',
+                    editable : true ,
+                    editoptions: { defaultValue: '{{$geosegment_obj->id}}'},
+                    hidden:true
+                }, {
+                    name : 'created_at',
+                    index : 'created_at',
+                    hidden: true,
+                    editable : false
+                }, {
+                    name : 'updated_at',
+                    index : 'updated_at',
+                    hidden: true,
+                    editable : false
+                }],
+                rowNum : 10,
+                rowList : [10, 20, 30],
+                pager : '#pjqgrid',
+                sortname : 'updated_at',
+                ajaxRowOptions: { async: true },
+                toolbarfilter : true,
+                viewrecords : true,
+                sortorder : "desc",
+                gridComplete : function() {
+                    var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var cl = ids[i];
+                        be = "<button class='btn btn-xs btn-default' data-original-title='Edit Row' onclick=\"jQuery('#jqgrid').editRow('" + cl + "');\"><i class='fa fa-pencil'></i></button>";
+                        se = "<button class='btn btn-xs btn-default' data-original-title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('" + cl + "');\"><i class='fa fa-save'></i></button>";
+                        ca = "<button class='btn btn-xs btn-default' data-original-title='Cancel' onclick=\"jQuery('#jqgrid').restoreRow('" + cl + "');\"><i class='fa fa-times'></i></button>";
+//                        ce = "<button class='btn btn-xs btn-default' onclick=\"jQuery('#jqgrid').restoreRow('"+cl+"');\"><i class='fa fa-times'></i></button>";
+//                        jQuery("#jqgrid").jqGrid('setRowData',ids[i],{act:be+se+ce});
+                        jQuery("#jqgrid").jqGrid('setRowData', ids[i], {
+                            act : be + se + ca
+                        });
+                    }
+                },
+                editurl : "{{url('/geosegment_edit')}}",
+                caption : "SmartAdmin jQgrid Skin1",
+                multiselect : true,
+                autowidth : true
+
+            });
+//            jQuery('#jqgrid').jqGrid('clearGridData');
+//            jQuery('#jqgrid').jqGrid('setGridParam', {data: [{id:2,name:"sss"},{id:3,name:"ddd"}]});
+//            jQuery('#jqgrid').trigger('reloadGrid');
+
+
+            jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {
+                edit : false,
+                add : true,
+                del : true
+            },{
+                afterSubmit:function(response)
+                {
+                    jQuery('#jqgrid').jqGrid('clearGridData');
+                    jQuery('#jqgrid').jqGrid('setGridParam', {data: [{id:2,name:"sss"},{id:3,name:"ddd"}]});
+                    jQuery('#jqgrid').trigger('reloadGrid');
+                    alert('dd');
+                    console.log(response);
+                },
+                closeAfterAdd: true,
+                closeAfterEdit: true,
+                reloadAfterSubmit:true
+            },{
+                afterSubmit:function(response)
+                {
+                    var data = JSON.parse(response['responseText']);
+                    var id = data[0].id;
+                    var name=String(data[0].name);
+                    var lat=String(data[0].lat);
+                    var lon=String(data[0].lon);
+                    var segment_radius=String(data[0].segment_radius);
+                    $("#jqgrid").addRowData(id,{ id: + id ,name:name,lat:lat,lon:lon,segment_radius:segment_radius ,geosegment_id: +data[0].geosegment_id,created_at:data[0].created_at,updated_at:data[0].updated_at }, 'first');
+                    $("#jqgrid").trigger("reloadGrid");
+                },
+                closeAfterAdd: true,
+                closeAfterEdit: true,
+                reloadAfterSubmit:true
+            },{
+                closeAfterAdd: true,
+                closeAfterEdit: true,
+                reloadAfterSubmit:true
+            });
+            jQuery("#jqgrid").jqGrid('inlineNav', "#pjqgrid");
+            /* Add tooltips */
+            $('.navtable .ui-pg-button').tooltip({
+                container : 'body'
+            });
+
+            jQuery("#m1").click(function() {
+                var s;
+                s = jQuery("#jqgrid").jqGrid('getGridParam', 'selarrrow');
+                alert(s);
+            });
+            jQuery("#m1s").click(function() {
+                jQuery("#jqgrid").jqGrid('setSelection', "13");
+            });
+
+            // remove classes
+            $(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
+            $(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
+            $(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
+            $(".ui-jqgrid-pager").removeClass("ui-state-default");
+            $(".ui-jqgrid").removeClass("ui-widget-content");
+
+            // add classes
+            $(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
+            $(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
+
+            $(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
+            $(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
+            $(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
+            $(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
+            $(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
+            $(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
+            $(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
+            $(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
+
+            $(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
+
+            $(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
+
+            $(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
+
+            $(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
 
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
@@ -220,6 +432,9 @@
                     error.insertAfter(element.parent());
                 }
             });
+
+
+
         })
 
     </script>

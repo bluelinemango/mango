@@ -1,5 +1,5 @@
 @include('style.header')
-<body class="">
+<body class="smart-style-1">
         @include('style.head')
         @include('style.nav')
         @yield('content')

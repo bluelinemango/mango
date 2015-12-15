@@ -53,7 +53,7 @@
 <![endif]-->
 
 <!-- Demo purpose only -->
-<script src="{{cdn('js/d1emo.min.js')}}"></script>
+<script src="{{cdn('js/demo.min.js')}}"></script>
 
 <!-- MAIN APP JS FILE -->
 <script src="{{cdn('js/app.min.js')}}"></script>

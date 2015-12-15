@@ -25,9 +25,9 @@ class UsersController extends Controller
     public function GetView(){
         if(Auth::check()) {
             if (Auth::user()->role_id == 1) {
-                $user_obj = User::with('getCompany')->get();
+                $user_obj = User::with('getCompany')->with('getRole')->get();
             } else {
-                $user_obj = User::with('getCompany')->where('company_id', Auth::user()->company_id)->get();
+                $user_obj = User::with('getCompany')->with('getRole')->where('company_id', Auth::user()->company_id)->get();
             }
 //        return dd($user_obj);
             return view('user.user_list')->with('user_obj', $user_obj)->with('permission', \Permission_Check::getPermission());
@@ -47,9 +47,14 @@ class UsersController extends Controller
     }
     public function RegisterView()
     {
-        $role_obj = Role::get();
-        $company_obj=Company::all();
+        if(Auth::user()->role_id==1) {
+            $company_obj = Company::all();
+            $role_obj = Role::get();
+        }else{
+            $company_obj=User::with('getCompany')->find(Auth::user()->id);
+            $role_obj = Role::where('id','>',1)->get();
 
+        }
         return view('user.register')
             ->with('role_obj', $role_obj)
             ->with('company_obj', $company_obj)
@@ -97,9 +102,15 @@ class UsersController extends Controller
         if (!is_null($id)) {
             if (Auth::check()) {
                 if (1 == 1) { // Permission goes here
-                    $user_obj = User::find($id);
-                    $company_obj=Company::all();
-                    $role_obj = Role::get();
+                    $user_obj = User::with('getCompany')->find($id);
+                    if(Auth::user()->role_id==1) {
+                        $company_obj = Company::all();
+                        $role_obj = Role::get();
+                    }else{
+                        $company_obj=User::with('getCompany')->find(Auth::user()->id);
+                        $role_obj = Role::where('id','>',1)->get();
+
+                    }
  //                    return dd($targetgroup_obj);
                     return view('user.edit')
                         ->with('user_obj', $user_obj)
@@ -130,6 +141,9 @@ class UsersController extends Controller
 //        return dd($request->all());
         $validate = \Validator::make($request->all(), User::$rule);
         if ($validate->passes()) {
+            if(Auth::user()->role_id!=1 and $request->input('role_group')==1){
+                return \Redirect::back()->withErrors(['success' => false, 'msg' => 'Plz select correct role']);
+            }
             $user = new User();
             $user_check = User::where('email', '=', $request->input('email'))->first();
             $flg=0;
@@ -143,7 +157,11 @@ class UsersController extends Controller
                 }
                 $user->name = $request->input('name');
                 $user->role_id = $request->input('role_group');
-                $user->company_id = $request->input('company_group');
+                if(Auth::user()->role_id==1) {
+                    $user->company_id = $request->input('company_group');
+                }else{
+                    $user->company_id = Auth::user()->company_id ;
+                }
                 $user->active = $active;
                 $user->email = $request->input('email');
                 $user->password = \Hash::make($request->input('password'));
@@ -210,7 +228,11 @@ class UsersController extends Controller
                     $user->name = $request->input('name');
                     $user->active = $active;
                     $user->role_id = $request->input('role_group');
-                    $user->company_id = $request->input('company_group');
+                    if(Auth::user()->role_id==1) {
+                        $user->company_id = $request->input('company_group');
+                    }else{
+                        $user->company_id =Auth::user()->company_id ;
+                    }
                     $user->email = $request->input('email');
                     if (!is_null($password) and $password!="") {
                         $user->password = Hash::make($password);
@@ -250,7 +272,16 @@ class UsersController extends Controller
             return Redirect::to(url('user/login'));
         }
     }
+    public function GetDashboardView(){
+        if(Auth::check()) {
+            $user_obj=User::with('getRole')->find(Auth::user()->id);
+            return view('dashboard')
+                ->with('user_obj',$user_obj)
+                ->with('permission', \Permission_Check::getPermission());
+        }
+        return Redirect::to(url('user/login'));
 
+    }
     public function index()
     {
         //

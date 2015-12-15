@@ -82,9 +82,9 @@
 
                                     <table id="datatable_tabletools" class="table table-striped table-bordered table-hover" width="100%">
                                         <thead>
-                                        <th>User id</th>
                                         <th>Name</th>
                                         <th>Comapany</th>
+                                        <th>Role</th>
                                         <th>Email</th>
                                         <th>Last Login Time</th>
                                         <th>Status</th>
@@ -94,9 +94,9 @@
                                         <tbody>
                                         @foreach($user_obj as $index)
                                             <tr>
-                                                <td>tg{{$index->id}}</td>
                                                 <td><a href="{{url('user/usr'.$index->id.'/edit')}}">{{$index->name}}</a></td>
                                                 <td>{{$index->getCompany->name}}</td>
+                                                <td>{{$index->getRole->name}}</td>
                                                 <td>{{$index->email}}</td>
                                                 <td>{{$index->last_login_time}}</td>
                                                 @if($index->active==1)

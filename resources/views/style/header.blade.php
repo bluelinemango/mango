@@ -25,14 +25,14 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/your_style.css"> -->
 
     <!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
-    <link rel="stylesheet" type="text/css" media="screen" href="css/demo.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/demo.min.css')}}">
 
     <!-- FAVICONS -->
     <link rel="shortcut icon" href="{{cdn('img/favicon/favicon.ico')}}" type="image/x-icon">
     <link rel="icon" href="{{cdn('img/favicon/favicon.ico')}}" type="image/x-icon">
 
     <!-- GOOGLE FONT -->
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+    <link rel="stylesheet" href="{{cdn('css/google_font.css')}}">
 
     <!-- Specifying a Webpage Icon for Web Clip
          Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->

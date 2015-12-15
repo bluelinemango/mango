@@ -7,11 +7,11 @@
         <!-- RIBBON -->
         <div id="ribbon">
 
-				<span class="ribbon-button-alignment">
-					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
-						<i class="fa fa-refresh"></i>
-					</span>
-				</span>
+            <span class="ribbon-button-alignment">
+                <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+                    <i class="fa fa-refresh"></i>
+                </span>
+            </span>
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
@@ -50,10 +50,10 @@
                 <ul>
                     <li>{{Session::get('CaptchaError')}}</li>
                 </ul>
-                @endif
+            @endif
 
 
-                    <!-- widget grid -->
+                <!-- widget grid -->
                 <section id="widget-grid" class="">
                     <!-- START ROW -->
                     <div class="row">
@@ -170,35 +170,30 @@
                         <!-- END COL -->
                     </div>
                     <!-- END ROW -->
-                </section>
-                <!-- end widget grid -->
-                <!-- widget grid -->
-                <section id="widget-grid" class="">
 
                     <!-- row -->
                     <div class="row">
-
                         <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
+                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false" data-widget-colorbutton="true" data-widget-deletebutton="false" data-widget-fullscreenbutton="false">
                                 <!-- widget options:
-                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
-                            data-widget-colorbutton="false"
-                            data-widget-editbutton="false"
-                            data-widget-togglebutton="false"
-                            data-widget-deletebutton="false"
-                            data-widget-fullscreenbutton="false"
-                            data-widget-custombutton="false"
-                            data-widget-collapsed="true"
-                            data-widget-sortable="false"
+                                    data-widget-colorbutton="false"
+                                    data-widget-editbutton="false"
+                                    data-widget-togglebutton="false"
+                                    data-widget-deletebutton="false"
+                                    data-widget-fullscreenbutton="false"
+                                    data-widget-custombutton="false"
+                                    data-widget-collapsed="true"
+                                    data-widget-sortable="false"
 
-                            -->
+                                -->
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                    <h2>List Of Creative </h2>
+                                    <span class="widget-icon"> <i class="fa fa-arrows-v"></i> </span>
+                                    <h2 class="font-md"><strong>List Of Campaign</strong> </h2>
 
                                 </header>
 
@@ -213,80 +208,9 @@
                                     <!-- end widget edit box -->
 
                                     <!-- widget content -->
-                                    <div class="widget-body no-padding">
+                                    <div class="widget-body">
 
                                         <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
-                                            <thead>
-                                            <tr>
-                                                <th data-hide="phone">ID</th>
-                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Name</th>
-                                                <th data-hide="phone,tablet"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Start Date</th>
-                                                <th data-hide="phone,tablet"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> End Date</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($adver_obj->Creative as $index_crt)
-                                                <tr>
-                                                    <td>crt{{$index_crt->id}}</td>
-                                                    <td><a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/creative/crt'.$index_crt->id.'/edit')}}">{{$index_crt->name}}</a></td>
-                                                    <td>{{$index_crt->start_date}}</td>
-                                                    <td>{{$index_crt->end_date}}</td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-
-                                    </div>
-                                    <!-- end widget content -->
-
-                                </div>
-                                <!-- end widget div -->
-
-                            </div>
-                            <!-- end widget -->
-
-
-                        </article>
-                        <!-- WIDGET END -->
-
-                        <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-1" data-widget-editbutton="false">
-                                <!-- widget options:
-                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                            data-widget-colorbutton="false"
-                            data-widget-editbutton="false"
-                            data-widget-togglebutton="false"
-                            data-widget-deletebutton="false"
-                            data-widget-fullscreenbutton="false"
-                            data-widget-custombutton="false"
-                            data-widget-collapsed="true"
-                            data-widget-sortable="false"
-
-                            -->
-                                <header>
-                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                    <h2>List Of Campaign </h2>
-
-                                </header>
-
-                                <!-- widget div-->
-                                <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
-
-                                    <!-- widget content -->
-                                    <div class="widget-body no-padding">
-
-                                        <table id="dt_basic1" class="table table-striped table-bordered table-hover" width="100%">
                                             <thead>
                                             <tr>
                                                 <th data-hide="phone">ID</th>
@@ -307,6 +231,7 @@
                                             </tbody>
                                         </table>
 
+
                                     </div>
                                     <!-- end widget content -->
 
@@ -321,29 +246,17 @@
                         <!-- WIDGET END -->
 
                     </div>
+
                     <div class="row">
 
                         <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-2" data-widget-editbutton="false">
-                                <!-- widget options:
-                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                            data-widget-colorbutton="false"
-                            data-widget-editbutton="false"
-                            data-widget-togglebutton="false"
-                            data-widget-deletebutton="false"
-                            data-widget-fullscreenbutton="false"
-                            data-widget-custombutton="false"
-                            data-widget-collapsed="true"
-                            data-widget-sortable="false"
-
-                            -->
+                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-1" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" data-widget-collapsed="true">
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                    <h2>List Of Models </h2>
+                                    <span class="widget-icon"> <i class="fa fa-arrows-v"></i> </span>
+                                    <h2 class="font-md"><strong>List Of Creative</strong> </h2>
 
                                 </header>
 
@@ -358,7 +271,64 @@
                                     <!-- end widget edit box -->
 
                                     <!-- widget content -->
-                                    <div class="widget-body no-padding">
+                                    <div class="widget-body">
+
+                                        <table id="dt_basic1" class="table table-striped table-bordered table-hover" width="100%">
+                                            <thead>
+                                            <tr>
+                                                <th >ID</th>
+                                                <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Name</th>
+                                                <th><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Date Of Modify</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($adver_obj->Creative as $index_crt)
+                                                <tr>
+                                                    <td>crt{{$index_crt->id}}</td>
+                                                    <td><a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/creative/crt'.$index_crt->id.'/edit')}}">{{$index_crt->name}}</a></td>
+                                                    <td>{{$index_crt->updated_at}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- end widget content -->
+
+                                </div>
+                                <!-- end widget div -->
+
+                            </div>
+                            <!-- end widget -->
+
+
+                        </article>
+                        <!-- WIDGET END -->
+                    </div>
+                    <div class="row">
+
+                        <!-- NEW WIDGET START -->
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-2" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" data-widget-collapsed="true">
+                                <header>
+                                    <span class="widget-icon"> <i class="fa fa-arrows-v"></i> </span>
+                                    <h2 class="font-md"><strong>List Of Models</strong> </h2>
+
+                                </header>
+
+                                <!-- widget div-->
+                                <div>
+
+                                    <!-- widget edit box -->
+                                    <div class="jarviswidget-editbox">
+                                        <!-- This area used as dropdown edit box -->
+
+                                    </div>
+                                    <!-- end widget edit box -->
+
+                                    <!-- widget content -->
+                                    <div class="widget-body">
 
                                         <table id="dt_basic2" class="table table-striped table-bordered table-hover" width="100%">
                                             <thead>
@@ -378,7 +348,6 @@
                                             @endforeach
                                             </tbody>
                                         </table>
-
                                     </div>
                                     <!-- end widget content -->
 
@@ -391,28 +360,17 @@
 
                         </article>
                         <!-- WIDGET END -->
+                    </div>
+                    <div class="row">
 
                         <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-3" data-widget-editbutton="false">
-                                <!-- widget options:
-                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                            data-widget-colorbutton="false"
-                            data-widget-editbutton="false"
-                            data-widget-togglebutton="false"
-                            data-widget-deletebutton="false"
-                            data-widget-fullscreenbutton="false"
-                            data-widget-custombutton="false"
-                            data-widget-collapsed="true"
-                            data-widget-sortable="false"
-
-                            -->
+                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-3" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" data-widget-collapsed="true">
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                    <h2>List Of Black White List </h2>
+                                    <span class="widget-icon"> <i class="fa fa-arrows-v"></i> </span>
+                                    <h2 class="font-md"><strong>List Of Black White List </strong> </h2>
 
                                 </header>
 
@@ -427,7 +385,7 @@
                                     <!-- end widget edit box -->
 
                                     <!-- widget content -->
-                                    <div class="widget-body no-padding">
+                                    <div class="widget-body">
 
                                         <table id="dt_basic3" class="table table-striped table-bordered table-hover" width="100%">
                                             <thead>
@@ -447,13 +405,11 @@
                                             @endforeach
                                             </tbody>
                                         </table>
-
                                     </div>
                                     <!-- end widget content -->
 
                                 </div>
                                 <!-- end widget div -->
-
                             </div>
                             <!-- end widget -->
 
@@ -466,26 +422,13 @@
                     <div class="row">
 
                         <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-4" data-widget-editbutton="false">
-                                <!-- widget options:
-                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                            data-widget-colorbutton="false"
-                            data-widget-editbutton="false"
-                            data-widget-togglebutton="false"
-                            data-widget-deletebutton="false"
-                            data-widget-fullscreenbutton="false"
-                            data-widget-custombutton="false"
-                            data-widget-collapsed="true"
-                            data-widget-sortable="false"
-
-                            -->
+                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-4" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" data-widget-collapsed="true">
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                    <h2>List Of Geo Segment List </h2>
+                                    <span class="widget-icon"> <i class="fa fa-arrows-v"></i> </span>
+                                    <h2 class="font-md"><strong>List Of Geo Segment List </strong> </h2>
 
                                 </header>
 
@@ -500,7 +443,7 @@
                                     <!-- end widget edit box -->
 
                                     <!-- widget content -->
-                                    <div class="widget-body no-padding">
+                                    <div class="widget-body">
 
                                         <table id="dt_basic4" class="table table-striped table-bordered table-hover" width="100%">
                                             <thead>
@@ -520,25 +463,18 @@
                                             @endforeach
                                             </tbody>
                                         </table>
-
                                     </div>
                                     <!-- end widget content -->
 
                                 </div>
                                 <!-- end widget div -->
-
                             </div>
                             <!-- end widget -->
-
-
                         </article>
                         <!-- WIDGET END -->
-
                     </div>
                     <!-- end row -->
-
                     <!-- end row -->
-
                 </section>
                 <!-- end widget grid -->
 
@@ -655,112 +591,115 @@
 
 
     <script>
-        /* BASIC ;*/
-        var responsiveHelper_dt_basic = undefined;
-        var responsiveHelper_dt_basic1 = undefined;
-        var responsiveHelper_dt_basic2 = undefined;
-        var responsiveHelper_dt_basic3 = undefined;
-        var responsiveHelper_dt_basic4 = undefined;
-        var responsiveHelper_datatable_fixed_column = undefined;
-        var responsiveHelper_datatable_col_reorder = undefined;
-        var responsiveHelper_datatable_tabletools = undefined;
+        $(document).ready(function () {
+            pageSetUp();
 
-        var breakpointDefinition = {
-            tablet : 1024,
-            phone : 480
-        };
+            /* BASIC ;*/
+            var responsiveHelper_dt_basic = undefined;
+            var responsiveHelper_dt_basic1 = undefined;
+            var responsiveHelper_dt_basic2 = undefined;
+            var responsiveHelper_dt_basic3 = undefined;
+            var responsiveHelper_dt_basic4 = undefined;
+            var responsiveHelper_datatable_fixed_column = undefined;
+            var responsiveHelper_datatable_col_reorder = undefined;
+            var responsiveHelper_datatable_tabletools = undefined;
 
-        $('#dt_basic').dataTable({
-            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
-            "t"+
-            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-            "autoWidth" : true,
-            "preDrawCallback" : function() {
-                // Initialize the responsive datatables helper once.
-                if (!responsiveHelper_dt_basic) {
-                    responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
-                }
-            },
-            "rowCallback" : function(nRow) {
-                responsiveHelper_dt_basic.createExpandIcon(nRow);
-            },
-            "drawCallback" : function(oSettings) {
-                responsiveHelper_dt_basic.respond();
-            }
-        });
-        $('#dt_basic1').dataTable({
-            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
-            "t"+
-            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-            "autoWidth" : true,
-            "preDrawCallback" : function() {
-                // Initialize the responsive datatables helper once.
-                if (!responsiveHelper_dt_basic1) {
-                    responsiveHelper_dt_basic1 = new ResponsiveDatatablesHelper($('#dt_basic1'), breakpointDefinition);
-                }
-            },
-            "rowCallback" : function(nRow) {
-                responsiveHelper_dt_basic1.createExpandIcon(nRow);
-            },
-            "drawCallback" : function(oSettings) {
-                responsiveHelper_dt_basic1.respond();
-            }
-        });
-        $('#dt_basic2').dataTable({
-            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
-            "t"+
-            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-            "autoWidth" : true,
-            "preDrawCallback" : function() {
-                // Initialize the responsive datatables helper once.
-                if (!responsiveHelper_dt_basic2) {
-                    responsiveHelper_dt_basic2 = new ResponsiveDatatablesHelper($('#dt_basic2'), breakpointDefinition);
-                }
-            },
-            "rowCallback" : function(nRow) {
-                responsiveHelper_dt_basic2.createExpandIcon(nRow);
-            },
-            "drawCallback" : function(oSettings) {
-                responsiveHelper_dt_basic2.respond();
-            }
-        });
-        $('#dt_basic3').dataTable({
-            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
-            "t"+
-            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-            "autoWidth" : true,
-            "preDrawCallback" : function() {
-                // Initialize the responsive datatables helper once.
-                if (!responsiveHelper_dt_basic3) {
-                    responsiveHelper_dt_basic3 = new ResponsiveDatatablesHelper($('#dt_basic3'), breakpointDefinition);
-                }
-            },
-            "rowCallback" : function(nRow) {
-                responsiveHelper_dt_basic3.createExpandIcon(nRow);
-            },
-            "drawCallback" : function(oSettings) {
-                responsiveHelper_dt_basic3.respond();
-            }
-        });
-        $('#dt_basic4').dataTable({
-            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
-            "t"+
-            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-            "autoWidth" : true,
-            "preDrawCallback" : function() {
-                // Initialize the responsive datatables helper once.
-                if (!responsiveHelper_dt_basic4) {
-                    responsiveHelper_dt_basic4 = new ResponsiveDatatablesHelper($('#dt_basic4'), breakpointDefinition);
-                }
-            },
-            "rowCallback" : function(nRow) {
-                responsiveHelper_dt_basic4.createExpandIcon(nRow);
-            },
-            "drawCallback" : function(oSettings) {
-                responsiveHelper_dt_basic4.respond();
-            }
-        });
+            var breakpointDefinition = {
+                tablet : 1024,
+                phone : 480
+            };
 
+            $('#dt_basic').dataTable({
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
+                "t"+
+                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+                "autoWidth" : true,
+                "preDrawCallback" : function() {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_dt_basic) {
+                        responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
+                    }
+                },
+                "rowCallback" : function(nRow) {
+                    responsiveHelper_dt_basic.createExpandIcon(nRow);
+                },
+                "drawCallback" : function(oSettings) {
+                    responsiveHelper_dt_basic.respond();
+                }
+            });
+            $('#dt_basic1').dataTable({
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
+                "t"+
+                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+                "autoWidth" : true,
+                "preDrawCallback" : function() {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_dt_basic1) {
+                        responsiveHelper_dt_basic1 = new ResponsiveDatatablesHelper($('#dt_basic1'), breakpointDefinition);
+                    }
+                },
+                "rowCallback" : function(nRow) {
+                    responsiveHelper_dt_basic1.createExpandIcon(nRow);
+                },
+                "drawCallback" : function(oSettings) {
+                    responsiveHelper_dt_basic1.respond();
+                }
+            });
+            $('#dt_basic2').dataTable({
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
+                "t"+
+                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+                "autoWidth" : true,
+                "preDrawCallback" : function() {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_dt_basic2) {
+                        responsiveHelper_dt_basic2 = new ResponsiveDatatablesHelper($('#dt_basic2'), breakpointDefinition);
+                    }
+                },
+                "rowCallback" : function(nRow) {
+                    responsiveHelper_dt_basic2.createExpandIcon(nRow);
+                },
+                "drawCallback" : function(oSettings) {
+                    responsiveHelper_dt_basic2.respond();
+                }
+            });
+            $('#dt_basic3').dataTable({
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
+                "t"+
+                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+                "autoWidth" : true,
+                "preDrawCallback" : function() {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_dt_basic3) {
+                        responsiveHelper_dt_basic3 = new ResponsiveDatatablesHelper($('#dt_basic3'), breakpointDefinition);
+                    }
+                },
+                "rowCallback" : function(nRow) {
+                    responsiveHelper_dt_basic3.createExpandIcon(nRow);
+                },
+                "drawCallback" : function(oSettings) {
+                    responsiveHelper_dt_basic3.respond();
+                }
+            });
+            $('#dt_basic4').dataTable({
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
+                "t"+
+                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+                "autoWidth" : true,
+                "preDrawCallback" : function() {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_dt_basic4) {
+                        responsiveHelper_dt_basic4 = new ResponsiveDatatablesHelper($('#dt_basic4'), breakpointDefinition);
+                    }
+                },
+                "rowCallback" : function(nRow) {
+                    responsiveHelper_dt_basic4.createExpandIcon(nRow);
+                },
+                "drawCallback" : function(oSettings) {
+                    responsiveHelper_dt_basic4.respond();
+                }
+            });
+        });
         /* END BASIC */
 
 
