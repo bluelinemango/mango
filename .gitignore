@@ -3,3 +3,13 @@
 Homestead.yaml
 Homestead.json
 .env
+.gitignore
+.idea/*
+.idea/encodings.xml
+.idea/mango_new.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/php.xml
+.idea/scopes/scope_settings.xml
+.idea/vcs.xml
+.idea/workspace.xml
