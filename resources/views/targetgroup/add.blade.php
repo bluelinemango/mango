@@ -1,5 +1,14 @@
 @extends('Layout')
 @section('siteTitle')Add Target Group @endsection
+@section('header_extra')
+    <style>
+        td>span{
+            color: #3ca319;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+@endsection
 @section('content')
     <!-- MAIN PANEL -->
     <div id="main" role="main">
@@ -111,7 +120,7 @@
                                                         </li>
                                                         <li data-target="#step4">
                                                             <a href="#tab4" data-toggle="tab"> <span
-                                                                        class="step">4</span> <span class="title">Save Form</span>
+                                                                        class="step">4</span> <span class="title">Bid Setting</span>
                                                             </a>
                                                         </li>
                                                         <li data-target="#step5">
@@ -176,21 +185,15 @@
                                                                     <!-- widget content -->
                                                                     <div class="widget-body">
 
-                                                                        <p>
-                                                                            Tabs inside
-                                                                            <code>
-                                                                                .jarviswidget .well
-                                                                            </code>
-                                                                            (Bordered Tabs)
-                                                                        </p>
-                                                                        <hr class="simple">
-
-
                                                                         <div id="myTabContent1"
                                                                              class="tab-content padding-10">
                                                                             <div class="tab-pane fade in active"
                                                                                  id="s1">
 
+                                                                                <p>
+                                                                                    General Information
+                                                                                </p>
+                                                                                <hr class="simple">
                                                                                 <div class="row">
                                                                                     <div class="col-sm-3">
                                                                                         <div class="form-group">
@@ -269,7 +272,10 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-
+                                                                                <p>
+                                                                                    Budget Information
+                                                                                </p>
+                                                                                <hr class="simple">
                                                                                 <div class="row">
                                                                                     <div class="col-sm-3">
                                                                                         <div class="form-group">
@@ -372,6 +378,11 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
+                                                                                <p>
+                                                                                    Time Information
+                                                                                </p>
+                                                                                <hr class="simple">
+
                                                                                 <div class="row">
                                                                                     <div class="col-sm-3">
                                                                                         <div class="form-group">
@@ -423,7 +434,7 @@
                                                     <div class="tab-pane" id="tab2">
                                                         <br>
 
-                                                        <h3><strong>Step 4</strong> - CONFIGURATION</h3>
+                                                        <h3><strong>Step 2</strong> - CONFIGURATION</h3>
                                                         <!-- NEW WIDGET START -->
                                                         <article class="col-sm-12 col-md-12 col-lg-12">
 
@@ -470,14 +481,6 @@
                                                                     <!-- widget content -->
                                                                     <div class="widget-body">
 
-                                                                        <p>
-                                                                            Tabs inside
-                                                                            <code>
-                                                                                .jarviswidget .well
-                                                                            </code>
-                                                                            (Bordered Tabs)
-                                                                        </p>
-                                                                        <hr class="simple">
                                                                         <ul id="myTab1" class="nav nav-tabs bordered">
                                                                             <li class="active">
                                                                                 <a href="#v1" data-toggle="tab">Set Geo
@@ -531,7 +534,7 @@
                                                                                 <div class="row">
                                                                                     <div class="col-sm-12">
                                                                                         <!-- widget content -->
-                                                                                        <div class="widget-body">
+                                                                                        <div class="widget-body assign_creative">
 
                                                                                             <select multiple="multiple"
                                                                                                     size="10"
@@ -616,7 +619,7 @@
                                                                                                      class="panel-collapse collapse">
                                                                                                     <div class="panel-body">
                                                                                                         <!-- widget content -->
-                                                                                                        <div class="widget-body">
+                                                                                                        <div class="widget-body" id="whitelist_select">
 
                                                                                                             <select multiple="multiple"
                                                                                                                     size="10"
@@ -1016,7 +1019,7 @@
                                                     <div class="tab-pane" id="tab4">
                                                         <br>
 
-                                                        <h3><strong>Step 2</strong> - BID BY HOUR</h3>
+                                                        <h3><strong>Step 4</strong> - BID BY HOUR</h3>
 
                                                         <!-- NEW WIDGET START -->
                                                         <article class="col-sm-12 col-md-12 col-lg-12">
@@ -1064,14 +1067,6 @@
                                                                     <!-- widget content -->
                                                                     <div class="widget-body">
 
-                                                                        <p>
-                                                                            Tabs inside
-                                                                            <code>
-                                                                                .jarviswidget .well
-                                                                            </code>
-                                                                            (Bordered Tabs)
-                                                                        </p>
-                                                                        <hr class="simple">
                                                                         <ul id="myTab1" class="nav nav-tabs bordered">
                                                                             <li class="active">
                                                                                 <a href="#t1" data-toggle="tab">AM</a>
@@ -1717,16 +1712,68 @@
                                                     <div class="tab-pane" id="tab5">
                                                         <br>
 
-                                                        <h3><strong>Step 5</strong> - Save Form</h3>
+                                                        <h3><strong>Step 5</strong> - Review And Submit</h3>
                                                         <br>
-
-                                                        <div class="row" id="step1_review">
-
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <h2>Step 1</h2>
+                                                                <table class="table table-bordered table-responsive">
+                                                                    <tr>
+                                                                        <td>name: <span id="rev_name"></span></td>
+                                                                        <td>IAB Cat: <span id="rev_iab"></span></td>
+                                                                        <td>Sub IAB cat: <span id="rev_sub_iab"></span></td>
+                                                                        <td>Domain name: <span id="rev_domain_name"></span></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Max Impressions: <span id="rev_max_imp"></span></td>
+                                                                        <td>Daily max imp: <span id="rev_daily_max_imp"></span></td>
+                                                                        <td>Max budget: <span id="rev_max_budget"></span></td>
+                                                                        <td>Daily Max budget: <span id="rev_daily_max_budget"></span></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Frequency in sec: <span id="rev_frequency_in_sec"></span></td>
+                                                                        <td>Max CPM: <span id="rev_cpm"></span></td>
+                                                                        <td colspan="2">Pacing plan: <span id="rev_pacing_plan"></span></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="2">Start Date: <span id="rev_start_date"></span></td>
+                                                                        <td colspan="2">End Date: <span id="rev_end_date"></span></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
                                                         </div>
-                                                        <h1 class="text-center text-success"><strong><i
-                                                                        class="fa fa-check fa-lg"></i> Complete</strong>
-                                                        </h1>
-                                                        <input type="submit" value="SUBMIT"/>
+                                                        <hr/>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <h2>Step 2</h2>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <h3>Assigned Creative</h3>
+                                                                <table class="table table-bordered table-responsive">
+                                                                    <tr>
+                                                                        <td><span id="rev_assign_creative"></span></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <h3>Assigned Black/White List <span id="rev_bwlist"></span></h3>
+                                                                <table class="table table-bordered table-responsive">
+                                                                    <tr>
+                                                                        <td><span id="rev_assign_bwlist"></span></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <h3>Assigned Geo Segment</h3>
+                                                                <table class="table table-bordered table-responsive">
+                                                                    <tr>
+                                                                        <td><span id="rev_assign_geosegment"></span></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <hr/>
+                                                        <input class="btn btn-success" type="submit" value="SUBMIT"/>
                                                         <br>
                                                         <br>
                                                     </div>
@@ -1786,8 +1833,10 @@
     <!-- END MAIN PANEL -->
 @endsection
 @section('FooterScripts')
-    <script src="{{cdn('js/plugin/bootstrap-duallistbox/jquery.bootstrap-duallistbox.min.js')}}"></script>
 
+    <script src="{{cdn('js/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js')}}"></script>
+    <script src="{{cdn('js/plugin/fuelux/wizard/wizard.min.js')}}"></script>
+    <script src="{{cdn('js/plugin/bootstrap-duallistbox/jquery.bootstrap-duallistbox.min.js')}}"></script>
     <script>
         $.ajaxSetup({
             headers: {
@@ -1809,8 +1858,42 @@
             });
         }
         function setReview() {
+            $('#rev_assign_creative').html('');
+            $('#rev_assign_bwlist').html('');
+            $('#rev_assign_geosegment').html('');
+            $('#rev_bwlist').html('');
+            $('#selected-list_creative').find('option').each(function() {
+                $('#rev_assign_creative').append($(this).html() + '<br>');
+            });
+            if($('#selected-list_blacklist').find('option').length>0) {
+                $('#rev_bwlist').html('(Black List)');
+                $('#selected-list_blacklist').find('option').each(function () {
+                    $('#rev_assign_bwlist').append($(this).html() + '<br>');
+                });
+            }else if($('#selected-list_whitelist').find('option').length>0){
+                $('#rev_bwlist').html('(White List)');
+                $('#selected-list_whitelist').find('option').each(function () {
+                    $('#rev_assign_bwlist').append($(this).html() + '<br>');
+                });
+
+            }
+            $('#selected-list_geosegment').find('option').each(function() {
+                $('#rev_assign_geosegment').append($(this).html() + '<br>');
+            });
             console.log($('#initializeDuallistbox'));
-            $('#step1_review').html('name of target group:' + $('#name').val());
+            $('#rev_name').html($('#name').val());
+            $('#rev_domain_name').html($('#nameadvertiser_domain_name').val());
+            $('#rev_max_imp').html($('#max_impression').val());
+            $('#rev_daily_max_imp').html($('#daily_max_impression').val());
+            $('#rev_max_budget').html($('#max_budget').val());
+            $('#rev_daily_max_budget').html($('#daily_max_budget').val());
+            $('#rev_frequency_in_sec').html($('#frequency_in_sec').val());
+            $('#rev_cpm').html($('#cpm').val());
+            $('#rev_pacing_plan').html($('#pacing_plan').val());
+            $('#rev_start_date').html($('#startdate').val());
+            $('#rev_end_date').html($('#finishdate').val());
+//            $('#rev_').html($('#name').val());
+
         }
         function taggleBWList(type){
             if(type == 'blacklist'){
@@ -1820,8 +1903,8 @@
                 }
             }
             if(type == 'whitelist'){
-                var conf = confirm('are u sure?');
-                if(conf){
+                var conf1 = confirm('are u sure remove all Black list that u selected?');
+                if(conf1){
                     jQuery('#blacklist_select .removeall').click();
                 }
             }
@@ -1834,162 +1917,62 @@
             pageSetUp();
 
 
-            var $registerForm = $("#smart-form-register").validate({
-
-                // Rules for form validation
-                rules: {
-                    username: {
-                        required: true
-                    },
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    password: {
-                        required: true,
-                        minlength: 3,
-                        maxlength: 20
-                    },
-                    passwordConfirm: {
-                        required: true,
-                        minlength: 3,
-                        maxlength: 20,
-                        equalTo: '#password'
-                    },
-                    firstname: {
-                        required: true
-                    },
-                    lastname: {
-                        required: true
-                    },
-                    gender: {
-                        required: true
-                    },
-                    terms: {
-                        required: true
-                    }
-                },
-
-                // Messages for form validation
-                messages: {
-                    login: {
-                        required: 'Please enter your login'
-                    },
-                    email: {
-                        required: 'Please enter your email address',
-                        email: 'Please enter a VALID email address'
-                    },
-                    password: {
-                        required: 'Please enter your password'
-                    },
-                    passwordConfirm: {
-                        required: 'Please enter your password one more time',
-                        equalTo: 'Please enter the same password as above'
-                    },
-                    firstname: {
-                        required: 'Please select your first name'
-                    },
-                    lastname: {
-                        required: 'Please select your last name'
-                    },
-                    gender: {
-                        required: 'Please select your gender'
-                    },
-                    terms: {
-                        required: 'You must agree with Terms and Conditions'
-                    }
-                },
-
-                // Do not change code below
-                errorPlacement: function (error, element) {
-                    error.insertAfter(element.parent());
-                }
-            });
-
-            // START AND FINISH DATE
-            $('#startdate').datepicker({
-                dateFormat: 'dd.mm.yy',
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                onSelect: function (selectedDate) {
-                    $('#finishdate').datepicker('option', 'minDate', selectedDate);
-                }
-            });
-
-            $('#finishdate').datepicker({
-                dateFormat: 'dd.mm.yy',
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                onSelect: function (selectedDate) {
-                    $('#startdate').datepicker('option', 'maxDate', selectedDate);
-                }
-            });
-
-            var initializeDuallistbox = $('#initializeDuallistbox').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
-            });
-            var initializeDuallistbox_blacklist = $('#initializeDuallistbox_blacklist').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
-            });
-            var initializeDuallistbox_whitelist = $('#initializeDuallistbox_whitelist').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
-            });
-            var initializeDuallistbox_creative = $('#initializeDuallistbox_creative').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
-            });
-
             var $validator = $("#wizard-1").validate({
 
                 rules: {
-                    email: {
-                        required: true,
-                        email: "Your email address must be in the format of name@domain.com"
-                    },
-                    fname: {
+                    name: {
                         required: true
                     },
-                    lname: {
+                    advertiser_domain_name: {
+                        required: true,
+                        url:"site url like: www.yourdomain.com"
+                    },
+                    iab_sub_category: {
                         required: true
                     },
-                    country: {
+                    max_impression: {
                         required: true
                     },
-                    city: {
+                    daily_max_impression: {
+                        required: true ,
+                        number : 'Enter number Plz'
+                    },
+                    max_budget: {
+                        required: true ,
+                        number : 'Enter number Plz'
+                    },
+                    daily_max_budget: {
+                        required: true,
+                        minlength: 2   ,
+                        number : 'Enter number Plz'
+                    },
+                    frequency_in_sec: {
+                        required: true,
+                        minlength: 2,
+                        number : 'Enter number Plz'
+                    },
+                    cpm: {
+                        required: true,
+                        minlength: 2,
+                        number : 'Enter number Plz'
+                    },
+                    pacing_plan: {
+                        required: true,
+                        minlength: 2,
+                        number : 'Enter number Plz'
+                    },
+                    startdate: {
                         required: true
                     },
-                    postal: {
-                        required: true,
-                        minlength: 4
-                    },
-                    wphone: {
-                        required: true,
-                        minlength: 10
-                    },
-                    hphone: {
-                        required: true,
-                        minlength: 10
+                    finishdate: {
+                        required: true
                     }
                 },
 
                 messages: {
                     fname: "Please specify your First name",
                     lname: "Please specify your Last name",
+                    advertiser_domain_name: "Your site must be in the format of http://www.yourdomian.com",
                     email: {
                         required: "We need your email address to contact you",
                         email: "Your email address must be in the format of name@domain.com"
@@ -2028,23 +2011,54 @@
                     }
                 }
             });
-
-
-            // fuelux wizard
-            var wizard = $('.wizard').wizard();
-
-            wizard.on('finished', function (e, data) {
-                //$("#fuelux-wizard").submit();
-                //console.log("submitted!");
-                $.smallBox({
-                    title: "Congratulations! Your form was submitted",
-                    content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-                    color: "#5F895F",
-                    iconSmall: "fa fa-check bounce animated",
-                    timeout: 4000
-                });
-
+            var initializeDuallistbox = $('#initializeDuallistbox').bootstrapDualListbox({
+                nonSelectedListLabel: 'Non-selected',
+                selectedListLabel: 'Selected',
+                preserveSelectionOnMove: 'moved',
+                moveOnSelect: false,
+                nonSelectedFilter: ''
             });
+            var initializeDuallistbox_blacklist = $('#initializeDuallistbox_blacklist').bootstrapDualListbox({
+                nonSelectedListLabel: 'Non-selected',
+                selectedListLabel: 'Selected',
+                preserveSelectionOnMove: 'moved',
+                moveOnSelect: false,
+                nonSelectedFilter: ''
+            });
+            var initializeDuallistbox_whitelist = $('#initializeDuallistbox_whitelist').bootstrapDualListbox({
+                nonSelectedListLabel: 'Non-selected',
+                selectedListLabel: 'Selected',
+                preserveSelectionOnMove: 'moved',
+                moveOnSelect: false,
+                nonSelectedFilter: ''
+            });
+            var initializeDuallistbox_creative = $('#initializeDuallistbox_creative').bootstrapDualListbox({
+                nonSelectedListLabel: 'Non-selected',
+                selectedListLabel: 'Selected',
+                preserveSelectionOnMove: 'moved',
+                moveOnSelect: false,
+                nonSelectedFilter: ''
+            });
+
+            // START AND FINISH DATE
+            $('#startdate').datepicker({
+                dateFormat: 'dd.mm.yy',
+                prevText: '<i class="fa fa-chevron-left"></i>',
+                nextText: '<i class="fa fa-chevron-right"></i>',
+                onSelect: function (selectedDate) {
+                    $('#finishdate').datepicker('option', 'minDate', selectedDate);
+                }
+            });
+
+            $('#finishdate').datepicker({
+                dateFormat: 'dd.mm.yy',
+                prevText: '<i class="fa fa-chevron-left"></i>',
+                nextText: '<i class="fa fa-chevron-right"></i>',
+                onSelect: function (selectedDate) {
+                    $('#startdate').datepicker('option', 'maxDate', selectedDate);
+                }
+            });
+
 
 
         })
