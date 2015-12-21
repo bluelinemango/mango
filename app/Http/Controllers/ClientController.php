@@ -105,6 +105,48 @@ class ClientController extends Controller
         }
     }
 
+    public function jqgrid(Request $request){
+//        return dd($request->all());
+        if(Auth::check()){
+            if(1==1){    //permission goes here
+                $validate=\Validator::make($request->all(),['name' => 'required']);
+                if($validate->passes()) {
+                    switch ($request->input('oper')) {
+                        case 'add':
+                            $client=new Client();
+                            $client->name=$request->input('name');
+                            $client->user_id=Auth::user()->id;
+                            $client->save();
+                            $client_obj=Client::where('id',$client->id)->get();
+//                                    return dd($result);
+                            return json_encode($client_obj);
+                            break;
+                        case 'edit':
+                            $client_id = $request->input('id');
+                            $client=Client::find($client_id);
+                            if($client){
+                                $client->name=$request->input('name');
+                                $client->save();
+                                return 'ok';
+                            }
+                            break;
+                        case 'del':
+//                            BWEntries::delete($request->input('id'));
+//                            return 'ok';
+//                            break;
+                    }
+
+
+                }
+                //return print_r($validate->messages());
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+            }
+        }else{
+            return Redirect::to('/user/login');
+        }
+    }
+
+
 
     public function index()
     {

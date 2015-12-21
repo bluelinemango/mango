@@ -273,6 +273,41 @@ class GeoSegmentController extends Controller
         }
     }
 
+    public function jqgridList(Request $request){
+//        return dd($request->all());
+        if(Auth::check()){
+            if(1==1){    //permission goes here
+                $validate=\Validator::make($request->all(),['name' => 'required']);
+                if($validate->passes()) {
+                    $geolist_id=substr($request->input('id'),3);
+//                    return dd($model_id);
+                    $chkUser=GeoSegmentList::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->where('id',$geolist_id)->get();
+                    if(!is_null($chkUser) and Auth::user()->id == $chkUser[0]->getAdvertiser->GetClientID->user_id) {
+                        switch ($request->input('oper')) {
+                            case 'edit':
+                                $geolist=GeoSegmentList::find($geolist_id);
+                                if($geolist){
+                                    $geolist->name=$request->input('name');
+                                    $geolist->save();
+                                    return "ok";
+                                }
+                                return "false";
+                                break;
+                        }
+                    }
+                    return "invalid Black/White List  ID";
+
+                }
+                //return print_r($validate->messages());
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+            }
+        }else{
+            return Redirect::to('/user/login');
+        }
+    }
+
+
+
     public function index()
     {
         //

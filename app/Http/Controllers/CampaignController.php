@@ -156,6 +156,41 @@ class CampaignController extends Controller
             return Redirect::to(url('/user/login'));
         }
     }
+    public function jqgrid(Request $request){
+//        return dd($request->all());
+        if(Auth::check()){
+            if(1==1){    //permission goes here
+                $validate=\Validator::make($request->all(),['name' => 'required']);
+                if($validate->passes()) {
+                    $camp_id=substr($request->input('id'),3);
+                    $chkUser=Campaign::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->where('id',$camp_id)->get();
+//                    return dd($chkUser[0]->getAdvertiser->GetClientID->user_id);
+                    if(!is_null($chkUser) and Auth::user()->id == $chkUser[0]->getAdvertiser->GetClientID->user_id) {
+                        switch ($request->input('oper')) {
+                            case 'edit':
+                                $campaign=Campaign::find($camp_id);
+                                if($campaign){
+                                    $campaign->name=$request->input('name');
+                                    $campaign->max_impression=$request->input('max_imp');
+                                    $campaign->max_budget=$request->input('max_budget');
+                                    $campaign->save();
+                                    return "ok";
+                                }
+                                return "false";
+                                break;
+                        }
+                    }
+                    return "invalid campaign ID";
+
+                }
+                //return print_r($validate->messages());
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+            }
+        }else{
+            return Redirect::to('/user/login');
+        }
+    }
+
     public function index()
     {
         //

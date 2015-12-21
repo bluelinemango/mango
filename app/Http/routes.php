@@ -118,3 +118,19 @@ Route::post('/ajax/client_list', 'ClientController@jqgrid');
 Route::post('/test', 'BWListController@jqgrid');
 Route::post('/geosegment_edit', 'GeoSegmentController@jqgrid');
 Route::get('/get_iab_sub_category/{id?}', ['uses'=>'TargetgroupController@Iab_Category','as'=>'get_iab_sub_category']);
+
+
+Route::group(['prefix' => 'ajax'], function()
+{
+    Route::group(['prefix' => 'jqgrid'], function() {
+        Route::post('/client', 'ClientController@jqgrid');
+        Route::post('/advertiser', 'AdvertiserController@jqgrid');
+        Route::post('/campaign', 'CampaignController@jqgrid');
+        Route::post('/creative', 'CreativeController@jqgrid');
+        Route::post('/model', 'ModelController@jqgrid');
+        Route::post('/bwlist', 'BWListController@jqgridList');
+        Route::post('/geolist', 'GeoSegmentController@jqgridList');
+    });
+//    Route::resource('features','FeatureController');
+});
+

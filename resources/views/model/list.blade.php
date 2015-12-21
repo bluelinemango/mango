@@ -222,7 +222,7 @@
                         });
                     }
                 },
-                editurl : "{{url('/ajax/jqgrid/targetgroup')}}",
+                editurl : "{{url('/ajax/jqgrid/model')}}",
                 caption : "Target Group List",
                 multiselect : true,
                 autowidth : true

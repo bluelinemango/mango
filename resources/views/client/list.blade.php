@@ -158,14 +158,16 @@
                 @foreach($clients as $index)
                 {
                     id : '{{$index->id}}',
-                    name : '<a href="{{url('/client/cl'.$index->id.'/edit')}}">{{$index->name}}</a>',
+                    name : '{{$index->name}}',
                     @if(count($index->getAdvertiser)>0)
                     advertiser: '{{$index->getAdvertiser[0]->client_count}}',
                     @else
                     advertiser: '0',
                     @endif
                     add_advertiser: '<a href="{{url('client/cl'.$index->id.'/advertiser/add')}}">Add Advertiser </a>',
-                    date_modify : '{{$index->updated_at}}'
+                    date_modify : '{{$index->updated_at}}',
+                    action: '<a href="{{url('/client/cl'.$index->id.'/edit')}}">Edit</a>'
+
                 },
                 @endforeach
             ];
@@ -174,7 +176,7 @@
                 data : jqgrid_data,
                 datatype : "local",
                 height : 'auto',
-                colNames : ['Actions', 'ID', 'Name','# of Advertiser','Add Advertiser','Modify Date'],
+                colNames : ['Actions', 'ID', 'Name','# of Advertiser','Add Advertiser','Modify Date','Action'],
                 colModel : [{
                     name : 'act',
                     index : 'act',
@@ -197,6 +199,10 @@
                 }, {
                     name : 'date_modify',
                     index : 'date_modify',
+                    editable : false
+                }, {
+                    name : 'action',
+                    index : 'action',
                     editable : false
                 }],
                 rowNum : 10,
@@ -221,7 +227,7 @@
                         });
                     }
                 },
-                editurl : "{{url('/test')}}",
+                editurl : "{{url('/ajax/jqgrid/client')}}",
                 caption : "Clients List",
                 multiselect : true,
                 autowidth : true
@@ -239,11 +245,6 @@
             },{
                 afterSubmit:function(response)
                 {
-                    jQuery('#jqgrid').jqGrid('clearGridData');
-                    jQuery('#jqgrid').jqGrid('setGridParam', {data: [{id:2,name:"sss"},{id:3,name:"ddd"}]});
-                    jQuery('#jqgrid').trigger('reloadGrid');
-                    alert('dd');
-                    console.log(response);
                 },
                 closeAfterAdd: true,
                 closeAfterEdit: true,
@@ -253,8 +254,8 @@
                 {
                     var data = JSON.parse(response['responseText']);
                     var id = data[0].id;
-                    var domain_name=String(data[0].domain_name);
-                    $("#jqgrid").addRowData(id,{ id: + id ,domain_name:domain_name ,bwlist_id: +data[0].bwlist_id,created_at:data[0].created_at,updated_at:data[0].updated_at }, 'first');
+                    var name=String(data[0].name);
+                    $("#jqgrid").addRowData(id,{ id: + id ,name:name ,add_advertiser:'<a href="client/cl' + id + '/advertiser/add">Add Advertiser </a>',date_modify:data[0].updated_at,advertiser:'0' }, 'first');
                     $("#jqgrid").trigger("reloadGrid");
                 },
                 closeAfterAdd: true,

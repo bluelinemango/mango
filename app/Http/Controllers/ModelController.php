@@ -154,6 +154,38 @@ class ModelController extends Controller
             return Redirect::to('user/login');
         }
     }
+    public function jqgrid(Request $request){
+//        return dd($request->all());
+        if(Auth::check()){
+            if(1==1){    //permission goes here
+                $validate=\Validator::make($request->all(),['name' => 'required']);
+                if($validate->passes()) {
+                    $model_id=substr($request->input('id'),2);
+//                    return dd($model_id);
+                    $chkUser=ModelTable::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->where('id',$model_id)->get();
+                    if(!is_null($chkUser) and Auth::user()->id == $chkUser[0]->getAdvertiser->GetClientID->user_id) {
+                        switch ($request->input('oper')) {
+                            case 'edit':
+                                $modelTable=ModelTable::find($model_id);
+                                if($modelTable){
+                                    $modelTable->name=$request->input('name');
+                                    $modelTable->save();
+                                    return "ok";
+                                }
+                                return "false";
+                                break;
+                        }
+                    }
+                    return "invalid Model ID";
+
+                }
+                //return print_r($validate->messages());
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+            }
+        }else{
+            return Redirect::to('/user/login');
+        }
+    }
 
     public function index()
     {

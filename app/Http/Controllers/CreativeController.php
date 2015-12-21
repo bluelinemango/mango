@@ -134,6 +134,39 @@ class CreativeController extends Controller
             return Redirect::to(url('/user/login'));
         }
     }
+    public function jqgrid(Request $request){
+//        return dd($request->all());
+        if(Auth::check()){
+            if(1==1){    //permission goes here
+                $validate=\Validator::make($request->all(),['name' => 'required']);
+                if($validate->passes()) {
+                    $creative_id=substr($request->input('id'),3);
+                    $chkUser=Creative::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->where('id',$creative_id)->get();
+//                    return dd($chkUser[0]->getAdvertiser->GetClientID->user_id);
+                    if(!is_null($chkUser) and Auth::user()->id == $chkUser[0]->getAdvertiser->GetClientID->user_id) {
+                        switch ($request->input('oper')) {
+                            case 'edit':
+                                $creative=Creative::find($creative_id);
+                                if($creative){
+                                    $creative->name=$request->input('name');
+                                    $creative->size=$request->input('size');
+                                    $creative->save();
+                                    return "ok";
+                                }
+                                return "false";
+                            break;
+                        }
+                    }
+                    return "invalid Creative ID";
+
+                }
+                //return print_r($validate->messages());
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+            }
+        }else{
+            return Redirect::to('/user/login');
+        }
+    }
 
     public function index()
     {

@@ -132,11 +132,45 @@ class AdvertiserController extends Controller
             return Redirect::to('user/login');
         }
     }
+
+    public function jqgrid(Request $request){
+//        return dd($request->all());
+        if(Auth::check()){
+            if(1==1){    //permission goes here
+                $validate=\Validator::make($request->all(),['name' => 'required']);
+                if($validate->passes()) {
+                    switch ($request->input('oper')) {
+                        case 'edit':
+                            $adver_id = $request->input('id');
+                            $adver_id=substr($adver_id,3);
+                            $adver=Advertiser::find($adver_id);
+                            if($adver){
+                                $adver->name=$request->input('name');
+                                $adver->save();
+                                return "ok";
+                            }
+                            return "false";
+                        break;
+                    }
+
+
+                }
+                //return print_r($validate->messages());
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+            }
+        }else{
+            return Redirect::to('/user/login');
+        }
+    }
+
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+
     public function index()
     {
         //
