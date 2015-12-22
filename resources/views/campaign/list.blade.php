@@ -130,16 +130,6 @@
 
     </div>
     <!-- END MAIN PANEL -->
-
-        @foreach($permission as $per_obj)
-            @if($per_obj->getPermission->name == 'ADD_CLIENT')
-                <div class="row">
-                    <div class="col-sm-6 col-md-6">
-                        <a href="{{url('campaign/add')}}" class="btn btn-default btn-sm"> <i class="splashy-check"></i> Add Campaign</a>
-                    </div>
-                </div>
-            @endif
-        @endforeach
 @endsection
 
 @section('FooterScripts')
@@ -160,6 +150,7 @@
 
             var jqgrid_data = [
                 @foreach($campaign_obj as $index)
+                @if(!is_null($index->getAdvertiser->GetClientID))
                 {
                     id : 'cmp{{$index->id}}',
                     name : '{{$index->name}}',
@@ -170,6 +161,7 @@
                     date_modify : '{{$index->updated_at}}',
                     full_edit: '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/edit')}}">Edit</a> | <a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/targetgroup/add')}}">+ Target Group</a>'
                 },
+                @endif
                 @endforeach
             ];
 

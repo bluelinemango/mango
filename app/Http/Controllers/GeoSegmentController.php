@@ -19,42 +19,39 @@ class GeoSegmentController extends Controller
 {
     public function GetView(){
         if(Auth::check()){
-            if(1==1){ //permission goes here
+            if(in_array('VIEW_GEOSEGMENTLIST',$this->permission)) {
                 $geosegment_obj=GeoSegmentList::with(['getGeoEntries'=>function($q){$q->select(DB::raw('*,count(geosegmentlist_id) as geosegment_count'))->groupBy('geosegmentlist_id');}])->with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->get();
 //                return dd($geosegment_obj);
-                return view('geosegment.list')->with('geosegment_obj',$geosegment_obj)->with('permission',\Permission_Check::getPermission());
-            }else{
+                return view('geosegment.list')->with('geosegment_obj',$geosegment_obj);
             }
-        }else{
-            return Redirect::to(url('/user/login'));
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to(url('/user/login'));
     }
 
     public function GeosegmentAddView($clid,$advid){
         if(!is_null($advid)) {
             if (Auth::check()) {
-                if (1 == 1) { //      permission goes here
+                if(in_array('ADD_EDIT_GEOSEGMENTLIST',$this->permission)) {
                     $chkUser = Advertiser::with('GetClientID')->find($advid);
                     if (count($chkUser) > 0 and Auth::user()->id == $chkUser->GetClientID->user_id) {
                         $advertiser_obj = Advertiser::with('GetClientID')->find($advid);
-                        return view('geosegment.add')->with('advertiser_obj', $advertiser_obj)->with('permission', \Permission_Check::getPermission());
-                    }else{
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                        return view('geosegment.add')->with('advertiser_obj', $advertiser_obj);
                     }
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                 }
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
+            return Redirect::to(url('/user/login'));
         }
     }
 
     public function UploadGeosegment(Request $request)
     {
         if (Auth::check()) {
-            if (1 == 1) {    //permission goes here
+            if(in_array('ADD_EDIT_GEOSEGMENTLIST',$this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if ($request->hasFile('upload_geo') and $validate->passes()) {
-//            $response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=6LdOJAcTAAAAAFnwVTSg4GLCuDhvXXTOaGlgj1sj&response=' . $request->input('g-recaptcha-response'));
-//            $captchaCheck = json_decode($response);
-//            if ($captchaCheck->{'success'} == true) {
                     $chkUser = Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
                     if (!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
                         $destpath = public_path();
@@ -71,7 +68,6 @@ class GeoSegmentController extends Controller
                             File::delete($destpath . '/cdn/test/' . $fileName);
                             return Redirect::back()->withErrors(['success' => false, 'msg' => 'please be sure that file is correct'])->withInput();
                         }
-//                        return dd($upload[0]['radius']);
                         $flg = 0;
                         $chk = GeoSegmentList::where('advertiser_id', $request->input('advertiser_id'))->get();
                         foreach ($chk as $index) {
@@ -80,7 +76,6 @@ class GeoSegmentController extends Controller
                             }
                         }
                         if ($flg == 0) {
-//                                return dd($first_array);
                             $geosegment = new GeoSegmentList();
                             $geosegment->name = $request->input('name');
                             $geosegment->advertiser_id = $request->input('advertiser_id');
@@ -96,24 +91,17 @@ class GeoSegmentController extends Controller
                             }
                             $msg = "Geo Segment List added successfully";
                             return Redirect::back()->withErrors(['success' => true, 'msg' => $msg]);
-                        } else {
-                            File::delete($destpath . '/cdn/test/' . $fileName);
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'this name already existed !!!'])->withInput();
                         }
-                    } else {
-                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        File::delete($destpath . '/cdn/test/' . $fileName);
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'this name already existed !!!'])->withInput();
                     }
-                } else {
-                    return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select a file or fill name '])->withInput();
+                    return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                 }
-//            }
-//            return \Redirect::back()->withErrors(['success'=>false,'msg'=> 'ﮐﺪ اﻣﻨﯿﺘﯽ ﺭا ﻭاﺭﺩ ﮐﻨﯿﺪ']);
-                //return print_r($validate->messages());
-//                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
-            } else {
-                return Redirect::to(url('/user/login'));
+                return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select a file or fill name '])->withInput();
             }
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to(url('/user/login'));
     }
 
 
@@ -121,7 +109,7 @@ class GeoSegmentController extends Controller
     public function add_geosegmentlist(Request $request){
 //        return dd($request->all());
         if(Auth::check()){
-            if(1==1){    //permission goes here
+            if(in_array('ADD_EDIT_GEOSEGMENTLIST',$this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
 //            $response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=6LdOJAcTAAAAAFnwVTSg4GLCuDhvXXTOaGlgj1sj&response=' . $request->input('g-recaptcha-response'));
@@ -156,45 +144,41 @@ class GeoSegmentController extends Controller
                             }
 
                             return Redirect::to(url('/client/cl' . $chkUser->GetClientID->id . '/advertiser/adv' . $request->input('advertiser_id') . '/geosegment/gsm' . $geosegmentlist->id . '/edit'))->withErrors(['success' => true, 'msg' => "Geo Segmnet List added successfully"]);
-                        }else{
-                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'this name already existed !!!'])->withInput();
                         }
-                    }else{
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'this name already existed !!!'])->withInput();
                     }
-//            }
-//            return \Redirect::back()->withErrors(['success'=>false,'msg'=> 'ﮐﺪ اﻣﻨﯿﺘﯽ ﺭا ﻭاﺭﺩ ﮐﻨﯿﺪ']);
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                 }
-                //return print_r($validate->messages());
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
-        }else{
-            return Redirect::to(url('/user/login'));
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to(url('/user/login'));
     }
 
     public function GeosegmentEditView($clid,$advid,$gsmid){
         if(!is_null($gsmid)){
             if(Auth::check()){
-                if(1==1){ // Permission goes here
+                if(in_array('ADD_EDIT_GEOSEGMENTLIST',$this->permission)) {
                     $chkUser=Advertiser::with('GetClientID')->find($advid);
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
                         $geosegment_obj = GeoSegmentList::with(['getAdvertiser' => function ($q) {
                             $q->with('GetClientID');
                         }])->with('getGeoEntries')->find($gsmid);
-//                    return dd($bwlist_obj);
-                        return view('geosegment.edit')->with('geosegment_obj', $geosegment_obj)->with('permission', \Permission_Check::getPermission());
+                        return view('geosegment.edit')->with('geosegment_obj', $geosegment_obj);
                     }else{
                         return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                     }
                 }
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
+            return Redirect::to(url('/user/login'));
         }
     }
 
     public function edit_geosegmentlist(Request $request){
         if(Auth::check()){
-            if(1==1){ //permission goes here
+            if(in_array('ADD_EDIT_GEOSEGMENTLIST',$this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
 //                    return dd($request->all());
@@ -205,16 +189,12 @@ class GeoSegmentController extends Controller
                         $geosegmentlist->save();
                         return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Geo Segment List Edited Successfully']);
                     }
-                }else{
-                    return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
                 }
-            }else{
-                return Redirect::back()->withErrors(['success'=>false,'msg'=>'dont have Edit Permission']);
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
-
-        }else{
-            return Redirect::to(url('/user/login'));
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>'dont have Edit Permission']);
         }
+        return Redirect::to(url('/user/login'));
     }
 
     public function jqgrid(Request $request){
@@ -276,7 +256,7 @@ class GeoSegmentController extends Controller
     public function jqgridList(Request $request){
 //        return dd($request->all());
         if(Auth::check()){
-            if(1==1){    //permission goes here
+            if(in_array('ADD_EDIT_GEOSEGMENTLIST',$this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $geolist_id=substr($request->input('id'),3);
@@ -295,19 +275,14 @@ class GeoSegmentController extends Controller
                                 break;
                         }
                     }
-                    return "invalid Black/White List  ID";
-
+                    return "invalid Geo Segment List ID";
                 }
-                //return print_r($validate->messages());
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
-        }else{
-            return Redirect::to('/user/login');
+            return "don't have permission";
         }
+        return Redirect::to('/user/login');
     }
-
-
-
     public function index()
     {
         //

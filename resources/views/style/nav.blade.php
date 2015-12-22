@@ -21,30 +21,46 @@
             <li class="active">
                 <a href="{{url('dashboard')}}" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Dashboard</span></a>
             </li>
+            @if(in_array('VIEW_CLIENT',$permission))
             <li>
                 <a href="{{url('client')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Clients</span></a>
             </li>
+            @endif
+            @if(in_array('VIEW_ADVERTISER',$permission))
             <li>
                 <a href="{{url('advertiser')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Advertiser</span></a>
             </li>
+            @endif
+            @if(in_array('VIEW_CAMPAIGN',$permission))
             <li>
                 <a href="{{url('campaign')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Campaign</span></a>
             </li>
+            @endif
+            @if(in_array('VIEW_CREATIVE',$permission))
             <li>
                 <a href="{{url('creative')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Creative</span></a>
             </li>
+            @endif
+            @if(in_array('VIEW_TARGETGROUP',$permission))
             <li>
                 <a href="{{url('targetgroup')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Target Group</span></a>
             </li>
+            @endif
+            @if(in_array('VIEW_MODEL',$permission))
             <li>
                 <a href="{{url('model')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Model</span></a>
             </li>
+            @endif
+            @if(in_array('VIEW_BWLIST',$permission))
             <li>
                 <a href="{{url('/bwlist')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Black & white list</span></a>
             </li>
+            @endif
+            @if(in_array('VIEW_GEOSEGMENTLIST',$permission))
             <li>
                 <a href="{{url('geosegment')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Geo Segment</span></a>
             </li>
+            @endif
             @if(\Illuminate\Support\Facades\Auth::user()->role_id==1)
                 <li>
                     <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">Role Permission</span></a>

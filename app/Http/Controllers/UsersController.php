@@ -276,8 +276,7 @@ class UsersController extends Controller
         if(Auth::check()) {
             $user_obj=User::with('getRole')->find(Auth::user()->id);
             return view('dashboard')
-                ->with('user_obj',$user_obj)
-                ->with('permission', \Permission_Check::getPermission());
+                ->with('user_obj',$user_obj);
         }
         return Redirect::to(url('user/login'));
 

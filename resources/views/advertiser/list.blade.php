@@ -49,7 +49,6 @@
                         <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3" data-widget-editbutton="false">
                             <!-- widget options:
                                         usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
                                         data-widget-colorbutton="false"
                                         data-widget-editbutton="false"
                                         data-widget-togglebutton="false"
@@ -58,7 +57,6 @@
                                         data-widget-custombutton="false"
                                         data-widget-collapsed="true"
                                         data-widget-sortable="false"
-
                                         -->
                             <header>
                                 <span class="widget-icon"> <i class="fa fa-table"></i> </span>
@@ -72,7 +70,7 @@
                                 @foreach($errors->get('msg') as $error)
                                     <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
                                         <a class="close" data-dismiss="alert" href="#">×</a>
-                                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
+                                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> System MSG!</h4>
                                         <p>
                                             {{$error}}
                                         </p>
@@ -123,30 +121,14 @@
                     <!-- WIDGET END -->
 
                 </div>
-
                 <!-- end row -->
-
                 <!-- end row -->
-
             </section>
             <!-- end widget grid -->
-
         </div>
         <!-- END MAIN CONTENT -->
-
     </div>
     <!-- END MAIN PANEL -->
-
-
-    @foreach($permission as $per_obj)
-        @if($per_obj->getPermission->name == 'ADD_CLIENT')
-            <div class="row">
-                <div class="col-sm-6 col-md-6">
-                    <a href="{{url('advertiser/add')}}" class="btn btn-default btn-sm"> <i class="splashy-check"></i> Add Advertiser</a>
-                </div>
-            </div>
-        @endif
-    @endforeach
 @endsection
 
 @section('FooterScripts')
@@ -167,10 +149,12 @@
 
             var jqgrid_data = [
                 @foreach($adver_obj as $index)
+                @if(!is_null($index->GetClientID))
                 {
+
                     id : 'adv{{$index->id}}',
                     name : '{{$index->name}}',
-                @if(count($index->Campaign)>0)
+                    @if(count($index->Campaign)>0)
                     campaign: '{{$index->Campaign[0]->advertiser_count}}',
                     @else
                     campaign: '0',
@@ -179,8 +163,9 @@
                     date_modify : '{{$index->updated_at}}',
                     full_edit: '<a href="{{url('/client/cl'.$index->GetClientID->id.'/advertiser/adv'.$index->id.'/edit')}}">Full Edit</a>'
                 },
+                @endif
                 @endforeach
-            ];
+        ];
 
             jQuery("#jqgrid").jqGrid({
                 data : jqgrid_data,

@@ -128,15 +128,15 @@
     </div>
     <!-- END MAIN PANEL -->
 
-    @foreach($permission as $per_obj)
-        @if($per_obj->getPermission->name == 'ADD_CLIENT')
-            <div class="row">
-                <div class="col-sm-6 col-md-6">
-                    <a href="{{url('client/add')}}" class="btn btn-default btn-sm"> <i class="splashy-check"></i> Add Client</a>
-                </div>
-            </div>
-        @endif
-    @endforeach
+    {{--@foreach($permission as $per_obj)--}}
+        {{--@if($per_obj->getPermission->name == 'ADD_CLIENT')--}}
+            {{--<div class="row">--}}
+                {{--<div class="col-sm-6 col-md-6">--}}
+                    {{--<a href="{{url('client/add')}}" class="btn btn-default btn-sm"> <i class="splashy-check"></i> Add Client</a>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--@endif--}}
+    {{--@endforeach--}}
 @endsection
 @section('FooterScripts')
     <!-- PAGE RELATED PLUGIN(S) -->

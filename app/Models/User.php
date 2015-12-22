@@ -32,6 +32,16 @@ class User extends Model implements AuthenticatableContract,
 
     protected $table = 'users';
 
+    public static function isSuperAdmin(){
+        if(\Auth::check()){
+            if(\Auth::user()->role_id ==1){
+                    return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
     /**
      * The attributes that are mass assignable.
      *

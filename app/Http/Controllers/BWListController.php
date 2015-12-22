@@ -19,25 +19,20 @@ class BWListController extends Controller
 {
     public function GetView(){
         if(Auth::check()){
-            if(1==1){ //permission goes here
+            if(in_array('VIEW_BWLIST',$this->permission)) {
                 $bwlist=BWList::with(['getEntries'=>function($q){$q->select(DB::raw('*,count(bwlist_id) as bwlist_count'))->groupBy('bwlist_id');}])->with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->get();
-//                return dd($bwlist);
-                return view('bwlist.list')->with('bwlist_obj',$bwlist)->with('permission',\Permission_Check::getPermission());
-            }else{
+                return view('bwlist.list')->with('bwlist_obj',$bwlist);
             }
-        }else{
-            return Redirect::to('/user/login');
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to('/user/login');
     }
     public function UploadBwlist(Request $request){
         $pattern= '/(((http|ftp|https):\/{2})?+(([0-9a-z_-]+\.)+(aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|cz|de|dj|dk|dm|do|dz|ec|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mn|mn|mo|mp|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|nom|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ra|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw|arpa)(:[0-9]+)?((\/([~0-9a-zA-Z\#\+\%@\.\/_-]+))?(\?[0-9a-zA-Z\+\%@\/&\[\];=_-]+)?)?))\b/imuS
 ';
         if(Auth::check()){
-            if(1==1){    //permission goes here
+            if(in_array('ADD_EDIT_BWLIST',$this->permission)) {
                 if($request->hasFile('upload')) {
-//            $response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=6LdOJAcTAAAAAFnwVTSg4GLCuDhvXXTOaGlgj1sj&response=' . $request->input('g-recaptcha-response'));
-//            $captchaCheck = json_decode($response);
-//            if ($captchaCheck->{'success'} == true) {
                     $chkUser=Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
                         $destpath=public_path();
@@ -47,7 +42,6 @@ class BWListController extends Controller
                         $upload = Excel::load('public/cdn/test/'.$fileName,function($reader){
                             return $reader->all();
                             });
-//                        return dd($upload->parsed);
                         $a = array();
                         $flg=0;
                         foreach($upload->parsed as $test) {
@@ -72,7 +66,6 @@ class BWListController extends Controller
                                 }
                             }
                             if ($flg == 0) {
-//                                return dd($first_array);
                                 $lost= array();
                                 $bwlist = new BWList();
                                 $bwlist->name = $first_array[0];
@@ -97,47 +90,41 @@ class BWListController extends Controller
                                     }
                                 }
                                 return Redirect::back()->withErrors(['success' => false, 'msg' => $msg]);
-                            }else{
-                                return Redirect::back()->withErrors(['success'=>false,'msg'=>'this name already existed !!!'])->withInput();
                             }
-                        }else{
-                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'make sure that youe Upload file is correct'])->withInput();
+                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'this name already existed !!!'])->withInput();
                         }
-                        }else{
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
-                        }
-                    }else{
-                       return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select a file'])->withInput();
+                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'make sure that youe Upload file is correct'])->withInput();
                     }
-//            }
-//            return \Redirect::back()->withErrors(['success'=>false,'msg'=> 'ﮐﺪ اﻣﻨﯿﺘﯽ ﺭا ﻭاﺭﺩ ﮐﻨﯿﺪ']);
-                //return print_r($validate->messages());
-//                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                }
+               return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select a file'])->withInput();
             }
-        }else{
-            return Redirect::to('/user/login');
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to(url('/user/login'));
     }
 
     public function BwlistAddView($clid,$advid){
         if(!is_null($advid)) {
             if (Auth::check()) {
-                if (1 == 1) { //      permission goes here
+                if(in_array('ADD_EDIT_BWLIST',$this->permission)) {
                     $chkUser = Advertiser::with('GetClientID')->find($advid);
                     if (count($chkUser) > 0 and Auth::user()->id == $chkUser->GetClientID->user_id) {
                         $advertiser_obj = Advertiser::with('GetClientID')->find($advid);
-                        return view('bwlist.add')->with('advertiser_obj', $advertiser_obj)->with('permission', \Permission_Check::getPermission());
+                        return view('bwlist.add')->with('advertiser_obj', $advertiser_obj);
                     }else{
                         return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                     }
                 }
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
+            return Redirect::to(url('/user/login'));
         }
     }
     public function jqgridList(Request $request){
 //        return dd($request->all());
         if(Auth::check()){
-            if(1==1){    //permission goes here
+            if(in_array('ADD_EDIT_BWLIST',$this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $bwlist_id=substr($request->input('id'),3);
@@ -162,9 +149,10 @@ class BWListController extends Controller
                 //return print_r($validate->messages());
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
-        }else{
-            return Redirect::to('/user/login');
+            return "don't have permission";
+
         }
+        return Redirect::to(url('/user/login'));
     }
 
 
@@ -226,12 +214,9 @@ class BWListController extends Controller
     }
     public function add_bwlist(Request $request){
         if(Auth::check()){
-            if(1==1){    //permission goes here
+            if(in_array('ADD_EDIT_BWLIST',$this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
-//            $response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=6LdOJAcTAAAAAFnwVTSg4GLCuDhvXXTOaGlgj1sj&response=' . $request->input('g-recaptcha-response'));
-//            $captchaCheck = json_decode($response);
-//            if ($captchaCheck->{'success'} == true) {
                     $chkUser=Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
                         $chk=BWList::where('advertiser_id',$request->input('advertiser_id'))->get();
@@ -256,45 +241,41 @@ class BWListController extends Controller
                                 $bwlistentries->save();
                             }
                             return Redirect::to(url('/client/cl' . $chkUser->GetClientID->id . '/advertiser/adv' . $request->input('advertiser_id') . '/bwlist/bwl' . $bwlist->id . '/edit'))->withErrors(['success' => true, 'msg' => "B/W List added successfully"]);
-                        }else{
-                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'this name already existed !!!'])->withInput();
                         }
-                    }else{
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'this name already existed !!!'])->withInput();
                     }
-//            }
-//            return \Redirect::back()->withErrors(['success'=>false,'msg'=> 'ﮐﺪ اﻣﻨﯿﺘﯽ ﺭا ﻭاﺭﺩ ﮐﻨﯿﺪ']);
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                 }
-                //return print_r($validate->messages());
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
-        }else{
-            return Redirect::to('/user/login');
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to(url('/user/login'));
     }
 
     public function BwlistEditView($clid,$advid,$bwlid){
         if(!is_null($bwlid)){
             if(Auth::check()){
-                if(1==1){ // Permission goes here
+                if(in_array('ADD_EDIT_BWLIST',$this->permission)) {
                     $chkUser=Advertiser::with('GetClientID')->find($advid);
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
                         $bwlist_obj = BWList::with(['getAdvertiser' => function ($q) {
                             $q->with('GetClientID');
                         }])->with('getEntries')->find($bwlid);
 //                    return dd($bwlist_obj);
-                        return view('bwlist.edit')->with('bwlist_obj', $bwlist_obj)->with('permission', \Permission_Check::getPermission());
-                    }else{
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                        return view('bwlist.edit')->with('bwlist_obj', $bwlist_obj);
                     }
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                 }
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
+            return Redirect::to(url('/user/login'));
         }
     }
 
     public function edit_bwlist(Request $request){
         if(Auth::check()){
-            if(1==1){ //permission goes here
+            if(in_array('ADD_EDIT_BWLIST',$this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $bwlist_id = $request->input('bwlist_id');
@@ -314,16 +295,12 @@ class BWListController extends Controller
                         }
                         return Redirect::back()->withErrors(['success'=>true,'msg'=> 'B/W List Edited Successfully']);
                     }
-                }else{
-                    return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
                 }
-            }else{
-                return Redirect::back()->withErrors(['success'=>false,'msg'=>'dont have Edit Permission']);
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
-
-        }else{
-            return Redirect::to('user/login');
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to(url('user/login'));
     }
 
     public function index()

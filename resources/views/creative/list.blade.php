@@ -127,17 +127,6 @@
 
     </div>
     <!-- END MAIN PANEL -->
-
-    @foreach($permission as $per_obj)
-        @if($per_obj->getPermission->name == 'ADD_CLIENT')
-            <div class="row">
-                <div class="col-sm-6 col-md-6">
-                    <a href="{{url('creative/add')}}" class="btn btn-default btn-sm"> <i class="splashy-check"></i> Add Creative</a>
-                </div>
-            </div>
-        @endif
-    @endforeach
-
 @endsection
 
 @section('FooterScripts')

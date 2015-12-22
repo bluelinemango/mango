@@ -20,40 +20,36 @@ class CreativeController extends Controller
      */
     public function GetView(){
         if(Auth::check()){
-            if(1==1){ //permission goes here
+            if (in_array('VIEW_CREATIVE', $this->permission)) {
                 $creative=Creative::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->get();
-//                return dd($targetgroup);
-                return view('creative.list')->with('creative_obj',$creative)->with('permission',\Permission_Check::getPermission());
-            }else{
+                return view('creative.list')->with('creative_obj',$creative);
             }
-        }else{
-            return Redirect::to(url('/user/login'));
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to(url('/user/login'));
     }
     public function CreativeAddView($clid,$advid){
         if(!is_null($advid)) {
             if (Auth::check()) {
-                if (1 == 1) { //      permission goes here
+                if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
                     $chkUser = Advertiser::with('GetClientID')->find($advid);
                     if (count($chkUser) > 0 and Auth::user()->id == $chkUser->GetClientID->user_id) {
                         $advertiser_obj = Advertiser::with('GetClientID')->find($advid);
-                        return view('creative.add')->with('advertiser_obj', $advertiser_obj)->with('permission', \Permission_Check::getPermission());
-                    }else{
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                        return view('creative.add')->with('advertiser_obj', $advertiser_obj);
                     }
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                 }
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
+            return Redirect::to(url('/user/login'));
         }
     }
 
     public function add_creative(Request $request){
         if(Auth::check()){
-            if(1==1){    //permission goes here
+            if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
-//            $response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=6LdOJAcTAAAAAFnwVTSg4GLCuDhvXXTOaGlgj1sj&response=' . $request->input('g-recaptcha-response'));
-//            $captchaCheck = json_decode($response);
-//            if ($captchaCheck->{'success'} == true) {
                     $chkUser=Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
                         $size = $request->input('size_width') . 'x' . $request->input('size_height');
@@ -69,43 +65,40 @@ class CreativeController extends Controller
                         $creative->attributes = $request->input('attributes');
                         $creative->save();
                         return Redirect::to(url('/client/cl'.$chkUser->GetClientID->id.'/advertiser/adv'.$request->input('advertiser_id').'/creative/crt'.$creative->id.'/edit'))->withErrors(['success' => true, 'msg' => "Creative added successfully"]);
-                    }else{
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                     }
-//            }
-//            return \Redirect::back()->withErrors(['success'=>false,'msg'=> 'ﮐﺪ اﻣﻨﯿﺘﯽ ﺭا ﻭاﺭﺩ ﮐﻨﯿﺪ']);
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                 }
-                //return print_r($validate->messages());
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
-        }else{
-            return Redirect::to(url('/user/login'));
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to(url('/user/login'));
     }
 
 
     public function CreativeEditView($clid,$advid,$crtid){
         if(!is_null($crtid)){
             if(Auth::check()){
-                if(1==1){ // Permission goes here
+                if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
                     $chkUser=Advertiser::with('GetClientID')->find($advid);
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
                         $creative_obj = Creative::with(['getAdvertiser' => function ($q) {
                             $q->with('GetClientID');
                         }])->find($crtid);
-//                    return dd($targetgroup_obj);
-                        return view('creative.edit')->with('creative_obj', $creative_obj)->with('permission', \Permission_Check::getPermission());
+                        return view('creative.edit')->with('creative_obj', $creative_obj);
                     }else{
                         return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                     }
                 }
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
+            return Redirect::to(url('/user/login'));
         }
     }
 
     public function edit_creative(Request $request){
         if(Auth::check()){
-            if(1==1){ //permission goes here
+            if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $creative_id = $request->input('creative_id');
@@ -123,26 +116,21 @@ class CreativeController extends Controller
                         $creative->save();
                         return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Creative Edited Successfully']);
                     }
-                }else{
-                    return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
                 }
-            }else{
-                return Redirect::back()->withErrors(['success'=>false,'msg'=>'dont have Edit Permission']);
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
-
-        }else{
-            return Redirect::to(url('/user/login'));
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>'dont have Edit Permission']);
         }
+        return Redirect::to(url('/user/login'));
     }
     public function jqgrid(Request $request){
-//        return dd($request->all());
+        //return dd($request->all());
         if(Auth::check()){
-            if(1==1){    //permission goes here
+            if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $creative_id=substr($request->input('id'),3);
                     $chkUser=Creative::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->where('id',$creative_id)->get();
-//                    return dd($chkUser[0]->getAdvertiser->GetClientID->user_id);
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser[0]->getAdvertiser->GetClientID->user_id) {
                         switch ($request->input('oper')) {
                             case 'edit':
@@ -158,16 +146,14 @@ class CreativeController extends Controller
                         }
                     }
                     return "invalid Creative ID";
-
                 }
                 //return print_r($validate->messages());
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
-        }else{
-            return Redirect::to('/user/login');
+            return "don't have permission";
         }
+        return Redirect::to(url('/user/login'));
     }
-
     public function index()
     {
         //

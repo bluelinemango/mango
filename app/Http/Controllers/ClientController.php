@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Advertiser;
 use App\Models\Client;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Permission_Check;
 
 class ClientController extends Controller
 {
@@ -18,71 +20,75 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function ListView(){
         if(Auth::check()){
-
-//            $clients=Client::select(DB::raw('*, count(client_id) as `client_count`'))
-//                ->leftJoin('advertiser', 'client.id', '=', 'advertiser.client_id')
-//                ->where('user_id','=',Auth::user()->id)
-//                ->groupBy('client_id')
-//                ->orderBy('client_count', 'desc')
-//                ->get();
-            $clients=Client::with(['getAdvertiser'=>function($q){$q->select(DB::raw('*,count(client_id) as client_count'))->groupBy('client_id');}])->where('user_id','=',Auth::user()->id)->get();
-//            return dd($clients);
-//            $clients = Client::where('user_id',Auth::user()->id)->with('get')->get();
-            return view('client.list')->with('clients',$clients)->with('permission',\Permission_Check::getPermission());
-        }else{
-            return Redirect::to('/user/login');
+            if(in_array('VIEW_CLIENT',$this->permission)) {
+                if(User::isSuperAdmin()){
+                    $clients = Client::with(['getAdvertiser' => function ($q) {
+                        $q->select(DB::raw('*,count(client_id) as client_count'))->groupBy('client_id');
+                    }])->get();
+                }else {
+                    $usr_comp = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
+                    $clients = Client::with(['getAdvertiser' => function ($q) {
+                        $q->select(DB::raw('*,count(client_id) as client_count'))->groupBy('client_id');
+                    }])->whereIn('user_id', $usr_comp)->get();
+                }
+                return view('client.list')->with('clients', $clients)->with('permission', $this->permission);
+            }
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to('/user/login');
+
 
     }
     public function AddClientView(){
         if(Auth::check()){
-            foreach(\Permission_Check::getPermission() as $per_obj){
-                if($per_obj->getPermission->name == 'ADD_CLIENT'){
-                    return view('client.add_client');
-                }else{
-                    return Redirect::back();
-                }
+            if(in_array('ADD_EDIT_CLIENT',$this->permission)) {
+                return view('client.add_client');
             }
-        }else{
-            return Redirect::back();
-        }
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
+            }
+        return Redirect::to(url('user/login'));
     }
     public function add_client(Request $request){
-        $validate=\Validator::make($request->all(),['name' => 'required']);
-        if($validate->passes()) {
-//            $response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=6LdOJAcTAAAAAFnwVTSg4GLCuDhvXXTOaGlgj1sj&response=' . $request->input('g-recaptcha-response'));
-//            $captchaCheck = json_decode($response);
-//            if ($captchaCheck->{'success'} == true) {
-                $client=new Client();
-                $client->name=$request->input('name');
-                $client->company=$request->input('company');
-                $client->user_id=Auth::user()->id;
-                $client->save();
-                return Redirect::to(url('/client/edit/'.$client->id))->withErrors(['success'=>true,'msg'=>"Client added successfully"]);
-//            }
-//            return \Redirect::back()->withErrors(['success'=>false,'msg'=> 'ﮐﺪ اﻣﻨﯿﺘﯽ ﺭا ﻭاﺭﺩ ﮐﻨﯿﺪ']);
+        if(Auth::check()){
+            if(in_array('ADD_EDIT_CLIENT',$this->permission)) {
+                $validate=\Validator::make($request->all(),['name' => 'required']);
+                if($validate->passes()) {
+                        $client=new Client();
+                        $client->name=$request->input('name');
+                        $client->company=$request->input('company');
+                        $client->user_id=Auth::user()->id;
+                        $client->save();
+                        return Redirect::to(url('/client/edit/'.$client->id))->withErrors(['success'=>true,'msg'=>"Client added successfully"]);
+                }
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+            }
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
-        //return print_r($validate->messages());
-        return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+        return Redirect::to(url('user/login'));
+
     }
 
 
     public function ClientEditView($id){
         if(!is_null($id)){
             if(Auth::check()){
-                if(1==1){ // Permission goes here
+                if(in_array('ADD_EDIT_CLIENT',$this->permission)) {
                     $client_obj = Client::with('getAdvertiser')->find($id);
-                    return view('client.edit')->with('client_obj',$client_obj)->with('permission',\Permission_Check::getPermission());
+                    return view('client.edit')->with('client_obj',$client_obj)->with('permission', Permission_Check::getPermission());
                 }
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
+            return Redirect::to(url('user/login'));
         }
+        return Redirect::back()->withErrors(['success'=>false,'msg'=>"Select valid ID"]);
     }
 
     public function edit_client(Request $request){
         if(Auth::check()){
-            if(1==1){ //permission goes here
+            if(in_array('ADD_EDIT_CLIENT',$this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $client_id = $request->input('client_id');
@@ -93,57 +99,45 @@ class ClientController extends Controller
                         $client->save();
                         return Redirect::to(url('/client/edit/'.$client->id))->withErrors(['success'=>true,'msg'=> 'Client Edited Successfully']);
                     }
-                }else{
-                    return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
                 }
-            }else{
-                return Redirect::back()->withErrors(['success'=>false,'msg'=>'dont have Edit Permission']);
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
-
-        }else{
-            return Redirect::to('user/login');
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to(url('user/login'));
     }
 
     public function jqgrid(Request $request){
 //        return dd($request->all());
-        if(Auth::check()){
-            if(1==1){    //permission goes here
-                $validate=\Validator::make($request->all(),['name' => 'required']);
-                if($validate->passes()) {
+        if(Auth::check()) {
+            if (in_array('ADD_EDIT_CLIENT', $this->permission)) {
+                $validate = \Validator::make($request->all(), ['name' => 'required']);
+                if ($validate->passes()) {
                     switch ($request->input('oper')) {
                         case 'add':
-                            $client=new Client();
-                            $client->name=$request->input('name');
-                            $client->user_id=Auth::user()->id;
+                            $client = new Client();
+                            $client->name = $request->input('name');
+                            $client->user_id = Auth::user()->id;
                             $client->save();
-                            $client_obj=Client::where('id',$client->id)->get();
-//                                    return dd($result);
+                            $client_obj = Client::where('id', $client->id)->get();
                             return json_encode($client_obj);
-                            break;
+                        break;
                         case 'edit':
                             $client_id = $request->input('id');
-                            $client=Client::find($client_id);
-                            if($client){
-                                $client->name=$request->input('name');
+                            $client = Client::find($client_id);
+                            if ($client) {
+                                $client->name = $request->input('name');
                                 $client->save();
                                 return 'ok';
                             }
-                            break;
-                        case 'del':
-//                            BWEntries::delete($request->input('id'));
-//                            return 'ok';
-//                            break;
+                        break;
                     }
-
-
                 }
-                //return print_r($validate->messages());
-                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+//                return Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();
             }
-        }else{
-            return Redirect::to('/user/login');
+            return "don't have permission";
         }
+        return Redirect::to(url('user/login'));
     }
 
 

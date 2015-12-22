@@ -23,44 +23,39 @@ class TargetgroupController extends Controller
 
     public function GetView(){
         if(Auth::check()){
-            if(1==1){ //permission goes here
+            if (in_array('VIEW_TARGETGROUP', $this->permission)) {
                 $targetgroup=Targetgroup::with(['getCampaign'=>function($q){$q->with(['getAdvertiser'=>function($p){$p->with('GetClientID');}]);}])->get();
-//                return dd($targetgroup);
-                return view('targetgroup.list')->with('targetgroup_obj',$targetgroup)->with('permission',\Permission_Check::getPermission());
-            }else{
+                return view('targetgroup.list')->with('targetgroup_obj',$targetgroup);
             }
-        }else{
-            return Redirect::to('/user/login');
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to(url('/user/login'));
     }
 
     public function TargetgroupAddView($clid,$advid,$cmpid){
         if(Auth::check()) {
-            if (1 == 1) { //      permission goes here
+            if (in_array('ADD_EDIT_TARGETGROUP', $this->permission)) {
                 $chkUser = Advertiser::with('GetClientID')->find($advid);
                 if(count($chkUser) > 0 and Auth::user()->id == $chkUser->GetClientID->user_id) {
                     $campaign_obj=Campaign::with(['getAdvertiser'=>function($q){
                         $q->with('Creative')->with('GeoSegment')->with('BWList');
                     }])->find($cmpid);
                     $iab_category_obj=Iab_Category::get();
-//                    return dd($iab_category_obj);
-                    return view('targetgroup.add')->with('campaign_obj',$campaign_obj)->with('iab_category_obj',$iab_category_obj)->with('permission',\Permission_Check::getPermission());
-                }else{
-                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    return view('targetgroup.add')->with('campaign_obj',$campaign_obj)->with('iab_category_obj',$iab_category_obj);
                 }
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
             }
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to(url('/user/login'));
+
     }
 
     public function add_targetgroup(Request $request){
-//        return dd($request->all());
         if(Auth::check()){
-            if(1==1){    //permission goes here
+            if (in_array('ADD_EDIT_TARGETGROUP', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
-//            $response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=6LdOJAcTAAAAAFnwVTSg4GLCuDhvXXTOaGlgj1sj&response=' . $request->input('g-recaptcha-response'));
-//            $captchaCheck = json_decode($response);
-//            if ($captchaCheck->{'success'} == true) {
                     $checkAdv=Campaign::find($request->input('campaign_id'));
                     $chekUser=Advertiser::with('GetClientID')->find($checkAdv->advertiser_id);
                     if(count($chekUser) > 0 and Auth::user()->id == $chekUser->GetClientID->user_id) {
@@ -74,7 +69,6 @@ class TargetgroupController extends Controller
                         $targetgroup->daily_max_budget = $request->input('daily_max_budget');
                         $targetgroup->cpm = $request->input('cpm');
                         $targetgroup->advertiser_domain_name = $request->input('advertiser_domain_name');
-//                        $targetgroup->description = $request->input('description');
                         $targetgroup->campaign_id = $request->input('campaign_id');
                         $targetgroup->pacing_plan = $request->input('pacing_plan');
                         $targetgroup->frequency_in_sec = $request->input('frequency_in_sec');
@@ -134,26 +128,20 @@ class TargetgroupController extends Controller
                         }else{
                             //return 2 ta chiz baham select shode
                         }
-
-                        //return Redirect::to(url('/targetgroup/edit/' . $targetgroup->id))->withErrors(['success' => true, 'msg' => "Target Group added successfully"]);
                     }
-//            }
-//            return \Redirect::back()->withErrors(['success'=>false,'msg'=> 'ﮐﺪ اﻣﻨﯿﺘﯽ ﺭا ﻭاﺭﺩ ﮐﻨﯿﺪ']);
                 }
-                //return print_r($validate->messages());
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
-        }else{
-            return Redirect::to('/user/login');
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to(url('/user/login'));
     }
 
 
     public function TargetgroupEditView($clid,$advid,$cmpid,$tgid){
         if(!is_null($tgid)){
             if(Auth::check()){
-                if(1==1){ // Permission goes here
-                    //todo : Check Campaign
+                if (in_array('ADD_EDIT_TARGETGROUP', $this->permission)) {
                     $chkUser=Targetgroup::with(['getCampaign'=>function($q){$q->with(['getAdvertiser'=>function($p){$p->with('GetClientID');}]);}])->find($tgid);
                     $usrId=$chkUser->getCampaign->getAdvertiser->GetClientID->user_id;
                     if(!is_null($chkUser) and Auth::user()->id ==$usrId ) {
@@ -185,28 +173,25 @@ class TargetgroupController extends Controller
                         }
                         $iab_category_obj=Iab_Category::get();
 
-
-//                    return dd($targetgroup_obj);
                         return view('targetgroup.edit')
                             ->with('targetgroup_obj', $targetgroup_obj)
                             ->with('campaign_obj',$campaign_obj)
                             ->with('targetgroupCreative',$targetgroupCreative)
                             ->with('targetgroupBWList',$targetgroupBWList)
                             ->with('targetgroupGeoSegment',$targetgroupGeoSegment)
-                            ->with('iab_category_obj',$iab_category_obj)
-                            ->with('permission', \Permission_Check::getPermission());
-                    }else{
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                            ->with('iab_category_obj',$iab_category_obj);
                     }
-
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                 }
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
+            return Redirect::to(url('/user/login'));
         }
     }
 
     public function edit_targetgroup(Request $request){
         if(Auth::check()){
-            if(1==1){ //permission goes here
+            if (in_array('ADD_EDIT_TARGETGROUP', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $targetgroup_id = $request->input('targetgroup_id');
@@ -286,16 +271,12 @@ class TargetgroupController extends Controller
 
                         return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Target Group Edited Successfully']);
                     }
-                }else{
-                    return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
                 }
-            }else{
-                return Redirect::back()->withErrors(['success'=>false,'msg'=>'dont have Edit Permission']);
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
-
-        }else{
-            return Redirect::to('user/login');
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to(url('user/login'));
     }
     /**
      * Display a listing of the resource.
@@ -307,6 +288,34 @@ class TargetgroupController extends Controller
             $sub_category=Iab_Sub_Category::where('iab_category_id',$id)->get();
             return json_encode($sub_category);
         }
+    }
+    public function jqgrid(Request $request){
+        if(Auth::check()){
+            if (in_array('ADD_EDIT_TARGETGROUP', $this->permission)) {
+                $validate=\Validator::make($request->all(),['name' => 'required']);
+                if($validate->passes()) {
+                    $targetgroup_id=substr($request->input('id'),2);
+                    $chekUser=Targetgroup::with(['getCampaign'=>function($q){$q->with(['getAdvertiser'=>function($p){$p->with('GetClientID');}]);}])->where('id',$targetgroup_id)->get();
+                    if(count($chekUser) > 0 and Auth::user()->id == $chekUser[0]->getCampaign->getAdvertiser->GetClientID->user_id) {
+                        switch ($request->input('oper')) {
+                            case 'edit':
+                                $targetgroup=Targetgroup::find($targetgroup_id);
+                                if($targetgroup){
+                                    $targetgroup->name=$request->input('name');
+                                    $targetgroup->save();
+                                    return "ok";
+                                }
+                                return "false";
+                            break;
+                        }
+                    }
+                    return "invalid Target Group ID";
+                }
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+            }
+            return "don't have permission";
+        }
+        return Redirect::to(url('/user/login'));
     }
 
     public function index()

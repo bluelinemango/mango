@@ -16,41 +16,35 @@ class ModelController extends Controller
 {
     public function GetView(){
         if(Auth::check()){
-            if(1==1){ //permission goes here
-//                return dd($campaign);
+            if (in_array('VIEW_MODEL', $this->permission)) {
                 $model_obj = ModelTable::with('getAdvertiser')->get();
-                return view('model.list')->with('model_obj',$model_obj)->with('permission',\Permission_Check::getPermission());
-            }else{
+                return view('model.list')->with('model_obj',$model_obj);
             }
-        }else{
-            return Redirect::to('/user/login');
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
-
-
+        return Redirect::to(url('/user/login'));
     }
 
     public function ModelAddView($clid,$advid){
         if(Auth::check()) {
-            if (1 == 1) { //      permission goes here
+            if (in_array('ADD_EDIT_MODEL', $this->permission)) {
                 $chkUser = Advertiser::with('GetClientID')->find($advid);
                 if(count($chkUser) > 0 and Auth::user()->id == $chkUser->GetClientID->user_id) {
                     $advertiser_obj = Advertiser::with('GetClientID')->find($advid);
-                    return view('model.add')->with('advertiser_obj', $advertiser_obj)->with('permission', \Permission_Check::getPermission());
-                } else{
-                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    return view('model.add')->with('advertiser_obj', $advertiser_obj);
                 }
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
             }
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to(url('/user/login'));
     }
 
     public function add_model(Request $request){
         if(Auth::check()){
-            if(1==1){    //permission goes here
+            if (in_array('ADD_EDIT_MODEL', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
-//            $response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=6LdOJAcTAAAAAFnwVTSg4GLCuDhvXXTOaGlgj1sj&response=' . $request->input('g-recaptcha-response'));
-//            $captchaCheck = json_decode($response);
-//            if ($captchaCheck->{'success'} == true) {
                     $chkUser=Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
                         $date_of_request = \DateTime::createFromFormat('m/d/Y', $request->input('date_of_request'));
@@ -71,52 +65,49 @@ class ModelController extends Controller
                         $modelTable->date_of_request = $date_of_request;
                         $modelTable->save();
                         return Redirect::to(url('/client/cl'.$chkUser->GetClientID->id.'/advertiser/adv'.$request->input('advertiser_id').'/model/mdl'.$modelTable->id.'/edit'))->withErrors(['success' => true, 'msg' => "Model added successfully"]);
-                    }else{
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                     }
-//            }
-//            return \Redirect::back()->withErrors(['success'=>false,'msg'=> 'ﮐﺪ اﻣﻨﯿﺘﯽ ﺭا ﻭاﺭﺩ ﮐﻨﯿﺪ']);
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                 }
-                //return print_r($validate->messages());
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
-        }else{
-            return Redirect::to('/user/login');
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to(url('/user/login'));
     }
 
 
     public function DeleteModel($id){
-        if(Auth::check()){
-            if(1==1) { //      permission goes here
-                Campaign::where('id',$id)->delete();
-                return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Campaign Deleted Successfully']);
-            }
-        }else{
-            return Redirect::to('user/login');
-        }
+//        if(Auth::check()){
+//            if(1==1) { //      permission goes here
+//                Campaign::where('id',$id)->delete();
+//                return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Campaign Deleted Successfully']);
+//            }
+//        }else{
+//            return Redirect::to('user/login');
+//        }
     }
 
     public function ModelEditView($clid,$advid,$mdlid){
         if(!is_null($mdlid)){
             if(Auth::check()){
-                if(1==1){ // Permission goes here
+                if (in_array('ADD_EDIT_MODEL', $this->permission)) {
                     $chkUser=Advertiser::with('GetClientID')->find($advid);
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
                         $model_obj = ModelTable::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->find($mdlid);
 //                        return dd($campaign_obj);
-                        return view('model.edit')->with('model_obj', $model_obj)->with('permission', \Permission_Check::getPermission());
-                    }else{
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                        return view('model.edit')->with('model_obj', $model_obj);
                     }
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                 }
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
+            return Redirect::to(url('/user/login'));
         }
     }
     public function edit_model(Request $request){
 //        $start_date = \DateTime::createFromFormat('d.m.Y', $request->input('start_date'));
         if(Auth::check()){
-            if(1==1){ //permission goes here
+            if (in_array('ADD_EDIT_MODEL', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $model_id = $request->input('model_id');
@@ -143,25 +134,20 @@ class ModelController extends Controller
                         $modelTable->save();
                         return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Model Edited Successfully']);
                     }
-                }else{
-                    return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
                 }
-            }else{
-                return Redirect::back()->withErrors(['success'=>false,'msg'=>'do not have Edit Permission']);
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
-
-        }else{
-            return Redirect::to('user/login');
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
+        return Redirect::to(url('/user/login'));
     }
     public function jqgrid(Request $request){
 //        return dd($request->all());
         if(Auth::check()){
-            if(1==1){    //permission goes here
+            if (in_array('ADD_EDIT_MODEL', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $model_id=substr($request->input('id'),2);
-//                    return dd($model_id);
                     $chkUser=ModelTable::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->where('id',$model_id)->get();
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser[0]->getAdvertiser->GetClientID->user_id) {
                         switch ($request->input('oper')) {
@@ -177,14 +163,13 @@ class ModelController extends Controller
                         }
                     }
                     return "invalid Model ID";
-
                 }
                 //return print_r($validate->messages());
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
-        }else{
-            return Redirect::to('/user/login');
+            return "don't have permission";
         }
+        return Redirect::to(url('/user/login'));
     }
 
     public function index()
