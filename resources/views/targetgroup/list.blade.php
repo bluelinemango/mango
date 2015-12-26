@@ -147,6 +147,7 @@
 
             var jqgrid_data = [
                 @foreach($targetgroup_obj as $index)
+                @if(!is_null($index->getCampaign->getAdvertiser->GetClientID))
                 {
                     id   : 'tg{{$index->id}}',
                     name : '{{$index->name}}',
@@ -154,6 +155,7 @@
                     date_modify : '{{$index->updated_at}}',
                     full_edit: '<a href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/tg'.$index->id.'/edit')}}">Edit</a>'
                 },
+                @endif
                 @endforeach
             ];
 

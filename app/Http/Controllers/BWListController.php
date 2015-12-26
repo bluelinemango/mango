@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Advertiser;
 use App\Models\BWEntries;
 use App\Models\BWList;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -20,7 +21,23 @@ class BWListController extends Controller
     public function GetView(){
         if(Auth::check()){
             if(in_array('VIEW_BWLIST',$this->permission)) {
-                $bwlist=BWList::with(['getEntries'=>function($q){$q->select(DB::raw('*,count(bwlist_id) as bwlist_count'))->groupBy('bwlist_id');}])->with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->get();
+                if (User::isSuperAdmin()) {
+                    $bwlist = BWList::with(['getEntries' => function ($q) {
+                        $q->select(DB::raw('*,count(bwlist_id) as bwlist_count'))->groupBy('bwlist_id');
+                    }])->with(['getAdvertiser' => function ($q) {
+                        $q->with('GetClientID');
+                    }])->get();
+                }else{
+                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
+                    $bwlist = BWList::with(['getEntries' => function ($q) {
+                        $q->select(DB::raw('*,count(bwlist_id) as bwlist_count'))->groupBy('bwlist_id');
+                    }])->with(['getAdvertiser' => function ($q) use($usr_company) {
+                        $q->with(['GetClientID' => function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        }]);
+                    }])->get();
+
+                }
                 return view('bwlist.list')->with('bwlist_obj',$bwlist);
             }
             return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2015 at 04:21 PM
+-- Generation Time: Dec 26, 2015 at 05:51 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `advertiser` (
   `domain_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `advertiser`
@@ -44,12 +44,13 @@ CREATE TABLE IF NOT EXISTS `advertiser` (
 
 INSERT INTO `advertiser` (`id`, `name`, `description`, `status`, `client_id`, `domain_name`, `created_at`, `updated_at`) VALUES
 (2, 'adv_2', 'adv_descript_2', 1, 4, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(4, 'adv_1', 'adv_descript_1', 1, 3, 'aaaa', '0000-00-00 00:00:00', '2015-11-17 07:26:19'),
-(5, 'aaaaaaa', '1111', 0, 1, '111', '2015-10-23 10:06:50', '2015-10-23 10:06:50'),
+(4, 'adv_1111', 'adv_descript_1', 1, 3, 'aaaa', '0000-00-00 00:00:00', '2015-12-22 14:25:27'),
+(5, 'aaaaaaa', '1111', 0, 7, '111', '2015-10-23 10:06:50', '2015-10-23 10:06:50'),
 (6, 'test1', 'aaaaa', 0, 1, '', '2015-11-07 12:58:57', '2015-11-07 12:58:57'),
-(7, 'wwww', '', 0, 1, 'aaaa.com', '2015-11-17 06:52:09', '2015-11-17 06:52:09'),
+(7, 'wwww', '', 0, 8, 'aaaa.com', '2015-11-17 06:52:09', '2015-11-17 06:52:09'),
 (8, '11223423234', '', 0, 1, '23423', '2015-11-17 09:26:12', '2015-11-17 09:26:12'),
-(9, 'asdasdas', '', 0, 1, 'adadas', '2015-11-17 12:37:45', '2015-11-17 12:37:45');
+(9, 'asdasdas', '', 0, 1, 'adadas', '2015-11-17 12:37:45', '2015-11-17 12:37:45'),
+(10, 'aa', '', 0, 1, 'aaa', '2015-12-23 12:21:42', '2015-12-23 12:21:42');
 
 -- --------------------------------------------------------
 
@@ -63,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `bwentries` (
   `bwlist_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=149 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `bwentries`
@@ -117,15 +118,12 @@ INSERT INTO `bwentries` (`id`, `domain_name`, `bwlist_id`, `created_at`, `update
 (86, 'asd.com', 17, '2015-12-06 10:50:43', '2015-12-06 10:50:43'),
 (87, 'asd.com', 17, '2015-12-06 10:51:42', '2015-12-06 10:51:42'),
 (88, 'aaa.com', 17, '2015-12-06 10:52:23', '2015-12-06 10:52:23'),
-(89, 'aaa.com', 17, '2015-12-06 10:53:15', '2015-12-06 10:53:15'),
-(90, 'aaaaa.com', 17, '2015-12-06 10:54:32', '2015-12-06 10:54:32'),
-(91, 'asdas.com', 17, '2015-12-06 10:55:18', '2015-12-06 10:55:18'),
-(93, 'lololo.com', 3, '2015-12-06 11:48:26', '2015-12-06 11:48:26'),
 (94, 'asldashdasjkd.com', 3, '2015-12-06 11:48:51', '2015-12-06 11:48:51'),
 (95, 'sadasd.com', 3, '2015-12-06 11:49:41', '2015-12-06 11:49:41'),
 (96, 'asdasd.com', 3, '2015-12-06 11:50:08', '2015-12-06 11:50:08'),
 (97, 'sdasdasd.com', 3, '2015-12-06 11:50:46', '2015-12-06 11:50:46'),
-(98, 'asdasd.com', 3, '2015-12-06 11:52:53', '2015-12-06 11:52:53');
+(98, 'asdasd.com', 3, '2015-12-06 11:52:53', '2015-12-06 11:52:53'),
+(149, 'asdaasdasd1231233123s.com', 17, '2015-12-15 07:21:18', '2015-12-15 07:21:37');
 
 -- --------------------------------------------------------
 
@@ -150,13 +148,13 @@ INSERT INTO `bwlist` (`id`, `name`, `list_type`, `advertiser_id`, `created_at`, 
 (1, 'shomare 1', 'black', 4, '2015-11-20 12:37:03', '2015-11-20 12:37:03'),
 (2, 'sdafasdf', 'black', 4, '2015-11-20 12:38:15', '2015-11-20 12:38:15'),
 (3, 'sdafasdf', 'white', 4, '2015-11-20 12:43:21', '2015-11-20 12:43:21'),
-(4, 'aaaa', 'black', 8, '2015-11-20 12:53:50', '2015-11-20 12:53:50'),
+(4, 'aaaa', 'black', 7, '2015-11-20 12:53:50', '2015-11-20 12:53:50'),
 (5, 'aa', 'black', 8, '2015-11-20 12:54:09', '2015-11-20 12:54:09'),
 (6, 'aa', 'black', 8, '2015-11-20 12:54:17', '2015-11-20 12:54:17'),
 (7, 'aa', 'white', 8, '2015-11-20 12:56:12', '2015-11-20 12:56:12'),
 (8, 'ali', 'white', 8, '2015-11-21 13:12:34', '2015-11-21 13:12:34'),
 (17, 'alireza', 'black', 8, '2015-11-28 13:13:17', '2015-11-28 13:13:17'),
-(18, 'alio', 'black', 9, '2015-12-05 12:29:45', '2015-12-05 12:29:45');
+(18, 'alio1', 'black', 9, '2015-12-05 12:29:45', '2015-12-21 11:16:30');
 
 -- --------------------------------------------------------
 
@@ -188,12 +186,12 @@ CREATE TABLE IF NOT EXISTS `campaign` (
 --
 
 INSERT INTO `campaign` (`id`, `name`, `advertiser_id`, `description`, `status`, `max_impression`, `daily_max_impression`, `max_budget`, `daily_max_budget`, `cpm`, `advertiser_domain`, `start_date`, `end_date`, `advertiser_domain_name`, `created_at`, `updated_at`) VALUES
-(3, 'fsdf11112', 4, 'asdas', 0, 234, 2342, 3423, 4234, 234, '', '2015-11-09 14:32:32', '2015-11-25 14:32:32', '234', '2015-10-14 11:38:02', '2015-11-05 14:32:32'),
+(3, 'fsdf111121', 4, 'asdas', 0, 13123, 2342, 34231, 4234, 234, '', '2015-11-09 14:32:32', '2015-11-25 14:32:32', '234', '2015-10-14 11:38:02', '2015-12-20 11:34:48'),
 (4, 'asdasd', 4, 'asd asd a', 0, 2332, 2323, 2222, 2222, 222, '', '2015-10-22 10:07:43', '2015-10-22 10:07:43', '222', '2015-10-23 10:07:43', '2015-10-23 10:07:43'),
 (5, '11111111', 6, 'asdasd', 0, 222, 222, 222, 22, 22, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'asdas', '2015-11-07 13:02:52', '2015-11-07 13:02:52'),
 (6, 'aaaaaaaa', 4, '', 0, 2, 2, 2, 2, 2, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'aaaaaaa', '2015-11-17 07:42:08', '2015-11-17 07:42:08'),
 (7, 'asd', 8, '', 0, 123, 123, 123, 123, 123, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '123', '2015-11-17 09:31:34', '2015-11-17 09:31:34'),
-(8, 'asd', 8, '', 0, 2, 2, 2, 2, 2323, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-11-17 09:35:20', '2015-11-17 09:35:20'),
+(8, 'asd', 7, '', 0, 2, 2, 2, 2, 2323, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-11-17 09:35:20', '2015-11-17 09:35:20'),
 (9, 'asd asd', 9, '', 0, 0, 0, 0, 0, 0, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'as das ', '2015-11-17 12:38:53', '2015-11-17 12:38:53');
 
 -- --------------------------------------------------------
@@ -209,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   `company` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `client`
@@ -220,7 +218,12 @@ INSERT INTO `client` (`id`, `user_id`, `name`, `company`, `created_at`, `updated
 (2, 1, 'cocacola', 'cocacola company', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (3, 1, 'alireza_pepsi', 'aaa', '2015-10-08 11:47:15', '2015-10-08 11:47:15'),
 (4, 2, 'ali', 'ssss', '2015-10-08 11:50:08', '2015-10-08 11:50:08'),
-(5, 2, 'aaaa', 'aaaaaaaa', '2015-10-10 12:29:23', '2015-10-10 12:29:23');
+(5, 2, 'aaaa', 'aaaaaaaa', '2015-10-10 12:29:23', '2015-10-10 12:29:23'),
+(6, 3, 'aaa', '', '2015-12-20 11:03:10', '2015-12-20 11:03:10'),
+(7, 4, 'asdasdasd', '', '2015-12-20 11:09:47', '2015-12-20 11:09:47'),
+(8, 5, 'sadasd111', '', '2015-12-20 11:10:19', '2015-12-20 11:13:33'),
+(9, 1, 'alisssss111', '', '2015-12-22 14:24:19', '2015-12-22 14:24:51'),
+(10, 1, 'asldkuajsdkjbaslkdj', '', '2015-12-22 14:24:31', '2015-12-22 14:24:31');
 
 -- --------------------------------------------------------
 
@@ -271,11 +274,11 @@ CREATE TABLE IF NOT EXISTS `creative` (
 --
 
 INSERT INTO `creative` (`id`, `name`, `advertiser_id`, `description`, `status`, `ad_tag`, `landing_page_url`, `preview_url`, `size`, `is_secure`, `attributes`, `advertiser_domain_name`, `created_at`, `updated_at`) VALUES
-(2, 'aaa', 8, '', 0, 'asd', 'ads', 'adsa', '23x23', 0, 'asd', 'aaaa', '2015-11-17 10:07:22', '2015-11-17 10:07:22'),
+(2, 'aaa1', 8, '', 0, 'asd', 'ads', 'adsa', '23x232', 0, 'asd', 'aaaa', '2015-11-17 10:07:22', '2015-12-20 11:37:59'),
 (3, 'asdasd1', 4, '12311', 0, '2131', '1231', '1231', '1231x231', 0, '1231', '1231', '2015-10-23 06:15:09', '2015-10-23 06:34:23'),
 (4, 'as12312', 4, '31231', 0, '2131', '1231', '1231', '1231x231', 0, '1231', '1231', '2015-10-23 06:15:09', '2015-10-23 06:34:23'),
 (5, 'as32423d1', 4, '12311', 0, '2131', '1231', '1231', '1231x231', 0, '1231', '1231', '2015-10-23 06:15:09', '2015-10-23 06:34:23'),
-(6, 'hhhghf', 4, '12311', 0, '2131', '1231', '1231', '1231x231', 0, '1231', '1231', '2015-10-23 06:15:09', '2015-10-23 06:34:23');
+(6, 'hhhghf', 7, '12311', 0, '2131', '1231', '1231', '1231x231', 0, '1231', '1231', '2015-10-23 06:15:09', '2015-10-23 06:34:23');
 
 -- --------------------------------------------------------
 
@@ -292,7 +295,7 @@ CREATE TABLE IF NOT EXISTS `geosegment` (
   `geosegmentlist_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `geosegment`
@@ -316,7 +319,10 @@ INSERT INTO `geosegment` (`id`, `name`, `lat`, `lon`, `segment_radius`, `geosegm
 (21, '', '', '', 0, 11, '2015-12-05 13:53:02', '2015-12-05 13:53:02'),
 (22, 'alasdghakj', '23', '213', 0, 12, '2015-12-05 13:57:05', '2015-12-05 13:57:05'),
 (23, 'hasdgkjag', '213', '32', 0, 12, '2015-12-05 13:57:05', '2015-12-05 13:57:05'),
-(24, 'adf', '123', '21', 0, 12, '2015-12-05 13:57:05', '2015-12-05 13:57:05');
+(24, 'adf', '123', '21', 0, 12, '2015-12-05 13:57:05', '2015-12-05 13:57:05'),
+(25, 'alioioi', '12', '131', 12, 5, '2015-12-14 14:26:37', '2015-12-14 14:29:22'),
+(26, '123', '456', '789', 41, 5, '2015-12-14 14:29:34', '2015-12-14 14:29:34'),
+(27, 'ali`1', '1234', '1234', 1234, 5, '2015-12-15 07:22:03', '2015-12-15 07:22:21');
 
 -- --------------------------------------------------------
 
@@ -342,8 +348,8 @@ INSERT INTO `geosegmentlist` (`id`, `name`, `advertiser_id`, `created_at`, `upda
 (7, 'aaaaaaaasdasdas', 4, '2015-11-28 13:14:23', '2015-11-28 13:14:23'),
 (8, 'gggggggggggg', 4, '2015-11-28 13:14:23', '2015-11-28 13:14:23'),
 (9, 'ali', 9, '2015-12-05 13:25:30', '2015-12-05 13:25:30'),
-(11, 'asdasdasdasd', 9, '2015-12-05 13:53:02', '2015-12-05 13:53:02'),
-(12, 'aa11', 9, '2015-12-05 13:57:05', '2015-12-05 14:06:14');
+(11, 'asdasdasdasd', 7, '2015-12-05 13:53:02', '2015-12-05 13:53:02'),
+(12, 'aa11a1', 9, '2015-12-05 13:57:05', '2015-12-21 11:42:24');
 
 -- --------------------------------------------------------
 
@@ -399,6 +405,24 @@ INSERT INTO `iab_sub_category` (`id`, `name`, `iab_category_id`, `created_at`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `impression`
+--
+
+CREATE TABLE IF NOT EXISTS `impression` (
+  `id` int(10) unsigned NOT NULL,
+  `targetgroup_id` int(10) unsigned NOT NULL,
+  `creative_id` int(10) unsigned NOT NULL,
+  `campaign_id` int(10) unsigned NOT NULL,
+  `advertiser_id` int(10) unsigned NOT NULL,
+  `client_id` int(10) unsigned NOT NULL,
+  `geosegment_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=1999 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `migrations`
 --
 
@@ -434,7 +458,8 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 ('2015_11_30_160433_creat-iab-sub-category-table', 12),
 ('2015_12_01_155625_create-targetgroup-geosegment-map-table', 13),
 ('2015_12_03_151710_targetgroup-bwlist-map-table', 14),
-('2015_12_07_151734_create-company-table', 15);
+('2015_12_07_151734_create-company-table', 15),
+('2015_12_24_085112_create_impression_table', 16);
 
 -- --------------------------------------------------------
 
@@ -469,7 +494,7 @@ CREATE TABLE IF NOT EXISTS `model` (
 
 INSERT INTO `model` (`id`, `name`, `advertiser_id`, `seed_web_sites`, `algo`, `segment_name_seed`, `process_result`, `description`, `num_neg_devices_used`, `num_pos_devices_used`, `feature_recency_in_sec`, `max_num_both_neg_pos_devices`, `negative_features_requested`, `feature_avg_num_history_used`, `negative_feature_used`, `date_of_request`, `created_at`, `updated_at`) VALUES
 (1, 'aaa', 6, '"asd,dd,d"', 'heat', 'aaa', 'asdas', '1111', 1, 1, 1, 1, '"asd,fgsd,fg,df,w"', '', '"asd,ac,zc,sdf,g"', '2016-01-11 07:00:06', '2015-11-12 06:34:38', '2015-11-12 07:06:34'),
-(2, 'sad', 8, '"sad"', '', 'asdas', '234', 'asdasd', 234, 24, 34324, 234, '"asd,addd"', '', '"aaaa"', '2016-05-12 13:36:09', '2015-11-24 11:25:15', '2015-12-05 14:36:09');
+(2, 'sad11', 7, '"sad"', '', 'asdas', '234', 'asdasd', 234, 24, 34324, 234, '"asd,addd"', '', '"aaaa"', '2016-05-12 13:36:09', '2015-11-24 11:25:15', '2015-12-21 11:03:42');
 
 -- --------------------------------------------------------
 
@@ -495,36 +520,28 @@ CREATE TABLE IF NOT EXISTS `permission` (
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `permission`
 --
 
 INSERT INTO `permission` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'ADD_CLIENT', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(2, 'EDIT_CLIENT', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1, 'ADD_EDIT_CLIENT', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (3, 'VIEW_CLIENT', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(4, 'ADD_CAMPAIGN', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(5, 'EDIT_CAMPAIGN', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 'ADD_EDIT_CAMPAIGN', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (6, 'VIEW_CAMPAIGN', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(7, 'ADD_ADVERTISER', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(8, 'EDIT_ADVERTISER', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(7, 'ADD_EDIT_ADVERTISER', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (9, 'VIEW_ADVERTISER', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(10, 'ADD_CREATIVE', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(11, 'EDIT_CREATIVE', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(10, 'ADD_EDIT_CREATIVE', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (12, 'VIEW_CREATIVE', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(13, 'ADD_TARGETGROUP', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(14, 'EDIT_TARGETGROUP', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(13, 'ADD_EDIT_TARGETGROUP', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (15, 'VIEW_TARGETGROUP', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(16, 'ADD_MODEL', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(17, 'EDIT_MODEL', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(16, 'ADD_EDIT_MODEL', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (18, 'VIEW_MODEL', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(19, 'ADD_BWLIST', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(20, 'EDIT_BWLIST', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(19, 'ADD_EDIT_BWLIST', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (21, 'VIEW_BWLIST', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(22, 'ADD_GEOSEGMENTLIST', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(23, 'EDIT_GEOSEGMENTLIST', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(22, 'ADD_EDIT_GEOSEGMENTLIST', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (24, 'VIEW_GEOSEGMENTLIST', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
@@ -564,21 +581,41 @@ CREATE TABLE IF NOT EXISTS `role_permission_mapping` (
   `role_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=406 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `role_permission_mapping`
 --
 
 INSERT INTO `role_permission_mapping` (`id`, `permission_id`, `role_id`, `created_at`, `updated_at`) VALUES
-(3, 1, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(4, 2, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(5, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (15, 7, 3, '2015-12-07 13:09:51', '2015-12-07 13:09:51'),
 (16, 16, 3, '2015-12-07 13:09:51', '2015-12-07 13:09:51'),
-(17, 8, 4, '2015-12-07 13:16:32', '2015-12-07 13:16:32'),
-(18, 11, 4, '2015-12-07 13:16:32', '2015-12-07 13:16:32'),
-(19, 17, 4, '2015-12-07 13:16:32', '2015-12-07 13:16:32');
+(311, 1, 2, '2015-12-23 12:30:21', '2015-12-23 12:30:21'),
+(312, 3, 2, '2015-12-23 12:30:21', '2015-12-23 12:30:21'),
+(313, 4, 2, '2015-12-23 12:30:21', '2015-12-23 12:30:21'),
+(314, 6, 2, '2015-12-23 12:30:21', '2015-12-23 12:30:21'),
+(315, 9, 2, '2015-12-23 12:30:21', '2015-12-23 12:30:21'),
+(316, 10, 2, '2015-12-23 12:30:21', '2015-12-23 12:30:21'),
+(317, 12, 2, '2015-12-23 12:30:21', '2015-12-23 12:30:21'),
+(318, 13, 2, '2015-12-23 12:30:21', '2015-12-23 12:30:21'),
+(319, 15, 2, '2015-12-23 12:30:21', '2015-12-23 12:30:21'),
+(320, 16, 2, '2015-12-23 12:30:21', '2015-12-23 12:30:21'),
+(321, 18, 2, '2015-12-23 12:30:21', '2015-12-23 12:30:21'),
+(322, 19, 2, '2015-12-23 12:30:21', '2015-12-23 12:30:21'),
+(323, 21, 2, '2015-12-23 12:30:21', '2015-12-23 12:30:21'),
+(324, 22, 2, '2015-12-23 12:30:21', '2015-12-23 12:30:21'),
+(325, 24, 2, '2015-12-23 12:30:21', '2015-12-23 12:30:21'),
+(395, 1, 1, '2015-12-23 12:56:41', '2015-12-23 12:56:41'),
+(396, 3, 1, '2015-12-23 12:56:41', '2015-12-23 12:56:41'),
+(397, 4, 1, '2015-12-23 12:56:41', '2015-12-23 12:56:41'),
+(398, 6, 1, '2015-12-23 12:56:41', '2015-12-23 12:56:41'),
+(399, 7, 1, '2015-12-23 12:56:41', '2015-12-23 12:56:41'),
+(400, 9, 1, '2015-12-23 12:56:41', '2015-12-23 12:56:41'),
+(401, 12, 1, '2015-12-23 12:56:41', '2015-12-23 12:56:41'),
+(402, 15, 1, '2015-12-23 12:56:41', '2015-12-23 12:56:41'),
+(403, 18, 1, '2015-12-23 12:56:41', '2015-12-23 12:56:41'),
+(404, 21, 1, '2015-12-23 12:56:41', '2015-12-23 12:56:41'),
+(405, 24, 1, '2015-12-23 12:56:41', '2015-12-23 12:56:41');
 
 -- --------------------------------------------------------
 
@@ -624,8 +661,8 @@ INSERT INTO `targetgroup` (`id`, `name`, `campaign_id`, `description`, `status`,
 (9, 'sadas', 3, '', 0, '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-01 12:37:34', '2015-12-01 12:37:34'),
 (10, 'asdads', 3, '', 0, '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-01 12:42:18', '2015-12-01 12:42:18'),
 (11, 'ali', 3, '', 0, '2', '6', 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'aaa', '2015-12-01 13:36:24', '2015-12-01 13:36:24'),
-(12, 'aaa', 3, '', 0, '1', '2', 12, 12, 123, 34, '5', 45, 56, '2015-05-12 14:37:06', '2016-11-12 15:37:06', 'aaaaa', '2015-12-03 11:27:16', '2015-12-05 15:37:06'),
-(13, 'asdasd', 3, '', 0, '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-03 11:50:47', '2015-12-03 11:50:47');
+(12, 'aaa1', 3, '', 0, '1', '2', 12, 12, 123, 34, '5', 45, 56, '2015-05-12 14:37:06', '2016-11-12 15:37:06', 'aaaaa', '2015-12-03 11:27:16', '2015-12-22 09:45:47'),
+(13, 'asdasd', 8, '', 0, '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-03 11:50:47', '2015-12-03 11:50:47');
 
 -- --------------------------------------------------------
 
@@ -728,18 +765,19 @@ CREATE TABLE IF NOT EXISTS `users` (
   `last_login_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `role_id`, `company_id`, `company`, `name`, `email`, `password`, `active`, `remember_token`, `last_login_time`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 'aaa11', 'alireza', '09364991494@yahoo.com', '$2y$10$q0O2WoGF6tKnk7s638v/wue4N4iSKeZ21JwH7JY0XGyj06MDyfF2K', 1, 'iNR8fcfsMctyQ1QhXZsZZvW5u8heAlxbSmCLhoeUWV2SHbCL6Kxyr1rHL5pT', '2015-12-08 05:53:22', '0000-00-00 00:00:00', '2015-12-08 05:53:22'),
+(1, 1, 2, 'aaa11', 'alireza', '09364991494@yahoo.com', '$2y$10$q0O2WoGF6tKnk7s638v/wue4N4iSKeZ21JwH7JY0XGyj06MDyfF2K', 1, 'EVQ26ZwOqzt3iuyjKH5jjRLZxD848RErejJk4BBskR8RHi0kp8qo1ZUJD8iB', '2015-12-21 23:09:50', '0000-00-00 00:00:00', '2015-12-22 11:09:50'),
 (2, 2, 2, '', 'alireza11111', 'a@b.com', '$2y$10$q0O2WoGF6tKnk7s638v/wue4N4iSKeZ21JwH7JY0XGyj06MDyfF2K', 0, 'wbEqCaXMvVOVvc2rbjhBh5aeEdqW05qjv85rHERzLV7MuomjOC6jx0VN4Blf', NULL, '0000-00-00 00:00:00', '2015-12-08 04:34:02'),
-(3, 2, 1, '', 'asdasd1', '09364sad4@yahoo.com', '$2y$10$Y4lkrHpSphWo6Qgk52xLlOS0lemOrUHjvkfOWY1pLiYrtu.bwNev.', 0, NULL, '0000-00-00 00:00:00', '2015-12-06 08:35:25', '2015-12-07 12:14:36'),
+(3, 2, 1, '', 'asdasd1', '09364sad4@yahoo.com', '$2y$10$Y4lkrHpSphWo6Qgk52xLlOS0lemOrUHjvkfOWY1pLiYrtu.bwNev.', 0, 'czxQnGYoWOHuVBZBxDuqnGGQmdnae8PLzjlaVCzL08GrYY4eqM7zRW1XUXjd', '2015-12-16 00:16:22', '2015-12-06 08:35:25', '2015-12-16 13:33:26'),
 (4, 4, 1, '', 'asdasdas222', '123213494@yahoo.com', '$2y$10$q0O2WoGF6tKnk7s638v/wue4N4iSKeZ21JwH7JY0XGyj06MDyfF2K', 1, '1NGp5eILuC7ZyxXAn5ZyVTvAX8HKoYftF5HQfvDywy8o0vg1nPpGrXWnVm7n', '0000-00-00 00:00:00', '2015-12-06 08:38:53', '2015-12-08 05:53:18'),
-(5, 3, 2, '', 'asdas', 'asdasdafdsff494@yahoo.com', '$2y$10$Z.GwzLNeDhDF5SFwThGp9Oiey/jA3ea1GLjjVIhZvWtqGlBzDo9Ae', 1, NULL, '0000-00-00 00:00:00', '2015-12-06 10:18:58', '2015-12-07 11:57:27');
+(5, 3, 1, '', 'asdas', 'asdasdafdsff494@yahoo.com', '$2y$10$Z.GwzLNeDhDF5SFwThGp9Oiey/jA3ea1GLjjVIhZvWtqGlBzDo9Ae', 1, NULL, '0000-00-00 00:00:00', '2015-12-06 10:18:58', '2015-12-07 11:57:27'),
+(6, 4, 1, '', 'asda111', 'asdasd94@yahoo.com', '$2y$10$cUHps4amDnsH2j8A7uvOZeOH5n9xrsiCaJ7PTyENe4zWZK.B0SsrS', 1, NULL, '0000-00-00 00:00:00', '2015-12-15 13:35:09', '2015-12-15 13:40:52');
 
 -- --------------------------------------------------------
 
@@ -835,6 +873,18 @@ ALTER TABLE `iab_sub_category`
   ADD KEY `iab_sub_category_iab_category_id_foreign` (`iab_category_id`);
 
 --
+-- Indexes for table `impression`
+--
+ALTER TABLE `impression`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `impression_targetgroup_id_foreign` (`targetgroup_id`),
+  ADD KEY `impression_creative_id_foreign` (`creative_id`),
+  ADD KEY `impression_campaign_id_foreign` (`campaign_id`),
+  ADD KEY `impression_advertiser_id_foreign` (`advertiser_id`),
+  ADD KEY `impression_client_id_foreign` (`client_id`),
+  ADD KEY `impression_geosegment_id_foreign` (`geosegment_id`);
+
+--
 -- Indexes for table `model`
 --
 ALTER TABLE `model`
@@ -924,12 +974,12 @@ ALTER TABLE `user_role_mapping`
 -- AUTO_INCREMENT for table `advertiser`
 --
 ALTER TABLE `advertiser`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `bwentries`
 --
 ALTER TABLE `bwentries`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=149;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=150;
 --
 -- AUTO_INCREMENT for table `bwlist`
 --
@@ -944,7 +994,7 @@ ALTER TABLE `campaign`
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `company`
 --
@@ -959,7 +1009,7 @@ ALTER TABLE `creative`
 -- AUTO_INCREMENT for table `geosegment`
 --
 ALTER TABLE `geosegment`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `geosegmentlist`
 --
@@ -976,6 +1026,11 @@ ALTER TABLE `iab_category`
 ALTER TABLE `iab_sub_category`
   MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
+-- AUTO_INCREMENT for table `impression`
+--
+ALTER TABLE `impression`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1999;
+--
 -- AUTO_INCREMENT for table `model`
 --
 ALTER TABLE `model`
@@ -984,7 +1039,7 @@ ALTER TABLE `model`
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `role`
 --
@@ -994,7 +1049,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `role_permission_mapping`
 --
 ALTER TABLE `role_permission_mapping`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=406;
 --
 -- AUTO_INCREMENT for table `targetgroup`
 --
@@ -1019,7 +1074,7 @@ ALTER TABLE `targetgroup_geosegmentlist_map`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `user_role_mapping`
 --
@@ -1076,6 +1131,17 @@ ALTER TABLE `geosegmentlist`
 --
 ALTER TABLE `iab_sub_category`
   ADD CONSTRAINT `iab_sub_category_iab_category_id_foreign` FOREIGN KEY (`iab_category_id`) REFERENCES `iab_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `impression`
+--
+ALTER TABLE `impression`
+  ADD CONSTRAINT `impression_advertiser_id_foreign` FOREIGN KEY (`advertiser_id`) REFERENCES `advertiser` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `impression_campaign_id_foreign` FOREIGN KEY (`campaign_id`) REFERENCES `campaign` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `impression_client_id_foreign` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `impression_creative_id_foreign` FOREIGN KEY (`creative_id`) REFERENCES `creative` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `impression_geosegment_id_foreign` FOREIGN KEY (`geosegment_id`) REFERENCES `geosegment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `impression_targetgroup_id_foreign` FOREIGN KEY (`targetgroup_id`) REFERENCES `targetgroup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `model`

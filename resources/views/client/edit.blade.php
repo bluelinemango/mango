@@ -137,9 +137,11 @@
                                                 <button type="submit" class="btn btn-success">
                                                     Submit
                                                 </button>
+                                                @if(in_array('ADD_EDIT_ADVERTISER',$permission))
                                                 <a href="{{url('client/cl'.$client_obj->id.'/advertiser/add')}}" class="btn btn-primary pull-left">
                                                     ADD Advertiser
                                                 </a>
+                                                @endif
                                             </footer>
                                         </form>
                                     </div>

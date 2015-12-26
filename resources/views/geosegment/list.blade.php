@@ -146,6 +146,8 @@
 
             var jqgrid_data = [
                 @foreach($geosegment_obj as $index)
+                @if(!is_null($index->getAdvertiser->GetClientID))
+
                 {
                     id   : 'gsm{{$index->id}}',
                     name : '{{$index->name}}',
@@ -158,6 +160,7 @@
                     date_modify : '{{$index->updated_at}}',
                     full_edit: '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/gsm'.$index->id.'/edit')}}">Edit</a>'
                 },
+                @endif
                 @endforeach
             ];
 

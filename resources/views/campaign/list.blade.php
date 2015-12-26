@@ -159,7 +159,7 @@
                     max_budget:'{{$index->max_budget}}',
                     daily_max_budget:'{{$index->daily_max_budget}}',
                     date_modify : '{{$index->updated_at}}',
-                    full_edit: '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/edit')}}">Edit</a> | <a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/targetgroup/add')}}">+ Target Group</a>'
+                    full_edit: '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/edit')}}">Edit</a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) +'| <a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/targetgroup/add')}}">+ Target Group</a>'@endif
                 },
                 @endif
                 @endforeach

@@ -146,6 +146,7 @@
 
             var jqgrid_data = [
                 @foreach($bwlist_obj as $index)
+                @if(!is_null($index->getAdvertiser->GetClientID))
                 {
                     id   : 'bwl{{$index->id}}',
                     name : '{{$index->name}}',
@@ -158,6 +159,7 @@
                     date_modify : '{{$index->updated_at}}',
                     full_edit: '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bwlist/bwl'.$index->id.'/edit')}}">Edit</a>'
                 },
+                @endif
                 @endforeach
             ];
 

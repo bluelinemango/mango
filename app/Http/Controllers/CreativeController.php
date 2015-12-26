@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Advertiser;
 use App\Models\Creative;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -21,7 +22,18 @@ class CreativeController extends Controller
     public function GetView(){
         if(Auth::check()){
             if (in_array('VIEW_CREATIVE', $this->permission)) {
-                $creative=Creative::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->get();
+                if (User::isSuperAdmin()) {
+                    $creative = Creative::with(['getAdvertiser' => function ($q) {
+                        $q->with('GetClientID');
+                    }])->get();
+                }else{
+                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
+                    $creative = Creative::with(['getAdvertiser' => function ($q) use($usr_company) {
+                        $q->with(['GetClientID' => function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        }]);
+                    }])->get();
+                }
                 return view('creative.list')->with('creative_obj',$creative);
             }
             return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);

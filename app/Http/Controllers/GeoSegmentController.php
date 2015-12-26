@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Advertiser;
 use App\Models\GeoSegment;
 use App\Models\GeoSegmentList;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -20,8 +21,23 @@ class GeoSegmentController extends Controller
     public function GetView(){
         if(Auth::check()){
             if(in_array('VIEW_GEOSEGMENTLIST',$this->permission)) {
-                $geosegment_obj=GeoSegmentList::with(['getGeoEntries'=>function($q){$q->select(DB::raw('*,count(geosegmentlist_id) as geosegment_count'))->groupBy('geosegmentlist_id');}])->with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->get();
-//                return dd($geosegment_obj);
+                if (User::isSuperAdmin()) {
+
+                    $geosegment_obj = GeoSegmentList::with(['getGeoEntries' => function ($q) {
+                        $q->select(DB::raw('*,count(geosegmentlist_id) as geosegment_count'))->groupBy('geosegmentlist_id');
+                    }])->with(['getAdvertiser' => function ($q) {
+                        $q->with('GetClientID');
+                    }])->get();
+                }else{
+                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
+                    $geosegment_obj = GeoSegmentList::with(['getGeoEntries' => function ($q) {
+                        $q->select(DB::raw('*,count(geosegmentlist_id) as geosegment_count'))->groupBy('geosegmentlist_id');
+                    }])->with(['getAdvertiser' => function ($q) use($usr_company) {
+                        $q->with(['GetClientID' => function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        }]);
+                    }])->get();
+                }
                 return view('geosegment.list')->with('geosegment_obj',$geosegment_obj);
             }
             return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);

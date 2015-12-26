@@ -135,3 +135,7 @@ Route::group(['prefix' => 'ajax'], function()
 //    Route::resource('features','FeatureController');
 });
 
+/////////////////////////////////REPORTING///////////////////////////////////////////
+Route::get('/reporting',['uses'=>'ReportController@GetView','as'=>'getReportView']);
+/////////////////////////////////END REPORTING///////////////////////////////////////////
+

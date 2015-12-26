@@ -146,6 +146,7 @@
 
             var jqgrid_data = [
                 @foreach($model_obj as $index)
+                @if(!is_null($index->getAdvertiser->GetClientID))
                 {
                     id   : 'tg{{$index->id}}',
                     name : '{{$index->name}}',
@@ -154,6 +155,7 @@
                     date_modify : '{{$index->updated_at}}',
                     full_edit: '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/mdl'.$index->id.'/edit')}}">Edit</a>'
                 },
+                @endif
                 @endforeach
             ];
 

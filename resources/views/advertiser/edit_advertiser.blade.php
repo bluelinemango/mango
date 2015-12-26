@@ -39,7 +39,7 @@
                 @foreach($errors->get('msg') as $error)
                     <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
                         <a class="close" data-dismiss="alert" href="#">×</a>
-                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
+                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i>System MSG!</h4>
                         <p>
                             {{$error}}
                         </p>
@@ -137,27 +137,41 @@
                                                 <button type="submit" class="btn btn-success">
                                                     Submit
                                                 </button>
+                                                @if(in_array('ADD_EDIT_CAMPAIGN',$permission))
                                                 <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/add')}}" class=" btn btn-primary pull-left">
                                                     ADD Campaign
                                                 </a>
+                                                @endif
+                                                @if(in_array('ADD_EDIT_CREATIVE',$permission))
                                                 <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/creative/add')}}" class=" btn btn-primary pull-left">
                                                     Add Creative
                                                 </a>
+                                                @endif
+                                                @if(in_array('ADD_EDIT_BWLIST',$permission))
                                                 <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/bwlist/add')}}" class=" btn btn-primary pull-left">
                                                     Add B/W List
                                                 </a>
+                                                @endif
+                                                @if(in_array('ADD_EDIT_MODEL',$permission))
                                                 <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/model/add')}}" class=" btn btn-primary pull-left">
                                                     Add Model
                                                 </a>
+                                                @endif
+                                                @if(in_array('ADD_EDIT_GEOSEGMENTLIST',$permission))
                                                 <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/geosegment/add')}}" class=" btn btn-primary pull-left">
                                                     Add Geo Segment List
                                                 </a>
+                                                @endif
+                                                @if(in_array('ADD_EDIT_BWLIST',$permission))
                                                 <button type="reset" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
                                                     Upload BW list
                                                 </button>
+                                                @endif
+                                                @if(in_array('ADD_EDIT_GEOSEGMENTLIST',$permission))
                                                 <button type="reset" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal_geo">
                                                     Upload Geo list
                                                 </button>
+                                                @endif
                                             </footer>
                                         </form>
                                     </div>

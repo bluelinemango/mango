@@ -164,7 +164,9 @@
                     @else
                     advertiser: '0',
                     @endif
+                    @if(in_array('ADD_EDIT_ADVERTISER',$permission))
                     add_advertiser: '<a href="{{url('client/cl'.$index->id.'/advertiser/add')}}">Add Advertiser </a>',
+                    @endif
                     date_modify : '{{$index->updated_at}}',
                     action: '<a href="{{url('/client/cl'.$index->id.'/edit')}}">Edit</a>'
 
@@ -176,7 +178,7 @@
                 data : jqgrid_data,
                 datatype : "local",
                 height : 'auto',
-                colNames : ['Actions', 'ID', 'Name','# of Advertiser','Add Advertiser','Modify Date','Action'],
+                colNames : ['Actions', 'ID', 'Name','# of Advertiser',@if(in_array('ADD_EDIT_ADVERTISER',$permission))'Add Advertiser',@endif 'Modify Date','Action'],
                 colModel : [{
                     name : 'act',
                     index : 'act',
@@ -192,11 +194,11 @@
                     name : 'advertiser',
                     index : 'advertiser',
                     editable : false
-                }, {
+                }@if(in_array('ADD_EDIT_ADVERTISER',$permission)), {
                     name : 'add_advertiser',
                     index : 'add_advertiser',
                     editable : false
-                }, {
+                }@endif, {
                     name : 'date_modify',
                     index : 'date_modify',
                     editable : false

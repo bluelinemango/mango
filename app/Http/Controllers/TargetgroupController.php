@@ -10,6 +10,7 @@ use App\Models\Targetgroup;
 use App\Models\Targetgroup_Bwlist_Map;
 use App\Models\Targetgroup_Creative_Map;
 use App\Models\Targetgroup_Geosegmentlist_Map;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -24,7 +25,22 @@ class TargetgroupController extends Controller
     public function GetView(){
         if(Auth::check()){
             if (in_array('VIEW_TARGETGROUP', $this->permission)) {
-                $targetgroup=Targetgroup::with(['getCampaign'=>function($q){$q->with(['getAdvertiser'=>function($p){$p->with('GetClientID');}]);}])->get();
+                if (User::isSuperAdmin()) {
+                    $targetgroup = Targetgroup::with(['getCampaign' => function ($q) {
+                        $q->with(['getAdvertiser' => function ($p) {
+                            $p->with('GetClientID');
+                        }]);
+                    }])->get();
+                }else{
+                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
+                    $targetgroup = Targetgroup::with(['getCampaign' => function ($p) use($usr_company) {
+                        $p->with(['getAdvertiser' => function ($q) use ($usr_company) {
+                            $q->with(['GetClientID' => function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            }]);
+                        }]);
+                    }])->get();
+                }
                 return view('targetgroup.list')->with('targetgroup_obj',$targetgroup);
             }
             return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);

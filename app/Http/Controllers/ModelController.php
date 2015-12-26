@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Advertiser;
 use App\Models\ModelTable;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -17,7 +18,16 @@ class ModelController extends Controller
     public function GetView(){
         if(Auth::check()){
             if (in_array('VIEW_MODEL', $this->permission)) {
-                $model_obj = ModelTable::with('getAdvertiser')->get();
+                if (User::isSuperAdmin()) {
+                    $model_obj = ModelTable::with('getAdvertiser')->get();
+                }else{
+                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
+                    $model_obj = ModelTable::with(['getAdvertiser' => function ($q) use($usr_company) {
+                        $q->with(['GetClientID' => function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        }]);
+                    }])->get();
+                }
                 return view('model.list')->with('model_obj',$model_obj);
             }
             return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
