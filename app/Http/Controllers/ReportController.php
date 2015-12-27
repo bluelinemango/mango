@@ -20,6 +20,8 @@ class ReportController extends Controller
             if (in_array('VIEW_ADVERTISER', $this->permission)) {
                 if (User::isSuperAdmin()) {
                     $clients = Client::get();
+                    $advertiser = Advertiser::get();
+
 //                    $advertiser = Advertiser::with(['Campaign' => function ($q) {
 //                        $q->select(DB::raw('*,count(advertiser_id) as advertiser_count'))->groupBy('advertiser_id');
 //                    }])->with('GetClientID')->get();
