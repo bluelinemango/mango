@@ -1,5 +1,25 @@
 @extends('Layout')
 @section('siteTitle')Add Client @endsection
+@section('header_extra')
+    <style>
+        table, tr, td, th
+        {
+            border: 1px solid black;
+            border-collapse:collapse;
+        }
+        tr.header
+        {
+            cursor:pointer;
+        }
+        .header .sign:after{
+            content:"+";
+            display:inline-block;
+        }
+        .header.expand .sign:after{
+            content:"-";
+        }
+    </style>
+@endsection
 @section('content')
     <!-- MAIN PANEL -->
     <div id="main" role="main">
@@ -139,6 +159,126 @@
                             </div>
                             <!-- end widget -->
                         </article>
+                        <article class="col-sm-8 col-md-8 col-lg-8">
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <div class="jarviswidget" id="wid-id-0">
+                                <!-- widget options:
+                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                                    data-widget-colorbutton="false"
+                                    data-widget-editbutton="false"
+                                    data-widget-togglebutton="false"
+                                    data-widget-deletebutton="false"
+                                    data-widget-fullscreenbutton="false"
+                                    data-widget-custombutton="false"
+                                    data-widget-collapsed="true"
+                                    data-widget-sortable="false"
+
+                                -->
+                                <header>
+                                    <span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+                                    <h2>impression </h2>
+
+                                </header>
+
+                                <!-- widget div-->
+                                <div>
+
+                                    <!-- widget edit box -->
+                                    <div class="jarviswidget-editbox">
+                                        <!-- This area used as dropdown edit box -->
+                                        <input class="form-control" type="text">
+                                    </div>
+                                    <!-- end widget edit box -->
+
+                                    <!-- widget content -->
+                                    <div class="widget-body">
+
+                                        <!-- this is what the user will see -->
+                                        <div id="noroll" style="width:100%; height:300px;"></div>
+
+                                    </div>
+                                    <!-- end widget content -->
+
+                                </div>
+                                <!-- end widget div -->
+
+                            </div>
+                            <!-- end widget -->
+
+
+                        </article>
+                        <article class="col-sm-4 col-md-4 col-lg-4">
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <div class="jarviswidget" id="wid-id-1">
+                                <!-- widget options:
+                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                                    data-widget-colorbutton="false"
+                                    data-widget-editbutton="false"
+                                    data-widget-togglebutton="false"
+                                    data-widget-deletebutton="false"
+                                    data-widget-fullscreenbutton="false"
+                                    data-widget-custombutton="false"
+                                    data-widget-collapsed="true"
+                                    data-widget-sortable="false"
+
+                                -->
+                                <header>
+                                    <span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+
+                                </header>
+
+                                <!-- widget div-->
+                                <div>
+
+                                    <!-- widget edit box -->
+                                    <div class="jarviswidget-editbox">
+                                        <!-- This area used as dropdown edit box -->
+                                        <input class="form-control" type="text">
+                                    </div>
+                                    <!-- end widget edit box -->
+
+                                    <!-- widget content -->
+                                    <div class="widget-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <table class="table " >
+                                                    <tr class="header expand">
+                                                        <th >campaign <span class="sign"></span></th>
+                                                    </tr>
+                                                    @foreach($clients as $index_cln)
+                                                    <tr>
+                                                        <td>
+                                                            {{$index_cln->name}}
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </table>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <table class="table " >
+                                                    <tr class="header expand">
+                                                        <th >campaign <span class="sign"></span></th>
+                                                    </tr>
+                                                    @foreach($advertiser as $index_adv)
+                                                    <tr>
+                                                        <td>
+                                                            {{$index_adv->name}}
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end widget content -->
+
+                                </div>
+                                <!-- end widget div -->
+
+                            </div>
+                            <!-- end widget -->
+
+                        </article>
                         <!-- END COL -->
                     </div>
                     <!-- END ROW -->
@@ -156,10 +296,24 @@
     <script src="{{cdn('js/plugin/dygraphs/dygraph-combined.min.js')}}"></script>
 
     <script>
+        $('.header').click(function(){
+            $(this).toggleClass('expand').nextUntil('tr.header').slideToggle(100);
+        });
         $(document).ready(function() {
 
             pageSetUp();
             // START AND FINISH DATE
+            g1 = new Dygraph(document.getElementById("noroll"), data_temp, {
+                customBars : true,
+                title : 'test',
+                ylabel : 'Impression',
+                legend : 'always',
+                labelsDivStyles : {
+                    'textAlign' : 'right'
+                },
+                showRangeSelector : true
+            });
+
             $('#startdate').datepicker({
                 dateFormat: 'dd.mm.yy',
                 prevText: '<i class="fa fa-chevron-left"></i>',
@@ -181,43 +335,5 @@
     </script>
 
 
-    <script type="text/javascript">
-
-        $(document).ready(function() {
-            // DO NOT REMOVE : GLOBAL FUNCTIONS!
-            pageSetUp();
-
-            /*
-             * PAGE RELATED SCRIPTS
-             */
-
-            g1 = new Dygraph(document.getElementById("noroll"), data_temp, {
-                customBars : true,
-                title : 'Daily Temperatures in New York vs. San Francisco',
-                ylabel : 'Temperature (F)',
-                legend : 'always',
-                labelsDivStyles : {
-                    'textAlign' : 'right'
-                },
-                showRangeSelector : true
-            });
-
-            g2 = new Dygraph(document.getElementById("roll14"), data_temp, {
-                rollPeriod : 14,
-                showRoller : true,
-                customBars : true,
-                ylabel : 'Temperature (F)',
-                legend : 'always',
-                labelsDivStyles : {
-                    'textAlign' : 'right'
-                },
-                showRangeSelector : true,
-                rangeSelectorHeight : 30,
-                rangeSelectorPlotStrokeColor : 'yellow',
-                rangeSelectorPlotFillColor : 'lightyellow'
-            });
-
-        })
-    </script>
 
 @endsection

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Advertiser;
+use App\Models\Client;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -12,28 +14,33 @@ use Illuminate\Support\Facades\Redirect;
 
 class ReportController extends Controller
 {
-    public function GetView(){
-        if(Auth::check()){
+    public function GetView()
+    {
+        if (Auth::check()) {
             if (in_array('VIEW_ADVERTISER', $this->permission)) {
-                if(User::isSuperAdmin()){
+                if (User::isSuperAdmin()) {
+                    $clients = Client::get();
 //                    $advertiser = Advertiser::with(['Campaign' => function ($q) {
 //                        $q->select(DB::raw('*,count(advertiser_id) as advertiser_count'))->groupBy('advertiser_id');
 //                    }])->with('GetClientID')->get();
-                }else {
+                } else {
                     $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
-//                    $advertiser = Advertiser::with(['Campaign' => function ($q) {
-//                        $q->select(DB::raw('*,count(advertiser_id) as advertiser_count'))->groupBy('advertiser_id');
-//                    }])->with(['GetClientID' => function ($p) use ($usr_company) {
-//                        $p->whereIn('user_id', $usr_company);
-//                    }])->get();
+                    $clients = Client::whereIn('user_id', $usr_company)->get();
+
+                    $advertiser = Advertiser::with(['GetClientID' => function ($p) use ($usr_company) {
+                        $p->whereIn('user_id', $usr_company);
+                    }])->get();
                 }
 //                return dd($advertiser);
-                return view('report.report');
+                    return view('report.report')
+                        ->with('clients', $clients)
+                        ->with('advertiser', $advertiser);
+                }
+                return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
             }
-            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
+            return Redirect::to(url('user/login'));
         }
-        return Redirect::to(url('user/login'));
-    }
+
 
 
 
