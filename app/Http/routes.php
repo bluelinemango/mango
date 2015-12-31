@@ -137,5 +137,6 @@ Route::group(['prefix' => 'ajax'], function()
 
 /////////////////////////////////REPORTING///////////////////////////////////////////
 Route::get('/reporting',['uses'=>'ReportController@GetView','as'=>'getReportView']);
+Route::post('/report/changestate',['uses'=>'ReportController@ChangeState','as'=>'changeState']);
 /////////////////////////////////END REPORTING///////////////////////////////////////////
 

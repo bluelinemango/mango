@@ -37,18 +37,18 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="2709" max-vertical-offset="2898">
-              <caret line="138" column="13" selection-start-line="138" selection-start-column="13" selection-end-line="138" selection-end-column="13" />
+            <state vertical-scroll-proportion="-3.0" vertical-offset="2640" max-vertical-offset="3423">
+              <caret line="139" column="14" selection-start-line="139" selection-start-column="14" selection-end-line="139" selection-end-column="14" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ReportController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ReportController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ReportController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7741935" vertical-offset="366" max-vertical-offset="2730">
-              <caret line="36" column="56" selection-start-line="36" selection-start-column="48" selection-end-line="36" selection-end-column="48" />
+            <state vertical-scroll-proportion="-1.8" vertical-offset="1500" max-vertical-offset="4578">
+              <caret line="74" column="69" selection-start-line="74" selection-start-column="69" selection-end-line="74" selection-end-column="69" />
               <folding>
                 <element signature="e#40#66#0#PHP" expanded="true" />
               </folding>
@@ -56,14 +56,46 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="report.blade.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="report.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/report/report.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="4.233333" vertical-offset="5671" max-vertical-offset="7728">
-              <caret line="264" column="72" selection-start-line="264" selection-start-column="72" selection-end-line="264" selection-end-column="72" />
+            <state vertical-scroll-proportion="0.28494623" vertical-offset="16599" max-vertical-offset="21819">
+              <caret line="722" column="43" selection-start-line="722" selection-start-column="43" selection-end-line="722" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="add.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/targetgroup/add.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="38766" max-vertical-offset="43512">
+              <caret line="1846" column="30" selection-start-line="1846" selection-start-column="20" selection-end-line="1846" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="demo-data.min.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/cdn/js/plugin/dygraphs/demo-data.min.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="24003">
+              <caret line="16" column="540" selection-start-line="16" selection-start-column="540" selection-end-line="16" selection-end-column="540" />
               <folding>
-                <element signature="e#4663#4696#0#HTML" expanded="true" />
-                <element signature="e#9928#9961#0#HTML" expanded="true" />
+                <element signature="n#!!block;n#data_nolabel#0" expanded="false" />
+                <element signature="n#!!block;n#NoisyData#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="datatables.html" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Desktop/products-WB0573SK0-smart-amin-template/DEVELOPER/HTML_version/datatables.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="74781" max-vertical-offset="77637">
+              <caret line="4516" column="27" selection-start-line="4486" selection-start-column="0" selection-end-line="4516" selection-end-column="27" />
+              <folding>
+                <element signature="n#div#0;n#article#0;n#div#0;n#section#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -72,7 +104,7 @@
       <file leaf-file-name="AdvertiserController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AdvertiserController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="168" max-vertical-offset="4683">
+            <state vertical-scroll-proportion="0.0" vertical-offset="168" max-vertical-offset="4431">
               <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
               <folding>
                 <element signature="e#391#1637#0#PHP" expanded="false" />
@@ -94,7 +126,7 @@
       <file leaf-file-name="dygraphs.html" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/Desktop/products-WB0573SK0-smart-amin-template/DEVELOPER/HTML_version/dygraphs.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-24.833334" vertical-offset="4400" max-vertical-offset="10962">
+            <state vertical-scroll-proportion="0.0" vertical-offset="5145" max-vertical-offset="10164">
               <caret line="904" column="34" selection-start-line="904" selection-start-column="34" selection-end-line="904" selection-end-column="34" />
               <folding>
                 <element signature="n#header#0;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -110,7 +142,7 @@
       <file leaf-file-name="demo-data.min.js" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/Desktop/products-WB0573SK0-smart-amin-template/DEVELOPER/HTML_version/js/plugin/dygraphs/demo-data.min.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
+            <state vertical-scroll-proportion="0.0" vertical-offset="168" max-vertical-offset="294">
               <caret line="20" column="2" selection-start-line="20" selection-start-column="2" selection-end-line="20" selection-end-column="2" />
               <folding>
                 <element signature="n#!!block;n#data_nolabel#0" expanded="false" />
@@ -129,7 +161,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resources/views/style/head.blade.php" />
         <option value="$PROJECT_DIR$/public/cdn/js/demo.min.js" />
         <option value="$PROJECT_DIR$/resources/views/bwlist/edit.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/geosegment/edit.blade.php" />
@@ -174,12 +205,13 @@
         <option value="$PROJECT_DIR$/database/migrations/2015_12_24_085112_create_impression_table.php" />
         <option value="$USER_HOME$/Downloads/impression.sql" />
         <option value="$PROJECT_DIR$/app/Models/Impression.php" />
-        <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$USER_HOME$/Desktop/products-WB0573SK0-smart-amin-template/DEVELOPER/HTML_version/js/plugin/dygraphs/demo-data.min.js" />
         <option value="$USER_HOME$/Downloads/impression (2).sql" />
         <option value="$USER_HOME$/Downloads/impression (1).sql" />
-        <option value="$PROJECT_DIR$/resources/views/report/report.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/routes.php" />
+        <option value="$PROJECT_DIR$/public/cdn/js/plugin/dygraphs/demo-data.min.js" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/ReportController.php" />
+        <option value="$PROJECT_DIR$/resources/views/report/report.blade.php" />
       </list>
     </option>
   </component>
@@ -643,9 +675,6 @@
       <BehatRunner />
       <method />
     </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
-      <method />
-    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-options />
       <gulpfile />
@@ -653,6 +682,9 @@
       <arguments />
       <pass-parent-envs>true</pass-parent-envs>
       <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
     <list size="0" />
@@ -682,19 +714,19 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23489426" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.244713" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32899022" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -720,34 +752,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resources/views/user/role_permission_list.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-88.2" vertical-offset="0" max-vertical-offset="6699">
-          <caret line="126" column="0" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/Role_Permission.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33870968" vertical-offset="0" max-vertical-offset="558">
-          <caret line="9" column="47" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Support/Facades/Auth.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.63978493" vertical-offset="0" max-vertical-offset="558">
-          <caret line="17" column="6" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Libraries/Permission.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.5" vertical-offset="0" max-vertical-offset="420">
-          <caret line="5" column="23" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/style/nav.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.3" vertical-offset="1113" max-vertical-offset="3108">
@@ -993,14 +997,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2709" max-vertical-offset="2898">
-          <caret line="138" column="13" selection-start-line="138" selection-start-column="13" selection-end-line="138" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/client/edit.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7903226" vertical-offset="2919" max-vertical-offset="8190">
@@ -1040,7 +1036,7 @@
     </entry>
     <entry file="file://$USER_HOME$/Desktop/products-WB0573SK0-smart-amin-template/DEVELOPER/HTML_version/dygraphs.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-24.833334" vertical-offset="4400" max-vertical-offset="10962">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5145" max-vertical-offset="10164">
           <caret line="904" column="34" selection-start-line="904" selection-start-column="34" selection-end-line="904" selection-end-column="34" />
           <folding>
             <element signature="n#header#0;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -1066,7 +1062,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.3661711" vertical-offset="204296" max-vertical-offset="205842">
           <caret line="9773" column="42" selection-start-line="9773" selection-start-column="24" selection-end-line="9773" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1074,7 +1069,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.827957" vertical-offset="63" max-vertical-offset="1491">
           <caret line="21" column="24" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1082,28 +1076,68 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="357">
           <caret line="0" column="18" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/products-WB0573SK0-smart-amin-template/DEVELOPER/HTML_version/difver.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="28833">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/products-WB0573SK0-smart-amin-template/DEVELOPER/HTML_version/datatables.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="74781" max-vertical-offset="77637">
+          <caret line="4516" column="27" selection-start-line="4486" selection-start-column="0" selection-end-line="4516" selection-end-column="27" />
+          <folding>
+            <element signature="n#div#0;n#article#0;n#div#0;n#section#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/targetgroup/add.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="38766" max-vertical-offset="43512">
+          <caret line="1846" column="30" selection-start-line="1846" selection-start-column="20" selection-end-line="1846" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/report/report.blade.php">
+    <entry file="file://$PROJECT_DIR$/public/cdn/js/plugin/dygraphs/demo-data.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.233333" vertical-offset="5671" max-vertical-offset="7728">
-          <caret line="264" column="72" selection-start-line="264" selection-start-column="72" selection-end-line="264" selection-end-column="72" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="24003">
+          <caret line="16" column="540" selection-start-line="16" selection-start-column="540" selection-end-line="16" selection-end-column="540" />
           <folding>
-            <element signature="e#4663#4696#0#HTML" expanded="true" />
-            <element signature="e#9928#9961#0#HTML" expanded="true" />
+            <element signature="n#!!block;n#data_nolabel#0" expanded="false" />
+            <element signature="n#!!block;n#NoisyData#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.0" vertical-offset="2640" max-vertical-offset="3423">
+          <caret line="139" column="14" selection-start-line="139" selection-start-column="14" selection-end-line="139" selection-end-column="14" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ReportController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7741935" vertical-offset="366" max-vertical-offset="2730">
-          <caret line="36" column="56" selection-start-line="36" selection-start-column="48" selection-end-line="36" selection-end-column="48" />
+        <state vertical-scroll-proportion="-1.8" vertical-offset="1500" max-vertical-offset="4578">
+          <caret line="74" column="69" selection-start-line="74" selection-start-column="69" selection-end-line="74" selection-end-column="69" />
           <folding>
             <element signature="e#40#66#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/report/report.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.28494623" vertical-offset="16599" max-vertical-offset="21819">
+          <caret line="722" column="43" selection-start-line="722" selection-start-column="43" selection-end-line="722" selection-end-column="43" />
+          <folding />
         </state>
       </provider>
     </entry>
