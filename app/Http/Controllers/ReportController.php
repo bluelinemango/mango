@@ -62,6 +62,77 @@ class ReportController extends Controller
                 if (User::isSuperAdmin()) {
                     switch ($type){
                         case 'client':
+                            $client=Client::where('id',$request->input('client'))
+                                ->get(['id','name']);
+                            $advertiser=Advertiser::where('client_id',$request->input('client'))
+                                ->orderBy('created_at','DESC')
+                                ->get(['id','name']);
+//                            $advertiser.put('type',$type);
+                            $arr = array();
+                            array_push($arr,$type);
+                            array_push($arr,$client);
+                            array_push($arr,$advertiser);
+                            return json_encode($arr);
+                        break;
+                        case 'campaign':
+                            $campaign=Campaign::where('id',$request->input('campaign'))->get(['id','name']);
+                            $targetgroup=Targetgroup::where('campaign_id',$request->input('campaign'))
+                                ->orderBy('created_at','DESC')
+                                ->get(['id','name']);
+//                            $advertiser.put('type',$type);
+                            $arr = array();
+                            array_push($arr,$type);
+                            array_push($arr,$campaign);
+                            array_push($arr,$targetgroup);
+                            if($request->input('client')=='' and $request->input('advertiser')==''){
+                                $client=Campaign::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])
+                                    ->where('id',$request->input('campaign'))->first();
+                                array_push($arr,$client);
+                            }
+
+                            return json_encode($arr);
+                        break;
+                        case 'advertiser':
+                            $arr = array();
+                            array_push($arr, $type);
+                            $advertiser=Advertiser::where('id',$request->input('advertiser'))->get(['id','name']);
+                            $campaign = Campaign::where('advertiser_id', $request->input('advertiser'))
+                                ->orderBy('created_at', 'DESC')
+                                ->get(['id', 'name']);
+                            $creative = Creative::where('advertiser_id', $request->input('advertiser'))
+                                ->orderBy('created_at', 'DESC')
+                                ->get(['id', 'name']);
+                            $geosegment = GeoSegmentList::where('advertiser_id', $request->input('advertiser'))
+                                ->orderBy('created_at', 'DESC')
+                                ->get(['id', 'name']);
+                            array_push($arr, $advertiser);
+                            array_push($arr, $campaign);
+                            array_push($arr, $creative);
+                            array_push($arr, $geosegment);
+                            if($request->input('client')==''){
+                                $client=Advertiser::with('GetClientID')->where('id',$request->input('advertiser'))->first();
+                                array_push($arr,$client);
+                            }
+                            return json_encode($arr);
+                        break;
+                        case 'client_unfilter':
+                            $clients = Client::get(['id','name']);
+                            $advertiser = Advertiser::get(['id','name']);
+                            $targetgroup=Targetgroup::get(['id','name']);
+                            $campaign=Campaign::get(['id','name']);
+                            $creative=Creative::get(['id','name']);
+                            $geosegment=GeoSegmentList::get(['id','name']);
+                            $arr = array();
+                            array_push($arr,$type);
+                            array_push($arr,$clients);
+                            array_push($arr,$advertiser);
+                            array_push($arr,$campaign);
+                            array_push($arr,$targetgroup);
+                            array_push($arr,$creative);
+                            array_push($arr,$geosegment);
+                            return json_encode($arr);
+                        break;
+                        case 'advertiser_unfilter':
                             $advertiser=Advertiser::where('client_id',$request->input('client'))
                                 ->orderBy('created_at','DESC')
                                 ->get(['id','name']);
@@ -71,34 +142,7 @@ class ReportController extends Controller
                             array_push($arr,$advertiser);
                             return json_encode($arr);
                         break;
-                        case 'campaign':
-                            $targetgroup=Targetgroup::where('campaign_id',$request->input('campaign'))
-                                ->orderBy('created_at','DESC')
-                                ->get(['id','name']);
-//                            $advertiser.put('type',$type);
-                            $arr = array();
-                            array_push($arr,$type);
-                            array_push($arr,$targetgroup);
-                            return json_encode($arr);
-                        break;
-                        case 'advertiser':
-                            $campaign=Campaign::where('advertiser_id',$request->input('advertiser'))
-                                ->orderBy('created_at','DESC')
-                                ->get(['id','name']);
-                            $creative=Creative::where('advertiser_id',$request->input('advertiser'))
-                                ->orderBy('created_at','DESC')
-                                ->get(['id','name']);
-                            $geosegment=GeoSegmentList::where('advertiser_id',$request->input('advertiser'))
-                                ->orderBy('created_at','DESC')
-                                ->get(['id','name']);
-//                            $advertiser.put('type',$type);
-                            $arr = array();
-                            array_push($arr,$type);
-                            array_push($arr,$campaign);
-                            array_push($arr,$creative);
-                            array_push($arr,$geosegment);
-                            return json_encode($arr);
-                        break;
+
                     }
                     $clients = Client::get();
                     $advertiser = Advertiser::get();

@@ -150,6 +150,7 @@
                                         <input type="hidden" value="" name="geosegment"/>
                                         <input type="hidden" value="" name="campaign"/>
                                         <input type="hidden" value="" name="targetgroup"/>
+                                        <input type="hidden" value="" name="creative"/>
                                         <input type="hidden" value="" name="startdate"/>
                                         <input type="hidden" value="" name="enddate"/>
                                         <input type="hidden" value="today" name="report_type"/>
@@ -271,12 +272,6 @@
                                 <!-- widget div-->
                                 <div>
 
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-                                        <input class="form-control" type="text">
-                                    </div>
-                                    <!-- end widget edit box -->
 
                                     <!-- widget content -->
                                     <div class="widget-body">
@@ -655,34 +650,85 @@
             var start_date=$('input[name="start_date"]');
             var end_date=$('input[name="end_date"]');
             if(type=='client'){
-                client.val(id);
-                $('#client_list').find('a').removeClass();
-                $('#cln'+id).addClass('report-selected');
+                advertiser.val('');
+                campaign.val('');
+                targetgroup.val('');
+                geosegment.val('');
+                creative.val('');
+                if(client.val()==id){
+                    client.val('');
+                    $('#client_list').find('a').removeClass();
+                    $('#cln'+id).removeClass();
+                    type='client_unfilter'
+                }else {
+                    client.val(id);
+                    $('#client_list').find('a').removeClass();
+                    $('#cln' + id).addClass('report-selected');
+                }
             }
             if(type=='advertiser'){
-                advertiser.val(id);
-                $('#advertiser_list').find('a').removeClass();
-                $('#adv'+id).addClass('report-selected');
+                campaign.val('');
+                targetgroup.val('');
+                geosegment.val('');
+                creative.val('');
+                if(advertiser.val()==id){
+                    advertiser.val('');
+                    $('#advertiser_list').find('a').removeClass();
+                    $('#adv'+id).removeClass();
+                    type='advertiser_unfilter'
+                }else {
+                    advertiser.val(id);
+                    $('#advertiser_list').find('a').removeClass();
+                    $('#adv' + id).addClass('report-selected');
+                }
             }
             if(type=='campaign'){
-                campaign.val(id);
-                $('#campaign_list').find('a').removeClass();
-                $('#cmp'+id).addClass('report-selected');
+                if(campaign.val()==id){
+                    campaign.val('');
+                    $('#campaign_list').find('a').removeClass();
+                    $('#cmp'+id).removeClass();
+                    type='campaign_unfilter'
+                }else {
+                    campaign.val(id);
+                    $('#campaign_list').find('a').removeClass();
+                    $('#cmp' + id).addClass('report-selected');
+                }
             }
             if(type=='targetgroup'){
-                targetgroup.val(id);
-                $('#targetgroup_list').find('a').removeClass();
-                $('#tgp'+id).addClass('report-selected');
+                if(targetgroup.val()==id){
+                    targetgroup.val('');
+                    $('#targetgroup_list').find('a').removeClass();
+                    $('#tgp'+id).removeClass();
+                    type='targetgroup_unfilter'
+                }else {
+                    targetgroup.val(id);
+                    $('#targetgroup_list').find('a').removeClass();
+                    $('#tgp' + id).addClass('report-selected');
+                }
             }
             if(type=='creative'){
-                creative.val(id);
-                $('#creative_list').find('a').removeClass();
-                $('#crt'+id).addClass('report-selected');
+                if(creative.val()==id){
+                    creative.val('');
+                    $('#creative_list').find('a').removeClass();
+                    $('#crt'+id).removeClass();
+                    type='creative_unfilter'
+                }else {
+                    creative.val(id);
+                    $('#creative_list').find('a').removeClass();
+                    $('#crt' + id).addClass('report-selected');
+                }
             }
             if(type=='geosegment'){
-                geosegment.val(id);
-                $('#geosegment_list').find('a').removeClass();
-                $('#gsm'+id).addClass('report-selected');
+                if(geosegment.val()==id){
+                    geosegment.val('');
+                    $('#geosegment_list').find('a').removeClass();
+                    $('#gsm'+id).removeClass();
+                    type='geosegment_unfilter'
+                }else {
+                    geosegment.val(id);
+                    $('#geosegment_list').find('a').removeClass();
+                    $('#gsm' + id).addClass('report-selected');
+                }
             }
             if(type=='report_type'){
                 report_type.val(id);
@@ -700,17 +746,122 @@
                 var response=JSON.parse(response);
                 console.log(response);
                 if(response[0]=='client'){
+                    $('#client_list').dataTable().fnClearTable();
                     $('#advertiser_list').dataTable().fnClearTable();
                     $('#campaign_list').dataTable().fnClearTable();
                     $('#targetgroup_list').dataTable().fnClearTable();
                     $('#geosegment_list').dataTable().fnClearTable();
                     $('#creative_list').dataTable().fnClearTable();
-                    if(response[1].length>2) {
+                    if(response[1].length>0) {
+                        var data = '';
+                        $.each(response[1], function () {
+                            var link1= "<a class='report-selected' id='cln"+this.id+"' href='javascript: changeReport("+this.id+",`client`)'>"+this.name+" <i class='fa fa-check'></i></a>";
+
+                            data += '["' + link1 + '", "Internet"],';
+                        });
+                        data = data.substr(0, data.length - 1);
+                        data = '[' + data + ']';
+                        data = JSON.parse(data);
+                        $('#client_list').dataTable().fnAddData(data);
+                    }
+                    if(response[2].length>0) {
+                        var data = '';
+                        $.each(response[2], function () {
+                            var link1= "<a id='adv"+this.id+"' href='javascript: changeReport("+this.id+",`advertiser`)'>"+this.name+"</a>";
+                            data += '["' + link1 + '", "adv"],';
+                        });
+                        data = data.substr(0, data.length - 1);
+                        data = '[' + data + ']';
+                        data = JSON.parse(data);
+                        $('#advertiser_list').dataTable().fnAddData(data);
+                    }
+                }
+                if(response[0]=='client_unfilter'){
+                    $('#client_list').dataTable().fnClearTable();
+                    $('#advertiser_list').dataTable().fnClearTable();
+                    $('#campaign_list').dataTable().fnClearTable();
+                    $('#targetgroup_list').dataTable().fnClearTable();
+                    $('#geosegment_list').dataTable().fnClearTable();
+                    $('#creative_list').dataTable().fnClearTable();
+                    if(response[1].length>0) {
+                        var data = '';
+                        $.each(response[1], function () {
+                            var link1= "<a id='cln"+this.id+"' href='javascript: changeReport("+this.id+",`client`)'>"+this.name+"</a>";
+                            data += '["' + link1 + '", "Internet"],';
+                        });
+                        data = data.substr(0, data.length - 1);
+                        data = '[' + data + ']';
+                        data = JSON.parse(data);
+                        $('#client_list').dataTable().fnAddData(data);
+                    }
+                    if(response[2].length>0) {
+                        var data = '';
+                        $.each(response[2], function () {
+                            var link1= "<a id='adv"+this.id+"' href='javascript: changeReport("+this.id+",`advertiser`)'>"+this.name+"</a>";
+                            data += '["' + link1 + '", "Internet"],';
+                        });
+                        data = data.substr(0, data.length - 1);
+                        data = '[' + data + ']';
+                        data = JSON.parse(data);
+                        $('#advertiser_list').dataTable().fnAddData(data);
+                    }
+                    if(response[3].length>0) {
+                        var data = '';
+                        $.each(response[3], function () {
+                            var link1= "<a id='cmp"+this.id+"' href='javascript: changeReport("+this.id+",`campaign`)'>"+this.name+"</a>";
+                            data += '["' + link1 + '", "Internet"],';
+                        });
+                        data = data.substr(0, data.length - 1);
+                        data = '[' + data + ']';
+                        data = JSON.parse(data);
+                        $('#campaign_list').dataTable().fnAddData(data);
+                    }
+                    if(response[4].length>0) {
+                        var data = '';
+                        $.each(response[4], function () {
+                            var link1= "<a id='tgp"+this.id+"' href='javascript: changeReport("+this.id+",`targetgroup`)'>"+this.name+"</a>";
+                            data += '["' + link1 + '", "Internet"],';
+                        });
+                        data = data.substr(0, data.length - 1);
+                        data = '[' + data + ']';
+                        data = JSON.parse(data);
+                        $('#targetgroup_list').dataTable().fnAddData(data);
+                    }
+                    if(response[5].length>0) {
+                        var data = '';
+                        $.each(response[5], function () {
+                            var link1= "<a id='crt"+this.id+"' href='javascript: changeReport("+this.id+",`creative`)'>"+this.name+"</a>";
+                            data += '["' + link1 + '", "Internet"],';
+                        });
+                        data = data.substr(0, data.length - 1);
+                        data = '[' + data + ']';
+                        data = JSON.parse(data);
+                        $('#creative_list').dataTable().fnAddData(data);
+                    }
+                    if(response[6].length>0) {
+                        var data = '';
+                        $.each(response[6], function () {
+                            var link1= "<a id='gsm"+this.id+"' href='javascript: changeReport("+this.id+",`geosegment`)'>"+this.name+"</a>";
+                            data += '["' + link1 + '", "Internet"],';
+                        });
+                        data = data.substr(0, data.length - 1);
+                        data = '[' + data + ']';
+                        data = JSON.parse(data);
+                        $('#geosegment_list').dataTable().fnAddData(data);
+                    }
+
+                }
+                if(response[0]=='advertiser_unfilter'){
+                    $('#advertiser_list').dataTable().fnClearTable();
+                    $('#campaign_list').dataTable().fnClearTable();
+                    $('#targetgroup_list').dataTable().fnClearTable();
+                    $('#geosegment_list').dataTable().fnClearTable();
+                    $('#creative_list').dataTable().fnClearTable();
+                    if(response[1].length>0) {
                         var data = '';
                         $.each(response[1], function () {
                             var link1= "<a id='adv"+this.id+"' href='javascript: changeReport("+this.id+",`advertiser`)'>"+this.name+"</a>";
                             data += '["' + link1 + '", "Internet"],';
-                            console.log(data);
                         });
                         data = data.substr(0, data.length - 1);
                         data = '[' + data + ']';
@@ -719,10 +870,24 @@
                     }
                 }
                 if(response[0]=='campaign'){
+                    console.log(response);
+                    $('#campaign_list').dataTable().fnClearTable();
                     $('#targetgroup_list').dataTable().fnClearTable();
                     if(response[1].length>0) {
                         var data = '';
                         $.each(response[1], function () {
+                            var link1= "<a class='report-selected' id='tgp"+this.id+"' href='javascript: changeReport("+this.id+",`targetgroup`)'>"+this.name+"<i class='fa fa-check'></i></a>";
+                            data += '["' + link1 + '", "camp"],';
+                        });
+                        data = data.substr(0, data.length - 1);
+                        data = '[' + data + ']';
+                        data = JSON.parse(data);
+                        console.log(data);
+                        $('#campaign_list').dataTable().fnAddData(data);
+                    }
+                    if(response[2].length>0) {
+                        var data = '';
+                        $.each(response[2], function () {
                             var link1= "<a id='tgp"+this.id+"' href='javascript: changeReport("+this.id+",`targetgroup`)'>"+this.name+"</a>";
                             data += '["' + link1 + '", "targetgroup"],';
                         });
@@ -731,16 +896,48 @@
                         data = JSON.parse(data);
                         $('#targetgroup_list').dataTable().fnAddData(data);
                     }
+                    if(response[3] != null ) { //set Client Parent
+                        var adv=response[3].get_advertiser;
+                        client.val(adv.get_client_i_d.id);
+                        advertiser.val(adv.id);
+                        $('#client_list').dataTable().fnClearTable();
+                        $('#advertiser_list').dataTable().fnClearTable();
+                        var data = '';
+                        var link1= "<a class='report-selected' id='cln"+adv.get_client_i_d.id+"' href='javascript: changeReport("+adv.get_client_i_d.id+",`client`)'>"+adv.get_client_i_d.name+" <i class='fa fa-check'></i></a>";
+                        data += '["' + link1 + '", "client"]';
+                        data = '[' + data + ']';
+                        data = JSON.parse(data);
+                        $('#client_list').dataTable().fnAddData(data);
+                        var data = '';
+                        var link1= "<a class='report-selected' id='adv"+adv.id+"' href='javascript: changeReport("+adv.id+",`advertiser`)'>"+adv.name+" <i class='fa fa-check'></i></a>";
+                        data += '["' + link1 + '", "adv"]';
+                        data = '[' + data + ']';
+                        data = JSON.parse(data);
+                        $('#advertiser_list').dataTable().fnAddData(data);
+
+                    }
+
                 }
                 if(response[0]=='advertiser'){
+                    $('#advertiser_list').dataTable().fnClearTable();
                     $('#campaign_list').dataTable().fnClearTable();
                     $('#targetgroup_list').dataTable().fnClearTable();
                     $('#geosegment_list').dataTable().fnClearTable();
                     $('#creative_list').dataTable().fnClearTable();
-                    console.log(response[1].length);
                     if(response[1].length>0) {
                         var data = '';
                         $.each(response[1], function () {
+                            var link1= "<a class='report-selected' id='adv"+this.id+"' href='javascript: changeReport("+this.id+",`advertiser`)'>"+this.name+" <i class='fa fa-check'></i></a>";
+                            data += '["' + link1 + '", "cmp"],';
+                        });
+                        data = data.substr(0, data.length - 1);
+                        data = '[' + data + ']';
+                        data = JSON.parse(data);
+                        $('#advertiser_list').dataTable().fnAddData(data);
+                    }
+                    if(response[2].length>0) {
+                        var data = '';
+                        $.each(response[2], function () {
                             var link1= "<a id='cmp"+this.id+"' href='javascript: changeReport("+this.id+",`campaign`)'>"+this.name+"</a>";
                             data += '["' + link1 + '", "cmp"],';
                         });
@@ -749,9 +946,9 @@
                         data = JSON.parse(data);
                         $('#campaign_list').dataTable().fnAddData(data);
                     }
-                    if(response[2].length>0) {
+                    if(response[3].length>0) {
                         var data = '';
-                        $.each(response[2], function () {
+                        $.each(response[3], function () {
                             var link1= "<a id='crt"+this.id+"' href='javascript: changeReport("+this.id+",`creative`)'>"+this.name+"</a>";
                             data += '["' + link1 + '", "cmp"],';
                         });
@@ -760,9 +957,9 @@
                         data = JSON.parse(data);
                         $('#creative_list').dataTable().fnAddData(data);
                     }
-                    if(response[3].length>0) {
+                    if(response[4].length>0) {
                         var data = '';
-                        $.each(response[2], function () {
+                        $.each(response[4], function () {
                             var link1= "<a id='gsm"+this.id+"' href='javascript: changeReport("+this.id+",`geosegment`)'>"+this.name+"</a>";
                             data += '["' + link1 + '", "cmp"],';
                         });
@@ -770,6 +967,16 @@
                         data = '[' + data + ']';
                         data = JSON.parse(data);
                         $('#geosegment_list').dataTable().fnAddData(data);
+                    }
+                    if(response[5] != null ) { //set Client Parent
+                        client.val(response[5].get_client_i_d.id);
+                        $('#client_list').dataTable().fnClearTable();
+                        var data = '';
+                        var link1= "<a class='report-selected' id='cln"+response[5].get_client_i_d.id+"' href='javascript: changeReport("+response[5].get_client_i_d.id+",`client`)'>"+response[5].get_client_i_d.name+" <i class='fa fa-check'></i></a>";
+                        data += '["' + link1 + '", "client"]';
+                        data = '[' + data + ']';
+                        data = JSON.parse(data);
+                        $('#client_list').dataTable().fnAddData(data);
                     }
                 }
 //                var cb = '';
