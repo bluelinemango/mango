@@ -181,7 +181,7 @@
                                                                 </label>
                                                             </section>
                                                             <section class="col col-1">
-                                                                <a href="javascript:changeReport('five_mins','report_type');" class="btn bg-color-greenLight txt-color-white"><i class="fa-search"></i></a>
+                                                                <a href="javascript:changeReport('rang','report_type');" class="btn bg-color-greenLight txt-color-white"><i class="fa-search"></i></a>
                                                             </section>
                                                         </div>
                                                 </form>
@@ -190,11 +190,11 @@
                                             <div class="col-md-5">
                                                 <div class="col-md-12">
                                                     <a href="javascript: changeReport('today','report_type');" class="btn bg-color-magenta txt-color-white">10m</a>
-                                                    <a href="javascript:changeReport('yesterday','report_type');" class="btn bg-color-red txt-color-white">1h</a>
-                                                    <a href="javascript:changeReport('last_hour','report_type');" class="btn bg-color-green txt-color-white">3h</a>
-                                                    <a href="javascript:changeReport('five_mins','report_type');" class="btn bg-color-greenLight txt-color-white">6h</a>
-                                                    <a href="javascript:changeReport('five_mins','report_type');" class="btn bg-color-greenLight txt-color-white">1D</a>
-                                                    <a href="javascript:changeReport('five_mins','report_type');" class="btn bg-color-greenLight txt-color-white">1M</a>
+                                                    <a href="javascript:changeReport('1h','report_type');" class="btn bg-color-red txt-color-white">1h</a>
+                                                    <a href="javascript:changeReport('3h','report_type');" class="btn bg-color-green txt-color-white">3h</a>
+                                                    <a href="javascript:changeReport('6h','report_type');" class="btn bg-color-greenLight txt-color-white">6h</a>
+                                                    <a href="javascript:changeReport('1D','report_type');" class="btn bg-color-greenLight txt-color-white">1D</a>
+                                                    <a href="javascript:changeReport('1M','report_type');" class="btn bg-color-greenLight txt-color-white">1M</a>
                                                 </div>
 
                                             </div>
@@ -208,7 +208,7 @@
                             </div>
                             <!-- end widget -->
                         </article>
-                        <article class="col-sm-9 col-md-9 col-lg-9">
+                        <article class="col-sm-8 col-md-8 col-lg-8">
                             <!-- Widget ID (each widget will need unique ID)-->
                             <div class="jarviswidget" id="wid-id-0">
                                 <!-- widget options:
@@ -243,7 +243,95 @@
                                     <div class="widget-body">
 
                                         <!-- this is what the user will see -->
-                                        <div id="noroll" style="width:100%; height:300px;"></div>
+                                        <div id="impression" style="width:100%; height:300px;"></div>
+
+                                    </div>
+                                    <!-- end widget content -->
+
+                                </div>
+                                <!-- end widget div -->
+
+                            </div>
+                            <!-- end widget -->
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <div class="jarviswidget" id="wid-id-1">
+                                <!-- widget options:
+                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                                    data-widget-colorbutton="false"
+                                    data-widget-editbutton="false"
+                                    data-widget-togglebutton="false"
+                                    data-widget-deletebutton="false"
+                                    data-widget-fullscreenbutton="false"
+                                    data-widget-custombutton="false"
+                                    data-widget-collapsed="true"
+                                    data-widget-sortable="false"
+
+                                -->
+                                <header>
+                                    <span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+                                    <h2>impression </h2>
+
+                                </header>
+
+                                <!-- widget div-->
+                                <div>
+
+                                    <!-- widget edit box -->
+                                    <div class="jarviswidget-editbox">
+                                        <!-- This area used as dropdown edit box -->
+                                        <input class="form-control" type="text">
+                                    </div>
+                                    <!-- end widget edit box -->
+
+                                    <!-- widget content -->
+                                    <div class="widget-body">
+
+                                        <!-- this is what the user will see -->
+                                        <div id="click" style="width:100%; height:300px;"></div>
+
+                                    </div>
+                                    <!-- end widget content -->
+
+                                </div>
+                                <!-- end widget div -->
+
+                            </div>
+                            <!-- end widget -->
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <div class="jarviswidget" id="wid-id-2">
+                                <!-- widget options:
+                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                                    data-widget-colorbutton="false"
+                                    data-widget-editbutton="false"
+                                    data-widget-togglebutton="false"
+                                    data-widget-deletebutton="false"
+                                    data-widget-fullscreenbutton="false"
+                                    data-widget-custombutton="false"
+                                    data-widget-collapsed="true"
+                                    data-widget-sortable="false"
+
+                                -->
+                                <header>
+                                    <span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+                                    <h2>converjent </h2>
+
+                                </header>
+
+                                <!-- widget div-->
+                                <div>
+
+                                    <!-- widget edit box -->
+                                    <div class="jarviswidget-editbox">
+                                        <!-- This area used as dropdown edit box -->
+                                        <input class="form-control" type="text">
+                                    </div>
+                                    <!-- end widget edit box -->
+
+                                    <!-- widget content -->
+                                    <div class="widget-body">
+
+                                        <!-- this is what the user will see -->
+                                        <div id="converjent" style="width:100%; height:300px;"></div>
 
                                     </div>
                                     <!-- end widget content -->
@@ -256,7 +344,7 @@
 
 
                         </article>
-                        <article class="col-sm-3 col-md-3 col-lg-3">
+                        <article class="col-sm-4 col-md-4 col-lg-4">
                             <!-- Widget ID (each widget will need unique ID)-->
                             <section id="widget-grid" class="">
                                 <!-- widget div-->
@@ -309,10 +397,10 @@
                                                             @foreach($clients as $index_cln)
                                                                 <tr>
                                                                     <td>
-                                                                        <a id="cln{{$index_cln->id}}" href="javascript: changeReport('{{$index_cln->id}}','client')">{{$index_cln->name}}</a>
+                                                                        <a id="cln{{$index_cln->client_id}}" href="javascript: changeReport('{{$index_cln->client_id}}','client')">{{$index_cln->name}}</a>
 
                                                                     </td>
-                                                                    <td>a</td>
+                                                                    <td>{{$index_cln->imps}}</td>
                                                                 </tr>
                                                             @endforeach
                                                             </tbody>
@@ -361,9 +449,9 @@
                                                             @foreach($targetgroup as $index_tgp)
                                                                 <tr>
                                                                     <td>
-                                                                        <a id="tgp{{$index_tgp->id}}" href="javascript: changeReport('{{$index_tgp->id}}','targetgroup')">{{$index_tgp->name}}</a>
+                                                                        <a id="tgp{{$index_tgp->targetgroup_id}}" href="javascript: changeReport('{{$index_tgp->targetgroup_id}}','targetgroup')">{{$index_tgp->name}}</a>
                                                                     </td>
-                                                                    <td>s</td>
+                                                                    <td>{{$index_tgp->imps}}</td>
                                                                 </tr>
                                                             @endforeach
                                                             </tbody>
@@ -412,9 +500,9 @@
                                                             @foreach($geosegment as $index_gsm)
                                                                 <tr>
                                                                     <td>
-                                                                        <a id="gsm{{$index_gsm->id}}" href="javascript: changeReport('{{$index_gsm->id}}','geosegment')">{{$index_gsm->name}}</a>
+                                                                        <a id="gsm{{$index_gsm->geosegment_id}}" href="javascript: changeReport('{{$index_gsm->geosegment_id}}','geosegment')">{{$index_gsm->name}}</a>
                                                                     </td>
-                                                                    <td>s</td>
+                                                                    <td>{{$index_gsm->imps}}</td>
                                                                 </tr>
                                                             @endforeach
                                                             </tbody>
@@ -465,9 +553,9 @@
                                                             @foreach($advertiser as $index_adv)
                                                                 <tr>
                                                                     <td>
-                                                                        <a id="adv{{$index_adv->id}}" href="javascript: changeReport('{{$index_adv->id}}','advertiser')">{{$index_adv->name}}</a>
+                                                                        <a id="adv{{$index_adv->advertiser_id}}" href="javascript: changeReport('{{$index_adv->advertiser_id}}','advertiser')">{{$index_adv->name}}</a>
                                                                     </td>
-                                                                    <td>s</td>
+                                                                    <td>{{$index_adv->imps}}</td>
                                                                 </tr>
                                                             @endforeach
                                                             </tbody>
@@ -515,10 +603,10 @@
                                                             @foreach($campaign as $index_cmp)
                                                                 <tr>
                                                                     <td>
-                                                                        <a id="cmp{{$index_cmp->id}}" href="javascript: changeReport('{{$index_cmp->id}}','campaign')">{{$index_cmp->name}}</a>
+                                                                        <a id="cmp{{$index_cmp->campaign_id}}" href="javascript: changeReport('{{$index_cmp->campaign_id}}','campaign')">{{$index_cmp->name}}</a>
 
                                                                     </td>
-                                                                    <td>a</td>
+                                                                    <td>{{$index_cmp->imps}}</td>
                                                                 </tr>
                                                             @endforeach
                                                             </tbody>
@@ -566,10 +654,10 @@
                                                             @foreach($creative as $index_crt)
                                                                 <tr>
                                                                     <td>
-                                                                        <a id="crt{{$index_crt->id}}" href="javascript: changeReport('{{$index_crt->id}}','creative')">{{$index_crt->name}}</a>
+                                                                        <a id="crt{{$index_crt->creative_id}}" href="javascript: changeReport('{{$index_crt->creative_id}}','creative')">{{$index_crt->name}}</a>
 
                                                                     </td>
-                                                                    <td>a</td>
+                                                                    <td>{{$index_crt->imps}}</td>
                                                                 </tr>
                                                             @endforeach
                                                             </tbody>
@@ -636,8 +724,8 @@
             var geosegment=$('input[name="geosegment"]');
             var creative=$('input[name="creative"]');
             var report_type=$('input[name="report_type"]');
-            var start_date=$('input[name="start_date"]');
-            var end_date=$('input[name="end_date"]');
+            var start_date=$('input[name="startdate"]');
+            var end_date=$('input[name="enddate"]');
             if(type=='client'){
                 if(client.val()==id){
                     client.val('');
@@ -646,8 +734,6 @@
                     targetgroup.val('');
                     geosegment.val('');
                     creative.val('');
-                    $('#client_list').find('a').removeClass();
-                    $('#cln'+id).removeClass();
                     type='client_unfilter'
                 }else if(client.val()=='' && (advertiser.val()!='' || campaign.val()!='' || targetgroup.val()!='' || geosegment.val()!='' || creative.val()!='')){
                     client.val(id);
@@ -655,6 +741,17 @@
                     $('#cln' + id).addClass('report-selected');
                     type='do_nothing';
                 }else{
+                    var test = $('#client_list').dataTable();
+//                    console.log(test.rows( 0 ).data());
+//                    test.maxRows.fnGetData().length
+//                    test.each(function() {
+//                        for (var i = 0; i < test.fnGetData().length; i++) {
+//                            $(rows[i]).child.hide();
+//                        }
+//                    });
+//                    test.rows().every( function () {
+//                        this.child( 'Row details for row: '+this.index() );
+//                    } );
                     advertiser.val('');
                     campaign.val('');
                     targetgroup.val('');
@@ -663,6 +760,9 @@
                     client.val(id);
                     $('#client_list').find('a').removeClass();
                     $('#cln' + id).addClass('report-selected');
+                    $('#cln' + id).parents('tr').addClass('report-selected');
+                    $('#client_list').find('tr:not(.report-selected)').hide();
+//                    $.each(response[1], function () {
                 }
             }
             if(type=='advertiser'){
@@ -697,8 +797,6 @@
                     $('#adv' + id).addClass('report-selected');
                 }else{
                     advertiser.val(id);
-                    $('#advertiser_list').find('a').removeClass();
-                    $('#adv' + id).addClass('report-selected');
                 }
             }
             if(type=='campaign'){
@@ -766,14 +864,14 @@
                     type='client_unfilter'
                 }else {
                     geosegment.val(id);
-                    $('#geosegment_list').find('a').removeClass();
-                    $('#gsm' + id).addClass('report-selected');
                 }
             }
             if(type=='report_type'){
                 report_type.val(id);
-//                $('#advertiser_list').find('a').removeClass();
-//                $('#adv'+id).addClass('report-selected');
+                if(id=='rang'){
+                    start_date.val($('#startdate').val());
+                    end_date.val($('#finishdate').val());
+                }
             }
             if(type!='do_nothing') {
                 $.ajax({
@@ -788,13 +886,33 @@
                         campaign: campaign.val(),
                         creative: creative.val(),
                         geosegment: geosegment.val(),
-                        type: type
+                        targetgroup: targetgroup.val(),
+                        type: type ,
+                        report_type: report_type.val(),
+                        start_date: start_date.val(),
+                        end_date: end_date.val()
                     }
                 }).success(function (response) {
                     var response = JSON.parse(response);
                     console.log(response);
                     if (response[0] == 'client') {
-                        $('#client_list').dataTable().fnClearTable();
+                        if (response[6].length > 15) {
+                            function data_temp1() {
+                                return response[6];
+                            }
+                            console.log(data_temp1());
+                            var tes = [];
+                            g1 = new Dygraph(document.getElementById("impression"), data_temp1, {
+                                customBars : true,
+                                title : 'test',
+                                ylabel : 'Impression',
+                                legend : 'always',
+                                labelsDivStyles : {
+                                    'textAlign' : 'right'
+                                },
+                                showRangeSelector : true
+                            });
+                        }
                         $('#advertiser_list').dataTable().fnClearTable();
                         $('#campaign_list').dataTable().fnClearTable();
                         $('#targetgroup_list').dataTable().fnClearTable();
@@ -803,25 +921,72 @@
                         if (response[1].length > 0) {
                             var data = '';
                             $.each(response[1], function () {
-                                var link1 = "<a class='report-selected' id='cln" + this.id + "' href='javascript: changeReport(" + this.id + ",`client`)'>" + this.name + " <i class='fa fa-check'></i></a>";
-
-                                data += '["' + link1 + '", "Internet"],';
-                            });
-                            data = data.substr(0, data.length - 1);
-                            data = '[' + data + ']';
-                            data = JSON.parse(data);
-                            $('#client_list').dataTable().fnAddData(data);
-                        }
-                        if (response[2].length > 0) {
-                            var data = '';
-                            $.each(response[2], function () {
-                                var link1 = "<a id='adv" + this.id + "' href='javascript: changeReport(" + this.id + ",`advertiser`)'>" + this.name + "</a>";
-                                data += '["' + link1 + '", "adv"],';
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a id='adv" + this.advertiser_id + "' href='javascript: changeReport(" + this.advertiser_id + ",`advertiser`)'>" + this.name + "</a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
                             data = JSON.parse(data);
                             $('#advertiser_list').dataTable().fnAddData(data);
+                        }
+                        if (response[2].length > 0) {
+                            var data = '';
+                            $.each(response[2], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a id='crt" + this.advertiser_id + "' href='javascript: changeReport(" + this.creative_id + ",`creative`)'>" + this.name + "</a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
+                            });
+                            data = data.substr(0, data.length - 1);
+                            data = '[' + data + ']';
+                            data = JSON.parse(data);
+                            $('#creative_list').dataTable().fnAddData(data);
+                        }
+                        if (response[3].length > 0) {
+                            var data = '';
+                            $.each(response[3], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a id='gsm" + this.advertiser_id + "' href='javascript: changeReport(" + this.geosegment_id + ",`geosegment`)'>" + this.name + "</a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
+                            });
+                            data = data.substr(0, data.length - 1);
+                            data = '[' + data + ']';
+                            data = JSON.parse(data);
+                            $('#geosegment_list').dataTable().fnAddData(data);
+                        }
+                        if (response[4].length > 0) {
+                            var data = '';
+                            $.each(response[4], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a id='cmp" + this.advertiser_id + "' href='javascript: changeReport(" + this.campaign_id + ",`campaign`)'>" + this.name + "</a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
+                            });
+                            data = data.substr(0, data.length - 1);
+                            data = '[' + data + ']';
+                            data = JSON.parse(data);
+                            $('#campaign_list').dataTable().fnAddData(data);
+                        }
+                        if (response[5].length > 0) {
+                            var data = '';
+                            $.each(response[5], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a id='tgp" + this.advertiser_id + "' href='javascript: changeReport(" + this.targetgroup_id + ",`targetgroup`)'>" + this.name + "</a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
+                            });
+                            data = data.substr(0, data.length - 1);
+                            data = '[' + data + ']';
+                            data = JSON.parse(data);
+                            $('#targetgroup_list').dataTable().fnAddData(data);
                         }
                     }
                     if (response[0] == 'client_unfilter') {
@@ -834,8 +999,11 @@
                         if (response[1].length > 0) {
                             var data = '';
                             $.each(response[1], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
                                 var link1 = "<a id='cln" + this.id + "' href='javascript: changeReport(" + this.id + ",`client`)'>" + this.name + "</a>";
-                                data += '["' + link1 + '", "Internet"],';
+                                data += '["' + link1 + '", '+this.imps+'],';
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
@@ -845,8 +1013,11 @@
                         if (response[2].length > 0) {
                             var data = '';
                             $.each(response[2], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
                                 var link1 = "<a id='adv" + this.id + "' href='javascript: changeReport(" + this.id + ",`advertiser`)'>" + this.name + "</a>";
-                                data += '["' + link1 + '", "Internet"],';
+                                data += '["' + link1 + '", '+this.imps+'],';
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
@@ -856,46 +1027,59 @@
                         if (response[3].length > 0) {
                             var data = '';
                             $.each(response[3], function () {
-                                var link1 = "<a id='cmp" + this.id + "' href='javascript: changeReport(" + this.id + ",`campaign`)'>" + this.name + "</a>";
-                                data += '["' + link1 + '", "Internet"],';
-                            });
-                            data = data.substr(0, data.length - 1);
-                            data = '[' + data + ']';
-                            data = JSON.parse(data);
-                            $('#campaign_list').dataTable().fnAddData(data);
-                        }
-                        if (response[4].length > 0) {
-                            var data = '';
-                            $.each(response[4], function () {
-                                var link1 = "<a id='tgp" + this.id + "' href='javascript: changeReport(" + this.id + ",`targetgroup`)'>" + this.name + "</a>";
-                                data += '["' + link1 + '", "Internet"],';
-                            });
-                            data = data.substr(0, data.length - 1);
-                            data = '[' + data + ']';
-                            data = JSON.parse(data);
-                            $('#targetgroup_list').dataTable().fnAddData(data);
-                        }
-                        if (response[5].length > 0) {
-                            var data = '';
-                            $.each(response[5], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
                                 var link1 = "<a id='crt" + this.id + "' href='javascript: changeReport(" + this.id + ",`creative`)'>" + this.name + "</a>";
-                                data += '["' + link1 + '", "Internet"],';
+                                data += '["' + link1 + '", '+this.imps+'],';
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
                             data = JSON.parse(data);
                             $('#creative_list').dataTable().fnAddData(data);
                         }
-                        if (response[6].length > 0) {
+                        if (response[4].length > 0) {
                             var data = '';
-                            $.each(response[6], function () {
+                            $.each(response[4], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
                                 var link1 = "<a id='gsm" + this.id + "' href='javascript: changeReport(" + this.id + ",`geosegment`)'>" + this.name + "</a>";
-                                data += '["' + link1 + '", "Internet"],';
+                                data += '["' + link1 + '", '+this.imps+'],';
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
                             data = JSON.parse(data);
                             $('#geosegment_list').dataTable().fnAddData(data);
+                        }
+                        if (response[5].length > 0) {
+                            var data = '';
+                            $.each(response[5], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a id='cmp" + this.id + "' href='javascript: changeReport(" + this.id + ",`campaign`)'>" + this.name + "</a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
+                            });
+                            data = data.substr(0, data.length - 1);
+                            data = '[' + data + ']';
+                            data = JSON.parse(data);
+                            $('#campaign_list').dataTable().fnAddData(data);
+                        }
+                        if (response[6].length > 0) {
+                            var data = '';
+                            $.each(response[6], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a id='tgp" + this.id + "' href='javascript: changeReport(" + this.id + ",`targetgroup`)'>" + this.name + "</a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
+
+                            });
+                            data = data.substr(0, data.length - 1);
+                            data = '[' + data + ']';
+                            data = JSON.parse(data);
+                            $('#targetgroup_list').dataTable().fnAddData(data);
                         }
 
                     }
@@ -992,184 +1176,308 @@
                     }
 
                     if (response[0] == 'campaign') {
-                        console.log(response);
                         $('#campaign_list').dataTable().fnClearTable();
                         $('#targetgroup_list').dataTable().fnClearTable();
-                        if (response[1].length > 0) {
+                        if(client.val()=='') {
+                            $('#client_list').dataTable().fnClearTable();
+                            if (response[1].length > 0) {
+                                var data = '';
+                                $.each(response[1], function () {
+                                    if(this.name.length>lntstr){
+                                        this.name=this.name.substr(0,lntstr)+'...';
+                                    }
+                                    var link1 = "<a id='cln" + this.id + "' href='javascript: changeReport(" + this.id + ",`client`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", '+this.imps+'],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#client_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if(advertiser.val()=='') {
+                            $('#advertiser_list').dataTable().fnClearTable();
+                            if (response[2].length > 0) {
+                                var data = '';
+                                $.each(response[2], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='adv" + this.id + "' href='javascript: changeReport(" + this.id + ",`advertiser`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#advertiser_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if(creative.val()=='') {
+                            $('#creative_list').dataTable().fnClearTable();
+                            if (response[3].length > 0) {
+                                var data = '';
+                                $.each(response[3], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='crt" + this.id + "' href='javascript: changeReport(" + this.id + ",`creative`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#creative_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if(geosegment.val()=='') {
+                            $('#geosegment_list').dataTable().fnClearTable();
+                            if (response[4].length > 0) {
+                                var data = '';
+                                $.each(response[4], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='gsm" + this.id + "' href='javascript: changeReport(" + this.id + ",`geosegment`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#geosegment_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if (response[5].length > 0) {
                             var data = '';
-                            $.each(response[1], function () {
-                                var link1 = "<a class='report-selected' id='cmp" + this.id + "' href='javascript: changeReport(" + this.id + ",`campaign`)'>" + this.name + "<i class='fa fa-check'></i></a>";
-                                data += '["' + link1 + '", "camp"],';
+                            $.each(response[5], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a class='report-selected' id='cmp" + this.id + "' href='javascript: changeReport(" + this.id + ",`campaign`)'>" + this.name + "<i class='fa check-fa'></i></a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
                             data = JSON.parse(data);
                             $('#campaign_list').dataTable().fnAddData(data);
                         }
-                        if (response[2].length > 0) {
+                        if (response[6].length > 0) {
                             var data = '';
-                            $.each(response[2], function () {
+                            $.each(response[6], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
                                 var link1 = "<a id='tgp" + this.id + "' href='javascript: changeReport(" + this.id + ",`targetgroup`)'>" + this.name + "</a>";
-                                data += '["' + link1 + '", "targetgroup"],';
+                                data += '["' + link1 + '", '+this.imps+'],';
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
                             data = JSON.parse(data);
                             $('#targetgroup_list').dataTable().fnAddData(data);
-                        }
-                        if (response[3] != null) { //set Client Parent
-                            var adv = response[3].get_advertiser;
-                            $('#client_list').dataTable().fnClearTable();
-                            $('#advertiser_list').dataTable().fnClearTable();
-                            var data = '';
-                            var link1 = "<a id='cln" + adv.get_client_i_d.id + "' href='javascript: changeReport(" + adv.get_client_i_d.id + ",`client`)'>" + adv.get_client_i_d.name + " </a>";
-                            data += '["' + link1 + '", "client"]';
-                            data = '[' + data + ']';
-                            data = JSON.parse(data);
-                            $('#client_list').dataTable().fnAddData(data);
-                            var data = '';
-                            var link1 = "<a id='adv" + adv.id + "' href='javascript: changeReport(" + adv.id + ",`advertiser`)'>" + adv.name + " </a>";
-                            data += '["' + link1 + '", "adv"]';
-                            data = '[' + data + ']';
-                            data = JSON.parse(data);
-                            $('#advertiser_list').dataTable().fnAddData(data);
-
                         }
 
                     }
                     if (response[0] == 'creative') {
-                        $('#client_list').dataTable().fnClearTable();
-                        $('#advertiser_list').dataTable().fnClearTable();
-                        $('#campaign_list').dataTable().fnClearTable();
-                        $('#targetgroup_list').dataTable().fnClearTable();
                         $('#creative_list').dataTable().fnClearTable();
-                        $('#geosegment_list').dataTable().fnClearTable();
-                        if (response[1].length > 0) {
+                        if(client.val()=='') {
+                            $('#client_list').dataTable().fnClearTable();
+                            if (response[1].length > 0) {
+                                var data = '';
+                                $.each(response[1], function () {
+                                    if(this.name.length>lntstr){
+                                        this.name=this.name.substr(0,lntstr)+'...';
+                                    }
+                                    var link1 = "<a id='cln" + this.id + "' href='javascript: changeReport(" + this.id + ",`client`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", '+this.imps+'],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#client_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if(advertiser.val()=='') {
+                            $('#advertiser_list').dataTable().fnClearTable();
+                            if (response[2].length > 0) {
+                                var data = '';
+                                $.each(response[2], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='adv" + this.id + "' href='javascript: changeReport(" + this.id + ",`advertiser`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#advertiser_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if (response[3].length > 0) {
                             var data = '';
-                            $.each(response[1], function () {
-                                var link1 = "<a class='report-selected' id='crt" + this.id + "' href='javascript: changeReport(" + this.id + ",`creative`)'>" + this.name + "<i class='fa fa-check'></i> </a>";
-                                data += '["' + link1 + '", "crt"],';
+                            $.each(response[3], function () {
+                                if (this.name.length > lntstr) {
+                                    this.name = this.name.substr(0, lntstr) + '...';
+                                }
+                                var link1 = "<a class='report-selected' id='crt" + this.id + "' href='javascript: changeReport(" + this.id + ",`creative`)'>" + this.name + "<i class='fa check-fa'></i></a>";
+                                data += '["' + link1 + '", ' + this.imps + '],';
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
                             data = JSON.parse(data);
                             $('#creative_list').dataTable().fnAddData(data);
-                            var data = '';
-                            $.each(response[1], function () {
-                                var link1 = "<a id='adv" + this.get_advertiser.id + "' href='javascript: changeReport(" + this.get_advertiser.id + ",`advertiser`)'>" + this.get_advertiser.name + "</a>";
-                                data += '["' + link1 + '", "adv"],';
-                            });
-                            data = data.substr(0, data.length - 1);
-                            data = '[' + data + ']';
-                            data = JSON.parse(data);
-                            $('#advertiser_list').dataTable().fnAddData(data);
-                            var data = '';
-                            $.each(response[1], function () {
-                                var link1 = "<a id='cln" + this.get_advertiser.get_client_id.id + "' href='javascript: changeReport(" + this.get_advertiser.get_client_id.id + ",`client`)'>" + this.get_advertiser.get_client_id.name + "</a>";
-                                data += '["' + link1 + '", "cln"],';
-                            });
-                            data = data.substr(0, data.length - 1);
-                            data = '[' + data + ']';
-                            data = JSON.parse(data);
-                            $('#client_list').dataTable().fnAddData(data);
                         }
-                        if (response[2].length > 0) {
-                            var data = '';
-                            $.each(response[2], function () {
-                                var link1 = "<a id='cmp" + this.id + "' href='javascript: changeReport(" + this.id + ",`campaign`)'>" + this.name + "</a>";
-                                data += '["' + link1 + '", "cmp"],';
-                            });
-                            data = data.substr(0, data.length - 1);
-                            data = '[' + data + ']';
-                            data = JSON.parse(data);
-                            $('#campaign_list').dataTable().fnAddData(data);
+                        if(geosegment.val()=='') {
+                            $('#geosegment_list').dataTable().fnClearTable();
+                            if (response[4].length > 0) {
+                                var data = '';
+                                $.each(response[4], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='gsm" + this.id + "' href='javascript: changeReport(" + this.id + ",`geosegment`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#geosegment_list').dataTable().fnAddData(data);
+                            }
                         }
-                        if (response[3].length > 0) {
-                            var data = '';
-                            $.each(response[3], function () {
-                                if(this.name.length>lntstr){
-                                    this.name=this.name.substr(0,lntstr)+'...';
-                                }
-                                var link1 = "<a id='gsm" + this.id + "' href='javascript: changeReport(" + this.id + ",`geosegment`)'>" + this.name + "</a>";
-                                data += '["' + link1 + '", "gsm"],';
-                            });
-                            data = data.substr(0, data.length - 1);
-                            data = '[' + data + ']';
-                            data = JSON.parse(data);
-                            $('#geosegment_list').dataTable().fnAddData(data);
+                        if(campaign.val()=='') {
+                            $('#campaign_list').dataTable().fnClearTable();
+                            if (response[5].length > 0) {
+                                var data = '';
+                                $.each(response[5], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='cmp" + this.id + "' href='javascript: changeReport(" + this.id + ",`campaign`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#campaign_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if(targetgroup.val()=='') {
+                            $('#targetgroup_list').dataTable().fnClearTable();
+                            if (response[6].length > 0) {
+                                var data = '';
+                                $.each(response[6], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='tgp" + this.id + "' href='javascript: changeReport(" + this.id + ",`targetgroup`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#targetgroup_list').dataTable().fnAddData(data);
+                            }
+                        }
+                    }
+                    if (response[0] == 'geosegment') {
+                        $('#geosegment_list').dataTable().fnClearTable();
+                        if(client.val()=='') {
+                            $('#client_list').dataTable().fnClearTable();
+                            if (response[1].length > 0) {
+                                var data = '';
+                                $.each(response[1], function () {
+                                    if(this.name.length>lntstr){
+                                        this.name=this.name.substr(0,lntstr)+'...';
+                                    }
+                                    var link1 = "<a id='cln" + this.id + "' href='javascript: changeReport(" + this.id + ",`client`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", '+this.imps+'],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#client_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if(advertiser.val()=='') {
+                            $('#advertiser_list').dataTable().fnClearTable();
+                            if (response[2].length > 0) {
+                                var data = '';
+                                $.each(response[2], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='adv" + this.id + "' href='javascript: changeReport(" + this.id + ",`advertiser`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#advertiser_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if(advertiser.val()=='') {
+                            $('#advertiser_list').dataTable().fnClearTable();
+                            if (response[3].length > 0) {
+                                var data = '';
+                                $.each(response[3], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='crt" + this.id + "' href='javascript: changeReport(" + this.id + ",`creative`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#creative_list').dataTable().fnAddData(data);
+                            }
                         }
                         if (response[4].length > 0) {
                             var data = '';
                             $.each(response[4], function () {
-                                if(this.get_campaign!=null) {
-                                    var link1 = "<a id='tgp" + this.id + "' href='javascript: changeReport(" + this.id + ",`targetgroup`)'>" + this.name + "</a>";
-                                    data += '["' + link1 + '", "tgp"],';
+                                if (this.name.length > lntstr) {
+                                    this.name = this.name.substr(0, lntstr) + '...';
                                 }
-                            });
-                            data = data.substr(0, data.length - 1);
-                            data = '[' + data + ']';
-                            data = JSON.parse(data);
-                            $('#targetgroup_list').dataTable().fnAddData(data);
-                        }
-
-                    }
-                    if (response[0] == 'geosegment') {
-                        $('#client_list').dataTable().fnClearTable();
-                        $('#advertiser_list').dataTable().fnClearTable();
-                        $('#campaign_list').dataTable().fnClearTable();
-                        $('#targetgroup_list').dataTable().fnClearTable();
-                        $('#creative_list').dataTable().fnClearTable();
-                        $('#geosegment_list').dataTable().fnClearTable();
-                        if (response[1].length > 0) {
-                            var data = '';
-                            $.each(response[1], function () {
-                                var link1 = "<a class='report-selected' id='gsm" + this.id + "' href='javascript: changeReport(" + this.id + ",`geosegment`)'>" + this.name + "<i class='fa fa-check'></i> </a>";
-                                data += '["' + link1 + '", "crt"],';
+                                var link1 = "<a class='report-selected' id='gsm" + this.id + "' href='javascript: changeReport(" + this.id + ",`geosegment`)'>" + this.name + "<i class='fa check-fa'></i></a>";
+                                data += '["' + link1 + '", ' + this.imps + '],';
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
                             data = JSON.parse(data);
                             $('#geosegment_list').dataTable().fnAddData(data);
-                            var data = '';
-                            $.each(response[1], function () {
-                                var link1 = "<a id='adv" + this.get_advertiser.id + "' href='javascript: changeReport(" + this.get_advertiser.id + ",`advertiser`)'>" + this.get_advertiser.name + "</a>";
-                                data += '["' + link1 + '", "adv"],';
-                            });
-                            data = data.substr(0, data.length - 1);
-                            data = '[' + data + ']';
-                            data = JSON.parse(data);
-                            $('#advertiser_list').dataTable().fnAddData(data);
-                            var data = '';
-                            $.each(response[1], function () {
-                                var link1 = "<a id='cln" + this.get_advertiser.get_client_id.id + "' href='javascript: changeReport(" + this.get_advertiser.get_client_id.id + ",`client`)'>" + this.get_advertiser.get_client_id.name + "</a>";
-                                data += '["' + link1 + '", "cln"],';
-                            });
-                            data = data.substr(0, data.length - 1);
-                            data = '[' + data + ']';
-                            data = JSON.parse(data);
-                            $('#client_list').dataTable().fnAddData(data);
                         }
-                        if (response[2].length > 0) {
-                            var data = '';
-                            $.each(response[2], function () {
-                                var link1 = "<a id='cmp" + this.id + "' href='javascript: changeReport(" + this.id + ",`campaign`)'>" + this.name + "</a>";
-                                data += '["' + link1 + '", "cmp"],';
-                            });
-                            data = data.substr(0, data.length - 1);
-                            data = '[' + data + ']';
-                            data = JSON.parse(data);
-                            $('#campaign_list').dataTable().fnAddData(data);
+                        if(campaign.val()=='') {
+                            $('#campaign_list').dataTable().fnClearTable();
+                            if (response[5].length > 0) {
+                                var data = '';
+                                $.each(response[5], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='cmp" + this.id + "' href='javascript: changeReport(" + this.id + ",`campaign`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#campaign_list').dataTable().fnAddData(data);
+                            }
                         }
-                        if (response[3].length > 0) {
-                            var data = '';
-                            $.each(response[3], function () {
-                                var link1 = "<a id='crt" + this.id + "' href='javascript: changeReport(" + this.id + ",`creative`)'>" + this.name + "</a>";
-                                data += '["' + link1 + '", "crt"],';
-                            });
-                            data = data.substr(0, data.length - 1);
-                            data = '[' + data + ']';
-                            data = JSON.parse(data);
-                            $('#creative_list').dataTable().fnAddData(data);
+                        if(targetgroup.val()=='') {
+                            $('#targetgroup_list').dataTable().fnClearTable();
+                            if (response[6].length > 0) {
+                                var data = '';
+                                $.each(response[6], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='tgp" + this.id + "' href='javascript: changeReport(" + this.id + ",`targetgroup`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#targetgroup_list').dataTable().fnAddData(data);
+                            }
                         }
 
                     }
@@ -1179,33 +1487,45 @@
                         $('#targetgroup_list').dataTable().fnClearTable();
                         $('#geosegment_list').dataTable().fnClearTable();
                         $('#creative_list').dataTable().fnClearTable();
-                        if (response[1].length > 0) {
+                        if(client.val()=='') {
+                            $('#client_list').dataTable().fnClearTable();
+                            if (response[1].length > 0) {
+                                var data = '';
+                                $.each(response[1], function () {
+                                    if(this.name.length>lntstr){
+                                        this.name=this.name.substr(0,lntstr)+'...';
+                                    }
+                                    var link1 = "<a id='cln" + this.id + "' href='javascript: changeReport(" + this.id + ",`client`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", '+this.imps+'],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#client_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if (response[2].length > 0) {
                             var data = '';
-                            $.each(response[1], function () {
-                                var link1 = "<a class='report-selected' id='adv" + this.id + "' href='javascript: changeReport(" + this.id + ",`advertiser`)'>" + this.name + " <i class='fa fa-check'></i></a>";
-                                data += '["' + link1 + '", "cmp"],';
+                            $.each(response[2], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a class='report-selected' id='adv" + this.id + "' href='javascript: changeReport(" + this.id + ",`advertiser`)'>" + this.name + "<i class='fa check-fa'></i></a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
                             data = JSON.parse(data);
                             $('#advertiser_list').dataTable().fnAddData(data);
                         }
-                        if (response[2].length > 0) {
-                            var data = '';
-                            $.each(response[2], function () {
-                                var link1 = "<a id='cmp" + this.id + "' href='javascript: changeReport(" + this.id + ",`campaign`)'>" + this.name + "</a>";
-                                data += '["' + link1 + '", "cmp"],';
-                            });
-                            data = data.substr(0, data.length - 1);
-                            data = '[' + data + ']';
-                            data = JSON.parse(data);
-                            $('#campaign_list').dataTable().fnAddData(data);
-                        }
                         if (response[3].length > 0) {
                             var data = '';
                             $.each(response[3], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
                                 var link1 = "<a id='crt" + this.id + "' href='javascript: changeReport(" + this.id + ",`creative`)'>" + this.name + "</a>";
-                                data += '["' + link1 + '", "cmp"],';
+                                data += '["' + link1 + '", '+this.imps+'],';
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
@@ -1215,23 +1535,93 @@
                         if (response[4].length > 0) {
                             var data = '';
                             $.each(response[4], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
                                 var link1 = "<a id='gsm" + this.id + "' href='javascript: changeReport(" + this.id + ",`geosegment`)'>" + this.name + "</a>";
-                                data += '["' + link1 + '", "cmp"],';
+                                data += '["' + link1 + '", '+this.imps+'],';
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
                             data = JSON.parse(data);
                             $('#geosegment_list').dataTable().fnAddData(data);
                         }
-                        if (response[5] != null) { //set Client Parent
-                            $('#client_list').dataTable().fnClearTable();
+                        if (response[5].length > 0) {
                             var data = '';
-                            var link1 = "<a id='cln" + response[5].get_client_i_d.id + "' href='javascript: changeReport(" + response[5].get_client_i_d.id + ",`client`)'>" + response[5].get_client_i_d.name + " </a>";
-                            data += '["' + link1 + '", "client"]';
+                            $.each(response[5], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a id='cmp" + this.id + "' href='javascript: changeReport(" + this.id + ",`campaign`)'>" + this.name + "</a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
+                            });
+                            data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
                             data = JSON.parse(data);
-                            $('#client_list').dataTable().fnAddData(data);
+                            $('#campaign_list').dataTable().fnAddData(data);
                         }
+                        if (response[6].length > 0) {
+                            var data = '';
+                            $.each(response[6], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a id='tgp" + this.id + "' href='javascript: changeReport(" + this.id + ",`targetgroup`)'>" + this.name + "</a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
+                            });
+                            data = data.substr(0, data.length - 1);
+                            data = '[' + data + ']';
+                            data = JSON.parse(data);
+                            $('#targetgroup_list').dataTable().fnAddData(data);
+                        }
+                    }
+                    if(response[0] == 'report_type'){
+                        if (response[1].length > 15) {
+                            function data_temp1() {
+                                return response[1];
+                            }
+                            g1 = new Dygraph(document.getElementById("impression"), data_temp1, {
+                                customBars : true,
+                                title : '',
+                                ylabel : 'Impression',
+                                legend : 'always',
+                                labelsDivStyles : {
+                                    'textAlign' : 'right'
+                                },
+                                showRangeSelector : true
+                            });
+                        }
+                        if (response[2].length > 15) {
+                            function data_temp2() {
+                                return response[2];
+                            }
+                            g2 = new Dygraph(document.getElementById("click"), data_temp2, {
+                                customBars : true,
+                                title : '',
+                                ylabel : 'Click',
+                                legend : 'always',
+                                labelsDivStyles : {
+                                    'textAlign' : 'right'
+                                },
+                                showRangeSelector : true
+                            });
+                        }
+                        if (response[3].length > 15) {
+                            function data_temp3() {
+                                return response[3];
+                            }
+                            g3 = new Dygraph(document.getElementById("converjent"), data_temp3, {
+                                customBars : true,
+                                title : '',
+                                ylabel : 'Converjent',
+                                legend : 'always',
+                                labelsDivStyles : {
+                                    'textAlign' : 'right'
+                                },
+                                showRangeSelector : true
+                            });
+                        }
+
                     }
 //                var cb = '';
 //                var data = jQuery.parseJSON(response);
@@ -1256,6 +1646,10 @@
             var geosegment_list = undefined;
 
             $('#client_list').dataTable({
+                "bPaginate": true,
+                "bLengthChange": true,
+                "bFilter": true,
+                "bInfo": true,
                 "lengthMenu": [[3, 5, 10], [3, 5, 10]],
                 "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-9'f><'col-sm-3 col-xs-12 hidden-xs'l>r>"+
                 "t"+
@@ -1380,10 +1774,30 @@
             $( ".glyphicon-search" ).parent().css( "display", "none" );
             /* END BASIC */
             // START AND FINISH DATE
-            g1 = new Dygraph(document.getElementById("noroll"), data_temp, {
+            g1 = new Dygraph(document.getElementById("impression"), data_temp, {
                 customBars : true,
                 title : 'test',
                 ylabel : 'Impression',
+                legend : 'always',
+                labelsDivStyles : {
+                    'textAlign' : 'right'
+                },
+                showRangeSelector : true
+            });
+            g2 = new Dygraph(document.getElementById("click"), data_temp, {
+                customBars : true,
+                title : 'test',
+                ylabel : 'click',
+                legend : 'always',
+                labelsDivStyles : {
+                    'textAlign' : 'right'
+                },
+                showRangeSelector : true
+            });
+            g3 = new Dygraph(document.getElementById("converjent"), data_temp, {
+                customBars : true,
+                title : 'test',
+                ylabel : 'converjent',
                 legend : 'always',
                 labelsDivStyles : {
                     'textAlign' : 'right'
