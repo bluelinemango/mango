@@ -109,6 +109,12 @@ class ReportController extends Controller
                 $arr = array();
                 array_push($arr, $type);
                 $time='';
+                $client='';
+                $advertiser='';
+                $creative='';
+                $geosegment='';
+                $campaign='';
+                $targetgroup='';
                 if (User::isSuperAdmin()) {
                     $clientArry = Client::get(['id'])->toArray();
                     $advertiserArry = Advertiser::get(['id'])->toArray();
@@ -157,77 +163,38 @@ class ReportController extends Controller
                     }
                     if($request->input('report_type')=='1M'){
                         $time="between '".date('Y-m-d H:i:s',time() - 60 * 60 * 24 * 30)."' and '".date('Y-m-d H:i:s')."'";
-                        $interval=6*60*60;
+                        $interval=60*60;
                     }
                     if($request->input('report_type')=='rang'){
                         $start_date = DateTime::createFromFormat('d.m.Y', $request->input('start_date'));
                         $end_date = DateTime::createFromFormat('d.m.Y', $request->input('end_date'));
-                        $time="between '".$start_date."' and '".$end_date."'";
+                        $time="between '".$start_date->format('Y-m-d H:i:s')."' and '".$end_date->format('Y-m-d H:i:s')."'";
                         $interval=24*60*60;
                     }
 
                     switch ($type) {
                         case 'client':
-                            $advertiser = DB::table('impression')
-                                ->join('advertiser', 'impression.advertiser_id', '=', 'advertiser.id')
-                                ->select(DB::raw('count(impression.advertiser_id) as imps, impression.advertiser_id , advertiser.name'))
-                                ->where('impression.client_id',$request->input('client'))
-                                ->groupBy('impression.advertiser_id')
-                                ->orderBy('imps','DESC')
-                                ->get();
-                            $campaign = DB::table('impression')
-                                ->join('campaign', 'impression.campaign_id', '=', 'campaign.id')
-                                ->select(DB::raw('count(impression.campaign_id) as imps, impression.campaign_id , campaign.name'))
-                                ->where('impression.client_id',$request->input('client'))
-                                ->groupBy('impression.campaign_id')
-                                ->orderBy('imps','DESC')
-                                ->get();
-//                    return dd($campaign);
-                            $targetgroup = DB::table('impression')
-                                ->join('targetgroup', 'impression.targetgroup_id', '=', 'targetgroup.id')
-                                ->select(DB::raw('count(impression.targetgroup_id) as imps, impression.targetgroup_id , targetgroup.name'))
-                                ->where('impression.client_id',$request->input('client'))
-                                ->groupBy('impression.targetgroup_id')
-                                ->orderBy('imps','DESC')
-                                ->get();
-                            $creative = DB::table('impression')
-                                ->join('creative', 'impression.creative_id', '=', 'creative.id')
-                                ->select(DB::raw('count(impression.creative_id) as imps, impression.creative_id , creative.name'))
-                                ->where('impression.client_id',$request->input('client'))
-                                ->groupBy('impression.creative_id')
-                                ->orderBy('imps','DESC')
-                                ->get();
-                            $geosegment = DB::table('impression')
-                                ->join('geosegmentlist', 'impression.geosegment_id', '=', 'geosegmentlist.id')
-                                ->select(DB::raw('count(impression.geosegment_id) as imps, impression.geosegment_id , geosegmentlist.name'))
-                                ->where('impression.client_id',$request->input('client'))
-                                ->groupBy('impression.geosegment_id')
-                                ->orderBy('imps','DESC')
-                                ->get();
-
-//                            return $impsString;
-//                            $advertiser.put('type',$type);
-                            array_push($arr, $advertiser);
-                            array_push($arr, $creative);
-                            array_push($arr, $geosegment);
-                            array_push($arr, $campaign);
-                            array_push($arr, $targetgroup);
+                            if ($request->input('advertiser') == '' ) {
+                                $advertiser = DB::table('impression')
+                                    ->join('advertiser', 'impression.advertiser_id', '=', 'advertiser.id')
+                                    ->select(DB::raw('count(impression.advertiser_id) as imps, impression.advertiser_id as id , advertiser.name'))
+                                    ->whereRaw($query)
+                                    ->groupBy('impression.advertiser_id')
+                                    ->orderBy('imps', 'DESC')
+                                    ->get();
+                            }
                             break;
                         case 'campaign':
-                            $client='no_data';
-                            $advertiser='no_data';
-                            $creative='no_data';
-                            $geosegment='no_data';
-                            $creativ_client_advertiser=Creative::with(['getAdvertiser'=>function($q){
+                            $campaign_client_advertiser=Campaign::with(['getAdvertiser'=>function($q){
                                 $q->with('GetClientID');
-                            }])->find($request->input('creative'));
+                            }])->find($request->input('campaign'));
 
                             if ($request->input('client') == '') {
                                 $client = DB::table('impression')
                                     ->join('client', 'impression.client_id', '=', 'client.id')
                                     ->select(DB::raw('count(impression.client_id) as imps, impression.client_id as id , client.name'))
-                                    ->where('impression.campaign_id',$request->input('campaign'))
-                                    ->where('impression.client_id',$creativ_client_advertiser->getAdvertiser->GetClientID->id)
+                                    ->whereRaw($query)
+                                    ->where('impression.client_id',$campaign_client_advertiser->getAdvertiser->GetClientID->id)
                                     ->groupBy('impression.client_id')
                                     ->orderBy('imps','DESC')
                                     ->get();
@@ -236,8 +203,8 @@ class ReportController extends Controller
                                 $advertiser = DB::table('impression')
                                     ->join('advertiser', 'impression.advertiser_id', '=', 'advertiser.id')
                                     ->select(DB::raw('count(impression.advertiser_id) as imps, impression.advertiser_id as id , advertiser.name'))
-                                    ->where('impression.campaign_id', $request->input('campaign'))
-                                    ->where('impression.advertiser_id',$creativ_client_advertiser->getAdvertiser->id)
+                                    ->whereRaw($query)
+                                    ->where('impression.advertiser_id',$campaign_client_advertiser->getAdvertiser->id)
                                     ->groupBy('impression.advertiser_id')
                                     ->orderBy('imps', 'DESC')
                                     ->get();
@@ -245,44 +212,58 @@ class ReportController extends Controller
                             $campaign = DB::table('impression')
                                 ->join('campaign', 'impression.campaign_id', '=', 'campaign.id')
                                 ->select(DB::raw('count(impression.campaign_id) as imps, impression.campaign_id as id , campaign.name'))
-                                ->where('impression.campaign_id',$request->input('campaign'))
+                                ->whereRaw($query)
                                 ->groupBy('impression.campaign_id')
-                                ->orderBy('imps','DESC')
+                                ->orderBy('imps', 'DESC')
                                 ->get();
+
+                            break;
+                        case 'targetgroup':
+                            $targetgroup_client_advertiser=Targetgroup::with(['getCampaign'=>function($q) {
+                                $q->with(['getAdvertiser' => function ($p) {
+                                    $p->with('GetClientID');
+                                }]);
+                            }])
+                                ->find($request->input('targetgroup'));
+                            if ($request->input('client') == '') {
+                                $client = DB::table('impression')
+                                    ->join('client', 'impression.client_id', '=', 'client.id')
+                                    ->select(DB::raw('count(impression.client_id) as imps, impression.client_id as id , client.name'))
+                                    ->whereRaw($query)
+                                    ->where('impression.client_id',$targetgroup_client_advertiser->getCampaign->getAdvertiser->GetClientID->id)
+                                    ->groupBy('impression.client_id')
+                                    ->orderBy('imps','DESC')
+                                    ->get();
+                            }
+                            if ($request->input('advertiser') == '') {
+                                $advertiser = DB::table('impression')
+                                    ->join('advertiser', 'impression.advertiser_id', '=', 'advertiser.id')
+                                    ->select(DB::raw('count(impression.advertiser_id) as imps, impression.advertiser_id as id , advertiser.name'))
+                                    ->whereRaw($query)
+                                    ->where('impression.advertiser_id',$targetgroup_client_advertiser->getCampaign->getAdvertiser->id)
+                                    ->groupBy('impression.advertiser_id')
+                                    ->orderBy('imps', 'DESC')
+                                    ->get();
+                            }
+                            if ($request->input('campaign') == '') {
+                                $campaign = DB::table('impression')
+                                    ->join('campaign', 'impression.campaign_id', '=', 'campaign.id')
+                                    ->select(DB::raw('count(impression.campaign_id) as imps, impression.campaign_id as id , campaign.name'))
+                                    ->where('impression.campaign_id',$targetgroup_client_advertiser->getCampaign->id)
+                                    ->groupBy('impression.campaign_id')
+                                    ->orderBy('imps', 'DESC')
+                                    ->get();
+                            }
                             $targetgroup = DB::table('impression')
                                 ->join('targetgroup', 'impression.targetgroup_id', '=', 'targetgroup.id')
                                 ->select(DB::raw('count(impression.targetgroup_id) as imps, impression.targetgroup_id as id , targetgroup.name'))
-                                ->where('impression.campaign_id',$request->input('campaign'))
+                                ->whereRaw($query)
                                 ->groupBy('impression.targetgroup_id')
-                                ->orderBy('imps','DESC')
+                                ->orderBy('imps', 'DESC')
                                 ->get();
-                            if ($request->input('creative') == '') {
-                                $creative = DB::table('impression')
-                                    ->join('creative', 'impression.creative_id', '=', 'creative.id')
-                                    ->select(DB::raw('count(impression.creative_id) as imps, impression.creative_id as id , creative.name'))
-                                    ->where('impression.campaign_id', $request->input('campaign'))
-                                    ->groupBy('impression.creative_id')
-                                    ->orderBy('imps', 'DESC')
-                                    ->get();
-                            }
-                            if ($request->input('geosegment') == '') {
-                                $geosegment = DB::table('impression')
-                                    ->join('geosegmentlist', 'impression.geosegment_id', '=', 'geosegmentlist.id')
-                                    ->select(DB::raw('count(impression.geosegment_id) as imps, impression.geosegment_id as id , geosegmentlist.name'))
-                                    ->where('impression.campaign_id', $request->input('campaign'))
-                                    ->groupBy('impression.geosegment_id')
-                                    ->orderBy('imps', 'DESC')
-                                    ->get();
-                            }
-                            array_push($arr, $client);
-                            array_push($arr, $advertiser);
-                            array_push($arr, $creative);
-                            array_push($arr, $geosegment);
-                            array_push($arr, $campaign);
-                            array_push($arr, $targetgroup);
+
                             break;
                         case 'advertiser':
-                            $client='no_data';
                             if ($request->input('client') == '') {
                                 $client = DB::table('impression')
                                     ->join('client', 'impression.client_id', '=', 'client.id')
@@ -299,57 +280,16 @@ class ReportController extends Controller
                                 ->groupBy('impression.advertiser_id')
                                 ->orderBy('imps','DESC')
                                 ->get();
-//                            return dd($advertiser);
-                            $campaign = DB::table('impression')
-                                ->join('campaign', 'impression.campaign_id', '=', 'campaign.id')
-                                ->select(DB::raw('count(impression.campaign_id) as imps, impression.campaign_id as id , campaign.name'))
-                                ->whereRaw($query)
-                                ->groupBy('impression.campaign_id')
-                                ->orderBy('imps','DESC')
-                                ->get();
-                            $targetgroup = DB::table('impression')
-                                ->join('targetgroup', 'impression.targetgroup_id', '=', 'targetgroup.id')
-                                ->select(DB::raw('count(impression.targetgroup_id) as imps, impression.targetgroup_id as id , targetgroup.name'))
-                                ->whereRaw($query)
-                                ->groupBy('impression.targetgroup_id')
-                                ->orderBy('imps','DESC')
-                                ->get();
-                            $creative = DB::table('impression')
-                                ->join('creative', 'impression.creative_id', '=', 'creative.id')
-                                ->select(DB::raw('count(impression.creative_id) as imps, impression.creative_id as id , creative.name'))
-                                ->whereRaw($query)
-                                ->groupBy('impression.creative_id')
-                                ->orderBy('imps','DESC')
-                                ->get();
-                            $geosegment = DB::table('impression')
-                                ->join('geosegmentlist', 'impression.geosegment_id', '=', 'geosegmentlist.id')
-                                ->select(DB::raw('count(impression.geosegment_id) as imps, impression.geosegment_id as id , geosegmentlist.name'))
-                                ->whereRaw($query)
-                                ->groupBy('impression.geosegment_id')
-                                ->orderBy('imps','DESC')
-                                ->get();
-                            array_push($arr, $client);
-                            array_push($arr, $advertiser);
-                            array_push($arr, $creative);
-                            array_push($arr, $geosegment);
-                            array_push($arr, $campaign);
-                            array_push($arr, $targetgroup);
                             break;
                         case 'creative':
-                            $client='no_data';
-                            $advertiser='no_data';
-                            $campaign='no_data';
-                            $targetgroup='no_data';
-                            $geosegment='no_data';
                             $creativ_client_advertiser=Creative::with(['getAdvertiser'=>function($q){
                                 $q->with('GetClientID');
                             }])->find($request->input('creative'));
-//                            return dd($creativ_client_advertiser->getAdvertiser);
                             if ($request->input('client') == '') {
                                 $client = DB::table('impression')
                                     ->join('client', 'impression.client_id', '=', 'client.id')
                                     ->select(DB::raw('count(impression.client_id) as imps, impression.client_id as id , client.name'))
-                                    ->where('impression.creative_id',$request->input('creative'))
+                                    ->whereRaw($query)
                                     ->where('impression.client_id',$creativ_client_advertiser->getAdvertiser->GetClientID->id)
                                     ->groupBy('impression.client_id')
                                     ->orderBy('imps','DESC')
@@ -359,59 +299,22 @@ class ReportController extends Controller
                                 $advertiser = DB::table('impression')
                                     ->join('advertiser', 'impression.advertiser_id', '=', 'advertiser.id')
                                     ->select(DB::raw('count(impression.advertiser_id) as imps, impression.advertiser_id as id , advertiser.name'))
-                                    ->where('impression.creative_id', $request->input('creative'))
+                                    ->whereRaw($query)
                                     ->where('impression.advertiser_id',$creativ_client_advertiser->getAdvertiser->id)
                                     ->groupBy('impression.advertiser_id')
-                                    ->orderBy('imps', 'DESC')
-                                    ->get();
-                            }
-                            if ($request->input('campaign') == '') {
-                                $campaign = DB::table('impression')
-                                    ->join('campaign', 'impression.campaign_id', '=', 'campaign.id')
-                                    ->select(DB::raw('count(impression.campaign_id) as imps, impression.campaign_id as id , campaign.name'))
-                                    ->where('impression.creative_id', $request->input('creative'))
-                                    ->groupBy('impression.campaign_id')
-                                    ->orderBy('imps', 'DESC')
-                                    ->get();
-                            }
-                            if ($request->input('targetgroup') == '') {
-                                $targetgroup = DB::table('impression')
-                                    ->join('targetgroup', 'impression.targetgroup_id', '=', 'targetgroup.id')
-                                    ->select(DB::raw('count(impression.targetgroup_id) as imps, impression.targetgroup_id as id , targetgroup.name'))
-                                    ->where('impression.creative_id', $request->input('creative'))
-                                    ->groupBy('impression.targetgroup_id')
                                     ->orderBy('imps', 'DESC')
                                     ->get();
                             }
                             $creative = DB::table('impression')
                                 ->join('creative', 'impression.creative_id', '=', 'creative.id')
                                 ->select(DB::raw('count(impression.creative_id) as imps, impression.creative_id as id , creative.name'))
-                                ->where('impression.creative_id', $request->input('creative'))
+                                ->whereRaw($query)
                                 ->groupBy('impression.creative_id')
                                 ->orderBy('imps', 'DESC')
                                 ->get();
-                            if ($request->input('geosegment') == '') {
-                                $geosegment = DB::table('impression')
-                                    ->join('geosegmentlist', 'impression.geosegment_id', '=', 'geosegmentlist.id')
-                                    ->select(DB::raw('count(impression.geosegment_id) as imps, impression.geosegment_id as id , geosegmentlist.name'))
-                                    ->where('impression.creative_id', $request->input('creative'))
-                                    ->groupBy('impression.geosegment_id')
-                                    ->orderBy('imps', 'DESC')
-                                    ->get();
-                            }
-                            array_push($arr, $client);
-                            array_push($arr, $advertiser);
-                            array_push($arr, $creative);
-                            array_push($arr, $geosegment);
-                            array_push($arr, $campaign);
-                            array_push($arr, $targetgroup);
-                        break;
+
+                            break;
                         case 'geosegment':
-                            $client='no_data';
-                            $advertiser='no_data';
-                            $campaign='no_data';
-                            $targetgroup='no_data';
-                            $creative='no_data';
                             $geosegment_client_advertiser=GeoSegmentList::with(['getAdvertiser'=>function($q){
                                 $q->with('GetClientID');
                             }])->find($request->input('geosegment'));
@@ -420,7 +323,7 @@ class ReportController extends Controller
                                 $client = DB::table('impression')
                                     ->join('client', 'impression.client_id', '=', 'client.id')
                                     ->select(DB::raw('count(impression.client_id) as imps, impression.client_id as id , client.name'))
-                                    ->where('impression.geosegment_id',$request->input('geosegment'))
+                                    ->whereRaw($query)
                                     ->where('impression.client_id',$geosegment_client_advertiser->getAdvertiser->GetClientID->id)
                                     ->groupBy('impression.client_id')
                                     ->orderBy('imps','DESC')
@@ -430,55 +333,23 @@ class ReportController extends Controller
                                 $advertiser = DB::table('impression')
                                     ->join('advertiser', 'impression.advertiser_id', '=', 'advertiser.id')
                                     ->select(DB::raw('count(impression.advertiser_id) as imps, impression.advertiser_id as id , advertiser.name'))
-                                    ->where('impression.geosegment_id', $request->input('geosegment'))
+                                    ->whereRaw($query)
                                     ->where('impression.advertiser_id',$geosegment_client_advertiser->getAdvertiser->id)
                                     ->groupBy('impression.advertiser_id')
-                                    ->orderBy('imps', 'DESC')
-                                    ->get();
-                            }
-                            if ($request->input('campaign') == '') {
-                                $campaign = DB::table('impression')
-                                    ->join('campaign', 'impression.campaign_id', '=', 'campaign.id')
-                                    ->select(DB::raw('count(impression.campaign_id) as imps, impression.campaign_id as id , campaign.name'))
-                                    ->where('impression.geosegment_id', $request->input('geosegment'))
-                                    ->groupBy('impression.campaign_id')
-                                    ->orderBy('imps', 'DESC')
-                                    ->get();
-                            }
-                            if ($request->input('targetgroup') == '') {
-                                $targetgroup = DB::table('impression')
-                                    ->join('targetgroup', 'impression.targetgroup_id', '=', 'targetgroup.id')
-                                    ->select(DB::raw('count(impression.targetgroup_id) as imps, impression.targetgroup_id as id , targetgroup.name'))
-                                    ->where('impression.geosegment_id', $request->input('geosegment'))
-                                    ->groupBy('impression.targetgroup_id')
-                                    ->orderBy('imps', 'DESC')
-                                    ->get();
-                            }
-                            if ($request->input('creative') == '') {
-                                $creative = DB::table('impression')
-                                    ->join('creative', 'impression.creative_id', '=', 'creative.id')
-                                    ->select(DB::raw('count(impression.creative_id) as imps, impression.creative_id as id , creative.name'))
-                                    ->where('impression.geosegment_id', $request->input('geosegment'))
-                                    ->groupBy('impression.creative_id')
                                     ->orderBy('imps', 'DESC')
                                     ->get();
                             }
                             $geosegment = DB::table('impression')
                                 ->join('geosegmentlist', 'impression.geosegment_id', '=', 'geosegmentlist.id')
                                 ->select(DB::raw('count(impression.geosegment_id) as imps, impression.geosegment_id as id , geosegmentlist.name'))
-                                ->where('impression.geosegment_id', $request->input('geosegment'))
+                                ->whereRaw($query)
                                 ->groupBy('impression.geosegment_id')
                                 ->orderBy('imps', 'DESC')
                                 ->get();
-                            array_push($arr, $client);
-                            array_push($arr, $advertiser);
-                            array_push($arr, $creative);
-                            array_push($arr, $geosegment);
-                            array_push($arr, $campaign);
-                            array_push($arr, $targetgroup);
-                        break;
+
+                            break;
                         case 'client_unfilter':
-                            $clients = DB::table('impression')
+                            $client = DB::table('impression')
                                 ->join('client', 'impression.client_id', '=', 'client.id')
                                 ->select(DB::raw('count(impression.client_id) as imps, impression.client_id as id , client.name'))
                                 ->whereIn('impression.advertiser_id',$advertiserArry)
@@ -526,81 +397,59 @@ class ReportController extends Controller
                                 ->groupBy('impression.geosegment_id')
                                 ->orderBy('imps','DESC')
                                 ->get();
-                            array_push($arr, $clients);
-                            array_push($arr, $advertiser);
-                            array_push($arr, $creative);
-                            array_push($arr, $geosegment);
-                            array_push($arr, $campaign);
-                            array_push($arr, $targetgroup);
                             break;
-                        case 'advertiser_unfilter':
-                            $advertiser = Advertiser::where('client_id', $request->input('client'))
-                                ->orderBy('created_at', 'DESC')
-                                ->get(['id', 'name']);
-//                            $advertiser.put('type',$type);
-                            array_push($arr, $advertiser);
-                            break;
-                        case 'campaign_unfilter':
-                            if ($request->input('client') != '' and $request->input('advertiser') == '') {
-                                $campaign = Campaign::with(['getAdvertiser' => function ($q) use ($request) {
-                                    $q->with('GetClientID')->where('client_id', $request->input('client'));
-                                }])
-                                    ->orderBy('created_at', 'DESC')
-                                    ->get();
-                                $targetgroup = Targetgroup::with(['getCampaign'=>function($q)use($request){
-                                    $q->with(['getAdvertiser'=>function($p)use($request){
-                                        $p->where('client_id',$request->input('client'));
-                                    }]) ;
-                                }])->get();
-                                array_push($arr, $campaign);
-                                array_push($arr, $targetgroup);
-                            } elseif ($request->input('advertiser') != '' and $request->input('client') == '') {
-                                $campaign = Campaign::with(['getAdvertiser' => function ($q) use ($request) {
-                                    $q->with('GetClientID')->where('id', $request->input('advertiser'));
-                                }])
-                                    ->orderBy('created_at', 'DESC')
-                                    ->get(['id', 'name']);
-                                $targetgroup = Targetgroup::with(['getCampaign'=>function($q)use($request){
-                                    $q->with(['getAdvertiser'=>function($p)use($request){
-                                        $p->where('id',$request->input('advertiser'));
-                                    }]) ;
-                                }])->get();
-
-                                array_push($arr, $campaign);
-                                array_push($arr, $targetgroup);
-                            } else {
-                                $campaign = Campaign::with(['getAdvertiser' => function ($q) use ($request) {
-                                    $q->with('GetClientID')->where('id', $request->input('advertiser'));
-                                }])
-                                    ->orderBy('created_at', 'DESC')
-                                    ->get(['id', 'name']);
-                                $targetgroup = Targetgroup::with(['getCampaign'=>function($q)use($request){
-                                    $q->with(['getAdvertiser'=>function($p)use($request){
-                                        $p->where('id',$request->input('advertiser'));
-                                    }]) ;
-                                }])->get();
-                                array_push($arr, $campaign);
-                                array_push($arr, $targetgroup);
-                            }
-//                            $advertiser.put('type',$type);
-                            break;
-                        case 'creative_unfilter':  //todo: chek with: enevt table
-                            $creative = Creative::with(['getAdvertiser'=>function($q)use($request){
-                                $q->where('id', $request->input('creative'));
-                            }])->get();
-//                            return dd($creative);
-                            array_push($arr, $creative);
-                            break;
-                        case 'geosegment_unfilter': //todo: chek with: enevt table
-                            $geosegment = GeoSegmentList::with(['getAdvertiser'=>function($q)use($request){
-                                $q->where('id', $request->input('creative'));
-                            }])->get();
-//                            return dd($creative);
-                            array_push($arr, $creative);
-                            break;
-
-
                     }
+
+                    if ($request->input('advertiser') == '' and $advertiser=='' ) {
+                        $advertiser = DB::table('impression')
+                            ->join('advertiser', 'impression.advertiser_id', '=', 'advertiser.id')
+                            ->select(DB::raw('count(impression.advertiser_id) as imps, impression.advertiser_id as id , advertiser.name'))
+                            ->whereRaw($query)
+                            ->groupBy('impression.advertiser_id')
+                            ->orderBy('imps', 'DESC')
+                            ->get();
+                    }
+                    if ($request->input('campaign') == '' and $campaign=='' ) {
+                        $campaign = DB::table('impression')
+                            ->join('campaign', 'impression.campaign_id', '=', 'campaign.id')
+                            ->select(DB::raw('count(impression.campaign_id) as imps, impression.campaign_id as id , campaign.name'))
+                            ->whereRaw($query)
+                            ->groupBy('impression.campaign_id')
+                            ->orderBy('imps', 'DESC')
+                            ->get();
+                    }
+                    if ($request->input('targetgroup') == '') {
+                        $targetgroup = DB::table('impression')
+                            ->join('targetgroup', 'impression.targetgroup_id', '=', 'targetgroup.id')
+                            ->select(DB::raw('count(impression.targetgroup_id) as imps, impression.targetgroup_id as id , targetgroup.name'))
+                            ->whereRaw($query)
+                            ->groupBy('impression.targetgroup_id')
+                            ->orderBy('imps', 'DESC')
+                            ->get();
+                    }
+                    if ($request->input('creative') == '') {
+                        $creative = DB::table('impression')
+                            ->join('creative', 'impression.creative_id', '=', 'creative.id')
+                            ->select(DB::raw('count(impression.creative_id) as imps, impression.creative_id as id , creative.name'))
+                            ->whereRaw($query)
+                            ->groupBy('impression.creative_id')
+                            ->orderBy('imps', 'DESC')
+                            ->get();
+                    }
+                    if ($request->input('geosegmentlist') == '') {
+                        $geosegment = DB::table('impression')
+                            ->join('geosegmentlist', 'impression.geosegment_id', '=', 'geosegmentlist.id')
+                            ->select(DB::raw('count(impression.geosegment_id) as imps, impression.geosegment_id as id , geosegmentlist.name'))
+                            ->whereRaw($query)
+                            ->groupBy('impression.geosegment_id')
+                            ->orderBy('imps', 'DESC')
+                            ->get();
+                    }
+
+
+
+
+
                     if($time!='') {
                         $impChart = Impression::where('event_type', 'impression')
                             ->whereRaw($query)
@@ -652,7 +501,7 @@ class ReportController extends Controller
                             }
                             $imps++;
                         }
-                        $cnvChart = Impression::where('event_type', 'converjent')
+                        $cnvChart = Impression::where('event_type', 'conversion')
                             ->whereRaw($query)
                             ->whereRaw('created_at ' . $time)
                             ->orderBy('created_at', 'ASC')
@@ -677,6 +526,12 @@ class ReportController extends Controller
                             }
                             $imps++;
                         }
+                        array_push($arr, $client);
+                        array_push($arr, $advertiser);
+                        array_push($arr, $creative);
+                        array_push($arr, $geosegment);
+                        array_push($arr, $campaign);
+                        array_push($arr, $targetgroup);
                         array_push($arr, $impsString);
                         array_push($arr, $clkString);
                         array_push($arr, $cnvString);

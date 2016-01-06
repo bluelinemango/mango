@@ -54,6 +54,12 @@
             padding: 3px 6px;
             font-size: 9px;
         }
+        .well{
+            padding: 10px 19px;
+        }
+        .btn{
+            padding: 2px 9px;
+        }
     </style>
 @endsection
 @section('content')
@@ -113,41 +119,12 @@
                     <!-- START ROW -->
                     <div class="row">
                         <!-- NEW COL START -->
-                        <article class="col-sm-12 col-md-12 col-lg-12">
-
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false" data-widget-custombutton="false">
-                                <!-- widget options:
-                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                    data-widget-colorbutton="false"
-                                    data-widget-editbutton="false"
-                                    data-widget-togglebutton="false"
-                                    data-widget-deletebutton="false"
-                                    data-widget-fullscreenbutton="false"
-                                    data-widget-custombutton="false"
-                                    data-widget-collapsed="true"
-                                    data-widget-sortable="false"
-
-                                -->
-                                <header>
-                                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-                                    <h2>System Report </h2>
-
-                                </header>
-
+                        <article class="col-sm-8 col-md-8 col-lg-8">
                                 <!-- widget div-->
-                                <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
+                                <div class="well">
 
                                     <!-- widget content -->
-                                    <div class="widget-body" style="min-height: 0 !important;">
+                                    <div class="row" style="min-height: 0 !important;">
                                         <input type="hidden" value="" name="client"/>
                                         <input type="hidden" value="" name="advertiser"/>
                                         <input type="hidden" value="" name="geosegment"/>
@@ -158,36 +135,26 @@
                                         <input type="hidden" value="" name="enddate"/>
                                         <input type="hidden" value="today" name="report_type"/>
                                         <div class="row">
-                                            <div class="col-md-3">
-                                                <form id="order-form" class="smart-form no-padding" action="{{URL::route('client_create')}}" method="post" novalidate="novalidate" >
-                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                        <div class="row">
-                                                            <section class="col col-1">
-                                                                from
-                                                            </section>
-                                                            <section class="col col-4">
-
-                                                                <label class="input">
-                                                                    <input type="text" name="startdate" id="startdate" placeholder="start date">
-                                                                </label>
-
-                                                            </section>
-                                                            <section class="col col-1">
-                                                                to
-                                                            </section>
-                                                            <section class="col col-4">
-                                                                <label class="input">
-                                                                    <input type="text" name="finishdate" id="finishdate" placeholder="finish date">
-                                                                </label>
-                                                            </section>
-                                                            <section class="col col-1">
-                                                                <a href="javascript:changeReport('rang','report_type');" class="btn bg-color-greenLight txt-color-white"><i class="fa-search"></i></a>
-                                                            </section>
-                                                        </div>
-                                                </form>
-
+                                            <div class="col-md-6">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-1 no-padding">
+                                                        from
+                                                    </div>
+                                                    <div class="col-md-4 no-padding">
+                                                        <input type="text" name="startdate" id="startdate" placeholder="start date">
+                                                    </div>
+                                                    <div class="col-md-1 no-padding">
+                                                        to
+                                                    </div>
+                                                    <div class="col-md-4 no-padding">
+                                                            <input type="text" name="finishdate" id="finishdate" placeholder="finish date">
+                                                    </div>
+                                                    <div class="col-md-2 no-padding">
+                                                        <a href="javascript:changeReport('rang','report_type');" class="btn bg-color-greenLight txt-color-white"><i class="fa-search"></i></a>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-5">
+                                            <div class="col-md-6">
                                                 <div class="col-md-12">
                                                     <a href="javascript: changeReport('today','report_type');" class="btn bg-color-magenta txt-color-white">10m</a>
                                                     <a href="javascript:changeReport('1h','report_type');" class="btn bg-color-red txt-color-white">1h</a>
@@ -205,40 +172,12 @@
                                     <!-- end widget content -->
                                 </div>
                                 <!-- end widget div -->
-                            </div>
-                            <!-- end widget -->
                         </article>
                         <article class="col-sm-8 col-md-8 col-lg-8">
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget" id="wid-id-0">
-                                <!-- widget options:
-                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-                                    data-widget-colorbutton="false"
-                                    data-widget-editbutton="false"
-                                    data-widget-togglebutton="false"
-                                    data-widget-deletebutton="false"
-                                    data-widget-fullscreenbutton="false"
-                                    data-widget-custombutton="false"
-                                    data-widget-collapsed="true"
-                                    data-widget-sortable="false"
-
-                                -->
-                                <header>
-                                    <span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
-                                    <h2>impression </h2>
-
-                                </header>
-
+                            <div class="well" >
                                 <!-- widget div-->
                                 <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-                                        <input class="form-control" type="text">
-                                    </div>
-                                    <!-- end widget edit box -->
-
                                     <!-- widget content -->
                                     <div class="widget-body">
 
@@ -254,84 +193,27 @@
                             </div>
                             <!-- end widget -->
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget" id="wid-id-1">
-                                <!-- widget options:
-                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-                                    data-widget-colorbutton="false"
-                                    data-widget-editbutton="false"
-                                    data-widget-togglebutton="false"
-                                    data-widget-deletebutton="false"
-                                    data-widget-fullscreenbutton="false"
-                                    data-widget-custombutton="false"
-                                    data-widget-collapsed="true"
-                                    data-widget-sortable="false"
-
-                                -->
-                                <header>
-                                    <span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
-                                    <h2>impression </h2>
-
-                                </header>
-
-                                <!-- widget div-->
+                            <div class="well">
                                 <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-                                        <input class="form-control" type="text">
-                                    </div>
-                                    <!-- end widget edit box -->
-
                                     <!-- widget content -->
                                     <div class="widget-body">
-
                                         <!-- this is what the user will see -->
                                         <div id="click" style="width:100%; height:300px;"></div>
-
                                     </div>
                                     <!-- end widget content -->
-
                                 </div>
                                 <!-- end widget div -->
-
                             </div>
                             <!-- end widget -->
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget" id="wid-id-2">
-                                <!-- widget options:
-                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-                                    data-widget-colorbutton="false"
-                                    data-widget-editbutton="false"
-                                    data-widget-togglebutton="false"
-                                    data-widget-deletebutton="false"
-                                    data-widget-fullscreenbutton="false"
-                                    data-widget-custombutton="false"
-                                    data-widget-collapsed="true"
-                                    data-widget-sortable="false"
-
-                                -->
-                                <header>
-                                    <span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
-                                    <h2>converjent </h2>
-
-                                </header>
-
+                            <div class="well">
                                 <!-- widget div-->
                                 <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-                                        <input class="form-control" type="text">
-                                    </div>
-                                    <!-- end widget edit box -->
-
                                     <!-- widget content -->
                                     <div class="widget-body">
 
                                         <!-- this is what the user will see -->
-                                        <div id="converjent" style="width:100%; height:300px;"></div>
+                                        <div id="conversion" style="width:100%; height:300px;"></div>
 
                                     </div>
                                     <!-- end widget content -->
@@ -716,7 +598,7 @@
             $(this).toggleClass('expand').nextUntil('tr.header').slideToggle(100);
         });
         function changeReport(id,type){
-            var lntstr=3;
+            var lntstr=10;
             var client=$('input[name="client"]');
             var advertiser=$('input[name="advertiser"]');
             var campaign=$('input[name="campaign"]');
@@ -774,7 +656,7 @@
                     creative.val('');
                     $('#advertiser_list').find('a').removeClass();
                     $('#adv'+id).removeClass();
-                    type='advertiser_unfilter'
+                    type='unfilter'
                 }else if(advertiser.val()==id && client.val()=='') {
                     advertiser.val('');
                     campaign.val('');
@@ -800,17 +682,17 @@
                 }
             }
             if(type=='campaign'){
-                if(campaign.val()==id && (advertiser.val()!='' || client.val()!='')){
+                if(campaign.val()==id && (advertiser.val()!='' || client.val()!='' || creative.val()!='' || geosegment.val()!='')){
                     targetgroup.val('');
                     campaign.val('');
                     $('#campaign_list').find('a').removeClass();
                     $('#cmp'+id).removeClass();
-                    type='campaign_unfilter'
-                }else if(campaign.val()==id && advertiser.val()=='' && client.val()==''){
+                    type='unfilter'
+                }else if(campaign.val()==id && advertiser.val()=='' && client.val()=='' && creative.val()=='' && geosegment.val()==''){
                     targetgroup.val('');
                     campaign.val('');
                     type='client_unfilter';
-                }else if(campaign.val()=='' && (client.val()!='' || advertiser.val()!='')){
+                }else if(campaign.val()=='' && (targetgroup.val()!='')){
                     campaign.val(id);
                     $('#campaign_list').find('a').removeClass();
                     $('#cmp' + id).addClass('report-selected');
@@ -827,8 +709,8 @@
                     targetgroup.val('');
                     $('#targetgroup_list').find('a').removeClass();
                     $('#tgp'+id).removeClass();
-                    type='targetgroup_unfilter'
-                }else {
+                    type='unfilter'
+                }else{
                     targetgroup.val(id);
                     $('#targetgroup_list').find('a').removeClass();
                     $('#tgp' + id).addClass('report-selected');
@@ -839,7 +721,7 @@
                     creative.val('');
                     $('#creative_list').find('a').removeClass();
                     $('#crt'+id).removeClass();
-                    type='creative_unfilter'
+                    type='unfilter'
                 }else if(creative.val()==id && (campaign.val()=='' || targetgroup.val()=='' || geosegment.val()=='' || advertiser.val()=='' || client.val()=='')){
                     creative.val('');
                     $('#creative_list').find('a').removeClass();
@@ -856,7 +738,7 @@
                     geosegment.val('');
                     $('#geosegment_list').find('a').removeClass();
                     $('#gsm'+id).removeClass();
-                    type='geosegment_unfilter'
+                    type='unfilter'
                 }else if(geosegment.val()==id && (campaign.val()=='' || targetgroup.val()=='' || creative.val()=='' || advertiser.val()=='' || client.val()=='')){
                     geosegment.val('');
                     $('#geosegment_list').find('a').removeClass();
@@ -896,23 +778,6 @@
                     var response = JSON.parse(response);
                     console.log(response);
                     if (response[0] == 'client') {
-                        if (response[6].length > 15) {
-                            function data_temp1() {
-                                return response[6];
-                            }
-                            console.log(data_temp1());
-                            var tes = [];
-                            g1 = new Dygraph(document.getElementById("impression"), data_temp1, {
-                                customBars : true,
-                                title : 'test',
-                                ylabel : 'Impression',
-                                legend : 'always',
-                                labelsDivStyles : {
-                                    'textAlign' : 'right'
-                                },
-                                showRangeSelector : true
-                            });
-                        }
                         $('#advertiser_list').dataTable().fnClearTable();
                         $('#campaign_list').dataTable().fnClearTable();
                         $('#targetgroup_list').dataTable().fnClearTable();
@@ -924,13 +789,13 @@
                                 if(this.name.length>lntstr){
                                     this.name=this.name.substr(0,lntstr)+'...';
                                 }
-                                var link1 = "<a id='adv" + this.advertiser_id + "' href='javascript: changeReport(" + this.advertiser_id + ",`advertiser`)'>" + this.name + "</a>";
+                                var link1 = "<a id='cln" + this.id + "' href='javascript: changeReport(" + this.id + ",`client`)'>" + this.name + "</a>";
                                 data += '["' + link1 + '", '+this.imps+'],';
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
                             data = JSON.parse(data);
-                            $('#advertiser_list').dataTable().fnAddData(data);
+                            $('#client_list').dataTable().fnAddData(data);
                         }
                         if (response[2].length > 0) {
                             var data = '';
@@ -938,13 +803,13 @@
                                 if(this.name.length>lntstr){
                                     this.name=this.name.substr(0,lntstr)+'...';
                                 }
-                                var link1 = "<a id='crt" + this.advertiser_id + "' href='javascript: changeReport(" + this.creative_id + ",`creative`)'>" + this.name + "</a>";
+                                var link1 = "<a id='adv" + this.id + "' href='javascript: changeReport(" + this.id + ",`advertiser`)'>" + this.name + "</a>";
                                 data += '["' + link1 + '", '+this.imps+'],';
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
                             data = JSON.parse(data);
-                            $('#creative_list').dataTable().fnAddData(data);
+                            $('#advertiser_list').dataTable().fnAddData(data);
                         }
                         if (response[3].length > 0) {
                             var data = '';
@@ -952,13 +817,13 @@
                                 if(this.name.length>lntstr){
                                     this.name=this.name.substr(0,lntstr)+'...';
                                 }
-                                var link1 = "<a id='gsm" + this.advertiser_id + "' href='javascript: changeReport(" + this.geosegment_id + ",`geosegment`)'>" + this.name + "</a>";
+                                var link1 = "<a id='crt" + this.id + "' href='javascript: changeReport(" + this.id + ",`creative`)'>" + this.name + "</a>";
                                 data += '["' + link1 + '", '+this.imps+'],';
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
                             data = JSON.parse(data);
-                            $('#geosegment_list').dataTable().fnAddData(data);
+                            $('#creative_list').dataTable().fnAddData(data);
                         }
                         if (response[4].length > 0) {
                             var data = '';
@@ -966,13 +831,13 @@
                                 if(this.name.length>lntstr){
                                     this.name=this.name.substr(0,lntstr)+'...';
                                 }
-                                var link1 = "<a id='cmp" + this.advertiser_id + "' href='javascript: changeReport(" + this.campaign_id + ",`campaign`)'>" + this.name + "</a>";
+                                var link1 = "<a id='gsm" + this.id + "' href='javascript: changeReport(" + this.id + ",`geosegment`)'>" + this.name + "</a>";
                                 data += '["' + link1 + '", '+this.imps+'],';
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
                             data = JSON.parse(data);
-                            $('#campaign_list').dataTable().fnAddData(data);
+                            $('#geosegment_list').dataTable().fnAddData(data);
                         }
                         if (response[5].length > 0) {
                             var data = '';
@@ -980,7 +845,21 @@
                                 if(this.name.length>lntstr){
                                     this.name=this.name.substr(0,lntstr)+'...';
                                 }
-                                var link1 = "<a id='tgp" + this.advertiser_id + "' href='javascript: changeReport(" + this.targetgroup_id + ",`targetgroup`)'>" + this.name + "</a>";
+                                var link1 = "<a id='cmp" + this.id + "' href='javascript: changeReport(" + this.id + ",`campaign`)'>" + this.name + "</a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
+                            });
+                            data = data.substr(0, data.length - 1);
+                            data = '[' + data + ']';
+                            data = JSON.parse(data);
+                            $('#campaign_list').dataTable().fnAddData(data);
+                        }
+                        if (response[6].length > 0) {
+                            var data = '';
+                            $.each(response[6], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a id='tgp" + this.id + "' href='javascript: changeReport(" + this.id + ",`targetgroup`)'>" + this.name + "</a>";
                                 data += '["' + link1 + '", '+this.imps+'],';
                             });
                             data = data.substr(0, data.length - 1);
@@ -1083,22 +962,96 @@
                         }
 
                     }
-                    if (response[0] == 'advertiser_unfilter') {
-                        $('#advertiser_list').dataTable().fnClearTable();
-                        $('#campaign_list').dataTable().fnClearTable();
-                        $('#targetgroup_list').dataTable().fnClearTable();
-                        $('#geosegment_list').dataTable().fnClearTable();
-                        $('#creative_list').dataTable().fnClearTable();
+                    if (response[0] == 'unfilter') {
                         if (response[1].length > 0) {
+                            $('#client_list').dataTable().fnClearTable();
                             var data = '';
                             $.each(response[1], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a id='cln" + this.id + "' href='javascript: changeReport(" + this.id + ",`client`)'>" + this.name + "</a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
+                            });
+                            data = data.substr(0, data.length - 1);
+                            data = '[' + data + ']';
+                            data = JSON.parse(data);
+                            $('#client_list').dataTable().fnAddData(data);
+                        }
+                        if (response[2].length > 0) {
+                            $('#advertiser_list').dataTable().fnClearTable();
+                            var data = '';
+                            $.each(response[2], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
                                 var link1 = "<a id='adv" + this.id + "' href='javascript: changeReport(" + this.id + ",`advertiser`)'>" + this.name + "</a>";
-                                data += '["' + link1 + '", "Internet"],';
+                                data += '["' + link1 + '", '+this.imps+'],';
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
                             data = JSON.parse(data);
                             $('#advertiser_list').dataTable().fnAddData(data);
+                        }
+                        if (response[3].length > 0) {
+                            $('#creative_list').dataTable().fnClearTable();
+                            var data = '';
+                            $.each(response[3], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a id='crt" + this.id + "' href='javascript: changeReport(" + this.id + ",`creative`)'>" + this.name + "</a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
+                            });
+                            data = data.substr(0, data.length - 1);
+                            data = '[' + data + ']';
+                            data = JSON.parse(data);
+                            $('#creative_list').dataTable().fnAddData(data);
+                        }
+                        if (response[4].length > 0) {
+                            $('#geosegment_list').dataTable().fnClearTable();
+                            var data = '';
+                            $.each(response[4], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a id='gsm" + this.id + "' href='javascript: changeReport(" + this.id + ",`geosegment`)'>" + this.name + "</a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
+                            });
+                            data = data.substr(0, data.length - 1);
+                            data = '[' + data + ']';
+                            data = JSON.parse(data);
+                            $('#geosegment_list').dataTable().fnAddData(data);
+                        }
+                        if (response[5].length > 0) {
+                            $('#campaign_list').dataTable().fnClearTable();
+                            var data = '';
+                            $.each(response[5], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a id='cmp" + this.id + "' href='javascript: changeReport(" + this.id + ",`campaign`)'>" + this.name + "</a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
+                            });
+                            data = data.substr(0, data.length - 1);
+                            data = '[' + data + ']';
+                            data = JSON.parse(data);
+                            $('#campaign_list').dataTable().fnAddData(data);
+                        }
+                        if (response[6].length > 0) {
+                            $('#targetgroup_list').dataTable().fnClearTable();
+                            var data = '';
+                            $.each(response[6], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a id='tgp" + this.id + "' href='javascript: changeReport(" + this.id + ",`targetgroup`)'>" + this.name + "</a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
+                            });
+                            data = data.substr(0, data.length - 1);
+                            data = '[' + data + ']';
+                            data = JSON.parse(data);
+                            $('#targetgroup_list').dataTable().fnAddData(data);
                         }
                     }
                     if (response[0] == 'campaign_unfilter') {
@@ -1276,6 +1229,109 @@
                         }
 
                     }
+                    if (response[0] == 'targetgroup') {
+                        $('#targetgroup_list').dataTable().fnClearTable();
+                        if(client.val()=='') {
+                            $('#client_list').dataTable().fnClearTable();
+                            if (response[1].length > 0) {
+                                var data = '';
+                                $.each(response[1], function () {
+                                    if(this.name.length>lntstr){
+                                        this.name=this.name.substr(0,lntstr)+'...';
+                                    }
+                                    var link1 = "<a id='cln" + this.id + "' href='javascript: changeReport(" + this.id + ",`client`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", '+this.imps+'],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#client_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if(advertiser.val()=='') {
+                            $('#advertiser_list').dataTable().fnClearTable();
+                            if (response[2].length > 0) {
+                                var data = '';
+                                $.each(response[2], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='adv" + this.id + "' href='javascript: changeReport(" + this.id + ",`advertiser`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#advertiser_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if(creative.val()=='') {
+                            $('#creative_list').dataTable().fnClearTable();
+                            if (response[3].length > 0) {
+                                var data = '';
+                                $.each(response[3], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='crt" + this.id + "' href='javascript: changeReport(" + this.id + ",`creative`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#creative_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if(geosegment.val()=='') {
+                            $('#geosegment_list').dataTable().fnClearTable();
+                            if (response[4].length > 0) {
+                                var data = '';
+                                $.each(response[4], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='gsm" + this.id + "' href='javascript: changeReport(" + this.id + ",`geosegment`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#geosegment_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if(campaign.val()=='') {
+                            $('#campaign_list').dataTable().fnClearTable();
+                            if (response[5].length > 0) {
+                                var data = '';
+                                $.each(response[5], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='cmp" + this.id + "' href='javascript: changeReport(" + this.id + ",`campaign`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#campaign_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if (response[6].length > 0) {
+                            var data = '';
+                            $.each(response[6], function () {
+                                if(this.name.length>lntstr){
+                                    this.name=this.name.substr(0,lntstr)+'...';
+                                }
+                                var link1 = "<a class='report-selected' id='tgp" + this.id + "' href='javascript: changeReport(" + this.id + ",`targetgroup`)'>" + this.name + "<i class='fa check-fa'></i></a>";
+                                data += '["' + link1 + '", '+this.imps+'],';
+                            });
+                            data = data.substr(0, data.length - 1);
+                            data = '[' + data + ']';
+                            data = JSON.parse(data);
+                            $('#targetgroup_list').dataTable().fnAddData(data);
+                        }
+
+                    }
                     if (response[0] == 'creative') {
                         $('#creative_list').dataTable().fnClearTable();
                         if(client.val()=='') {
@@ -1414,8 +1470,8 @@
                                 $('#advertiser_list').dataTable().fnAddData(data);
                             }
                         }
-                        if(advertiser.val()=='') {
-                            $('#advertiser_list').dataTable().fnClearTable();
+                        if(creative.val()=='') {
+                            $('#creative_list').dataTable().fnClearTable();
                             if (response[3].length > 0) {
                                 var data = '';
                                 $.each(response[3], function () {
@@ -1610,10 +1666,10 @@
                             function data_temp3() {
                                 return response[3];
                             }
-                            g3 = new Dygraph(document.getElementById("converjent"), data_temp3, {
+                            g3 = new Dygraph(document.getElementById("conversion"), data_temp3, {
                                 customBars : true,
                                 title : '',
-                                ylabel : 'Converjent',
+                                ylabel : 'conversion',
                                 legend : 'always',
                                 labelsDivStyles : {
                                     'textAlign' : 'right'
@@ -1623,6 +1679,53 @@
                         }
 
                     }
+
+                    if (response[7].length > 15) {
+                        function data_temp7() {
+                            return response[7];
+                        }
+                        g1 = new Dygraph(document.getElementById("impression"), data_temp7, {
+                            customBars : true,
+                            title : 'test',
+                            ylabel : 'Impression',
+                            legend : 'always',
+                            labelsDivStyles : {
+                                'textAlign' : 'right'
+                            },
+                            showRangeSelector : true
+                        });
+                    }
+                    if (response[8].length > 15) {
+                        function data_temp8() {
+                            return response[8];
+                        }
+                        g1 = new Dygraph(document.getElementById("impression"), data_temp8, {
+                            customBars : true,
+                            title : 'test',
+                            ylabel : 'Impression',
+                            legend : 'always',
+                            labelsDivStyles : {
+                                'textAlign' : 'right'
+                            },
+                            showRangeSelector : true
+                        });
+                    }
+                    if (response[9].length > 15) {
+                        function data_temp9() {
+                            return response[9];
+                        }
+                        g1 = new Dygraph(document.getElementById("impression"), data_temp9, {
+                            customBars : true,
+                            title : 'test',
+                            ylabel : 'Impression',
+                            legend : 'always',
+                            labelsDivStyles : {
+                                'textAlign' : 'right'
+                            },
+                            showRangeSelector : true
+                        });
+                    }
+
 //                var cb = '';
 //                var data = jQuery.parseJSON(response);
 //                var len = data.length;
@@ -1774,10 +1877,9 @@
             $( ".glyphicon-search" ).parent().css( "display", "none" );
             /* END BASIC */
             // START AND FINISH DATE
-            g1 = new Dygraph(document.getElementById("impression"), data_temp, {
+            g3 = new Dygraph(document.getElementById("conversion"), data_temp, {
                 customBars : true,
-                title : 'test',
-                ylabel : 'Impression',
+                ylabel : 'conversion',
                 legend : 'always',
                 labelsDivStyles : {
                     'textAlign' : 'right'
@@ -1786,7 +1888,6 @@
             });
             g2 = new Dygraph(document.getElementById("click"), data_temp, {
                 customBars : true,
-                title : 'test',
                 ylabel : 'click',
                 legend : 'always',
                 labelsDivStyles : {
@@ -1794,10 +1895,9 @@
                 },
                 showRangeSelector : true
             });
-            g3 = new Dygraph(document.getElementById("converjent"), data_temp, {
+            g1 = new Dygraph(document.getElementById("impression"), data_temp, {
                 customBars : true,
-                title : 'test',
-                ylabel : 'converjent',
+                ylabel : 'Impression',
                 legend : 'always',
                 labelsDivStyles : {
                     'textAlign' : 'right'
