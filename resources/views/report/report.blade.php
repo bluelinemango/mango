@@ -57,6 +57,18 @@
         .well{
             padding: 10px 19px;
         }
+        .entity .well{
+            padding: 0px 0px;
+        }
+        .entity hr{
+            margin: 0px;
+        }
+        .entity .row{
+            padding: 10px 10px 2px;
+        }
+        .entity .fa-plus{
+            cursor: pointer;
+        }
         .btn{
             padding: 2px 9px;
         }
@@ -226,175 +238,120 @@
 
 
                         </article>
-                        <article class="col-sm-4 col-md-4 col-lg-4">
+                        <article class="col-sm-4 col-md-4 col-lg-4 entity">
                             <!-- Widget ID (each widget will need unique ID)-->
                             <section id="widget-grid" class="">
                                 <!-- widget div-->
                                 <div class="row">
                                     <!-- widget content -->
                                     <article class="col-sm-12 col-md-12 col-lg-6 sortable-grid ui-sortable no-padding">
-                                        <div class="col-md-12 no-padding">
+                                        <div class="col-md-12 no-padding" id="client_box">
                                             <!-- Widget ID (each widget will need unique ID)-->
-                                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-20" data-widget-editbutton="true" data-widget-fullscreenbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
-                                                <!-- widget options:
-                                                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                                data-widget-colorbutton="false"
-                                                data-widget-editbutton="false"
-                                                data-widget-togglebutton="false"
-                                                data-widget-deletebutton="false"
-                                                data-widget-fullscreenbutton="false"
-                                                data-widget-custombutton="false"
-                                                data-widget-collapsed="true"
-                                                data-widget-sortable="false"
-
-                                                -->
-                                                <header>
-                                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                                    <h2>clients </h2>
-
-                                                </header>
-
-                                                <!-- widget div-->
-                                                <div>
-
-                                                    <!-- widget edit box -->
-                                                    <div class="jarviswidget-editbox">
-                                                        <!-- This area used as dropdown edit box -->
-
+                                            <div class="well">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p class="pull-left">Client</p>
+                                                        <a href="javascript: changeReport('client','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
                                                     </div>
-                                                    <!-- end widget edit box -->
-
-                                                    <!-- widget content -->
-                                                    <div class="widget-body no-padding">
-
-                                                        <table id="client_list" class="table table-striped table-hover" width="100%">
-                                                            <thead>
-                                                            <tr>
-                                                                <th data-class="expand"> Name</th>
-                                                                <th> imps</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            @foreach($clients as $index_cln)
-                                                                <tr>
-                                                                    <td>
-                                                                        <a id="cln{{$index_cln->client_id}}" href="javascript: changeReport('{{$index_cln->client_id}}','client')">{{$index_cln->name}}</a>
-
-                                                                    </td>
-                                                                    <td>{{$index_cln->imps}}</td>
-                                                                </tr>
-                                                            @endforeach
-                                                            </tbody>
-                                                        </table>
-
-                                                    </div>
-                                                    <!-- end widget content -->
-
                                                 </div>
-                                                <!-- end widget div -->
+                                                <hr/>
+                                                <!-- widget content -->
+                                                <div class="no-padding">
+                                                    <table id="client_list" class="table table-striped table-hover" width="100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th data-class="expand"> Name</th>
+                                                            <th> imps</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($clients as $index_cln)
+                                                            <tr>
+                                                                <td>
+                                                                    <a id="cln{{$index_cln->client_id}}" href="javascript: changeReport('{{$index_cln->client_id}}','client')">{{$index_cln->name}}</a>
 
+                                                                </td>
+                                                                <td>{{$index_cln->imps}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- end widget content -->
                                             </div>
                                             <!-- end widget -->
                                         </div>
 
-                                        <div class="col-md-12 no-padding">
-                                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-23" data-widget-editbutton="true" data-widget-fullscreenbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
-
-                                                <header>
-                                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                                    <h2>Target</h2>
-
-                                                </header>
-
-                                                <!-- widget div-->
-                                                <div>
-
-                                                    <!-- widget edit box -->
-                                                    <div class="jarviswidget-editbox">
-                                                        <!-- This area used as dropdown edit box -->
-
+                                        <div class="col-md-12 no-padding" id="targetgroup_box">
+                                            <div class="well">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p class="pull-left">Target Group</p>
+                                                        <a href="javascript: changeReport('targetgroup','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
                                                     </div>
-                                                    <!-- end widget edit box -->
+                                                </div>
+                                                <hr/>
+                                                <div class="no-padding">
 
-                                                    <!-- widget content -->
-                                                    <div class="widget-body no-padding">
-
-                                                        <table id="targetgroup_list" class="table table-striped table-bordered table-hover" width="100%">
-                                                            <thead>
+                                                    <table id="targetgroup_list" class="table table-striped table-bordered table-hover" width="100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th data-class="expand"> Name</th>
+                                                            <th> imps</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($targetgroup as $index_tgp)
                                                             <tr>
-                                                                <th data-class="expand"> Name</th>
-                                                                <th> imps</th>
+                                                                <td>
+                                                                    <a id="tgp{{$index_tgp->targetgroup_id}}" href="javascript: changeReport('{{$index_tgp->targetgroup_id}}','targetgroup')">{{$index_tgp->name}}</a>
+                                                                </td>
+                                                                <td>{{$index_tgp->imps}}</td>
                                                             </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            @foreach($targetgroup as $index_tgp)
-                                                                <tr>
-                                                                    <td>
-                                                                        <a id="tgp{{$index_tgp->targetgroup_id}}" href="javascript: changeReport('{{$index_tgp->targetgroup_id}}','targetgroup')">{{$index_tgp->name}}</a>
-                                                                    </td>
-                                                                    <td>{{$index_tgp->imps}}</td>
-                                                                </tr>
-                                                            @endforeach
-                                                            </tbody>
-                                                        </table>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
 
-                                                    </div>
-                                                    <!-- end widget content -->
 
                                                 </div>
-                                                <!-- end widget div -->
 
                                             </div>
 
                                         </div>
 
-                                        <div class="col-md-12 no-padding">
-                                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-25" data-widget-editbutton="true" data-widget-fullscreenbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
-
-                                                <header>
-                                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                                    <h2>Geo </h2>
-
-                                                </header>
-
-                                                <!-- widget div-->
-                                                <div>
-
-                                                    <!-- widget edit box -->
-                                                    <div class="jarviswidget-editbox">
-                                                        <!-- This area used as dropdown edit box -->
-
+                                        <div class="col-md-12 no-padding" id="geosegment_box">
+                                            <div class="well">
+                                                <!-- widget content -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p class="pull-left">Geo Segment</p>
+                                                        <a href="javascript: changeReport('geosegment','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
                                                     </div>
-                                                    <!-- end widget edit box -->
+                                                </div>
+                                                <hr/>
+                                                <div class="no-padding">
 
-                                                    <!-- widget content -->
-                                                    <div class="widget-body no-padding">
-
-                                                        <table id="geosegment_list" class="table table-striped table-bordered table-hover" width="100%">
-                                                            <thead>
+                                                    <table id="geosegment_list" class="table table-striped table-bordered table-hover" width="100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th data-class="expand"> Name</th>
+                                                            <th> imps</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($geosegment as $index_gsm)
                                                             <tr>
-                                                                <th data-class="expand"> Name</th>
-                                                                <th> imps</th>
+                                                                <td>
+                                                                    <a id="gsm{{$index_gsm->geosegment_id}}" href="javascript: changeReport('{{$index_gsm->geosegment_id}}','geosegment')">{{$index_gsm->name}}</a>
+                                                                </td>
+                                                                <td>{{$index_gsm->imps}}</td>
                                                             </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            @foreach($geosegment as $index_gsm)
-                                                                <tr>
-                                                                    <td>
-                                                                        <a id="gsm{{$index_gsm->geosegment_id}}" href="javascript: changeReport('{{$index_gsm->geosegment_id}}','geosegment')">{{$index_gsm->name}}</a>
-                                                                    </td>
-                                                                    <td>{{$index_gsm->imps}}</td>
-                                                                </tr>
-                                                            @endforeach
-                                                            </tbody>
-                                                        </table>
-
-                                                    </div>
-                                                    <!-- end widget content -->
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
 
                                                 </div>
-                                                <!-- end widget div -->
+                                                <!-- end widget content -->
 
                                             </div>
 
@@ -402,157 +359,120 @@
 
                                     </article>
                                     <article class="col-sm-12 col-md-12 col-lg-6 sortable-grid ui-sortable no-padding">
-                                        <div class="col-md-12 no-padding">
-                                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-21" data-widget-editbutton="true" data-widget-fullscreenbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
-
-                                                <header>
-                                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                                    <h2>advertiser </h2>
-
-                                                </header>
-
-                                                <!-- widget div-->
-                                                <div>
-
-                                                    <!-- widget edit box -->
-                                                    <div class="jarviswidget-editbox">
-                                                        <!-- This area used as dropdown edit box -->
-
+                                        <div class="col-md-12 no-padding" id="advertiser_box">
+                                            <div class="well">
+                                                <!-- widget content -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p class="pull-left">Advertiser</p>
+                                                        <a href="javascript: changeReport('advertiser','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
                                                     </div>
-                                                    <!-- end widget edit box -->
+                                                </div>
+                                                <hr/>
+                                                <div class="no-padding">
 
-                                                    <!-- widget content -->
-                                                    <div class="widget-body no-padding">
-
-                                                        <table id="advertiser_list" class="table table-striped table-bordered table-hover" width="100%">
-                                                            <thead>
+                                                    <table id="advertiser_list" class="table table-striped table-bordered table-hover" width="100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th data-class="expand"> Name</th>
+                                                            <th> imps</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($advertiser as $index_adv)
                                                             <tr>
-                                                                <th data-class="expand"> Name</th>
-                                                                <th> imps</th>
+                                                                <td>
+                                                                    <a id="adv{{$index_adv->advertiser_id}}" href="javascript: changeReport('{{$index_adv->advertiser_id}}','advertiser')">{{$index_adv->name}}</a>
+                                                                </td>
+                                                                <td>{{$index_adv->imps}}</td>
                                                             </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            @foreach($advertiser as $index_adv)
-                                                                <tr>
-                                                                    <td>
-                                                                        <a id="adv{{$index_adv->advertiser_id}}" href="javascript: changeReport('{{$index_adv->advertiser_id}}','advertiser')">{{$index_adv->name}}</a>
-                                                                    </td>
-                                                                    <td>{{$index_adv->imps}}</td>
-                                                                </tr>
-                                                            @endforeach
-                                                            </tbody>
-                                                        </table>
-
-                                                    </div>
-                                                    <!-- end widget content -->
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
 
                                                 </div>
-                                                <!-- end widget div -->
+                                                <!-- end widget content -->
 
                                             </div>
 
                                         </div>
-                                        <div class="col-md-12 no-padding">
+                                        <div class="col-md-12 no-padding" id="campaign_box">
                                             <!-- Widget ID (each widget will need unique ID)-->
-                                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-22" data-widget-editbutton="true" data-widget-fullscreenbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
-                                                <header>
-                                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                                    <h2>Campaign </h2>
-
-                                                </header>
-
-                                                <!-- widget div-->
-                                                <div>
-
-                                                    <!-- widget edit box -->
-                                                    <div class="jarviswidget-editbox">
-                                                        <!-- This area used as dropdown edit box -->
-
+                                            <div class="well">
+                                                <!-- widget content -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p class="pull-left">Campaign</p>
+                                                        <a href="javascript: changeReport('campaign','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
                                                     </div>
-                                                    <!-- end widget edit box -->
+                                                </div>
+                                                <hr/>
+                                                <div class="no-padding">
 
-                                                    <!-- widget content -->
-                                                    <div class="widget-body no-padding">
-
-                                                        <table id="campaign_list" class="table table-striped table-hover" width="100%">
-                                                            <thead>
+                                                    <table id="campaign_list" class="table table-striped table-hover" width="100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th data-class="expand"> Name</th>
+                                                            <th> Imps</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($campaign as $index_cmp)
                                                             <tr>
-                                                                <th data-class="expand"> Name</th>
-                                                                <th> Imps</th>
+                                                                <td>
+                                                                    <a id="cmp{{$index_cmp->campaign_id}}" href="javascript: changeReport('{{$index_cmp->campaign_id}}','campaign')">{{$index_cmp->name}}</a>
+
+                                                                </td>
+                                                                <td>{{$index_cmp->imps}}</td>
                                                             </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            @foreach($campaign as $index_cmp)
-                                                                <tr>
-                                                                    <td>
-                                                                        <a id="cmp{{$index_cmp->campaign_id}}" href="javascript: changeReport('{{$index_cmp->campaign_id}}','campaign')">{{$index_cmp->name}}</a>
-
-                                                                    </td>
-                                                                    <td>{{$index_cmp->imps}}</td>
-                                                                </tr>
-                                                            @endforeach
-                                                            </tbody>
-                                                        </table>
-
-                                                    </div>
-                                                    <!-- end widget content -->
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
 
                                                 </div>
-                                                <!-- end widget div -->
+                                                <!-- end widget content -->
 
                                             </div>
-                                            <!-- end widget -->
+                                            <!-- end widget div -->
                                         </div>
-                                        <div class="col-md-12 no-padding">
+                                        <div class="col-md-12 no-padding" id="creative_box">
                                             <!-- Widget ID (each widget will need unique ID)-->
-                                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-24" data-widget-editbutton="true" data-widget-fullscreenbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
-                                                <header>
-                                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                                    <h2>Creative </h2>
-
-                                                </header>
-
-                                                <!-- widget div-->
-                                                <div>
-
-                                                    <!-- widget edit box -->
-                                                    <div class="jarviswidget-editbox">
-                                                        <!-- This area used as dropdown edit box -->
-
+                                            <div class="well">
+                                                <!-- widget content -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p class="pull-left">Creative</p>
+                                                        <a href="javascript: changeReport('creative','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
                                                     </div>
-                                                    <!-- end widget edit box -->
+                                                </div>
+                                                <hr/>
+                                                <div class="no-padding">
 
-                                                    <!-- widget content -->
-                                                    <div class="widget-body no-padding">
-
-                                                        <table id="creative_list" class="table table-striped table-hover" width="100%">
-                                                            <thead>
+                                                    <table id="creative_list" class="table table-striped table-hover" width="100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th data-class="expand"> Name</th>
+                                                            <th> Imps</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($creative as $index_crt)
                                                             <tr>
-                                                                <th data-class="expand"> Name</th>
-                                                                <th> Imps</th>
+                                                                <td>
+                                                                    <a id="crt{{$index_crt->creative_id}}" href="javascript: changeReport('{{$index_crt->creative_id}}','creative')">{{$index_crt->name}}</a>
+
+                                                                </td>
+                                                                <td>{{$index_crt->imps}}</td>
                                                             </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            @foreach($creative as $index_crt)
-                                                                <tr>
-                                                                    <td>
-                                                                        <a id="crt{{$index_crt->creative_id}}" href="javascript: changeReport('{{$index_crt->creative_id}}','creative')">{{$index_crt->name}}</a>
-
-                                                                    </td>
-                                                                    <td>{{$index_crt->imps}}</td>
-                                                                </tr>
-                                                            @endforeach
-                                                            </tbody>
-                                                        </table>
-
-                                                    </div>
-                                                    <!-- end widget content -->
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
 
                                                 </div>
-                                                <!-- end widget div -->
+                                                <!-- end widget content -->
 
                                             </div>
-                                            <!-- end widget -->
+                                            <!-- end widget div -->
                                         </div>
 
                                     </article>
@@ -570,6 +490,12 @@
                     <!-- END ROW -->
                 </section>
                 <!-- end widget grid -->
+
+                <div class="row">
+                    <div class="col-md-12 well" id="entity_box">
+
+                    </div>
+                </div>
         </div>
         <!-- END MAIN CONTENT -->
     </div>
@@ -646,6 +572,74 @@
                     $('#client_list').find('tr:not(.report-selected)').hide();
 //                    $.each(response[1], function () {
                 }
+            }
+            if(type=='close_entity'){
+                if(id=='client'){
+                    client.val('');
+                    $('#client_box').animate({height: "toggle" , opacity:0},300);
+                    $('#entity_box').append("<a id='client_expand' class='col-md-2' href='javascript: changeReport(`client`,`open_entity`)'><h5>Client <i class='fa fa-plus'></i></h5></a>");
+                    type='unfilter';
+                }else if(id=='advertiser'){
+                    advertiser.val('');
+                    $('#advertiser_box').animate({height: "toggle" , opacity:0},300);
+                    $('#entity_box').append("<a id='advertiser_expand' class='col-md-2' href='javascript: changeReport(`advertiser`,`open_entity`)'><h5>Advertiser <i class='fa fa-plus'></i></h5></a>");
+                    type='unfilter';
+                }else if(id=='creative'){
+                    creative.val('');
+                    $('#creative_box').animate({height: "toggle" , opacity:0},300);
+                    $('#entity_box').append("<a id='creative_expand' class='col-md-2' href='javascript: changeReport(`creative`,`open_entity`)'><h5>Creative <i class='fa fa-plus'></i></h5></a>");
+                    type='unfilter';
+                }else if(id=='geosegment'){
+                    geosegment.val('');
+                    $('#geosegment_box').animate({height: "toggle" , opacity:0},300);
+                    $('#entity_box').append("<a id='geosegment_expand' class='col-md-2' href='javascript: changeReport(`geosegment`,`open_entity`)'><h5>Geo Segment <i class='fa fa-plus'></i></h5></a>");
+                    type='unfilter';
+                }else if(id=='campaign'){
+                    campaign.val('');
+                    $('#campaign_box').animate({height: "toggle" , opacity:0},300);
+                    $('#entity_box').append("<a id='campaign_expand' class='col-md-2' href='javascript: changeReport(`campaign`,`open_entity`)'><h5>Campaign<i class='fa fa-plus'></i></h5></a>");
+                    type='unfilter';
+                }else if(id=='targetgroup'){
+                    targetgroup.val('');
+                    $('#targetgroup_box').animate({height: "toggle" , opacity:0},300);
+                    $('#entity_box').append("<a id='targetgroup_expand' class='col-md-2' href='javascript: changeReport(`targetgroup`,`open_entity`)'><h5>Target Group<i class='fa fa-plus'></i></h5></a>");
+                    type='unfilter';
+                }
+
+            }
+            if(type=='open_entity'){
+                if(id=='client'){
+                    client.val('');
+                    $('#client_box').animate({height: "toggle" , opacity:1},300);
+                    $('#client_expand').remove();
+                    type='do_nothing';
+                }else if(id=='advertiser'){
+                    advertiser.val('');
+                    $('#advertiser_box').animate({height: "toggle" , opacity:1},300);
+                    $('#advertiser_expand').remove();
+                    type='do_nothing';
+                }else if(id=='creative'){
+                    creative.val('');
+                    $('#creative_box').animate({height: "toggle" , opacity:1},300);
+                    $('#creative_expand').remove();
+                    type='do_nothing';
+                }else if(id=='geosegment'){
+                    geosegment.val('');
+                    $('#geosegment_box').animate({height: "toggle" , opacity:1},300);
+                    $('#geosegment_expand').remove();
+                    type='do_nothing';
+                }else if(id=='campaign'){
+                    campaign.val('');
+                    $('#campaign_box').animate({height: "toggle" , opacity:1},300);
+                    $('#campaign_expand').remove();
+                    type='do_nothing';
+                }else if(id=='targetgroup'){
+                    targetgroup.val('');
+                    $('#targetgroup_box').animate({height: "toggle" , opacity:1},300);
+                    $('#targetgroup_expand').remove();
+                    type='do_nothing';
+                }
+
             }
             if(type=='advertiser'){
                 if(advertiser.val()==id && client.val()!=''){

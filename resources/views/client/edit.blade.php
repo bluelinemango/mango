@@ -207,7 +207,7 @@
                                             @foreach($client_obj->getAdvertiser as $index_trg)
                                                 <tr>
                                                     <td>trg{{$index_trg->id}}</td>
-                                                    <td><a href="{{url('/advertiser/edit/'.$index_trg->id)}}">{{$index_trg->name}}</a></td>
+                                                    <td><a href="{{url('/client/cl'.$client_obj->id.'/advertiser/adv'.$index_trg->id.'/edit/')}}">{{$index_trg->name}}</a></td>
                                                 </tr>
                                             @endforeach
                                             </tbody>
