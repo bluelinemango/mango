@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Advertiser;
+use App\Models\Audits;
 use App\Models\Client;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -39,8 +40,6 @@ class ClientController extends Controller
             return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
         return Redirect::to('/user/login');
-
-
     }
     public function AddClientView(){
         if(Auth::check()){
@@ -56,12 +55,14 @@ class ClientController extends Controller
             if(in_array('ADD_EDIT_CLIENT',$this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
-                        $client=new Client();
-                        $client->name=$request->input('name');
-                        $client->company=$request->input('company');
-                        $client->user_id=Auth::user()->id;
-                        $client->save();
-                        return Redirect::to(url('/client/edit/'.$client->id))->withErrors(['success'=>true,'msg'=>"Client added successfully"]);
+                    $client=new Client();
+                    $client->name=$request->input('name');
+                    $client->company=$request->input('company');
+                    $client->user_id=Auth::user()->id;
+                    $client->save();
+                    $audit= new AuditsController();
+                    $audit->store('client',$client->id,null,'add');
+                    return Redirect::to(url('/client/cl'.$client->id.'/edit'))->withErrors(['success'=>true,'msg'=>"Client added successfully"]);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
@@ -94,10 +95,23 @@ class ClientController extends Controller
                     $client_id = $request->input('client_id');
                     $client=Client::find($client_id);
                     if($client){
-                        $client->name=$request->input('name');
-                        $client->company=$request->input('company');
+                        $data=array();
+                        $audit= new AuditsController();
+                        if($client->name!=$request->input('name')){
+                            array_push($data,'name');
+                            array_push($data,$client->name);
+                            array_push($data,$request->input('name'));
+                            $client->name=$request->input('name');
+                        }
+                        if($client->company!=$request->input('company')){
+                            array_push($data,'company');
+                            array_push($data,$client->company);
+                            array_push($data,$request->input('company'));
+                            $client->company=$request->input('company');
+                        }
+                        $audit->store('client',$client_id,$data,'edit');
                         $client->save();
-                        return Redirect::to(url('/client/edit/'.$client->id))->withErrors(['success'=>true,'msg'=> 'Client Edited Successfully']);
+                        return Redirect::to(url('/client/cl'.$client->id.'/edit'))->withErrors(['success'=>true,'msg'=> 'Client Edited Successfully']);
                     }
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();

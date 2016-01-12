@@ -140,40 +140,55 @@ class ReportController extends Controller
                     if($request->input('report_type')=='today'){
                         $time="between '".date('Y-m-d H:i:s',time() - 60 * 60 * 24)."' and '".date('Y-m-d H:i:s')."'";
                         $interval=300;
+//                        $query .=" and impression.created_at ". $time;
                     }
-                    if($request->input('report_type')=='10mins'){
+                    if($request->input('report_type')=='10m'){
                         $time="between '".date('Y-m-d H:i:s',time() - 600)."' and '".date('Y-m-d H:i:s')."'";
+                        $query .=" and impression.created_at ". $time;
                         $interval=10;
                     }
                     if($request->input('report_type')=='1h'){
                         $time="between '".date('Y-m-d H:i:s',time() - 60 * 60)."' and '".date('Y-m-d H:i:s')."'";
+                        $query .=" and impression.created_at ". $time;
                         $interval=30;
                     }
                     if($request->input('report_type')=='3h'){
                         $time="between '".date('Y-m-d H:i:s',time() - 60 * 60 * 3)."' and '".date('Y-m-d H:i:s')."'";
+                        $query .=" and impression.created_at ". $time;
                         $interval=60;
                     }
                     if($request->input('report_type')=='6h'){
                         $time="between '".date('Y-m-d H:i:s',time() - 60 * 60 * 6)."' and '".date('Y-m-d H:i:s')."'";
+                        $query .=" and impression.created_at ". $time;
                         $interval=120;
                     }
                     if($request->input('report_type')=='1D'){
                         $time="between '".date('Y-m-d H:i:s',time() - 60 * 60 * 24)."' and '".date('Y-m-d H:i:s')."'";
+                        $query .=" and impression.created_at ". $time;
                         $interval=300;
                     }
                     if($request->input('report_type')=='1M'){
                         $time="between '".date('Y-m-d H:i:s',time() - 60 * 60 * 24 * 30)."' and '".date('Y-m-d H:i:s')."'";
+                        $query .=" and impression.created_at ". $time;
                         $interval=60*60;
                     }
                     if($request->input('report_type')=='rang'){
                         $start_date = DateTime::createFromFormat('d.m.Y', $request->input('start_date'));
                         $end_date = DateTime::createFromFormat('d.m.Y', $request->input('end_date'));
                         $time="between '".$start_date->format('Y-m-d H:i:s')."' and '".$end_date->format('Y-m-d H:i:s')."'";
+                        $query .=" and impression.created_at ". $time;
                         $interval=24*60*60;
                     }
 
                     switch ($type) {
                         case 'client':
+                            $client = DB::table('impression')
+                                ->join('client', 'impression.client_id', '=', 'client.id')
+                                ->select(DB::raw('count(impression.client_id) as imps, impression.client_id as id , client.name'))
+                                ->whereRaw($query)
+                                ->groupBy('impression.client_id')
+                                ->orderBy('imps', 'DESC')
+                                ->get();
                             if ($request->input('advertiser') == '' ) {
                                 $advertiser = DB::table('impression')
                                     ->join('advertiser', 'impression.advertiser_id', '=', 'advertiser.id')
@@ -183,6 +198,50 @@ class ReportController extends Controller
                                     ->orderBy('imps', 'DESC')
                                     ->get();
                             }
+                            break;
+                        case 'report_type':
+                            $client = DB::table('impression')
+                                ->join('client', 'impression.client_id', '=', 'client.id')
+                                ->select(DB::raw('count(impression.client_id) as imps, impression.client_id as id , client.name'))
+                                ->whereRaw($query)
+                                ->groupBy('impression.client_id')
+                                ->orderBy('imps', 'DESC')
+                                ->get();
+                            $advertiser = DB::table('impression')
+                                ->join('advertiser', 'impression.advertiser_id', '=', 'advertiser.id')
+                                ->select(DB::raw('count(impression.advertiser_id) as imps, impression.advertiser_id as id , advertiser.name'))
+                                ->whereRaw($query)
+                                ->groupBy('impression.advertiser_id')
+                                ->orderBy('imps', 'DESC')
+                                ->get();
+                            $campaign = DB::table('impression')
+                                ->join('campaign', 'impression.campaign_id', '=', 'campaign.id')
+                                ->select(DB::raw('count(impression.campaign_id) as imps, impression.campaign_id as id , campaign.name'))
+                                ->whereRaw($query)
+                                ->groupBy('impression.campaign_id')
+                                ->orderBy('imps', 'DESC')
+                                ->get();
+                            $targetgroup = DB::table('impression')
+                                ->join('targetgroup', 'impression.targetgroup_id', '=', 'targetgroup.id')
+                                ->select(DB::raw('count(impression.targetgroup_id) as imps, impression.targetgroup_id as id , targetgroup.name'))
+                                ->whereRaw($query)
+                                ->groupBy('impression.targetgroup_id')
+                                ->orderBy('imps', 'DESC')
+                                ->get();
+                            $creative = DB::table('impression')
+                                ->join('creative', 'impression.creative_id', '=', 'creative.id')
+                                ->select(DB::raw('count(impression.creative_id) as imps, impression.creative_id as id , creative.name'))
+                                ->whereRaw($query)
+                                ->groupBy('impression.creative_id')
+                                ->orderBy('imps', 'DESC')
+                                ->get();
+                            $geosegment = DB::table('impression')
+                                ->join('geosegmentlist', 'impression.geosegment_id', '=', 'geosegmentlist.id')
+                                ->select(DB::raw('count(impression.geosegment_id) as imps, impression.geosegment_id as id , geosegmentlist.name'))
+                                ->whereRaw($query)
+                                ->groupBy('impression.geosegment_id')
+                                ->orderBy('imps', 'DESC')
+                                ->get();
                             break;
                         case 'campaign':
                             $campaign_client_advertiser=Campaign::with(['getAdvertiser'=>function($q){
@@ -400,6 +459,15 @@ class ReportController extends Controller
                             break;
                     }
 
+                    if ($request->input('client') == '' and $client=='' ) {
+                        $client = DB::table('impression')
+                            ->join('client', 'impression.client_id', '=', 'client.id')
+                            ->select(DB::raw('count(impression.client_id) as imps, impression.client_id as id , client.name'))
+                            ->whereRaw($query)
+                            ->groupBy('impression.client_id')
+                            ->orderBy('imps', 'DESC')
+                            ->get();
+                    }
                     if ($request->input('advertiser') == '' and $advertiser=='' ) {
                         $advertiser = DB::table('impression')
                             ->join('advertiser', 'impression.advertiser_id', '=', 'advertiser.id')

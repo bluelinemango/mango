@@ -41,9 +41,20 @@
 
                 <!-- row -->
                 <div class="row">
+                    @if(isset($errors))
+                        @foreach($errors->get('msg') as $error)
+                            <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
+                                <a class="close" data-dismiss="alert" href="#">×</a>
+                                <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> System MSG!</h4>
+                                <p>
+                                    {{$error}}
+                                </p>
+                            </div>
+                            @endforeach
+                            @endif
 
                     <!-- NEW WIDGET START -->
-                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
                         <!-- Widget ID (each widget will need unique ID)-->
                         <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3" data-widget-editbutton="false">
@@ -66,17 +77,6 @@
 
                             <!-- widget div-->
                             <div>
-                            @if(isset($errors))
-                                @foreach($errors->get('msg') as $error)
-                                    <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
-                                        <a class="close" data-dismiss="alert" href="#">×</a>
-                                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> System MSG!</h4>
-                                        <p>
-                                            {{$error}}
-                                        </p>
-                                    </div>
-                                @endforeach
-                            @endif
 
                                                 <!-- widget edit box -->
                                 <div class="jarviswidget-editbox">
@@ -161,7 +161,7 @@
                     @endif
                     add_advertiser: '<a href="{{url('client/cl'.$index->id.'/advertiser/add')}}">Add Advertiser </a>',
                     date_modify : '{{$index->updated_at}}',
-                    full_edit: '<a href="{{url('/client/cl'.$index->GetClientID->id.'/advertiser/adv'.$index->id.'/edit')}}">Full Edit</a>'
+                    full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->GetClientID->id.'/advertiser/adv'.$index->id.'/edit')}}"><i class="fa fa-edit"></i></a>'
                 },
                 @endif
                 @endforeach
@@ -178,7 +178,8 @@
                     sortable : false
                 }, {
                     name : 'id',
-                    index : 'id'
+                    index : 'id',
+                    width : '60%'
                 }, {
                     name : 'name',
                     index : 'name',
@@ -194,6 +195,7 @@
                 }, {
                     name : 'full_edit',
                     index : 'full_edit',
+                    width : '60%',
                     editable : false
                 }],
                 rowNum : 10,

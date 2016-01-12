@@ -130,9 +130,6 @@
                                             <button type="submit" class="btn btn-success">
                                                 Submit
                                             </button>
-                                            <a href="{{url('/advertiser/add')}}" class="btn btn-primary pull-left">
-                                                ADD Advertiser
-                                            </a>
                                         </footer>
                                     </form>
                                 </div>

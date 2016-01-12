@@ -374,29 +374,31 @@
                                         <!-- Timeline Content -->
                                         <div class="smart-timeline">
                                             <ul class="smart-timeline-list">
+                                                @for($i=0;$i<count($audit_obj);$i++)
+{{--                                                @foreach($audit_obj as $index)--}}
                                                 <li>
                                                     <div class="smart-timeline-icon">
-                                                        <img src="{{cdn('img/avatars/sunny.png')}}" width="32" height="32" alt="user" />
+                                                        @if($audit_obj[$i]->audit_type == 'add')
+                                                            <i class="fa fa-plus"></i>
+                                                        @else
+                                                            <i class="fa fa-file-text"></i>
+                                                        @endif
                                                     </div>
                                                     <div class="smart-timeline-time">
-                                                        <small>just now</small>
+                                                        <small>{{$audit_obj[$i]->created_at}}</small>
                                                     </div>
                                                     <div class="smart-timeline-content">
                                                         <p>
-                                                            <a href="javascript:void(0);"><strong>Trip to Adalaskar</strong></a>
+                                                            <a href="{{url('user/usr'.$audit_obj[$i]->user_id.'/edit')}}">{{$audit_obj[$i]->getUser->name}}</a>
+                                                             Created a new {{$audit_obj[$i]->entity_type}}:
+                                                            @if($audit_obj[$i]->entity_type == 'client')
+                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
+                                                            @endif
                                                         </p>
-                                                        <p>
-                                                            Check out my tour to Adalaskar
-                                                        </p>
-                                                        <p>
-                                                            <a href="javascript:void(0);" class="btn btn-xs btn-primary"><i class="fa fa-file"></i> Read the post</a>
-                                                        </p>
-                                                        <img src="{{cdn('img/superbox/superbox-thumb-4.jpg')}}" alt="img" width="150">
-
-
-
                                                     </div>
                                                 </li>
+                                                    <?php $i++ ?>
+                                                @endfor
                                                 <li>
                                                     <div class="smart-timeline-icon">
                                                         <i class="fa fa-file-text"></i>

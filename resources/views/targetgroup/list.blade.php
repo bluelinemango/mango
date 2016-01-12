@@ -41,75 +41,89 @@
 
                 <!-- row -->
                 <div class="row">
+                    @if(isset($errors))
+                        @foreach($errors->get('msg') as $error)
+                            <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
+                                <a class="close" data-dismiss="alert" href="#">×</a>
+                                <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> System MSG!</h4>
+                                <p>
+                                    {{$error}}
+                                </p>
+                            </div>
+                            @endforeach
+                            @endif
 
                     <!-- NEW WIDGET START -->
-                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-                        <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3" data-widget-editbutton="false">
-                            <!-- widget options:
-                                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                                <!-- Widget ID (each widget will need unique ID)-->
+                                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3" data-widget-editbutton="false">
+                                    <!-- widget options:
+                                                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
-                                        data-widget-colorbutton="false"
-                                        data-widget-editbutton="false"
-                                        data-widget-togglebutton="false"
-                                        data-widget-deletebutton="false"
-                                        data-widget-fullscreenbutton="false"
-                                        data-widget-custombutton="false"
-                                        data-widget-collapsed="true"
-                                        data-widget-sortable="false"
+                                                data-widget-colorbutton="false"
+                                                data-widget-editbutton="false"
+                                                data-widget-togglebutton="false"
+                                                data-widget-deletebutton="false"
+                                                data-widget-fullscreenbutton="false"
+                                                data-widget-custombutton="false"
+                                                data-widget-collapsed="true"
+                                                data-widget-sortable="false"
 
-                                        -->
-                            <header>
-                                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                <h2>Target Group List</h2>
+                                                -->
+                                    <header>
+                                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                                        <h2>Target Group List</h2>
 
-                            </header>
+                                    </header>
 
-                            <!-- widget div-->
-                            <div>
+                                    <!-- widget div-->
+                                    <div>
 
-                                <!-- widget edit box -->
-                                <div class="jarviswidget-editbox">
-                                    <!-- This area used as dropdown edit box -->
-
-                                </div>
-                                <!-- end widget edit box -->
-
-                                <!-- widget content -->
-                                <div class="widget-body ">
-
-                                    <!-- widget grid -->
-                                    <section id="widget-grid" class="">
-
-                                        <!-- row -->
-                                        <div class="row">
-
-                                            <!-- NEW WIDGET START -->
-                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-                                                <table id="jqgrid"></table>
-                                                <div id="pjqgrid"></div>
-
-                                            </div>
-                                            <!-- WIDGET END -->
+                                        <!-- widget edit box -->
+                                        <div class="jarviswidget-editbox">
+                                            <!-- This area used as dropdown edit box -->
 
                                         </div>
+                                        <!-- end widget edit box -->
 
-                                        <!-- end row -->
+                                        <!-- widget content -->
+                                        <div class="widget-body ">
 
-                                    </section>
-                                    <!-- end widget grid -->
+
+                                            <!-- widget grid -->
+                                            <section id="widget-grid" class="">
+
+                                                <!-- row -->
+                                                <div class="row">
+
+                                                    <!-- NEW WIDGET START -->
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                                                        <table id="jqgrid"></table>
+                                                        <div id="pjqgrid"></div>
+
+                                                    </div>
+                                                    <!-- WIDGET END -->
+
+                                                </div>
+
+                                                <!-- end row -->
+
+                                            </section>
+                                            <!-- end widget grid -->
+
+
+                                        </div>
+                                        <!-- end widget content -->
+
+                                    </div>
+                                    <!-- end widget div -->
+
                                 </div>
-                                <!-- end widget content -->
+                                <!-- end widget -->
 
-                            </div>
-                            <!-- end widget div -->
-
-                        </div>
-                        <!-- end widget -->
-
-                    </article>
+                            </article>
                     <!-- WIDGET END -->
 
                 </div>
@@ -153,7 +167,7 @@
                     name : '{{$index->name}}',
                     campaign_name : '<a href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/edit')}}">{{$index->getCampaign->name}}</a>',
                     date_modify : '{{$index->updated_at}}',
-                    full_edit: '<a href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/tg'.$index->id.'/edit')}}">Edit</a>'
+                    full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/tg'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>'
                 },
                 @endif
                 @endforeach
@@ -167,17 +181,21 @@
                 colModel : [{
                     name : 'act',
                     index : 'act',
+                    width : '100%',
                     sortable : false
                 }, {
                     name : 'id',
+                    width : '70%',
                     index : 'id'
                 }, {
                     name : 'name',
                     index : 'name',
+                    width : '100%',
                     editable : true
                 }, {
                     name : 'campaign_name',
                     index : 'campaign_name',
+                    width : '100%',
                     editable : false
                 }, {
                     name : 'date_modify',
@@ -186,6 +204,7 @@
                 }, {
                     name : 'full_edit',
                     index : 'full_edit',
+                    width : '70%',
                     editable : false
                 }],
                 rowNum : 10,

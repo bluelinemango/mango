@@ -20,11 +20,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/smartadmin-skins.min.css')}}">
 
     @yield('header_extra')
-    <!-- We recommend you use "your_style.css" to override SmartAdmin
-         specific styles this will also ensure you retrain your customization with each SmartAdmin update.
-    <link rel="stylesheet" type="text/css" media="screen" href="css/your_style.css"> -->
-
-    <!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
+    <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/your_style.css')}}"> -->
     <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/demo.min.css')}}">
 
     <!-- FAVICONS -->

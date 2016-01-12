@@ -72,6 +72,9 @@
         .btn{
             padding: 2px 9px;
         }
+        .active-btn{
+            background-color: #480034 !important;
+        }
     </style>
 @endsection
 @section('content')
@@ -147,39 +150,37 @@
                                         <input type="hidden" value="" name="enddate"/>
                                         <input type="hidden" value="today" name="report_type"/>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-7">
                                                 <div class="col-md-12">
                                                     <div class="col-md-1 no-padding">
-                                                        from
+                                                        <span style="line-height: 22px; font-weight: bold">from</span>
                                                     </div>
-                                                    <div class="col-md-4 no-padding">
+                                                    <div class="col-md-4 ">
                                                         <input type="text" name="startdate" id="startdate" placeholder="start date">
                                                     </div>
                                                     <div class="col-md-1 no-padding">
-                                                        to
+                                                        <span style="line-height: 22px; font-weight: bold">to</span>
                                                     </div>
-                                                    <div class="col-md-4 no-padding">
+                                                    <div class="col-md-4 ">
                                                             <input type="text" name="finishdate" id="finishdate" placeholder="finish date">
                                                     </div>
                                                     <div class="col-md-2 no-padding">
-                                                        <a href="javascript:changeReport('rang','report_type');" class="btn bg-color-greenLight txt-color-white"><i class="fa-search"></i></a>
+                                                        <a href="javascript:changeReport('rang','report_type');" class="btn btn-primary"><i class="fa fa-search"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="col-md-12">
-                                                    <a href="javascript: changeReport('today','report_type');" class="btn bg-color-magenta txt-color-white">10m</a>
-                                                    <a href="javascript:changeReport('1h','report_type');" class="btn bg-color-red txt-color-white">1h</a>
-                                                    <a href="javascript:changeReport('3h','report_type');" class="btn bg-color-green txt-color-white">3h</a>
-                                                    <a href="javascript:changeReport('6h','report_type');" class="btn bg-color-greenLight txt-color-white">6h</a>
-                                                    <a href="javascript:changeReport('1D','report_type');" class="btn bg-color-greenLight txt-color-white">1D</a>
-                                                    <a href="javascript:changeReport('1M','report_type');" class="btn bg-color-greenLight txt-color-white">1M</a>
+                                            <div class="col-md-5">
+                                                <div id="btn-report-type" class="col-md-12">
+                                                    <a id="10m" href="javascript: changeReport('10m','report_type');" class="btn btn-primary">10m</a>
+                                                    <a id="1h" href="javascript:changeReport('1h','report_type');" class="btn btn-primary">1h</a>
+                                                    <a id="3h" href="javascript:changeReport('3h','report_type');" class="btn btn-primary">3h</a>
+                                                    <a id="6h" href="javascript:changeReport('6h','report_type');" class="btn btn-primary">6h</a>
+                                                    <a id="1D" href="javascript:changeReport('1D','report_type');" class="btn btn-primary">1D</a>
+                                                    <a id="1M" href="javascript:changeReport('1M','report_type');" class="btn btn-primary">1M</a>
                                                 </div>
 
                                             </div>
                                         </div>
-
-
                                     </div>
                                     <!-- end widget content -->
                                 </div>
@@ -549,27 +550,16 @@
                     $('#cln' + id).addClass('report-selected');
                     type='do_nothing';
                 }else{
-                    var test = $('#client_list').dataTable();
-//                    console.log(test.rows( 0 ).data());
-//                    test.maxRows.fnGetData().length
-//                    test.each(function() {
-//                        for (var i = 0; i < test.fnGetData().length; i++) {
-//                            $(rows[i]).child.hide();
-//                        }
-//                    });
-//                    test.rows().every( function () {
-//                        this.child( 'Row details for row: '+this.index() );
-//                    } );
                     advertiser.val('');
                     campaign.val('');
                     targetgroup.val('');
                     geosegment.val('');
                     creative.val('');
                     client.val(id);
-                    $('#client_list').find('a').removeClass();
-                    $('#cln' + id).addClass('report-selected');
-                    $('#cln' + id).parents('tr').addClass('report-selected');
-                    $('#client_list').find('tr:not(.report-selected)').hide();
+//                    $('#client_list').find('a').removeClass();
+//                    $('#cln' + id).addClass('report-selected');
+//                    $('#cln' + id).parents('tr').addClass('report-selected');
+//                    $('#client_list').find('tr:not(.report-selected)').hide();
 //                    $.each(response[1], function () {
                 }
             }
@@ -745,8 +735,15 @@
             if(type=='report_type'){
                 report_type.val(id);
                 if(id=='rang'){
+                    $('#btn-report-type').find('a').removeClass('active-btn');
                     start_date.val($('#startdate').val());
                     end_date.val($('#finishdate').val());
+                }else{
+                    $('#startdate').val('');
+                    $('#finishdate').val('');
+                    $('#btn-report-type').find('a').removeClass('active-btn');
+                    $('#'+id).addClass('active-btn');
+
                 }
             }
             if(type!='do_nothing') {
@@ -772,6 +769,7 @@
                     var response = JSON.parse(response);
                     console.log(response);
                     if (response[0] == 'client') {
+                        $('#client_list').dataTable().fnClearTable();
                         $('#advertiser_list').dataTable().fnClearTable();
                         $('#campaign_list').dataTable().fnClearTable();
                         $('#targetgroup_list').dataTable().fnClearTable();
@@ -783,7 +781,7 @@
                                 if(this.name.length>lntstr){
                                     this.name=this.name.substr(0,lntstr)+'...';
                                 }
-                                var link1 = "<a id='cln" + this.id + "' href='javascript: changeReport(" + this.id + ",`client`)'>" + this.name + "</a>";
+                                var link1 = "<a class='report-selected' id='cln" + this.id + "' href='javascript: changeReport(" + this.id + ",`client`)'>" + this.name + "<i class='fa fa-check'></i></a>";
                                 data += '["' + link1 + '", '+this.imps+'],';
                             });
                             data = data.substr(0, data.length - 1);
@@ -1220,6 +1218,130 @@
                             data = '[' + data + ']';
                             data = JSON.parse(data);
                             $('#targetgroup_list').dataTable().fnAddData(data);
+                        }
+
+                    }
+                    if (response[0] == 'report_type') {
+                        if (response[1].length == 0) {
+                            client.val('');
+                        }
+                        if (response[2].length == 0) {
+                            advertiser.val('');
+                        }
+                        if (response[3].length == 0) {
+                            creative.val('');
+                        }
+                        if (response[4].length == 0) {
+                            geosegment.val('');
+                        }
+                        if (response[5].length == 0) {
+                            campaign.val('');
+                        }
+                        if (response[6].length == 0) {
+                            targetgroup.val('');
+                        }
+                        if(client.val()=='') {
+                            $('#client_list').dataTable().fnClearTable();
+                            if (response[1].length > 0) {
+                                var data = '';
+                                $.each(response[1], function () {
+                                    if(this.name.length>lntstr){
+                                        this.name=this.name.substr(0,lntstr)+'...';
+                                    }
+                                    var link1 = "<a id='cln" + this.id + "' href='javascript: changeReport(" + this.id + ",`client`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", '+this.imps+'],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#client_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if(advertiser.val()=='') {
+                            $('#advertiser_list').dataTable().fnClearTable();
+                            if (response[2].length > 0) {
+                                var data = '';
+                                $.each(response[2], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='adv" + this.id + "' href='javascript: changeReport(" + this.id + ",`advertiser`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#advertiser_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if(creative.val()=='') {
+                            $('#creative_list').dataTable().fnClearTable();
+                            if (response[3].length > 0) {
+                                var data = '';
+                                $.each(response[3], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='crt" + this.id + "' href='javascript: changeReport(" + this.id + ",`creative`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#creative_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if(geosegment.val()=='') {
+                            $('#geosegment_list').dataTable().fnClearTable();
+                            if (response[4].length > 0) {
+                                var data = '';
+                                $.each(response[4], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='gsm" + this.id + "' href='javascript: changeReport(" + this.id + ",`geosegment`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#geosegment_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if(campaign.val()=='') {
+                            $('#campaign_list').dataTable().fnClearTable();
+                            if (response[5].length > 0) {
+                                var data = '';
+                                $.each(response[5], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='cmp" + this.id + "' href='javascript: changeReport(" + this.id + ",`campaign`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#campaign_list').dataTable().fnAddData(data);
+                            }
+                        }
+                        if(targetgroup.val()=='') {
+                            $('#targetgroup_list').dataTable().fnClearTable();
+
+                            if (response[6].length > 0) {
+                                var data = '';
+                                $.each(response[6], function () {
+                                    if (this.name.length > lntstr) {
+                                        this.name = this.name.substr(0, lntstr) + '...';
+                                    }
+                                    var link1 = "<a id='tgp" + this.id + "' href='javascript: changeReport(" + this.id + ",`targetgroup`)'>" + this.name + "</a>";
+                                    data += '["' + link1 + '", ' + this.imps + '],';
+                                });
+                                data = data.substr(0, data.length - 1);
+                                data = '[' + data + ']';
+                                data = JSON.parse(data);
+                                $('#targetgroup_list').dataTable().fnAddData(data);
+                            }
                         }
 
                     }

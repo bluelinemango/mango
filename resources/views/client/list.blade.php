@@ -44,23 +44,10 @@
                 <div class="row">
 
                     <!-- NEW WIDGET START -->
-                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
                         <!-- Widget ID (each widget will need unique ID)-->
                         <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3" data-widget-editbutton="false">
-                            <!-- widget options:
-                                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                        data-widget-colorbutton="false"
-                                        data-widget-editbutton="false"
-                                        data-widget-togglebutton="false"
-                                        data-widget-deletebutton="false"
-                                        data-widget-fullscreenbutton="false"
-                                        data-widget-custombutton="false"
-                                        data-widget-collapsed="true"
-                                        data-widget-sortable="false"
-
-                                        -->
                             <header>
                                 <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                                 <h2>Client List</h2>
@@ -165,10 +152,10 @@
                     advertiser: '0',
                     @endif
                     @if(in_array('ADD_EDIT_ADVERTISER',$permission))
-                    add_advertiser: '<a href="{{url('client/cl'.$index->id.'/advertiser/add')}}">Add Advertiser </a>',
+                    add_advertiser: '<a class="btn bg-color-magenta txt-color-white" href="{{url('client/cl'.$index->id.'/advertiser/add')}}">Add Advertiser </a>',
                     @endif
                     date_modify : '{{$index->updated_at}}',
-                    action: '<a href="{{url('/client/cl'.$index->id.'/edit')}}">Edit</a>'
+                    action: '<a class="btn btn-info" href="{{url('/client/cl'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>'
 
                 },
                 @endforeach
@@ -182,29 +169,36 @@
                 colModel : [{
                     name : 'act',
                     index : 'act',
+                    width :'100%',
                     sortable : false
                 }, {
                     name : 'id',
-                    index : 'id'
+                    index : 'id',
+                    width :'30%'
                 }, {
                     name : 'name',
                     index : 'name',
+                    width :'99%',
                     editable : true
                 }, {
                     name : 'advertiser',
                     index : 'advertiser',
+                    width :'100%',
                     editable : false
                 }@if(in_array('ADD_EDIT_ADVERTISER',$permission)), {
                     name : 'add_advertiser',
                     index : 'add_advertiser',
+                    width :'100%',
                     editable : false
                 }@endif, {
                     name : 'date_modify',
                     index : 'date_modify',
+                    width :'100%',
                     editable : false
                 }, {
                     name : 'action',
                     index : 'action',
+                    width :'50%',
                     editable : false
                 }],
                 rowNum : 10,

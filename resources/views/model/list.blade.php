@@ -41,9 +41,20 @@
 
                 <!-- row -->
                 <div class="row">
+                    @if(isset($errors))
+                        @foreach($errors->get('msg') as $error)
+                            <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
+                                <a class="close" data-dismiss="alert" href="#">×</a>
+                                <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> System MSG!</h4>
+                                <p>
+                                    {{$error}}
+                                </p>
+                            </div>
+                        @endforeach
+                    @endif
 
                     <!-- NEW WIDGET START -->
-                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
                         <!-- Widget ID (each widget will need unique ID)-->
                         <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3" data-widget-editbutton="false">
@@ -153,7 +164,7 @@
                     advertiser_name : '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
                     algo :'{{$index->algo}}',
                     date_modify : '{{$index->updated_at}}',
-                    full_edit: '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/mdl'.$index->id.'/edit')}}">Edit</a>'
+                    full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/mdl'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>'
                 },
                 @endif
                 @endforeach
@@ -167,21 +178,26 @@
                 colModel : [{
                     name : 'act',
                     index : 'act',
+                    width: '100%',
                     sortable : false
                 }, {
                     name : 'id',
+                    width: '50%',
                     index : 'id'
                 }, {
                     name : 'name',
                     index : 'name',
+                    width: '100%',
                     editable : true
                 }, {
                     name : 'advertiser_name',
                     index : 'advertiser_name',
+                    width: '100%',
                     editable : false
                 }, {
                     name : 'algo',
                     index : 'algo',
+                    width: '100%',
                     editable : false
                 }, {
                     name : 'date_modify',
@@ -190,6 +206,7 @@
                 }, {
                     name : 'full_edit',
                     index : 'full_edit',
+                    width: '70%',
                     editable : false
                 }],
                 rowNum : 10,

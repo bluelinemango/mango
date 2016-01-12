@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Advertiser;
+use App\Models\Audits;
+use App\Models\Campaign;
+use App\Models\Client;
 use App\Models\Company;
+use App\Models\Creative;
+use App\Models\GeoSegmentList;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Role_Permission;
+use App\Models\Targetgroup;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -274,9 +281,58 @@ class UsersController extends Controller
     }
     public function GetDashboardView(){
         if(Auth::check()) {
+
+            if(User::isSuperAdmin()){
+                $audit= Audits::with('getUser')->orderBy('created_at','DESC')->get();
+                $audit_obj = array();
+                foreach($audit as $index){
+                    $entity_obj=null;
+                    switch ($index->entity_type){
+                        case 'client':
+                            if(in_array('VIEW_CLIENT',$this->permission)) {
+                                $entity_obj=Client::where('id',$index->entity_id)->get(['id','name']);
+                            }
+                            break;
+                        case 'advertiser':
+                            if(in_array('VIEW_ADVERTISER',$this->permission)) {
+                                $entity_obj=Advertiser::where('id',$index->entity_id)->get(['id','name']);
+                            }
+                            break;
+                        case 'creative':
+                            if(in_array('VIEW_CREATIVE',$this->permission)) {
+                                $entity_obj = Creative::where('id', $index->entity_id)->get(['id', 'name']);
+                            }
+                            break;
+                        case 'campaign':
+                            if(in_array('VIEW_CAMPAIGN',$this->permission)) {
+                                $entity_obj = Campaign::where('id', $index->entity_id)->get(['id', 'name']);
+                            }
+                            break;
+                        case 'targetgroup':
+                            if(in_array('VIEW_TARGETGROUP',$this->permission)) {
+                                $entity_obj = Targetgroup::where('id', $index->entity_id)->get(['id', 'name']);
+                            }
+                            break;
+                        case 'geosegment':
+                            if(in_array('VIEW_GEOSEGMENT',$this->permission)) {
+                                $entity_obj = GeoSegmentList::where('id', $index->entity_id)->get(['id', 'name']);
+                            }
+                            break;
+                    }
+                    if(!is_null($entity_obj)) {
+                        array_push($audit_obj, $index);
+                        array_push($audit_obj, $entity_obj);
+                    }
+                }
+//                return dd($audit_obj);
+            }else {
+                $usr_comp = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
+                $audit= Audits::with('getUser')->whereIn('user_id', $usr_comp)->get();
+            }
             $user_obj=User::with('getRole')->find(Auth::user()->id);
             return view('dashboard')
-                ->with('user_obj',$user_obj);
+                ->with('user_obj',$user_obj)
+                ->with('audit_obj',$audit_obj);
         }
         return Redirect::to(url('user/login'));
 
