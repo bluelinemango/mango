@@ -76,6 +76,8 @@ class CreativeController extends Controller
                         $creative->preview_url = $request->input('preview_url');
                         $creative->attributes = $request->input('attributes');
                         $creative->save();
+                        $audit= new AuditsController();
+                        $audit->store('creative',$creative->id,null,'add');
                         return Redirect::to(url('/client/cl'.$chkUser->GetClientID->id.'/advertiser/adv'.$request->input('advertiser_id').'/creative/crt'.$creative->id.'/edit'))->withErrors(['success' => true, 'msg' => "Creative added successfully"]);
                     }
                     return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
@@ -117,14 +119,58 @@ class CreativeController extends Controller
                     $creative=Creative::find($creative_id);
                     if($creative){
                         $size = $request->input('size_width').'x'.$request->input('size_height');
-                        $creative->name=$request->input('name');
-                        $creative->advertiser_domain_name=$request->input('advertiser_domain_name');
-                        $creative->description=$request->input('description');
-                        $creative->landing_page_url=$request->input('landing_page_url');
-                        $creative->preview_url=$request->input('preview_url');
-                        $creative->attributes=$request->input('attributes');
-                        $creative->ad_tag=$request->input('ad_tag');
-                        $creative->size=$size;
+
+                        $data=array();
+                        $audit= new AuditsController();
+                        if($creative->name != $request->input('name')){
+                            array_push($data,'name');
+                            array_push($data,$creative->name);
+                            array_push($data,$request->input('name'));
+                            $creative->name=$request->input('name');
+                        }
+                        if($creative->advertiser_domain_name!=$request->input('advertiser_domain_name')){
+                            array_push($data,'advertiser_domain_name');
+                            array_push($data,$creative->advertiser_domain_name);
+                            array_push($data,$request->input('advertiser_domain_name'));
+                            $creative->advertiser_domain_name=$request->input('advertiser_domain_name');
+                        }
+                        if($creative->description!=$request->input('description')){
+                            array_push($data,'description');
+                            array_push($data,$creative->description);
+                            array_push($data,$request->input('description'));
+                            $creative->description=$request->input('description');
+                        }
+                        if($creative->landing_page_url!=$request->input('landing_page_url')){
+                            array_push($data,'landing_page_url');
+                            array_push($data,$creative->landing_page_url);
+                            array_push($data,$request->input('landing_page_url'));
+                            $creative->landing_page_url=$request->input('landing_page_url');
+                        }
+                        if($creative->preview_url!=$request->input('preview_url')){
+                            array_push($data,'preview_url');
+                            array_push($data,$creative->preview_url);
+                            array_push($data,$request->input('preview_url'));
+                            $creative->preview_url=$request->input('preview_url');
+                        }
+                        if($creative->attributes!=$request->input('attributes')){
+                            array_push($data,'attributes');
+                            array_push($data,$creative->attributes);
+                            array_push($data,$request->input('attributes'));
+                            $creative->attributes=$request->input('attributes');
+                        }
+                        if($creative->ad_tag=$request->input('ad_tag')){
+                            array_push($data,'ad_tag');
+                            array_push($data,$creative->ad_tag);
+                            array_push($data,$request->input('ad_tag'));
+                            $creative->ad_tag=$request->input('ad_tag');
+                        }
+                        if($creative->size!=$size){
+                            array_push($data,'size');
+                            array_push($data,$creative->size);
+                            array_push($data,$size);
+                            $creative->size=$size;
+                        }
+                        $audit->store('creative',$creative_id,$data,'edit');
                         $creative->save();
                         return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Creative Edited Successfully']);
                     }

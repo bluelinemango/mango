@@ -331,7 +331,7 @@ class UsersController extends Controller
             }
             $user_obj=User::with('getRole')->find(Auth::user()->id);
             return view('dashboard')
-                ->with('user_obj',$user_obj)
+                ->with('user_obj',$user_ob)
                 ->with('audit_obj',$audit_obj);
         }
         return Redirect::to(url('user/login'));

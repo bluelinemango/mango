@@ -66,6 +66,8 @@ class AdvertiserController extends Controller
                         $advertiser->description = $request->input('description');
                         $advertiser->client_id = $request->input('client_id');
                         $advertiser->save();
+                        $audit= new AuditsController();
+                        $audit->store('advertiser',$advertiser->id,null,'add');
                         return Redirect::to(url('/client/cl'.$request->input('client_id').'/advertiser/adv'.$advertiser->id.'/edit'))->withErrors(['success' => true, 'msg' => "Advertiser added successfully"]);
                     }
                     return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
@@ -116,9 +118,27 @@ class AdvertiserController extends Controller
                     $adver_id = $request->input('adver_id');
                     $adver=Advertiser::find($adver_id);
                     if($adver){
-                        $adver->name=$request->input('name');
-                        $adver->domain_name=$request->input('domain_name');
-                        $adver->description=$request->input('description');
+                        $data=array();
+                        $audit= new AuditsController();
+                        if($adver->name!=$request->input('name')){
+                            array_push($data,'name');
+                            array_push($data,$adver->name);
+                            array_push($data,$request->input('name'));
+                            $adver->name=$request->input('name');
+                        }
+                        if($adver->domain_name!=$request->input('domain_name')){
+                            array_push($data,'company');
+                            array_push($data,$adver->domain_name);
+                            array_push($data,$request->input('domain_name'));
+                            $adver->domain_name=$request->input('domain_name');
+                        }
+                        if($adver->description!=$request->input('description')){
+                            array_push($data,'company');
+                            array_push($data,$adver->description);
+                            array_push($data,$request->input('description'));
+                            $adver->description=$request->input('description');
+                        }
+                        $audit->store('advertiser',$adver_id,$data,'edit');
                         $adver->save();
                         return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Advertiser Edited Successfully']);
                     }

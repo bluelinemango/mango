@@ -146,6 +146,8 @@ class GeoSegmentController extends Controller
                             $geosegmentlist->name = $request->input('name');
                             $geosegmentlist->advertiser_id = $request->input('advertiser_id');
                             $geosegmentlist->save();
+                            $audit= new AuditsController();
+                            $audit->store('geosegmentlist',$geosegmentlist->id,null,'add');
 
                             for($i=0;$i<5;$i++) {
                                 if(!is_null($request->input('name'.$i)) and $request->input('name'.$i) !="") {

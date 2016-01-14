@@ -76,6 +76,8 @@ class CampaignController extends Controller
                         $campaign->start_date = $start_date;
                         $campaign->end_date = $end_date;
                         $campaign->save();
+                        $audit= new AuditsController();
+                        $audit->store('campaign',$campaign->id,null,'add');
                         return Redirect::to(url('/client/cl' . $chkUser->GetClientID->id . '/advertiser/adv' . $request->input('advertiser_id') . '/campaign/cmp' . $campaign->id . '/edit'))->withErrors(['success' => true, 'msg' => "Campaign added successfully"]);
                     }
                     return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
@@ -132,17 +134,70 @@ class CampaignController extends Controller
                     if ($campaign) {
                         $start_date = \DateTime::createFromFormat('d.m.Y', $request->input('start_date'));
                         $end_date = \DateTime::createFromFormat('d.m.Y', $request->input('end_date'));
-                        $campaign->name = $request->input('name');
-                        $campaign->max_impression = $request->input('max_impression');
-                        $campaign->daily_max_impression = $request->input('daily_max_impression');
-                        $campaign->max_budget = $request->input('max_budget');
-                        $campaign->daily_max_budget = $request->input('daily_max_budget');
-                        $campaign->cpm = $request->input('cpm');
-                        $campaign->advertiser_domain_name = $request->input('advertiser_domain_name');
-                        $campaign->description = $request->input('description');
-//                        $campaign->advertiser_id=$request->input('advertiser_id');
-                        $campaign->start_date = $start_date;
-                        $campaign->end_date = $end_date;
+                        $data=array();
+                        $audit= new AuditsController();
+                        if($campaign->name != $request->input('name')){
+                            array_push($data,'name');
+                            array_push($data,$campaign->name);
+                            array_push($data,$request->input('name'));
+                            $campaign->name=$request->input('name');
+                        }
+                        if($campaign->max_impression != $request->input('max_impression')){
+                            array_push($data,'max_impression');
+                            array_push($data,$campaign->max_impression);
+                            array_push($data,$request->input('max_impression'));
+                            $campaign->max_impression=$request->input('max_impression');
+                        }
+                        if($campaign->daily_max_impression != $request->input('daily_max_impression')){
+                            array_push($data,'daily_max_impression');
+                            array_push($data,$campaign->daily_max_impression);
+                            array_push($data,$request->input('daily_max_impression'));
+                            $campaign->daily_max_impression = $request->input('daily_max_impression');
+                        }
+                        if($campaign->max_budget != $request->input('max_budget')){
+                            array_push($data,'max_budget');
+                            array_push($data,$campaign->max_budget);
+                            array_push($data,$request->input('max_budget'));
+                            $campaign->max_budget = $request->input('max_budget');
+                        }
+                        if($campaign->daily_max_budget != $request->input('daily_max_budget')){
+                            array_push($data,'daily_max_budget');
+                            array_push($data,$campaign->daily_max_budget);
+                            array_push($data,$request->input('daily_max_budget'));
+                            $campaign->daily_max_budget = $request->input('daily_max_budget');
+                        }
+                        if($campaign->cpm != $request->input('cpm')){
+                            array_push($data,'cpm');
+                            array_push($data,$campaign->cpm);
+                            array_push($data,$request->input('cpm'));
+                            $campaign->cpm = $request->input('cpm');
+                        }
+                        if($campaign->advertiser_domain_name != $request->input('advertiser_domain_name')){
+                            array_push($data,'advertiser_domain_name');
+                            array_push($data,$campaign->advertiser_domain_name);
+                            array_push($data,$request->input('advertiser_domain_name'));
+                            $campaign->advertiser_domain_name = $request->input('advertiser_domain_name');
+                        }
+                        if($campaign->description != $request->input('description')){
+                            array_push($data,'description');
+                            array_push($data,$campaign->description);
+                            array_push($data,$request->input('description'));
+                            $campaign->description = $request->input('description');
+                        }
+                        if($campaign->description != $start_date){
+                            array_push($data,'start_date');
+                            array_push($data,$campaign->start_date);
+                            array_push($data,$start_date);
+                            $campaign->start_date = $start_date;
+                        }
+                        if($campaign->description != $end_date){
+                            array_push($data,'end_date');
+                            array_push($data,$campaign->end_date);
+                            array_push($data,$end_date);
+                            $campaign->end_date = $end_date;
+                        }
+                        $audit->store('campaign',$campaign_id,$data,'edit');
+
                         $campaign->save();
                         return Redirect::back()->withErrors(['success' => true, 'msg' => 'Campaign Edited Successfully']);
                     }

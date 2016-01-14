@@ -93,6 +93,8 @@ class TargetgroupController extends Controller
                         $targetgroup->start_date = $start_date;
                         $targetgroup->end_date = $end_date;
                         $targetgroup->save();
+                        $audit= new AuditsController();
+                        $audit->store('targetgroup',$targetgroup->id,null,'add');
                         if(count($request->input('geosegment'))>0){
                             $chk = array();
                             foreach($request->input('geosegment') as $index) {

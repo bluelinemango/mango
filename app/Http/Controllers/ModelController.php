@@ -74,6 +74,8 @@ class ModelController extends Controller
                         $modelTable->advertiser_id = $request->input('advertiser_id');
                         $modelTable->date_of_request = $date_of_request;
                         $modelTable->save();
+                        $audit= new AuditsController();
+                        $audit->store('modelTable',$modelTable->id,null,'add');
                         return Redirect::to(url('/client/cl'.$chkUser->GetClientID->id.'/advertiser/adv'.$request->input('advertiser_id').'/model/mdl'.$modelTable->id.'/edit'))->withErrors(['success' => true, 'msg' => "Model added successfully"]);
                     }
                     return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
