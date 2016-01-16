@@ -124,6 +124,7 @@ class CampaignController extends Controller
 
     public function edit_campaign(Request $request)
     {
+//        return dd($request->all());
 //        $start_date = \DateTime::createFromFormat('d.m.Y', $request->input('start_date'));
         if (Auth::check()) {
             if (in_array('ADD_EDIT_CAMPAIGN', $this->permission)) {
@@ -132,8 +133,12 @@ class CampaignController extends Controller
                     $campaign_id = $request->input('campaign_id');
                     $campaign = Campaign::find($campaign_id);
                     if ($campaign) {
-                        $start_date = \DateTime::createFromFormat('d.m.Y', $request->input('start_date'));
-                        $end_date = \DateTime::createFromFormat('d.m.Y', $request->input('end_date'));
+                        if($campaign->start_date != $request->input('start_date')){
+                            $start_date = \DateTime::createFromFormat('d.m.Y', $request->input('start_date'));
+                        }
+                        if($campaign->end_date != $request->input('end_date')) {
+                            $end_date = \DateTime::createFromFormat('d.m.Y', $request->input('end_date'));
+                        }
                         $data=array();
                         $audit= new AuditsController();
                         if($campaign->name != $request->input('name')){
@@ -184,13 +189,13 @@ class CampaignController extends Controller
                             array_push($data,$request->input('description'));
                             $campaign->description = $request->input('description');
                         }
-                        if($campaign->description != $start_date){
+                        if(isset($start_date)){
                             array_push($data,'start_date');
                             array_push($data,$campaign->start_date);
                             array_push($data,$start_date);
                             $campaign->start_date = $start_date;
                         }
-                        if($campaign->description != $end_date){
+                        if(isset($end_date)){
                             array_push($data,'end_date');
                             array_push($data,$campaign->end_date);
                             array_push($data,$end_date);

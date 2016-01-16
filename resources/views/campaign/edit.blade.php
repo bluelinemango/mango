@@ -185,13 +185,13 @@
                                                     <section class="col col-3">
                                                         <label class="label" for="">Start Date</label>
                                                         <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                                                            <input type="text" name="start_date" id="startdate" placeholder="Expected start date">
+                                                            <input type="text" name="start_date" id="startdate" placeholder="Expected start date" value="{{$campaign_obj->start_date}}">
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
                                                         <label class="label" for="">End Date</label>
                                                         <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                                                            <input type="text" name="end_date" id="finishdate" placeholder="Expected finish date">
+                                                            <input type="text" name="end_date" id="finishdate" placeholder="Expected finish date" value="{{$campaign_obj->end_date}}">
                                                         </label>
                                                     </section>
                                                 </div>

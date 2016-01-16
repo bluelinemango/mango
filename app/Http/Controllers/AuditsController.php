@@ -39,6 +39,7 @@ class AuditsController extends Controller
      */
     public function store($entity_type,$entity_id,$data,$audit_type)
     {
+        $a='';
         $date_change=date('Y-m-d H:i:s');
         if($audit_type=='add') {
             $audit = new Audits();

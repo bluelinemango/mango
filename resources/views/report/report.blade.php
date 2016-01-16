@@ -75,6 +75,19 @@
         .active-btn{
             background-color: #480034 !important;
         }
+        .dygraph-label{
+            height: 22px;
+            width: 100px;
+            float: right;
+            margin-right: 35px;
+        }
+        .dygraph-legend{
+            left:0 !important;
+            width:100% !important;
+        }
+        #impression, #click , #conversion{
+            height: 160px !important;
+        }
     </style>
 @endsection
 @section('content')
@@ -1754,7 +1767,6 @@
                             }
                             g1 = new Dygraph(document.getElementById("impression"), data_temp1, {
                                 customBars : true,
-                                title : '',
                                 ylabel : 'Impression',
                                 legend : 'always',
                                 labelsDivStyles : {
@@ -1802,7 +1814,6 @@
                         }
                         g1 = new Dygraph(document.getElementById("impression"), data_temp7, {
                             customBars : true,
-                            title : 'test',
                             ylabel : 'Impression',
                             legend : 'always',
                             labelsDivStyles : {
@@ -1817,7 +1828,6 @@
                         }
                         g1 = new Dygraph(document.getElementById("impression"), data_temp8, {
                             customBars : true,
-                            title : 'test',
                             ylabel : 'Impression',
                             legend : 'always',
                             labelsDivStyles : {
@@ -1832,7 +1842,6 @@
                         }
                         g1 = new Dygraph(document.getElementById("impression"), data_temp9, {
                             customBars : true,
-                            title : 'test',
                             ylabel : 'Impression',
                             legend : 'always',
                             labelsDivStyles : {
@@ -2017,6 +2026,7 @@
                 legend : 'always',
                 labelsDivStyles : {
                     'textAlign' : 'right'
+
                 },
                 showRangeSelector : true
             });

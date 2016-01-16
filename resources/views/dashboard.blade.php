@@ -372,6 +372,7 @@
 
                                     <div class="well well-sm">
                                         <!-- Timeline Content -->
+{{--                                        {{dd($audit_obj)}}--}}
                                         <div class="smart-timeline">
                                             <ul class="smart-timeline-list">
                                                 @for($i=0;$i<count($audit_obj);$i++)
@@ -388,6 +389,7 @@
                                                         <small>{{$audit_obj[$i]->created_at}}</small>
                                                     </div>
                                                     <div class="smart-timeline-content">
+                                                        @if($audit_obj[$i]->audit_type == 'add')
                                                         <p>
                                                             <a href="{{url('user/usr'.$audit_obj[$i]->user_id.'/edit')}}">{{$audit_obj[$i]->getUser->name}}</a>
                                                              Created a new {{$audit_obj[$i]->entity_type}}:
@@ -395,6 +397,26 @@
                                                                 <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
                                                             @endif
                                                         </p>
+                                                        @else
+                                                            <p>
+                                                                <a href="{{url('user/usr'.$audit_obj[$i]->user_id.'/edit')}}">{{$audit_obj[$i]->getUser->name}}</a>
+                                                                Change {{$audit_obj[$i]->entity_type}}:
+                                                                @if($audit_obj[$i]->entity_type == 'client')
+                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
+                                                                @endif
+                                                                @if($audit_obj[$i]->entity_type == 'advertiser')
+                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
+                                                                @endif
+                                                            </p>
+                                                            <div class="well well-sm display-inline">
+                                                                <p>Field <strong>{{$audit_obj[$i]->field}}</strong> From <strong>{{$audit_obj[$i]->before_value}}</strong> To <strong>{{$audit_obj[$i]->after_value}}</strong></p>
+                                                                @while(isset($audit_obj[$i+2]->date_change) and $audit_obj[$i]->date_change==$audit_obj[$i+2]->date_change)
+                                                                    <p>Field <strong>{{$audit_obj[$i+2]->field}}</strong> From <strong>{{$audit_obj[$i+2]->before_value}}</strong> To <strong>{{$audit_obj[$i+2]->after_value}}</strong>    </p>
+                                                                    <?php $i=$i+2; ?>
+                                                                @endwhile
+                                                            </div>
+
+                                                        @endif
                                                     </div>
                                                 </li>
                                                     <?php $i++ ?>
@@ -413,7 +435,6 @@
 
                                                         <div class="well well-sm display-inline">
                                                             <p>Will you be able to attend the meeting - <strong> 10:00 am</strong> tomorrow?</p>
-                                                            <button class="btn btn-xs btn-default">Confirm Attendance</button>
                                                         </div>
 
                                                     </div>

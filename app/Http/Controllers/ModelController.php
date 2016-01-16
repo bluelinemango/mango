@@ -125,24 +125,100 @@ class ModelController extends Controller
                     $model_id = $request->input('model_id');
                     $modelTable=ModelTable::find($model_id);
                     if($modelTable){
-                        if($request->input('date_of_request') != $modelTable->date_of_request){
-                            $date_of_request = \DateTime::createFromFormat('m/d/Y', $request->input('date_of_request'));
+                        $date_of_request = \DateTime::createFromFormat('m/d/Y', $request->input('date_of_request'));
+                        $data=array();
+                        $audit= new AuditsController();
+                        if($modelTable->name != $request->input('name')){
+                            array_push($data,'name');
+                            array_push($data,$modelTable->name);
+                            array_push($data,$request->input('name'));
+                            $modelTable->name=$request->input('name');
                         }
-                        $modelTable->name=$request->input('name');
-                        $modelTable->algo=$request->input('algo');
-                        $modelTable->seed_web_sites=json_encode($request->input('seed_web_sites'));
-                        $modelTable->negative_features_requested=json_encode($request->input('negative_features_requested'));
-                        $modelTable->negative_feature_used=json_encode($request->input('negative_feature_used'));
-                        $modelTable->segment_name_seed=$request->input('segment_name_seed');
-                        $modelTable->process_result=$request->input('process_result');
-                        $modelTable->num_neg_devices_used=$request->input('num_neg_devices_used');
-                        $modelTable->num_pos_devices_used=$request->input('num_pos_devices_used');
-                        $modelTable->feature_recency_in_sec=$request->input('feature_recency_in_sec');
-                        $modelTable->max_num_both_neg_pos_devices=$request->input('max_num_both_neg_pos_devices');
-                        $modelTable->description=$request->input('description');
-                        if($request->input('date_of_request') != $modelTable->date_of_request){
-                            $modelTable->date_of_request = $date_of_request;
+                        if($modelTable->algo!=$request->input('algo')){
+                            array_push($data,'algo');
+                            array_push($data,$modelTable->algo);
+                            array_push($data,$request->input('algo'));
+                            $modelTable->algo=$request->input('algo');
                         }
+                        if($modelTable->seed_web_sites!=json_encode($request->input('seed_web_sites'))){
+                            array_push($data,'seed_web_sites');
+                            array_push($data,$modelTable->seed_web_sites);
+                            array_push($data,json_encode($request->input('seed_web_sites')));
+                            $modelTable->seed_web_sites=json_encode($request->input('seed_web_sites'));
+                        }
+                        if($modelTable->negative_features_requested!=json_encode($request->input('negative_features_requested'))){
+                            array_push($data,'negative_features_requested');
+                            array_push($data,$modelTable->negative_features_requested);
+                            array_push($data,json_encode($request->input('negative_features_requested')));
+                            $modelTable->negative_features_requested=json_encode($request->input('negative_features_requested'));
+                        }
+                        if($modelTable->negative_feature_used!=json_encode($request->input('negative_feature_used'))){
+                            array_push($data,'negative_feature_used');
+                            array_push($data,$modelTable->negative_feature_used);
+                            array_push($data,json_encode($request->input('negative_feature_used')));
+                            $modelTable->negative_feature_used=json_encode($request->input('negative_feature_used'));
+                        }
+                        if($modelTable->segment_name_seed!=$request->input('segment_name_seed')){
+                            array_push($data,'segment_name_seed');
+                            array_push($data,$modelTable->segment_name_seed);
+                            array_push($data,$request->input('segment_name_seed'));
+                            $modelTable->segment_name_seed=$request->input('segment_name_seed');
+                        }
+                        if($modelTable->process_result!=$request->input('process_result')){
+                            array_push($data,'process_result');
+                            array_push($data,$modelTable->process_result);
+                            array_push($data,$request->input('process_result'));
+                            $modelTable->process_result=$request->input('process_result');
+                        }
+                        if($modelTable->process_result!=$request->input('process_result')){
+                            array_push($data,'process_result');
+                            array_push($data,$modelTable->process_result);
+                            array_push($data,$request->input('process_result'));
+                            $modelTable->process_result=$request->input('process_result');
+                        }
+                        if($modelTable->num_neg_devices_used!=$request->input('num_neg_devices_used')){
+                            array_push($data,'num_neg_devices_used');
+                            array_push($data,$modelTable->num_neg_devices_used);
+                            array_push($data,$request->input('num_neg_devices_used'));
+                            $modelTable->num_neg_devices_used=$request->input('num_neg_devices_used');
+                        }
+                        if($modelTable->num_neg_devices_used!=$request->input('num_neg_devices_used')){
+                            array_push($data,'num_neg_devices_used');
+                            array_push($data,$modelTable->num_neg_devices_used);
+                            array_push($data,$request->input('num_neg_devices_used'));
+                            $modelTable->num_neg_devices_used=$request->input('num_neg_devices_used');
+                        }
+                        if($modelTable->num_pos_devices_used!=$request->input('num_pos_devices_used')){
+                            array_push($data,'num_pos_devices_used');
+                            array_push($data,$modelTable->num_pos_devices_used);
+                            array_push($data,$request->input('num_pos_devices_used'));
+                            $modelTable->num_pos_devices_used=$request->input('num_pos_devices_used');
+                        }
+                        if($modelTable->feature_recency_in_sec!=$request->input('feature_recency_in_sec')){
+                            array_push($data,'feature_recency_in_sec');
+                            array_push($data,$modelTable->feature_recency_in_sec);
+                            array_push($data,$request->input('feature_recency_in_sec'));
+                            $modelTable->feature_recency_in_sec=$request->input('feature_recency_in_sec');
+                        }
+                        if($modelTable->max_num_both_neg_pos_devices!=$request->input('max_num_both_neg_pos_devices')){
+                            array_push($data,'max_num_both_neg_pos_devices');
+                            array_push($data,$modelTable->max_num_both_neg_pos_devices);
+                            array_push($data,$request->input('max_num_both_neg_pos_devices'));
+                            $modelTable->max_num_both_neg_pos_devices=$request->input('max_num_both_neg_pos_devices');
+                        }
+                        if($modelTable->description=$request->input('description')){
+                            array_push($data,'description');
+                            array_push($data,$modelTable->description);
+                            array_push($data,$request->input('description'));
+                            $modelTable->description=$request->input('description');
+                        }
+                        if($modelTable->date_of_request != $date_of_request){
+                            array_push($data,'date_of_request');
+                            array_push($data,$modelTable->date_of_request);
+                            array_push($data,$date_of_request);
+                            $modelTable->date_of_request=$date_of_request;
+                        }
+                        $audit->store('creative',$model_id,$data,'edit');
                         $modelTable->save();
                         return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Model Edited Successfully']);
                     }

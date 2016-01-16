@@ -295,7 +295,7 @@ class UsersController extends Controller
                             break;
                         case 'advertiser':
                             if(in_array('VIEW_ADVERTISER',$this->permission)) {
-                                $entity_obj=Advertiser::where('id',$index->entity_id)->get(['id','name']);
+                                $entity_obj=Advertiser::with('GetClientID')->where('id',$index->entity_id)->get();
                             }
                             break;
                         case 'creative':
@@ -331,7 +331,7 @@ class UsersController extends Controller
             }
             $user_obj=User::with('getRole')->find(Auth::user()->id);
             return view('dashboard')
-                ->with('user_obj',$user_ob)
+                ->with('user_obj',$user_obj)
                 ->with('audit_obj',$audit_obj);
         }
         return Redirect::to(url('user/login'));

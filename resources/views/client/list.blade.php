@@ -1,6 +1,10 @@
 @extends('Layout')
 @section('siteTitle')List Of {{\Illuminate\Support\Facades\Auth::user()->name}} Clients @endsection
+@section('header_extra')
+    <link rel="stylesheet" type="text/css" href="{{cdn('css/jsgrid/jsgrid.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{cdn('css/jsgrid/theme.css')}}" />
 
+@endsection
 @section('content')
     <!-- MAIN PANEL -->
     <div id="main" role="main">
@@ -19,24 +23,14 @@
                 <li>Home</li>
                 <li>Client List</li>
             </ol>
-            <!-- end breadcrumb -->
-
-            <!-- You can also add more buttons to the
-				ribbon for further usability
-
-				Example below:
-
-				<span class="ribbon-button-alignment pull-right">
-				<span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-				<span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-				<span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-				</span> -->
 
         </div>
         <!-- END RIBBON -->
 
         <!-- MAIN CONTENT -->
         <div id="content">
+
+            <div id="jsGrid"></div>
             <!-- widget grid -->
             <section id="widget-grid" class="">
 
@@ -131,6 +125,48 @@
     <script src="{{cdn('js/plugin/jqgrid/grid.locale-en.min.js')}}"></script>
 
     <script src="{{cdn('js/plugin/bootstrap-tags/bootstrap-tagsinput.min.js')}}"></script>
+    {{--////////////////////////////////////////////////////////////////////////--}}
+    <script src="{{cdn('js/srcjsgrid/db.js')}}"></script>
+
+    <script src="{{cdn('js/srcjsgrid/jsgrid.core.js')}}"></script>
+    <script src="{{cdn('js/srcjsgrid/jsgrid.load-indicator.js')}}"></script>
+    <script src="{{cdn('js/srcjsgrid/jsgrid.load-strategies.js')}}"></script>
+    <script src="{{cdn('js/srcjsgrid/jsgrid.sort-strategies.js')}}"></script>
+    <script src="{{cdn('js/srcjsgrid/jsgrid.field.js')}}"></script>
+    <script src="{{cdn('js/srcjsgrid/jsgrid.field.text.js')}}"></script>
+    <script src="{{cdn('js/srcjsgrid/jsgrid.field.number.js')}}"></script>
+    <script src="{{cdn('js/srcjsgrid/jsgrid.field.select.js')}}"></script>
+    <script src="{{cdn('js/srcjsgrid/jsgrid.field.checkbox.js')}}"></script>
+    <script src="{{cdn('js/srcjsgrid/jsgrid.field.control.js')}}"></script>
+
+    <script> //NEW JS GRID
+        $(function() {
+
+            $("#jsGrid").jsGrid({
+                height: "70%",
+                width: "100%",
+                filtering: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                autoload: true,
+                pageSize: 15,
+                pageButtonCount: 5,
+                deleteConfirm: "Do you really want to delete the client?",
+                controller: db,
+                fields: [
+                    { name: "Name", type: "text", width: 150 },
+                    { name: "Age", type: "number", width: 50 },
+                    { name: "Address", type: "text", width: 200 },
+                    { name: "Country", type: "select", items: db.countries, valueField: "Id", textField: "Name" },
+                    { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
+                    { type: "control" }
+                ]
+            });
+
+        });
+    </script>
+
 
     <script type="text/javascript">
         $.ajaxSetup({
@@ -308,70 +344,6 @@
 
             $(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
             $(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
-
-            var $orderForm = $("#order-form").validate({
-                // Rules for form validation
-                rules : {
-                    name : {
-                        required : true
-                    },
-                    advertiser_id : {
-                        required : true
-                    },
-                    max_impression : {
-                        required : true
-                    },
-                    daily_max_impression : {
-                        required : true
-                    },
-                    max_budget : {
-                        required : true
-                    },
-                    daily_max_budget : {
-                        required : true
-                    },
-                    cpm : {
-                        required : true
-                    },
-                    start_date : {
-                        required : true
-                    },
-                    end_date : {
-                        required : true
-                    },
-                    cpm : {
-                        required : true
-                    }
-                },
-
-                // Messages for form validation
-                messages : {
-                    name : {
-                        required : 'Please enter your name'
-                    },
-                    email : {
-                        required : 'Please enter your email address',
-                        email : 'Please enter a VALID email address'
-                    },
-                    phone : {
-                        required : 'Please enter your phone number'
-                    },
-                    interested : {
-                        required : 'Please select interested service'
-                    },
-                    budget : {
-                        required : 'Please select your budget'
-                    }
-                },
-
-                // Do not change code below
-                errorPlacement : function(error, element) {
-                    error.insertAfter(element.parent());
-                }
-            });
-
-
-
         })
 
     </script>
