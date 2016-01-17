@@ -250,6 +250,8 @@ class BWListController extends Controller
                             $bwlist->list_type = $request->input('list_type');
                             $bwlist->advertiser_id = $request->input('advertiser_id');
                             $bwlist->save();
+                            $audit= new AuditsController();
+                            $audit->store('bwlist',$bwlist->id,null,'add');
                             $entries = explode(',', $request->input('domain_name'));
                             foreach ($entries as $index) {
                                 $bwlistentries = new BWEntries();
@@ -298,18 +300,22 @@ class BWListController extends Controller
                     $bwlist_id = $request->input('bwlist_id');
                     $bwlist=BWList::find($bwlist_id);
                     if($bwlist){
-                        $bwlist->name=$request->input('name');
-                        $bwlist->list_type=$request->input('list_type');
-                        $bwlist->save();
-                        BWEntries::where('bwlist_id',$bwlist_id)->delete();
-                        $entries = explode(',', $request->input('domain_name'));
-                        foreach($entries as $index){
-                            $bwlistentries = new BWEntries();
-                            $bwlistentries->domain_name = $index;
-                            $bwlistentries->bwlist_id = $bwlist_id;
-                            $bwlistentries->save();
-
+                        $data=array();
+                        $audit= new AuditsController();
+                        if($bwlist->name!=$request->input('name')){
+                            array_push($data,'name');
+                            array_push($data,$bwlist->name);
+                            array_push($data,$request->input('name'));
+                            $bwlist->name=$request->input('name');
                         }
+                        if($bwlist->list_type!=$request->input('list_type')){
+                            array_push($data,'list_type');
+                            array_push($data,$bwlist->list_type);
+                            array_push($data,$request->input('list_type'));
+                            $bwlist->list_type=$request->input('list_type');
+                        }
+                        $bwlist->save();
+                        $audit->store('bwlist',$bwlist_id,$data,'edit');
                         return Redirect::back()->withErrors(['success'=>true,'msg'=> 'B/W List Edited Successfully']);
                     }
                 }

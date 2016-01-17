@@ -158,7 +158,7 @@ class CreativeController extends Controller
                             array_push($data,$request->input('attributes'));
                             $creative->attributes=$request->input('attributes');
                         }
-                        if($creative->ad_tag=$request->input('ad_tag')){
+                        if($creative->ad_tag!=$request->input('ad_tag')){
                             array_push($data,'ad_tag');
                             array_push($data,$creative->ad_tag);
                             array_push($data,$request->input('ad_tag'));

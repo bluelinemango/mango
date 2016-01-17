@@ -127,7 +127,6 @@
     <script src="{{cdn('js/plugin/bootstrap-tags/bootstrap-tagsinput.min.js')}}"></script>
     {{--////////////////////////////////////////////////////////////////////////--}}
     <script src="{{cdn('js/srcjsgrid/db.js')}}"></script>
-
     <script src="{{cdn('js/srcjsgrid/jsgrid.core.js')}}"></script>
     <script src="{{cdn('js/srcjsgrid/jsgrid.load-indicator.js')}}"></script>
     <script src="{{cdn('js/srcjsgrid/jsgrid.load-strategies.js')}}"></script>

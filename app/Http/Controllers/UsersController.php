@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Models\Advertiser;
 use App\Models\Audits;
+use App\Models\BWList;
 use App\Models\Campaign;
 use App\Models\Client;
 use App\Models\Company;
@@ -281,9 +282,9 @@ class UsersController extends Controller
     }
     public function GetDashboardView(){
         if(Auth::check()) {
-
             if(User::isSuperAdmin()){
                 $audit= Audits::with('getUser')->orderBy('created_at','DESC')->get();
+//                return dd($audit);
                 $audit_obj = array();
                 foreach($audit as $index){
                     $entity_obj=null;
@@ -300,12 +301,19 @@ class UsersController extends Controller
                             break;
                         case 'creative':
                             if(in_array('VIEW_CREATIVE',$this->permission)) {
-                                $entity_obj = Creative::where('id', $index->entity_id)->get(['id', 'name']);
+                                $entity_obj = Creative::with(['getAdvertiser'=>function($q){
+                                    $q->with('GetClientID');
+                                }])
+                                    ->where('id', $index->entity_id)->get();
+//                                return dd($entity_obj);
                             }
                             break;
                         case 'campaign':
                             if(in_array('VIEW_CAMPAIGN',$this->permission)) {
-                                $entity_obj = Campaign::where('id', $index->entity_id)->get(['id', 'name']);
+                                $entity_obj = Campaign::with(['getAdvertiser'=>function($q){
+                                    $q->with('GetClientID');
+                                }])
+                                    ->where('id', $index->entity_id)->get();
                             }
                             break;
                         case 'targetgroup':
@@ -314,8 +322,19 @@ class UsersController extends Controller
                             }
                             break;
                         case 'geosegment':
-                            if(in_array('VIEW_GEOSEGMENT',$this->permission)) {
-                                $entity_obj = GeoSegmentList::where('id', $index->entity_id)->get(['id', 'name']);
+                            if(in_array('VIEW_GEOSEGMENTLIST',$this->permission)) {
+                                $entity_obj = GeoSegmentList::with(['getAdvertiser'=>function($q){
+                                    $q->with('GetClientID');
+                                }])
+                                    ->where('id', $index->entity_id)->get();
+                            }
+                            break;
+                        case 'bwlist':
+                            if(in_array('VIEW_BWLIST',$this->permission)) {
+                                $entity_obj = BWList::with(['getAdvertiser'=>function($q){
+                                    $q->with('GetClientID');
+                                }])
+                                    ->where('id', $index->entity_id)->get();
                             }
                             break;
                     }
@@ -324,7 +343,6 @@ class UsersController extends Controller
                         array_push($audit_obj, $entity_obj);
                     }
                 }
-//                return dd($audit_obj);
             }else {
                 $usr_comp = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
                 $audit= Audits::with('getUser')->whereIn('user_id', $usr_comp)->get();

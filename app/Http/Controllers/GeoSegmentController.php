@@ -120,8 +120,6 @@ class GeoSegmentController extends Controller
         return Redirect::to(url('/user/login'));
     }
 
-
-
     public function add_geosegmentlist(Request $request){
 //        return dd($request->all());
         if(Auth::check()){
@@ -148,7 +146,6 @@ class GeoSegmentController extends Controller
                             $geosegmentlist->save();
                             $audit= new AuditsController();
                             $audit->store('geosegmentlist',$geosegmentlist->id,null,'add');
-
                             for($i=0;$i<5;$i++) {
                                 if(!is_null($request->input('name'.$i)) and $request->input('name'.$i) !="") {
                                     $geosegment = new GeoSegment();
@@ -203,7 +200,15 @@ class GeoSegmentController extends Controller
                     $geosegmentlist_id = $request->input('geosegmentlist_id');
                     $geosegmentlist=GeoSegmentList::find($geosegmentlist_id);
                     if($geosegmentlist){
-                        $geosegmentlist->name=$request->input('name');
+                        $data=array();
+                        $audit= new AuditsController();
+                        if($geosegmentlist->name!=$request->input('name')){
+                            array_push($data,'name');
+                            array_push($data,$geosegmentlist->name);
+                            array_push($data,$request->input('name'));
+                            $geosegmentlist->name=$request->input('name');
+                        }
+                        $audit->store('geosegment',$geosegmentlist_id,$data,'edit');
                         $geosegmentlist->save();
                         return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Geo Segment List Edited Successfully']);
                     }

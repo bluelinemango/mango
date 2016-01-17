@@ -6,7 +6,7 @@ use Illuminate\Session\Store;
 
 class SessionTimeout {
     protected $session;
-    protected $timeout=10;
+    protected $timeout=900;
 
     public function __construct(Store $session){
         $this->session=$session;
@@ -20,13 +20,12 @@ class SessionTimeout {
      */
     public function handle($request, Closure $next)
     {
-        return dd('sss');
         if(!$this->session->has('lastActivityTime'))
             $this->session->put('lastActivityTime',time());
         elseif(time() - $this->session->get('lastActivityTime') > $this->timeout){
             $this->session->forget('lastActivityTime');
             Auth::logout();
-            return redirect('login')->with(['warning' => 'You had not activity in '.$this->timeout/60 .' minutes ago.']);
+            return redirect(url('user/login'))->with(['warning' => 'You had not activity in '.$this->timeout/60 .' minutes ago.']);
         }
         $this->session->put('lastActivityTime',time());
         return $next($request);

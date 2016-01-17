@@ -389,25 +389,37 @@
                                                         <small>{{$audit_obj[$i]->created_at}}</small>
                                                     </div>
                                                     <div class="smart-timeline-content">
-                                                        @if($audit_obj[$i]->audit_type == 'add')
+
                                                         <p>
                                                             <a href="{{url('user/usr'.$audit_obj[$i]->user_id.'/edit')}}">{{$audit_obj[$i]->getUser->name}}</a>
-                                                             Created a new {{$audit_obj[$i]->entity_type}}:
+                                                            @if($audit_obj[$i]->audit_type == 'add')
+                                                                created a new {{$audit_obj[$i]->entity_type}}:
+                                                            @else
+                                                                changed {{$audit_obj[$i]->entity_type}}:
+                                                            @endif
                                                             @if($audit_obj[$i]->entity_type == 'client')
                                                                 <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
                                                             @endif
+                                                            @if($audit_obj[$i]->entity_type == 'advertiser')
+                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
+                                                            @endif
+                                                            @if($audit_obj[$i]->entity_type == 'creative')
+                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/creative/crt'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
+                                                            @endif
+                                                            @if($audit_obj[$i]->entity_type == 'bwlist')
+                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/bwlist/bwl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
+                                                            @endif
+                                                            @if($audit_obj[$i]->entity_type == 'geosegment')
+                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/geosegment/geo'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
+                                                            @endif
+                                                            @if($audit_obj[$i]->entity_type == 'campaign')
+                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/campaign/cmp'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
+                                                            @endif
+                                                            @if($audit_obj[$i]->entity_type == 'targetgroup')
+                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
+                                                            @endif
                                                         </p>
-                                                        @else
-                                                            <p>
-                                                                <a href="{{url('user/usr'.$audit_obj[$i]->user_id.'/edit')}}">{{$audit_obj[$i]->getUser->name}}</a>
-                                                                Change {{$audit_obj[$i]->entity_type}}:
-                                                                @if($audit_obj[$i]->entity_type == 'client')
-                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'advertiser')
-                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
-                                                                @endif
-                                                            </p>
+                                                        @if($audit_obj[$i]->audit_type == 'edit')
                                                             <div class="well well-sm display-inline">
                                                                 <p>Field <strong>{{$audit_obj[$i]->field}}</strong> From <strong>{{$audit_obj[$i]->before_value}}</strong> To <strong>{{$audit_obj[$i]->after_value}}</strong></p>
                                                                 @while(isset($audit_obj[$i+2]->date_change) and $audit_obj[$i]->date_change==$audit_obj[$i+2]->date_change)

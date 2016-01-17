@@ -135,12 +135,6 @@
                                                     </section>
                                                 </div>
                                             </fieldset>
-                                            <fieldset>
-                                                <section>
-                                                    <label class="label">Domain Name </label>
-                                                    <input name="domain_name" class="tagsinput" data-role="tagsinput" style="min-height: 50px;"  placeholder="Enter website then click Enter">
-                                                </section>
-                                            </fieldset>
                                             <footer>
                                                 <button type="submit" class="btn btn-success">
                                                     Submit
@@ -198,7 +192,6 @@
     <script src="{{cdn('js/plugin/jqgrid/jquery.jqGrid.min.js')}}"></script>
     <script src="{{cdn('js/plugin/jqgrid/grid.locale-en.min.js')}}"></script>
 
-    <script src="{{cdn('js/plugin/bootstrap-tags/bootstrap-tagsinput.min.js')}}"></script>
 
     <script type="text/javascript">
         $.ajaxSetup({
