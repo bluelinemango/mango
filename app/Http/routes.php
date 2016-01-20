@@ -140,3 +140,8 @@ Route::get('/reporting',['uses'=>'ReportController@GetView','as'=>'getReportView
 Route::post('/report/changestate',['uses'=>'ReportController@ChangeState','as'=>'changeState']);
 /////////////////////////////////END REPORTING///////////////////////////////////////////
 
+/////////////////////////////////Bid///////////////////////////////////////////
+Route::post('/advertiser_publisher/create',['uses'=>'BidController@saveBid']);
+Route::post('/report/changestate',['uses'=>'ReportController@ChangeState','as'=>'changeState']);
+/////////////////////////////////END Bid///////////////////////////////////////////
+

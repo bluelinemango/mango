@@ -186,24 +186,30 @@ class BWListController extends Controller
 //                    return dd($chkUser);
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->getAdvertiser->GetClientID->user_id) {
                         if(preg_match($pattern,$request->input('domain_name'))) {
+                            $audit= new AuditsController();
                             switch ($request->input('oper')) {
                                 case 'add':
                                     $bwentries = new BWEntries();
                                     $bwentries->domain_name = $request->input('domain_name');
                                     $bwentries->bwlist_id = $request->input('bwlist_id');
                                     $bwentries->save();
+                                    $audit->store('bwlistentrie',$bwentries->id,$request->input('bwlist_id'),'add');
+
                                     $bwentries=BWEntries::where('id',$bwentries->id)->get();
 //                                    return dd($result);
                                     return json_encode($bwentries);
                                 break;
                                 case 'edit':
                                     $bwentries = BWEntries::find($request->input('id'));
-                                    $bwentries->domain_name = $request->input('domain_name');
+                                    $data=array();
+                                    if($bwentries->domain_name != $request->input('domain_name')){
+                                        array_push($data,'domain_name');
+                                        array_push($data,$bwentries->domain_name);
+                                        array_push($data,$request->input('domain_name'));
+                                        $bwentries->name=$request->input('domain_name');
+                                    }
+                                    $audit->store('bwlistentrie',$request->input('id'),$data,'edit');
                                     $bwentries->save();
-                                    return 'ok';
-                                break;
-                                case 'del':
-                                    BWEntries::delete($request->input('id'));
                                     return 'ok';
                                 break;
                             }
@@ -215,8 +221,18 @@ class BWListController extends Controller
                 }
                 switch ($request->input('oper')) {
                     case 'del':
+                        $audit= new AuditsController();
+                        $key= new AuditsController();
+                        $key=$key->generateRandomString();
+
                         $a=explode(',',$request->input('id'));
                         foreach($a as $index){
+                            $b=array();
+                            $bname=BWEntries::with('getParent')->where('id',$index)->get();
+//                            return dd($gname[0]->getParent->id);
+                            array_push($b,$bname[0]->name);
+                            array_push($b,$bname[0]->getParent->id);
+                            $audit->store('bwlistentrie',$request->input('id'),$b,'del',$key);
                             BWEntries::where('id',$index)->delete();
                         }
                         return 'ok';
@@ -245,19 +261,22 @@ class BWListController extends Controller
                             }
                         }
                         if($flg==0) {
+                            $key= new AuditsController();
+                            $key=$key->generateRandomString();
+                            $audit= new AuditsController();
                             $bwlist = new BWList();
                             $bwlist->name = $request->input('name');
                             $bwlist->list_type = $request->input('list_type');
                             $bwlist->advertiser_id = $request->input('advertiser_id');
                             $bwlist->save();
-                            $audit= new AuditsController();
-                            $audit->store('bwlist',$bwlist->id,null,'add');
+                            $audit->store('bwlist',$bwlist->id,null,'add',$key);
                             $entries = explode(',', $request->input('domain_name'));
                             foreach ($entries as $index) {
                                 $bwlistentries = new BWEntries();
                                 $bwlistentries->domain_name = $index;
                                 $bwlistentries->bwlist_id = $bwlist->id;
                                 $bwlistentries->save();
+                                $audit->store('bwlistentrie',$bwlistentries->id,null,'add',$key);
                             }
                             return Redirect::to(url('/client/cl' . $chkUser->GetClientID->id . '/advertiser/adv' . $request->input('advertiser_id') . '/bwlist/bwl' . $bwlist->id . '/edit'))->withErrors(['success' => true, 'msg' => "B/W List added successfully"]);
                         }

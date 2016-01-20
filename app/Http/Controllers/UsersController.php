@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Models\Advertiser;
 use App\Models\Audits;
+use App\Models\BWEntries;
 use App\Models\BWList;
 use App\Models\Campaign;
 use App\Models\Client;
 use App\Models\Company;
 use App\Models\Creative;
+use App\Models\GeoSegment;
 use App\Models\GeoSegmentList;
 use App\Models\Permission;
 use App\Models\Role;
@@ -327,6 +329,25 @@ class UsersController extends Controller
                                     $q->with('GetClientID');
                                 }])
                                     ->where('id', $index->entity_id)->get();
+                            }
+                            break;
+                        case 'geosegmententrie':
+                            if(in_array('VIEW_GEOSEGMENTLIST',$this->permission)) {
+                                if($index->audit_type=='del') {
+                                    $entity_obj = GeoSegmentList::where('id', $index->after_value)->get();
+                                }else{
+                                    $entity_obj = GeoSegmentList::where('id', $index->after_value)->get();
+                                }
+                            }
+                            break;
+                        case 'bwlistentrie':
+                            if(in_array('VIEW_BWLIST',$this->permission)) {
+                                if($index->audit_type=='del') {
+                                    $entity_obj = BWList::where('id', $index->after_value)->get();
+
+                                }else {
+                                    $entity_obj = BWList::where('id', $index->after_value)->get();
+                                }
                             }
                             break;
                         case 'bwlist':

@@ -394,8 +394,10 @@
                                                             <a href="{{url('user/usr'.$audit_obj[$i]->user_id.'/edit')}}">{{$audit_obj[$i]->getUser->name}}</a>
                                                             @if($audit_obj[$i]->audit_type == 'add')
                                                                 created a new {{$audit_obj[$i]->entity_type}}:
-                                                            @else
+                                                            @elseif($audit_obj[$i]->audit_type == 'edit')
                                                                 changed {{$audit_obj[$i]->entity_type}}:
+                                                            @elseif($audit_obj[$i]->audit_type == 'del')
+                                                                deleted {{$audit_obj[$i]->entity_type}}:
                                                             @endif
                                                             @if($audit_obj[$i]->entity_type == 'client')
                                                                 <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
@@ -418,14 +420,90 @@
                                                             @if($audit_obj[$i]->entity_type == 'targetgroup')
                                                                 <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
                                                             @endif
+                                                            @if($audit_obj[$i]->entity_type == 'geosegmententrie')
+                                                                @if($audit_obj[$i]->audit_type == 'del')
+                                                                    <strong>{{$audit_obj[$i]->before_vale}}</strong>
+                                                                    from <strong>GSL{{$audit_obj[$i+1][0]->id}}</strong>
+                                                                @else
+                                                                <strong>GS{{$audit_obj[$i]->entity_id}} </strong>
+                                                                for <strong>GSL{{$audit_obj[$i+1][0]->id}}</strong>
+                                                                @endif
+                                                            @endif
+                                                            @if($audit_obj[$i]->entity_type == 'bwlistentrie')
+                                                                @if($audit_obj[$i]->audit_type == 'del')
+                                                                    <strong>{{$audit_obj[$i]->before_vale}}</strong>
+                                                                    from <strong>BWL{{$audit_obj[$i+1][0]->id}}</strong>
+                                                                @else
+                                                                <strong>BWE{{$audit_obj[$i]->entity_id}} </strong>
+                                                                for <strong>BWL{{$audit_obj[$i+1][0]->id}}</strong>
+                                                                @endif
+                                                            @endif
                                                         </p>
                                                         @if($audit_obj[$i]->audit_type == 'edit')
                                                             <div class="well well-sm display-inline">
                                                                 <p>Field <strong>{{$audit_obj[$i]->field}}</strong> From <strong>{{$audit_obj[$i]->before_value}}</strong> To <strong>{{$audit_obj[$i]->after_value}}</strong></p>
-                                                                @while(isset($audit_obj[$i+2]->date_change) and $audit_obj[$i]->date_change==$audit_obj[$i+2]->date_change)
+                                                                @while(isset($audit_obj[$i+2]->change_key) and $audit_obj[$i]->change_key==$audit_obj[$i+2]->change_key)
                                                                     <p>Field <strong>{{$audit_obj[$i+2]->field}}</strong> From <strong>{{$audit_obj[$i+2]->before_value}}</strong> To <strong>{{$audit_obj[$i+2]->after_value}}</strong>    </p>
                                                                     <?php $i=$i+2; ?>
                                                                 @endwhile
+                                                            </div>
+
+                                                        @endif
+                                                        @if($audit_obj[$i]->audit_type == 'add' and isset($audit_obj[$i+2]->change_key) and $audit_obj[$i]->change_key==$audit_obj[$i+2]->change_key)
+                                                            <div class="well well-sm display-inline">
+                                                                @if($audit_obj[$i]->entity_type == 'geosegment')
+                                                                    Entrie(s):
+                                                                @endif
+                                                                @if($audit_obj[$i]->entity_type == 'bwlist')
+                                                                    Domain Name(s):
+                                                                @endif
+                                                                <?php $flg=0; $count=0; ?>
+                                                                @while(isset($audit_obj[$i+2]->change_key) and $audit_obj[$i]->change_key==$audit_obj[$i+2]->change_key)
+                                                                        @if($flg>=2)
+                                                                             <?php $count++ ?>
+                                                                        @endif
+                                                                    <p>
+                                                                        @if($audit_obj[$i+2]->entity_type == 'geosegmententrie' and $flg < 2)
+                                                                    name: <strong>{{$audit_obj[$i+3][0]->name}}</strong>
+                                                                        @endif
+                                                                        @if($audit_obj[$i+2]->entity_type == 'bwlistentrie' and $flg < 2)
+                                                                    name: <strong>{{$audit_obj[$i+3][0]->domain_name}}</strong>
+                                                                        @endif
+                                                                    </p>
+                                                                    <?php $i=$i+2; $flg++; ?>
+                                                                @endwhile
+                                                                <p> and other <strong>{{$count}}</strong> more...</p>
+                                                            </div>
+
+                                                        @endif
+                                                        @if($audit_obj[$i]->audit_type == 'del' and isset($audit_obj[$i+2]->change_key) and $audit_obj[$i]->change_key==$audit_obj[$i+2]->change_key)
+                                                            <div class="well well-sm display-inline">
+                                                                @if($audit_obj[$i]->entity_type == 'geosegment')
+                                                                    Entrie(s):
+                                                                @endif
+                                                                @if($audit_obj[$i]->entity_type == 'bwlist')
+                                                                    Domain(s):
+                                                                @endif
+                                                                    name: <strong>{{$audit_obj[$i]->before_value}}</strong>
+                                                                <?php $flg=0; $count=0; ?>
+                                                                @while(isset($audit_obj[$i+2]->change_key) and $audit_obj[$i]->change_key==$audit_obj[$i+2]->change_key)
+                                                                        @if($flg>=2)
+                                                                             <?php $count++ ?>
+                                                                        @endif
+                                                                    <p>
+                                                                        @if($audit_obj[$i+2]->entity_type == 'geosegmententrie' and $flg < 2)
+                                                                    name: <strong>{{$audit_obj[$i+2]->before_value}}</strong>
+                                                                        @endif
+                                                                        @if($audit_obj[$i+2]->entity_type == 'bwlistentrie' and $flg < 2)
+                                                                    name: <strong>{{$audit_obj[$i+2]->before_value}}</strong>
+                                                                        @endif
+                                                                    </p>
+                                                                    <?php $i=$i+2; $flg++; ?>
+                                                                @endwhile
+                                                                <p>
+                                                                    @if($flg>2)
+                                                                        and other <strong>{{$count}}</strong> more...</p>
+                                                                    @endif
                                                             </div>
 
                                                         @endif

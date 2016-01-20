@@ -6,7 +6,7 @@ use Illuminate\Session\Store;
 
 class SessionTimeout {
     protected $session;
-    protected $timeout=900;
+    protected $timeout=90000;
 
     public function __construct(Store $session){
         $this->session=$session;

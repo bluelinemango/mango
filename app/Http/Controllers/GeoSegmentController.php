@@ -140,12 +140,14 @@ class GeoSegmentController extends Controller
                             }
                         }
                         if($flg==0) {
+                            $key= new AuditsController();
+                            $key=$key->generateRandomString();
+                            $audit= new AuditsController();
                             $geosegmentlist = new GeoSegmentList();
                             $geosegmentlist->name = $request->input('name');
                             $geosegmentlist->advertiser_id = $request->input('advertiser_id');
                             $geosegmentlist->save();
-                            $audit= new AuditsController();
-                            $audit->store('geosegmentlist',$geosegmentlist->id,null,'add');
+                            $audit->store('geosegment',$geosegmentlist->id,null,'add',$key);
                             for($i=0;$i<5;$i++) {
                                 if(!is_null($request->input('name'.$i)) and $request->input('name'.$i) !="") {
                                     $geosegment = new GeoSegment();
@@ -155,9 +157,9 @@ class GeoSegmentController extends Controller
                                     $geosegment->segment_radius = $request->input('segment_radius' . $i);
                                     $geosegment->geosegmentlist_id = $geosegmentlist->id;
                                     $geosegment->save();
+                                    $audit->store('geosegmententrie',$geosegment->id,null,'add',$key);
                                 }
                             }
-
                             return Redirect::to(url('/client/cl' . $chkUser->GetClientID->id . '/advertiser/adv' . $request->input('advertiser_id') . '/geosegment/gsm' . $geosegmentlist->id . '/edit'))->withErrors(['success' => true, 'msg' => "Geo Segmnet List added successfully"]);
                         }
                         return Redirect::back()->withErrors(['success'=>false,'msg'=>'this name already existed !!!'])->withInput();
@@ -229,7 +231,9 @@ class GeoSegmentController extends Controller
                     $chkUser=GeoSegmentList::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->find($request->input('geosegment_id'));
 //                    return dd($chkUser);
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->getAdvertiser->GetClientID->user_id) {
+                        $audit= new AuditsController();
                         switch ($request->input('oper')) {
+
                             case 'add':
                                 $geosegment = new GeoSegment();
                                 $geosegment->name = $request->input('name');
@@ -238,21 +242,40 @@ class GeoSegmentController extends Controller
                                 $geosegment->segment_radius = $request->input('segment_radius');
                                 $geosegment->geosegmentlist_id = $request->input('geosegment_id');
                                 $geosegment->save();
+                                $audit->store('geosegmententrie',$geosegment->id,$request->input('geosegment_id'),'add');
                                 $geosegment=GeoSegment::where('id',$geosegment->id)->get();
 //                                    return dd($result);
                                 return json_encode($geosegment);
                                 break;
                             case 'edit':
                                 $geosegmententries = GeoSegment::find($request->input('id'));
-                                $geosegmententries->name = $request->input('name');
-                                $geosegmententries->lat = $request->input('lat');
-                                $geosegmententries->lon = $request->input('lon');
-                                $geosegmententries->segment_radius = $request->input('segment_radius');
+                                $data=array();
+                                if($geosegmententries->name!=$request->input('name')){
+                                    array_push($data,'name');
+                                    array_push($data,$geosegmententries->name);
+                                    array_push($data,$request->input('name'));
+                                    $geosegmententries->name=$request->input('name');
+                                }
+                                if($geosegmententries->lat != $request->input('lat')){
+                                    array_push($data,'lat');
+                                    array_push($data,$geosegmententries->lat);
+                                    array_push($data,$request->input('lat'));
+                                    $geosegmententries->lat = $request->input('lat');
+                                }
+                                if($geosegmententries->lon != $request->input('lon')){
+                                    array_push($data,'lon');
+                                    array_push($data,$geosegmententries->lon);
+                                    array_push($data,$request->input('lon'));
+                                    $geosegmententries->lon = $request->input('lon');
+                                }
+                                if($geosegmententries->segment_radius != $request->input('segment_radius')){
+                                    array_push($data,'segment_radius');
+                                    array_push($data,$geosegmententries->segment_radius);
+                                    array_push($data,$request->input('segment_radius'));
+                                    $geosegmententries->segment_radius = $request->input('segment_radius');
+                                }
                                 $geosegmententries->save();
-                                return 'ok';
-                                break;
-                            case 'del':
-                                GeoSegment::delete($request->input('id'));
+                                $audit->store('geosegmententrie',$request->input('id'),$data,'edit');
                                 return 'ok';
                                 break;
                         }
@@ -261,8 +284,17 @@ class GeoSegmentController extends Controller
                 }
                 switch ($request->input('oper')) {
                     case 'del':
+                        $audit= new AuditsController();
+                        $key= new AuditsController();
+                        $key=$key->generateRandomString();
                         $a=explode(',',$request->input('id'));
                         foreach($a as $index){
+                            $b=array();
+                            $gname=GeoSegment::with('getParent')->where('id',$index)->get();
+//                            return dd($gname[0]->getParent->id);
+                            array_push($b,$gname[0]->name);
+                            array_push($b,$gname[0]->getParent->id);
+                            $audit->store('geosegmententrie',$request->input('id'),$b,'del',$key);
                             GeoSegment::where('id',$index)->delete();
                         }
                         return 'ok';

@@ -78,7 +78,7 @@ class ClientController extends Controller
             if(Auth::check()){
                 if(in_array('ADD_EDIT_CLIENT',$this->permission)) {
                     $client_obj = Client::with('getAdvertiser')->find($id);
-                    return view('client.edit')->with('client_obj',$client_obj)->with('permission', Permission_Check::getPermission());
+                    return view('client.edit')->with('client_obj',$client_obj);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
@@ -157,9 +157,9 @@ class ClientController extends Controller
 
 
     public function index()
-    {
-        //
-    }
+{
+    //
+}
 
     /**
      * Show the form for creating a new resource.

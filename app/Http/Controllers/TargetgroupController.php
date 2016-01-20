@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Advertiser;
+use App\Models\Advertiser_Publisher;
 use App\Models\Campaign;
+use App\Models\Geolocation;
 use App\Models\Iab_Category;
 use App\Models\Iab_Sub_Category;
 use App\Models\Targetgroup;
+use App\Models\Targetgroup_Bid_Advpublisher;
+use App\Models\Targetgroup_Bidhour_Map;
 use App\Models\Targetgroup_Bwlist_Map;
 use App\Models\Targetgroup_Creative_Map;
+use App\Models\Targetgroup_Geolocation_Map;
 use App\Models\Targetgroup_Geosegmentlist_Map;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -56,8 +61,12 @@ class TargetgroupController extends Controller
                     $campaign_obj=Campaign::with(['getAdvertiser'=>function($q){
                         $q->with('Creative')->with('GeoSegment')->with('BWList');
                     }])->find($cmpid);
+                    $geolocation_obj=Geolocation::get();
                     $iab_category_obj=Iab_Category::get();
-                    return view('targetgroup.add')->with('campaign_obj',$campaign_obj)->with('iab_category_obj',$iab_category_obj);
+                    return view('targetgroup.add')
+                        ->with('campaign_obj',$campaign_obj)
+                        ->with('geolocation_obj',$geolocation_obj)
+                        ->with('iab_category_obj',$iab_category_obj);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
             }
@@ -68,6 +77,7 @@ class TargetgroupController extends Controller
     }
 
     public function add_targetgroup(Request $request){
+//        return dd($request->all());
         if(Auth::check()){
             if (in_array('ADD_EDIT_TARGETGROUP', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
@@ -75,6 +85,27 @@ class TargetgroupController extends Controller
                     $checkAdv=Campaign::find($request->input('campaign_id'));
                     $chekUser=Advertiser::with('GetClientID')->find($checkAdv->advertiser_id);
                     if(count($chekUser) > 0 and Auth::user()->id == $chekUser->GetClientID->user_id) {
+                        $bid_hour='';
+                        for($i=0;$i<7;$i++){
+                            for($j=0;$j<25;$j++){
+                                if($j<13) {
+                                    if (!is_null($request->input($i . '-' . $j . '-am'))) {
+                                        $bid_hour1[$j] = "1";
+                                    } else {
+                                        $bid_hour1[$j] = "0";
+                                    }
+                                }else{
+                                    if(!is_null($request->input($i.'-'.($j-13).'-pm'))){
+                                        $bid_hour1[$j]="1";
+                                    }else {
+                                        $bid_hour1[$j]="0";
+                                    }
+
+                                }
+                            }
+                            $bid_hour[$i+1]=$bid_hour1;
+                        }
+//                        return dd(json_encode($bid_hour));
                         $start_date = \DateTime::createFromFormat('m/d/Y', $request->input('start_date'));
                         $end_date = \DateTime::createFromFormat('m/d/Y', $request->input('end_date'));
                         $targetgroup = new Targetgroup();
@@ -93,6 +124,25 @@ class TargetgroupController extends Controller
                         $targetgroup->start_date = $start_date;
                         $targetgroup->end_date = $end_date;
                         $targetgroup->save();
+
+                        $publish_bid = $request->all();
+                        foreach($publish_bid as $key => $value){
+                            if (strpos($key,'-bid') !== false) {
+                                $chkPublish=Advertiser_Publisher::find(substr($key,0,-4));
+                                if(!is_null($chkPublish)) {
+                                    $p_bid = new Targetgroup_Bid_Advpublisher();
+                                    $p_bid->bid_price = $value;
+                                    $p_bid->advertiser_publisher_id = substr($key, 0, -4);
+                                    $p_bid->targetgroup_id = $targetgroup->id;
+                                    $p_bid->save();
+                                }
+                            }
+                        }
+
+                        $target_bid_hour=new Targetgroup_Bidhour_Map();
+                        $target_bid_hour->hours= json_encode($bid_hour);
+                        $target_bid_hour->targetgroup_id= $targetgroup->id;
+                        $target_bid_hour->save();
                         $audit= new AuditsController();
                         $audit->store('targetgroup',$targetgroup->id,null,'add');
                         if(count($request->input('geosegment'))>0){
@@ -105,7 +155,6 @@ class TargetgroupController extends Controller
                                     $geosegment_assign->save();
                                     array_push($chk,$index);
                                 }
-
                             }
                         }
                         if(count($request->input('creative'))>0){
@@ -118,7 +167,18 @@ class TargetgroupController extends Controller
                                     $creative_assign->save();
                                     array_push($chk,$index);
                                 }
-
+                            }
+                        }
+                        if(count($request->input('geolocation'))>0){
+                            $chk = array();
+                            foreach($request->input('geolocation') as $index) {
+                                if(!in_array($index,$chk)) {
+                                    $geolocation_assign = new Targetgroup_Geolocation_Map();
+                                    $geolocation_assign->targetgroup_id = $targetgroup->id;
+                                    $geolocation_assign->geolocation_id = $index;
+                                    $geolocation_assign->save();
+                                    array_push($chk,$index);
+                                }
                             }
                         }
                         if(count($request->input('blacklist'))>0 and count($request->input('whitelist'))==0) {
