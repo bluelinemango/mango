@@ -79,6 +79,20 @@ Route::get('/creative/delete/{id?}','CreativeController@DeleteCreative');
 Route::post('/creative/add/create', ['uses'=>'CreativeController@add_creative','as'=>'creative_create']);
 Route::put('/creative/edit/update', ['uses'=>'CreativeController@edit_creative','as'=>'creative_update']);
 /////////////////////////END CREATIVE///////////////////////////////////////////
+/////////////////////////OFFER///////////////////////////////////////////
+Route::get('/offer','OfferController@GetView');
+Route::get('/client/cl{clid?}/advertiser/adv{advid?}/offer/add','OfferController@OfferAddView');
+Route::get('/client/cl{clid?}/advertiser/adv{advid?}/offer/ofr{ofrid?}/edit','OfferController@OfferEditView');
+Route::post('/offer/add/create', ['uses'=>'OfferController@add_offer','as'=>'offer_create']);
+Route::put('/offer/edit/update', ['uses'=>'OfferController@edit_offer','as'=>'offer_update']);
+/////////////////////////END OFFER///////////////////////////////////////////
+/////////////////////////PIXEL///////////////////////////////////////////
+Route::get('/pixel','PixelController@GetView');
+Route::get('/client/cl{clid?}/advertiser/adv{advid?}/pixel/add','PixelController@PixelAddView');
+Route::get('/client/cl{clid?}/advertiser/adv{advid?}/pixel/pxl{pxlid?}/edit','PixelController@PixelEditView');
+Route::post('/pixel/add/create', ['uses'=>'PixelController@add_pixel','as'=>'pixel_create']);
+Route::put('/pixel/edit/update', ['uses'=>'PixelController@edit_pixel','as'=>'pixel_update']);
+/////////////////////////END PIXEL///////////////////////////////////////////
 
 /////////////////////////GeoSegment///////////////////////////////////////////
 Route::get('/geosegment','GeoSegmentController@GetView');
@@ -127,6 +141,7 @@ Route::group(['prefix' => 'ajax'], function()
         Route::post('/advertiser', 'AdvertiserController@jqgrid');
         Route::post('/campaign', 'CampaignController@jqgrid');
         Route::post('/creative', 'CreativeController@jqgrid');
+        Route::post('/offer', 'OfferController@jqgrid');
         Route::post('/targetgroup', 'TargetgroupController@jqgrid');
         Route::post('/model', 'ModelController@jqgrid');
         Route::post('/bwlist', 'BWListController@jqgridList');

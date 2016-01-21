@@ -25,8 +25,6 @@ use Illuminate\Support\Facades\Redirect;
 
 class TargetgroupController extends Controller
 {
-
-
     public function GetView(){
         if(Auth::check()){
             if (in_array('VIEW_TARGETGROUP', $this->permission)) {
@@ -108,6 +106,8 @@ class TargetgroupController extends Controller
 //                        return dd(json_encode($bid_hour));
                         $start_date = \DateTime::createFromFormat('m/d/Y', $request->input('start_date'));
                         $end_date = \DateTime::createFromFormat('m/d/Y', $request->input('end_date'));
+                        $key_audit= new AuditsController();
+                        $key_audit=$key_audit->generateRandomString();
                         $targetgroup = new Targetgroup();
                         $targetgroup->name = $request->input('name');
                         $targetgroup->max_impression = $request->input('max_impression');
@@ -144,7 +144,7 @@ class TargetgroupController extends Controller
                         $target_bid_hour->targetgroup_id= $targetgroup->id;
                         $target_bid_hour->save();
                         $audit= new AuditsController();
-                        $audit->store('targetgroup',$targetgroup->id,null,'add');
+                        $audit->store('targetgroup',$targetgroup->id,null,'add',$key_audit);
                         if(count($request->input('geosegment'))>0){
                             $chk = array();
                             foreach($request->input('geosegment') as $index) {
@@ -153,6 +153,7 @@ class TargetgroupController extends Controller
                                     $geosegment_assign->targetgroup_id = $targetgroup->id;
                                     $geosegment_assign->geosegmentlist_id = $index;
                                     $geosegment_assign->save();
+                                    $audit->store('targetgroup_geosegment',$geosegment_assign->id,$targetgroup->id,'add',$key_audit);
                                     array_push($chk,$index);
                                 }
                             }
@@ -165,6 +166,7 @@ class TargetgroupController extends Controller
                                     $creative_assign->targetgroup_id = $targetgroup->id;
                                     $creative_assign->creative_id = $index;
                                     $creative_assign->save();
+                                    $audit->store('targetgroup_creative',$creative_assign->id,$targetgroup->id,'add',$key_audit);
                                     array_push($chk,$index);
                                 }
                             }
@@ -177,6 +179,7 @@ class TargetgroupController extends Controller
                                     $geolocation_assign->targetgroup_id = $targetgroup->id;
                                     $geolocation_assign->geolocation_id = $index;
                                     $geolocation_assign->save();
+                                    $audit->store('targetgroup_geolocation',$geolocation_assign->id,$targetgroup->id,'add',$key_audit);
                                     array_push($chk,$index);
                                 }
                             }
@@ -189,6 +192,8 @@ class TargetgroupController extends Controller
                                     $blacklist_assign->targetgroup_id = $targetgroup->id;
                                     $blacklist_assign->bwlist_id = $index;
                                     $blacklist_assign->save();
+                                    $audit->store('targetgroup_bwlist',$blacklist_assign->id,$targetgroup->id,'add',$key_audit);
+
                                     array_push($chk, $index);
                                 }
                             }
@@ -200,6 +205,8 @@ class TargetgroupController extends Controller
                                     $whitelist_assign->targetgroup_id = $targetgroup->id;
                                     $whitelist_assign->bwlist_id = $index;
                                     $whitelist_assign->save();
+                                    $audit->store('targetgroup_bwlist',$whitelist_assign->id,$targetgroup->id,'add',$key_audit);
+
                                     array_push($chk, $index);
                                 }
                             }

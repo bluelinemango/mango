@@ -7,6 +7,9 @@
             font-size: 16px;
             font-weight: bold;
         }
+        .well{
+            padding: 15px !important;
+        }
     </style>
 @endsection
 @section('content')
@@ -59,44 +62,16 @@
                     <article class="col-sm-12 col-md-12 col-lg-12">
 
                         <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false"
-                             data-widget-deletebutton="false">
-                            <!-- widget options:
-                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                            data-widget-colorbutton="false"
-                            data-widget-editbutton="false"
-                            data-widget-togglebutton="false"
-                            data-widget-deletebutton="false"
-                            data-widget-fullscreenbutton="false"
-                            data-widget-custombutton="false"
-                            data-widget-collapsed="true"
-                            data-widget-sortable="false"
-
-                            -->
-                            <header>
-                                <span class="widget-icon"> <i class="fa fa-check"></i> </span>
-
-                                <h2>Add Target group </h2>
-
-                            </header>
-
+                        <div class="well" >
                             <!-- widget div-->
                             <div>
 
-                                <!-- widget edit box -->
-                                <div class="jarviswidget-editbox">
-                                    <!-- This area used as dropdown edit box -->
-
-                                </div>
-                                <!-- end widget edit box -->
-
                                 <!-- widget content -->
-                                <div class="widget-body">
+                                <div class="">
 
                                     <div class="row">
                                         <form id="wizard-1" novalidate="novalidate"
-                                              action="{{URL::route('targetgroup_create')}}" method="post">
+                                              action="{{URL::route('targetgroup_create')}}" method="post" class="smart-form" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="hidden" name="campaign_id" value="{{$campaign_obj->id}}">
 
@@ -119,14 +94,9 @@
                                                             </a>
                                                         </li>
                                                         <li data-target="#step4">
-                                                            <a href="#tab4" data-toggle="tab"> <span
-                                                                        class="step">4</span> <span class="title">Bid Setting</span>
-                                                            </a>
-                                                        </li>
-                                                        <li data-target="#step5">
-                                                            <a href="#tab5" data-toggle="tab"
+                                                            <a href="#tab4" data-toggle="tab"
                                                                onclick="setReview()"> <span
-                                                                        class="step">5</span> <span class="title">Review And Submition</span>
+                                                                        class="step">4</span> <span class="title">Review And Submition</span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -142,51 +112,14 @@
                                                         <!-- NEW WIDGET START -->
                                                         <article class="col-sm-12 col-md-12 col-lg-12">
 
-                                                            <!-- Widget ID (each widget will need unique ID)-->
-                                                            <div class="jarviswidget well" id="wid-id-3"
-                                                                 data-widget-colorbutton="false"
-                                                                 data-widget-editbutton="false"
-                                                                 data-widget-togglebutton="false"
-                                                                 data-widget-deletebutton="false"
-                                                                 data-widget-fullscreenbutton="false"
-                                                                 data-widget-custombutton="false"
-                                                                 data-widget-sortable="false">
-                                                                <!-- widget options:
-                                                                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                                                data-widget-colorbutton="false"
-                                                                data-widget-editbutton="false"
-                                                                data-widget-togglebutton="false"
-                                                                data-widget-deletebutton="false"
-                                                                data-widget-fullscreenbutton="false"
-                                                                data-widget-custombutton="false"
-                                                                data-widget-collapsed="true"
-                                                                data-widget-sortable="false"
-
-                                                                -->
-                                                                <header>
-                                                                    <span class="widget-icon"> <i
-                                                                                class="fa fa-comments"></i> </span>
-
-                                                                    <h2>Default Tabs with border </h2>
-
-                                                                </header>
-
+                                                            <div class="well" >
                                                                 <!-- widget div-->
                                                                 <div>
-
-                                                                    <!-- widget edit box -->
-                                                                    <div class="jarviswidget-editbox">
-                                                                        <!-- This area used as dropdown edit box -->
-
-                                                                    </div>
-                                                                    <!-- end widget edit box -->
-
                                                                     <!-- widget content -->
-                                                                    <div class="widget-body">
+                                                                    <div class="">
 
                                                                         <div id="myTabContent1"
-                                                                             class="tab-content padding-10">
+                                                                             class="tab-content">
                                                                             <div class="tab-pane fade in active"
                                                                                  id="s1">
 
@@ -195,191 +128,166 @@
                                                                                 </p>
                                                                                 <hr class="simple">
                                                                                 <div class="row">
-                                                                                    <div class="col-sm-3">
+                                                                                    <section class="col col-2">
+                                                                                        <label class="label" for="">Name(required)</label>
                                                                                         <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-md"
-                                                                                                       placeholder="Name Of Target Group"
-                                                                                                       type="text"
-                                                                                                       name="name"
-                                                                                                       id="name">
+                                                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
 
-                                                                                            </div>
+                                                                                            <input type="text" name="name" placeholder="Name" >
+                                                                                        </label>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-3">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                    </section>
+                                                                                    <section class="col col-2">
+                                                                                        <label class="label" for="">IAB Category</label>
+
+                                                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                                                            <div class="form-group">
                                                                                                 <select name="iab_category"
-                                                                                                        class="form-control "
-                                                                                                        id=""
-                                                                                                        onchange="ShowSubCategory(this.value)">
-                                                                                                    <option value="0"
-                                                                                                            disabled>
-                                                                                                        Select one ...
-                                                                                                    </option>
-                                                                                                    @foreach($iab_category_obj as $index)
-                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
-                                                                                                    @endforeach
-                                                                                                </select>
-
+                                                                                                    class="form-control "
+                                                                                                    id=""
+                                                                                                    onchange="ShowSubCategory(this.value)">
+                                                                                                <option value="0"
+                                                                                                        disabled>
+                                                                                                    Select one ...
+                                                                                                </option>
+                                                                                                @foreach($iab_category_obj as $index)
+                                                                                                    <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                @endforeach
+                                                                                            </select>
                                                                                             </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    {{--[7:28:13 PM] Mahmoud Taabodi: entertainment--}}
-                                                                                    {{--[7:28:15 PM] Mahmoud Taabodi: financial--}}
-                                                                                    {{--[7:28:19 PM] Mahmoud Taabodi: health--}}
-                                                                                    {{--[7:28:38 PM] Mahmoud Taabodi: ke entertainment in sub category haaro dare :   movies, theater, sport--}}
-                                                                                    {{--[7:28:59 PM] Mahmoud Taabodi: financial  inaaro dare :  banking, insurance, investment--}}
-                                                                                    {{--[7:29:13 PM] Mahmoud Taabodi: health :  women health, family health, insurance                                                                                    --}}
+                                                                                        </label>
+                                                                                    </section>
 
-                                                                                    <div class="col-sm-3">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <select name="iab_sub_category"
-                                                                                                        class="form-control "
-                                                                                                        id="iab_sub_category">
-                                                                                                    <option value="0"
-                                                                                                            disabled>
-                                                                                                        Select Iab
-                                                                                                        Category First
-                                                                                                        ...
-                                                                                                    </option>
-                                                                                                </select>
+                                                                                    <section class="col col-2">
+                                                                                        <label class="label" for="">IAB Category</label>
 
+                                                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                                                            <div class="form-group">
+                                                                                            <select name="iab_sub_category"
+                                                                                                    class="form-control "
+                                                                                                    id="iab_sub_category">
+                                                                                                <option value="0"
+                                                                                                        disabled>
+                                                                                                    Select Iab
+                                                                                                    Category First
+                                                                                                    ...
+                                                                                                </option>
+                                                                                            </select>
                                                                                             </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-3">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-md"
-                                                                                                       type="text"
-                                                                                                       placeholder="Domain Name"
-                                                                                                       name="advertiser_domain_name"
-                                                                                                       id="advertiser_domain_name"
-                                                                                                        >
+                                                                                        </label>
+                                                                                    </section>
+                                                                                    <section class="col col-3">
+                                                                                        <label class="label" for="">Domain Name</label>
 
+                                                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                                                            <div class="form-group">
+                                                                                                <input type="text" name="advertiser_domain_name" placeholder="Domain Name" id="advertiser_domain_name" >
                                                                                             </div>
-                                                                                        </div>
-                                                                                    </div>
+                                                                                        </label>
+                                                                                    </section>
+
                                                                                 </div>
                                                                                 <p>
                                                                                     Budget Information
                                                                                 </p>
                                                                                 <hr class="simple">
                                                                                 <div class="row">
-                                                                                    <div class="col-sm-3">
+                                                                                    <section class="col col-2">
+                                                                                        <label class="label" for="">Max Impression</label>
                                                                                         <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-eye fa-lg fa-fw"></i></span>
+                                                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Max Impressions"
                                                                                                        type="text"
                                                                                                        name="max_impression"
                                                                                                        id="max_impression">
-
-                                                                                            </div>
+                                                                                            </label>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-3">
+                                                                                    </section>
+                                                                                    <section class="col col-2">
+                                                                                        <label class="label" for="">Daily Max Imps</label>
                                                                                         <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-eye fa-lg fa-fw"></i></span>
+                                                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Daily Max Imps"
                                                                                                        type="text"
                                                                                                        name="daily_max_impression"
                                                                                                        id="daily_max_impression">
-
-                                                                                            </div>
+                                                                                            </label>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-3">
+                                                                                    </section>
+                                                                                    <section class="col col-2">
+                                                                                        <label class="label" for="">Max Budget</label>
                                                                                         <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-dollar fa-lg fa-fw"></i></span>
+                                                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Max Budget"
                                                                                                        type="text"
                                                                                                        name="max_budget"
                                                                                                        id="max_budget">
-
-                                                                                            </div>
+                                                                                            </label>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-3">
+                                                                                    </section>
+                                                                                    <section class="col col-2">
+                                                                                        <label class="label" for="">Daily Max Budget</label>
                                                                                         <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-dollar fa-lg fa-fw"></i></span>
+                                                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Daily Max Budget"
                                                                                                        type="text"
                                                                                                        name="daily_max_budget"
                                                                                                        id="daily_max_budget">
-
-                                                                                            </div>
+                                                                                            </label>
                                                                                         </div>
-                                                                                    </div>
+                                                                                    </section>
                                                                                 </div>
                                                                                 <div class="row">
-                                                                                    <div class="col-sm-3">
+                                                                                    <section class="col col-2">
+                                                                                        <label class="label" for="">Frequency In Sec </label>
                                                                                         <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-eye fa-lg fa-fw"></i></span>
+                                                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Frequency per sec"
                                                                                                        type="text"
                                                                                                        name="frequency_in_sec"
                                                                                                        id="frequency_in_sec">
-
-                                                                                            </div>
+                                                                                            </label>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-3">
+                                                                                    </section>
+                                                                                    <section class="col col-2">
+                                                                                        <label class="label" for="">CPM</label>
                                                                                         <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-eye fa-lg fa-fw"></i></span>
+                                                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="MAX CPM"
                                                                                                        type="text"
                                                                                                        name="cpm"
                                                                                                        id="cpm">
-
-                                                                                            </div>
+                                                                                            </label>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-3">
+                                                                                    </section>
+                                                                                    <section class="col col-2">
+                                                                                        <label class="label" for="">Pacing Plan</label>
                                                                                         <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-eye fa-lg fa-fw"></i></span>
+                                                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Pacing Plan"
                                                                                                        type="text"
                                                                                                        name="pacing_plan"
                                                                                                        id="pacing_plan">
-
-                                                                                            </div>
+                                                                                            </label>
                                                                                         </div>
-                                                                                    </div>
+                                                                                    </section>
                                                                                 </div>
                                                                                 <p>
-                                                                                    Time Information
+                                                                                    Date Rang
                                                                                 </p>
                                                                                 <hr class="simple">
 
@@ -472,12 +380,12 @@
                                                                         </ul>
 
                                                                         <div id="myTabContent2"
-                                                                             class="tab-content padding-10">
+                                                                             class="tab-content">
                                                                             <div class="tab-pane fade in active"
                                                                                  id="v1">
 
                                                                                 <div class="row">
-                                                                                    <div class="col-sm-6">
+                                                                                    <div class="col-md-6 col-md-offset-3">
                                                                                         <!-- widget content -->
                                                                                         <div class="widget-body assign_geolocation">
 
@@ -501,7 +409,7 @@
                                                                                  id="v2">
 
                                                                                 <div class="row">
-                                                                                    <div class="col-sm-6">
+                                                                                    <div class="col-md-6 col-md-offset-3">
                                                                                         <!-- widget content -->
                                                                                         <div class="widget-body assign_creative">
 
@@ -525,7 +433,7 @@
                                                                                  id="v3">
 
                                                                                 <div class="row">
-                                                                                    <div class="col-sm-6">
+                                                                                    <div class="col-md-6 col-md-offset-3">
 
                                                                                         <div class="panel-group"
                                                                                              id="accordion">
@@ -618,7 +526,7 @@
                                                                                  id="v4">
 
                                                                                 <div class="row">
-                                                                                    <div class="col-sm-6">
+                                                                                    <div class="col-md-6 col-md-offset-3">
                                                                                         <!-- widget content -->
                                                                                         <div class="widget-body">
 
@@ -688,7 +596,7 @@
                                                                         </ul>
 
                                                                         <div id="myTabContent3"
-                                                                             class="tab-content padding-10">
+                                                                             class="tab-content">
                                                                             <div class="tab-pane fade in active"
                                                                                  id="u1">
                                                                                 <div class="row" id="advertiser_publisher">
@@ -808,53 +716,7 @@
                                                     <div class="tab-pane" id="tab4">
                                                         <br>
 
-                                                        <h3><strong>Step 4</strong> - BID BY HOUR</h3>
-
-                                                        <!-- NEW WIDGET START -->
-                                                        <article class="col-sm-12 col-md-12 col-lg-12">
-
-                                                            <!-- Widget ID (each widget will need unique ID)-->
-                                                            <div class=" well">
-                                                                <!-- widget div-->
-                                                                <div>
-
-                                                                    <!-- widget content -->
-                                                                    <div class="widget-body">
-
-                                                                        <div
-                                                                             class="tab-content padding-10">
-                                                                            <div class="tab-pane fade in active"
-                                                                                 id="t1">
-
-                                                                                <div class="row">
-
-                                                                                </div>
-
-
-                                                                            </div>
-
-
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <!-- end widget content -->
-
-                                                                </div>
-                                                                <!-- end widget div -->
-
-                                                            </div>
-                                                            <!-- end widget -->
-
-
-                                                        </article>
-                                                        <!-- WIDGET END -->
-                                                        <div class="clearfix"></div>
-
-                                                    </div>
-                                                    <div class="tab-pane" id="tab5">
-                                                        <br>
-
-                                                        <h3><strong>Step 5</strong> - Review And Submit</h3>
+                                                        <h3><strong>Step 4</strong> - Review And Submit</h3>
                                                         <br>
                                                         <div class="row">
                                                             <div class="col-md-12">
@@ -1062,16 +924,10 @@
         }
         function taggleBWList(type){
             if(type == 'blacklist'){
-                var conf = confirm('are u sure?');
-                if(conf){
-                    jQuery('#whitelist_select .removeall').click();
-                }
+                jQuery('#whitelist_select .removeall').click();
             }
             if(type == 'whitelist'){
-                var conf1 = confirm('are u sure remove all Black list that u selected?');
-                if(conf1){
-                    jQuery('#blacklist_select .removeall').click();
-                }
+                jQuery('#blacklist_select .removeall').click();
             }
         }
     </script>

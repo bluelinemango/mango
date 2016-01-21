@@ -202,6 +202,16 @@
                                                     Add Model
                                                 </a>
                                                 @endif
+                                                @if(in_array('ADD_EDIT_OFFER',$permission))
+                                                <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/offer/add')}}" class=" btn btn-primary pull-left">
+                                                    Add Offer
+                                                </a>
+                                                @endif
+                                                @if(in_array('ADD_EDIT_PIXEL',$permission))
+                                                <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/pixel/add')}}" class=" btn btn-primary pull-left">
+                                                    Add Pixel
+                                                </a>
+                                                @endif
                                                 @if(in_array('ADD_EDIT_GEOSEGMENTLIST',$permission))
                                                 <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/geosegment/add')}}" class=" btn btn-primary pull-left">
                                                     Add Geo Segment List

@@ -1,5 +1,5 @@
 @extends('Layout')
-@section('siteTitle')Edit Campaign: {{$campaign_obj->name}} @endsection
+@section('siteTitle')Edit Offer: {{$offer_obj->name}} @endsection
 @section('content')
     <!-- MAIN PANEL -->
     <div id="main" role="main">
@@ -15,10 +15,10 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li>
-                <li>Client: <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/edit')}}">cl{{$campaign_obj->getAdvertiser->GetClientID->id}}</a></li>
-                <li>Advertiser: <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->advertiser_id.'/edit')}}">adv{{$campaign_obj->advertiser_id}}</a></li>
-                <li>Campaign: cmp{{$campaign_obj->id}}</li>
+                <li><a href="{{url('/dashboard')}}">Home</a></li>
+                <li><a href="{{url('/client/cl'.$offer_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client: cl{{$offer_obj->getAdvertiser->GetClientID->id}}</a></li>
+                <li><a href="{{url('/client/cl'.$offer_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$offer_obj->advertiser_id.'/edit')}}">Advertiser: adv{{$offer_obj->advertiser_id}}</a></li>
+                <li>Offer: ofr{{$offer_obj->id}}</li>
             </ol>
             <!-- end breadcrumb -->
 
@@ -66,7 +66,7 @@
                             <!-- Widget ID (each widget will need unique ID)-->
                             <div class="well">
                                 <header>
-                                    <h2><strong>Edit Campaign: {{$campaign_obj->name}} </strong></h2>
+                                    <h2><strong>Edit Offer: {{$offer_obj->name}} </strong></h2>
 
                                 </header>
 
@@ -75,10 +75,10 @@
                                     <!-- widget content -->
                                     <div class="">
 
-                                        <form id="order-form" class="smart-form" action="{{URL::route('campaign_update')}}" method="post" novalidate="novalidate" >
+                                        <form id="order-form" class="smart-form" action="{{URL::route('offer_update')}}" method="post" novalidate="novalidate" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="hidden" name="_method" value="PUT"/>
-                                            <input type="hidden" name="campaign_id" value="{{$campaign_obj->id}}"/>
+                                            <input type="hidden" name="offer_id" value="{{$offer_obj->id}}"/>
 
                                             <header>
                                                 General Information
@@ -90,120 +90,34 @@
                                                         <label class="label" for="">Name (required)</label>
 
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="name" placeholder="Name" value="{{$campaign_obj->name}}">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Domain Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="advertiser_domain_name" placeholder="Domain Name" value="{{$campaign_obj->advertiser_domain_name}}">
+                                                            <input type="text" name="name" placeholder="Name" value="{{$offer_obj->name}}">
                                                         </label>
                                                     </section>
                                                     <section class="col col-2">
                                                         <label class="label" for="">Advertiser Name</label>
                                                         <label class="input">
-                                                            <h6>{{$campaign_obj->getAdvertiser->name}}</h6>
+                                                            <h6>{{$offer_obj->getAdvertiser->name}}</h6>
                                                         </label>
                                                     </section>
                                                     <section class="col col-2">
                                                         <label class="label" for="">Client Name</label>
                                                         <label class="input">
-                                                            <h6>{{$campaign_obj->getAdvertiser->GetClientID->name}}</h6>
+                                                            <h6>{{$offer_obj->getAdvertiser->GetClientID->name}}</h6>
                                                         </label>
                                                     </section>
                                                     <section class="col col-2">
                                                         <label class="label" for="">Last Modified</label>
                                                         <label class="input">
-                                                            <h6>{{$campaign_obj->updated_at}}</h6>
+                                                            <h6>{{$offer_obj->updated_at}}</h6>
                                                         </label>
                                                     </section>
                                                 </div>
 
-                                            </fieldset>
-                                            <header>
-                                                Budget Information
-                                            </header>
-                                            <div class="col-md-6">
-                                            <fieldset>
-                                                <section class="col col-5">
-                                                    <label class="label" for="">Max Impression</label>
-                                                    <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                        <input type="text" name="max_impression" placeholder="Max Impression" value="{{$campaign_obj->max_impression}}">
-                                                    </label>
-                                                </section>
-                                                <section class="col col-5">
-                                                    <label class="label" for="">Daily Max Impression</label>
-                                                    <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                        <input type="text" name="daily_max_impression" placeholder="Daily Max Impression" value="{{$campaign_obj->daily_max_impression}}">
-                                                    </label>
-                                                </section>
-                                            </fieldset>
-                                            </div>
-                                            <div class="col-md-6 ">
-                                            <fieldset>
-                                            <section class="col col-5">
-                                                    <label class="label" for="">Max Budget</label>
-                                                    <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                        <input type="text" name="max_budget" placeholder="Max Budget" value="{{$campaign_obj->max_budget}}">
-                                                    </label>
-                                                </section>
-                                                <section class="col col-5">
-                                                    <label class="label" for="">Daily Max Budget</label>
-                                                    <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                        <input type="text" name="daily_max_budget" placeholder="Daily Max Budget" value="{{$campaign_obj->daily_max_budget}}">
-                                                    </label>
-                                                </section>
-                                            </fieldset>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <fieldset>
-                                                <section class="col col-2" >
-                                                    <label class="label" for="">cpm</label>
-                                                    <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                        <input type="text" name="cpm" placeholder="CPM" value="{{$campaign_obj->cpm}}">
-                                                    </label>
-                                                </section>
-                                            </fieldset>
-                                            <header>
-                                                Date Rang
-                                            </header>
-                                                <div class="col-md-6">
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col col-4">
-                                                        <label class="label" for="">Start Date</label>
-                                                        <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                                                            <input type="text" name="start_date" id="startdate" placeholder="Expected start date" value="{{$campaign_obj->start_date}}">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-4">
-                                                        <label class="label" for="">End Date</label>
-                                                        <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                                                            <input type="text" name="end_date" id="finishdate" placeholder="Expected finish date" value="{{$campaign_obj->end_date}}">
-                                                        </label>
-                                                    </section>
-                                                </div>
-
-                                            </fieldset>
-                                                </div>
-                                            <div class="clearfix"></div>
-                                            <fieldset>
-                                                <section >
-                                                    <label class="label" for="">Description</label>
-                                                    <label class="textarea"> <i class="icon-append fa fa-comment"></i>
-                                                        <textarea rows="5" name="description" placeholder="Tell us about your Campaign">{{$campaign_obj->description}}</textarea>
-                                                    </label>
-                                                </section>
                                             </fieldset>
                                             <footer>
                                                 <button type="submit" class="btn btn-success">
                                                     Submit
                                                 </button>
-                                                @if(in_array('ADD_EDIT_TARGETGROUP',$permission))
-                                                <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/campaign/cmp'.$campaign_obj->id.'/targetgroup/add')}}" class=" btn btn-primary pull-left">
-                                                    Add Target Group
-                                                </a>
-                                                @endif
                                             </footer>
                                         </form>
                                     </div>
@@ -216,93 +130,6 @@
                         <!-- END COL -->
                     </div>
                     <!-- END ROW -->
-                </section>
-                <!-- end widget grid -->
-
-                <!-- widget grid -->
-                <section id="widget-grid" class="">
-
-                    <!-- row -->
-                    <div class="row">
-
-                        <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
-                                <!-- widget options:
-                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                            data-widget-colorbutton="false"
-                            data-widget-editbutton="false"
-                            data-widget-togglebutton="false"
-                            data-widget-deletebutton="false"
-                            data-widget-fullscreenbutton="false"
-                            data-widget-custombutton="false"
-                            data-widget-collapsed="true"
-                            data-widget-sortable="false"
-
-                            -->
-                                <header>
-                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                    <h2>List Of Target Group </h2>
-
-                                </header>
-
-                                <!-- widget div-->
-                                <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
-
-                                    <!-- widget content -->
-                                    <div class="widget-body no-padding">
-
-                                        <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
-                                            <thead>
-                                            <tr>
-                                                <th data-hide="phone">ID</th>
-                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Name</th>
-                                                <th data-hide="phone,tablet"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Start Date</th>
-                                                <th data-hide="phone,tablet"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> End Date</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($campaign_obj->Targetgroup as $index_trg)
-                                                <tr>
-                                                    <td>trg{{$index_trg->id}}</td>
-                                                    <td><a href="{{url('/targetgroup/edit/'.$index_trg->id)}}">{{$index_trg->name}}</a></td>
-                                                    <td>{{$index_trg->start_date}}</td>
-                                                    <td>{{$index_trg->end_date}}</td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-
-                                    </div>
-                                    <!-- end widget content -->
-
-                                </div>
-                                <!-- end widget div -->
-
-                            </div>
-                            <!-- end widget -->
-
-
-                        </article>
-                        <!-- WIDGET END -->
-
-
-                    </div>
-
-                    <!-- end row -->
-
-                    <!-- end row -->
-
                 </section>
                 <!-- end widget grid -->
 

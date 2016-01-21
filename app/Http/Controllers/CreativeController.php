@@ -90,7 +90,7 @@ class CreativeController extends Controller
     }
 
 
-    public function CreativeEditView($clid,$advid,$crtid){
+    public function CreativeEditView($clid,$advid,$pxlid){
         if(!is_null($crtid)){
             if(Auth::check()){
                 if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {

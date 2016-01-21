@@ -46,6 +46,16 @@
                 <a href="{{url('targetgroup')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Target Group</span></a>
             </li>
             @endif
+            @if(in_array('VIEW_OFFER',$permission))
+            <li>
+                <a href="{{url('offer')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Offer</span></a>
+            </li>
+            @endif
+            @if(in_array('VIEW_PIXEL',$permission))
+            <li>
+                <a href="{{url('pixel')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Pixel</span></a>
+            </li>
+            @endif
             @if(in_array('VIEW_MODEL',$permission))
             <li>
                 <a href="{{url('model')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Model</span></a>
