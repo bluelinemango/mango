@@ -142,6 +142,7 @@ Route::group(['prefix' => 'ajax'], function()
         Route::post('/campaign', 'CampaignController@jqgrid');
         Route::post('/creative', 'CreativeController@jqgrid');
         Route::post('/offer', 'OfferController@jqgrid');
+        Route::post('/pixel', 'OfferController@jqgrid');
         Route::post('/targetgroup', 'TargetgroupController@jqgrid');
         Route::post('/model', 'ModelController@jqgrid');
         Route::post('/bwlist', 'BWListController@jqgridList');

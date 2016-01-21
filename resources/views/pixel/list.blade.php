@@ -1,5 +1,5 @@
 @extends('Layout')
-@section('siteTitle')List Of Offer for {{\Illuminate\Support\Facades\Auth::user()->name}} @endsection
+@section('siteTitle')List Of Pixel for {{\Illuminate\Support\Facades\Auth::user()->name}} @endsection
 
 @section('content')
     <!-- MAIN PANEL -->
@@ -16,7 +16,7 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li><li>Offer List</li>
+                <li>Home</li><li>Pixel List</li>
             </ol>
             <!-- end breadcrumb -->
 
@@ -72,7 +72,7 @@
                                         -->
                             <header>
                                 <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                <h2>Offer List</h2>
+                                <h2>Pixel List</h2>
 
                             </header>
 
@@ -156,13 +156,13 @@
             pageSetUp();
 
             var jqgrid_data = [
-                @foreach($offer_obj as $index)
+                @foreach($pixel_obj as $index)
                 @if(!is_null($index->getAdvertiser->GetClientID))
                 {
-                    id   : 'ofr{{$index->id}}',
+                    id   : 'pxlr{{$index->id}}',
                     name : '{{$index->name}}',
                     date_modify : '{{$index->updated_at}}',
-                    full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/offer/ofr'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>'
+                    full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/pixel/pxl'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>'
                 },
                 @endif
                 @endforeach
@@ -219,8 +219,8 @@
                         });
                     }
                 },
-                editurl : "{{url('/ajax/jqgrid/offer')}}",
-                caption : "Offer List",
+                editurl : "{{url('/ajax/jqgrid/pixel')}}",
+                caption : "Pixel List",
                 multiselect : true,
                 autowidth : true
 

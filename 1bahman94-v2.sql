@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 21, 2016 at 04:03 PM
+-- Generation Time: Jan 21, 2016 at 05:47 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `advertiser_publisher` (
   `advertiser_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `advertiser_publisher`
@@ -89,7 +89,9 @@ INSERT INTO `advertiser_publisher` (`id`, `name`, `advertiser_id`, `created_at`,
 (17, 'sad', 4, '2016-01-20 15:42:57', '2016-01-20 15:42:57'),
 (18, 'sad', 4, '2016-01-20 15:45:26', '2016-01-20 15:45:26'),
 (19, 'dsaf', 4, '2016-01-20 15:45:29', '2016-01-20 15:45:29'),
-(20, 'asd', 4, '2016-01-21 09:08:30', '2016-01-21 09:08:30');
+(20, 'asd', 4, '2016-01-21 09:08:30', '2016-01-21 09:08:30'),
+(21, 'ali.com', 4, '2016-01-21 12:23:01', '2016-01-21 12:23:01'),
+(22, 'yyy.com', 4, '2016-01-21 12:23:09', '2016-01-21 12:23:09');
 
 -- --------------------------------------------------------
 
@@ -110,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `audits` (
   `date_change` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `audits`
@@ -127,7 +129,13 @@ INSERT INTO `audits` (`id`, `user_id`, `entity_type`, `entity_id`, `audit_type`,
 (96, 1, 'targetgroup', 17, 'add', '', '', '', '$2y$10$l40eYYP5pGFDJMLsQGbur.Ja6X3T3cDkYi8o3r1kxEkM49cfzUPTu', '2016-01-20 14:50:40', '2016-01-20 14:50:40', '2016-01-20 14:50:40'),
 (97, 1, 'targetgroup', 18, 'add', '', '', '', '$2y$10$uHVlUHM0FNNkYzf4v6qZf.2.QxfzfcbpSzBqNzUW06/F5WZ2Iwal2', '2016-01-20 15:45:42', '2016-01-20 15:45:42', '2016-01-20 15:45:42'),
 (109, 1, 'offer', 1, 'add', '', '', '', '$2y$10$QnpS0GZyQAZ2LNtKsNTR2uOFsta3DBPV6I/pw61mX6cnZXCbYw9Ym', '2016-01-21 11:13:17', '2016-01-21 11:13:17', '2016-01-21 11:13:17'),
-(111, 1, 'creative', 1, 'edit', 'name', 'ofer1', 'offer1', '$2y$10$shoayPJyHeLfn8BPAMKeA.RZAsl4Y/bKNiBJUvzjPvgwG8l8pUU/u', '2016-01-21 11:19:52', '2016-01-21 11:19:52', '2016-01-21 11:19:52');
+(111, 1, 'creative', 1, 'edit', 'name', 'ofer1', 'offer1', '$2y$10$shoayPJyHeLfn8BPAMKeA.RZAsl4Y/bKNiBJUvzjPvgwG8l8pUU/u', '2016-01-21 11:19:52', '2016-01-21 11:19:52', '2016-01-21 11:19:52'),
+(112, 1, 'pixel', 1, 'add', '', '', '', '$2y$10$n2Cly4oFXolKyztMED7FJOhFZLWR988hr8wfWtIyr/Zn/oCpf2i3a', '2016-01-21 11:47:51', '2016-01-21 11:47:52', '2016-01-21 11:47:52'),
+(113, 1, 'creative', 1, 'edit', 'name', 'asd23', 'asd233', '$2y$10$IVx7.o58ub52FWg.Y8T5oubT0FDnwgTCZBkiRH25aen.oIZ3kJtvK', '2016-01-21 11:48:26', '2016-01-21 11:48:26', '2016-01-21 11:48:26'),
+(114, 1, 'offer', 2, 'add', '', '', '', '$2y$10$fW/RDAxYIrHJSy2xi2no..rQzZkFEA5xFyGPNzJRfRrmJ3Mqs8Fti', '2016-01-21 12:35:00', '2016-01-21 12:35:00', '2016-01-21 12:35:00'),
+(115, 1, 'pixel', 2, 'add', '', '', '', '$2y$10$GhwFlFczWlebUtSLoR7ZI.W8J.uDmueNTeixgAtBFGTs3XcxeHOqG', '2016-01-21 12:35:31', '2016-01-21 12:35:31', '2016-01-21 12:35:31'),
+(116, 1, 'offer', 1, 'edit', 'name', 'offer1', 'offer1234', '$2y$10$V4XXzETo3UmYlPVxGfyTHeXX9NBemSq946rAgULyIZHccxZzCqrCy', '2016-01-21 12:36:06', '2016-01-21 12:36:07', '2016-01-21 12:36:07'),
+(117, 1, 'offer_pixel', 2, 'add', '', '', '', '$2y$10$wsErrMPb6d5UN5cQuRkNZ.eCVzzd7LAWX1NR4CfCgarfVHLRYiP4q', '2016-01-21 13:07:07', '2016-01-21 13:07:07', '2016-01-21 13:07:07');
 
 -- --------------------------------------------------------
 
@@ -11096,28 +11104,36 @@ CREATE TABLE IF NOT EXISTS `offer` (
   `description` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `offer`
 --
 
 INSERT INTO `offer` (`id`, `name`, `advertiser_id`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'offer1', 4, '', '2016-01-21 11:13:17', '2016-01-21 11:19:52');
+(1, 'offer1234', 4, '', '2016-01-21 11:13:17', '2016-01-21 12:36:07'),
+(2, 'offer4', 4, '', '2016-01-21 12:35:00', '2016-01-21 12:35:00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `offer_pixel_mapping`
+-- Table structure for table `offer_pixel_map`
 --
 
-CREATE TABLE IF NOT EXISTS `offer_pixel_mapping` (
+CREATE TABLE IF NOT EXISTS `offer_pixel_map` (
   `id` int(10) unsigned NOT NULL,
   `offer_id` int(10) unsigned NOT NULL,
   `pixel_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `offer_pixel_map`
+--
+
+INSERT INTO `offer_pixel_map` (`id`, `offer_id`, `pixel_id`, `created_at`, `updated_at`) VALUES
+(2, 2, 1, '2016-01-21 13:07:07', '2016-01-21 13:07:07');
 
 -- --------------------------------------------------------
 
@@ -11187,7 +11203,15 @@ CREATE TABLE IF NOT EXISTS `pixel` (
   `description` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `pixel`
+--
+
+INSERT INTO `pixel` (`id`, `name`, `advertiser_id`, `part_a`, `part_b`, `version`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'asd233', 4, 'wXTXfP2d4ggkmJHwXcUvc80vVuAeuLJUJU1gZoAv7cZlsMl1Q6eeDDLdFmvGhKzQjKxq7QwEy06eVGno', '7SWQs1SOM6N0qBMEgsqtCaPGlGA0MtMDLw0kDhnhgIsdYkmlB2GovmvAwerD08yLM2sGcpfC7dvhSVkU', 'version1', '', '2016-01-21 11:47:51', '2016-01-21 11:48:26'),
+(2, 'pixle111', 4, 'qIx3eXHRwDlpEexTsGU3htx7YA0LStpgP7mhaYX5L0LmWHSkx1VJUqXLTTBaQTW8AozouQzanfybA3BE', 'ZejhUfLic4AqbbQSJx8nbBz8mmITDhGPPj4HhWXHS8WzUl7vfy5effWZImgs2n9T1hcZ2vvZV3FA0nL0', 'version1', '', '2016-01-21 12:35:31', '2016-01-21 12:35:31');
 
 -- --------------------------------------------------------
 
@@ -11665,9 +11689,9 @@ ALTER TABLE `offer`
   ADD KEY `offer_advertiser_id_foreign` (`advertiser_id`);
 
 --
--- Indexes for table `offer_pixel_mapping`
+-- Indexes for table `offer_pixel_map`
 --
-ALTER TABLE `offer_pixel_mapping`
+ALTER TABLE `offer_pixel_map`
   ADD PRIMARY KEY (`id`),
   ADD KEY `offer_pixel_mapping_offer_id_foreign` (`offer_id`);
 
@@ -11789,12 +11813,12 @@ ALTER TABLE `advertiser`
 -- AUTO_INCREMENT for table `advertiser_publisher`
 --
 ALTER TABLE `advertiser_publisher`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `audits`
 --
 ALTER TABLE `audits`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=112;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=118;
 --
 -- AUTO_INCREMENT for table `bwentries`
 --
@@ -11864,12 +11888,12 @@ ALTER TABLE `model`
 -- AUTO_INCREMENT for table `offer`
 --
 ALTER TABLE `offer`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `offer_pixel_mapping`
+-- AUTO_INCREMENT for table `offer_pixel_map`
 --
-ALTER TABLE `offer_pixel_mapping`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+ALTER TABLE `offer_pixel_map`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `permission`
 --
@@ -11879,7 +11903,7 @@ ALTER TABLE `permission`
 -- AUTO_INCREMENT for table `pixel`
 --
 ALTER TABLE `pixel`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `role`
 --
@@ -12023,9 +12047,9 @@ ALTER TABLE `offer`
   ADD CONSTRAINT `offer_advertiser_id_foreign` FOREIGN KEY (`advertiser_id`) REFERENCES `advertiser` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `offer_pixel_mapping`
+-- Constraints for table `offer_pixel_map`
 --
-ALTER TABLE `offer_pixel_mapping`
+ALTER TABLE `offer_pixel_map`
   ADD CONSTRAINT `offer_pixel_mapping_offer_id_foreign` FOREIGN KEY (`offer_id`) REFERENCES `offer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --

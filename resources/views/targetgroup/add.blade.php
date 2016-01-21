@@ -358,7 +358,7 @@
                                                                         <ul id="myTab1" class="nav nav-tabs bordered">
                                                                             <li class="active">
                                                                                 <a href="#v1" data-toggle="tab">Set Geo
-                                                                                    Target</a>
+                                                                                    Location</a>
                                                                             </li>
                                                                             <li>
                                                                                 <a href="#v2" data-toggle="tab"><i
@@ -850,7 +850,7 @@
         function submitForm(){
 //            var form=$('#publisher_bid');
 //            console.log(form);
-            var url = '/advertiser_publisher/create';
+            var url = '{{url('/advertiser_publisher/create')}}';
             var formData = {};
             formData['advertiser_id'] = '{{$campaign_obj->getAdvertiser->id}}';
             $('#advertiser_publisher').find("input").each(function (index, node) {

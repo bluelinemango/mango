@@ -114,6 +114,24 @@
                                                 </div>
 
                                             </fieldset>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="widget-body assign_creative">
+
+                                                        <select multiple="multiple"
+                                                                size="10"
+                                                                name="pixel[]"
+                                                                id="initializeDuallistbox_pixel">
+
+                                                            @foreach($pixel_obj as $index)
+                                                                <option value="{{$index->id}}" @if(in_array($index->id,$offer_pixel)) selected @endif>{{$index->name}}</option>
+                                                            @endforeach
+                                                        </select>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                             <footer>
                                                 <button type="submit" class="btn btn-success">
                                                     Submit
@@ -150,13 +168,7 @@
 @endsection
 @section('FooterScripts')
 
-    <!-- PAGE RELATED PLUGIN(S) -->
-    <script src="{{cdn('js/plugin/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatables/dataTables.colVis.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatables/dataTables.tableTools.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatables/dataTables.bootstrap.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatable-responsive/datatables.responsive.min.js')}}"></script>
-
+    <script src="{{cdn('js/plugin/bootstrap-duallistbox/jquery.bootstrap-duallistbox.min.js')}}"></script>
 
     <script>
         $(document).ready(function () {
@@ -166,81 +178,62 @@
 
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
-                rules : {
-                    name : {
-                        required : true
+                rules: {
+                    name: {
+                        required: true
                     },
-                    advertiser_id : {
-                        required : true
+                    advertiser_id: {
+                        required: true
                     },
-                    max_impression : {
-                        required : true
+                    max_impression: {
+                        required: true
                     },
-                    daily_max_impression : {
-                        required : true
+                    daily_max_impression: {
+                        required: true
                     },
-                    max_budget : {
-                        required : true
+                    max_budget: {
+                        required: true
                     },
-                    daily_max_budget : {
-                        required : true
+                    daily_max_budget: {
+                        required: true
                     },
-                    cpm : {
-                        required : true
+                    cpm: {
+                        required: true
                     },
-                    start_date : {
-                        required : true
+                    start_date: {
+                        required: true
                     },
-                    end_date : {
-                        required : true
+                    end_date: {
+                        required: true
                     },
-                    cpm : {
-                        required : true
+                    cpm: {
+                        required: true
                     }
                 },
 
                 // Messages for form validation
-                messages : {
-                    name : {
-                        required : 'Please enter your name'
+                messages: {
+                    name: {
+                        required: 'Please enter your name'
                     },
-                    email : {
-                        required : 'Please enter your email address',
-                        email : 'Please enter a VALID email address'
+                    email: {
+                        required: 'Please enter your email address',
+                        email: 'Please enter a VALID email address'
                     },
-                    phone : {
-                        required : 'Please enter your phone number'
+                    phone: {
+                        required: 'Please enter your phone number'
                     },
-                    interested : {
-                        required : 'Please select interested service'
+                    interested: {
+                        required: 'Please select interested service'
                     },
-                    budget : {
-                        required : 'Please select your budget'
+                    budget: {
+                        required: 'Please select your budget'
                     }
                 },
 
                 // Do not change code below
-                errorPlacement : function(error, element) {
+                errorPlacement: function (error, element) {
                     error.insertAfter(element.parent());
-                }
-            });
-
-            // START AND FINISH DATE
-            $('#startdate').datepicker({
-                dateFormat: 'dd.mm.yy',
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                onSelect: function (selectedDate) {
-                    $('#finishdate').datepicker('option', 'minDate', selectedDate);
-                }
-            });
-
-            $('#finishdate').datepicker({
-                dateFormat: 'dd.mm.yy',
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                onSelect: function (selectedDate) {
-                    $('#startdate').datepicker('option', 'maxDate', selectedDate);
                 }
             });
 
@@ -302,74 +295,15 @@
                     }
                 }
             });
-
-            $('#bootstrap-wizard-1').bootstrapWizard({
-                'tabClass': 'form-wizard',
-                'onNext': function (tab, navigation, index) {
-                    var $valid = $("#wizard-1").valid();
-                    if (!$valid) {
-                        $validator.focusInvalid();
-                        return false;
-                    } else {
-                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).addClass(
-                                'complete');
-                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).find('.step')
-                                .html('<i class="fa fa-check"></i>');
-                    }
-                }
+            var initializeDuallistbox_pixel = $('#initializeDuallistbox_pixel').bootstrapDualListbox({
+                nonSelectedListLabel: 'Non-selected',
+                selectedListLabel: 'Selected',
+                preserveSelectionOnMove: 'moved',
+                moveOnSelect: false,
+                nonSelectedFilter: ''
             });
 
-
-            // fuelux wizard
-            var wizard = $('.wizard').wizard();
-
-            wizard.on('finished', function (e, data) {
-                //$("#fuelux-wizard").submit();
-                //console.log("submitted!");
-                $.smallBox({
-                    title: "Congratulations! Your form was submitted",
-                    content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-                    color: "#5F895F",
-                    iconSmall: "fa fa-check bounce animated",
-                    timeout: 4000
-                });
-
-            });
-
-
-        })
-
-        /* BASIC ;*/
-        var responsiveHelper_dt_basic = undefined;
-        var responsiveHelper_datatable_fixed_column = undefined;
-        var responsiveHelper_datatable_col_reorder = undefined;
-        var responsiveHelper_datatable_tabletools = undefined;
-
-        var breakpointDefinition = {
-            tablet : 1024,
-            phone : 480
-        };
-
-        $('#dt_basic').dataTable({
-            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
-            "t"+
-            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-            "autoWidth" : true,
-            "preDrawCallback" : function() {
-                // Initialize the responsive datatables helper once.
-                if (!responsiveHelper_dt_basic) {
-                    responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
-                }
-            },
-            "rowCallback" : function(nRow) {
-                responsiveHelper_dt_basic.createExpandIcon(nRow);
-            },
-            "drawCallback" : function(oSettings) {
-                responsiveHelper_dt_basic.respond();
-            }
         });
-
-        /* END BASIC */
 
 
     </script>

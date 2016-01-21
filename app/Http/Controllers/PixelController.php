@@ -60,9 +60,13 @@ class PixelController extends Controller
                 if($validate->passes()) {
                     $chkUser=Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                        $rndstr=new AuditsController();
                         $pixel = new Pixel();
                         $pixel->name = $request->input('name');
                         $pixel->advertiser_id = $request->input('advertiser_id');
+                        $pixel->version = 'version1';
+                        $pixel->part_a = $rndstr->randomStr();
+                        $pixel->part_b = $rndstr->randomStr();
                         $pixel->save();
                         $audit= new AuditsController();
                         $audit->store('pixel',$pixel->id,null,'add');
@@ -78,15 +82,15 @@ class PixelController extends Controller
     }
 
 
-    public function PixelEditView($clid,$advid,$crtid){
-        if(!is_null($crtid)){
+    public function PixelEditView($clid,$advid,$pxlid){
+        if(!is_null($pxlid)){
             if(Auth::check()){
                 if (in_array('ADD_EDIT_PIXEL', $this->permission)) {
                     $chkUser=Advertiser::with('GetClientID')->find($advid);
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
                         $pixel_obj = Pixel::with(['getAdvertiser' => function ($q) {
                             $q->with('GetClientID');
-                        }])->find($crtid);
+                        }])->find($pxlid);
                         return view('pixel.edit')->with('pixel_obj', $pixel_obj);
                     }else{
                         return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
@@ -146,7 +150,7 @@ class PixelController extends Controller
                                         array_push($data,$request->input('name'));
                                         $pixel->name=$request->input('name');
                                     }
-                                    $audit->store('creative',$pixel_id,$data,'edit');
+                                    $audit->store('pixel',$pixel_id,$data,'edit');
                                     $pixel->save();
                                     return "ok";
                                 }

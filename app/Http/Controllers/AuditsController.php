@@ -50,6 +50,16 @@ class AuditsController extends Controller
         return $randomString;
     }
 
+    public function randomStr($length = 80) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
     public function store($entity_type,$entity_id,$data='',$audit_type,$key='')
     {
         $date_change=date('Y-m-d H:i:s');

@@ -9,7 +9,7 @@
     <meta name="author" content="">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    {{--<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>--}}
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <!-- Basic Styles -->
     <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/font-awesome.min.css')}}">
