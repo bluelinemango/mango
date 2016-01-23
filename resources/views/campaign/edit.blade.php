@@ -8,7 +8,10 @@
         <div id="ribbon">
 
 				<span class="ribbon-button-alignment">
-					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"
+                          rel="tooltip" data-placement="bottom"
+                          data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings."
+                          data-html="true">
 						<i class="fa fa-refresh"></i>
 					</span>
 				</span>
@@ -16,8 +19,12 @@
             <!-- breadcrumb -->
             <ol class="breadcrumb">
                 <li>Home</li>
-                <li>Client: <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/edit')}}">cl{{$campaign_obj->getAdvertiser->GetClientID->id}}</a></li>
-                <li>Advertiser: <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->advertiser_id.'/edit')}}">adv{{$campaign_obj->advertiser_id}}</a></li>
+                <li>Client: <a
+                            href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/edit')}}">cl{{$campaign_obj->getAdvertiser->GetClientID->id}}</a>
+                </li>
+                <li>Advertiser: <a
+                            href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->advertiser_id.'/edit')}}">adv{{$campaign_obj->advertiser_id}}</a>
+                </li>
                 <li>Campaign: cmp{{$campaign_obj->id}}</li>
             </ol>
             <!-- end breadcrumb -->
@@ -43,6 +50,7 @@
                     <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
                         <a class="close" data-dismiss="alert" href="#">×</a>
                         <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
+
                         <p>
                             {{$error}}
                         </p>
@@ -56,7 +64,7 @@
                 @endif
 
 
-                <!-- widget grid -->
+                        <!-- widget grid -->
                 <section id="widget-grid" class="">
                     <!-- START ROW -->
                     <div class="row">
@@ -75,7 +83,9 @@
                                     <!-- widget content -->
                                     <div class="">
 
-                                        <form id="order-form" class="smart-form" action="{{URL::route('campaign_update')}}" method="post" novalidate="novalidate" >
+                                        <form id="order-form" class="smart-form"
+                                              action="{{URL::route('campaign_update')}}" method="post"
+                                              novalidate="novalidate">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="hidden" name="_method" value="PUT"/>
                                             <input type="hidden" name="campaign_id" value="{{$campaign_obj->id}}"/>
@@ -83,20 +93,14 @@
                                             <header>
                                                 General Information
                                             </header>
-
-                                            <fieldset>
-                                                <div class="row">
+                                            <div class="col-md-12">
+                                                <fieldset>
                                                     <section class="col col-2">
                                                         <label class="label" for="">Name (required)</label>
 
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="name" placeholder="Name" value="{{$campaign_obj->name}}">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Domain Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="advertiser_domain_name" placeholder="Domain Name" value="{{$campaign_obj->advertiser_domain_name}}">
+                                                            <input type="text" name="name" placeholder="Name"
+                                                                   value="{{$campaign_obj->name}}">
                                                         </label>
                                                     </section>
                                                     <section class="col col-2">
@@ -117,92 +121,128 @@
                                                             <h6>{{$campaign_obj->updated_at}}</h6>
                                                         </label>
                                                     </section>
-                                                </div>
 
-                                            </fieldset>
+                                                </fieldset>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <fieldset>
+                                                    <section class="col col-2">
+                                                        <label class="label" for="">Domain Name</label>
+                                                        <label class="input"> <i
+                                                                    class="icon-append fa fa-briefcase"></i>
+                                                            <input type="text" name="advertiser_domain_name"
+                                                                   placeholder="Domain Name"
+                                                                   value="{{$campaign_obj->advertiser_domain_name}}">
+                                                        </label>
+                                                    </section>
+
+                                                </fieldset>
+                                            </div>
                                             <header>
                                                 Budget Information
                                             </header>
                                             <div class="col-md-6">
-                                            <fieldset>
-                                                <section class="col col-5">
-                                                    <label class="label" for="">Max Impression</label>
-                                                    <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                        <input type="text" name="max_impression" placeholder="Max Impression" value="{{$campaign_obj->max_impression}}">
-                                                    </label>
-                                                </section>
-                                                <section class="col col-5">
-                                                    <label class="label" for="">Daily Max Impression</label>
-                                                    <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                        <input type="text" name="daily_max_impression" placeholder="Daily Max Impression" value="{{$campaign_obj->daily_max_impression}}">
-                                                    </label>
-                                                </section>
-                                            </fieldset>
+                                                <fieldset>
+                                                    <section class="col col-5">
+                                                        <label class="label" for="">Max Impression</label>
+                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
+                                                            <input type="text" name="max_impression"
+                                                                   placeholder="Max Impression"
+                                                                   value="{{$campaign_obj->max_impression}}">
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-5">
+                                                        <label class="label" for="">Daily Max Impression</label>
+                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
+                                                            <input type="text" name="daily_max_impression"
+                                                                   placeholder="Daily Max Impression"
+                                                                   value="{{$campaign_obj->daily_max_impression}}">
+                                                        </label>
+                                                    </section>
+                                                </fieldset>
                                             </div>
                                             <div class="col-md-6 ">
-                                            <fieldset>
-                                            <section class="col col-5">
-                                                    <label class="label" for="">Max Budget</label>
-                                                    <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                        <input type="text" name="max_budget" placeholder="Max Budget" value="{{$campaign_obj->max_budget}}">
-                                                    </label>
-                                                </section>
-                                                <section class="col col-5">
-                                                    <label class="label" for="">Daily Max Budget</label>
-                                                    <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                        <input type="text" name="daily_max_budget" placeholder="Daily Max Budget" value="{{$campaign_obj->daily_max_budget}}">
-                                                    </label>
-                                                </section>
-                                            </fieldset>
+                                                <fieldset>
+                                                    <section class="col col-5">
+                                                        <label class="label" for="">Max Budget</label>
+                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
+                                                            <input type="text" name="max_budget"
+                                                                   placeholder="Max Budget"
+                                                                   value="{{$campaign_obj->max_budget}}">
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-5">
+                                                        <label class="label" for="">Daily Max Budget</label>
+                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
+                                                            <input type="text" name="daily_max_budget"
+                                                                   placeholder="Daily Max Budget"
+                                                                   value="{{$campaign_obj->daily_max_budget}}">
+                                                        </label>
+                                                    </section>
+                                                </fieldset>
                                             </div>
                                             <div class="clearfix"></div>
-                                            <fieldset>
-                                                <section class="col col-2" >
-                                                    <label class="label" for="">cpm</label>
-                                                    <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                        <input type="text" name="cpm" placeholder="CPM" value="{{$campaign_obj->cpm}}">
-                                                    </label>
-                                                </section>
-                                            </fieldset>
+                                            <div class="col-md-12">
+
+                                                <fieldset>
+                                                    <section class="col col-2">
+                                                        <label class="label" for="">cpm</label>
+                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
+                                                            <input type="text" name="cpm" placeholder="CPM"
+                                                                   value="{{$campaign_obj->cpm}}">
+                                                        </label>
+                                                    </section>
+                                                </fieldset>
+                                            </div>
                                             <header>
                                                 Date Rang
                                             </header>
-                                                <div class="col-md-6">
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col col-4">
-                                                        <label class="label" for="">Start Date</label>
-                                                        <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                                                            <input type="text" name="start_date" id="startdate" placeholder="Expected start date" value="{{$campaign_obj->start_date}}">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-4">
-                                                        <label class="label" for="">End Date</label>
-                                                        <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                                                            <input type="text" name="end_date" id="finishdate" placeholder="Expected finish date" value="{{$campaign_obj->end_date}}">
-                                                        </label>
-                                                    </section>
-                                                </div>
+                                            <div class="col-md-6">
+                                                <fieldset>
+                                                    <div class="row">
+                                                        <section class="col col-4">
+                                                            <label class="label" for="">Start Date</label>
+                                                            <label class="input"> <i
+                                                                        class="icon-append fa fa-calendar"></i>
+                                                                <input type="text" name="start_date" id="startdate"
+                                                                       placeholder="Expected start date"
+                                                                       value="{{$campaign_obj->start_date}}">
+                                                            </label>
+                                                        </section>
+                                                        <section class="col col-4">
+                                                            <label class="label" for="">End Date</label>
+                                                            <label class="input"> <i
+                                                                        class="icon-append fa fa-calendar"></i>
+                                                                <input type="text" name="end_date" id="finishdate"
+                                                                       placeholder="Expected finish date"
+                                                                       value="{{$campaign_obj->end_date}}">
+                                                            </label>
+                                                        </section>
+                                                    </div>
 
-                                            </fieldset>
-                                                </div>
+                                                </fieldset>
+                                            </div>
                                             <div class="clearfix"></div>
+                                            <div class="col-md-12">
                                             <fieldset>
-                                                <section >
+                                                <section>
                                                     <label class="label" for="">Description</label>
                                                     <label class="textarea"> <i class="icon-append fa fa-comment"></i>
-                                                        <textarea rows="5" name="description" placeholder="Tell us about your Campaign">{{$campaign_obj->description}}</textarea>
+                                                        <textarea rows="5" name="description"
+                                                                  placeholder="Tell us about your Campaign">{{$campaign_obj->description}}</textarea>
                                                     </label>
                                                 </section>
                                             </fieldset>
+                                            </div>
                                             <footer>
                                                 <button type="submit" class="btn btn-success">
                                                     Submit
                                                 </button>
                                                 @if(in_array('ADD_EDIT_TARGETGROUP',$permission))
-                                                <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/campaign/cmp'.$campaign_obj->id.'/targetgroup/add')}}" class=" btn btn-primary pull-left">
-                                                    Add Target Group
-                                                </a>
+                                                    <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/campaign/cmp'.$campaign_obj->id.'/targetgroup/add')}}"
+                                                       class=" btn btn-primary pull-left">
+                                                        Add Target Group
+                                                    </a>
                                                 @endif
                                             </footer>
                                         </form>
@@ -229,7 +269,8 @@
                         <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
+                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0"
+                                 data-widget-editbutton="false">
                                 <!-- widget options:
                             usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
@@ -245,6 +286,7 @@
                             -->
                                 <header>
                                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+
                                     <h2>List Of Target Group </h2>
 
                                 </header>
@@ -262,20 +304,32 @@
                                     <!-- widget content -->
                                     <div class="widget-body no-padding">
 
-                                        <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
+                                        <table id="dt_basic" class="table table-striped table-bordered table-hover"
+                                               width="100%">
                                             <thead>
                                             <tr>
                                                 <th data-hide="phone">ID</th>
-                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Name</th>
-                                                <th data-hide="phone,tablet"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Start Date</th>
-                                                <th data-hide="phone,tablet"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> End Date</th>
+                                                <th data-class="expand"><i
+                                                            class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>
+                                                    Name
+                                                </th>
+                                                <th data-hide="phone,tablet"><i
+                                                            class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i>
+                                                    Start Date
+                                                </th>
+                                                <th data-hide="phone,tablet"><i
+                                                            class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i>
+                                                    End Date
+                                                </th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             @foreach($campaign_obj->Targetgroup as $index_trg)
                                                 <tr>
                                                     <td>trg{{$index_trg->id}}</td>
-                                                    <td><a href="{{url('/targetgroup/edit/'.$index_trg->id)}}">{{$index_trg->name}}</a></td>
+                                                    <td>
+                                                        <a href="{{url('/targetgroup/edit/'.$index_trg->id)}}">{{$index_trg->name}}</a>
+                                                    </td>
                                                     <td>{{$index_trg->start_date}}</td>
                                                     <td>{{$index_trg->end_date}}</td>
                                                 </tr>
@@ -339,61 +393,61 @@
 
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
-                rules : {
-                    name : {
-                        required : true
+                rules: {
+                    name: {
+                        required: true
                     },
-                    advertiser_id : {
-                        required : true
+                    advertiser_id: {
+                        required: true
                     },
-                    max_impression : {
-                        required : true
+                    max_impression: {
+                        required: true
                     },
-                    daily_max_impression : {
-                        required : true
+                    daily_max_impression: {
+                        required: true
                     },
-                    max_budget : {
-                        required : true
+                    max_budget: {
+                        required: true
                     },
-                    daily_max_budget : {
-                        required : true
+                    daily_max_budget: {
+                        required: true
                     },
-                    cpm : {
-                        required : true
+                    cpm: {
+                        required: true
                     },
-                    start_date : {
-                        required : true
+                    start_date: {
+                        required: true
                     },
-                    end_date : {
-                        required : true
+                    end_date: {
+                        required: true
                     },
-                    cpm : {
-                        required : true
+                    cpm: {
+                        required: true
                     }
                 },
 
                 // Messages for form validation
-                messages : {
-                    name : {
-                        required : 'Please enter your name'
+                messages: {
+                    name: {
+                        required: 'Please enter your name'
                     },
-                    email : {
-                        required : 'Please enter your email address',
-                        email : 'Please enter a VALID email address'
+                    email: {
+                        required: 'Please enter your email address',
+                        email: 'Please enter a VALID email address'
                     },
-                    phone : {
-                        required : 'Please enter your phone number'
+                    phone: {
+                        required: 'Please enter your phone number'
                     },
-                    interested : {
-                        required : 'Please select interested service'
+                    interested: {
+                        required: 'Please select interested service'
                     },
-                    budget : {
-                        required : 'Please select your budget'
+                    budget: {
+                        required: 'Please select your budget'
                     }
                 },
 
                 // Do not change code below
-                errorPlacement : function(error, element) {
+                errorPlacement: function (error, element) {
                     error.insertAfter(element.parent());
                 }
             });
@@ -519,25 +573,25 @@
         var responsiveHelper_datatable_tabletools = undefined;
 
         var breakpointDefinition = {
-            tablet : 1024,
-            phone : 480
+            tablet: 1024,
+            phone: 480
         };
 
         $('#dt_basic').dataTable({
-            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
-            "t"+
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+            "t" +
             "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-            "autoWidth" : true,
-            "preDrawCallback" : function() {
+            "autoWidth": true,
+            "preDrawCallback": function () {
                 // Initialize the responsive datatables helper once.
                 if (!responsiveHelper_dt_basic) {
                     responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
                 }
             },
-            "rowCallback" : function(nRow) {
+            "rowCallback": function (nRow) {
                 responsiveHelper_dt_basic.createExpandIcon(nRow);
             },
-            "drawCallback" : function(oSettings) {
+            "drawCallback": function (oSettings) {
                 responsiveHelper_dt_basic.respond();
             }
         });

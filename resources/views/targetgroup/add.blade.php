@@ -2,13 +2,21 @@
 @section('siteTitle')Add Target Group @endsection
 @section('header_extra')
     <style>
-        td>span{
+        td > span {
             color: #3ca319;
             font-size: 16px;
             font-weight: bold;
         }
-        .well{
+
+        .well {
             padding: 15px !important;
+        }
+
+        .bg-color {
+            display: block;
+            padding: 10px 14px 5px;
+            border: none;
+            background: rgba(239, 242, 244, 0.3);
         }
     </style>
 @endsection
@@ -62,7 +70,7 @@
                     <article class="col-sm-12 col-md-12 col-lg-12">
 
                         <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="well" >
+                        <div class="well">
                             <!-- widget div-->
                             <div>
 
@@ -71,7 +79,8 @@
 
                                     <div class="row">
                                         <form id="wizard-1" novalidate="novalidate"
-                                              action="{{URL::route('targetgroup_create')}}" method="post" class="smart-form" >
+                                              action="{{URL::route('targetgroup_create')}}" method="post"
+                                              class="smart-form">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="hidden" name="campaign_id" value="{{$campaign_obj->id}}">
 
@@ -112,7 +121,7 @@
                                                         <!-- NEW WIDGET START -->
                                                         <article class="col-sm-12 col-md-12 col-lg-12">
 
-                                                            <div class="well" >
+                                                            <div class="well">
                                                                 <!-- widget div-->
                                                                 <div>
                                                                     <!-- widget content -->
@@ -123,79 +132,108 @@
                                                                             <div class="tab-pane fade in active"
                                                                                  id="s1">
 
-                                                                                <p>
+                                                                                <h6>
                                                                                     General Information
-                                                                                </p>
+                                                                                </h6>
                                                                                 <hr class="simple">
-                                                                                <div class="row">
+                                                                                <div class="col-md-12 bg-color">
                                                                                     <section class="col col-2">
                                                                                         <label class="label" for="">Name(required)</label>
-                                                                                        <div class="form-group">
-                                                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
 
-                                                                                            <input type="text" name="name" placeholder="Name" >
-                                                                                        </label>
+                                                                                        <div class="form-group">
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
+
+                                                                                                <input type="text"
+                                                                                                       name="name"
+                                                                                                       placeholder="Name">
+                                                                                            </label>
                                                                                         </div>
                                                                                     </section>
                                                                                     <section class="col col-2">
-                                                                                        <label class="label" for="">IAB Category</label>
+                                                                                        <label class="label" for="">IAB
+                                                                                            Category</label>
 
-                                                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                                                        <label class="input"> <i
+                                                                                                    class="icon-append fa fa-user"></i>
+
                                                                                             <div class="form-group">
                                                                                                 <select name="iab_category"
-                                                                                                    class="form-control "
-                                                                                                    id=""
-                                                                                                    onchange="ShowSubCategory(this.value)">
-                                                                                                <option value="0"
-                                                                                                        disabled>
-                                                                                                    Select one ...
-                                                                                                </option>
-                                                                                                @foreach($iab_category_obj as $index)
-                                                                                                    <option value="{{$index->id}}">{{$index->name}}</option>
-                                                                                                @endforeach
-                                                                                            </select>
+                                                                                                        class="form-control "
+                                                                                                        id=""
+                                                                                                        onchange="ShowSubCategory(this.value)">
+                                                                                                    <option value="0"
+                                                                                                            disabled>
+                                                                                                        Select one ...
+                                                                                                    </option>
+                                                                                                    @foreach($iab_category_obj as $index)
+                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                    @endforeach
+                                                                                                </select>
                                                                                             </div>
                                                                                         </label>
                                                                                     </section>
-
                                                                                     <section class="col col-2">
-                                                                                        <label class="label" for="">IAB Category</label>
+                                                                                        <label class="label" for="">IAB
+                                                                                            Category</label>
 
-                                                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                                                        <label class="input"> <i
+                                                                                                    class="icon-append fa fa-user"></i>
+
                                                                                             <div class="form-group">
-                                                                                            <select name="iab_sub_category"
-                                                                                                    class="form-control "
-                                                                                                    id="iab_sub_category">
-                                                                                                <option value="0"
-                                                                                                        disabled>
-                                                                                                    Select Iab
-                                                                                                    Category First
-                                                                                                    ...
-                                                                                                </option>
-                                                                                            </select>
+                                                                                                <select name="iab_sub_category"
+                                                                                                        class="form-control "
+                                                                                                        id="iab_sub_category">
+                                                                                                    <option value="0"
+                                                                                                            disabled>
+                                                                                                        Select Iab
+                                                                                                        Category First
+                                                                                                        ...
+                                                                                                    </option>
+                                                                                                </select>
                                                                                             </div>
                                                                                         </label>
                                                                                     </section>
-                                                                                    <section class="col col-3">
-                                                                                        <label class="label" for="">Domain Name</label>
+                                                                                    <section class="col col-2">
+                                                                                        <label class="label" for="">Campaign
+                                                                                            ID</label>
+                                                                                        <label class="input">
+                                                                                            <h6>
+                                                                                                CMP{{$campaign_obj->id}}</h6>
+                                                                                        </label>
+                                                                                    </section>
 
-                                                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                                                </div>
+                                                                                <div class="col-md-12 bg-color">
+                                                                                    <section class="col col-3">
+                                                                                        <label class="label" for="">Domain
+                                                                                            Name</label>
+
+                                                                                        <label class="input"> <i
+                                                                                                    class="icon-append fa fa-user"></i>
+
                                                                                             <div class="form-group">
-                                                                                                <input type="text" name="advertiser_domain_name" placeholder="Domain Name" id="advertiser_domain_name" >
+                                                                                                <input type="text"
+                                                                                                       name="advertiser_domain_name"
+                                                                                                       placeholder="Domain Name"
+                                                                                                       id="advertiser_domain_name">
                                                                                             </div>
                                                                                         </label>
                                                                                     </section>
 
                                                                                 </div>
-                                                                                <p>
+                                                                                <h6>
                                                                                     Budget Information
-                                                                                </p>
+                                                                                </h6>
                                                                                 <hr class="simple">
-                                                                                <div class="row">
-                                                                                    <section class="col col-2">
-                                                                                        <label class="label" for="">Max Impression</label>
+                                                                                <div class="col-md-6 bg-color">
+                                                                                    <section class="col col-4">
+                                                                                        <label class="label" for="">Max
+                                                                                            Impression</label>
+
                                                                                         <div class="form-group">
-                                                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
 
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Max Impressions"
@@ -205,10 +243,13 @@
                                                                                             </label>
                                                                                         </div>
                                                                                     </section>
-                                                                                    <section class="col col-2">
-                                                                                        <label class="label" for="">Daily Max Imps</label>
+                                                                                    <section class="col col-4">
+                                                                                        <label class="label" for="">Daily
+                                                                                            Max Imps</label>
+
                                                                                         <div class="form-group">
-                                                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
 
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Daily Max Imps"
@@ -218,10 +259,15 @@
                                                                                             </label>
                                                                                         </div>
                                                                                     </section>
-                                                                                    <section class="col col-2">
-                                                                                        <label class="label" for="">Max Budget</label>
+                                                                                </div>
+                                                                                <div class="col-md-6 bg-color">
+                                                                                    <section class="col col-4">
+                                                                                        <label class="label" for="">Max
+                                                                                            Budget</label>
+
                                                                                         <div class="form-group">
-                                                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
 
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Max Budget"
@@ -231,10 +277,13 @@
                                                                                             </label>
                                                                                         </div>
                                                                                     </section>
-                                                                                    <section class="col col-2">
-                                                                                        <label class="label" for="">Daily Max Budget</label>
+                                                                                    <section class="col col-4">
+                                                                                        <label class="label" for="">Daily
+                                                                                            Max Budget</label>
+
                                                                                         <div class="form-group">
-                                                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
 
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Daily Max Budget"
@@ -245,11 +294,14 @@
                                                                                         </div>
                                                                                     </section>
                                                                                 </div>
-                                                                                <div class="row">
+                                                                                <div class="col-md-12 bg-color">
                                                                                     <section class="col col-2">
-                                                                                        <label class="label" for="">Frequency In Sec </label>
+                                                                                        <label class="label" for="">Frequency
+                                                                                            In Sec </label>
+
                                                                                         <div class="form-group">
-                                                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
 
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Frequency per sec"
@@ -260,9 +312,12 @@
                                                                                         </div>
                                                                                     </section>
                                                                                     <section class="col col-2">
-                                                                                        <label class="label" for="">CPM</label>
+                                                                                        <label class="label"
+                                                                                               for="">CPM</label>
+
                                                                                         <div class="form-group">
-                                                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
 
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="MAX CPM"
@@ -273,9 +328,12 @@
                                                                                         </div>
                                                                                     </section>
                                                                                     <section class="col col-2">
-                                                                                        <label class="label" for="">Pacing Plan</label>
+                                                                                        <label class="label" for="">Pacing
+                                                                                            Plan</label>
+
                                                                                         <div class="form-group">
-                                                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
 
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Pacing Plan"
@@ -286,6 +344,7 @@
                                                                                         </div>
                                                                                     </section>
                                                                                 </div>
+                                                                                <div class="clearfix"></div>
                                                                                 <p>
                                                                                     Date Rang
                                                                                 </p>
@@ -347,7 +406,7 @@
                                                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                                                             <!-- Widget ID (each widget will need unique ID)-->
-                                                            <div class="well" >
+                                                            <div class="well">
                                                                 <!-- widget div-->
                                                                 <div>
 
@@ -448,7 +507,8 @@
                                                                                                            data-parent="#accordion"
                                                                                                            href="#blacklist"
                                                                                                            onclick="taggleBWList('blacklist')">
-                                                                                                            Assign Black List
+                                                                                                            Assign Black
+                                                                                                            List
                                                                                                         </a>
                                                                                                     </h4>
                                                                                                 </div>
@@ -457,7 +517,8 @@
                                                                                                      class="panel-collapse collapse in">
                                                                                                     <div class="panel-body">
                                                                                                         <!-- widget content -->
-                                                                                                        <div class="widget-body" id="blacklist_select">
+                                                                                                        <div class="widget-body"
+                                                                                                             id="blacklist_select">
 
                                                                                                             <select multiple="multiple"
                                                                                                                     size="10"
@@ -487,7 +548,8 @@
                                                                                                            data-parent="#accordion"
                                                                                                            href="#accordionTwo"
                                                                                                            onclick="taggleBWList('whitelist')">
-                                                                                                            Assign White List
+                                                                                                            Assign White
+                                                                                                            List
                                                                                                         </a>
                                                                                                     </h4>
                                                                                                 </div>
@@ -496,7 +558,8 @@
                                                                                                      class="panel-collapse collapse">
                                                                                                     <div class="panel-body">
                                                                                                         <!-- widget content -->
-                                                                                                        <div class="widget-body" id="whitelist_select">
+                                                                                                        <div class="widget-body"
+                                                                                                             id="whitelist_select">
 
                                                                                                             <select multiple="multiple"
                                                                                                                     size="10"
@@ -573,7 +636,7 @@
                                                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                                                             <!-- Widget ID (each widget will need unique ID)-->
-                                                            <div class=" well" >
+                                                            <div class=" well">
                                                                 <!-- widget div-->
                                                                 <div>
 
@@ -599,7 +662,8 @@
                                                                              class="tab-content">
                                                                             <div class="tab-pane fade in active"
                                                                                  id="u1">
-                                                                                <div class="row" id="advertiser_publisher">
+                                                                                <div class="row"
+                                                                                     id="advertiser_publisher">
                                                                                     <div class="col-sm-3">
                                                                                         <div class="form-group">
                                                                                             <div class="input-group">
@@ -631,7 +695,9 @@
                                                                                 </div>
                                                                                 <div class="row">
                                                                                     <div class="col-sm-6">
-                                                                                        <input type="button" value="send" onclick="submitForm() "/>
+                                                                                        <input type="button"
+                                                                                               value="send"
+                                                                                               onclick="submitForm() "/>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row">
@@ -660,29 +726,39 @@
                                                                                             <thead>
                                                                                             <tr>
                                                                                                 <th>Hours</th>
-                                                                                                <th>1:00 </th>
-                                                                                                <th>2:00 </th>
-                                                                                                <th>3:00 </th>
-                                                                                                <th>4:00 </th>
-                                                                                                <th>5:00 </th>
-                                                                                                <th>6:00 </th>
-                                                                                                <th>7:00 </th>
-                                                                                                <th>8:00 </th>
-                                                                                                <th>9:00 </th>
-                                                                                                <th>10:00 </th>
-                                                                                                <th>11:00 </th>
-                                                                                                <th>12:00 </th>
+                                                                                                <th>1:00</th>
+                                                                                                <th>2:00</th>
+                                                                                                <th>3:00</th>
+                                                                                                <th>4:00</th>
+                                                                                                <th>5:00</th>
+                                                                                                <th>6:00</th>
+                                                                                                <th>7:00</th>
+                                                                                                <th>8:00</th>
+                                                                                                <th>9:00</th>
+                                                                                                <th>10:00</th>
+                                                                                                <th>11:00</th>
+                                                                                                <th>12:00</th>
                                                                                             </tr>
                                                                                             </thead>
                                                                                             <tbody>
                                                                                             @for($i=0;$i<7;$i++)
                                                                                                 <tr>
-                                                                                                    <td>@if($i==0) monday @elseif($i==1) tusday @elseif($i==2) wendsday @elseif($i==3) tursday @elseif($i==4) friday @elseif($i==5) satarday @elseif($i==6) sunday @endif</td>
+                                                                                                    <td>@if($i==0)
+                                                                                                            monday @elseif($i==1)
+                                                                                                            tusday @elseif($i==2)
+                                                                                                            wendsday @elseif($i==3)
+                                                                                                            tursday @elseif($i==4)
+                                                                                                            friday @elseif($i==5)
+                                                                                                            satarday @elseif($i==6)
+                                                                                                            sunday @endif</td>
                                                                                                     @for($j=0;$j<12;$j++)
-                                                                                                        <td><input type="checkbox"
-                                                                                                                   class="form-control" name="{{$i}}-{{$j}}-am">
+                                                                                                        <td>
                                                                                                             <input type="checkbox"
-                                                                                                                   class="form-control" name="{{$i}}-{{$j}}-pm">
+                                                                                                                   class="form-control"
+                                                                                                                   name="{{$i}}-{{$j}}-am">
+                                                                                                            <input type="checkbox"
+                                                                                                                   class="form-control"
+                                                                                                                   name="{{$i}}-{{$j}}-pm">
                                                                                                         </td>
                                                                                                     @endfor
                                                                                                 </tr>
@@ -718,6 +794,7 @@
 
                                                         <h3><strong>Step 4</strong> - Review And Submit</h3>
                                                         <br>
+
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <h2>Step 1</h2>
@@ -725,23 +802,35 @@
                                                                     <tr>
                                                                         <td>name: <span id="rev_name"></span></td>
                                                                         <td>IAB Cat: <span id="rev_iab"></span></td>
-                                                                        <td>Sub IAB cat: <span id="rev_sub_iab"></span></td>
-                                                                        <td>Domain name: <span id="rev_domain_name"></span></td>
+                                                                        <td>Sub IAB cat: <span id="rev_sub_iab"></span>
+                                                                        </td>
+                                                                        <td>Domain name: <span
+                                                                                    id="rev_domain_name"></span></td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Max Impressions: <span id="rev_max_imp"></span></td>
-                                                                        <td>Daily max imp: <span id="rev_daily_max_imp"></span></td>
-                                                                        <td>Max budget: <span id="rev_max_budget"></span></td>
-                                                                        <td>Daily Max budget: <span id="rev_daily_max_budget"></span></td>
+                                                                        <td>Max Impressions: <span
+                                                                                    id="rev_max_imp"></span></td>
+                                                                        <td>Daily max imp: <span
+                                                                                    id="rev_daily_max_imp"></span></td>
+                                                                        <td>Max budget: <span
+                                                                                    id="rev_max_budget"></span></td>
+                                                                        <td>Daily Max budget: <span
+                                                                                    id="rev_daily_max_budget"></span>
+                                                                        </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Frequency in sec: <span id="rev_frequency_in_sec"></span></td>
+                                                                        <td>Frequency in sec: <span
+                                                                                    id="rev_frequency_in_sec"></span>
+                                                                        </td>
                                                                         <td>Max CPM: <span id="rev_cpm"></span></td>
-                                                                        <td colspan="2">Pacing plan: <span id="rev_pacing_plan"></span></td>
+                                                                        <td colspan="2">Pacing plan: <span
+                                                                                    id="rev_pacing_plan"></span></td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td colspan="2">Start Date: <span id="rev_start_date"></span></td>
-                                                                        <td colspan="2">End Date: <span id="rev_end_date"></span></td>
+                                                                        <td colspan="2">Start Date: <span
+                                                                                    id="rev_start_date"></span></td>
+                                                                        <td colspan="2">End Date: <span
+                                                                                    id="rev_end_date"></span></td>
                                                                     </tr>
                                                                 </table>
                                                             </div>
@@ -760,7 +849,8 @@
                                                                 </table>
                                                             </div>
                                                             <div class="col-md-4">
-                                                                <h3>Assigned Black/White List <span id="rev_bwlist"></span></h3>
+                                                                <h3>Assigned Black/White List <span
+                                                                            id="rev_bwlist"></span></h3>
                                                                 <table class="table table-bordered table-responsive">
                                                                     <tr>
                                                                         <td><span id="rev_assign_bwlist"></span></td>
@@ -771,7 +861,8 @@
                                                                 <h3>Assigned Geo Segment</h3>
                                                                 <table class="table table-bordered table-responsive">
                                                                     <tr>
-                                                                        <td><span id="rev_assign_geosegment"></span></td>
+                                                                        <td><span id="rev_assign_geosegment"></span>
+                                                                        </td>
                                                                     </tr>
                                                                 </table>
                                                             </div>
@@ -847,7 +938,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        function submitForm(){
+        function submitForm() {
 //            var form=$('#publisher_bid');
 //            console.log(form);
             var url = '{{url('/advertiser_publisher/create')}}';
@@ -860,19 +951,19 @@
 //
             $.post(url, formData).done(function (data) {
                 $('#advertiser_publisher').find("input").each(function (index, node) {
-                    node.value='';
+                    node.value = '';
                 });
-                var data= JSON.parse(data);
-                for(var i=0;i<data.length;i=i+3){
-                   var elem='';
-                    elem = "<tr><td>"+data[i]+"</td><td>"+data[i+1]+"</td><td><input type='text' class='form-control' name='"+data[i]+"-bid' value='"+data[i+2]+"'></td></tr>";
+                var data = JSON.parse(data);
+                for (var i = 0; i < data.length; i = i + 3) {
+                    var elem = '';
+                    elem = "<tr><td>" + data[i] + "</td><td>" + data[i + 1] + "</td><td><input type='text' class='form-control' name='" + data[i] + "-bid' value='" + data[i + 2] + "'></td></tr>";
                     $('#show_bid').append(elem);
                 }
             });
         }
         function ShowSubCategory(id) {
             $.ajax({
-                url: "{{url('/get_iab_sub_category')}}" +'/'+ id
+                url: "{{url('/get_iab_sub_category')}}" + '/' + id
             }).success(function (response) {
                 var cb = '';
                 var data = jQuery.parseJSON(response);
@@ -889,22 +980,22 @@
             $('#rev_assign_bwlist').html('');
             $('#rev_assign_geosegment').html('');
             $('#rev_bwlist').html('');
-            $('#selected-list_creative').find('option').each(function() {
+            $('#selected-list_creative').find('option').each(function () {
                 $('#rev_assign_creative').append($(this).html() + '<br>');
             });
-            if($('#selected-list_blacklist').find('option').length>0) {
+            if ($('#selected-list_blacklist').find('option').length > 0) {
                 $('#rev_bwlist').html('(Black List)');
                 $('#selected-list_blacklist').find('option').each(function () {
                     $('#rev_assign_bwlist').append($(this).html() + '<br>');
                 });
-            }else if($('#selected-list_whitelist').find('option').length>0){
+            } else if ($('#selected-list_whitelist').find('option').length > 0) {
                 $('#rev_bwlist').html('(White List)');
                 $('#selected-list_whitelist').find('option').each(function () {
                     $('#rev_assign_bwlist').append($(this).html() + '<br>');
                 });
 
             }
-            $('#selected-list_geosegment').find('option').each(function() {
+            $('#selected-list_geosegment').find('option').each(function () {
                 $('#rev_assign_geosegment').append($(this).html() + '<br>');
             });
             console.log($('#initializeDuallistbox'));
@@ -922,11 +1013,11 @@
 //            $('#rev_').html($('#name').val());
 
         }
-        function taggleBWList(type){
-            if(type == 'blacklist'){
+        function taggleBWList(type) {
+            if (type == 'blacklist') {
                 jQuery('#whitelist_select .removeall').click();
             }
-            if(type == 'whitelist'){
+            if (type == 'whitelist') {
                 jQuery('#blacklist_select .removeall').click();
             }
         }
@@ -946,7 +1037,7 @@
                     },
                     advertiser_domain_name: {
                         required: true,
-                        url:"site url like: www.yourdomain.com"
+                        url: "site url like: www.yourdomain.com"
                     },
                     iab_sub_category: {
                         required: true
@@ -955,32 +1046,32 @@
                         required: true
                     },
                     daily_max_impression: {
-                        required: true ,
-                        number : 'Enter number Plz'
+                        required: true,
+                        number: 'Enter number Plz'
                     },
                     max_budget: {
-                        required: true ,
-                        number : 'Enter number Plz'
+                        required: true,
+                        number: 'Enter number Plz'
                     },
                     daily_max_budget: {
                         required: true,
-                        minlength: 2   ,
-                        number : 'Enter number Plz'
+                        minlength: 2,
+                        number: 'Enter number Plz'
                     },
                     frequency_in_sec: {
                         required: true,
                         minlength: 2,
-                        number : 'Enter number Plz'
+                        number: 'Enter number Plz'
                     },
                     cpm: {
                         required: true,
                         minlength: 2,
-                        number : 'Enter number Plz'
+                        number: 'Enter number Plz'
                     },
                     pacing_plan: {
                         required: true,
                         minlength: 2,
-                        number : 'Enter number Plz'
+                        number: 'Enter number Plz'
                     },
                     startdate: {
                         required: true
@@ -1086,7 +1177,6 @@
                     $('#startdate').datepicker('option', 'maxDate', selectedDate);
                 }
             });
-
 
 
         })
