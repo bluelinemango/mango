@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Advertiser;
 use App\Models\ModelTable;
+use App\Models\Offer;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -35,13 +36,16 @@ class ModelController extends Controller
         return Redirect::to(url('/user/login'));
     }
 
-    public function ModelAddView($clid,$advid){
+    public function ModelAddView($clid,$advid){ //TODO: Check only one comapny can view offer and ...
         if(Auth::check()) {
             if (in_array('ADD_EDIT_MODEL', $this->permission)) {
                 $chkUser = Advertiser::with('GetClientID')->find($advid);
                 if(count($chkUser) > 0 and Auth::user()->id == $chkUser->GetClientID->user_id) {
                     $advertiser_obj = Advertiser::with('GetClientID')->find($advid);
-                    return view('model.add')->with('advertiser_obj', $advertiser_obj);
+                    $offer=Offer::get();
+                    return view('model.add')
+                        ->with('offer_obj', $offer)
+                        ->with('advertiser_obj', $advertiser_obj);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
             }
@@ -51,29 +55,47 @@ class ModelController extends Controller
     }
 
     public function add_model(Request $request){
+//        return dd($request->all());
         if(Auth::check()){
             if (in_array('ADD_EDIT_MODEL', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $chkUser=Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
-                        $date_of_request = \DateTime::createFromFormat('m/d/Y', $request->input('date_of_request'));
+//                        $date_of_request = \DateTime::createFromFormat('m/d/Y', $request->input('date_of_request'));
+                        if($request->has('positive_offer_id'))
+                        $positive_offer_id=implode(',',$request->input('positive_offer_id'));
+                        if($request->has('negative_offer_id'))
+                            $negative_offer_id=implode(',',$request->input('negative_offer_id'));
+//                        return dd('['.$positive_offer_id.']');
+
                         $modelTable = new ModelTable();
                         $modelTable->name = $request->input('name');
-                        $modelTable->algo = $request->input('algo');
+                        $modelTable->advertiser_id = $request->input('advertiser_id');
                         $modelTable->seed_web_sites = json_encode($request->input('seed_web_sites'));
-                        $modelTable->negative_features_requested = json_encode($request->input('negative_features_requested'));
-                        $modelTable->negative_feature_used = json_encode($request->input('negative_feature_used'));
+                        $modelTable->algo = $request->input('algo');
                         $modelTable->segment_name_seed = $request->input('segment_name_seed');
-                        $modelTable->process_result = $request->input('process_result');
-                        $modelTable->num_neg_devices_used = $request->input('num_neg_devices_used');
-                        $modelTable->num_pos_devices_used = $request->input('num_pos_devices_used');
+                        $modelTable->process_result = 'submitted';
+                        $modelTable->description = $request->input('description');
                         $modelTable->feature_recency_in_sec = $request->input('feature_recency_in_sec');
                         $modelTable->max_num_both_neg_pos_devices = $request->input('max_num_both_neg_pos_devices');
-                        $modelTable->description = $request->input('description');
-                        $modelTable->advertiser_id = $request->input('advertiser_id');
-                        $modelTable->date_of_request = $date_of_request;
+                        $modelTable->negative_features_requested = json_encode($request->input('negative_features_requested'));
+                        $modelTable->model_type = $request->input('model_type');
+                        $modelTable->cut_off_score = $request->input('cut_off_score');
+                        $modelTable->pixel_hit_recency_in_seconds = $request->input('pixel_hit_recency_in_seconds');
+                        if($request->has('positive_offer_id'))
+                            $modelTable->positive_offer_id = '['.$positive_offer_id.']';
+                        if($request->has('negative_offer_id'))
+                            $modelTable->negative_offer_id = '['.$negative_offer_id.']';
+                        $modelTable->max_number_of_device_history_per_feature = $request->input('max_number_of_device_history_per_feature');
+                        $modelTable->max_number_of_negative_feature_to_pick = $request->input('max_number_of_negative_feature_to_pick');
+                        $modelTable->number_of_positive_device_to_be_used_for_modeling = $request->input('number_of_positive_device_to_be_used_for_modeling');
+                        $modelTable->number_of_negative_device_to_be_used_for_modeling = $request->input('number_of_negative_device_to_be_used_for_modeling');
+                        $modelTable->number_of_both_negative_positive_device_to_be_used = $request->input('number_of_both_negative_positive_device_to_be_used');
+                        $modelTable->date_of_request_completion = date('Y-m-d H:i:s');
+                        $modelTable->date_of_request = date('Y-m-d H:i:s');
                         $modelTable->save();
+//                        return dd($request->all());
                         $audit= new AuditsController();
                         $audit->store('modelTable',$modelTable->id,null,'add');
                         return Redirect::to(url('/client/cl'.$chkUser->GetClientID->id.'/advertiser/adv'.$request->input('advertiser_id').'/model/mdl'.$modelTable->id.'/edit'))->withErrors(['success' => true, 'msg' => "Model added successfully"]);

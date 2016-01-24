@@ -34,6 +34,7 @@ class TableModel extends Migration
         });
     }
 
+
     /**
      * Reverse the migrations.
      *

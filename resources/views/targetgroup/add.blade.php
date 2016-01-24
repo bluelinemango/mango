@@ -174,7 +174,7 @@
                                                                                         </label>
                                                                                     </section>
                                                                                     <section class="col col-2">
-                                                                                        <label class="label" for="">IAB
+                                                                                        <label class="label" for="">IAB Sub
                                                                                             Category</label>
 
                                                                                         <label class="input"> <i
@@ -446,7 +446,7 @@
                                                                                 <div class="row">
                                                                                     <div class="col-md-6 col-md-offset-3">
                                                                                         <!-- widget content -->
-                                                                                        <div class="widget-body assign_geolocation">
+                                                                                        <div class=" assign_geolocation" style="padding: 20px 0;">
 
                                                                                             <select multiple="multiple"
                                                                                                     size="10"
@@ -470,7 +470,7 @@
                                                                                 <div class="row">
                                                                                     <div class="col-md-6 col-md-offset-3">
                                                                                         <!-- widget content -->
-                                                                                        <div class="widget-body assign_creative">
+                                                                                        <div class="assign_creative">
 
                                                                                             <select multiple="multiple"
                                                                                                     size="10"

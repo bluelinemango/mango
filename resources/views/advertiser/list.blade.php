@@ -54,39 +54,15 @@
                             @endif
 
                     <!-- NEW WIDGET START -->
-                    <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
                         <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3" data-widget-editbutton="false">
-                            <!-- widget options:
-                                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-                                        data-widget-colorbutton="false"
-                                        data-widget-editbutton="false"
-                                        data-widget-togglebutton="false"
-                                        data-widget-deletebutton="false"
-                                        data-widget-fullscreenbutton="false"
-                                        data-widget-custombutton="false"
-                                        data-widget-collapsed="true"
-                                        data-widget-sortable="false"
-                                        -->
-                            <header>
-                                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                <h2>Advertiser List</h2>
-
-                            </header>
-
+                        <div class="well " >
                             <!-- widget div-->
                             <div>
 
-                                                <!-- widget edit box -->
-                                <div class="jarviswidget-editbox">
-                                    <!-- This area used as dropdown edit box -->
-
-                                </div>
-                                <!-- end widget edit box -->
-
                                 <!-- widget content -->
-                                <div class="widget-body ">
+                                <div class="">
                                     <!-- widget grid -->
                                     <section id="widget-grid" class="">
 
@@ -94,7 +70,7 @@
                                         <div class="row">
 
                                             <!-- NEW WIDGET START -->
-                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
 
                                                 <table id="jqgrid"></table>
                                                 <div id="pjqgrid"></div>
@@ -175,6 +151,7 @@
                 colModel : [{
                     name : 'act',
                     index : 'act',
+                    width : '90%',
                     sortable : false
                 }, {
                     name : 'id',
@@ -187,6 +164,7 @@
                 }, {
                     name : 'campaign',
                     index : 'campaign',
+                    width : '100%',
                     editable : false
                 }, {
                     name : 'date_modify',
@@ -210,9 +188,9 @@
                     var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
-                        be = "<button class='btn btn-xs btn-default' data-original-title='Edit Row' onclick=\"jQuery('#jqgrid').editRow('" + cl + "');\"><i class='fa fa-pencil'></i></button>";
-                        se = "<button class='btn btn-xs btn-default' data-original-title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('" + cl + "');\"><i class='fa fa-save'></i></button>";
-                        ca = "<button class='btn btn-xs btn-default' data-original-title='Cancel' onclick=\"jQuery('#jqgrid').restoreRow('" + cl + "');\"><i class='fa fa-times'></i></button>";
+                        be = "<a class='edit_jqgrid' data-original-title='Edit Row' onclick=\"jQuery('#jqgrid').editRow('" + cl + "');\"><i class='fa fa-pencil'></i></a>";
+                        se = "<a class='save_jqgrid' data-original-title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('" + cl + "');\"><i class='fa fa-save'></i></a>";
+                        ca = "<a class='cancel_jqgrid' data-original-title='Cancel' onclick=\"jQuery('#jqgrid').restoreRow('" + cl + "');\"><i class='fa fa-times'></i></a>";
 //                        ce = "<button class='btn btn-xs btn-default' onclick=\"jQuery('#jqgrid').restoreRow('"+cl+"');\"><i class='fa fa-times'></i></button>";
 //                        jQuery("#jqgrid").jqGrid('setRowData',ids[i],{act:be+se+ce});
                         jQuery("#jqgrid").jqGrid('setRowData', ids[i], {
