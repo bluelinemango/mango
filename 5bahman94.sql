@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 24, 2016 at 05:35 PM
+-- Generation Time: Jan 25, 2016 at 07:54 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -112,31 +112,30 @@ CREATE TABLE IF NOT EXISTS `audits` (
   `date_change` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `audits`
 --
 
 INSERT INTO `audits` (`id`, `user_id`, `entity_type`, `entity_id`, `audit_type`, `field`, `before_value`, `after_value`, `change_key`, `date_change`, `created_at`, `updated_at`) VALUES
-(62, 1, 'client', 1, 'edit', 'name', 'pepsi', 'pepsiasd', '$2y$10$13kZ.8ZCl8a89DiNzRtQyO2/xAi.P9JjaC5BkWOXQa4INkRG4Hc7K', '2016-01-18 10:03:29', '2016-01-18 10:03:29', '2016-01-18 10:03:29'),
-(67, 1, 'geosegment', 14, 'add', '', '', '', '$2y$10$sWDiQ6EwQRIv5nFHap/g0ORrgU06Ux8RivWKwAGoPcIUljFhjGnHy', '2016-01-18 14:32:09', '2016-01-18 14:32:09', '2016-01-18 14:32:09'),
-(72, 1, 'bwlist', 19, 'add', '', '', '', '$2y$10$M0b.Hg2s48DkvtE/Ua5Ige/QuXnlOSK3Ipz31MqUUTVBxjrxRwbC2', '2016-01-18 15:25:21', '2016-01-18 15:25:21', '2016-01-18 15:25:21'),
-(92, 1, 'geosegmententrie', 37, 'del', '', 'sadasd', '14', '$2y$10$19T7AB.3Hm6t3v9rqiGrmO7JF88S7MkmF0CehHASMRdWLU72XqW1m', '2016-01-18 16:27:21', '2016-01-18 16:27:21', '2016-01-18 16:27:21'),
-(93, 1, 'geosegmententrie', 37, 'del', '', 'asdasd22', '14', '$2y$10$19T7AB.3Hm6t3v9rqiGrmO7JF88S7MkmF0CehHASMRdWLU72XqW1m', '2016-01-18 16:27:21', '2016-01-18 16:27:21', '2016-01-18 16:27:21'),
-(94, 1, 'geosegmententrie', 41, 'add', '', '', '14', '$2y$10$abWpl.tte/t3gWKWkUUas.yO5e2NGeGWuw4.qrsWirC1a8zBbmv9C', '2016-01-18 17:16:50', '2016-01-18 17:16:51', '2016-01-18 17:16:51'),
-(95, 1, 'bwlistentrie', 154, 'add', '', '', '19', '$2y$10$Ov0nsUdvbSsi7zU/cmph2OyYJX.PxQKTRAnaR9SB0avkFG4p0A3bK', '2016-01-18 17:43:37', '2016-01-18 17:43:37', '2016-01-18 17:43:37'),
-(96, 1, 'targetgroup', 17, 'add', '', '', '', '$2y$10$l40eYYP5pGFDJMLsQGbur.Ja6X3T3cDkYi8o3r1kxEkM49cfzUPTu', '2016-01-20 14:50:40', '2016-01-20 14:50:40', '2016-01-20 14:50:40'),
-(97, 1, 'targetgroup', 18, 'add', '', '', '', '$2y$10$uHVlUHM0FNNkYzf4v6qZf.2.QxfzfcbpSzBqNzUW06/F5WZ2Iwal2', '2016-01-20 15:45:42', '2016-01-20 15:45:42', '2016-01-20 15:45:42'),
-(109, 1, 'offer', 1, 'add', '', '', '', '$2y$10$QnpS0GZyQAZ2LNtKsNTR2uOFsta3DBPV6I/pw61mX6cnZXCbYw9Ym', '2016-01-21 11:13:17', '2016-01-21 11:13:17', '2016-01-21 11:13:17'),
-(111, 1, 'creative', 1, 'edit', 'name', 'ofer1', 'offer1', '$2y$10$shoayPJyHeLfn8BPAMKeA.RZAsl4Y/bKNiBJUvzjPvgwG8l8pUU/u', '2016-01-21 11:19:52', '2016-01-21 11:19:52', '2016-01-21 11:19:52'),
-(112, 1, 'pixel', 1, 'add', '', '', '', '$2y$10$n2Cly4oFXolKyztMED7FJOhFZLWR988hr8wfWtIyr/Zn/oCpf2i3a', '2016-01-21 11:47:51', '2016-01-21 11:47:52', '2016-01-21 11:47:52'),
-(113, 1, 'creative', 1, 'edit', 'name', 'asd23', 'asd233', '$2y$10$IVx7.o58ub52FWg.Y8T5oubT0FDnwgTCZBkiRH25aen.oIZ3kJtvK', '2016-01-21 11:48:26', '2016-01-21 11:48:26', '2016-01-21 11:48:26'),
-(114, 1, 'offer', 2, 'add', '', '', '', '$2y$10$fW/RDAxYIrHJSy2xi2no..rQzZkFEA5xFyGPNzJRfRrmJ3Mqs8Fti', '2016-01-21 12:35:00', '2016-01-21 12:35:00', '2016-01-21 12:35:00'),
-(115, 1, 'pixel', 2, 'add', '', '', '', '$2y$10$GhwFlFczWlebUtSLoR7ZI.W8J.uDmueNTeixgAtBFGTs3XcxeHOqG', '2016-01-21 12:35:31', '2016-01-21 12:35:31', '2016-01-21 12:35:31'),
-(116, 1, 'offer', 1, 'edit', 'name', 'offer1', 'offer1234', '$2y$10$V4XXzETo3UmYlPVxGfyTHeXX9NBemSq946rAgULyIZHccxZzCqrCy', '2016-01-21 12:36:06', '2016-01-21 12:36:07', '2016-01-21 12:36:07'),
-(117, 1, 'offer_pixel', 2, 'add', '', '', '', '$2y$10$wsErrMPb6d5UN5cQuRkNZ.eCVzzd7LAWX1NR4CfCgarfVHLRYiP4q', '2016-01-21 13:07:07', '2016-01-21 13:07:07', '2016-01-21 13:07:07'),
-(118, 1, 'modelTable', 3, 'add', '', '', '', '$2y$10$Wnm7oCc2k/o3sGrOs6a0lO8G5iGzha1vivfU66etw9muDFA1tCGl2', '2016-01-24 11:52:13', '2016-01-24 11:52:13', '2016-01-24 11:52:13');
+(163, 1, 'modelTable', 4, 'edit', 'name', 'test111', 'test1111', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
+(164, 1, 'modelTable', 4, 'edit', 'segment_name_seed', '2341', '23411', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
+(165, 1, 'modelTable', 4, 'edit', 'description', 'axdffs1', 'axdffs12', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
+(166, 1, 'modelTable', 4, 'edit', 'feature_recency_in_sec', '3241', '32411', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
+(167, 1, 'modelTable', 4, 'edit', 'max_num_both_neg_pos_devices', '231', '2312', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
+(168, 1, 'modelTable', 4, 'edit', 'cut_off_score', '1.00', '11.00', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
+(169, 1, 'modelTable', 4, 'edit', 'pixel_hit_recency_in_seconds', '1', '12', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
+(170, 1, 'modelTable', 4, 'edit', 'max_number_of_device_history_per_feature', '1', '12', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
+(171, 1, 'modelTable', 4, 'edit', 'number_of_positive_device_to_be_used_for_modeling', '1', '12', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
+(172, 1, 'modelTable', 4, 'edit', 'number_of_negative_device_to_be_used_for_modeling', '1', '12', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
+(173, 1, 'modelTable', 4, 'edit', 'number_of_both_negative_positive_device_to_be_used', '1', '12', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
+(174, 1, 'positive_offer_model', 1, 'add', '', '', '4', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
+(175, 1, 'negative_offer_model', 1, 'del', '', '', '4', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
+(176, 1, 'negative_offer_model', 1, 'add', '', '', '4', '$2y$10$jbWSnAwjEtV2u0gvZmwTKu78q3CwRdVn1Rk1ZAUr9gvAcVtyLoSyi', '2016-01-25 14:35:34', '2016-01-25 14:35:34', '2016-01-25 14:35:34'),
+(177, 1, 'negative_offer_model', 2, 'add', '', '', '4', '$2y$10$jbWSnAwjEtV2u0gvZmwTKu78q3CwRdVn1Rk1ZAUr9gvAcVtyLoSyi', '2016-01-25 14:35:34', '2016-01-25 14:35:34', '2016-01-25 14:35:34'),
+(178, 1, 'positive_offer_model', 1, 'del', '', '', '4', '$2y$10$jbWSnAwjEtV2u0gvZmwTKu78q3CwRdVn1Rk1ZAUr9gvAcVtyLoSyi', '2016-01-25 14:35:34', '2016-01-25 14:35:34', '2016-01-25 14:35:34'),
+(179, 1, 'positive_offer_model', 2, 'del', '', '', '4', '$2y$10$jbWSnAwjEtV2u0gvZmwTKu78q3CwRdVn1Rk1ZAUr9gvAcVtyLoSyi', '2016-01-25 14:35:34', '2016-01-25 14:35:34', '2016-01-25 14:35:34');
 
 -- --------------------------------------------------------
 
@@ -502,7 +501,6 @@ INSERT INTO `geosegment` (`id`, `name`, `lat`, `lon`, `segment_radius`, `geosegm
 (29, 'asd', '324', '234', 234, 13, '2016-01-18 14:21:49', '2016-01-18 14:21:49'),
 (30, 'asdf', '324', '234', 34, 13, '2016-01-18 14:21:49', '2016-01-18 14:21:49'),
 (31, 'asd', '324', '324', 32, 13, '2016-01-18 14:21:49', '2016-01-18 14:21:49'),
-(39, 'asdasd', '123', '123', 123, 14, '2016-01-18 16:25:02', '2016-01-18 16:25:02'),
 (40, 'sad', '231', '12', 313, 14, '2016-01-18 16:25:08', '2016-01-18 16:25:08'),
 (41, 'asdasd', '21312', '312', 31, 14, '2016-01-18 17:16:50', '2016-01-18 17:16:50');
 
@@ -11097,7 +11095,7 @@ CREATE TABLE IF NOT EXISTS `model` (
   `number_of_negative_device_to_be_used_for_modeling` int(11) NOT NULL,
   `number_of_both_negative_positive_device_to_be_used` int(11) NOT NULL,
   `date_of_request_completion` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `model`
@@ -11106,7 +11104,7 @@ CREATE TABLE IF NOT EXISTS `model` (
 INSERT INTO `model` (`id`, `name`, `advertiser_id`, `seed_web_sites`, `algo`, `segment_name_seed`, `process_result`, `description`, `num_neg_devices_used`, `num_pos_devices_used`, `feature_recency_in_sec`, `max_num_both_neg_pos_devices`, `negative_features_requested`, `feature_avg_num_history_used`, `negative_feature_used`, `date_of_request`, `created_at`, `updated_at`, `positive_feature_used`, `feature_score_map`, `top_feature_score_map`, `model_type`, `cut_off_score`, `pixel_hit_recency_in_seconds`, `positive_offer_id`, `negative_offer_id`, `max_number_of_device_history_per_feature`, `max_number_of_negative_feature_to_pick`, `number_of_positive_device_to_be_used_for_modeling`, `number_of_negative_device_to_be_used_for_modeling`, `number_of_both_negative_positive_device_to_be_used`, `date_of_request_completion`) VALUES
 (1, 'aaa', 6, '"asd,dd,d"', 'heat', 'aaa', 'asdas', '1111', 1, 1, 1, 1, '"asd,fgsd,fg,df,w"', '', '"asd,ac,zc,sdf,g"', '2016-01-11 07:00:06', '2015-11-12 06:34:38', '2015-11-12 07:06:34', '', '', '', '', '0.00', 0, '', '', 0, 0, 0, 0, 0, '0000-00-00 00:00:00'),
 (2, 'sad11', 7, '"sad"', '', 'asdas', '234', 'asdasd', 234, 24, 34324, 234, '"asd,addd"', '', '"aaaa"', '2016-05-12 13:36:09', '2015-11-24 11:25:15', '2015-12-21 11:03:42', '', '', '', '', '0.00', 0, '', '', 0, 0, 0, 0, 0, '0000-00-00 00:00:00'),
-(3, 'asd1', 4, '""', 'lakers', 'ad', 'submitted', 'adas', 0, 0, 324, 324, '""', '', '', '2016-01-24 11:52:13', '2016-01-24 11:52:13', '2016-01-24 11:52:13', '', '', '', 'pixel_model', '43.32', 324, '[1,2]', '', 1, 2, 3, 4, 5, '2016-01-24 11:52:13');
+(4, 'test1111', 4, 'null', '', '23411', 'submitted', 'axdffs12', 0, 0, 32411, 2312, 'null', '', '', '2016-01-25 13:05:02', '2016-01-25 11:09:18', '2016-01-25 14:35:34', '', '', '', 'pixel_model', '11.00', 12, '', '1,2', 12, 0, 12, 12, 12, '2016-01-25 13:05:02');
 
 -- --------------------------------------------------------
 
@@ -11835,7 +11833,7 @@ ALTER TABLE `advertiser_publisher`
 -- AUTO_INCREMENT for table `audits`
 --
 ALTER TABLE `audits`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=119;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=180;
 --
 -- AUTO_INCREMENT for table `bwentries`
 --
@@ -11900,7 +11898,7 @@ ALTER TABLE `impression`
 -- AUTO_INCREMENT for table `model`
 --
 ALTER TABLE `model`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `offer`
 --

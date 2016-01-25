@@ -15,21 +15,10 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li><li>client: <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/edit')}}">cl{{$adver_obj->GetClientID->id}}</a></li><li>Advertiser: adv{{$adver_obj->id}} </li>
+                <li>Home</li>
+                <li><a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/edit')}}">client: cl{{$adver_obj->GetClientID->id}}</a></li>
+                <li>Advertiser: adv{{$adver_obj->id}} </li>
             </ol>
-            <!-- end breadcrumb -->
-
-            <!-- You can also add more buttons to the
-            ribbon for further usability
-
-            Example below:
-                        <span class="ribbon-button-alignment pull-right">
-            <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-            <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-            <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-            </span>
-
- -->
 
         </div>
         <!-- END RIBBON -->
@@ -61,38 +50,15 @@
                         <article class="col-sm-12 col-md-9 col-lg-9">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false" data-widget-custombutton="false">
-                                <!-- widget options:
-                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                    data-widget-colorbutton="false"
-                                    data-widget-editbutton="false"
-                                    data-widget-togglebutton="false"
-                                    data-widget-deletebutton="false"
-                                    data-widget-fullscreenbutton="false"
-                                    data-widget-custombutton="false"
-                                    data-widget-collapsed="true"
-                                    data-widget-sortable="false"
-
-                                -->
+                            <div class="well">
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
                                     <h2>Edit Advertiser: {{$adver_obj->name}} </h2>
-
                                 </header>
 
                                 <!-- widget div-->
                                 <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
-
                                     <!-- widget content -->
-                                    <div class="widget-body no-padding">
+                                    <div class="">
 
                                         <form id="order-form" class="smart-form" action="{{URL::route('advertiser_update')}}" method="post" novalidate="novalidate" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -151,81 +117,56 @@
                         <article class="col-sm-3 col-md-3 col-lg-3">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget" id="wid-id-156" data-widget-editbutton="false" data-widget-custombutton="false">
-                                <!-- widget options:
-                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                    data-widget-colorbutton="false"
-                                    data-widget-editbutton="false"
-                                    data-widget-togglebutton="false"
-                                    data-widget-deletebutton="false"
-                                    data-widget-fullscreenbutton="false"
-                                    data-widget-custombutton="false"
-                                    data-widget-collapsed="true"
-                                    data-widget-sortable="false"
-
-                                -->
-                                <header>
-                                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-
-                                </header>
-
+                            <div class="well" >
                                 <!-- widget div-->
                                 <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
-
                                     <!-- widget content -->
-                                    <div class="widget-body">
+                                    <div class="">
                                                 @if(in_array('ADD_EDIT_CAMPAIGN',$permission))
                                                 <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/add')}}" class=" btn btn-primary pull-left">
                                                     ADD Campaign
-                                                </a>
+                                                </a><div class="clearfix"></div>
+
                                                 @endif
                                                 @if(in_array('ADD_EDIT_CREATIVE',$permission))
                                                 <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/creative/add')}}" class=" btn btn-primary pull-left">
                                                     Add Creative
-                                                </a>
+                                                </a> <div class="clearfix"></div>
                                                 @endif
                                                 @if(in_array('ADD_EDIT_BWLIST',$permission))
                                                 <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/bwlist/add')}}" class=" btn btn-primary pull-left">
                                                     Add B/W List
-                                                </a>
+                                                </a>   <div class="clearfix"></div>
                                                 @endif
                                                 @if(in_array('ADD_EDIT_MODEL',$permission))
                                                 <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/model/add')}}" class=" btn btn-primary pull-left">
                                                     Add Model
-                                                </a>
+                                                </a>  <div class="clearfix"></div>
                                                 @endif
                                                 @if(in_array('ADD_EDIT_OFFER',$permission))
                                                 <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/offer/add')}}" class=" btn btn-primary pull-left">
                                                     Add Offer
-                                                </a>
+                                                </a>   <div class="clearfix"></div>
                                                 @endif
                                                 @if(in_array('ADD_EDIT_PIXEL',$permission))
                                                 <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/pixel/add')}}" class=" btn btn-primary pull-left">
                                                     Add Pixel
-                                                </a>
+                                                </a>   <div class="clearfix"></div>
                                                 @endif
                                                 @if(in_array('ADD_EDIT_GEOSEGMENTLIST',$permission))
                                                 <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/geosegment/add')}}" class=" btn btn-primary pull-left">
                                                     Add Geo Segment List
-                                                </a>
+                                                </a>  <div class="clearfix"></div>
                                                 @endif
                                                 @if(in_array('ADD_EDIT_BWLIST',$permission))
                                                 <button type="reset" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
                                                     Upload BW list
-                                                </button>
+                                                </button>  <div class="clearfix"></div>
                                                 @endif
                                                 @if(in_array('ADD_EDIT_GEOSEGMENTLIST',$permission))
                                                 <button type="reset" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal_geo">
                                                     Upload Geo list
-                                                </button>
+                                                </button> <div class="clearfix"></div>
                                                 @endif
                                     </div>
                                     <!-- end widget content -->

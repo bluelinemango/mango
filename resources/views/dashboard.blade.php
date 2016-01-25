@@ -339,29 +339,9 @@
                     <article class="col-sm-12 col-md-12 col-lg-6">
 
                         <!-- new widget -->
-                        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-fullscreenbutton="false">
-
-                            <!-- widget options:
-                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                            data-widget-colorbutton="false"
-                            data-widget-editbutton="false"
-                            data-widget-togglebutton="false"
-                            data-widget-deletebutton="false"
-                            data-widget-fullscreenbutton="false"
-                            data-widget-custombutton="false"
-                            data-widget-collapsed="true"
-                            data-widget-sortable="false"
-
-                            -->
-
+                        <div class="well" >
                             <header>
-                                <span class="widget-icon"> <i class="fa fa-comments txt-color-white"></i> </span>
-                                <h2> TimeLine </h2>
-                                <div class="widget-toolbar">
-                                    <!-- add: non-hidden - to disable auto hide -->
-
-                                </div>
+                                <h2> Audit Time Line </h2>
                             </header>
 
                             <!-- widget div-->
@@ -377,6 +357,7 @@
                                             <ul class="smart-timeline-list">
                                                 @for($i=0;$i<count($audit_obj);$i++)
 {{--                                                @foreach($audit_obj as $index)--}}
+                                                    <?php $change_key=$audit_obj[$i]->change_key; ?>
                                                 <li>
                                                     <div class="smart-timeline-icon">
                                                         @if($audit_obj[$i]->audit_type == 'add')
@@ -393,20 +374,24 @@
                                                         <p>
                                                             <a href="{{url('user/usr'.$audit_obj[$i]->user_id.'/edit')}}">{{$audit_obj[$i]->getUser->name}}</a>
                                                             @if($audit_obj[$i]->audit_type == 'add')
+                                                                @if($audit_obj[$i]->entity_type == 'positive_offer_model' or $audit_obj[$i]->entity_type == 'negative_offer_model')
+                                                                    changed Model:
+                                                                @else
                                                                 created a new {{$audit_obj[$i]->entity_type}}:
+                                                                @endif
                                                             @elseif($audit_obj[$i]->audit_type == 'edit')
                                                                 changed {{$audit_obj[$i]->entity_type}}:
                                                             @elseif($audit_obj[$i]->audit_type == 'del')
                                                                 deleted {{$audit_obj[$i]->entity_type}}:
                                                             @endif
                                                             @if($audit_obj[$i]->entity_type == 'client')
-                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
+                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">cl{{$audit_obj[$i+1][0]->id}}</a> </strong>
                                                             @endif
                                                             @if($audit_obj[$i]->entity_type == 'advertiser')
-                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
+                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->id.'/edit')}}">adv{{$audit_obj[$i+1][0]->id}}</a> </strong>
                                                             @endif
                                                             @if($audit_obj[$i]->entity_type == 'creative')
-                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/creative/crt'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
+                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/creative/crt'.$audit_obj[$i+1][0]->id.'/edit')}}">crt{{$audit_obj[$i+1][0]->id}}</a> </strong>
                                                             @endif
                                                             @if($audit_obj[$i]->entity_type == 'bwlist')
                                                                 <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/bwlist/bwl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
@@ -415,7 +400,13 @@
                                                                 <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/geosegment/geo'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
                                                             @endif
                                                             @if($audit_obj[$i]->entity_type == 'campaign')
-                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/campaign/cmp'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
+                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/campaign/cmp'.$audit_obj[$i+1][0]->id.'/edit')}}">cmp{{$audit_obj[$i+1][0]->id}}</a> </strong>
+                                                            @endif
+                                                            @if($audit_obj[$i]->entity_type == 'modelTable')
+                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/model/mdl'.$audit_obj[$i+1][0]->id.'/edit')}}">mdl{{$audit_obj[$i+1][0]->id}}</a> </strong>
+                                                            @endif
+                                                            @if($audit_obj[$i]->entity_type == 'positive_offer_model' or $audit_obj[$i]->entity_type == 'negative_offer_model')
+                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/model/mdl'.$audit_obj[$i]->after_value.'/edit')}}">mdl{{$audit_obj[$i]->after_value}}</a> </strong>
                                                             @endif
                                                             @if($audit_obj[$i]->entity_type == 'targetgroup')
                                                                 <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
@@ -439,17 +430,19 @@
                                                                 @endif
                                                             @endif
                                                         </p>
+
+
                                                         @if($audit_obj[$i]->audit_type == 'edit')
                                                             <div class="well well-sm display-inline">
-                                                                <p>Field <strong>{{$audit_obj[$i]->field}}</strong> From <strong>{{$audit_obj[$i]->before_value}}</strong> To <strong>{{$audit_obj[$i]->after_value}}</strong></p>
-                                                                @while(isset($audit_obj[$i+2]->change_key) and $audit_obj[$i]->change_key==$audit_obj[$i+2]->change_key)
-                                                                    <p>Field <strong>{{$audit_obj[$i+2]->field}}</strong> From <strong>{{$audit_obj[$i+2]->before_value}}</strong> To <strong>{{$audit_obj[$i+2]->after_value}}</strong>    </p>
+                                                                {{--<p>Field <strong>{{$audit_obj[$i]->field}}</strong> From <strong>{{$audit_obj[$i]->before_value}}</strong> To <strong>{{$audit_obj[$i]->after_value}}</strong></p>--}}
+                                                                @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='edit')
+                                                                    <p>Field <strong>{{$audit_obj[$i]->field}}</strong> From <strong>{{$audit_obj[$i]->before_value}}</strong> To <strong>{{$audit_obj[$i]->after_value}}</strong>    </p>
                                                                     <?php $i=$i+2; ?>
                                                                 @endwhile
                                                             </div>
 
                                                         @endif
-                                                        @if($audit_obj[$i]->audit_type == 'add' and isset($audit_obj[$i+2]->change_key) and $audit_obj[$i]->change_key==$audit_obj[$i+2]->change_key)
+                                                        @if($audit_obj[$i]->audit_type == 'add' and $audit_obj[$i]->change_key==$change_key)
                                                             <div class="well well-sm display-inline">
                                                                 @if($audit_obj[$i]->entity_type == 'geosegment')
                                                                     Entrie(s):
@@ -457,51 +450,77 @@
                                                                 @if($audit_obj[$i]->entity_type == 'bwlist')
                                                                     Domain Name(s):
                                                                 @endif
+                                                                @if($audit_obj[$i]->entity_type == 'positive_offer_model')
+                                                                        Positive Offer(s) Added:
+                                                                @endif
+                                                                @if($audit_obj[$i]->entity_type == 'negative_offer_model')
+                                                                        Negative Offer(s) Added:
+                                                                @endif
                                                                 <?php $flg=0; $count=0; ?>
-                                                                @while(isset($audit_obj[$i+2]->change_key) and $audit_obj[$i]->change_key==$audit_obj[$i+2]->change_key)
-                                                                        @if($flg>=2)
+                                                                @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type == 'add')
+                                                                        @if($flg>=20)
                                                                              <?php $count++ ?>
                                                                         @endif
                                                                     <p>
-                                                                        @if($audit_obj[$i+2]->entity_type == 'geosegmententrie' and $flg < 2)
-                                                                    name: <strong>{{$audit_obj[$i+3][0]->name}}</strong>
+                                                                        @if($audit_obj[$i]->entity_type == 'geosegmententrie' and $flg < 20)
+                                                                    name: <strong>{{$audit_obj[$i+1][0]->name}}</strong>
                                                                         @endif
-                                                                        @if($audit_obj[$i+2]->entity_type == 'bwlistentrie' and $flg < 2)
-                                                                    name: <strong>{{$audit_obj[$i+3][0]->domain_name}}</strong>
+                                                                        @if($audit_obj[$i]->entity_type == 'positive_offer_model' and $flg < 20)
+                                                                    name: <strong>{{$audit_obj[$i+1][0]->name}}</strong>
+                                                                        @endif
+                                                                        @if($audit_obj[$i]->entity_type == 'negative_offer_model' and $flg < 20)
+                                                                    name: <strong>{{$audit_obj[$i+1][0]->name}}</strong>
+                                                                        @endif
+                                                                        @if($audit_obj[$i]->entity_type == 'bwlistentrie' and $flg < 2)
+                                                                    name: <strong>{{$audit_obj[$i+1][0]->domain_name}}</strong>
                                                                         @endif
                                                                     </p>
                                                                     <?php $i=$i+2; $flg++; ?>
                                                                 @endwhile
-                                                                <p> and other <strong>{{$count}}</strong> more...</p>
+                                                                    @if($flg>20)
+                                                                        <p> and other <strong>{{$count}}</strong> more...</p>
+                                                                    @endif
                                                             </div>
 
                                                         @endif
-                                                        @if($audit_obj[$i]->audit_type == 'del' and isset($audit_obj[$i+2]->change_key) and $audit_obj[$i]->change_key==$audit_obj[$i+2]->change_key)
+                                                        @if($audit_obj[$i]->audit_type == 'del' and $audit_obj[$i]->change_key==$change_key)
                                                             <div class="well well-sm display-inline">
                                                                 @if($audit_obj[$i]->entity_type == 'geosegment')
                                                                     Entrie(s):
                                                                 @endif
+                                                                @if($audit_obj[$i]->entity_type == 'positive_offer_model')
+                                                                    Positive Offer(s) Removed:
+                                                                @endif
+                                                                @if($audit_obj[$i]->entity_type == 'negative_offer_model')
+                                                                    Negative Offer(s) Removed:
+                                                                @endif
                                                                 @if($audit_obj[$i]->entity_type == 'bwlist')
                                                                     Domain(s):
                                                                 @endif
-                                                                    name: <strong>{{$audit_obj[$i]->before_value}}</strong>
+
                                                                 <?php $flg=0; $count=0; ?>
-                                                                @while(isset($audit_obj[$i+2]->change_key) and $audit_obj[$i]->change_key==$audit_obj[$i+2]->change_key)
-                                                                        @if($flg>=2)
+                                                                @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type == 'del')
+                                                                        @if($flg>=20)
                                                                              <?php $count++ ?>
                                                                         @endif
                                                                     <p>
-                                                                        @if($audit_obj[$i+2]->entity_type == 'geosegmententrie' and $flg < 2)
-                                                                    name: <strong>{{$audit_obj[$i+2]->before_value}}</strong>
+                                                                        @if($audit_obj[$i]->entity_type == 'geosegmententrie' and $flg < 2)
+                                                                    name: <strong>{{$audit_obj[$i]->before_value}}</strong>
                                                                         @endif
-                                                                        @if($audit_obj[$i+2]->entity_type == 'bwlistentrie' and $flg < 2)
-                                                                    name: <strong>{{$audit_obj[$i+2]->before_value}}</strong>
+                                                                        @if($audit_obj[$i]->entity_type == 'positive_offer_model' and $flg < 20)
+                                                                    name: <strong>{{$audit_obj[$i+1][0]->name}}</strong>
+                                                                        @endif
+                                                                        @if($audit_obj[$i]->entity_type == 'negative_offer_model' and $flg < 20)
+                                                                    name: <strong>{{$audit_obj[$i+1][0]->name}}</strong>
+                                                                        @endif
+                                                                        @if($audit_obj[$i]->entity_type == 'bwlistentrie' and $flg < 2)
+                                                                    name: <strong>{{$audit_obj[$i]->before_value}}</strong>
                                                                         @endif
                                                                     </p>
                                                                     <?php $i=$i+2; $flg++; ?>
                                                                 @endwhile
                                                                 <p>
-                                                                    @if($flg>2)
+                                                                    @if($flg>20)
                                                                         and other <strong>{{$count}}</strong> more...</p>
                                                                     @endif
                                                             </div>

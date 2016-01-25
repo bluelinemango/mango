@@ -91,6 +91,18 @@ class AuditsController extends Controller
             $audit->date_change = $date_change;
             $audit->save();
         }
+        if($audit_type=='remove') {
+            $audit = new Audits();
+            $audit->user_id = Auth::user()->id;
+            $audit->entity_type = $entity_type;
+            $audit->entity_id = $entity_id;
+            if(!is_null($data))
+                $audit->after_value = $data;
+            $audit->audit_type = 'del';
+            $audit->change_key = $key;
+            $audit->date_change = $date_change;
+            $audit->save();
+        }
         if($audit_type=='edit') {
             $len=count($data);
             for($i=2;$i<$len;$i=$i+3) {

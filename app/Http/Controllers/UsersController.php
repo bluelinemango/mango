@@ -13,6 +13,8 @@ use App\Models\Company;
 use App\Models\Creative;
 use App\Models\GeoSegment;
 use App\Models\GeoSegmentList;
+use App\Models\ModelTable;
+use App\Models\Offer;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Role_Permission;
@@ -348,6 +350,32 @@ class UsersController extends Controller
                                 }else {
                                     $entity_obj = BWList::where('id', $index->after_value)->get();
                                 }
+                            }
+                            break;
+                        case 'modelTable':
+                            if(in_array('VIEW_MODEL',$this->permission)) {
+                                if($index->audit_type=='del') {
+                                    $entity_obj = BWList::where('id', $index->after_value)->get();
+
+                                }else{
+                                    $entity_obj = ModelTable::with(['getAdvertiser'=>function($q){
+                                        $q->with('GetClientID');
+                                    }])->where('id', $index->entity_id)->get();
+                                }
+                            }
+                            break;
+                        case 'positive_offer_model':
+                            if(in_array('VIEW_MODEL',$this->permission)) {
+                                $entity_obj = Offer::with(['getAdvertiser'=>function($q){
+                                    $q->with('GetClientID');
+                                }])->where('id', $index->entity_id)->get();
+                            }
+                            break;
+                        case 'negative_offer_model':
+                            if(in_array('VIEW_MODEL',$this->permission)) {
+                                $entity_obj = Offer::with(['getAdvertiser'=>function($q){
+                                    $q->with('GetClientID');
+                                }])->where('id', $index->entity_id)->get();
                             }
                             break;
                         case 'bwlist':

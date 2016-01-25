@@ -30,29 +30,17 @@
             <!-- breadcrumb -->
             <ol class="breadcrumb">
                 <li>Home</li>
-                <li>Client: <a
-                            href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/edit')}}">cl{{$campaign_obj->getAdvertiser->GetClientID->id}}</a>
+                <li><a
+                            href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client: cl{{$campaign_obj->getAdvertiser->GetClientID->id}}</a>
                 </li>
-                <li>Advertiser: <a
-                            href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/edit')}}">adv{{$campaign_obj->getAdvertiser->id}}</a>
+                <li><a
+                            href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/edit')}}">Advertiser: adv{{$campaign_obj->getAdvertiser->id}}</a>
                 </li>
-                <li>Campaign : <a
-                            href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/campaign/cmp'.$campaign_obj->id.'/edit')}}">cmp{{$campaign_obj->id}}</a>
+                <li><a
+                            href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/campaign/cmp'.$campaign_obj->id.'/edit')}}">Campaign : cmp{{$campaign_obj->id}}</a>
                 </li>
                 <li>Target Group Registration</li>
             </ol>
-            <!-- end breadcrumb -->
-
-            <!-- You can also add more buttons to the
-            ribbon for further usability
-
-            Example below:
-
-            <span class="ribbon-button-alignment pull-right">
-            <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-            <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-            <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-            </span> -->
 
         </div>
         <!-- END RIBBON -->
@@ -446,19 +434,29 @@
                                                                                 <div class="row">
                                                                                     <div class="col-md-6 col-md-offset-3">
                                                                                         <!-- widget content -->
-                                                                                        <div class=" assign_geolocation" style="padding: 20px 0;">
+                                                                                        <div style="margin: 20px 0;">
+                                                                                            <div class="col-xs-5">
+                                                                                                <select name="from_geolocation[]" id="assign_geolocation" class="form-control" size="8" multiple="multiple">
+                                                                                                    @foreach($geolocation_obj as $index)
+                                                                                                        <option value="{{$index->id}}">{{$index->state}}</option>
+                                                                                                    @endforeach
+                                                                                                </select>
+                                                                                            </div>
 
-                                                                                            <select multiple="multiple"
-                                                                                                    size="10"
-                                                                                                    name="geolocation[]"
-                                                                                                    id="initializeDuallistbox_geolocation">
+                                                                                            <div class="col-xs-2">
+                                                                                                <button type="button" id="assign_geolocation_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                                                                <button type="button" id="assign_geolocation_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                                                                <button type="button" id="assign_geolocation_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                                                                <button type="button" id="assign_geolocation_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                                                            </div>
 
-                                                                                                @foreach($geolocation_obj as $index)
-                                                                                                    <option value="{{$index->id}}">{{$index->state}}</option>
-                                                                                                @endforeach
-                                                                                            </select>
-
+                                                                                            <div class="col-xs-5">
+                                                                                                <select name="to_geolocation[]" id="assign_geolocation_to" class="form-control" size="8" multiple="multiple"></select>
+                                                                                            </div>
+                                                                                            <div class="clearfix"></div>
                                                                                         </div>
+
+
                                                                                         <!-- end widget content -->
                                                                                     </div>
                                                                                 </div>
@@ -470,19 +468,28 @@
                                                                                 <div class="row">
                                                                                     <div class="col-md-6 col-md-offset-3">
                                                                                         <!-- widget content -->
-                                                                                        <div class="assign_creative">
+                                                                                        <div style="margin: 20px 0;">
+                                                                                            <div class="col-xs-5">
+                                                                                                <select name="from_creative[]" id="assign_creative" class="form-control" size="8" multiple="multiple">
+                                                                                                    @foreach($campaign_obj->getAdvertiser->Creative as $index)
+                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                    @endforeach
+                                                                                                </select>
+                                                                                            </div>
 
-                                                                                            <select multiple="multiple"
-                                                                                                    size="10"
-                                                                                                    name="creative[]"
-                                                                                                    id="initializeDuallistbox_creative">
+                                                                                            <div class="col-xs-2">
+                                                                                                <button type="button" id="assign_creative_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                                                                <button type="button" id="assign_creative_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                                                                <button type="button" id="assign_creative_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                                                                <button type="button" id="assign_creative_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                                                            </div>
 
-                                                                                                @foreach($campaign_obj->getAdvertiser->Creative as $index)
-                                                                                                    <option value="{{$index->id}}">{{$index->name}}</option>
-                                                                                                @endforeach
-                                                                                            </select>
-
+                                                                                            <div class="col-xs-5">
+                                                                                                <select name="to_creative[]" id="assign_creative_to" class="form-control" size="8" multiple="multiple"></select>
+                                                                                            </div>
+                                                                                            <div class="clearfix"></div>
                                                                                         </div>
+
                                                                                         <!-- end widget content -->
                                                                                     </div>
                                                                                 </div>
@@ -591,18 +598,27 @@
                                                                                 <div class="row">
                                                                                     <div class="col-md-6 col-md-offset-3">
                                                                                         <!-- widget content -->
-                                                                                        <div class="widget-body">
 
-                                                                                            <select multiple="multiple"
-                                                                                                    size="10"
-                                                                                                    name="geosegment[]"
-                                                                                                    id="initializeDuallistbox">
+                                                                                        <div style="margin: 20px 0;">
+                                                                                            <div class="col-xs-5">
+                                                                                                <select name="from_geosegment[]" id="assign_geosegment" class="form-control" size="8" multiple="multiple">
+                                                                                                    @foreach($campaign_obj->getAdvertiser->GeoSegment as $index)
+                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                    @endforeach
+                                                                                                </select>
+                                                                                            </div>
 
-                                                                                                @foreach($campaign_obj->getAdvertiser->GeoSegment as $index)
-                                                                                                    <option value="{{$index->id}}">{{$index->name}}</option>
-                                                                                                @endforeach
-                                                                                            </select>
+                                                                                            <div class="col-xs-2">
+                                                                                                <button type="button" id="assign_geosegment_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                                                                <button type="button" id="assign_geosegment_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                                                                <button type="button" id="assign_geosegment_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                                                                <button type="button" id="assign_geosegment_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                                                            </div>
 
+                                                                                            <div class="col-xs-5">
+                                                                                                <select name="to_geosegment[]" id="assign_geosegment_to" class="form-control" size="8" multiple="multiple"></select>
+                                                                                            </div>
+                                                                                            <div class="clearfix"></div>
                                                                                         </div>
                                                                                         <!-- end widget content -->
 
@@ -840,7 +856,15 @@
                                                             <div class="col-md-12">
                                                                 <h2>Step 2</h2>
                                                             </div>
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-3">
+                                                                <h3>Assigned Geo Location</h3>
+                                                                <table class="table table-bordered table-responsive">
+                                                                    <tr>
+                                                                        <td><span id="rev_assign_geolocation"></span></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-md-3">
                                                                 <h3>Assigned Creative</h3>
                                                                 <table class="table table-bordered table-responsive">
                                                                     <tr>
@@ -848,7 +872,7 @@
                                                                     </tr>
                                                                 </table>
                                                             </div>
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-3">
                                                                 <h3>Assigned Black/White List <span
                                                                             id="rev_bwlist"></span></h3>
                                                                 <table class="table table-bordered table-responsive">
@@ -857,7 +881,7 @@
                                                                     </tr>
                                                                 </table>
                                                             </div>
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-3">
                                                                 <h3>Assigned Geo Segment</h3>
                                                                 <table class="table table-bordered table-responsive">
                                                                     <tr>
@@ -931,6 +955,7 @@
 
     <script src="{{cdn('js/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js')}}"></script>
     <script src="{{cdn('js/plugin/fuelux/wizard/wizard.min.js')}}"></script>
+    <script src="{{cdn('js/multi_select/multiselect.min.js')}}"></script>
     <script src="{{cdn('js/plugin/bootstrap-duallistbox/jquery.bootstrap-duallistbox.min.js')}}"></script>
     <script>
         $.ajaxSetup({
@@ -980,7 +1005,7 @@
             $('#rev_assign_bwlist').html('');
             $('#rev_assign_geosegment').html('');
             $('#rev_bwlist').html('');
-            $('#selected-list_creative').find('option').each(function () {
+            $('#assign_creative_to').find('option').each(function () {
                 $('#rev_assign_creative').append($(this).html() + '<br>');
             });
             if ($('#selected-list_blacklist').find('option').length > 0) {
@@ -995,8 +1020,11 @@
                 });
 
             }
-            $('#selected-list_geosegment').find('option').each(function () {
+            $('#assign_geosegment_to').find('option').each(function () {
                 $('#rev_assign_geosegment').append($(this).html() + '<br>');
+            });
+            $('#assign_geolocation_to').find('option').each(function () {
+                $('#rev_assign_geolocation').append($(this).html() + '<br>');
             });
             console.log($('#initializeDuallistbox'));
             $('#rev_name').html($('#name').val());
@@ -1027,6 +1055,25 @@
 
 
             pageSetUp();
+            $('#assign_geolocation').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                }
+            });
+            $('#assign_creative').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                }
+            });
+
+            $('#assign_geosegment').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                }
+            });
 
 
             var $validator = $("#wizard-1").validate({

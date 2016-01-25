@@ -20,23 +20,10 @@
             <!-- breadcrumb -->
             <ol class="breadcrumb">
                 <li>Home</li>
-                <li>Client: <a href="{{url('/client/cl'.$model_obj->getAdvertiser->GetClientID->id.'/edit')}}">cl{{$model_obj->getAdvertiser->GetClientID->id}}</a></li>
-                <li>Advertiser: <a href="{{url('/client/cl'.$model_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$model_obj->advertiser_id.'/edit')}}">adv{{$model_obj->advertiser_id}}</a></li>
+                <li><a href="{{url('/client/cl'.$model_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client: cl{{$model_obj->getAdvertiser->GetClientID->id}}</a></li>
+                <li><a href="{{url('/client/cl'.$model_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$model_obj->advertiser_id.'/edit')}}">Advertiser: adv{{$model_obj->advertiser_id}}</a></li>
                 <li>Model: mdl{{$model_obj->id}}</li>
             </ol>
-            <!-- end breadcrumb -->
-
-            <!-- You can also add more buttons to the
-            ribbon for further usability
-
-            Example below:
-                        <span class="ribbon-button-alignment pull-right">
-            <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-            <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-            <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-            </span>
-
-    -->
 
         </div>
         <!-- END RIBBON -->
@@ -66,40 +53,19 @@
                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false" data-widget-custombutton="false">
-                                <!-- widget options:
-                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                    data-widget-colorbutton="false"
-                                    data-widget-editbutton="false"
-                                    data-widget-togglebutton="false"
-                                    data-widget-deletebutton="false"
-                                    data-widget-fullscreenbutton="false"
-                                    data-widget-custombutton="false"
-                                    data-widget-collapsed="true"
-                                    data-widget-sortable="false"
-
-                                -->
+                            <div class="well" >
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
                                     <h2>Model Edit: {{$model_obj->name}} </h2>
 
                                 </header>
 
                                 <!-- widget div-->
                                 <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
-
                                     <!-- widget content -->
-                                    <div class="widget-body no-padding">
+                                    <div class="">
 
-                                        <form id="order-form" class="smart-form" action="{{URL::route('model_update')}}" method="post" novalidate="novalidate" >
+                                        <form id="order-form" class="smart-form" action="{{URL::route('model_update')}}"
+                                              method="post" novalidate="novalidate">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="hidden" name="_method" value="PUT"/>
                                             <input type="hidden" name="model_id" value="{{$model_obj->id}}"/>
@@ -107,110 +73,239 @@
                                                 General Information
                                             </header>
 
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col col-6">
-                                                        <label class="label" for="">Name</label>
+                                            <div class="col-md-12">
+                                                <fieldset>
+                                                    <section class="col col-2">
+                                                        <label class="label" for=""> Name</label>
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
                                                             <input type="text" name="name" placeholder="Name" value="{{$model_obj->name}}">
                                                         </label>
                                                     </section>
-                                                    <section class="col col-6">
-                                                        <label class="label" for="">Segment Name Seed</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="segment_name_seed" placeholder="Segment Name Seed" value="{{$model_obj->segment_name_seed}}">
-                                                        </label>
-                                                    </section>
-                                                </div>
-                                                <div class="row">
-                                                    <section class="col col-6">
-                                                        <label class="label">WebSite Seed </label>
-                                                        <input name="seed_web_sites" class="form-control tagsinput" value="{{json_decode($model_obj->seed_web_sites)}}" data-role="tagsinput" placeholder="Enter website then click Enter">
-                                                    </section>
-                                                    <section class="col col-6">
-                                                        <label class="label">ALGO </label>
-                                                        <label class="select">
-                                                            <select name="algo">
-                                                                <option value="0" selected="" disabled="">Select ALGO ...</option>
-                                                                <option value="lakers">laker</option>
-                                                                <option value="heat">heat</option>
-                                                            </select> <i></i>
-                                                        </label>
-
-                                                    </section>
-                                                </div>
-                                                <div class="row">
-                                                    <section class="col col-6">
+                                                    <section class="col col-1"></section>
+                                                    <section class="col col-2">
                                                         <label class="label" for="">Advertiser Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                            <input type="text" class="form-control" disabled value="{{$model_obj->getAdvertiser->name}}"/>
+                                                        <label class="input">
+                                                            <h6>{{$model_obj->getAdvertiser->name}}</h6>
                                                         </label>
                                                     </section>
-                                                    <section class="col col-6">
-                                                        <label class="label" for="">Process Result</label>
-                                                        <label class="input"> <i class="icon-append fa fa-phone"></i>
-                                                            <input type="text" name="process_result" placeholder="Process Result" value="{{$model_obj->process_result}}" >
+                                                    <section class="col col-1"></section>
+                                                    <section class="col col-2">
+                                                        <label class="label" for="">Client Name</label>
+                                                        <label class="input">
+                                                            <h6></h6>
                                                         </label>
                                                     </section>
+                                                </fieldset>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="well">
+                                                <div class="col-md-12">
+                                                    <fieldset>
+                                                        <section class="col col-2">
+                                                            <label class="label" for="">Segment Seed</label>
+                                                            <label class="input"> <i
+                                                                        class="icon-append fa fa-briefcase"></i>
+                                                                <input type="text" name="segment_name_seed"
+                                                                       placeholder="Segment Name Seed" value="{{$model_obj->segment_name_seed}}">
+                                                            </label>
+                                                        </section>
+                                                        <section class="col col-1"></section>
+                                                        <section class="col col-2">
+                                                            <label class="label">Algorithm </label>
+                                                            <label class="select">
+                                                                <select name="algo">
+                                                                    <option value="0" selected="" disabled="">Select ALGO
+                                                                        ...
+                                                                    </option>
+                                                                    <option value="lakers">laker</option>
+                                                                    <option value="heat">heat</option>
+                                                                </select> <i></i>
+                                                            </label>
+
+                                                        </section>
+                                                    </fieldset>
                                                 </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col col-6">
+                                                <div class="col-md-12">
+                                                    <fieldset>
+                                                        <section class="col col-2">
+                                                            <label class="label">Feature Recency in Second </label>
+                                                            <label class="input"> <i class="icon-append fa fa-gear "></i>
+                                                                <input type="text" name="feature_recency_in_sec" value="{{$model_obj->feature_recency_in_sec}}"
+                                                                       placeholder="Feature Recency in Sec">
+                                                            </label>
+                                                        </section>
+                                                        <section class="col col-1"></section>
+                                                        <section class="col col-2">
+                                                            <label class="label">Cut Off Score</label>
+                                                            <label class="input"> <i
+                                                                        class="icon-append fa fa-gear "></i>
+                                                                <input type="text" name="cut_off_score"
+                                                                       value="{{$model_obj->cut_off_score}}"
+                                                                       placeholder="Cut Off Score">
+                                                            </label>
+                                                        </section>
+
+                                                    </fieldset>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            @if($model_obj->model_type=='seed_model')
+                                            <div class="well col-md-12" id="seed_model_div">
+                                                <fieldset>
+                                                    <section class="col col-3">
+                                                        <label class="label">WebSite Seed </label>
+                                                        <input name="seed_web_sites" class="form-control tagsinput"
+                                                               value="{{json_decode($model_obj->seed_web_sites)}}" data-role="tagsinput"
+                                                               placeholder="Enter website then click Enter">
+                                                    </section>
+                                                    <section class="col col-3">
                                                         <label class="label">Negative Features Requested </label>
-                                                        <input name="negative_features_requested" class="tagsinput" value="{{json_decode($model_obj->negative_features_requested)}}" data-role="tagsinput" placeholder="Enter website then click Enter">
+                                                        <input name="negative_features_requested" class="tagsinput"
+                                                               value="{{json_decode($model_obj->negative_features_requested)}}" data-role="tagsinput"
+                                                               placeholder="Enter website then click Enter">
                                                     </section>
-                                                    <section class="col col-6">
-                                                        <label class="label">Negative Features Used </label>
-                                                        <input name="negative_feature_used" class=" tagsinput" value="{{json_decode($model_obj->negative_feature_used)}}" data-role="tagsinput" placeholder="Enter website then click Enter">
-                                                    </section>
-                                                </div>
-                                                <div class="row">
-                                                    <section class="col col-6">
-                                                        <label class="label" for="">Number of Negative Devices Used</label>
-                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                            <input type="text" name="num_neg_devices_used" placeholder="Number of Negative Devices Used" value="{{$model_obj->num_neg_devices_used}}">
+                                                    <section class="col col-2">
+                                                        <label class="label">Max #Negative Feature</label>
+                                                        <label class="input"> <i
+                                                                    class="icon-append fa fa-dollar"></i>
+                                                            <input type="text" name="max_number_of_negative_feature_to_pick" value="{{$model_obj->max_number_of_negative_feature_to_pick}}"
+                                                                   placeholder="">
                                                         </label>
                                                     </section>
-                                                    <section class="col col-6">
-                                                        <label class="label" for="">Number of Posetive Devices Used</label>
-                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                            <input type="text" name="num_pos_devices_used" placeholder="Number of Posetive Devices Used" value="{{$model_obj->num_pos_devices_used}}">
-                                                        </label>
-                                                    </section>
-                                                </div>
-                                                <div class="row">
-                                                    <section class="col col-6">
-                                                        <label class="label" for="">Feature Recency in Sec</label>
-                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                            <input type="text" name="feature_recency_in_sec" placeholder="Feature Recency in Sec" value="{{$model_obj->feature_recency_in_sec}}">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-6">
-                                                        <label class="label" for="">Max Number of Both Negative & Posetive Devices</label>
-                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                            <input type="text" name="max_num_both_neg_pos_devices" placeholder="Max Number of Both Negative & Posetive Devices" value="{{$model_obj->max_num_both_neg_pos_devices}}">
-                                                        </label>
-                                                    </section>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <section>
-                                                    <label class="label" for="">Date of Request</label>
 
-                                                    <div class="input-group">
-                                                        <input type="text" name="date_of_request" placeholder="Expected Date of Request" value="{{$model_obj->date_of_request}}" class="form-control datepicker" data-dateformat="dd/mm/yy">
-                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </fieldset>
+                                            </div>
+                                            @elseif($model_obj->model_type=='pixel_model')
+                                            <div class="well col-md-12"  id="pixel_model_div">
+                                                <fieldset>
+                                                    <section class="col col-2">
+                                                        <label class="label">Pixel Hit Recency</label>
+                                                        <label class="input"> <i
+                                                                    class="icon-append fa fa-gear "></i>
+                                                            <input type="text" name="pixel_hit_recency_in_seconds" value="{{$model_obj->pixel_hit_recency_in_seconds}}"
+                                                                   placeholder="pixel hit">
+                                                        </label>
+                                                    </section>
+
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <label class="label">All Offer(s)</label>
+                                                            <select name="offer_id[]" id="multi_d" class="form-control" size="13" multiple="multiple">
+                                                                @foreach($offer_obj as $index)
+                                                                    {{--@if(!in_array($index->id,$positive_offer_id) and  !in_array($index->id,$negative_offer_id))--}}
+                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                    {{--@endif--}}
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-xs-1" style="margin: 10px 0 0 0">
+                                                            <button type="button" id="multi_d_rightAll" class="btn btn-default btn-block" style="margin-top: 20px;"><i class="glyphicon glyphicon-forward"></i></button>
+                                                            <button type="button" id="multi_d_rightSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                            <button type="button" id="multi_d_leftSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                            <button type="button" id="multi_d_leftAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+
+                                                            <hr style="margin: 14px 0 16px;" />
+
+                                                            <button type="button" id="multi_d_rightAll_2" class="btn btn-default btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                            <button type="button" id="multi_d_rightSelected_2" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                            <button type="button" id="multi_d_leftSelected_2" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                            <button type="button" id="multi_d_leftAll_2" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                        </div>
+
+                                                        <div class="col-xs-3">
+                                                            <label class="label">Positive Offer(s)</label>
+                                                            <select name="positive_offer_id[]" id="multi_d_to" class="form-control" size="5" multiple="multiple">
+                                                                @foreach($offer_obj as $index)
+                                                                    @if(in_array($index->id,$positive_offer_id) )
+                                                                    <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                    @endif
+                                                                @endforeach
+                                                            </select>
+
+                                                            <hr style="margin: 14px 0 ;" />
+
+                                                            <label class="label">Negative Offer(s)</label>
+                                                            <select name="negative_offer_id[]" id="multi_d_to_2" class="form-control" size="5" multiple="multiple">
+                                                                @foreach($offer_obj as $index)
+                                                                    @if(in_array($index->id,$negative_offer_id) )
+                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                    @endif
+                                                                @endforeach
+
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                </section>
 
-                                                <section>
-                                                    <label class="label" for="">description</label>
-                                                    <label class="textarea"> <i class="icon-append fa fa-comment"></i>
-                                                        <textarea rows="5" name="description" placeholder="Tell us about your Campaign">{{$model_obj->description}}</textarea>
-                                                    </label>
-                                                </section>
-                                            </fieldset>
+
+                                                </fieldset>
+                                            </div>
+                                            @endif
+                                            <div class="col-md-12">
+                                                <fieldset>
+                                                    <section class="col col-2">
+                                                        <label class="label">Max #Device history</label>
+                                                        <label class="input"> <i
+                                                                    class="icon-append fa fa-gear "></i>
+                                                            <input type="text" name="max_number_of_device_history_per_feature" value="{{$model_obj->max_number_of_device_history_per_feature}}"
+                                                                   placeholder="">
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-2">
+                                                        <label class="label">Max #Both Device </label>
+                                                        <label class="input"> <i
+                                                                    class="icon-append fa fa-gear "></i>
+                                                            <input type="text" name="max_num_both_neg_pos_devices" value="{{$model_obj->max_num_both_neg_pos_devices}}"
+                                                                   placeholder="Max Number of Both Negative & Posetive Devices">
+                                                        </label>
+                                                    </section>
+
+                                                </fieldset>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <fieldset>
+                                                    <section class="col col-2">
+                                                        <label class="label">#positive Device</label>
+                                                        <label class="input"> <i
+                                                                    class="icon-append fa fa-gear "></i>
+                                                            <input type="text" name="number_of_positive_device_to_be_used_for_modeling" value="{{$model_obj->number_of_positive_device_to_be_used_for_modeling}}"
+                                                                   placeholder="">
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-2">
+                                                        <label class="label">#Negative Device</label>
+                                                        <label class="input"> <i
+                                                                    class="icon-append fa fa-gear "></i>
+                                                            <input type="text" name="number_of_negative_device_to_be_used_for_modeling" value="{{$model_obj->number_of_negative_device_to_be_used_for_modeling}}"
+                                                                   placeholder="">
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-2">
+                                                        <label class="label">#both Device</label>
+                                                        <label class="input"> <i
+                                                                    class="icon-append fa fa-gear "></i>
+                                                            <input type="text" name="number_of_both_negative_positive_device_to_be_used" value="{{$model_obj->number_of_both_negative_positive_device_to_be_used}}"
+                                                                   placeholder="">
+                                                        </label>
+                                                    </section>
+                                                </fieldset>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <fieldset>
+                                                    <section class="col col-4">
+                                                        <label class="label">Description </label>
+                                                        <label class="textarea"> <i
+                                                                    class="icon-append fa fa-comment"></i>
+                                                                <textarea rows="8" name="description"
+                                                                          placeholder="Tell us about your Campaign">{{$model_obj->description}}</textarea>
+                                                        </label>
+                                                    </section>
+
+                                                </fieldset>
+                                            </div>
+                                            <div class="clearfix"></div>
                                             <footer>
                                                 <button type="submit" class="btn btn-success">
                                                     Submit
@@ -239,12 +334,121 @@
 @section('FooterScripts')
     <!-- PAGE RELATED PLUGIN(S) -->
     <script src="{{cdn('js/plugin/bootstrap-tags/bootstrap-tagsinput.min.js')}}"></script>
+    <script src="{{cdn('js/multi_select/multiselect.min.js')}}"></script>
 
     <script type="text/javascript">
 
         $(document).ready(function() {
             pageSetUp();
 
+            if ( window.location.hash ) {
+                scrollTo(window.location.hash);
+            }
+
+            $('.nav').on('click', 'a', function(e) {
+                scrollTo($(this).attr('href'));
+            });
+
+            $('#multiselect').multiselect();
+
+            $('[name="q"]').on('keyup', function(e) {
+                var search = this.value;
+                var $options = $(this).next('select').find('option');
+
+                $options.each(function(i, option) {
+                    if (option.text.indexOf(search) > -1) {
+                        $(option).show();
+                    } else {
+                        $(option).hide();
+                    }
+                });
+            });
+
+            $('#search').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                }
+            });
+//
+            $('#multi_d').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                },
+                right: '#multi_d_to, #multi_d_to_2',
+                rightSelected: '#multi_d_rightSelected, #multi_d_rightSelected_2',
+                leftSelected: '#multi_d_leftSelected, #multi_d_leftSelected_2',
+                rightAll: '#multi_d_rightAll, #multi_d_rightAll_2',
+                leftAll: '#multi_d_leftAll, #multi_d_leftAll_2',
+
+                moveToRight: function(Multiselect, options, event, silent, skipStack) {
+                    var button = $(event.currentTarget).attr('id');
+
+                    if (button == 'multi_d_rightSelected') {
+                        var left_options = Multiselect.left.find('option:selected');
+                        Multiselect.right.eq(0).append(left_options);
+
+                        if ( typeof Multiselect.callbacks.sort == 'function' && !silent ) {
+                            Multiselect.right.eq(0).find('option').sort(Multiselect.callbacks.sort).appendTo(Multiselect.right.eq(0));
+                        }
+                    } else if (button == 'multi_d_rightAll') {
+                        var left_options = Multiselect.left.find('option');
+                        Multiselect.right.eq(0).append(left_options);
+
+                        if ( typeof Multiselect.callbacks.sort == 'function' && !silent ) {
+                            Multiselect.right.eq(0).find('option').sort(Multiselect.callbacks.sort).appendTo(Multiselect.right.eq(0));
+                        }
+                    } else if (button == 'multi_d_rightSelected_2') {
+                        var left_options = Multiselect.left.find('option:selected');
+                        Multiselect.right.eq(1).append(left_options);
+
+                        if ( typeof Multiselect.callbacks.sort == 'function' && !silent ) {
+                            Multiselect.right.eq(1).find('option').sort(Multiselect.callbacks.sort).appendTo(Multiselect.right.eq(1));
+                        }
+                    } else if (button == 'multi_d_rightAll_2') {
+                        var left_options = Multiselect.left.find('option');
+                        Multiselect.right.eq(1).append(left_options);
+
+                        if ( typeof Multiselect.callbacks.sort == 'function' && !silent ) {
+                            Multiselect.right.eq(1).eq(1).find('option').sort(Multiselect.callbacks.sort).appendTo(Multiselect.right.eq(1));
+                        }
+                    }
+                },
+
+                moveToLeft: function(Multiselect, options, event, silent, skipStack) {
+                    var button = $(event.currentTarget).attr('id');
+
+                    if (button == 'multi_d_leftSelected') {
+                        var right_options = Multiselect.right.eq(0).find('option:selected');
+                        Multiselect.left.append(right_options);
+
+                        if ( typeof Multiselect.callbacks.sort == 'function' && !silent ) {
+                            Multiselect.left.find('option').sort(Multiselect.callbacks.sort).appendTo(Multiselect.left);
+                        }
+                    } else if (button == 'multi_d_leftAll') {
+                        var right_options = Multiselect.right.eq(0).find('option');
+                        Multiselect.left.append(right_options);
+
+                        if ( typeof Multiselect.callbacks.sort == 'function' && !silent ) {
+                            Multiselect.left.find('option').sort(Multiselect.callbacks.sort).appendTo(Multiselect.left);
+                        }
+                    } else if (button == 'multi_d_leftSelected_2') {
+                        var right_options = Multiselect.right.eq(1).find('option:selected');
+                        Multiselect.left.append(right_options);
+
+                        if ( typeof Multiselect.callbacks.sort == 'function' && !silent ) {
+                            Multiselect.left.find('option').sort(Multiselect.callbacks.sort).appendTo(Multiselect.left);
+                        }
+                    } else if (button == 'multi_d_leftAll_2') {
+                        var right_options = Multiselect.right.eq(1).find('option');
+                        Multiselect.left.append(right_options);
+
+                        if ( typeof Multiselect.callbacks.sort == 'function' && !silent ) {
+                            Multiselect.left.find('option').sort(Multiselect.callbacks.sort).appendTo(Multiselect.left);
+                        }
+                    }
+                }
+            });
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
                 rules : {

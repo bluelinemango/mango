@@ -145,9 +145,9 @@ class TargetgroupController extends Controller
                         $target_bid_hour->save();
                         $audit= new AuditsController();
                         $audit->store('targetgroup',$targetgroup->id,null,'add',$key_audit);
-                        if(count($request->input('geosegment'))>0){
+                        if(count($request->input('to_geosegment'))>0){
                             $chk = array();
-                            foreach($request->input('geosegment') as $index) {
+                            foreach($request->input('to_geosegment') as $index) {
                                 if(!in_array($index,$chk)) {
                                     $geosegment_assign = new Targetgroup_Geosegmentlist_Map();
                                     $geosegment_assign->targetgroup_id = $targetgroup->id;
@@ -158,9 +158,9 @@ class TargetgroupController extends Controller
                                 }
                             }
                         }
-                        if(count($request->input('creative'))>0){
+                        if(count($request->input('to_creative'))>0){
                             $chk = array();
-                            foreach($request->input('creative') as $index) {
+                            foreach($request->input('to_creative') as $index) {
                                 if(!in_array($index,$chk)) {
                                     $creative_assign = new Targetgroup_Creative_Map();
                                     $creative_assign->targetgroup_id = $targetgroup->id;
@@ -171,9 +171,9 @@ class TargetgroupController extends Controller
                                 }
                             }
                         }
-                        if(count($request->input('geolocation'))>0){
+                        if(count($request->input('to_geolocation'))>0){
                             $chk = array();
-                            foreach($request->input('geolocation') as $index) {
+                            foreach($request->input('to_geolocation') as $index) {
                                 if(!in_array($index,$chk)) {
                                     $geolocation_assign = new Targetgroup_Geolocation_Map();
                                     $geolocation_assign->targetgroup_id = $targetgroup->id;

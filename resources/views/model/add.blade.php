@@ -189,7 +189,7 @@
                                                 <fieldset>
                                                     <section class="col col-2">
                                                         <label class="label">Feature Recency in Second </label>
-                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
+                                                        <label class="input"> <i class="icon-append fa fa-gear "></i>
                                                             <input type="text" name="feature_recency_in_sec"
                                                                    placeholder="Feature Recency in Sec">
                                                         </label>
@@ -198,7 +198,7 @@
                                                     <section class="col col-2">
                                                         <label class="label">Cut Off Score</label>
                                                         <label class="input"> <i
-                                                                    class="icon-append fa fa-dollar"></i>
+                                                                    class="icon-append fa fa-gear "></i>
                                                             <input type="text" name="cut_off_score"
                                                                    placeholder="Cut Off Score">
                                                         </label>
@@ -226,7 +226,7 @@
                                                     <section class="col col-2">
                                                         <label class="label">Max #Negative Feature</label>
                                                         <label class="input"> <i
-                                                                    class="icon-append fa fa-dollar"></i>
+                                                                    class="icon-append fa fa-gear "></i>
                                                             <input type="text" name="max_number_of_negative_feature_to_pick"
                                                                    placeholder="">
                                                         </label>
@@ -241,7 +241,7 @@
                                                     <section class="col col-2">
                                                         <label class="label">Pixel Hit Recency</label>
                                                         <label class="input"> <i
-                                                                    class="icon-append fa fa-dollar"></i>
+                                                                    class="icon-append fa fa-gear "></i>
                                                             <input type="text" name="pixel_hit_recency_in_seconds"
                                                                    placeholder="pixel hit">
                                                         </label>
@@ -292,7 +292,7 @@
                                                     <section class="col col-2">
                                                         <label class="label">Max #Device history</label>
                                                         <label class="input"> <i
-                                                                    class="icon-append fa fa-dollar"></i>
+                                                                    class="icon-append fa fa-gear "></i>
                                                             <input type="text" name="max_number_of_device_history_per_feature"
                                                                    placeholder="">
                                                         </label>
@@ -300,7 +300,7 @@
                                                     <section class="col col-2">
                                                         <label class="label">Max #Both Device </label>
                                                         <label class="input"> <i
-                                                                    class="icon-append fa fa-dollar"></i>
+                                                                    class="icon-append fa fa-gear "></i>
                                                             <input type="text" name="max_num_both_neg_pos_devices"
                                                                    placeholder="Max Number of Both Negative & Posetive Devices">
                                                         </label>
@@ -313,7 +313,7 @@
                                                     <section class="col col-2">
                                                         <label class="label">#positive Device</label>
                                                         <label class="input"> <i
-                                                                    class="icon-append fa fa-dollar"></i>
+                                                                    class="icon-append fa fa-gear "></i>
                                                             <input type="text" name="number_of_positive_device_to_be_used_for_modeling"
                                                                    placeholder="">
                                                         </label>
@@ -321,7 +321,7 @@
                                                     <section class="col col-2">
                                                         <label class="label">#Negative Device</label>
                                                         <label class="input"> <i
-                                                                    class="icon-append fa fa-dollar"></i>
+                                                                    class="icon-append fa fa-gear "></i>
                                                             <input type="text" name="number_of_negative_device_to_be_used_for_modeling"
                                                                    placeholder="">
                                                         </label>
@@ -329,7 +329,7 @@
                                                     <section class="col col-2">
                                                         <label class="label">#both Device</label>
                                                         <label class="input"> <i
-                                                                    class="icon-append fa fa-dollar"></i>
+                                                                    class="icon-append fa fa-gear "></i>
                                                             <input type="text" name="number_of_both_negative_positive_device_to_be_used"
                                                                    placeholder="">
                                                         </label>
