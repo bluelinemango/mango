@@ -181,6 +181,7 @@ class CreativeController extends Controller
         }
         return Redirect::to(url('/user/login'));
     }
+
     public function jqgrid(Request $request){
         //return dd($request->all());
         if(Auth::check()){
@@ -212,6 +213,50 @@ class CreativeController extends Controller
         }
         return Redirect::to(url('/user/login'));
     }
+
+    public function ChangeStatus($id){
+        if(Auth::check()){
+            if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
+                if (User::isSuperAdmin()) {
+                    $entity=Creative::find($id);
+                } else {
+                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
+                    if (count($usr_company) > 0 and in_array(Auth::user()->id, $usr_company)) {
+                        $entity = Creative::with(['getAdvertiser' => function ($q) use($usr_company) {
+                            $q->with(['GetClientID' => function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            }]);
+                        }])->find($id);
+                    } else {
+                        return 'please Select your Client';
+                    }
+                }
+                if($entity){
+                    $data=array();
+                    $audit= new AuditsController();
+                    if($entity->status=='Active'){
+                        array_push($data,'status');
+                        array_push($data,$entity->status);
+                        array_push($data,'Disable');
+                        $entity->status='Disable';
+                        $msg='disable';
+                    }elseif($entity->status=='Disable'){
+                        array_push($data,'status');
+                        array_push($data,$entity->status);
+                        array_push($data,'Active');
+                        $entity->status='Active';
+                        $msg='actived';
+                    }
+                    $audit->store('creative',$id,$data,'edit');
+                    $entity->save();
+                    return $msg;
+                }
+            }
+            return "You don't have permission";
+        }
+        return Redirect::to(url('user/login'));
+    }
+
     public function index()
     {
         //

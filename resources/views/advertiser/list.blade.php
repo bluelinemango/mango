@@ -70,7 +70,7 @@
                                         <div class="row">
 
                                             <!-- NEW WIDGET START -->
-                                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
 
                                                 <table id="jqgrid"></table>
                                                 <div id="pjqgrid"></div>
@@ -113,7 +113,6 @@
     <script src="{{cdn('js/plugin/jqgrid/grid.locale-en.min.js')}}"></script>
 
     <script src="{{cdn('js/plugin/bootstrap-tags/bootstrap-tagsinput.min.js')}}"></script>
-
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {
@@ -131,11 +130,15 @@
                     id : 'adv{{$index->id}}',
                     name : '{{$index->name}}',
                     @if(count($index->Campaign)>0)
-                    campaign: '{{$index->Campaign[0]->advertiser_count}}',
+                    campaign: '{{$index->Campaign[0]->advertiser_count}} Campaign(s)',
                     @else
-                    campaign: '0',
+                    campaign: '0 Campaign',
                     @endif
-                    add_advertiser: '<a href="{{url('client/cl'.$index->id.'/advertiser/add')}}">Add Advertiser </a>',
+                    @if($index->status == 'Active')
+                    status: '<a id="advertiser{{$index->id}}" href="javascript: ChangeStatus(`advertiser`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                    @elseif($index->status == 'Disable')
+                    status: '<a id="advertiser{{$index->id}}" href="javascript: ChangeStatus(`advertiser`,`{{$index->id}}`)"><span class="label label-danger">Disable</span> </a>',
+                    @endif
                     date_modify : '{{$index->updated_at}}',
                     full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->GetClientID->id.'/advertiser/adv'.$index->id.'/edit')}}"><i class="fa fa-edit"></i></a>'
                 },
@@ -147,7 +150,7 @@
                 data : jqgrid_data,
                 datatype : "local",
                 height : 'auto',
-                colNames : ['Actions', 'ID', 'Name','# of Campaign','Modify Date','Full Edit'],
+                colNames : ['Actions', 'ID', 'Name','# of Campaign','Status','Modify Date','Full Edit'],
                 colModel : [{
                     name : 'act',
                     index : 'act',
@@ -164,6 +167,10 @@
                 }, {
                     name : 'campaign',
                     index : 'campaign',
+                    editable : false
+                }, {
+                    name : 'status',
+                    index : 'status',
                     width : '100%',
                     editable : false
                 }, {
@@ -327,5 +334,4 @@
         })
 
     </script>
-
 @endsection

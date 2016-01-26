@@ -54,41 +54,19 @@
                         @endforeach
                     @endif
                                     <!-- NEW WIDGET START -->
-                    <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
                         <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3" data-widget-editbutton="false">
-                            <!-- widget options:
-                                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                        data-widget-colorbutton="false"
-                                        data-widget-editbutton="false"
-                                        data-widget-togglebutton="false"
-                                        data-widget-deletebutton="false"
-                                        data-widget-fullscreenbutton="false"
-                                        data-widget-custombutton="false"
-                                        data-widget-collapsed="true"
-                                        data-widget-sortable="false"
-
-                                        -->
+                        <div class="well" >
                             <header>
-                                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                                 <h2>Campaign List</h2>
 
                             </header>
 
                             <!-- widget div-->
                             <div>
-
-                                <!-- widget edit box -->
-                                <div class="jarviswidget-editbox">
-                                    <!-- This area used as dropdown edit box -->
-
-                                </div>
-                                <!-- end widget edit box -->
-
                                 <!-- widget content -->
-                                <div class="widget-body ">
+                                <div class=" ">
 
 
                                     <!-- widget grid -->
@@ -98,7 +76,7 @@
                                         <div class="row">
 
                                             <!-- NEW WIDGET START -->
-                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
                                                 <table id="jqgrid"></table>
                                                 <div id="pjqgrid"></div>
@@ -168,6 +146,11 @@
                     daily_max_imp:'{{$index->daily_max_impression}}',
                     max_budget:'{{$index->max_budget}}',
                     daily_max_budget:'{{$index->daily_max_budget}}',
+                    @if($index->status == 'Active')
+                    status: '<a id="campaign{{$index->id}}" href="javascript: ChangeStatus(`campaign`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                    @elseif($index->status == 'Disable')
+                    status: '<a id="campaign{{$index->id}}" href="javascript: ChangeStatus(`campaign`,`{{$index->id}}`)"><span class="label label-danger">Disable</span> </a>',
+                    @endif
                     date_modify : '{{$index->updated_at}}',
                     full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) +'| <a class="btn bg-color-magenta txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/targetgroup/add')}}">+ Target Group</a>'@endif
                 },
@@ -179,7 +162,7 @@
                 data : jqgrid_data,
                 datatype : "local",
                 height : 'auto',
-                colNames : ['Actions', 'ID', 'Name','Impression','Budget','Modify Date','Full Actions'],
+                colNames : ['Actions', 'ID', 'Name','Impression','Budget','Status','Modify Date','Full Actions'],
                 colModel : [{
                     name : 'act',
                     index : 'act',
@@ -205,9 +188,13 @@
                     width: '60%',
                     editable : true
                 }, {
+                    name : 'status',
+                    index : 'status',
+                    width: '60%',
+                    editable : false
+                }, {
                     name : 'date_modify',
                     index : 'date_modify',
-                    width: '105%',
                     editable : false
                 }, {
                     name : 'full_edit',

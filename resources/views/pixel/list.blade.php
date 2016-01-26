@@ -53,41 +53,18 @@
                         @endforeach
                     @endif
                                     <!-- NEW WIDGET START -->
-                    <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
                         <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3" data-widget-editbutton="false">
-                            <!-- widget options:
-                                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                        data-widget-colorbutton="false"
-                                        data-widget-editbutton="false"
-                                        data-widget-togglebutton="false"
-                                        data-widget-deletebutton="false"
-                                        data-widget-fullscreenbutton="false"
-                                        data-widget-custombutton="false"
-                                        data-widget-collapsed="true"
-                                        data-widget-sortable="false"
-
-                                        -->
+                        <div class="well">
                             <header>
-                                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                                 <h2>Pixel List</h2>
 
                             </header>
 
                             <!-- widget div-->
                             <div>
-
-                                <!-- widget edit box -->
-                                <div class="jarviswidget-editbox">
-                                    <!-- This area used as dropdown edit box -->
-
-                                </div>
-                                <!-- end widget edit box -->
-
-                                <!-- widget content -->
-                                <div class="widget-body no-padding">
+                                <div class="">
 
                                     <!-- widget grid -->
                                     <section id="widget-grid" class="">
@@ -96,7 +73,7 @@
                                         <div class="row">
 
                                             <!-- NEW WIDGET START -->
-                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
                                                 <table id="jqgrid"></table>
                                                 <div id="pjqgrid"></div>
@@ -161,6 +138,11 @@
                 {
                     id   : 'pxlr{{$index->id}}',
                     name : '{{$index->name}}',
+                    @if($index->status == 'Active')
+                    status: '<a id="pixel{{$index->id}}" href="javascript: ChangeStatus(`pixel`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                    @elseif($index->status == 'Disable')
+                    status: '<a id="pixel{{$index->id}}" href="javascript: ChangeStatus(`pixel`,`{{$index->id}}`)"><span class="label label-danger">Disable</span> </a>',
+                    @endif
                     date_modify : '{{$index->updated_at}}',
                     full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/pixel/pxl'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>'
                 },
@@ -172,7 +154,7 @@
                 data : jqgrid_data,
                 datatype : "local",
                 height : 'auto',
-                colNames : ['Actions', 'ID', 'Name','Modify Date','Full Actions'],
+                colNames : ['Actions', 'ID', 'Name','Status','Modify Date','Full Actions'],
                 colModel : [{
                     name : 'act',
                     index : 'act',
@@ -187,9 +169,13 @@
                     width: '100%',
                     editable : true
                 }, {
+                    name : 'status',
+                    index : 'status',
+                    width: '60%',
+                    editable : false
+                }, {
                     name : 'date_modify',
                     index : 'date_modify',
-                    width: '105%',
                     editable : false
                 }, {
                     name : 'full_edit',

@@ -72,7 +72,7 @@
                                             <header>
                                                 General Information
                                             </header>
-
+                                            <div class="well">
                                             <div class="col-md-12">
                                                 <fieldset>
                                                     <section class="col col-2">
@@ -96,6 +96,8 @@
                                                         </label>
                                                     </section>
                                                 </fieldset>
+                                            </div>
+                                                <div class="clearfix"></div>
                                             </div>
                                             <div class="clearfix"></div>
                                             <div class="well">
@@ -242,6 +244,8 @@
                                                 </fieldset>
                                             </div>
                                             @endif
+                                            <div class="clearfix"></div>
+                                            <div class="well">
                                             <div class="col-md-12">
                                                 <fieldset>
                                                     <section class="col col-2">
@@ -252,6 +256,7 @@
                                                                    placeholder="">
                                                         </label>
                                                     </section>
+                                                    <section class="col col-1"></section>
                                                     <section class="col col-2">
                                                         <label class="label">Max #Both Device </label>
                                                         <label class="input"> <i
@@ -273,6 +278,7 @@
                                                                    placeholder="">
                                                         </label>
                                                     </section>
+                                                    <section class="col col-1"></section>
                                                     <section class="col col-2">
                                                         <label class="label">#Negative Device</label>
                                                         <label class="input"> <i
@@ -281,6 +287,7 @@
                                                                    placeholder="">
                                                         </label>
                                                     </section>
+                                                    <section class="col col-1"></section>
                                                     <section class="col col-2">
                                                         <label class="label">#both Device</label>
                                                         <label class="input"> <i
@@ -291,7 +298,8 @@
                                                     </section>
                                                 </fieldset>
                                             </div>
-
+                                                <div class="clearfix"></div>
+                                            </div>
                                             <div class="col-md-12">
                                                 <fieldset>
                                                     <section class="col col-4">

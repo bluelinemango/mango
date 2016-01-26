@@ -168,6 +168,11 @@
                     @else
                     entreies : '0',
                     @endif
+                    @if($index->status == 'Active')
+                    status: '<a id="geosegment{{$index->id}}" href="javascript: ChangeStatus(`geosegment`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                    @elseif($index->status == 'Disable')
+                    status: '<a id="geosegment{{$index->id}}" href="javascript: ChangeStatus(`geosegment`,`{{$index->id}}`)"><span class="label label-danger">Disable</span> </a>',
+                    @endif
                     date_modify : '{{$index->updated_at}}',
                     full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/gsm'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>'
                 },
@@ -179,7 +184,7 @@
                 data : jqgrid_data,
                 datatype : "local",
                 height : 'auto',
-                colNames : ['Actions', 'ID', 'Name','Advertiser Name','# of entreies','Modify Date','Full Actions'],
+                colNames : ['Actions', 'ID', 'Name','Advertiser Name','# of entreies','Status','Modify Date','Full Actions'],
                 colModel : [{
                     name : 'act',
                     index : 'act',
@@ -202,6 +207,11 @@
                     name : 'entreies',
                     index : 'entreies',
                     width: '100%',
+                    editable : false
+                }, {
+                    name : 'status',
+                    index : 'status',
+                    width: '60%',
                     editable : false
                 }, {
                     name : 'date_modify',

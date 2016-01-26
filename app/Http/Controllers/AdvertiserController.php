@@ -79,16 +79,47 @@ class AdvertiserController extends Controller
         }
         return Redirect::to(url('user/login'));
     }
+    public function ChangeStatus($id){
+        if(Auth::check()){
+            if (in_array('ADD_EDIT_ADVERTISER', $this->permission)) {
+                $adver_id = $id;
 
-    public function Delete_Advertiser($id){
-//        if(Auth::check()){
-//            if(1==1) { //      permission goes here
-//                Advertiser::where('id',$id)->delete();
-//                return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Advertiser Deleted Successfully']);
-//            }
-//        }else{
-//            return Redirect::to('user/login');
-//        }
+                if (User::isSuperAdmin()) {
+                    $adver=Advertiser::find($adver_id);
+                } else {
+                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
+                    if (count($usr_company) > 0 and in_array(Auth::user()->id, $usr_company)) {
+                        $adver = Advertiser::with(['GetClientID' => function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        }])->find($adver_id);
+                    } else {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                    }
+                }
+                if($adver){
+                    $data=array();
+                    $audit= new AuditsController();
+                    if($adver->status=='Active'){
+                        array_push($data,'status');
+                        array_push($data,$adver->status);
+                        array_push($data,'Disable');
+                        $adver->status='Disable';
+                        $msg='disable';
+                    }elseif($adver->status=='Disable'){
+                        array_push($data,'status');
+                        array_push($data,$adver->status);
+                        array_push($data,'Active');
+                        $adver->status='Active';
+                        $msg='actived';
+                    }
+                    $audit->store('advertiser',$adver_id,$data,'edit');
+                    $adver->save();
+                    return $msg;
+                }
+            }
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
+        }
+        return Redirect::to(url('user/login'));
     }
 
     public function AdvertiserEditView($clid,$advid){

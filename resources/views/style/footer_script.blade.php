@@ -83,6 +83,31 @@
 <script src="{{cdn('js/plugin/fullcalendar/jquery.fullcalendar.min.js')}}"></script>
 
 <script>
+    function ChangeStatus(entity,entity_id){ //CHANGE STATUS OF ALL ENTITY IN LIST VIEW
+        $.ajax({
+            url: "{{url('/ajax/status')}}" + '/' + entity  +'/'+entity_id
+        }).success(function (response) {
+            var obj=$('#'+entity+entity_id+' span');
+            if(response=='actived'){
+                obj.removeClass();
+                obj.html('Active');
+                obj.addClass('label label-success');
+            }else if(response=='disable'){
+                obj.removeClass();
+                obj.html('Disable');
+                obj.addClass('label label-danger');
+            }else if(response =="You don't have permission"){
+                alert("You don't have permission");
+            }else if(response =="please Select your Client"){
+                alert("please Select your Client");
+            }
+        })
+    }
+</script>
+
+
+<script>
+
 //    $(document).ready(function() {
 //
 //        // DO NOT REMOVE : GLOBAL FUNCTIONS!

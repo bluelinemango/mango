@@ -148,6 +148,17 @@ Route::group(['prefix' => 'ajax'], function()
         Route::post('/bwlist', 'BWListController@jqgridList');
         Route::post('/geolist', 'GeoSegmentController@jqgridList');
     });
+    Route::group(['prefix' => 'status'], function() {
+        Route::get('/advertiser/{id?}', 'AdvertiserController@ChangeStatus');
+        Route::get('/campaign/{id?}', 'CampaignController@ChangeStatus');
+        Route::get('/creative/{id?}', 'CreativeController@ChangeStatus');
+        Route::get('/geosegment/{id?}', 'GeoSegmentController@ChangeStatus');
+        Route::get('/bwlist/{id?}', 'BWListController@ChangeStatus');
+        Route::get('/targetgroup/{id?}', 'TargetgroupController@ChangeStatus');
+        Route::get('/offer/{id?}', 'OfferController@ChangeStatus');
+        Route::get('/pixel/{id?}', 'PixelController@ChangeStatus');
+
+    });
 //    Route::resource('features','FeatureController');
 });
 

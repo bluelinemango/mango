@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Models\Advertiser;
 use App\Models\Campaign;
+use App\Models\Creative;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -248,6 +249,49 @@ class CampaignController extends Controller
             return "don't have permission";
         }
         return Redirect::to('/user/login');
+    }
+
+    public function ChangeStatus($id){
+        if(Auth::check()){
+            if (in_array('ADD_EDIT_CAMPAIGN', $this->permission)) {
+                if (User::isSuperAdmin()) {
+                    $entity=Campaign::find($id);
+                } else {
+                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
+                    if (count($usr_company) > 0 and in_array(Auth::user()->id, $usr_company)) {
+                        $entity = Campaign::with(['getAdvertiser' => function ($q) use($usr_company) {
+                            $q->with(['GetClientID' => function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            }]);
+                        }])->find($id);
+                    } else {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                    }
+                }
+                if($entity){
+                    $data=array();
+                    $audit= new AuditsController();
+                    if($entity->status=='Active'){
+                        array_push($data,'status');
+                        array_push($data,$entity->status);
+                        array_push($data,'Disable');
+                        $entity->status='Disable';
+                        $msg='disable';
+                    }elseif($entity->status=='Disable'){
+                        array_push($data,'status');
+                        array_push($data,$entity->status);
+                        array_push($data,'Active');
+                        $entity->status='Active';
+                        $msg='actived';
+                    }
+                    $audit->store('campaign',$id,$data,'edit');
+                    $entity->save();
+                    return $msg;
+                }
+            }
+            return "You don't have permission";
+        }
+        return Redirect::to(url('user/login'));
     }
 
     public function index()

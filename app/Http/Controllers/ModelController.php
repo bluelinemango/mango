@@ -37,7 +37,7 @@ class ModelController extends Controller
         return Redirect::to(url('/user/login'));
     }
 
-    public function ModelAddView($clid,$advid){ //TODO: Check only one comapny can view offer and ...
+    public function ModelAddView($clid,$advid){
         if(Auth::check()) {
             if (in_array('ADD_EDIT_MODEL', $this->permission)) {
                 if (User::isSuperAdmin()) {

@@ -1,8 +1,10 @@
 @extends('Layout')
 @section('siteTitle')List Of {{\Illuminate\Support\Facades\Auth::user()->name}} Clients @endsection
 @section('header_extra')
-    <link rel="stylesheet" type="text/css" href="{{cdn('css/jsgrid/jsgrid.css')}}" />
-    <link rel="stylesheet" type="text/css" href="{{cdn('css/jsgrid/theme.css')}}" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.3.1/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.3.1/jsgrid-theme.min.css" />
+    {{--<link rel="stylesheet" type="text/css" href="{{cdn('css/jsgrid/jsgrid.css')}}" />--}}
+    {{--<link rel="stylesheet" type="text/css" href="{{cdn('css/jsgrid/theme.css')}}" />--}}
 
 @endsection
 @section('content')
@@ -30,7 +32,7 @@
         <!-- MAIN CONTENT -->
         <div id="content">
 
-            <div id="jsGrid"></div>
+
             <!-- widget grid -->
             <section id="widget-grid" class="">
 
@@ -69,8 +71,9 @@
                                             <!-- NEW WIDGET START -->
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-                                                <table id="jqgrid"></table>
-                                                <div id="pjqgrid"></div>
+                                                <div id="jsGrid"></div>
+                                                {{--<table id="jqgrid"></table>--}}
+                                                {{--<div id="pjqgrid"></div>--}}
 
                                             </div>
                                             <!-- WIDGET END -->
@@ -120,39 +123,31 @@
     {{--@endforeach--}}
 @endsection
 @section('FooterScripts')
-    <!-- PAGE RELATED PLUGIN(S) -->
     <script src="{{cdn('js/plugin/jqgrid/jquery.jqGrid.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/jqgrid/grid.locale-en.min.js')}}"></script>
-
-    <script src="{{cdn('js/plugin/bootstrap-tags/bootstrap-tagsinput.min.js')}}"></script>
+{{--    <script src="{{cdn('js/plugin/jqgrid/grid.locale-en.min.js')}}"></script>--}}
     {{--////////////////////////////////////////////////////////////////////////--}}
-    <script src="{{cdn('js/srcjsgrid/db.js')}}"></script>
-    <script src="{{cdn('js/srcjsgrid/jsgrid.core.js')}}"></script>
-    <script src="{{cdn('js/srcjsgrid/jsgrid.load-indicator.js')}}"></script>
-    <script src="{{cdn('js/srcjsgrid/jsgrid.load-strategies.js')}}"></script>
-    <script src="{{cdn('js/srcjsgrid/jsgrid.sort-strategies.js')}}"></script>
-    <script src="{{cdn('js/srcjsgrid/jsgrid.field.js')}}"></script>
-    <script src="{{cdn('js/srcjsgrid/jsgrid.field.text.js')}}"></script>
-    <script src="{{cdn('js/srcjsgrid/jsgrid.field.number.js')}}"></script>
-    <script src="{{cdn('js/srcjsgrid/jsgrid.field.select.js')}}"></script>
-    <script src="{{cdn('js/srcjsgrid/jsgrid.field.checkbox.js')}}"></script>
-    <script src="{{cdn('js/srcjsgrid/jsgrid.field.control.js')}}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.3.1/jsgrid.min.js"></script>
+<script src="{{cdn('js/srcjsgrid/db.js')}}"></script>
 
     <script> //NEW JS GRID
         $(function() {
 
             $("#jsGrid").jsGrid({
-                height: "70%",
                 width: "100%",
+
                 filtering: true,
                 editing: true,
                 sorting: true,
                 paging: true,
                 autoload: true,
+
                 pageSize: 15,
                 pageButtonCount: 5,
+
                 deleteConfirm: "Do you really want to delete the client?",
+
                 controller: db,
+
                 fields: [
                     { name: "Name", type: "text", width: 150 },
                     { name: "Age", type: "number", width: 50 },
@@ -164,6 +159,7 @@
             });
 
         });
+
     </script>
 
 

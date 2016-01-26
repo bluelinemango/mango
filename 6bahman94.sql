@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 25, 2016 at 07:54 PM
+-- Generation Time: Jan 26, 2016 at 06:31 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `advertiser` (
   `id` int(10) unsigned NOT NULL,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `status` tinyint(1) NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `client_id` int(10) unsigned NOT NULL,
   `domain_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -43,14 +43,14 @@ CREATE TABLE IF NOT EXISTS `advertiser` (
 --
 
 INSERT INTO `advertiser` (`id`, `name`, `description`, `status`, `client_id`, `domain_name`, `created_at`, `updated_at`) VALUES
-(2, 'adv_2', 'adv_descript_2', 1, 4, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(4, 'adv_1111', 'adv_descript_1', 1, 3, 'aaaa', '0000-00-00 00:00:00', '2015-12-22 14:25:27'),
-(5, 'aaaaaaa', '1111', 0, 7, '111', '2015-10-23 10:06:50', '2015-10-23 10:06:50'),
-(6, 'test1', 'aaaaa', 0, 1, '', '2015-11-07 12:58:57', '2015-11-07 12:58:57'),
-(7, 'wwww', '', 0, 8, 'aaaa.com', '2015-11-17 06:52:09', '2015-11-17 06:52:09'),
-(8, 'adv change', '', 0, 1, 'ddd.com', '2015-11-17 09:26:12', '2016-01-14 11:31:24'),
-(9, 'asdasdas', '', 0, 1, 'adadas', '2015-11-17 12:37:45', '2015-11-17 12:37:45'),
-(10, 'aa', '', 0, 1, 'aaa', '2015-12-23 12:21:42', '2015-12-23 12:21:42');
+(2, 'adv_2', 'adv_descript_2', 'Disable', 4, '', '0000-00-00 00:00:00', '2016-01-26 13:12:01'),
+(4, 'adv_1111', 'adv_descript_1', 'Active', 3, 'aaaa', '0000-00-00 00:00:00', '2016-01-26 10:20:10'),
+(5, 'aaaaaaa', '1111', 'Active', 7, '111', '2015-10-23 10:06:50', '2016-01-26 10:20:10'),
+(6, 'test1', 'aaaaa', 'Active', 1, '', '2015-11-07 12:58:57', '2016-01-26 10:20:11'),
+(7, 'wwww', '', 'Disable', 8, 'aaaa.com', '2015-11-17 06:52:09', '2015-11-17 06:52:09'),
+(8, 'adv change', '', 'Disable', 1, 'ddd.com', '2015-11-17 09:26:12', '2016-01-26 10:07:31'),
+(9, 'asdasdas', '', 'Active', 1, 'adadas', '2015-11-17 12:37:45', '2016-01-26 13:11:59'),
+(10, 'aa', '', 'Disable', 1, 'aaa', '2015-12-23 12:21:42', '2015-12-23 12:21:42');
 
 -- --------------------------------------------------------
 
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `audits` (
   `date_change` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=255 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `audits`
@@ -135,7 +135,82 @@ INSERT INTO `audits` (`id`, `user_id`, `entity_type`, `entity_id`, `audit_type`,
 (176, 1, 'negative_offer_model', 1, 'add', '', '', '4', '$2y$10$jbWSnAwjEtV2u0gvZmwTKu78q3CwRdVn1Rk1ZAUr9gvAcVtyLoSyi', '2016-01-25 14:35:34', '2016-01-25 14:35:34', '2016-01-25 14:35:34'),
 (177, 1, 'negative_offer_model', 2, 'add', '', '', '4', '$2y$10$jbWSnAwjEtV2u0gvZmwTKu78q3CwRdVn1Rk1ZAUr9gvAcVtyLoSyi', '2016-01-25 14:35:34', '2016-01-25 14:35:34', '2016-01-25 14:35:34'),
 (178, 1, 'positive_offer_model', 1, 'del', '', '', '4', '$2y$10$jbWSnAwjEtV2u0gvZmwTKu78q3CwRdVn1Rk1ZAUr9gvAcVtyLoSyi', '2016-01-25 14:35:34', '2016-01-25 14:35:34', '2016-01-25 14:35:34'),
-(179, 1, 'positive_offer_model', 2, 'del', '', '', '4', '$2y$10$jbWSnAwjEtV2u0gvZmwTKu78q3CwRdVn1Rk1ZAUr9gvAcVtyLoSyi', '2016-01-25 14:35:34', '2016-01-25 14:35:34', '2016-01-25 14:35:34');
+(179, 1, 'positive_offer_model', 2, 'del', '', '', '4', '$2y$10$jbWSnAwjEtV2u0gvZmwTKu78q3CwRdVn1Rk1ZAUr9gvAcVtyLoSyi', '2016-01-25 14:35:34', '2016-01-25 14:35:34', '2016-01-25 14:35:34'),
+(180, 1, 'modelTable', 4, 'edit', 'name', 'test1111', 'test11112', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(181, 1, 'modelTable', 4, 'edit', 'segment_name_seed', '23411', '234112', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(182, 1, 'modelTable', 4, 'edit', 'description', 'axdffs12', 'axdffs122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(183, 1, 'modelTable', 4, 'edit', 'feature_recency_in_sec', '32411', '324112', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(184, 1, 'modelTable', 4, 'edit', 'max_num_both_neg_pos_devices', '2312', '23122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(185, 1, 'modelTable', 4, 'edit', 'cut_off_score', '11.00', '11.002', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(186, 1, 'modelTable', 4, 'edit', 'pixel_hit_recency_in_seconds', '12', '1223', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(187, 1, 'modelTable', 4, 'edit', 'max_number_of_device_history_per_feature', '12', '122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(188, 1, 'modelTable', 4, 'edit', 'number_of_positive_device_to_be_used_for_modeling', '12', '122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(189, 1, 'modelTable', 4, 'edit', 'number_of_negative_device_to_be_used_for_modeling', '12', '122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(190, 1, 'modelTable', 4, 'edit', 'number_of_both_negative_positive_device_to_be_used', '12', '122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(191, 1, 'positive_offer_model', 2, 'add', '', '', '4', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(192, 1, 'negative_offer_model', 2, 'del', '', '', '4', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(193, 1, 'modelTable', 4, 'edit', 'name', 'test1111', 'test11112', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(194, 1, 'modelTable', 4, 'edit', 'segment_name_seed', '23411', '234112', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(195, 1, 'modelTable', 4, 'edit', 'description', 'axdffs12', 'axdffs122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(196, 1, 'modelTable', 4, 'edit', 'feature_recency_in_sec', '32411', '324112', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(197, 1, 'modelTable', 4, 'edit', 'max_num_both_neg_pos_devices', '2312', '23122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(198, 1, 'modelTable', 4, 'edit', 'cut_off_score', '11.00', '11.002', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(199, 1, 'modelTable', 4, 'edit', 'pixel_hit_recency_in_seconds', '12', '1223', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(200, 1, 'modelTable', 4, 'edit', 'max_number_of_device_history_per_feature', '12', '122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(201, 1, 'modelTable', 4, 'edit', 'number_of_positive_device_to_be_used_for_modeling', '12', '122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(202, 1, 'modelTable', 4, 'edit', 'number_of_negative_device_to_be_used_for_modeling', '12', '122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(203, 1, 'modelTable', 4, 'edit', 'number_of_both_negative_positive_device_to_be_used', '12', '122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
+(204, 1, 'advertiser', 4, 'edit', 'status', '1', '0', '$2y$10$GkCCsUlkflN.9FfZQAIYZeQb325wW3rVj4fCxVN.Jv4p33ioB1gZ2', '2016-01-26 09:57:14', '2016-01-26 09:57:14', '2016-01-26 09:57:14'),
+(205, 1, 'advertiser', 4, 'edit', 'status', 'Disable', 'Active', '$2y$10$tU5KXZJT5QbCgUXHdUH4UuPgsAzlglJcNMFFmNuIvV3oKi4LTv4DO', '2016-01-26 10:01:29', '2016-01-26 10:01:29', '2016-01-26 10:01:29'),
+(206, 1, 'advertiser', 4, 'edit', 'status', 'Active', 'Disable', '$2y$10$nN5Bc6JdqCim6rE6f7Umg.6hdAoo6OUz3nfx6dCSs.bu4Qr3Sfzb2', '2016-01-26 10:05:06', '2016-01-26 10:05:06', '2016-01-26 10:05:06'),
+(207, 1, 'advertiser', 4, 'edit', 'status', 'Disable', 'Active', '$2y$10$z67I9eYaZ/45AyTHC6eZ/e2niAE765qGUEsyK9eh5/YSL6reFoh8.', '2016-01-26 10:05:08', '2016-01-26 10:05:08', '2016-01-26 10:05:08'),
+(208, 1, 'advertiser', 4, 'edit', 'status', 'Active', 'Disable', '$2y$10$gLdrr0p5YAjgxho.7RyZKuQSC.TJoWdIxRrvehaJc2DRCjCqIc9Ay', '2016-01-26 10:05:13', '2016-01-26 10:05:13', '2016-01-26 10:05:13'),
+(209, 1, 'advertiser', 4, 'edit', 'status', 'Disable', 'Active', '$2y$10$QzT.fsTVYYHee.gdy2OQ2.le0ehQv3KPAJ67RupVQeM/FUGcWLepW', '2016-01-26 10:05:15', '2016-01-26 10:05:15', '2016-01-26 10:05:15'),
+(210, 1, 'advertiser', 4, 'edit', 'status', 'Active', 'Disable', '$2y$10$MYkkAin6xQ3JNbCuRp.1jubJ4/MwYy.rq.mxEA5.9mV72Lwi8i7Ii', '2016-01-26 10:05:30', '2016-01-26 10:05:30', '2016-01-26 10:05:30'),
+(211, 1, 'advertiser', 4, 'edit', 'status', 'Disable', 'Active', '$2y$10$DiXAIPE/L83RFRwLhME9YO0HJf1MWJHP5Some0lZu6biDIzImAyRq', '2016-01-26 10:05:32', '2016-01-26 10:05:32', '2016-01-26 10:05:32'),
+(212, 1, 'advertiser', 4, 'edit', 'status', 'Active', 'Disable', '$2y$10$X9Pfb22h/.tN.o7kQOui9.rXV94Bl/YZQ6kTJS2qxJMMaMYHOREsO', '2016-01-26 10:06:24', '2016-01-26 10:06:24', '2016-01-26 10:06:24'),
+(213, 1, 'advertiser', 4, 'edit', 'status', 'Disable', 'Active', '$2y$10$EmkfzsZ4eigEpARrtW65Uu50zOK0lvliB.LfuA5YBJ7gn4uY8VdXm', '2016-01-26 10:06:26', '2016-01-26 10:06:26', '2016-01-26 10:06:26'),
+(214, 1, 'advertiser', 6, 'edit', 'status', 'Disable', 'Active', '$2y$10$JrAAyFdef1PH/NUTu8rtMOfGjw0z.qH7Qm/2aam8c4P.pxB3K6MYG', '2016-01-26 10:06:29', '2016-01-26 10:06:29', '2016-01-26 10:06:29'),
+(215, 1, 'advertiser', 6, 'edit', 'status', 'Active', 'Disable', '$2y$10$OPS4hUyQlCDFUvQXVQV1XOaMxDeA.z8NN7hFfl0QVuq3m8H6B525q', '2016-01-26 10:06:58', '2016-01-26 10:06:58', '2016-01-26 10:06:58'),
+(216, 1, 'advertiser', 8, 'edit', 'status', 'Active', 'Disable', '$2y$10$cm3TeRFs5a9U/FhstzT2j.cCQEBz8zZ2ehsELDP9fn43XYei5oQEW', '2016-01-26 10:06:59', '2016-01-26 10:06:59', '2016-01-26 10:06:59'),
+(217, 1, 'advertiser', 8, 'edit', 'status', 'Disable', 'Active', '$2y$10$Nocu0a5QeDLftKxEiW2Fm./QQu9zT9eyONQ0JLFWDnVWgw8ux.6Wi', '2016-01-26 10:07:29', '2016-01-26 10:07:29', '2016-01-26 10:07:29'),
+(218, 1, 'advertiser', 8, 'edit', 'status', 'Active', 'Disable', '$2y$10$lDOjuA6ENC0UiPb5VAwiBupbPTDKuVOXYSBu0ZZ191/NNaGUHq5/6', '2016-01-26 10:07:31', '2016-01-26 10:07:31', '2016-01-26 10:07:31'),
+(219, 1, 'advertiser', 2, 'edit', 'status', 'Active', 'Disable', '$2y$10$UaCYj8tCq4FBuTfFeirZZuZMmaeO.fL2QFbqjVVOjAxDlMy9SOXQm', '2016-01-26 10:07:36', '2016-01-26 10:07:36', '2016-01-26 10:07:36'),
+(220, 1, 'advertiser', 2, 'edit', 'status', 'Disable', 'Active', '$2y$10$jHotJ1RK/SRCa54.VGJoMe1041lyqB/BTRXhCTwLc6Dtn9AVEAMd.', '2016-01-26 10:07:37', '2016-01-26 10:07:38', '2016-01-26 10:07:38'),
+(221, 1, 'advertiser', 4, 'edit', 'status', 'Active', 'Disable', '$2y$10$7sXniloWOFiu5jnRa1ybHORwHlECdW7L0oF6nEUaRb3F4XTgU8Q9u', '2016-01-26 10:19:55', '2016-01-26 10:19:55', '2016-01-26 10:19:55'),
+(222, 1, 'advertiser', 5, 'edit', 'status', 'Active', 'Disable', '$2y$10$oXBumzjKN2kwrv/mQbDY3.no4896psWjR64q07AolSMrERov9me06', '2016-01-26 10:19:55', '2016-01-26 10:19:56', '2016-01-26 10:19:56'),
+(223, 1, 'advertiser', 6, 'edit', 'status', 'Disable', 'Active', '$2y$10$jkpqE5RFBRQiN.6tWo9st.VN/6Eu0b3/5ch2ZD/YA4Xzdp4edvxnS', '2016-01-26 10:19:56', '2016-01-26 10:19:56', '2016-01-26 10:19:56'),
+(224, 1, 'advertiser', 6, 'edit', 'status', 'Active', 'Disable', '$2y$10$qgRqtpsuksrcqHfW7bfHt.Uch263qg6.Y0a7/xlAkrBNtaOPIH3VS', '2016-01-26 10:20:06', '2016-01-26 10:20:06', '2016-01-26 10:20:06'),
+(225, 1, 'advertiser', 4, 'edit', 'status', 'Disable', 'Active', '$2y$10$UMz3pSucgvO0EBHYndkSEeN933YBbq9V90CSC9mScg6RPGllYfKy6', '2016-01-26 10:20:09', '2016-01-26 10:20:10', '2016-01-26 10:20:10'),
+(226, 1, 'advertiser', 5, 'edit', 'status', 'Disable', 'Active', '$2y$10$jer0zDJpV.BKib1gOrLqV.wvmtzM5SXeMyyc.MnYv/kNwWUAgixD2', '2016-01-26 10:20:10', '2016-01-26 10:20:10', '2016-01-26 10:20:10'),
+(227, 1, 'advertiser', 6, 'edit', 'status', 'Disable', 'Active', '$2y$10$wNeqBnsnmv63cx43zy982.dkcAdG4b2jrsaw79T2kB0b0RP4XZwFW', '2016-01-26 10:20:11', '2016-01-26 10:20:11', '2016-01-26 10:20:11'),
+(228, 1, 'creative', 4, 'edit', 'status', 'Active', 'Disable', '$2y$10$.LP.qG84ggbBHXrWlovf2ORVd2ZYYHlfEI7hL310qnzRQRgSiaNSS', '2016-01-26 10:20:42', '2016-01-26 10:20:42', '2016-01-26 10:20:42'),
+(229, 1, 'creative', 5, 'edit', 'status', 'Active', 'Disable', '$2y$10$tPnXJL2ffY0Kc6TIbSa20eXjQFgRHAQspB3MFhUALlKNpNyG/7JDO', '2016-01-26 10:20:42', '2016-01-26 10:20:43', '2016-01-26 10:20:43'),
+(230, 1, 'creative', 6, 'edit', 'status', 'Active', 'Disable', '$2y$10$Hz6ThzcFBt7w6MmatwxTHOivzsJoT99Z77bjNrcXTeGoDso949Qv.', '2016-01-26 10:20:43', '2016-01-26 10:20:43', '2016-01-26 10:20:43'),
+(231, 1, 'creative', 2, 'edit', 'status', 'Active', 'Disable', '$2y$10$NP3gyecKwbu1TTNWwQMnP.ikbiOCvQAjWKgd/q/7knV/CFDjGri1W', '2016-01-26 10:20:44', '2016-01-26 10:20:44', '2016-01-26 10:20:44'),
+(232, 1, 'creative', 3, 'edit', 'status', 'Active', 'Disable', '$2y$10$sgjelqqxIXD/DS5T5LtOWOW0DqsyCzH6Go9AMhOV/HERIGqUQV7Ji', '2016-01-26 10:20:44', '2016-01-26 10:20:44', '2016-01-26 10:20:44'),
+(233, 1, 'creative', 4, 'edit', 'status', 'Disable', 'Active', '$2y$10$3dcFIIxwdb8IJrO0IW8Js.otcHpCYKEHkkxptNLO8.orHb4eZa9ne', '2016-01-26 10:20:45', '2016-01-26 10:20:46', '2016-01-26 10:20:46'),
+(234, 1, 'creative', 5, 'edit', 'status', 'Disable', 'Active', '$2y$10$ra.1Ky/uqt/QJ7emXC8NselrJmN/7N7E17ct4RIGl0GShj1rEPBum', '2016-01-26 10:20:46', '2016-01-26 10:20:46', '2016-01-26 10:20:46'),
+(235, 1, 'creative', 6, 'edit', 'status', 'Disable', 'Active', '$2y$10$6NJProX5hsgk5O7uaI98yOIhV7ZQ105plXwR5FMphc39fgIcHSKaO', '2016-01-26 10:20:46', '2016-01-26 10:20:47', '2016-01-26 10:20:47'),
+(236, 1, 'offer', 1, 'edit', 'status', 'Active', 'Disable', '$2y$10$9BoiZKGIbzVO6jG0xDWvMeHq6WbCDZRzZmO0SkLqLRyArsM9b.thG', '2016-01-26 10:27:57', '2016-01-26 10:27:57', '2016-01-26 10:27:57'),
+(237, 1, 'campaign', 8, 'edit', 'status', '0', 'Disable', '$2y$10$vE.izWnQhQULDOqDfJR0Pe.3wgAdVuX2cV.r8b3aPVIBzP1L0Ubmq', '2016-01-26 10:28:17', '2016-01-26 10:28:17', '2016-01-26 10:28:17'),
+(238, 1, 'campaign', 4, 'edit', 'status', 'Active', 'Disable', '$2y$10$02K3HLGJcvbN6Kv2Tm1kcuBLw2VTCLP8kwesELHsh8hqpr6VNKgO.', '2016-01-26 10:29:35', '2016-01-26 10:29:35', '2016-01-26 10:29:35'),
+(239, 1, 'campaign', 5, 'edit', 'status', 'Active', 'Disable', '$2y$10$oy0.v2jb/q.R0pcUDLOKduudWEl5evxxINvVAqe3Eqx9f9gGUCuou', '2016-01-26 10:29:35', '2016-01-26 10:29:36', '2016-01-26 10:29:36'),
+(240, 1, 'pixel', 1, 'edit', 'status', 'Active', 'Disable', '$2y$10$cnaVHEFqEDpYwu.itgyd/..xJSIowZDYsU4lUiG8YuD8T3MS7I3Dq', '2016-01-26 10:31:21', '2016-01-26 10:31:21', '2016-01-26 10:31:21'),
+(241, 1, 'geosegment', 14, 'edit', 'status', 'Active', 'Disable', '$2y$10$Yqc.WSslR0i2B/NQ6G0AneSpTlgw6ga31wdvQFfA5AvGO2r3nTFZW', '2016-01-26 11:04:25', '2016-01-26 11:04:25', '2016-01-26 11:04:25'),
+(242, 1, 'geosegment', 13, 'edit', 'status', 'Active', 'Disable', '$2y$10$aEdg8jroWte/K1s78AEXyOzvwaow0N2Zj11CH15Ebj26gotglf4k2', '2016-01-26 11:04:26', '2016-01-26 11:04:26', '2016-01-26 11:04:26'),
+(243, 1, 'bwlist', 19, 'edit', 'status', 'Active', 'Disable', '$2y$10$OPSVP17SPfgwGPCC9fwe9OMWqi14MeNIMHZNiFszz/NTZvYHz0h/S', '2016-01-26 11:08:31', '2016-01-26 11:08:31', '2016-01-26 11:08:31'),
+(244, 1, 'bwlist', 17, 'edit', 'status', 'Active', 'Disable', '$2y$10$HPdh2Rq0OTlNFOY.MFABwOcAt.C8qCBAdTvm/kqhHnlAlhHlptd92', '2016-01-26 11:08:33', '2016-01-26 11:08:33', '2016-01-26 11:08:33'),
+(245, 1, 'advertiser', 9, 'edit', 'status', 'Active', 'Disable', '$2y$10$6AWel60WXtmuIfnIEqTRpeOV3Suy7R5fxRH4NRxExJKdAMf6nO88e', '2016-01-26 13:11:57', '2016-01-26 13:11:57', '2016-01-26 13:11:57'),
+(246, 1, 'advertiser', 9, 'edit', 'status', 'Disable', 'Active', '$2y$10$KB7b9MCy7RzUcS9P7WJiUucU9JB4bSlwnvS2jroTe/g9VL3d2lO0O', '2016-01-26 13:11:58', '2016-01-26 13:11:59', '2016-01-26 13:11:59'),
+(247, 1, 'advertiser', 2, 'edit', 'status', 'Active', 'Disable', '$2y$10$tJhz/qjAZhWKFZz9wbQVUuKEoiu3jdBHtldL4jaSMF4pSnVY3gQwK', '2016-01-26 13:12:01', '2016-01-26 13:12:01', '2016-01-26 13:12:01'),
+(248, 1, 'campaign', 6, 'edit', 'status', 'Active', 'Disable', '$2y$10$.DZIlIcu4Ghg6wGmjK5D9OFWFkNFh/3ABPDMh69lJqlRvFzOc0wtu', '2016-01-26 13:12:08', '2016-01-26 13:12:08', '2016-01-26 13:12:08'),
+(249, 1, 'creative', 4, 'edit', 'status', 'Active', 'Disable', '$2y$10$t9g5oLLhSgjnYY3oUipHFuNR6d/EaDFEswui2wUODl3mbT0M4Ucpm', '2016-01-26 13:12:12', '2016-01-26 13:12:12', '2016-01-26 13:12:12'),
+(250, 1, 'offer', 2, 'edit', 'status', 'Active', 'Disable', '$2y$10$bGrpfNuh3oAgmhiRl0.ssefryt/ePj9jXc6126Y.CjIRvKV2mUQfa', '2016-01-26 13:12:15', '2016-01-26 13:12:15', '2016-01-26 13:12:15'),
+(251, 1, 'offer', 1, 'edit', 'status', 'Disable', 'Active', '$2y$10$EC7t2wpDXG.a94Q4LvdUnedAOJ7cl/BK4HnQJ7TwJ9p3WGKm2hNsO', '2016-01-26 13:12:16', '2016-01-26 13:12:16', '2016-01-26 13:12:16'),
+(252, 1, 'offer', 2, 'edit', 'status', 'Disable', 'Active', '$2y$10$XwGeIpiBB38X62SP1ZFo1OrdUES1OOQPBOQKFhrbwhHVXRm0vueJ6', '2016-01-26 13:12:16', '2016-01-26 13:12:16', '2016-01-26 13:12:16'),
+(253, 1, 'pixel', 1, 'edit', 'status', 'Disable', 'Active', '$2y$10$7c/QEzYGtuMamAjWAkrOZeBu.jg2e9i4/UHcB81ERMqMfMQTjuV6y', '2016-01-26 13:12:19', '2016-01-26 13:12:19', '2016-01-26 13:12:19'),
+(254, 1, 'pixel', 2, 'edit', 'status', 'Active', 'Disable', '$2y$10$.B598HJIDBGjXuPRtvp8CeA2LDooxLDwPs3HTk4J5NlWzPujuiX7a', '2016-01-26 13:12:19', '2016-01-26 13:12:19', '2016-01-26 13:12:19');
 
 -- --------------------------------------------------------
 
@@ -224,6 +299,7 @@ INSERT INTO `bwentries` (`id`, `domain_name`, `bwlist_id`, `created_at`, `update
 CREATE TABLE IF NOT EXISTS `bwlist` (
   `id` int(10) unsigned NOT NULL,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `list_type` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `advertiser_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -234,18 +310,18 @@ CREATE TABLE IF NOT EXISTS `bwlist` (
 -- Dumping data for table `bwlist`
 --
 
-INSERT INTO `bwlist` (`id`, `name`, `list_type`, `advertiser_id`, `created_at`, `updated_at`) VALUES
-(1, 'shomare 1', 'black', 4, '2015-11-20 12:37:03', '2015-11-20 12:37:03'),
-(2, 'sdafasdf', 'black', 4, '2015-11-20 12:38:15', '2015-11-20 12:38:15'),
-(3, 'sdafasdf', 'white', 4, '2015-11-20 12:43:21', '2015-11-20 12:43:21'),
-(4, 'aaaa', 'black', 7, '2015-11-20 12:53:50', '2015-11-20 12:53:50'),
-(5, 'aa', 'black', 8, '2015-11-20 12:54:09', '2015-11-20 12:54:09'),
-(6, 'aa', 'black', 8, '2015-11-20 12:54:17', '2015-11-20 12:54:17'),
-(7, 'aa', 'white', 8, '2015-11-20 12:56:12', '2015-11-20 12:56:12'),
-(8, 'ali', 'white', 8, '2015-11-21 13:12:34', '2015-11-21 13:12:34'),
-(17, 'alireza2', 'white', 8, '2015-11-28 13:13:17', '2016-01-17 08:47:22'),
-(18, 'alio1', 'black', 9, '2015-12-05 12:29:45', '2015-12-21 11:16:30'),
-(19, 'reza', 'black', 6, '2016-01-18 15:25:21', '2016-01-18 15:25:21');
+INSERT INTO `bwlist` (`id`, `name`, `status`, `list_type`, `advertiser_id`, `created_at`, `updated_at`) VALUES
+(1, 'shomare 1', 'Active', 'black', 4, '2015-11-20 12:37:03', '2015-11-20 12:37:03'),
+(2, 'sdafasdf', 'Active', 'black', 4, '2015-11-20 12:38:15', '2015-11-20 12:38:15'),
+(3, 'sdafasdf', 'Active', 'white', 4, '2015-11-20 12:43:21', '2015-11-20 12:43:21'),
+(4, 'aaaa', 'Active', 'black', 7, '2015-11-20 12:53:50', '2015-11-20 12:53:50'),
+(5, 'aa', 'Active', 'black', 8, '2015-11-20 12:54:09', '2015-11-20 12:54:09'),
+(6, 'aa', 'Active', 'black', 8, '2015-11-20 12:54:17', '2015-11-20 12:54:17'),
+(7, 'aa', 'Active', 'white', 8, '2015-11-20 12:56:12', '2015-11-20 12:56:12'),
+(8, 'ali', 'Active', 'white', 8, '2015-11-21 13:12:34', '2015-11-21 13:12:34'),
+(17, 'alireza2', 'Disable', 'white', 8, '2015-11-28 13:13:17', '2016-01-26 11:08:33'),
+(18, 'alio1', 'Active', 'black', 9, '2015-12-05 12:29:45', '2015-12-21 11:16:30'),
+(19, 'reza', 'Disable', 'black', 6, '2016-01-18 15:25:21', '2016-01-26 11:08:31');
 
 -- --------------------------------------------------------
 
@@ -258,7 +334,7 @@ CREATE TABLE IF NOT EXISTS `campaign` (
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `advertiser_id` int(10) unsigned NOT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `status` tinyint(1) NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `max_impression` int(11) NOT NULL,
   `daily_max_impression` int(11) NOT NULL,
   `max_budget` int(11) NOT NULL,
@@ -277,13 +353,13 @@ CREATE TABLE IF NOT EXISTS `campaign` (
 --
 
 INSERT INTO `campaign` (`id`, `name`, `advertiser_id`, `description`, `status`, `max_impression`, `daily_max_impression`, `max_budget`, `daily_max_budget`, `cpm`, `advertiser_domain`, `start_date`, `end_date`, `advertiser_domain_name`, `created_at`, `updated_at`) VALUES
-(3, 'fsdf111121', 4, 'asdas', 0, 13123, 2342, 34231, 4234, 234, '', '2015-11-09 14:32:32', '2015-11-25 14:32:32', '234', '2015-10-14 11:38:02', '2015-12-20 11:34:48'),
-(4, 'asdasd', 4, 'asd asd a', 0, 2332, 2323, 2222, 2222, 222, '', '2016-01-06 08:14:25', '2016-01-14 08:14:25', '222', '2015-10-23 10:07:43', '2016-01-06 08:14:25'),
-(5, '111111112', 6, 'asdasd3', 0, 2223123, 2223123, 2223123, 223123, 22332, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'asdas1', '2015-11-07 13:02:52', '2016-01-14 11:44:34'),
-(6, 'aaaaaaaa', 4, '', 0, 2147483647, 2147483647, 2234123, 2123, 2147483647, '', '2016-01-18 12:32:38', '2016-01-30 12:32:38', 'aaaaaaa', '2015-11-17 07:42:08', '2016-01-14 12:32:38'),
-(7, 'asd', 8, '', 0, 123, 123, 123, 123, 123, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '123', '2015-11-17 09:31:34', '2015-11-17 09:31:34'),
-(8, 'asd', 7, '', 0, 2, 2, 2, 2, 2323, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-11-17 09:35:20', '2015-11-17 09:35:20'),
-(9, 'asd asd', 9, '', 0, 0, 0, 0, 0, 0, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'as das ', '2015-11-17 12:38:53', '2015-11-17 12:38:53');
+(3, 'fsdf111121', 4, 'asdas', 'Active', 13123, 2342, 34231, 4234, 234, '', '2015-11-09 14:32:32', '2015-11-25 14:32:32', '234', '2015-10-14 11:38:02', '2015-12-20 11:34:48'),
+(4, 'asdasd', 4, 'asd asd a', 'Disable', 2332, 2323, 2222, 2222, 222, '', '2016-01-06 08:14:25', '2016-01-14 08:14:25', '222', '2015-10-23 10:07:43', '2016-01-26 10:29:35'),
+(5, '111111112', 6, 'asdasd3', 'Disable', 2223123, 2223123, 2223123, 223123, 22332, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'asdas1', '2015-11-07 13:02:52', '2016-01-26 10:29:36'),
+(6, 'aaaaaaaa', 4, '', 'Disable', 2147483647, 2147483647, 2234123, 2123, 2147483647, '', '2016-01-18 12:32:38', '2016-01-30 12:32:38', 'aaaaaaa', '2015-11-17 07:42:08', '2016-01-26 13:12:08'),
+(7, 'asd', 8, '', 'Active', 123, 123, 123, 123, 123, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '123', '2015-11-17 09:31:34', '2015-11-17 09:31:34'),
+(8, 'asd', 7, '', 'Active', 2, 2, 2, 2, 2323, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-11-17 09:35:20', '2016-01-26 10:28:17'),
+(9, 'asd asd', 9, '', 'Active', 0, 0, 0, 0, 0, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'as das ', '2015-11-17 12:38:53', '2015-11-17 12:38:53');
 
 -- --------------------------------------------------------
 
@@ -350,7 +426,7 @@ CREATE TABLE IF NOT EXISTS `creative` (
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `advertiser_id` int(10) unsigned NOT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `status` tinyint(1) NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `ad_tag` text COLLATE utf8_unicode_ci NOT NULL,
   `landing_page_url` text COLLATE utf8_unicode_ci NOT NULL,
   `preview_url` text COLLATE utf8_unicode_ci NOT NULL,
@@ -367,11 +443,11 @@ CREATE TABLE IF NOT EXISTS `creative` (
 --
 
 INSERT INTO `creative` (`id`, `name`, `advertiser_id`, `description`, `status`, `ad_tag`, `landing_page_url`, `preview_url`, `size`, `is_secure`, `attributes`, `advertiser_domain_name`, `created_at`, `updated_at`) VALUES
-(2, 'aaa1s', 8, '', 0, 'asd', 'ads1', 'adsa', '23x232', 0, 'asd', 'aaaas', '2015-11-17 10:07:22', '2016-01-17 11:16:11'),
-(3, 'asdasd1', 7, '12311', 0, '2131', '1231', '1231', '1231x231', 0, '1231', '1231', '2015-10-23 06:15:09', '2015-10-23 06:34:23'),
-(4, 'as12312', 7, '31231', 0, '2131', '1231', '1231', '1231x231', 0, '1231', '1231', '2015-10-23 06:15:09', '2015-10-23 06:34:23'),
-(5, 'as32423d1سیبسی', 4, '12311', 0, '2131324', '1231234', '1231234', '1231x231', 0, '1231234', '1231', '2015-10-23 06:15:09', '2016-01-14 12:31:18'),
-(6, 'hhhghf', 7, '12311', 0, '2131', '1231', '1231', '1231x231', 0, '1231', '1231', '2015-10-23 06:15:09', '2015-10-23 06:34:23');
+(2, 'aaa1s', 8, '', 'Disable', 'asd', 'ads1', 'adsa', '23x232', 0, 'asd', 'aaaas', '2015-11-17 10:07:22', '2016-01-26 10:20:44'),
+(3, 'asdasd1', 7, '12311', 'Disable', '2131', '1231', '1231', '1231x231', 0, '1231', '1231', '2015-10-23 06:15:09', '2016-01-26 10:20:44'),
+(4, 'as12312', 7, '31231', 'Disable', '2131', '1231', '1231', '1231x231', 0, '1231', '1231', '2015-10-23 06:15:09', '2016-01-26 13:12:12'),
+(5, 'as32423d1سیبسی', 4, '12311', 'Active', '2131324', '1231234', '1231234', '1231x231', 0, '1231234', '1231', '2015-10-23 06:15:09', '2016-01-26 10:20:46'),
+(6, 'hhhghf', 7, '12311', 'Active', '2131', '1231', '1231', '1231x231', 0, '1231', '1231', '2015-10-23 06:15:09', '2016-01-26 10:20:47');
 
 -- --------------------------------------------------------
 
@@ -513,6 +589,7 @@ INSERT INTO `geosegment` (`id`, `name`, `lat`, `lon`, `segment_radius`, `geosegm
 CREATE TABLE IF NOT EXISTS `geosegmentlist` (
   `id` int(10) unsigned NOT NULL,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `advertiser_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
@@ -522,16 +599,16 @@ CREATE TABLE IF NOT EXISTS `geosegmentlist` (
 -- Dumping data for table `geosegmentlist`
 --
 
-INSERT INTO `geosegmentlist` (`id`, `name`, `advertiser_id`, `created_at`, `updated_at`) VALUES
-(5, 'aa', 7, '2015-11-24 07:48:26', '2015-11-24 07:48:26'),
-(6, 'aaaaaaa', 7, '2015-11-28 13:14:23', '2015-11-28 13:14:23'),
-(7, 'aaaaaaaasdasdas', 4, '2015-11-28 13:14:23', '2015-11-28 13:14:23'),
-(8, 'gggggggggggg', 4, '2015-11-28 13:14:23', '2015-11-28 13:14:23'),
-(9, 'ali', 8, '2015-12-05 13:25:30', '2015-12-05 13:25:30'),
-(11, 'asdasdasdasd', 7, '2015-12-05 13:53:02', '2015-12-05 13:53:02'),
-(12, 'aa11a112', 9, '2015-12-05 13:57:05', '2016-01-17 11:03:44'),
-(13, 'asd', 4, '2016-01-18 14:21:49', '2016-01-18 14:21:49'),
-(14, 'ali', 9, '2016-01-18 14:32:09', '2016-01-18 14:32:09');
+INSERT INTO `geosegmentlist` (`id`, `name`, `status`, `advertiser_id`, `created_at`, `updated_at`) VALUES
+(5, 'aa', 'Active', 7, '2015-11-24 07:48:26', '2015-11-24 07:48:26'),
+(6, 'aaaaaaa', 'Active', 7, '2015-11-28 13:14:23', '2015-11-28 13:14:23'),
+(7, 'aaaaaaaasdasdas', 'Active', 4, '2015-11-28 13:14:23', '2015-11-28 13:14:23'),
+(8, 'gggggggggggg', 'Active', 4, '2015-11-28 13:14:23', '2015-11-28 13:14:23'),
+(9, 'ali', 'Active', 8, '2015-12-05 13:25:30', '2015-12-05 13:25:30'),
+(11, 'asdasdasdasd', 'Active', 7, '2015-12-05 13:53:02', '2015-12-05 13:53:02'),
+(12, 'aa11a112', 'Active', 9, '2015-12-05 13:57:05', '2016-01-17 11:03:44'),
+(13, 'asd', 'Disable', 4, '2016-01-18 14:21:49', '2016-01-26 11:04:26'),
+(14, 'ali', 'Disable', 9, '2016-01-18 14:32:09', '2016-01-26 11:04:25');
 
 -- --------------------------------------------------------
 
@@ -11095,7 +11172,7 @@ CREATE TABLE IF NOT EXISTS `model` (
   `number_of_negative_device_to_be_used_for_modeling` int(11) NOT NULL,
   `number_of_both_negative_positive_device_to_be_used` int(11) NOT NULL,
   `date_of_request_completion` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `model`
@@ -11104,7 +11181,7 @@ CREATE TABLE IF NOT EXISTS `model` (
 INSERT INTO `model` (`id`, `name`, `advertiser_id`, `seed_web_sites`, `algo`, `segment_name_seed`, `process_result`, `description`, `num_neg_devices_used`, `num_pos_devices_used`, `feature_recency_in_sec`, `max_num_both_neg_pos_devices`, `negative_features_requested`, `feature_avg_num_history_used`, `negative_feature_used`, `date_of_request`, `created_at`, `updated_at`, `positive_feature_used`, `feature_score_map`, `top_feature_score_map`, `model_type`, `cut_off_score`, `pixel_hit_recency_in_seconds`, `positive_offer_id`, `negative_offer_id`, `max_number_of_device_history_per_feature`, `max_number_of_negative_feature_to_pick`, `number_of_positive_device_to_be_used_for_modeling`, `number_of_negative_device_to_be_used_for_modeling`, `number_of_both_negative_positive_device_to_be_used`, `date_of_request_completion`) VALUES
 (1, 'aaa', 6, '"asd,dd,d"', 'heat', 'aaa', 'asdas', '1111', 1, 1, 1, 1, '"asd,fgsd,fg,df,w"', '', '"asd,ac,zc,sdf,g"', '2016-01-11 07:00:06', '2015-11-12 06:34:38', '2015-11-12 07:06:34', '', '', '', '', '0.00', 0, '', '', 0, 0, 0, 0, 0, '0000-00-00 00:00:00'),
 (2, 'sad11', 7, '"sad"', '', 'asdas', '234', 'asdasd', 234, 24, 34324, 234, '"asd,addd"', '', '"aaaa"', '2016-05-12 13:36:09', '2015-11-24 11:25:15', '2015-12-21 11:03:42', '', '', '', '', '0.00', 0, '', '', 0, 0, 0, 0, 0, '0000-00-00 00:00:00'),
-(4, 'test1111', 4, 'null', '', '23411', 'submitted', 'axdffs12', 0, 0, 32411, 2312, 'null', '', '', '2016-01-25 13:05:02', '2016-01-25 11:09:18', '2016-01-25 14:35:34', '', '', '', 'pixel_model', '11.00', 12, '', '1,2', 12, 0, 12, 12, 12, '2016-01-25 13:05:02');
+(4, 'test11112', 4, 'null', '', '234112', 'submitted', 'axdffs122', 0, 0, 324112, 23122, 'null', '', '', '2016-01-25 13:05:02', '2016-01-25 11:09:18', '2016-01-25 15:35:04', '', '', '', 'pixel_model', '11.00', 1223, '2', '1', 122, 0, 122, 122, 122, '2016-01-25 13:05:02');
 
 -- --------------------------------------------------------
 
@@ -11115,6 +11192,7 @@ INSERT INTO `model` (`id`, `name`, `advertiser_id`, `seed_web_sites`, `algo`, `s
 CREATE TABLE IF NOT EXISTS `offer` (
   `id` int(10) unsigned NOT NULL,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `advertiser_id` int(10) unsigned NOT NULL,
   `description` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -11125,9 +11203,9 @@ CREATE TABLE IF NOT EXISTS `offer` (
 -- Dumping data for table `offer`
 --
 
-INSERT INTO `offer` (`id`, `name`, `advertiser_id`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'offer1234', 4, '', '2016-01-21 11:13:17', '2016-01-21 12:36:07'),
-(2, 'offer4', 4, '', '2016-01-21 12:35:00', '2016-01-21 12:35:00');
+INSERT INTO `offer` (`id`, `name`, `status`, `advertiser_id`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'offer1234', 'Active', 4, '', '2016-01-21 11:13:17', '2016-01-26 13:12:16'),
+(2, 'offer4', 'Active', 4, '', '2016-01-21 12:35:00', '2016-01-26 13:12:16');
 
 -- --------------------------------------------------------
 
@@ -11211,6 +11289,7 @@ INSERT INTO `permission` (`id`, `name`, `description`, `created_at`, `updated_at
 CREATE TABLE IF NOT EXISTS `pixel` (
   `id` int(10) unsigned NOT NULL,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `advertiser_id` int(10) unsigned NOT NULL,
   `part_a` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `part_b` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
@@ -11224,9 +11303,9 @@ CREATE TABLE IF NOT EXISTS `pixel` (
 -- Dumping data for table `pixel`
 --
 
-INSERT INTO `pixel` (`id`, `name`, `advertiser_id`, `part_a`, `part_b`, `version`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'asd233', 4, 'wXTXfP2d4ggkmJHwXcUvc80vVuAeuLJUJU1gZoAv7cZlsMl1Q6eeDDLdFmvGhKzQjKxq7QwEy06eVGno', '7SWQs1SOM6N0qBMEgsqtCaPGlGA0MtMDLw0kDhnhgIsdYkmlB2GovmvAwerD08yLM2sGcpfC7dvhSVkU', 'version1', '', '2016-01-21 11:47:51', '2016-01-21 11:48:26'),
-(2, 'pixle111', 4, 'qIx3eXHRwDlpEexTsGU3htx7YA0LStpgP7mhaYX5L0LmWHSkx1VJUqXLTTBaQTW8AozouQzanfybA3BE', 'ZejhUfLic4AqbbQSJx8nbBz8mmITDhGPPj4HhWXHS8WzUl7vfy5effWZImgs2n9T1hcZ2vvZV3FA0nL0', 'version1', '', '2016-01-21 12:35:31', '2016-01-21 12:35:31');
+INSERT INTO `pixel` (`id`, `name`, `status`, `advertiser_id`, `part_a`, `part_b`, `version`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'asd233', 'Active', 4, 'wXTXfP2d4ggkmJHwXcUvc80vVuAeuLJUJU1gZoAv7cZlsMl1Q6eeDDLdFmvGhKzQjKxq7QwEy06eVGno', '7SWQs1SOM6N0qBMEgsqtCaPGlGA0MtMDLw0kDhnhgIsdYkmlB2GovmvAwerD08yLM2sGcpfC7dvhSVkU', 'version1', '', '2016-01-21 11:47:51', '2016-01-26 13:12:19'),
+(2, 'pixle111', 'Disable', 4, 'qIx3eXHRwDlpEexTsGU3htx7YA0LStpgP7mhaYX5L0LmWHSkx1VJUqXLTTBaQTW8AozouQzanfybA3BE', 'ZejhUfLic4AqbbQSJx8nbBz8mmITDhGPPj4HhWXHS8WzUl7vfy5effWZImgs2n9T1hcZ2vvZV3FA0nL0', 'version1', '', '2016-01-21 12:35:31', '2016-01-26 13:12:19');
 
 -- --------------------------------------------------------
 
@@ -11321,7 +11400,7 @@ CREATE TABLE IF NOT EXISTS `targetgroup` (
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `campaign_id` int(10) unsigned NOT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `status` tinyint(1) NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `iab_category` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `iab_sub_category` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `max_impression` int(11) NOT NULL,
@@ -11343,25 +11422,25 @@ CREATE TABLE IF NOT EXISTS `targetgroup` (
 --
 
 INSERT INTO `targetgroup` (`id`, `name`, `campaign_id`, `description`, `status`, `iab_category`, `iab_sub_category`, `max_impression`, `daily_max_impression`, `max_budget`, `daily_max_budget`, `pacing_plan`, `cpm`, `frequency_in_sec`, `start_date`, `end_date`, `advertiser_domain_name`, `created_at`, `updated_at`) VALUES
-(1, 'dfsasd222', 3, 'df fsdfs d1', 0, 'asd1', 'asd1', 32141, 2342341, 2341, 2341, '2341', 2341, 2341, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '234231', '2015-10-22 05:17:18', '2015-10-22 05:42:47'),
-(2, 'sadasd', 3, '4ghh', 0, '234', '234', 234234, 234, 2341234, 234234, '234234', 456, 45646, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '456456', '2015-10-23 09:56:19', '2015-10-23 09:56:19'),
-(3, 'asdasd', 3, 'fhfgh', 0, '5646', '456456', 45645, 645, 6456, 46, '464', 4564, 5646, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '46', '2015-10-23 09:59:06', '2015-10-23 09:59:06'),
-(4, 'asdasd1', 7, 'ggggfjfjf g gh jfg ', 0, '324', '567', 65, 87, 856756, 7567, '567', 567, 567, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '567', '2015-10-23 10:00:05', '2015-10-23 10:00:05'),
-(5, 'ali', 3, '', 0, '1', NULL, 1, 2, 3, 4, '7', 6, 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'ddd', '2015-11-30 14:13:26', '2015-11-30 14:13:26'),
-(6, 'aaa', 3, '', 0, '2', '6', 3, 234, 234, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'sss', '2015-12-01 12:32:10', '2015-12-01 12:32:10'),
-(7, 'aaaaa', 3, '', 0, '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-01 12:36:49', '2015-12-01 12:36:49'),
-(8, 'dsa', 3, '', 0, '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-01 12:37:14', '2015-12-01 12:37:14'),
-(9, 'sadas', 3, '', 0, '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-01 12:37:34', '2015-12-01 12:37:34'),
-(10, 'asdads', 3, '', 0, '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-01 12:42:18', '2015-12-01 12:42:18'),
-(11, 'ali', 3, '', 0, '2', '6', 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'aaa', '2015-12-01 13:36:24', '2015-12-01 13:36:24'),
-(12, 'aaa1', 3, '', 0, '1', '2', 12, 12, 123, 34, '5', 45, 56, '2015-05-12 14:37:06', '2016-11-12 15:37:06', 'aaaaa', '2015-12-03 11:27:16', '2015-12-22 09:45:47'),
-(13, 'asdasd', 8, '', 0, '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-03 11:50:47', '2015-12-03 11:50:47'),
-(14, 'asd', 3, '', 0, '2', '5', 34, 324, 234, 324, '324', 324, 32423, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'dsf', '2016-01-20 14:37:30', '2016-01-20 14:37:30'),
-(15, 'asd', 3, '', 0, '2', NULL, 34, 324, 234, 324, '324', 324, 32423, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'dsf', '2016-01-20 14:38:41', '2016-01-20 14:38:41'),
-(16, 'asd', 3, '', 0, '2', NULL, 34, 324, 234, 324, '324', 324, 32423, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'dsf', '2016-01-20 14:38:50', '2016-01-20 14:38:50'),
-(17, 'qew', 3, '', 0, '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2016-01-20 14:50:40', '2016-01-20 14:50:40'),
-(18, 'asd', 3, '', 0, '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2016-01-20 15:45:42', '2016-01-20 15:45:42'),
-(19, 'qwe', 3, '', 0, '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2016-01-21 09:08:46', '2016-01-21 09:08:46');
+(1, 'dfsasd222', 3, 'df fsdfs d1', '0', 'asd1', 'asd1', 32141, 2342341, 2341, 2341, '2341', 2341, 2341, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '234231', '2015-10-22 05:17:18', '2015-10-22 05:42:47'),
+(2, 'sadasd', 3, '4ghh', '0', '234', '234', 234234, 234, 2341234, 234234, '234234', 456, 45646, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '456456', '2015-10-23 09:56:19', '2015-10-23 09:56:19'),
+(3, 'asdasd', 3, 'fhfgh', '0', '5646', '456456', 45645, 645, 6456, 46, '464', 4564, 5646, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '46', '2015-10-23 09:59:06', '2015-10-23 09:59:06'),
+(4, 'asdasd1', 7, 'ggggfjfjf g gh jfg ', '0', '324', '567', 65, 87, 856756, 7567, '567', 567, 567, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '567', '2015-10-23 10:00:05', '2015-10-23 10:00:05'),
+(5, 'ali', 3, '', '0', '1', NULL, 1, 2, 3, 4, '7', 6, 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'ddd', '2015-11-30 14:13:26', '2015-11-30 14:13:26'),
+(6, 'aaa', 3, '', '0', '2', '6', 3, 234, 234, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'sss', '2015-12-01 12:32:10', '2015-12-01 12:32:10'),
+(7, 'aaaaa', 3, '', '0', '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-01 12:36:49', '2015-12-01 12:36:49'),
+(8, 'dsa', 3, '', '0', '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-01 12:37:14', '2015-12-01 12:37:14'),
+(9, 'sadas', 3, '', '0', '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-01 12:37:34', '2015-12-01 12:37:34'),
+(10, 'asdads', 3, '', '0', '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-01 12:42:18', '2015-12-01 12:42:18'),
+(11, 'ali', 3, '', '0', '2', '6', 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'aaa', '2015-12-01 13:36:24', '2015-12-01 13:36:24'),
+(12, 'aaa1', 3, '', '0', '1', '2', 12, 12, 123, 34, '5', 45, 56, '2015-05-12 14:37:06', '2016-11-12 15:37:06', 'aaaaa', '2015-12-03 11:27:16', '2015-12-22 09:45:47'),
+(13, 'asdasd', 8, '', '0', '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2015-12-03 11:50:47', '2015-12-03 11:50:47'),
+(14, 'asd', 3, '', '0', '2', '5', 34, 324, 234, 324, '324', 324, 32423, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'dsf', '2016-01-20 14:37:30', '2016-01-20 14:37:30'),
+(15, 'asd', 3, '', '0', '2', NULL, 34, 324, 234, 324, '324', 324, 32423, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'dsf', '2016-01-20 14:38:41', '2016-01-20 14:38:41'),
+(16, 'asd', 3, '', '0', '2', NULL, 34, 324, 234, 324, '324', 324, 32423, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'dsf', '2016-01-20 14:38:50', '2016-01-20 14:38:50'),
+(17, 'qew', 3, '', '0', '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2016-01-20 14:50:40', '2016-01-20 14:50:40'),
+(18, 'asd', 3, '', '0', '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2016-01-20 15:45:42', '2016-01-20 15:45:42'),
+(19, 'qwe', 3, '', '0', '1', NULL, 0, 0, 0, 0, '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '2016-01-21 09:08:46', '2016-01-21 09:08:46');
 
 -- --------------------------------------------------------
 
@@ -11557,7 +11636,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `company_id`, `company`, `name`, `email`, `password`, `active`, `remember_token`, `last_login_time`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 'aaa11', 'alireza', '09364991494@yahoo.com', '$2y$10$q0O2WoGF6tKnk7s638v/wue4N4iSKeZ21JwH7JY0XGyj06MDyfF2K', 1, 'kdBtZGoEuNs5jTz6aHyUwNe6oQrY5h5y4bX6Mwol1FEBwzc6xCFOHbcsPtnH', '2016-01-19 22:35:49', '0000-00-00 00:00:00', '2016-01-20 10:35:49'),
+(1, 1, 2, 'aaa11', 'alireza', '09364991494@yahoo.com', '$2y$10$q0O2WoGF6tKnk7s638v/wue4N4iSKeZ21JwH7JY0XGyj06MDyfF2K', 1, 'kdBtZGoEuNs5jTz6aHyUwNe6oQrY5h5y4bX6Mwol1FEBwzc6xCFOHbcsPtnH', '2016-01-26 00:28:54', '0000-00-00 00:00:00', '2016-01-26 12:28:54'),
 (2, 2, 2, '', 'alireza11111', 'a@b.com', '$2y$10$q0O2WoGF6tKnk7s638v/wue4N4iSKeZ21JwH7JY0XGyj06MDyfF2K', 0, 'wbEqCaXMvVOVvc2rbjhBh5aeEdqW05qjv85rHERzLV7MuomjOC6jx0VN4Blf', NULL, '0000-00-00 00:00:00', '2015-12-08 04:34:02'),
 (3, 2, 1, '', 'asdasd1', '09364sad4@yahoo.com', '$2y$10$Y4lkrHpSphWo6Qgk52xLlOS0lemOrUHjvkfOWY1pLiYrtu.bwNev.', 0, 'czxQnGYoWOHuVBZBxDuqnGGQmdnae8PLzjlaVCzL08GrYY4eqM7zRW1XUXjd', '2015-12-16 00:16:22', '2015-12-06 08:35:25', '2015-12-16 13:33:26'),
 (4, 4, 1, '', 'asdasdas222', '123213494@yahoo.com', '$2y$10$q0O2WoGF6tKnk7s638v/wue4N4iSKeZ21JwH7JY0XGyj06MDyfF2K', 1, '1NGp5eILuC7ZyxXAn5ZyVTvAX8HKoYftF5HQfvDywy8o0vg1nPpGrXWnVm7n', '0000-00-00 00:00:00', '2015-12-06 08:38:53', '2015-12-08 05:53:18'),
@@ -11833,7 +11912,7 @@ ALTER TABLE `advertiser_publisher`
 -- AUTO_INCREMENT for table `audits`
 --
 ALTER TABLE `audits`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=180;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=255;
 --
 -- AUTO_INCREMENT for table `bwentries`
 --
@@ -11898,7 +11977,7 @@ ALTER TABLE `impression`
 -- AUTO_INCREMENT for table `model`
 --
 ALTER TABLE `model`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `offer`
 --
