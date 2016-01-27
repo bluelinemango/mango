@@ -19,10 +19,10 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home></li>
+                <li>Home</li>
                 <li><a href="{{url('/client/cl'.$bwlist_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client : cl{{$bwlist_obj->getAdvertiser->GetClientID->id}}</a></li>
                 <li><a href="{{url('/client/cl'.$bwlist_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$bwlist_obj->advertiser_id.'/edit/')}}">Advertiser : adv{{$bwlist_obj->getAdvertiser->id}}</a></li>
-                <li>B/W List Editing</li>
+                <li>B/W List Editing : bwl{{$bwlist_obj->id}}</li>
             </ol>
             <!-- end breadcrumb -->
 
@@ -66,38 +66,16 @@
                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false" data-widget-custombutton="false">
-                                <!-- widget options:
-                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                    data-widget-colorbutton="false"
-                                    data-widget-editbutton="false"
-                                    data-widget-togglebutton="false"
-                                    data-widget-deletebutton="false"
-                                    data-widget-fullscreenbutton="false"
-                                    data-widget-custombutton="false"
-                                    data-widget-collapsed="true"
-                                    data-widget-sortable="false"
-
-                                -->
+                            <div class="well" >
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
                                     <h2>b/w list edit: {{$bwlist_obj->name}} </h2>
 
                                 </header>
 
                                 <!-- widget div-->
                                 <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
-
                                     <!-- widget content -->
-                                    <div class="widget-body no-padding">
+                                    <div class="">
 
                                         <form id="order-form" class="smart-form" action="{{URL::route('bwlist_update')}}" method="post" novalidate="novalidate" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -109,12 +87,14 @@
 
                                             <fieldset>
                                                 <div class="row">
-                                                    <section class="col col-3">
+                                                    <section class="col col-2">
+                                                        <label class="label" for=""> Name</label>
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
                                                             <input type="text" name="name" placeholder="Name" value="{{$bwlist_obj->name}}">
                                                         </label>
                                                     </section>
-                                                    <section class="col col-3">
+                                                    <section class="col col-2">
+                                                        <label class="label" for=""> Black / White Type</label>
                                                         <label class="select">
                                                             <select name="list_type">
                                                                 <option value="black" @if($bwlist_obj->list_type == 'black') selected @endif>Black List</option>
@@ -124,13 +104,15 @@
 
                                                     </section>
                                                     <section class="col col-3">
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" value="{{$bwlist_obj->getAdvertiser->name}}" disabled>
+                                                        <label class="label" for=""> Advertiser Name</label>
+                                                        <label class="input">
+                                                            <h6>{{$bwlist_obj->getAdvertiser->name}}</h6>
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" value="{{$bwlist_obj->getAdvertiser->GetClientID->name}}" disabled>
+                                                        <label class="label" for=""> Client Name</label>
+                                                        <label class="input">
+                                                            <h6>{{$bwlist_obj->getAdvertiser->GetClientID->name}}</h6>
                                                         </label>
                                                     </section>
                                                 </div>
@@ -160,16 +142,10 @@
                     <div class="row">
 
                         <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <article class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
                             <table id="jqgrid"></table>
                             <div id="pjqgrid"></div>
-
-                            <br>
-                            <a href="javascript:void(0)" id="m1">Get Selected id's</a>
-                            <br>
-                            <a href="javascript:void(0)" id="m1s">Select(Unselect) row 13</a>
-
                         </article>
                         <!-- WIDGET END -->
 
@@ -270,8 +246,8 @@
                         });
                     }
                 },
-                editurl : "{{url('/test')}}",
-                caption : "SmartAdmin jQgrid Skin1",
+                editurl : "{{url('/bwlist_entries_edit')}}",
+                caption : "Black/White List Entries",
                 multiselect : true,
                 autowidth : true
 
@@ -305,6 +281,14 @@
                     var domain_name=String(data[0].domain_name);
                     $("#jqgrid").addRowData(id,{ id: + id ,domain_name:domain_name ,bwlist_id: +data[0].bwlist_id,created_at:data[0].created_at,updated_at:data[0].updated_at }, 'first');
                     $("#jqgrid").trigger("reloadGrid");
+                    $.smallBox({
+                        title : domain_name+" Added Successfully",
+                        content : "<i class='fa fa-clock-o'></i> <i>Moments ago...</i>",
+                        color : "#0e846f",
+                        iconSmall : "fa fa-thumbs-up bounce animated",
+                        timeout : 4000
+                    });
+
                 },
                 closeAfterAdd: true,
                 closeAfterEdit: true,

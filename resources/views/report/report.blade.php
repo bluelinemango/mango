@@ -1,5 +1,5 @@
 @extends('Layout')
-@section('siteTitle')Add Client @endsection
+@section('siteTitle') System Reporting @endsection
 @section('header_extra')
     <style>
         .report-selected{
@@ -12,6 +12,7 @@
         }
         input{
             width: 90% !important;
+            text-align: center;
         }
         .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
             padding: 3px 10px;
@@ -166,13 +167,13 @@
                                             <div class="col-md-7">
                                                 <div class="col-md-12">
                                                     <div class="col-md-1 no-padding">
-                                                        <span style="line-height: 22px; font-weight: bold">from</span>
+                                                        <span style="line-height: 22px; font-weight: bold">From</span>
                                                     </div>
                                                     <div class="col-md-4 ">
                                                         <input type="text" name="startdate" id="startdate" placeholder="start date">
                                                     </div>
                                                     <div class="col-md-1 no-padding">
-                                                        <span style="line-height: 22px; font-weight: bold">to</span>
+                                                        <span style="line-height: 22px; font-weight: bold">To</span>
                                                     </div>
                                                     <div class="col-md-4 ">
                                                             <input type="text" name="finishdate" id="finishdate" placeholder="finish date">

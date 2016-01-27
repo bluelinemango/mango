@@ -94,7 +94,7 @@
                 obj.addClass('label label-success');
             }else if(response=='disable'){
                 obj.removeClass();
-                obj.html('Disable');
+                obj.html('Inactive');
                 obj.addClass('label label-danger');
             }else if(response =="You don't have permission"){
                 alert("You don't have permission");

@@ -230,7 +230,7 @@
                     }
                 },
                 editurl : "{{url('/ajax/jqgrid/targetgroup')}}",
-                caption : "Target Group List",
+                caption : "Target Group",
                 multiselect : true,
                 autowidth : true
 

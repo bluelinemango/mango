@@ -114,24 +114,39 @@
                                                 </div>
 
                                             </fieldset>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="widget-body assign_creative">
-
-                                                        <select multiple="multiple"
-                                                                size="10"
-                                                                name="pixel[]"
-                                                                id="initializeDuallistbox_pixel">
-
+                                            <fieldset>
+                                                <div style="margin: 20px 0;">
+                                                    <h5>List Of Pixels</h5>
+                                                    <div class="col-xs-5">
+                                                        <select name="from_pixel[]" id="assign_pixel" class="form-control" size="8" multiple="multiple">
                                                             @foreach($pixel_obj as $index)
-                                                                <option value="{{$index->id}}" @if(in_array($index->id,$offer_pixel)) selected @endif>{{$index->name}}</option>
+                                                                <option value="{{$index->id}}">{{$index->name}}</option>
                                                             @endforeach
                                                         </select>
-
                                                     </div>
 
+                                                    <div class="col-xs-2">
+                                                        <button type="button" id="assign_model_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                        <button type="button" id="assign_pixel_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                        <button type="button" id="assign_pixel_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                        <button type="button" id="assign_pixel_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                    </div>
+
+                                                    <div class="col-xs-5">
+                                                        <select name="to_pixel[]" id="assign_pixel_to" class="form-control" size="8" multiple="multiple">
+                                                            @foreach($pixel_obj as $index)
+                                                                @if(in_array($index->id,$offer_pixel))
+                                                                    <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                @endif
+                                                            @endforeach
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="clearfix"></div>
                                                 </div>
-                                            </div>
+
+                                            </fieldset>
+
                                             <footer>
                                                 <button type="submit" class="btn btn-success">
                                                     Submit
@@ -158,22 +173,21 @@
 
 
 
-
-
-
-
-
-
-
 @endsection
 @section('FooterScripts')
 
-    <script src="{{cdn('js/plugin/bootstrap-duallistbox/jquery.bootstrap-duallistbox.min.js')}}"></script>
+    <script src="{{cdn('js/multi_select/multiselect.min.js')}}"></script>
 
     <script>
         $(document).ready(function () {
 
             pageSetUp();
+            $('#assign_pixel').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                }
+            });
 
 
             var $orderForm = $("#order-form").validate({
@@ -294,13 +308,6 @@
                         error.insertAfter(element);
                     }
                 }
-            });
-            var initializeDuallistbox_pixel = $('#initializeDuallistbox_pixel').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
             });
 
         });

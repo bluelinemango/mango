@@ -66,38 +66,15 @@
                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false" data-widget-custombutton="false">
-                                <!-- widget options:
-                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                    data-widget-colorbutton="false"
-                                    data-widget-editbutton="false"
-                                    data-widget-togglebutton="false"
-                                    data-widget-deletebutton="false"
-                                    data-widget-fullscreenbutton="false"
-                                    data-widget-custombutton="false"
-                                    data-widget-collapsed="true"
-                                    data-widget-sortable="false"
-
-                                -->
+                            <div class="well">
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
                                     <h2>Geo Segment list edit: {{$geosegment_obj->name}} </h2>
-
                                 </header>
 
                                 <!-- widget div-->
                                 <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
-
                                     <!-- widget content -->
-                                    <div class="widget-body no-padding">
+                                    <div class="">
 
                                         <form id="order-form" class="smart-form" action="{{URL::route('geosegmentlist_update')}}" method="post" novalidate="novalidate" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -109,19 +86,20 @@
 
                                             <fieldset>
                                                 <div class="row">
-                                                    <section class="col col-3">
+                                                    <section class="col col-2">
+                                                        <label class="label" for=""> Name</label>
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
                                                             <input type="text" name="name" placeholder="Name" value="{{$geosegment_obj->name}}">
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" value="{{$geosegment_obj->getAdvertiser->name}}" disabled>
+                                                        <label class="label" for=""> Advertiser Name</label>
+                                                        <label class="input"> <h6>{{$geosegment_obj->getAdvertiser->name}}</h6>
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" value="{{$geosegment_obj->getAdvertiser->GetClientID->name}}" disabled>
+                                                        <label class="label" for=""> Client Name</label>
+                                                        <label class="input"> <h6>{{$geosegment_obj->getAdvertiser->GetClientID->name}}</h6>
                                                         </label>
                                                     </section>
                                                 </div>
@@ -152,16 +130,10 @@
                     <div class="row">
 
                         <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <article class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
                             <table id="jqgrid"></table>
                             <div id="pjqgrid"></div>
-
-                            <br>
-                            <a href="javascript:void(0)" id="m1">Get Selected id's</a>
-                            <br>
-                            <a href="javascript:void(0)" id="m1s">Select(Unselect) row 13</a>
-
                         </article>
                         <!-- WIDGET END -->
 
@@ -279,7 +251,7 @@
                     }
                 },
                 editurl : "{{url('/geosegment_edit')}}",
-                caption : "SmartAdmin jQgrid Skin1",
+                caption : "Geo Segment",
                 multiselect : true,
                 autowidth : true
 
@@ -316,6 +288,14 @@
                     var segment_radius=String(data[0].segment_radius);
                     $("#jqgrid").addRowData(id,{ id: + id ,name:name,lat:lat,lon:lon,segment_radius:segment_radius ,geosegment_id: +data[0].geosegment_id,created_at:data[0].created_at,updated_at:data[0].updated_at }, 'first');
                     $("#jqgrid").trigger("reloadGrid");
+                    $.smallBox({
+                        title : name+" Added Successfully",
+                        content : "<i class='fa fa-clock-o'></i> <i>Moments ago...</i>",
+                        color : "#0e846f",
+                        iconSmall : "fa fa-thumbs-up bounce animated",
+                        timeout : 4000
+                    });
+
                 },
                 closeAfterAdd: true,
                 closeAfterEdit: true,

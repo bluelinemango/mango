@@ -136,8 +136,8 @@
                     @endif
                     @if($index->status == 'Active')
                     status: '<a id="advertiser{{$index->id}}" href="javascript: ChangeStatus(`advertiser`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
-                    @elseif($index->status == 'Disable')
-                    status: '<a id="advertiser{{$index->id}}" href="javascript: ChangeStatus(`advertiser`,`{{$index->id}}`)"><span class="label label-danger">Disable</span> </a>',
+                    @elseif($index->status == 'Inactive')
+                    status: '<a id="advertiser{{$index->id}}" href="javascript: ChangeStatus(`advertiser`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
                     @endif
                     date_modify : '{{$index->updated_at}}',
                     full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->GetClientID->id.'/advertiser/adv'.$index->id.'/edit')}}"><i class="fa fa-edit"></i></a>'

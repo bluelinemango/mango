@@ -66,7 +66,6 @@ class OfferController extends Controller
                         $offer = new Offer();
                         $offer->name = $request->input('name');
                         $offer->advertiser_id = $request->input('advertiser_id');
-
                         $offer->save();
                         $audit= new AuditsController();
                         $audit->store('offer',$offer->id,null,'add');
@@ -132,9 +131,9 @@ class OfferController extends Controller
                             array_push($data,$request->input('name'));
                             $offer->name=$request->input('name');
                         }
-                        if(count($request->input('pixel'))>0){
+                        if(count($request->input('to_pixel'))>0){
                             $chk = array();
-                            foreach($request->input('pixel') as $index) {
+                            foreach($request->input('to_pixel') as $index) {
                                 if(!in_array($index,$chk)) {
                                     $offer_pixel_assign = new Offer_Pixel_Map();
                                     $offer_pixel_assign->offer_id = $offer_id;
@@ -219,10 +218,10 @@ class OfferController extends Controller
                     if($entity->status=='Active'){
                         array_push($data,'status');
                         array_push($data,$entity->status);
-                        array_push($data,'Disable');
-                        $entity->status='Disable';
+                        array_push($data,'Inactive');
+                        $entity->status='Inactive';
                         $msg='disable';
-                    }elseif($entity->status=='Disable'){
+                    }elseif($entity->status=='Inactive'){
                         array_push($data,'status');
                         array_push($data,$entity->status);
                         array_push($data,'Active');

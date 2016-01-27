@@ -140,8 +140,8 @@
                     name : '{{$index->name}}',
                     @if($index->status == 'Active')
                     status: '<a id="pixel{{$index->id}}" href="javascript: ChangeStatus(`pixel`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
-                    @elseif($index->status == 'Disable')
-                    status: '<a id="pixel{{$index->id}}" href="javascript: ChangeStatus(`pixel`,`{{$index->id}}`)"><span class="label label-danger">Disable</span> </a>',
+                    @elseif($index->status == 'Inactive')
+                    status: '<a id="pixel{{$index->id}}" href="javascript: ChangeStatus(`pixel`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
                     @endif
                     date_modify : '{{$index->updated_at}}',
                     full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/pixel/pxl'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>'

@@ -192,10 +192,10 @@ class PixelController extends Controller
                     if($entity->status=='Active'){
                         array_push($data,'status');
                         array_push($data,$entity->status);
-                        array_push($data,'Disable');
-                        $entity->status='Disable';
+                        array_push($data,'Inactive');
+                        $entity->status='Inactive';
                         $msg='disable';
-                    }elseif($entity->status=='Disable'){
+                    }elseif($entity->status=='Inactive'){
                         array_push($data,'status');
                         array_push($data,$entity->status);
                         array_push($data,'Active');

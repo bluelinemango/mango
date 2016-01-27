@@ -107,29 +107,29 @@
 
                                             <fieldset>
                                                 <div class="row">
-                                                    <section class="col col-3">
+                                                    <section class="col col-2">
                                                         <label class="label" for="">Name</label>
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
                                                             <input type="text" name="name" placeholder="Name" value="{{$creative_obj->name}}">
                                                         </label>
                                                     </section>
-                                                    <section class="col col-3">
+                                                    <section class="col col-2">
                                                         <label class="label" for="">Domain Name</label>
                                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
                                                             <input type="text" name="advertiser_domain_name" placeholder="Domain Name" value="{{$creative_obj->advertiser_domain_name}}">
                                                         </label>
                                                     </section>
-                                                    <section class="col col-3">
+                                                    <section class="col col-2">
                                                         <label class="label" for="">Advertiser Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" disabled value="{{$creative_obj->getAdvertiser->name}}"/>
-                                                            <i></i> </label>
+                                                        <label class="input">
+                                                            <h6>{{$creative_obj->getAdvertiser->name}}</h6>
+                                                        </label>
                                                     </section>
-                                                    <section class="col col-3">
+                                                    <section class="col col-2">
                                                         <label class="label" for="">Client Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" disabled value="{{$creative_obj->getAdvertiser->GetClientID->name}}"/>
-                                                            <i></i> </label>
+                                                        <label class="input">
+                                                            <h6>{{$creative_obj->getAdvertiser->GetClientID->name}}</h6>
+                                                        </label>
                                                     </section>
                                                 </div>
                                             </fieldset>
@@ -140,9 +140,9 @@
                                             <fieldset>
                                                 <div class="row">
                                                     <section class="col col-3">
-                                                        <label class="label" for="">Advertiser Tags</label>
+                                                        <label class="label" for="">Ad Tag</label>
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="ad_tag" placeholder="Advertiser Tags" value="{{$creative_obj->ad_tag}}">
+                                                            <input type="text" name="ad_tag" placeholder="Ad Tag" value="{{$creative_obj->ad_tag}}">
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
@@ -152,16 +152,16 @@
                                                         </label>
                                                     </section>
                                                 <?php $size = explode('x',$creative_obj->size);?>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Size Width</label>
+                                                    <section class="col col-2">
+                                                        <label class="label" for="">Width</label>
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="size_width" placeholder="Size Width" value="{{$size[0]}}">
+                                                            <input type="text" name="size_width" placeholder="Width" value="{{$size[0]}}">
                                                         </label>
                                                     </section>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Size Height</label>
+                                                    <section class="col col-2">
+                                                        <label class="label" for="">Height</label>
                                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="size_height" placeholder="Size Height" value="{{$size[1]}}">
+                                                            <input type="text" name="size_height" placeholder="Height" value="{{$size[1]}}">
                                                         </label>
                                                     </section>
                                                 </div>

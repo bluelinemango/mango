@@ -99,6 +99,38 @@
                                                     </label>
                                                 </section>
                                             </fieldset>
+                                            <fieldset>
+                                                <div style="margin: 20px 0;">
+                                                    <div class="col-xs-5">
+                                                        <select name="from_model[]" id="assign_model" class="form-control" size="8" multiple="multiple">
+                                                            @foreach($model_obj as $index)
+                                                                <option value="{{$index->id}}">{{$index->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-xs-2">
+                                                        <button type="button" id="assign_model_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                        <button type="button" id="assign_model_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                        <button type="button" id="assign_model_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                        <button type="button" id="assign_model_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                    </div>
+
+                                                    <div class="col-xs-5">
+                                                        <select name="to_model[]" id="assign_model_to" class="form-control" size="8" multiple="multiple">
+                                                            @foreach($model_obj as $index)
+                                                                @if(in_array($index->id,$adv_mdl_map))
+                                                                <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                @endif
+                                                            @endforeach
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+
+                                            </fieldset>
+
                                             <footer>
                                                 <button type="submit" class="btn btn-success">
                                                     Submit
@@ -596,12 +628,19 @@
     <script src="{{cdn('js/plugin/datatables/dataTables.tableTools.min.js')}}"></script>
     <script src="{{cdn('js/plugin/datatables/dataTables.bootstrap.min.js')}}"></script>
     <script src="{{cdn('js/plugin/datatable-responsive/datatables.responsive.min.js')}}"></script>
+    <script src="{{cdn('js/multi_select/multiselect.min.js')}}"></script>
 
 
     <script>
         $(document).ready(function () {
             pageSetUp();
 
+            $('#assign_model').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                }
+            });
             /* BASIC ;*/
             var responsiveHelper_dt_basic = undefined;
             var responsiveHelper_dt_basic1 = undefined;

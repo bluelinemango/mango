@@ -137,23 +137,27 @@
                                             <fieldset>
                                                 <div class="row">
                                                     <section class="col col-3">
+                                                        <label class="label" for="">Ad Tag</label>
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="ad_tag" placeholder="Advertiser Tags">
+                                                            <input type="text" name="ad_tag" placeholder="Ad Tag">
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
+                                                        <label class="label" for="">Landign Page URL</label>
                                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
                                                             <input type="text" name="landing_page_url" placeholder="Landign Page URL">
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
+                                                        <label class="label" for="">Width</label>
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="size_width" placeholder="Size Width">
+                                                            <input type="text" name="size_width" placeholder="Width">
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
+                                                        <label class="label" for="">Height</label>
                                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="size_height" placeholder="Size Height">
+                                                            <input type="text" name="size_height" placeholder="Height">
                                                         </label>
                                                     </section>
                                                 </div>

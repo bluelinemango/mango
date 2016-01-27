@@ -62,38 +62,16 @@
                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false" data-widget-custombutton="false">
-                                <!-- widget options:
-                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                    data-widget-colorbutton="false"
-                                    data-widget-editbutton="false"
-                                    data-widget-togglebutton="false"
-                                    data-widget-deletebutton="false"
-                                    data-widget-fullscreenbutton="false"
-                                    data-widget-custombutton="false"
-                                    data-widget-collapsed="true"
-                                    data-widget-sortable="false"
-
-                                -->
+                            <div class="well" >
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
                                     <h2>Add Advertiser </h2>
 
                                 </header>
 
                                 <!-- widget div-->
                                 <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
-
                                     <!-- widget content -->
-                                    <div class="widget-body no-padding">
+                                    <div class="">
 
                                         <form id="order-form" class="smart-form" action="{{URL::route('advertiser_create')}}" method="post" novalidate="novalidate" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -137,6 +115,30 @@
                                                     </label>
                                                 </section>
                                             </fieldset>
+                                            <fieldset>
+                                                <div style="margin: 20px 0;">
+                                                    <div class="col-xs-5">
+                                                        <select name="from_model[]" id="assign_model" class="form-control" size="8" multiple="multiple">
+                                                            @foreach($model_obj as $index)
+                                                                <option value="{{$index->id}}">{{$index->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-xs-2">
+                                                        <button type="button" id="assign_model_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                        <button type="button" id="assign_model_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                        <button type="button" id="assign_model_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                        <button type="button" id="assign_model_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                    </div>
+
+                                                    <div class="col-xs-5">
+                                                        <select name="to_model[]" id="assign_model_to" class="form-control" size="8" multiple="multiple"></select>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+
+                                            </fieldset>
                                             <footer>
                                                 <button type="submit" class="btn btn-success">
                                                     Submit
@@ -161,11 +163,18 @@
     <!-- END MAIN PANEL -->
 @endsection
 @section('FooterScripts')
+    <script src="{{cdn('js/multi_select/multiselect.min.js')}}"></script>
     <script>
         $(document).ready(function () {
 
             pageSetUp();
 
+            $('#assign_model').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                }
+            });
 
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation

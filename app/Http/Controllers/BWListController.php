@@ -194,7 +194,6 @@ class BWListController extends Controller
                                     $bwentries->bwlist_id = $request->input('bwlist_id');
                                     $bwentries->save();
                                     $audit->store('bwlistentrie',$bwentries->id,$request->input('bwlist_id'),'add');
-
                                     $bwentries=BWEntries::where('id',$bwentries->id)->get();
 //                                    return dd($result);
                                     return json_encode($bwentries);
@@ -206,7 +205,7 @@ class BWListController extends Controller
                                         array_push($data,'domain_name');
                                         array_push($data,$bwentries->domain_name);
                                         array_push($data,$request->input('domain_name'));
-                                        $bwentries->name=$request->input('domain_name');
+                                        $bwentries->domain_name=$request->input('domain_name');
                                     }
                                     $audit->store('bwlistentrie',$request->input('id'),$data,'edit');
                                     $bwentries->save();

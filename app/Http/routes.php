@@ -129,7 +129,7 @@ Route::post('/user/login/do',['uses'=>'LoginController@postLogin','as'=>'user_lo
 Route::get('/user/logout',['uses'=>'LoginController@getLogout','as'=>'user_logout']);
 
 Route::post('/ajax/client_list', 'ClientController@jqgrid');
-Route::post('/test', 'BWListController@jqgrid');
+Route::post('/bwlist_entries_edit', 'BWListController@jqgrid');
 Route::post('/geosegment_edit', 'GeoSegmentController@jqgrid');
 Route::get('/get_iab_sub_category/{id?}', ['uses'=>'TargetgroupController@Iab_Category','as'=>'get_iab_sub_category']);
 

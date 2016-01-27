@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Advertiser;
+use App\Models\Advertiser_Model_Map;
 use App\Models\Campaign;
 use App\Models\Client;
+use App\Models\ModelTable;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -44,8 +47,10 @@ class AdvertiserController extends Controller
                 $chkUser = Client::find($clid);
                 if(count($chkUser) > 0 and Auth::user()->id == $chkUser->user_id) {
                     $client_obj = $chkUser;
-//                    return dd($client_obj);
-                    return view('advertiser.add_advertiser')->with('client_obj', $client_obj);
+                    $model_obj = ModelTable::get();
+                    return view('advertiser.add_advertiser')
+                        ->with('model_obj', $model_obj)
+                        ->with('client_obj', $client_obj);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
             }
@@ -54,20 +59,31 @@ class AdvertiserController extends Controller
         return Redirect::to(url('user/login'));
     }
     public function add_advertiser(Request $request){
+//        return dd($request->all());
         if(Auth::check()){
             if (in_array('ADD_EDIT_ADVERTISER', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $chkUser=Client::find($request->input('client_id'));
                     if(count($chkUser)>0 and Auth::user()->id == $chkUser->user_id) {
+                        $audit=new AuditsController();
+                        $audit_key=$audit->generateRandomString();
                         $advertiser = new Advertiser();
                         $advertiser->name = $request->input('name');
                         $advertiser->domain_name = $request->input('domain_name');
                         $advertiser->description = $request->input('description');
                         $advertiser->client_id = $request->input('client_id');
                         $advertiser->save();
-                        $audit= new AuditsController();
-                        $audit->store('advertiser',$advertiser->id,null,'add');
+                        if($request->has('to_model')) {
+                            foreach ($request->input('to_model') as $index) {
+                                $adv_mdl_map=new Advertiser_Model_Map();
+                                $adv_mdl_map->advertiser_id=$advertiser->id;
+                                $adv_mdl_map->model_id=$index;
+                                $adv_mdl_map->save();
+                                $audit->store('adv_mdl_map', $index,$advertiser->id, 'add',$audit_key);
+                            }
+                        }
+                        $audit->store('advertiser',$advertiser->id,null,'add',$audit_key);
                         return Redirect::to(url('/client/cl'.$request->input('client_id').'/advertiser/adv'.$advertiser->id.'/edit'))->withErrors(['success' => true, 'msg' => "Advertiser added successfully"]);
                     }
                     return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
@@ -102,10 +118,10 @@ class AdvertiserController extends Controller
                     if($adver->status=='Active'){
                         array_push($data,'status');
                         array_push($data,$adver->status);
-                        array_push($data,'Disable');
-                        $adver->status='Disable';
+                        array_push($data,'Inactive');
+                        $adver->status='Inactive';
                         $msg='disable';
-                    }elseif($adver->status=='Disable'){
+                    }elseif($adver->status=='Inactive'){
                         array_push($data,'status');
                         array_push($data,$adver->status);
                         array_push($data,'Active');
@@ -131,8 +147,18 @@ class AdvertiserController extends Controller
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->user_id) {
 //                    $client_obj = Client::where('user_id',Auth::user()->id)->get();
                         $adver = Advertiser::with('Campaign')->with('Model')->with('GeoSegment')->with('BWList')->with('Creative')->with('GetClientID')->find($advid);
+                        $model_obj = ModelTable::get();
 //                    return dd($adver);
-                        return view('advertiser.edit_advertiser')->with('adver_obj', $adver);
+                        $push_arr=array();
+                        $adv_mdl_map=Advertiser_Model_Map::where('advertiser_id',$adver->id)->get(['id']);
+                        foreach ($adv_mdl_map as $index) {
+                            array_push($push_arr,$index->id);
+                        }
+//                    return dd($push_arr);
+                        return view('advertiser.edit_advertiser')
+                            ->with('adv_mdl_map', $push_arr)
+                            ->with('model_obj', $model_obj)
+                            ->with('adver_obj', $adver);
                     }
                     return Redirect::to('/advertiser')->withErrors(['success'=>false,'msg'=> 'please Select your Client']);
                 }
@@ -142,6 +168,7 @@ class AdvertiserController extends Controller
         }
     }
     public function edit_advertiser(Request $request){
+//        return dd($request->all());
         if(Auth::check()){
             if (in_array('ADD_EDIT_ADVERTISER', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
