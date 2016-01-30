@@ -23,33 +23,10 @@
             </ol>
             <!-- end breadcrumb -->
 
-            <!-- You can also add more buttons to the
-            ribbon for further usability
-
-            Example below:
-                        <span class="ribbon-button-alignment pull-right">
-            <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-            <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-            <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-            </span>
-
-    -->
-
         </div>
         <!-- END RIBBON -->
         <!-- MAIN CONTENT -->
         <div id="content">
-            @if(isset($errors))
-                @foreach($errors->get('msg') as $error)
-                    <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
-                        <a class="close" data-dismiss="alert" href="#">×</a>
-                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
-                        <p>
-                            {{$error}}
-                        </p>
-                    </div>
-                @endforeach
-            @endif
             @if(Session::has('CaptchaError'))
                 <ul>
                     <li>{{Session::get('CaptchaError')}}</li>
@@ -63,38 +40,15 @@
                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false" data-widget-custombutton="false">
-                                <!-- widget options:
-                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                    data-widget-colorbutton="false"
-                                    data-widget-editbutton="false"
-                                    data-widget-togglebutton="false"
-                                    data-widget-deletebutton="false"
-                                    data-widget-fullscreenbutton="false"
-                                    data-widget-custombutton="false"
-                                    data-widget-collapsed="true"
-                                    data-widget-sortable="false"
-
-                                -->
+                            <div class="well">
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
                                     <h2>Edit Creative: {{$creative_obj->name}} </h2>
-
                                 </header>
 
                                 <!-- widget div-->
                                 <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
-
                                     <!-- widget content -->
-                                    <div class="widget-body no-padding">
+                                    <div class="">
 
                                         <form id="order-form" class="smart-form" action="{{URL::route('creative_update')}}" method="post" novalidate="novalidate" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -105,91 +59,119 @@
                                                 General Information
                                             </header>
 
-                                            <fieldset>
-                                                <div class="row">
+                                            <div class="well col-md-12">
+                                                <fieldset>
                                                     <section class="col col-2">
                                                         <label class="label" for="">Name</label>
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
                                                             <input type="text" name="name" placeholder="Name" value="{{$creative_obj->name}}">
                                                         </label>
                                                     </section>
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Domain Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="advertiser_domain_name" placeholder="Domain Name" value="{{$creative_obj->advertiser_domain_name}}">
-                                                        </label>
-                                                    </section>
+                                                    <section class="col col-1"></section>
                                                     <section class="col col-2">
                                                         <label class="label" for="">Advertiser Name</label>
                                                         <label class="input">
                                                             <h6>{{$creative_obj->getAdvertiser->name}}</h6>
                                                         </label>
                                                     </section>
+                                                    <section class="col col-1"></section>
                                                     <section class="col col-2">
                                                         <label class="label" for="">Client Name</label>
                                                         <label class="input">
                                                             <h6>{{$creative_obj->getAdvertiser->GetClientID->name}}</h6>
                                                         </label>
                                                     </section>
-                                                </div>
-                                            </fieldset>
+                                                </fieldset>
+                                                <fieldset>
+                                                    <section class="col col-2">
+                                                        <label class="label" for="">Domain Name</label>
+                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
+                                                            <input type="text" name="advertiser_domain_name" placeholder="Domain Name" value="{{$creative_obj->advertiser_domain_name}}">
+                                                        </label>
+                                                    </section>
+
+                                                </fieldset>
+                                            </div>
                                             <header>
                                                 URL infromation
                                             </header>
 
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col col-3">
+                                            <div class="well col-md-12">
+                                                <fieldset>
+                                                    <div class="row">
+                                                        <section class="col col-3">
+                                                            <label class="label" for="">Landign Page URL</label>
+                                                            <label class="input"> <i class="icon-append fa fa-briefcase"></i>
+                                                                <input type="text" name="landing_page_url" placeholder="Landign Page URL" value="{{$creative_obj->landing_page_url}}">
+                                                            </label>
+                                                        </section>
+                                                        <?php $size = explode('x',$creative_obj->size);?>
+                                                        <section class="col col-1"></section>
+                                                        <section class="col col-2">
+                                                            <label class="label" for="">Width</label>
+                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                                <input type="text" name="size_width" placeholder="Width" value="{{$size[0]}}">
+                                                            </label>
+                                                        </section>
+                                                        <section class="col col-1"></section>
+                                                        <section class="col col-2">
+                                                            <label class="label" for="">Height</label>
+                                                            <label class="input"> <i class="icon-append fa fa-briefcase"></i>
+                                                                <input type="text" name="size_height" placeholder="Height" value="{{$size[1]}}">
+                                                            </label>
+                                                        </section>
+                                                    </div>
+                                                    <div class="row">
+                                                        <section class="col col-3">
+                                                            <label class="label" for="">Attributes</label>
+                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                                <input type="text" name="attributes" placeholder="Attributes" value="{{$creative_obj->attributes}}">
+                                                            </label>
+                                                        </section>
+                                                        <section class="col col-1"></section>
+                                                        <section class="col col-3">
+                                                            <label class="label" for="">Preview URL</label>
+                                                            <label class="input"> <i class="icon-append fa fa-briefcase"></i>
+                                                                <input type="text" name="preview_url" placeholder="Preview URL" value="{{$creative_obj->preview_url}}">
+                                                            </label>
+                                                        </section>
+                                                    </div>
+                                                </fieldset>
+
+                                            </div>
+                                            <div class="well col-md-12">
+                                                <fieldset>
+                                                    <section class="col col-4">
                                                         <label class="label" for="">Ad Tag</label>
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="ad_tag" placeholder="Ad Tag" value="{{$creative_obj->ad_tag}}">
+                                                        <label class="textarea"> <i class="icon-append fa fa-user"></i>
+                                                            <textarea rows="5" name="ad_tag" placeholder="Tell us about your Creative">
+                                                                {{$creative_obj->ad_tag}}</textarea>
                                                         </label>
                                                     </section>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Landign Page URL</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="landing_page_url" placeholder="Landign Page URL" value="{{$creative_obj->landing_page_url}}">
+
+                                                </fieldset>
+                                            </div>
+                                            <div class="well col-md-12">
+                                                <fieldset>
+                                                    <section class="col col-4">
+                                                        <label class="label" for="">Description</label>
+                                                        <label class="textarea"> <i class="icon-append fa fa-comment"></i>
+                                                            <textarea rows="5" name="description" placeholder="Tell us about your Creative">{{$creative_obj->description}}</textarea>
                                                         </label>
                                                     </section>
-                                                <?php $size = explode('x',$creative_obj->size);?>
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Width</label>
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="size_width" placeholder="Width" value="{{$size[0]}}">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Height</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="size_height" placeholder="Height" value="{{$size[1]}}">
-                                                        </label>
-                                                    </section>
-                                                </div>
-                                                <div class="row">
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Attributes</label>
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="attributes" placeholder="Attributes" value="{{$creative_obj->attributes}}">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Preview URL</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="preview_url" placeholder="Preview URL" value="{{$creative_obj->preview_url}}">
-                                                        </label>
-                                                    </section>
-                                                </div>
-                                                <section>
-                                                    <label class="label" for="">Description</label>
-                                                    <label class="textarea"> <i class="icon-append fa fa-comment"></i>
-                                                        <textarea rows="5" name="description" placeholder="Tell us about your Creative">{{$creative_obj->description}}</textarea>
-                                                    </label>
-                                                </section>
-                                            </fieldset>
+
+                                                </fieldset>
+                                            </div>
+                                            <div class="clearfix"></div>
                                             <footer>
-                                                <button type="submit" class="btn btn-success">
-                                                    Submit
-                                                </button>
+                                                <div class="row">
+                                                    <div class="col-md-5 col-md-offset-3">
+                                                        <button type="submit"
+                                                                class=" button button--antiman button--round-l button--text-medium">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </footer>
                                         </form>
                                     </div>

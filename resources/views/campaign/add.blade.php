@@ -16,8 +16,8 @@
             <!-- breadcrumb -->
             <ol class="breadcrumb">
                 <li>Home</li>
-                <li>Client: <a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/edit')}}">cl{{$advertiser_obj->GetClientID->id}}</a></li>
-                <li>Advertiser: <a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$advertiser_obj->id.'/edit')}}">adv{{$advertiser_obj->id}}</a></li>
+                <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/edit')}}">Client: cl{{$advertiser_obj->GetClientID->id}}</a></li>
+                <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$advertiser_obj->id.'/edit')}}">Advertiser: adv{{$advertiser_obj->id}}</a></li>
                 <li>Campaign Registration</li>
             </ol>
             <!-- end breadcrumb -->
@@ -38,17 +38,6 @@
         <!-- END RIBBON -->
         <!-- MAIN CONTENT -->
         <div id="content">
-            @if(isset($errors))
-                @foreach($errors->get('msg') as $error)
-                    <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
-                        <a class="close" data-dismiss="alert" href="#">×</a>
-                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
-                        <p>
-                            {{$error}}
-                        </p>
-                    </div>
-                @endforeach
-            @endif
             @if(Session::has('CaptchaError'))
                 <ul>
                     <li>{{Session::get('CaptchaError')}}</li>
@@ -62,38 +51,15 @@
                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false" data-widget-custombutton="false">
-                                <!-- widget options:
-                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                    data-widget-colorbutton="false"
-                                    data-widget-editbutton="false"
-                                    data-widget-togglebutton="false"
-                                    data-widget-deletebutton="false"
-                                    data-widget-fullscreenbutton="false"
-                                    data-widget-custombutton="false"
-                                    data-widget-collapsed="true"
-                                    data-widget-sortable="false"
-
-                                -->
+                            <div class="well" >
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
                                     <h2>Campaign Registration </h2>
-
                                 </header>
 
                                 <!-- widget div-->
                                 <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
-
                                     <!-- widget content -->
-                                    <div class="widget-body no-padding">
+                                    <div class=>
 
                                         <form id="order-form" class="smart-form" action="{{URL::route('campaign_create')}}" method="post" novalidate="novalidate" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -102,93 +68,125 @@
                                                 General Information
                                             </header>
 
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col col-3">
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="name" placeholder="Name">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="advertiser_domain_name" placeholder="Domain Name">
-                                                        </label>
-                                                    </section>
-                                                </div>
+                                            <div class="well col-md-12">
+                                                <fieldset>
+                                                    <div class="row">
+                                                        <section class="col col-2">
+                                                            <label class="label" for="">Name</label>
+                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                                <input type="text" name="name" placeholder="Name">
+                                                            </label>
+                                                        </section>
+                                                        <section class="col col-2">
+                                                            <label class="label" for="">Advertiser Name</label>
+                                                            <label class="input">
+                                                                <h6>{{$advertiser_obj->name}}</h6>
+                                                            </label>
+                                                        </section>
+                                                        <section class="col col-2">
+                                                            <label class="label" for="">Client Name</label>
+                                                            <label class="input">
+                                                                <h6>{{$advertiser_obj->GetClientID->name}}</h6>
+                                                            </label>
+                                                        </section>
+                                                    </div>
 
-                                                <div class="row">
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Advertiser Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" value="{{$advertiser_obj->name}}">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Client Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" value="{{$advertiser_obj->GetClientID->name}}">
-                                                        </label>
-                                                    </section>
+                                                    <div class="row">
+                                                        <section class="col col-2">
+                                                            <label class="label" for="">Domain Name</label>
+                                                            <label class="input"> <i class="icon-append fa fa-briefcase"></i>
+                                                                <input type="text" name="advertiser_domain_name" placeholder="Domain Name">
+                                                            </label>
+                                                        </section>
 
-                                                </div>
-                                            </fieldset>
+                                                    </div>
+                                                </fieldset>
+
+                                            </div>
                                             <header>
                                                 Budget Information
                                             </header>
+                                            <div class="well col-md-6 ">
+                                                <fieldset>
+                                                    <div class="row">
+                                                        <section class="col col-3">
+                                                            <label class="label" for="">Max Impression</label>
+                                                            <label class="input"> <i class="icon-append fa fa-dollar"></i>
+                                                                <input type="text" name="max_impression" placeholder="Max Impression">
+                                                            </label>
+                                                        </section>
+                                                        <section class="col col-3">
+                                                            <label class="label" for="">Daily Max Impression</label>
+                                                            <label class="input"> <i class="icon-append fa fa-dollar"></i>
+                                                                <input type="text" name="daily_max_impression" placeholder="Daily Max Impression">
+                                                            </label>
+                                                        </section>
+                                                </fieldset>
+                                            </div>
+                                            <div class="well col-md-6 ">
 
-                                            <fieldset>
-                                                <div class="row">
+                                                <fieldset>
                                                     <section class="col col-3">
-                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                            <input type="text" name="max_impression" placeholder="Max Impression">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                            <input type="text" name="daily_max_impression" placeholder="Daily Max Impression">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
+                                                        <label class="label" for="">Max Budget</label>
                                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
                                                             <input type="text" name="max_budget" placeholder="Max Budget">
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
+                                                        <label class="label" for="">Daily Max Budget</label>
                                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
                                                             <input type="text" name="daily_max_budget" placeholder="Daily Max Budget">
                                                         </label>
                                                     </section>
-                                                </div>
-                                                <section >
+                                                </fieldset>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="well col-md-6">
+
+                                            <fieldset>
+                                                <section class="col col-3" >
+                                                    <label class="label" for="">CPM</label>
                                                     <label class="input"> <i class="icon-append fa fa-dollar"></i>
                                                         <input type="text" name="cpm" placeholder="CPM">
                                                     </label>
                                                 </section>
                                             </fieldset>
+                                            </div>
+                                            <div class="clearfix"></div>
                                             <header>
                                                 Time Information
                                             </header>
+                                            <div class="well col-md-6">
 
                                             <fieldset>
                                                 <div class="row">
-                                                    <section class="col col-3">
+                                                    <section class="col col-4">
+                                                        <label class="label" for="">Start Date</label>
                                                         <label class="input"> <i class="icon-append fa fa-calendar"></i>
                                                             <input type="text" name="start_date" id="startdate" placeholder="Expected start date">
                                                         </label>
                                                     </section>
-                                                    <section class="col col-3">
+                                                    <section class="col col-4">
+                                                        <label class="label" for="">End Date</label>
                                                         <label class="input"> <i class="icon-append fa fa-calendar"></i>
                                                             <input type="text" name="end_date" id="finishdate" placeholder="Expected finish date">
                                                         </label>
                                                     </section>
                                                 </div>
+                                            </fieldset>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="well col-md-12">
 
-                                                <section>
+                                            <fieldset>
+                                                <section class="col col-4">
+                                                    <label class="label" for="">Description</label>
                                                     <label class="textarea"> <i class="icon-append fa fa-comment"></i>
                                                         <textarea rows="5" name="description" placeholder="Tell us about your Campaign"></textarea>
                                                     </label>
                                                 </section>
                                             </fieldset>
+                                            </div>
                                             <footer>
                                                 <button type="submit" class="btn btn-success">
                                                     Submit

@@ -42,17 +42,6 @@
 
                 <!-- row -->
                 <div class="row">
-                    @if(isset($errors))
-                        @foreach($errors->get('msg') as $error)
-                            <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
-                                <a class="close" data-dismiss="alert" href="#">×</a>
-                                <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> System MSG!</h4>
-                                <p>
-                                    {{$error}}
-                                </p>
-                            </div>
-                        @endforeach
-                    @endif
                                     <!-- NEW WIDGET START -->
                     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 

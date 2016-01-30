@@ -1,5 +1,25 @@
 @extends('Layout')
 @section('siteTitle')Edit Target Group @endsection
+@section('header_extra')
+    <style>
+        td > span {
+            color: #3ca319;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .well {
+            padding: 15px !important;
+        }
+
+        .bg-color {
+            display: block;
+            padding: 10px 14px 5px;
+            border: none;
+            background: rgba(239, 242, 244, 0.3);
+        }
+    </style>
+@endsection
 @section('content')
     <!-- MAIN PANEL -->
     <div id="main" role="main">
@@ -10,29 +30,17 @@
             <!-- breadcrumb -->
             <ol class="breadcrumb">
                 <li>Home</li>
-                <li>Client: <a
-                            href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/edit')}}">cl{{$campaign_obj->getAdvertiser->GetClientID->id}}</a>
+                <li><a
+                            href="{{url('/client/cl'.$targetgroup_obj->getCampaign->getAdvertiser->GetClientID->id.'/edit')}}">Client: cl{{$targetgroup_obj->getCampaign->getAdvertiser->GetClientID->id}}</a>
                 </li>
-                <li>Advertiser: <a
-                            href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/edit')}}">adv{{$campaign_obj->getAdvertiser->id}}</a>
+                <li><a
+                            href="{{url('/client/cl'.$targetgroup_obj->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$targetgroup_obj->getCampaign->getAdvertiser->id.'/edit')}}">Advertiser: adv{{$targetgroup_obj->getCampaign->getAdvertiser->id}}</a>
                 </li>
-                <li>Campaign : <a
-                            href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/campaign/cmp'.$campaign_obj->id.'/edit')}}">cmp{{$campaign_obj->id}}</a>
+                <li><a
+                            href="{{url('/client/cl'.$targetgroup_obj->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$targetgroup_obj->getCampaign->getAdvertiser->id.'/campaign/cmp'.$targetgroup_obj->getCampaign->id.'/edit')}}">Campaign : cmp{{$targetgroup_obj->getCampaign->id}}</a>
                 </li>
-                <li>Target Group Registration</li>
+                <li>Target : tg{{$targetgroup_obj->id}}</li>
             </ol>
-            <!-- end breadcrumb -->
-
-            <!-- You can also add more buttons to the
-            ribbon for further usability
-
-            Example below:
-
-            <span class="ribbon-button-alignment pull-right">
-            <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-            <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-            <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-            </span> -->
 
         </div>
         <!-- END RIBBON -->
@@ -50,46 +58,18 @@
                     <article class="col-sm-12 col-md-12 col-lg-12">
 
                         <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false"
-                             data-widget-deletebutton="false">
-                            <!-- widget options:
-                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                            data-widget-colorbutton="false"
-                            data-widget-editbutton="false"
-                            data-widget-togglebutton="false"
-                            data-widget-deletebutton="false"
-                            data-widget-fullscreenbutton="false"
-                            data-widget-custombutton="false"
-                            data-widget-collapsed="true"
-                            data-widget-sortable="false"
-
-                            -->
-                            <header>
-                                <span class="widget-icon"> <i class="fa fa-check"></i> </span>
-
-                                <h2>Add Target group </h2>
-
-                            </header>
-
+                        <div class="well">
                             <!-- widget div-->
                             <div>
 
-                                <!-- widget edit box -->
-                                <div class="jarviswidget-editbox">
-                                    <!-- This area used as dropdown edit box -->
-
-                                </div>
-                                <!-- end widget edit box -->
-
                                 <!-- widget content -->
-                                <div class="widget-body">
+                                <div class="">
 
                                     <div class="row">
                                         <form id="wizard-1" novalidate="novalidate"
-                                              action="{{URL::route('targetgroup_update')}}" method="post">
+                                              action="{{URL::route('targetgroup_update')}}" method="post"
+                                              class="smart-form">
                                             <input type="hidden" name="_method" value="PUT"/>
-
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="hidden" name="targetgroup_id" value="{{$targetgroup_obj->id}}">
 
@@ -112,14 +92,9 @@
                                                             </a>
                                                         </li>
                                                         <li data-target="#step4">
-                                                            <a href="#tab4" data-toggle="tab"> <span
-                                                                        class="step">4</span> <span class="title">Save Form</span>
-                                                            </a>
-                                                        </li>
-                                                        <li data-target="#step5">
-                                                            <a href="#tab5" data-toggle="tab"
+                                                            <a href="#tab4" data-toggle="tab"
                                                                onclick="setReview()"> <span
-                                                                        class="step">5</span> <span class="title">Review And Submition</span>
+                                                                        class="step">4</span> <span class="title">Review And Submition</span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -135,262 +110,269 @@
                                                         <!-- NEW WIDGET START -->
                                                         <article class="col-sm-12 col-md-12 col-lg-12">
 
-                                                            <!-- Widget ID (each widget will need unique ID)-->
-                                                            <div class="jarviswidget well" id="wid-id-3"
-                                                                 data-widget-colorbutton="false"
-                                                                 data-widget-editbutton="false"
-                                                                 data-widget-togglebutton="false"
-                                                                 data-widget-deletebutton="false"
-                                                                 data-widget-fullscreenbutton="false"
-                                                                 data-widget-custombutton="false"
-                                                                 data-widget-sortable="false">
-                                                                <!-- widget options:
-                                                                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                                                data-widget-colorbutton="false"
-                                                                data-widget-editbutton="false"
-                                                                data-widget-togglebutton="false"
-                                                                data-widget-deletebutton="false"
-                                                                data-widget-fullscreenbutton="false"
-                                                                data-widget-custombutton="false"
-                                                                data-widget-collapsed="true"
-                                                                data-widget-sortable="false"
-
-                                                                -->
-                                                                <header>
-                                                                    <span class="widget-icon"> <i
-                                                                                class="fa fa-comments"></i> </span>
-
-                                                                    <h2>Default Tabs with border </h2>
-
-                                                                </header>
-
+                                                            <div class="well">
                                                                 <!-- widget div-->
                                                                 <div>
-
-                                                                    <!-- widget edit box -->
-                                                                    <div class="jarviswidget-editbox">
-                                                                        <!-- This area used as dropdown edit box -->
-
-                                                                    </div>
-                                                                    <!-- end widget edit box -->
-
                                                                     <!-- widget content -->
-                                                                    <div class="widget-body">
-
-                                                                        <p>
-                                                                            Tabs inside
-                                                                            <code>
-                                                                                .jarviswidget .well
-                                                                            </code>
-                                                                            (Bordered Tabs)
-                                                                        </p>
-                                                                        <hr class="simple">
-
+                                                                    <div class="">
 
                                                                         <div id="myTabContent1"
-                                                                             class="tab-content padding-10">
+                                                                             class="tab-content">
                                                                             <div class="tab-pane fade in active"
                                                                                  id="s1">
 
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-3">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-md"
-                                                                                                       placeholder="Name Of Target Group"
-                                                                                                       type="text"
-                                                                                                       name="name"
-                                                                                                       value="{{$targetgroup_obj->name}}"
-                                                                                                       id="name">
+                                                                                <h6>
+                                                                                    General Information
+                                                                                </h6>
+                                                                                <hr class="simple">
+                                                                                <div class="well ">
+                                                                                    <div class="col-md-12 ">
+                                                                                        <section class="col col-2">
+                                                                                            <label class="label" for="">Name(required)</label>
 
+                                                                                            <div class="form-group">
+                                                                                                <label class="input"> <i
+                                                                                                            class="icon-append fa fa-user"></i>
+
+                                                                                                    <input type="text"
+                                                                                                           name="name"
+                                                                                                           value="{{$targetgroup_obj->name}}"
+                                                                                                           placeholder="Name">
+                                                                                                </label>
                                                                                             </div>
-                                                                                        </div>
+                                                                                        </section>
+                                                                                        <section class="col col-2">
+                                                                                            <label class="label" for="">Campaign
+                                                                                                ID</label>
+                                                                                            <label class="input">
+                                                                                                <h6>
+                                                                                                    CMP{{$campaign_obj->id}}</h6>
+                                                                                            </label>
+                                                                                        </section>
+                                                                                        <section class="col col-2">
+                                                                                            <label class="label" for="">Advertiser
+                                                                                                ID</label>
+                                                                                            <label class="input">
+                                                                                                <h6>
+                                                                                                    adv{{$targetgroup_obj->getCampaign->getAdvertiser->id}}</h6>
+                                                                                            </label>
+                                                                                        </section>
+                                                                                        <section class="col col-2">
+                                                                                            <label class="label" for="">Client
+                                                                                                ID</label>
+                                                                                            <label class="input">
+                                                                                                <h6>
+                                                                                                    cl{{$targetgroup_obj->getCampaign->getAdvertiser->GetClientID->id}}</h6>
+                                                                                            </label>
+                                                                                        </section>
+
                                                                                     </div>
-                                                                                    <div class="col-sm-3">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <select name="iab_category"
-                                                                                                        class="form-control "
-                                                                                                        id=""
-                                                                                                        onchange="ShowSubCategory(this.value)">
-                                                                                                    <option value="0"
-                                                                                                            disabled>
-                                                                                                        Select one ...
-                                                                                                    </option>
-                                                                                                    @foreach($iab_category_obj as $index)
-                                                                                                        <option value="{{$index->id}}" @if($targetgroup_obj->iab_category == $index->id) selected @endif>{{$index->name}}</option>
-                                                                                                    @endforeach
-                                                                                                </select>
+                                                                                    <div class="col-md-12 ">
+                                                                                        <section class="col col-3">
+                                                                                            <label class="label" for="">Domain
+                                                                                                Name</label>
 
-                                                                                            </div>
-                                                                                        </div>
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
+
+                                                                                                <div class="form-group">
+                                                                                                    <input type="text"
+                                                                                                           name="advertiser_domain_name"
+                                                                                                           value="{{$targetgroup_obj->advertiser_domain_name}}" placeholder="Domain Name"
+                                                                                                           id="advertiser_domain_name">
+                                                                                                </div>
+                                                                                            </label>
+                                                                                        </section>
+                                                                                        <section class="col col-4"></section>
+                                                                                        <section class="col col-2">
+                                                                                            <label class="label" for="">IAB
+                                                                                                Category</label>
+
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
+
+                                                                                                <div class="form-group">
+                                                                                                    <select name="iab_category"
+                                                                                                            class="form-control "
+                                                                                                            id=""
+                                                                                                            onchange="ShowSubCategory(this.value)">
+                                                                                                        <option value="0"
+                                                                                                                disabled>
+                                                                                                            Select one ...
+                                                                                                        </option>
+                                                                                                        @foreach($iab_category_obj as $index)
+                                                                                                            <option value="{{$index->id}}" @if($targetgroup_obj->iab_category == $index->id) selected @endif>{{$index->name}}</option>
+                                                                                                        @endforeach
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </label>
+                                                                                        </section>
+                                                                                        <section class="col col-2">
+                                                                                            <label class="label" for="">IAB Sub
+                                                                                                Category</label>
+
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
+
+                                                                                                <div class="form-group">
+                                                                                                    <select name="iab_sub_category"
+                                                                                                            class="form-control "
+                                                                                                            id="iab_sub_category">
+                                                                                                        @if(!is_null($targetgroup_obj->iab_sub_category))
+                                                                                                            <option value="{{$targetgroup_obj->iab_sub_category}}"
+                                                                                                                    >
+                                                                                                                {{$targetgroup_obj->iab_sub_category}}
+                                                                                                            </option>
+                                                                                                        @else
+                                                                                                            <option value="0"
+                                                                                                                    disabled>
+                                                                                                                Select Iab
+                                                                                                                Category First
+                                                                                                                ...
+                                                                                                            </option>
+                                                                                                        @endif
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </label>
+                                                                                        </section>
+
                                                                                     </div>
-                                                                                    {{--[7:28:13 PM] Mahmoud Taabodi: entertainment--}}
-                                                                                    {{--[7:28:15 PM] Mahmoud Taabodi: financial--}}
-                                                                                    {{--[7:28:19 PM] Mahmoud Taabodi: health--}}
-                                                                                    {{--[7:28:38 PM] Mahmoud Taabodi: ke entertainment in sub category haaro dare :   movies, theater, sport--}}
-                                                                                    {{--[7:28:59 PM] Mahmoud Taabodi: financial  inaaro dare :  banking, insurance, investment--}}
-                                                                                    {{--[7:29:13 PM] Mahmoud Taabodi: health :  women health, family health, insurance                                                                                    --}}
-
-                                                                                    <div class="col-sm-3">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <select name="iab_sub_category"
-                                                                                                        class="form-control "
-                                                                                                        id="iab_sub_category">
-
-                                                                                                @if(!is_null($targetgroup_obj->iab_sub_category))
-                                                                                                    <option value="{{$targetgroup_obj->iab_sub_category}}"
-                                                                                                            >
-                                                                                                        {{$targetgroup_obj->iab_sub_category}}
-                                                                                                    </option>
-                                                                                                @else
-                                                                                                    <option value="0"
-                                                                                                            disabled>
-                                                                                                        Select Iab
-                                                                                                        Category First
-                                                                                                        ...
-                                                                                                    </option>
-                                                                                                @endif
-                                                                                                </select>
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-3">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-md"
-                                                                                                       type="text"
-                                                                                                       placeholder="Domain Name"
-                                                                                                       name="advertiser_domain_name"
-                                                                                                       value="{{$targetgroup_obj->advertiser_domain_name}}"
-                                                                                                       id="advertiser_domain_name"
-                                                                                                        >
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
+                                                                                    <div class="clearfix"></div>
                                                                                 </div>
 
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-3">
+                                                                                <h6>
+                                                                                    Budget Information
+                                                                                </h6>
+                                                                                <hr class="simple">
+                                                                                <div class="well col-md-6">
+                                                                                    <section class="col col-4">
+                                                                                        <label class="label" for="">Max
+                                                                                            Impression</label>
+
                                                                                         <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-eye fa-lg fa-fw"></i></span>
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
+
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Max Impressions"
                                                                                                        type="text"
                                                                                                        name="max_impression"
-                                                                                                       value="{{$targetgroup_obj->max_impression}}"
-                                                                                                       id="max_impression">
-
-                                                                                            </div>
+                                                                                                       value="{{$targetgroup_obj->max_impression}}" id="max_impression">
+                                                                                            </label>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-3">
+                                                                                    </section>
+                                                                                    <section class="col col-4">
+                                                                                        <label class="label" for="">Daily
+                                                                                            Max Imps</label>
+
                                                                                         <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-eye fa-lg fa-fw"></i></span>
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
+
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Daily Max Imps"
                                                                                                        type="text"
                                                                                                        name="daily_max_impression"
-                                                                                                       value="{{$targetgroup_obj->daily_max_impression}}"
-                                                                                                       id="daily_max_impression">
-
-                                                                                            </div>
+                                                                                                       value="{{$targetgroup_obj->daily_max_impression}}" id="daily_max_impression">
+                                                                                            </label>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-3">
+                                                                                    </section>
+                                                                                </div>
+                                                                                <div class="well col-md-6 ">
+                                                                                    <section class="col col-4">
+                                                                                        <label class="label" for="">Max
+                                                                                            Budget</label>
+
                                                                                         <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-dollar fa-lg fa-fw"></i></span>
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
+
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Max Budget"
                                                                                                        type="text"
                                                                                                        name="max_budget"
                                                                                                        value="{{$targetgroup_obj->max_budget}}"
                                                                                                        id="max_budget">
-
-                                                                                            </div>
+                                                                                            </label>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-3">
+                                                                                    </section>
+                                                                                    <section class="col col-4">
+                                                                                        <label class="label" for="">Daily
+                                                                                            Max Budget</label>
+
                                                                                         <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-dollar fa-lg fa-fw"></i></span>
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
+
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Daily Max Budget"
                                                                                                        type="text"
-                                                                                                       name="daily_max_budget"
                                                                                                        value="{{$targetgroup_obj->daily_max_budget}}"
+                                                                                                       name="daily_max_budget"
                                                                                                        id="daily_max_budget">
-
-                                                                                            </div>
+                                                                                            </label>
                                                                                         </div>
-                                                                                    </div>
+                                                                                    </section>
                                                                                 </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-3">
+                                                                                <div class="well col-md-12">
+                                                                                    <section class="col col-2">
+                                                                                        <label class="label" for="">Frequency
+                                                                                            In Sec </label>
+
                                                                                         <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-eye fa-lg fa-fw"></i></span>
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
+
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Frequency per sec"
                                                                                                        type="text"
-                                                                                                       name="frequency_in_sec"
                                                                                                        value="{{$targetgroup_obj->frequency_in_sec}}"
+                                                                                                       name="frequency_in_sec"
                                                                                                        id="frequency_in_sec">
-
-                                                                                            </div>
+                                                                                            </label>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-3">
+                                                                                    </section>
+                                                                                    <section class="col col-2">
+                                                                                        <label class="label"
+                                                                                               for="">CPM</label>
+
                                                                                         <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-eye fa-lg fa-fw"></i></span>
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
+
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="MAX CPM"
                                                                                                        type="text"
-                                                                                                       name="cpm"
                                                                                                        value="{{$targetgroup_obj->cpm}}"
+                                                                                                       name="cpm"
                                                                                                        id="cpm">
-
-                                                                                            </div>
+                                                                                            </label>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-3">
+                                                                                    </section>
+                                                                                    <section class="col col-2">
+                                                                                        <label class="label" for="">Pacing
+                                                                                            Plan</label>
+
                                                                                         <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-eye fa-lg fa-fw"></i></span>
+                                                                                            <label class="input"> <i
+                                                                                                        class="icon-append fa fa-user"></i>
+
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Pacing Plan"
                                                                                                        type="text"
-                                                                                                       name="pacing_plan"
                                                                                                        value="{{$targetgroup_obj->pacing_plan}}"
+                                                                                                       name="pacing_plan"
                                                                                                        id="pacing_plan">
-
-                                                                                            </div>
+                                                                                            </label>
                                                                                         </div>
-                                                                                    </div>
+                                                                                    </section>
                                                                                 </div>
+                                                                                <div class="clearfix"></div>
+                                                                                <p>
+                                                                                    Date Rang
+                                                                                </p>
+                                                                                <hr class="simple">
+
                                                                                 <div class="row">
                                                                                     <div class="col-sm-3">
                                                                                         <div class="form-group">
@@ -400,9 +382,8 @@
                                                                                                 <input class="form-control input-md"
                                                                                                        type="text"
                                                                                                        name="startdate"
-                                                                                                       id="startdate"
                                                                                                        value="{{$targetgroup_obj->start_date}}"
-
+                                                                                                       id="startdate"
                                                                                                        placeholder="Expected start date">
 
                                                                                             </div>
@@ -416,9 +397,8 @@
                                                                                                 <input class="form-control input-md"
                                                                                                        type="text"
                                                                                                        name="finishdate"
-                                                                                                       id="finishdate"
                                                                                                        value="{{$targetgroup_obj->end_date}}"
-
+                                                                                                       id="finishdate"
                                                                                                        placeholder="Expected finish date">
 
                                                                                             </div>
@@ -446,65 +426,23 @@
                                                     <div class="tab-pane" id="tab2">
                                                         <br>
 
-                                                        <h3><strong>Step 4</strong> - CONFIGURATION</h3>
+                                                        <h3><strong>Step 2</strong> - CONFIGURATION</h3>
                                                         <!-- NEW WIDGET START -->
                                                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                                                             <!-- Widget ID (each widget will need unique ID)-->
-                                                            <div class="jarviswidget well" id="wid-id-3"
-                                                                 data-widget-colorbutton="false"
-                                                                 data-widget-editbutton="false"
-                                                                 data-widget-togglebutton="false"
-                                                                 data-widget-deletebutton="false"
-                                                                 data-widget-fullscreenbutton="false"
-                                                                 data-widget-custombutton="false"
-                                                                 data-widget-sortable="false">
-                                                                <!-- widget options:
-                                                                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                                                data-widget-colorbutton="false"
-                                                                data-widget-editbutton="false"
-                                                                data-widget-togglebutton="false"
-                                                                data-widget-deletebutton="false"
-                                                                data-widget-fullscreenbutton="false"
-                                                                data-widget-custombutton="false"
-                                                                data-widget-collapsed="true"
-                                                                data-widget-sortable="false"
-
-                                                                -->
-                                                                <header>
-                                                                    <span class="widget-icon"> <i
-                                                                                class="fa fa-comments"></i> </span>
-
-                                                                    <h2>Default Tabs with border </h2>
-
-                                                                </header>
-
+                                                            <div class="well">
                                                                 <!-- widget div-->
                                                                 <div>
 
-                                                                    <!-- widget edit box -->
-                                                                    <div class="jarviswidget-editbox">
-                                                                        <!-- This area used as dropdown edit box -->
-
-                                                                    </div>
-                                                                    <!-- end widget edit box -->
 
                                                                     <!-- widget content -->
-                                                                    <div class="widget-body">
+                                                                    <div class="">
 
-                                                                        <p>
-                                                                            Tabs inside
-                                                                            <code>
-                                                                                .jarviswidget .well
-                                                                            </code>
-                                                                            (Bordered Tabs)
-                                                                        </p>
-                                                                        <hr class="simple">
                                                                         <ul id="myTab1" class="nav nav-tabs bordered">
                                                                             <li class="active">
                                                                                 <a href="#v1" data-toggle="tab">Set Geo
-                                                                                    Target</a>
+                                                                                    Location</a>
                                                                             </li>
                                                                             <li>
                                                                                 <a href="#v2" data-toggle="tab"><i
@@ -525,58 +463,94 @@
 
                                                                         </ul>
 
-                                                                        <div id="myTabContent1"
-                                                                             class="tab-content padding-10">
+                                                                        <div id="myTabContent2"
+                                                                             class="tab-content">
                                                                             <div class="tab-pane fade in active"
                                                                                  id="v1">
 
                                                                                 <div class="row">
-                                                                                    <div class="col-sm-12">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-md"
-                                                                                                       placeholder="Publisher Name"
-                                                                                                       type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                            </div>
-                                                                            <div class="tab-pane fade in active"
-                                                                                 id="v2">
-
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-12">
+                                                                                    <div class="col-md-6 col-md-offset-3">
                                                                                         <!-- widget content -->
-                                                                                        <div class="widget-body">
+                                                                                        <div style="margin: 20px 0;">
+                                                                                            <div class="col-xs-5">
+                                                                                                <select name="from_geolocation[]" id="assign_geolocation" class="form-control" size="8" multiple="multiple">
+                                                                                                    @foreach($geolocation_obj as $index)
+                                                                                                        <option value="{{$index->id}}">{{$index->state}}</option>
+                                                                                                    @endforeach
+                                                                                                </select>
+                                                                                            </div>
 
-                                                                                            <select multiple="multiple"
-                                                                                                    size="10"
-                                                                                                    name="creative[]"
-                                                                                                    id="initializeDuallistbox_creative">
+                                                                                            <div class="col-xs-2">
+                                                                                                <button type="button" id="assign_geolocation_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                                                                <button type="button" id="assign_geolocation_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                                                                <button type="button" id="assign_geolocation_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                                                                <button type="button" id="assign_geolocation_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                                                            </div>
 
-                                                                                                @foreach($campaign_obj->getAdvertiser->Creative as $index)
-                                                                                                        <option value="{{$index->id}}" @if(in_array($index->id,$targetgroupCreative)) selected @endif>{{$index->name}}</option>
-                                                                                                @endforeach
-                                                                                            </select>
+                                                                                            <div class="col-xs-5">
+                                                                                                <select name="to_geolocation[]" id="assign_geolocation_to" class="form-control" size="8" multiple="multiple">
+                                                                                                    @foreach($geolocation_obj as $index)
+                                                                                                        @if(in_array($index->id,$targetgroupGeoLocation))
+                                                                                                            <option value="{{$index->id}}">{{$index->state}}</option>
+                                                                                                        @endif
+                                                                                                    @endforeach
 
+                                                                                                </select>
+                                                                                            </div>
+                                                                                            <div class="clearfix"></div>
                                                                                         </div>
+
+
                                                                                         <!-- end widget content -->
                                                                                     </div>
                                                                                 </div>
 
                                                                             </div>
-                                                                            <div class="tab-pane fade in active"
+                                                                            <div class="tab-pane fade"
+                                                                                 id="v2">
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6 col-md-offset-3">
+                                                                                        <!-- widget content -->
+                                                                                        <div style="margin: 20px 0;">
+                                                                                            <div class="col-xs-5">
+                                                                                                <select name="from_creative[]" id="assign_creative" class="form-control" size="8" multiple="multiple">
+                                                                                                    @foreach($campaign_obj->getAdvertiser->Creative as $index)
+                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                    @endforeach
+                                                                                                </select>
+                                                                                            </div>
+
+                                                                                            <div class="col-xs-2">
+                                                                                                <button type="button" id="assign_creative_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                                                                <button type="button" id="assign_creative_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                                                                <button type="button" id="assign_creative_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                                                                <button type="button" id="assign_creative_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                                                            </div>
+
+                                                                                            <div class="col-xs-5">
+                                                                                                <select name="to_creative[]" id="assign_creative_to" class="form-control" size="8" multiple="multiple">
+                                                                                                    @foreach($campaign_obj->getAdvertiser->Creative as $index)
+                                                                                                        @if(in_array($index->id,$targetgroupCreative))
+                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                        @endif
+                                                                                                    @endforeach
+
+                                                                                                </select>
+                                                                                            </div>
+                                                                                            <div class="clearfix"></div>
+                                                                                        </div>
+
+                                                                                        <!-- end widget content -->
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="tab-pane fade"
                                                                                  id="v3">
 
                                                                                 <div class="row">
-                                                                                    <div class="col-sm-12">
+                                                                                    <div class="col-md-6 col-md-offset-3">
 
                                                                                         <div class="panel-group"
                                                                                              id="accordion">
@@ -591,7 +565,8 @@
                                                                                                            data-parent="#accordion"
                                                                                                            href="#blacklist"
                                                                                                            onclick="taggleBWList('blacklist')">
-                                                                                                            Assign Black List
+                                                                                                            Assign Black
+                                                                                                            List
                                                                                                         </a>
                                                                                                     </h4>
                                                                                                 </div>
@@ -600,21 +575,37 @@
                                                                                                      class="panel-collapse collapse in">
                                                                                                     <div class="panel-body">
                                                                                                         <!-- widget content -->
-                                                                                                        <div class="widget-body" id="blacklist_select">
+                                                                                                        <div style="margin: 20px 0;">
+                                                                                                            <div class="col-xs-5">
+                                                                                                                <select name="from_blacklist[]" id="assign_blacklist" class="form-control" size="8" multiple="multiple">
+                                                                                                                    @foreach($campaign_obj->getAdvertiser->BWList as $index)
+                                                                                                                        @if($index->list_type == 'black')
+                                                                                                                            <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                                        @endif
+                                                                                                                    @endforeach
+                                                                                                                </select>
+                                                                                                            </div>
 
-                                                                                                            <select multiple="multiple"
-                                                                                                                    size="10"
-                                                                                                                    name="blacklist[]"
-                                                                                                                    id="initializeDuallistbox_blacklist">
+                                                                                                            <div class="col-xs-2">
+                                                                                                                <button type="button" id="assign_blacklist_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                                                                                <button type="button" id="assign_blacklist_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                                                                                <button type="button" id="assign_blacklist_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                                                                                <button type="button" id="assign_blacklist_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                                                                            </div>
 
-                                                                                                                @foreach($campaign_obj->getAdvertiser->BWList as $index)
-                                                                                                                    @if($index->list_type == 'black')
-                                                                                                                        <option value="{{$index->id}}" @if(in_array($index->id,$targetgroupBWList)) selected @endif>{{$index->name}}</option>
-                                                                                                                    @endif
-                                                                                                                @endforeach
-                                                                                                            </select>
+                                                                                                            <div class="col-xs-5">
+                                                                                                                <select name="to_blacklist[]" id="assign_blacklist_to" class="form-control" size="8" multiple="multiple">
+                                                                                                                    @foreach($campaign_obj->getAdvertiser->BWList as $index)
+                                                                                                                        @if($index->list_type == 'black' and in_array($index->id,$targetgroupBWList))
+                                                                                                                            <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                                        @endif
+                                                                                                                    @endforeach
 
+                                                                                                                </select>
+                                                                                                            </div>
+                                                                                                            <div class="clearfix"></div>
                                                                                                         </div>
+
                                                                                                         <!-- end widget content -->
                                                                                                     </div>
                                                                                                 </div>
@@ -630,7 +621,8 @@
                                                                                                            data-parent="#accordion"
                                                                                                            href="#accordionTwo"
                                                                                                            onclick="taggleBWList('whitelist')">
-                                                                                                            Assign White List
+                                                                                                            Assign White
+                                                                                                            List
                                                                                                         </a>
                                                                                                     </h4>
                                                                                                 </div>
@@ -639,21 +631,37 @@
                                                                                                      class="panel-collapse collapse">
                                                                                                     <div class="panel-body">
                                                                                                         <!-- widget content -->
-                                                                                                        <div class="widget-body">
+                                                                                                        <div style="margin: 20px 0;">
+                                                                                                            <div class="col-xs-5">
+                                                                                                                <select name="from_whitelist[]" id="assign_whitelist" class="form-control" size="8" multiple="multiple">
+                                                                                                                    @foreach($campaign_obj->getAdvertiser->BWList as $index)
+                                                                                                                        @if($index->list_type == 'white')
+                                                                                                                            <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                                        @endif
+                                                                                                                    @endforeach
+                                                                                                                </select>
+                                                                                                            </div>
 
-                                                                                                            <select multiple="multiple"
-                                                                                                                    size="10"
-                                                                                                                    name="whitelist[]"
-                                                                                                                    id="initializeDuallistbox_whitelist">
+                                                                                                            <div class="col-xs-2">
+                                                                                                                <button type="button" id="assign_whitelist_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                                                                                <button type="button" id="assign_whitelist_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                                                                                <button type="button" id="assign_whitelist_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                                                                                <button type="button" id="assign_whitelist_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                                                                            </div>
 
-                                                                                                                @foreach($campaign_obj->getAdvertiser->BWList as $index)
-                                                                                                                    @if($index->list_type == 'white')
-                                                                                                                        <option value="{{$index->id}}" @if(in_array($index->id,$targetgroupBWList)) selected @endif>{{$index->name}}</option>
-                                                                                                                    @endif
-                                                                                                                @endforeach
-                                                                                                            </select>
+                                                                                                            <div class="col-xs-5">
+                                                                                                                <select name="to_whitelist[]" id="assign_whitelist_to" class="form-control" size="8" multiple="multiple">
+                                                                                                                    @foreach($campaign_obj->getAdvertiser->BWList as $index)
+                                                                                                                        @if($index->list_type == 'white' and in_array($index->id,$targetgroupBWList))
+                                                                                                                            <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                                        @endif
+                                                                                                                    @endforeach
 
+                                                                                                                </select>
+                                                                                                            </div>
+                                                                                                            <div class="clearfix"></div>
                                                                                                         </div>
+
                                                                                                         <!-- end widget content -->
                                                                                                     </div>
                                                                                                 </div>
@@ -665,24 +673,40 @@
 
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="tab-pane fade in active"
+                                                                            <div class="tab-pane fade"
                                                                                  id="v4">
 
                                                                                 <div class="row">
-                                                                                    <div class="col-sm-12">
+                                                                                    <div class="col-md-6 col-md-offset-3">
                                                                                         <!-- widget content -->
-                                                                                        <div class="widget-body">
 
-                                                                                            <select multiple="multiple"
-                                                                                                    size="10"
-                                                                                                    name="geosegment[]"
-                                                                                                    id="initializeDuallistbox">
+                                                                                        <div style="margin: 20px 0;">
+                                                                                            <div class="col-xs-5">
+                                                                                                <select name="from_geosegment[]" id="assign_geosegment" class="form-control" size="8" multiple="multiple">
+                                                                                                    @foreach($campaign_obj->getAdvertiser->GeoSegment as $index)
+                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                    @endforeach
+                                                                                                </select>
+                                                                                            </div>
 
-                                                                                                @foreach($campaign_obj->getAdvertiser->GeoSegment as $index)
-                                                                                                    <option value="{{$index->id}}" @if(in_array($index->id,$targetgroupGeoSegment)) selected @endif>{{$index->name}}</option>
-                                                                                                @endforeach
-                                                                                            </select>
+                                                                                            <div class="col-xs-2">
+                                                                                                <button type="button" id="assign_geosegment_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                                                                <button type="button" id="assign_geosegment_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                                                                <button type="button" id="assign_geosegment_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                                                                <button type="button" id="assign_geosegment_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                                                            </div>
 
+                                                                                            <div class="col-xs-5">
+                                                                                                <select name="to_geosegment[]" id="assign_geosegment_to" class="form-control" size="8" multiple="multiple">
+                                                                                                    @foreach($campaign_obj->getAdvertiser->GeoSegment as $index)
+                                                                                                        @if(in_array($index->id,$targetgroupGeoSegment))
+                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                        @endif
+                                                                                                    @endforeach
+
+                                                                                                </select>
+                                                                                            </div>
+                                                                                            <div class="clearfix"></div>
                                                                                         </div>
                                                                                         <!-- end widget content -->
 
@@ -716,57 +740,15 @@
                                                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                                                             <!-- Widget ID (each widget will need unique ID)-->
-                                                            <div class="jarviswidget well" id="wid-id-3"
-                                                                 data-widget-colorbutton="false"
-                                                                 data-widget-editbutton="false"
-                                                                 data-widget-togglebutton="false"
-                                                                 data-widget-deletebutton="false"
-                                                                 data-widget-fullscreenbutton="false"
-                                                                 data-widget-custombutton="false"
-                                                                 data-widget-sortable="false">
-                                                                <!-- widget options:
-                                                                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                                                data-widget-colorbutton="false"
-                                                                data-widget-editbutton="false"
-                                                                data-widget-togglebutton="false"
-                                                                data-widget-deletebutton="false"
-                                                                data-widget-fullscreenbutton="false"
-                                                                data-widget-custombutton="false"
-                                                                data-widget-collapsed="true"
-                                                                data-widget-sortable="false"
-
-                                                                -->
-                                                                <header>
-                                                                    <span class="widget-icon"> <i
-                                                                                class="fa fa-comments"></i> </span>
-
-                                                                    <h2>Default Tabs with border </h2>
-
-                                                                </header>
-
+                                                            <div class=" well">
                                                                 <!-- widget div-->
                                                                 <div>
 
-                                                                    <!-- widget edit box -->
-                                                                    <div class="jarviswidget-editbox">
-                                                                        <!-- This area used as dropdown edit box -->
-
-                                                                    </div>
-                                                                    <!-- end widget edit box -->
-
                                                                     <!-- widget content -->
-                                                                    <div class="widget-body">
+                                                                    <div class="">
 
-                                                                        <p>
-                                                                            Tabs inside
-                                                                            <code>
-                                                                                .jarviswidget .well
-                                                                            </code>
-                                                                            (Bordered Tabs)
-                                                                        </p>
                                                                         <hr class="simple">
-                                                                        <ul id="myTab1" class="nav nav-tabs bordered">
+                                                                        <ul id="myTab2" class="nav nav-tabs bordered">
                                                                             <li class="active">
                                                                                 <a href="#u1" data-toggle="tab">Bid by
                                                                                     publisher</a>
@@ -774,19 +756,19 @@
                                                                             <li>
                                                                                 <a href="#u2" data-toggle="tab"><i
                                                                                             class="fa fa-fw fa-lg fa-gear"></i>
-                                                                                    Publisher name</a>
+                                                                                    Hours</a>
                                                                             </li>
 
 
                                                                         </ul>
 
-                                                                        <div id="myTabContent1"
-                                                                             class="tab-content padding-10">
+                                                                        <div id="myTabContent3"
+                                                                             class="tab-content">
                                                                             <div class="tab-pane fade in active"
                                                                                  id="u1">
-
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-6">
+                                                                                <div class="row"
+                                                                                     id="advertiser_publisher">
+                                                                                    <div class="col-sm-3">
                                                                                         <div class="form-group">
                                                                                             <div class="input-group">
                                                                                                 <span class="input-group-addon"><i
@@ -794,8 +776,8 @@
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Publisher Name"
                                                                                                        type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
+                                                                                                       name="publisher_name0"
+                                                                                                       id="publisher_name">
 
                                                                                             </div>
                                                                                         </div>
@@ -808,8 +790,8 @@
                                                                                                 <input class="form-control input-md"
                                                                                                        placeholder="Bid"
                                                                                                        type="text"
-                                                                                                       name="lname"
-                                                                                                       id="lname">
+                                                                                                       name="bid0"
+                                                                                                       id="bid">
 
                                                                                             </div>
                                                                                         </div>
@@ -817,129 +799,14 @@
                                                                                 </div>
                                                                                 <div class="row">
                                                                                     <div class="col-sm-6">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-md"
-                                                                                                       placeholder="Publisher Name"
-                                                                                                       type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-2">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-md"
-                                                                                                       placeholder="Bid"
-                                                                                                       type="text"
-                                                                                                       name="lname"
-                                                                                                       id="lname">
-
-                                                                                            </div>
-                                                                                        </div>
+                                                                                        <input class="btn btn-primary" type="button"
+                                                                                               value="send"
+                                                                                               onclick="submitForm() "/>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row">
-                                                                                    <div class="col-sm-6">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-md"
-                                                                                                       placeholder="Publisher Name"
-                                                                                                       type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-2">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-md"
-                                                                                                       placeholder="Bid"
-                                                                                                       type="text"
-                                                                                                       name="lname"
-                                                                                                       id="lname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-6">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-md"
-                                                                                                       placeholder="Publisher Name"
-                                                                                                       type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-2">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-md"
-                                                                                                       placeholder="Bid"
-                                                                                                       type="text"
-                                                                                                       name="lname"
-                                                                                                       id="lname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-6">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-md"
-                                                                                                       placeholder="Publisher Name"
-                                                                                                       type="text"
-                                                                                                       name="fname"
-                                                                                                       id="fname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-2">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-md"
-                                                                                                       placeholder="Bid"
-                                                                                                       type="text"
-                                                                                                       name="lname"
-                                                                                                       id="lname">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                            </div>
-                                                                            <div class="tab-pane fade" id="u2">
-                                                                                <div class="row">
-                                                                                    <div class="col-md-12">
+                                                                                    <div class="col-sm-3">
+{{--                                                                                        {{dd($targetgroup_obj->getBidAdvPublisher)}}--}}
                                                                                         <table class="table table-striped table-bordered ">
                                                                                             <thead>
                                                                                             <tr>
@@ -948,73 +815,89 @@
                                                                                                 <th>Bid :</th>
                                                                                             </tr>
                                                                                             </thead>
-                                                                                            <tbody>
-                                                                                            <tr>
-                                                                                                <td>134</td>
-                                                                                                <td>b2</td>
-                                                                                                <td><input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="23">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>135</td>
-                                                                                                <td>b7</td>
-                                                                                                <td><input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="3">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>136</td>
-                                                                                                <td>b12</td>
-                                                                                                <td><input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="14">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>137</td>
-                                                                                                <td>b1</td>
-                                                                                                <td><input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="26">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>138</td>
-                                                                                                <td>b15</td>
-                                                                                                <td><input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="20">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>139</td>
-                                                                                                <td>b1</td>
-                                                                                                <td><input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="23">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>140</td>
-                                                                                                <td>b15</td>
-                                                                                                <td><input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="20">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>141</td>
-                                                                                                <td>b1</td>
-                                                                                                <td><input type="text"
-                                                                                                           class="form-control"
-                                                                                                           value="23">
-                                                                                                </td>
-                                                                                            </tr>
+                                                                                            <tbody id="show_bid">
+                                                                                            @foreach($targetgroup_obj->getBidAdvPublisher as $index)
+                                                                                                <tr>
+                                                                                                    <td>{{$index->getPublisher->id}}</td>
+                                                                                                    <td>
+                                                                                                        {{$index->getPublisher->name}}
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <input type="text" class="form-control" value="{{$index->bid_price}}"/>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            @endforeach
                                                                                             </tbody>
                                                                                         </table>
+
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="tab-pane fade" id="u2">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        <table class="table table-hover">
+                                                                                            <thead>
+                                                                                            <tr>
+                                                                                                <th>Hours</th>
+                                                                                                <th>1:00</th>
+                                                                                                <th>2:00</th>
+                                                                                                <th>3:00</th>
+                                                                                                <th>4:00</th>
+                                                                                                <th>5:00</th>
+                                                                                                <th>6:00</th>
+                                                                                                <th>7:00</th>
+                                                                                                <th>8:00</th>
+                                                                                                <th>9:00</th>
+                                                                                                <th>10:00</th>
+                                                                                                <th>11:00</th>
+                                                                                                <th>12:00</th>
+                                                                                            </tr>
+                                                                                            </thead>
+                                                                                            <tbody>
+                                                                                            @for($i=0;$i<7;$i++)
+                                                                                                <tr>
+                                                                                                    <td style="width: 10%;">
+                                                                                                        <div class="row">
+                                                                                                            <div class="col-md-6" style="margin-top: 25px;">
+                                                                                                    @if($i==0)
+                                                                                                        Monday @elseif($i==1)
+                                                                                                        Tuesday @elseif($i==2)                                                                                                                Wednesday @elseif($i==3)
+                                                                                                        Thursday @elseif($i==4)
+                                                                                                        Friday @elseif($i==5)
+                                                                                                        Satarday @elseif($i==6)
+                                                                                                        Sunday
+                                                                                                    @endif
+                                                                                                            </div>                                                                                                                                <div class="col-md-4">
+                                                                                                            <table>
+                                                                                                                <tr style="line-height: 35px">
+                                                                                                                    <td>AM</td>
+                                                                                                                </tr>
+                                                                                                                <tr style="line-height: 35px">
+                                                                                                                    <td>PM</td>
+                                                                                                                </tr>
+                                                                                                            </table>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </td>
+                                                                                                    @for($j=0;$j<12;$j++)
+                                                                                                        <td>
+                                                                                                            <input type="checkbox"
+                                                                                                                   class="form-control"
+                                                                                                                   name="{{$i}}-{{$j}}-am" @if($hours[$i][$j]==1) checked @endif>
+                                                                                                            <input type="checkbox"
+                                                                                                                   class="form-control"
+                                                                                                                   name="{{$i}}-{{$j}}-pm" @if($hours[$i][$j+12]==1) checked @endif>
+                                                                                                        </td>
+                                                                                                    @endfor
+                                                                                                </tr>
+                                                                                            @endfor
+
+                                                                                            </tbody>
+                                                                                        </table>
+
+
                                                                                     </div>
 
                                                                                 </div>
@@ -1039,717 +922,91 @@
                                                     <div class="tab-pane" id="tab4">
                                                         <br>
 
-                                                        <h3><strong>Step 2</strong> - BID BY HOUR</h3>
+                                                        <h3><strong>Step 4</strong> - Review And Submit</h3>
+                                                        <br>
 
-                                                        <!-- NEW WIDGET START -->
-                                                        <article class="col-sm-12 col-md-12 col-lg-12">
-
-                                                            <!-- Widget ID (each widget will need unique ID)-->
-                                                            <div class="jarviswidget well" id="wid-id-3"
-                                                                 data-widget-colorbutton="false"
-                                                                 data-widget-editbutton="false"
-                                                                 data-widget-togglebutton="false"
-                                                                 data-widget-deletebutton="false"
-                                                                 data-widget-fullscreenbutton="false"
-                                                                 data-widget-custombutton="false"
-                                                                 data-widget-sortable="false">
-                                                                <!-- widget options:
-                                                                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                                                data-widget-colorbutton="false"
-                                                                data-widget-editbutton="false"
-                                                                data-widget-togglebutton="false"
-                                                                data-widget-deletebutton="false"
-                                                                data-widget-fullscreenbutton="false"
-                                                                data-widget-custombutton="false"
-                                                                data-widget-collapsed="true"
-                                                                data-widget-sortable="false"
-
-                                                                -->
-                                                                <header>
-                                                                    <span class="widget-icon"> <i
-                                                                                class="fa fa-comments"></i> </span>
-
-                                                                    <h2>Default Tabs with border </h2>
-
-                                                                </header>
-
-                                                                <!-- widget div-->
-                                                                <div>
-
-                                                                    <!-- widget edit box -->
-                                                                    <div class="jarviswidget-editbox">
-                                                                        <!-- This area used as dropdown edit box -->
-
-                                                                    </div>
-                                                                    <!-- end widget edit box -->
-
-                                                                    <!-- widget content -->
-                                                                    <div class="widget-body">
-
-                                                                        <p>
-                                                                            Tabs inside
-                                                                            <code>
-                                                                                .jarviswidget .well
-                                                                            </code>
-                                                                            (Bordered Tabs)
-                                                                        </p>
-                                                                        <hr class="simple">
-                                                                        <ul id="myTab1" class="nav nav-tabs bordered">
-                                                                            <li class="active">
-                                                                                <a href="#t1" data-toggle="tab">AM</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#t2" data-toggle="tab"><i
-                                                                                            class="fa fa-fw fa-lg fa-gear"></i>
-                                                                                    PM</a>
-                                                                            </li>
-
-
-                                                                        </ul>
-
-                                                                        <div id="myTabContent1"
-                                                                             class="tab-content padding-10">
-                                                                            <div class="tab-pane fade in active"
-                                                                                 id="t1">
-
-                                                                                <div class="row">
-                                                                                    <table class="table table-hover">
-                                                                                        <thead>
-                                                                                        <tr>
-                                                                                            <th>Hours</th>
-                                                                                            <th>1:00 AM</th>
-                                                                                            <th>2:00 AM</th>
-                                                                                            <th>3:00 AM</th>
-                                                                                            <th>4:00 AM</th>
-                                                                                            <th>5:00 AM</th>
-                                                                                            <th>6:00 AM</th>
-                                                                                            <th>7:00 AM</th>
-                                                                                            <th>8:00 AM</th>
-                                                                                            <th>9:00 AM</th>
-                                                                                            <th>10:00 AM</th>
-                                                                                            <th>11:00 AM</th>
-                                                                                            <th>12:00 AM</th>
-                                                                                        </tr>
-                                                                                        </thead>
-                                                                                        <tbody>
-                                                                                        <tr>
-                                                                                            <td>Sun</td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                        </tr>
-
-                                                                                        <tr>
-                                                                                            <td>Mon</td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                        </tr>
-
-                                                                                        <tr>
-                                                                                            <td>Tue</td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                        </tr>
-
-                                                                                        <tr>
-                                                                                            <td>Wed</td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                        </tr>
-
-                                                                                        <tr>
-                                                                                            <td>Thu</td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td>Fri</td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td>Sat</td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
-
-
-                                                                            </div>
-                                                                            <div class="tab-pane fade" id="t2">
-                                                                                <div class="row">
-                                                                                    <table class="table table-hover">
-                                                                                        <thead>
-                                                                                        <tr>
-                                                                                            <th>Hours</th>
-                                                                                            <th>1:00 PM</th>
-                                                                                            <th>2:00 PM</th>
-                                                                                            <th>3:00 PM</th>
-                                                                                            <th>4:00 PM</th>
-                                                                                            <th>5:00 PM</th>
-                                                                                            <th>6:00 PM</th>
-                                                                                            <th>7:00 PM</th>
-                                                                                            <th>8:00 PM</th>
-                                                                                            <th>9:00 PM</th>
-                                                                                            <th>10:00 PM</th>
-                                                                                            <th>11:00 PM</th>
-                                                                                            <th>12:00 PM</th>
-                                                                                        </tr>
-                                                                                        </thead>
-                                                                                        <tbody>
-                                                                                        <tr>
-                                                                                            <td>Sun</td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                        </tr>
-
-                                                                                        <tr>
-                                                                                            <td>Mon</td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                        </tr>
-
-                                                                                        <tr>
-                                                                                            <td>Tue</td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                        </tr>
-
-                                                                                        <tr>
-                                                                                            <td>Wed</td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                        </tr>
-
-                                                                                        <tr>
-                                                                                            <td>Thu</td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td>Fri</td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td>Sat</td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                            <td><input type="text"
-                                                                                                       class="form-control">
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
-                                                                            </div>
-
-
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <!-- end widget content -->
-
-                                                                </div>
-                                                                <!-- end widget div -->
-
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <h2>Step 1</h2>
+                                                                <table class="table table-bordered table-responsive">
+                                                                    <tr>
+                                                                        <td>name: <span id="rev_name"></span></td>
+                                                                        <td>IAB Cat: <span id="rev_iab"></span></td>
+                                                                        <td>Sub IAB cat: <span id="rev_sub_iab"></span>
+                                                                        </td>
+                                                                        <td>Domain name: <span
+                                                                                    id="rev_domain_name"></span></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Max Impressions: <span
+                                                                                    id="rev_max_imp"></span></td>
+                                                                        <td>Daily max imp: <span
+                                                                                    id="rev_daily_max_imp"></span></td>
+                                                                        <td>Max budget: <span
+                                                                                    id="rev_max_budget"></span></td>
+                                                                        <td>Daily Max budget: <span
+                                                                                    id="rev_daily_max_budget"></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Frequency in sec: <span
+                                                                                    id="rev_frequency_in_sec"></span>
+                                                                        </td>
+                                                                        <td>Max CPM: <span id="rev_cpm"></span></td>
+                                                                        <td colspan="2">Pacing plan: <span
+                                                                                    id="rev_pacing_plan"></span></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="2">Start Date: <span
+                                                                                    id="rev_start_date"></span></td>
+                                                                        <td colspan="2">End Date: <span
+                                                                                    id="rev_end_date"></span></td>
+                                                                    </tr>
+                                                                </table>
                                                             </div>
-                                                            <!-- end widget -->
-
-
-                                                        </article>
-                                                        <!-- WIDGET END -->
-                                                        <div class="clearfix"></div>
-
-                                                    </div>
-                                                    <div class="tab-pane" id="tab5">
-                                                        <br>
-
-                                                        <h3><strong>Step 5</strong> - Save Form</h3>
-                                                        <br>
-
-                                                        <div class="row" id="step1_review">
-
                                                         </div>
-                                                        <h1 class="text-center text-success"><strong><i
-                                                                        class="fa fa-check fa-lg"></i> Complete</strong>
-                                                        </h1>
-                                                        <input type="submit" value="SUBMIT"/>
+                                                        <hr/>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <h2>Step 2</h2>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <h3>Assigned Geo Location</h3>
+                                                                <table class="table table-bordered table-responsive">
+                                                                    <tr>
+                                                                        <td><span id="rev_assign_geolocation"></span></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <h3>Assigned Creative</h3>
+                                                                <table class="table table-bordered table-responsive">
+                                                                    <tr>
+                                                                        <td><span id="rev_assign_creative"></span></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <h3>Assigned Black/White List <span
+                                                                            id="rev_bwlist"></span></h3>
+                                                                <table class="table table-bordered table-responsive">
+                                                                    <tr>
+                                                                        <td><span id="rev_assign_bwlist"></span></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <h3>Assigned Geo Segment</h3>
+                                                                <table class="table table-bordered table-responsive">
+                                                                    <tr>
+                                                                        <td><span id="rev_assign_geosegment"></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <hr/>
+                                                        <input class="btn btn-success" type="submit" value="SUBMIT"/>
                                                         <br>
                                                         <br>
                                                     </div>
@@ -1809,17 +1066,43 @@
     <!-- END MAIN PANEL -->
 @endsection
 @section('FooterScripts')
-    <script src="{{cdn('js/plugin/bootstrap-duallistbox/jquery.bootstrap-duallistbox.min.js')}}"></script>
 
+    <script src="{{cdn('js/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js')}}"></script>
+    <script src="{{cdn('js/plugin/fuelux/wizard/wizard.min.js')}}"></script>
+    <script src="{{cdn('js/multi_select/multiselect.min.js')}}"></script>
+    <script src="{{cdn('js/plugin/bootstrap-duallistbox/jquery.bootstrap-duallistbox.min.js')}}"></script>
     <script>
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        function submitForm() {
+//            var form=$('#publisher_bid');
+//            console.log(form);
+            var url = '{{url('/advertiser_publisher/create')}}';
+            var formData = {};
+            formData['advertiser_id'] = '{{$campaign_obj->getAdvertiser->id}}';
+            $('#advertiser_publisher').find("input").each(function (index, node) {
+                formData[node.name] = node.value;
+            });
+            console.log(formData);
+//
+            $.post(url, formData).done(function (data) {
+                $('#advertiser_publisher').find("input").each(function (index, node) {
+                    node.value = '';
+                });
+                var data = JSON.parse(data);
+                for (var i = 0; i < data.length; i = i + 3) {
+                    var elem = '';
+                    elem = "<tr><td>" + data[i] + "</td><td>" + data[i + 1] + "</td><td><input type='text' class='form-control' name='" + data[i] + "-bid' value='" + data[i + 2] + "'></td></tr>";
+                    $('#show_bid').append(elem);
+                }
+            });
+        }
         function ShowSubCategory(id) {
             $.ajax({
-                url: "{{url('/get_iab_sub_category')}}" +'/'+ id
+                url: "{{url('/get_iab_sub_category')}}" + '/' + id
             }).success(function (response) {
                 var cb = '';
                 var data = jQuery.parseJSON(response);
@@ -1832,21 +1115,52 @@
             });
         }
         function setReview() {
-            console.log($('#initializeDuallistbox'));
-            $('#step1_review').html('name of target group:' + $('#name').val());
-        }
-        function taggleBWList(type){
-            if(type == 'blacklist'){
-                var conf = confirm('are u sure?');
-                if(conf){
-                    jQuery('#whitelist_select .removeall').click();
-                }
+            $('#rev_assign_creative').html('');
+            $('#rev_assign_bwlist').html('');
+            $('#rev_assign_geosegment').html('');
+            $('#rev_bwlist').html('');
+            $('#assign_creative_to').find('option').each(function () {
+                $('#rev_assign_creative').append($(this).html() + '<br>');
+            });
+            if ($('#assign_blacklist_to').find('option').length > 0) {
+                $('#rev_bwlist').html('(Black List)');
+                $('#assign_blacklist_to').find('option').each(function () {
+                    $('#rev_assign_bwlist').append($(this).html() + '<br>');
+                });
+            } else if ($('#assign_whitelist_to').find('option').length > 0) {
+                $('#rev_bwlist').html('(White List)');
+                $('#assign_whitelist_to').find('option').each(function () {
+                    $('#rev_assign_bwlist').append($(this).html() + '<br>');
+                });
+
             }
-            if(type == 'whitelist'){
-                var conf = confirm('are u sure?');
-                if(conf){
-                    jQuery('#blacklist_select .removeall').click();
-                }
+            $('#assign_geosegment_to').find('option').each(function () {
+                $('#rev_assign_geosegment').append($(this).html() + '<br>');
+            });
+            $('#assign_geolocation_to').find('option').each(function () {
+                $('#rev_assign_geolocation').append($(this).html() + '<br>');
+            });
+            console.log($('#initializeDuallistbox'));
+            $('#rev_name').html($('#name').val());
+            $('#rev_domain_name').html($('#nameadvertiser_domain_name').val());
+            $('#rev_max_imp').html($('#max_impression').val());
+            $('#rev_daily_max_imp').html($('#daily_max_impression').val());
+            $('#rev_max_budget').html($('#max_budget').val());
+            $('#rev_daily_max_budget').html($('#daily_max_budget').val());
+            $('#rev_frequency_in_sec').html($('#frequency_in_sec').val());
+            $('#rev_cpm').html($('#cpm').val());
+            $('#rev_pacing_plan').html($('#pacing_plan').val());
+            $('#rev_start_date').html($('#startdate').val());
+            $('#rev_end_date').html($('#finishdate').val());
+//            $('#rev_').html($('#name').val());
+
+        }
+        function taggleBWList(type) {
+            if (type == 'blacklist') {
+                jQuery('#assign_whitelist_leftAll').click();
+            }
+            if (type == 'whitelist') {
+                jQuery('#assign_blacklist_leftAll').click();
             }
         }
     </script>
@@ -1855,164 +1169,97 @@
 
 
             pageSetUp();
-
-
-            var $registerForm = $("#smart-form-register").validate({
-
-                // Rules for form validation
-                rules: {
-                    username: {
-                        required: true
-                    },
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    password: {
-                        required: true,
-                        minlength: 3,
-                        maxlength: 20
-                    },
-                    passwordConfirm: {
-                        required: true,
-                        minlength: 3,
-                        maxlength: 20,
-                        equalTo: '#password'
-                    },
-                    firstname: {
-                        required: true
-                    },
-                    lastname: {
-                        required: true
-                    },
-                    gender: {
-                        required: true
-                    },
-                    terms: {
-                        required: true
-                    }
-                },
-
-                // Messages for form validation
-                messages: {
-                    login: {
-                        required: 'Please enter your login'
-                    },
-                    email: {
-                        required: 'Please enter your email address',
-                        email: 'Please enter a VALID email address'
-                    },
-                    password: {
-                        required: 'Please enter your password'
-                    },
-                    passwordConfirm: {
-                        required: 'Please enter your password one more time',
-                        equalTo: 'Please enter the same password as above'
-                    },
-                    firstname: {
-                        required: 'Please select your first name'
-                    },
-                    lastname: {
-                        required: 'Please select your last name'
-                    },
-                    gender: {
-                        required: 'Please select your gender'
-                    },
-                    terms: {
-                        required: 'You must agree with Terms and Conditions'
-                    }
-                },
-
-                // Do not change code below
-                errorPlacement: function (error, element) {
-                    error.insertAfter(element.parent());
+            $('#assign_geolocation').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                }
+            });
+            $('#assign_creative').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
                 }
             });
 
-            // START AND FINISH DATE
-            $('#startdate').datepicker({
-                dateFormat: 'dd.mm.yy',
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                onSelect: function (selectedDate) {
-                    $('#finishdate').datepicker('option', 'minDate', selectedDate);
+            $('#assign_geosegment').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
                 }
             });
 
-            $('#finishdate').datepicker({
-                dateFormat: 'dd.mm.yy',
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                onSelect: function (selectedDate) {
-                    $('#startdate').datepicker('option', 'maxDate', selectedDate);
+            $('#assign_blacklist').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
                 }
             });
 
-            var initializeDuallistbox = $('#initializeDuallistbox').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
+            $('#assign_whitelist').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                }
             });
-            var initializeDuallistbox_blacklist = $('#initializeDuallistbox_blacklist').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
-            });
-            var initializeDuallistbox_whitelist = $('#initializeDuallistbox_whitelist').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
-            });
-            var initializeDuallistbox_creative = $('#initializeDuallistbox_creative').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
-            });
+
 
             var $validator = $("#wizard-1").validate({
 
                 rules: {
-                    email: {
-                        required: true,
-                        email: "Your email address must be in the format of name@domain.com"
-                    },
-                    fname: {
+                    name: {
                         required: true
                     },
-                    lname: {
+                    advertiser_domain_name: {
+                        required: true,
+                        url: "site url like: www.yourdomain.com"
+                    },
+                    iab_sub_category: {
                         required: true
                     },
-                    country: {
+                    max_impression: {
                         required: true
                     },
-                    city: {
+                    daily_max_impression: {
+                        required: true,
+                        number: 'Enter number Plz'
+                    },
+                    max_budget: {
+                        required: true,
+                        number: 'Enter number Plz'
+                    },
+                    daily_max_budget: {
+                        required: true,
+                        minlength: 2,
+                        number: 'Enter number Plz'
+                    },
+                    frequency_in_sec: {
+                        required: true,
+                        minlength: 2,
+                        number: 'Enter number Plz'
+                    },
+                    cpm: {
+                        required: true,
+                        minlength: 2,
+                        number: 'Enter number Plz'
+                    },
+                    pacing_plan: {
+                        required: true,
+                        minlength: 2,
+                        number: 'Enter number Plz'
+                    },
+                    startdate: {
                         required: true
                     },
-                    postal: {
-                        required: true,
-                        minlength: 4
-                    },
-                    wphone: {
-                        required: true,
-                        minlength: 10
-                    },
-                    hphone: {
-                        required: true,
-                        minlength: 10
+                    finishdate: {
+                        required: true
                     }
                 },
 
                 messages: {
                     fname: "Please specify your First name",
                     lname: "Please specify your Last name",
+                    advertiser_domain_name: "Your site must be in the format of http://www.yourdomian.com",
                     email: {
                         required: "We need your email address to contact you",
                         email: "Your email address must be in the format of name@domain.com"
@@ -2051,22 +1298,59 @@
                     }
                 }
             });
+            var initializeDuallistbox = $('#initializeDuallistbox').bootstrapDualListbox({
+                nonSelectedListLabel: 'Non-selected',
+                selectedListLabel: 'Selected',
+                preserveSelectionOnMove: 'moved',
+                moveOnSelect: false,
+                nonSelectedFilter: ''
+            });
+            var initializeDuallistbox_blacklist = $('#initializeDuallistbox_blacklist').bootstrapDualListbox({
+                nonSelectedListLabel: 'Non-selected',
+                selectedListLabel: 'Selected',
+                preserveSelectionOnMove: 'moved',
+                moveOnSelect: false,
+                nonSelectedFilter: ''
+            });
+            var initializeDuallistbox_whitelist = $('#initializeDuallistbox_whitelist').bootstrapDualListbox({
+                nonSelectedListLabel: 'Non-selected',
+                selectedListLabel: 'Selected',
+                preserveSelectionOnMove: 'moved',
+                moveOnSelect: false,
+                nonSelectedFilter: ''
+            });
+            var initializeDuallistbox_creative = $('#initializeDuallistbox_creative').bootstrapDualListbox({
+                nonSelectedListLabel: 'Non-selected',
+                selectedListLabel: 'Selected',
+                preserveSelectionOnMove: 'moved',
+                moveOnSelect: false,
+                nonSelectedFilter: ''
+            });
+            var initializeDuallistbox_geolocation = $('#initializeDuallistbox_geolocation').bootstrapDualListbox({
+                nonSelectedListLabel: 'Non-selected',
+                selectedListLabel: 'Selected',
+                preserveSelectionOnMove: 'moved',
+                moveOnSelect: false,
+                nonSelectedFilter: ''
+            });
 
+            // START AND FINISH DATE
+            $('#startdate').datepicker({
+                dateFormat: 'dd.mm.yy',
+                prevText: '<i class="fa fa-chevron-left"></i>',
+                nextText: '<i class="fa fa-chevron-right"></i>',
+                onSelect: function (selectedDate) {
+                    $('#finishdate').datepicker('option', 'minDate', selectedDate);
+                }
+            });
 
-            // fuelux wizard
-            var wizard = $('.wizard').wizard();
-
-            wizard.on('finished', function (e, data) {
-                //$("#fuelux-wizard").submit();
-                //console.log("submitted!");
-                $.smallBox({
-                    title: "Congratulations! Your form was submitted",
-                    content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-                    color: "#5F895F",
-                    iconSmall: "fa fa-check bounce animated",
-                    timeout: 4000
-                });
-
+            $('#finishdate').datepicker({
+                dateFormat: 'dd.mm.yy',
+                prevText: '<i class="fa fa-chevron-left"></i>',
+                nextText: '<i class="fa fa-chevron-right"></i>',
+                onSelect: function (selectedDate) {
+                    $('#startdate').datepicker('option', 'maxDate', selectedDate);
+                }
             });
 
 

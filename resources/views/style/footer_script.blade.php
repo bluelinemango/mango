@@ -103,6 +103,25 @@
             }
         })
     }
+    $(document).ready(function() {
+        //////////////////////////////SYSTEM MSG//////////////////////////////////////
+        @if(isset($errors))
+        @foreach($errors->get('msg') as $error)
+        $.smallBox({
+            title: "System MSG",
+            content: "{{$error}}",
+            @if($errors->get('success')[0] == true)
+            color: "#739E73",
+            icon: "fa fa-check",
+            @elseif($errors->get('success')[0] == false)
+            color: "#C46A69",
+            icon: "fa fa-bell",
+            @endif
+            timeout: 8000
+        });
+        @endforeach
+        @endif
+        });
 </script>
 
 

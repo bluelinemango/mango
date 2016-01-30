@@ -41,26 +41,11 @@
 
                 <!-- row -->
                 <div class="row">
-                    @if(isset($errors))
-                        @foreach($errors->get('msg') as $error)
-                            <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
-                                <a class="close" data-dismiss="alert" href="#">×</a>
-                                <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> System MSG!</h4>
-                                <p>
-                                    {{$error}}
-                                </p>
-                            </div>
-                        @endforeach
-                    @endif
                                     <!-- NEW WIDGET START -->
                     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
                         <!-- Widget ID (each widget will need unique ID)-->
                         <div class="well">
-                            <header>
-                                <h2>Creative List</h2>
-
-                            </header>
 
                             <!-- widget div-->
                             <div>
@@ -140,13 +125,14 @@
                     id   : 'crt{{$index->id}}',
                     name : '{{$index->name}}',
                     size : '{{$index->size}}',
+                    advertiser: '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
                     @if($index->status == 'Active')
                     status: '<a id="creative{{$index->id}}" href="javascript: ChangeStatus(`creative`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
                     @elseif($index->status == 'Inactive')
                     status: '<a id="creative{{$index->id}}" href="javascript: ChangeStatus(`creative`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
                     @endif
                     date_modify : '{{$index->updated_at}}',
-                    full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/crt'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>'
+                    full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/crt'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>' @if(in_array('ADD_EDIT_CREATIVE',$permission)) +'| <a class="btn bg-color-magenta txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/add')}}">+ Creative</a>'@endif
                 },
                 @endif
                 @endforeach
@@ -156,10 +142,11 @@
                 data : jqgrid_data,
                 datatype : "local",
                 height : 'auto',
-                colNames : ['Actions', 'ID', 'Name','Size','Status','Modify Date','Full Actions'],
+                colNames : ['Actions', 'ID', 'Name','Size','Advertiser','Status','Modify Date','Full Actions'],
                 colModel : [{
                     name : 'act',
                     index : 'act',
+                    width: '100%',
                     sortable : false
                 }, {
                     name : 'id',
@@ -173,12 +160,17 @@
                 }, {
                     name : 'size',
                     index : 'size',
-                    width: '100%',
+                    width: '80%',
                     editable : true
+                }, {
+                    name : 'advertiser',
+                    index : 'advertiser',
+                    width: '100%',
+                    editable : false
                 }, {
                     name : 'status',
                     index : 'status',
-                    width: '105%',
+                    width: '60%',
                     editable : false
                 }, {
                     name : 'date_modify',
@@ -187,7 +179,6 @@
                 }, {
                     name : 'full_edit',
                     index : 'full_edit',
-                    width: '60%',
                     editable : false
                 }],
                 rowNum : 10,

@@ -14,6 +14,15 @@ class Targetgroup extends Model
     public function getGeoSegment(){
         return $this->hasMany('App\Models\Targetgroup_Geosegmentlist_Map');
     }
+    public function getGeoLocation(){
+        return $this->hasMany('App\Models\Targetgroup_Geolocation_Map');
+    }
+    public function getBidhour(){
+        return $this->hasOne('App\Models\Targetgroup_Bidhour_Map');
+    }
+    public function getBidAdvPublisher(){
+        return $this->hasMany('App\Models\Targetgroup_Bid_Advpublisher');
+    }
     public function getBWList(){
         return $this->hasMany('App\Models\Targetgroup_Bwlist_Map');
     }

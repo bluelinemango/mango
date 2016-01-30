@@ -168,7 +168,7 @@ class AdvertiserController extends Controller
         }
     }
     public function edit_advertiser(Request $request){
-//        return dd($request->all());
+//        return dd($request->user());
         if(Auth::check()){
             if (in_array('ADD_EDIT_ADVERTISER', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);

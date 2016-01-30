@@ -23,12 +23,16 @@
     <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/your_style.css')}}">
     <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/demo.min.css')}}">
 
+
     <!-- FAVICONS -->
     <link rel="shortcut icon" href="{{cdn('img/favicon/favicon.ico')}}" type="image/x-icon">
     <link rel="icon" href="{{cdn('img/favicon/favicon.ico')}}" type="image/x-icon">
 
     <!-- GOOGLE FONT -->
     <link rel="stylesheet" href="{{cdn('css/google_font.css')}}">
+
+    <!-- BUTTONS STYLES -->
+    <link rel="stylesheet" type="text/css" href="{{cdn('css/buttons.css')}}" />
 
     <!-- Specifying a Webpage Icon for Web Clip
          Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->

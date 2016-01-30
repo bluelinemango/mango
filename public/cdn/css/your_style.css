@@ -1,29 +1,44 @@
-.bootstrap-tagsinput .label{
-    display: inline-block ;
+.bootstrap-tagsinput .label {
+    display: inline-block;
 }
 
-.btn{
+.btn {
     padding: 2px 9px !important;
 }
 
-.edit_jqgrid{
+.edit_jqgrid {
     padding: 0 5px;
     font-size: 16px;
     color: #001fa9;
     cursor: pointer;
 }
-.save_jqgrid{
+
+.save_jqgrid {
     padding: 0 5px;
     font-size: 16px;
     color: #3ca319;
     cursor: pointer;
 }
-.cancel_jqgrid{
+
+.cancel_jqgrid {
     padding: 0 5px;
     font-size: 16px;
     color: #ff070c;
     cursor: pointer;
 }
-.table-striped>tbody>tr:nth-of-type(odd){
+
+.table-striped > tbody > tr:nth-of-type(odd) {
     background-color: #fcfcfc;
+}
+
+.smart-form .button {
+    background-color:transparent;
+    overflow: hidden;
+    text-decoration: none;
+    color: #000;
+    height: 60px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    width: 100%;
 }

@@ -41,54 +41,17 @@
 
                 <!-- row -->
                 <div class="row">
-                    @if(isset($errors))
-                        @foreach($errors->get('msg') as $error)
-                            <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
-                                <a class="close" data-dismiss="alert" href="#">×</a>
-                                <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> System MSG!</h4>
-                                <p>
-                                    {{$error}}
-                                </p>
-                            </div>
-                            @endforeach
-                            @endif
-
                     <!-- NEW WIDGET START -->
-                    <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
                         <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3" data-widget-editbutton="false">
-                            <!-- widget options:
-                                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                        data-widget-colorbutton="false"
-                                        data-widget-editbutton="false"
-                                        data-widget-togglebutton="false"
-                                        data-widget-deletebutton="false"
-                                        data-widget-fullscreenbutton="false"
-                                        data-widget-custombutton="false"
-                                        data-widget-collapsed="true"
-                                        data-widget-sortable="false"
-
-                                        -->
-                            <header>
-                                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                <h2>Geo Segment List</h2>
-
-                            </header>
-
+                        <div class="well">
                             <!-- widget div-->
                             <div>
 
-                                <!-- widget edit box -->
-                                <div class="jarviswidget-editbox">
-                                    <!-- This area used as dropdown edit box -->
-
-                                </div>
-                                <!-- end widget edit box -->
 
                                 <!-- widget content -->
-                                <div class="widget-body no-padding">
+                                <div class="">
 
 
                                     <!-- widget grid -->
@@ -164,9 +127,9 @@
                     name : '{{$index->name}}',
                     advertiser_name : '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
                     @if(count($index->getGeoEntries)>0)
-                    entreies: '{{$index->getGeoEntries[0]->geosegment_count}}',
+                    entreies: '{{$index->getGeoEntries[0]->geosegment_count}} Advertiser(s)',
                     @else
-                    entreies : '0',
+                    entreies : 'Empty',
                     @endif
                     @if($index->status == 'Active')
                     status: '<a id="geosegment{{$index->id}}" href="javascript: ChangeStatus(`geosegment`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
@@ -174,7 +137,7 @@
                     status: '<a id="geosegment{{$index->id}}" href="javascript: ChangeStatus(`geosegment`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
                     @endif
                     date_modify : '{{$index->updated_at}}',
-                    full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/gsm'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>'
+                    full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/gsm'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) +'| <a class="btn bg-color-magenta txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/add')}}">+ Geo Segment List</a>'@endif
                 },
                 @endif
                 @endforeach
@@ -211,16 +174,16 @@
                 }, {
                     name : 'status',
                     index : 'status',
-                    width: '60%',
+                    width: '50%',
                     editable : false
                 }, {
                     name : 'date_modify',
                     index : 'date_modify',
+                    width: '105%',
                     editable : false
                 }, {
                     name : 'full_edit',
                     index : 'full_edit',
-                    width: '70%',
                     editable : false
                 }],
                 rowNum : 10,

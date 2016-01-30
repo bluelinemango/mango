@@ -524,21 +524,28 @@
                                                                                                      class="panel-collapse collapse in">
                                                                                                     <div class="panel-body">
                                                                                                         <!-- widget content -->
-                                                                                                        <div class="widget-body"
-                                                                                                             id="blacklist_select">
+                                                                                                        <div style="margin: 20px 0;">
+                                                                                                            <div class="col-xs-5">
+                                                                                                                <select name="from_blacklist[]" id="assign_blacklist" class="form-control" size="8" multiple="multiple">
+                                                                                                                    @foreach($campaign_obj->getAdvertiser->BWList as $index)
+                                                                                                                        @if($index->list_type == 'black')
+                                                                                                                            <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                                        @endif
+                                                                                                                    @endforeach
+                                                                                                                </select>
+                                                                                                            </div>
 
-                                                                                                            <select multiple="multiple"
-                                                                                                                    size="10"
-                                                                                                                    name="blacklist[]"
-                                                                                                                    id="initializeDuallistbox_blacklist">
+                                                                                                            <div class="col-xs-2">
+                                                                                                                <button type="button" id="assign_blacklist_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                                                                                <button type="button" id="assign_blacklist_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                                                                                <button type="button" id="assign_blacklist_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                                                                                <button type="button" id="assign_blacklist_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                                                                            </div>
 
-                                                                                                                @foreach($campaign_obj->getAdvertiser->BWList as $index)
-                                                                                                                    @if($index->list_type == 'black')
-                                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
-                                                                                                                    @endif
-                                                                                                                @endforeach
-                                                                                                            </select>
-
+                                                                                                            <div class="col-xs-5">
+                                                                                                                <select name="to_blacklist[]" id="assign_blacklist_to" class="form-control" size="8" multiple="multiple"></select>
+                                                                                                            </div>
+                                                                                                            <div class="clearfix"></div>
                                                                                                         </div>
                                                                                                         <!-- end widget content -->
                                                                                                     </div>
@@ -565,21 +572,28 @@
                                                                                                      class="panel-collapse collapse">
                                                                                                     <div class="panel-body">
                                                                                                         <!-- widget content -->
-                                                                                                        <div class="widget-body"
-                                                                                                             id="whitelist_select">
+                                                                                                        <div style="margin: 20px 0;">
+                                                                                                            <div class="col-xs-5">
+                                                                                                                <select name="from_whitelist[]" id="assign_whitelist" class="form-control" size="8" multiple="multiple">
+                                                                                                                    @foreach($campaign_obj->getAdvertiser->BWList as $index)
+                                                                                                                        @if($index->list_type == 'white')
+                                                                                                                            <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                                        @endif
+                                                                                                                    @endforeach
+                                                                                                                </select>
+                                                                                                            </div>
 
-                                                                                                            <select multiple="multiple"
-                                                                                                                    size="10"
-                                                                                                                    name="whitelist[]"
-                                                                                                                    id="initializeDuallistbox_whitelist">
+                                                                                                            <div class="col-xs-2">
+                                                                                                                <button type="button" id="assign_whitelist_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                                                                                <button type="button" id="assign_whitelist_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                                                                                <button type="button" id="assign_whitelist_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                                                                                <button type="button" id="assign_whitelist_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                                                                            </div>
 
-                                                                                                                @foreach($campaign_obj->getAdvertiser->BWList as $index)
-                                                                                                                    @if($index->list_type == 'white')
-                                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
-                                                                                                                    @endif
-                                                                                                                @endforeach
-                                                                                                            </select>
-
+                                                                                                            <div class="col-xs-5">
+                                                                                                                <select name="to_whitelist[]" id="assign_whitelist_to" class="form-control" size="8" multiple="multiple"></select>
+                                                                                                            </div>
+                                                                                                            <div class="clearfix"></div>
                                                                                                         </div>
                                                                                                         <!-- end widget content -->
                                                                                                     </div>
@@ -1008,14 +1022,14 @@
             $('#assign_creative_to').find('option').each(function () {
                 $('#rev_assign_creative').append($(this).html() + '<br>');
             });
-            if ($('#selected-list_blacklist').find('option').length > 0) {
+            if ($('#assign_blacklist_to').find('option').length > 0) {
                 $('#rev_bwlist').html('(Black List)');
-                $('#selected-list_blacklist').find('option').each(function () {
+                $('#assign_blacklist_to').find('option').each(function () {
                     $('#rev_assign_bwlist').append($(this).html() + '<br>');
                 });
-            } else if ($('#selected-list_whitelist').find('option').length > 0) {
+            } else if ($('#assign_whitelist_to').find('option').length > 0) {
                 $('#rev_bwlist').html('(White List)');
-                $('#selected-list_whitelist').find('option').each(function () {
+                $('#assign_whitelist_to').find('option').each(function () {
                     $('#rev_assign_bwlist').append($(this).html() + '<br>');
                 });
 
@@ -1043,10 +1057,11 @@
         }
         function taggleBWList(type) {
             if (type == 'blacklist') {
-                jQuery('#whitelist_select .removeall').click();
+
+                jQuery('#assign_whitelist_leftAll').click();
             }
             if (type == 'whitelist') {
-                jQuery('#blacklist_select .removeall').click();
+                jQuery('#assign_blacklist_leftAll').click();
             }
         }
     </script>
@@ -1069,6 +1084,19 @@
             });
 
             $('#assign_geosegment').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                }
+            });
+
+            $('#assign_blacklist').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                }
+            });
+            $('#assign_whitelist').multiselect({
                 search: {
                     left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
                     right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
@@ -1169,41 +1197,6 @@
                                 .html('<i class="fa fa-check"></i>');
                     }
                 }
-            });
-            var initializeDuallistbox = $('#initializeDuallistbox').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
-            });
-            var initializeDuallistbox_blacklist = $('#initializeDuallistbox_blacklist').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
-            });
-            var initializeDuallistbox_whitelist = $('#initializeDuallistbox_whitelist').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
-            });
-            var initializeDuallistbox_creative = $('#initializeDuallistbox_creative').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
-            });
-            var initializeDuallistbox_geolocation = $('#initializeDuallistbox_geolocation').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
             });
 
             // START AND FINISH DATE

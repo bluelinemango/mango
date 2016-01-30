@@ -38,17 +38,6 @@
         <!-- END RIBBON -->
         <!-- MAIN CONTENT -->
         <div id="content">
-            @if(isset($errors))
-                @foreach($errors->get('msg') as $error)
-                    <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
-                        <a class="close" data-dismiss="alert" href="#">×</a>
-                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
-                        <p>
-                            {{$error}}
-                        </p>
-                    </div>
-                @endforeach
-            @endif
             @if(Session::has('CaptchaError'))
                 <ul>
                     <li>{{Session::get('CaptchaError')}}</li>
@@ -80,30 +69,34 @@
                                                 General Information
                                             </header>
 
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col col-2">
-                                                        <label class="label" for=""> Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="name" placeholder="Name">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Advertiser Name</label>
-                                                        <label class="input">
-                                                            <h6>{{$advertiser_obj->name}}</h6>
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Client Name</label>
-                                                        <label class="input">
-                                                            <h6>{{$advertiser_obj->GetClientID->name}}</h6>
-                                                        </label>
-                                                    </section>
+                                            <div class="well col-md-12">
+                                                <fieldset>
+                                                    <div class="row">
+                                                        <section class="col col-2">
+                                                            <label class="label" for=""> Name</label>
+                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                                <input type="text" name="name" placeholder="Name">
+                                                            </label>
+                                                        </section>
+                                                        <section class="col col-2">
+                                                            <label class="label" for="">Advertiser Name</label>
+                                                            <label class="input">
+                                                                <h6>{{$advertiser_obj->name}}</h6>
+                                                            </label>
+                                                        </section>
+                                                        <section class="col col-2">
+                                                            <label class="label" for="">Client Name</label>
+                                                            <label class="input">
+                                                                <h6>{{$advertiser_obj->GetClientID->name}}</h6>
+                                                            </label>
+                                                        </section>
 
 
-                                                </div>
-                                            </fieldset>
+                                                    </div>
+                                                </fieldset>
+
+                                            </div>
+                                            <div class="clearfix"></div>
                                             <footer>
                                                 <button type="submit" class="btn btn-success">
                                                     Submit

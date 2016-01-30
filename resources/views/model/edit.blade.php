@@ -29,17 +29,6 @@
         <!-- END RIBBON -->
         <!-- MAIN CONTENT -->
         <div id="content">
-            @if(isset($errors))
-                @foreach($errors->get('msg') as $error)
-                    <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
-                        <a class="close" data-dismiss="alert" href="#">×</a>
-                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
-                        <p>
-                            {{$error}}
-                        </p>
-                    </div>
-                @endforeach
-            @endif
             @if(Session::has('CaptchaError'))
                 <ul>
                     <li>{{Session::get('CaptchaError')}}</li>
@@ -300,7 +289,7 @@
                                             </div>
                                                 <div class="clearfix"></div>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="well col-md-12">
                                                 <fieldset>
                                                     <section class="col col-4">
                                                         <label class="label">Description </label>
@@ -315,9 +304,14 @@
                                             </div>
                                             <div class="clearfix"></div>
                                             <footer>
-                                                <button type="submit" class="btn btn-success">
-                                                    Submit
-                                                </button>
+                                                <div class="row">
+                                                    <div class="col-md-5 col-md-offset-3">
+                                                        <button type="submit"
+                                                                class=" button button--antiman button--round-l button--text-medium">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </footer>
                                         </form>
                                     </div>

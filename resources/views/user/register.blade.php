@@ -37,17 +37,6 @@
         <!-- END RIBBON -->
         <!-- MAIN CONTENT -->
         <div id="content">
-            @if(isset($errors))
-                @foreach($errors->get('msg') as $error)
-                    <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
-                        <a class="close" data-dismiss="alert" href="#">×</a>
-                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
-                        <p>
-                            {{$error}}
-                        </p>
-                    </div>
-                @endforeach
-            @endif
             @if(Session::has('CaptchaError'))
                 <ul>
                     <li>{{Session::get('CaptchaError')}}</li>
@@ -77,9 +66,9 @@
                                                 General Information
                                             </header>
 
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col col-3">
+                                            <div class="well col-md-12">
+                                                <fieldset>
+                                                    <section class="col col-2">
                                                         <label for="" class="label">Name</label>
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
                                                             <input type="text" name="name" placeholder="Name">
@@ -91,73 +80,82 @@
                                                             <input type="text" name="email" placeholder="Email Address">
                                                         </label>
                                                     </section>
-                                                    <section class="col col-3">
+                                                    <section class="col col-2">
                                                         <label for="" class="label">Password</label>
                                                         <label class="input"><i class="icon-append fa fa-briefcase"></i>
                                                             <input type="password" name="password">
                                                         </label>
                                                     </section>
-                                                </div>
+                                                </fieldset>
 
+                                            </div>
+                                            <div class="well col-md-12">
+                                                <fieldset>
+                                                        <section class="col col-2">
+                                                            <label for="" class="label">Select Role</label>
+                                                            <label class="select"><i></i>
+                                                                <select name="role_group">
+                                                                    <option value="0" disabled>Select One</option>
+                                                                    @foreach($role_obj as $index)
+                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </label>
+                                                        </section>
+                                                        @if(\Illuminate\Support\Facades\Auth::user()->role_id==1)
+                                                            <section class="col col-2">
+                                                                <label for="" class="label">Select Comapny</label>
+                                                                <label class="select"><i></i>
+                                                                    <select name="company_group">
+                                                                        <option value="0" disabled>Select One</option>
+                                                                        @foreach($company_obj as $index)
+                                                                            <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </label>
+                                                            </section>
+                                                        @else
+                                                            <section class="col col-2">
+                                                                <label for="" class="label">Select Comapny</label>
+                                                                <label class="input"><i></i>
+                                                                    <input type="text" value="{{$company_obj->getCompany->name}}" disabled/>
+                                                                </label>
+                                                                <input type="hidden" name="company_group" value="{{$company_obj->getCompany->id}}"/>
+                                                            </section>
 
-                                            </fieldset>
+                                                        @endif
+                                                        <section class="col col-2">
+                                                            <label for="" class="label">Status</label>
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" name="active">
+                                                                <i></i>Active
+                                                            </label>
+                                                        </section>
 
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col col-3">
-                                                        <label for="" class="label">Select Role</label>
-                                                        <label class="select"><i></i>
-                                                            <select name="role_group">
-                                                                <option value="0" disabled>Select One</option>
-                                                                @foreach($role_obj as $index)
-                                                                    <option value="{{$index->id}}">{{$index->name}}</option>
-                                                                @endforeach
-                                                            </select>
+                                                </fieldset>
+
+                                            </div>
+                                            <div class="well col-md-12">
+                                                <fieldset>
+                                                    <section class="col col-4">
+                                                        <label for="" class="label">Description</label>
+                                                        <label class="textarea"> <i class="icon-append fa fa-comment"></i>
+                                                            <textarea rows="5" name="description" placeholder="Tell us about your advertiser"></textarea>
                                                         </label>
                                                     </section>
-                                                    @if(\Illuminate\Support\Facades\Auth::user()->role_id==1)
-                                                    <section class="col col-3">
-                                                        <label for="" class="label">Select Comapny</label>
-                                                        <label class="select"><i></i>
-                                                            <select name="company_group">
-                                                                <option value="0" disabled>Select One</option>
-                                                                @foreach($company_obj as $index)
-                                                                    <option value="{{$index->id}}">{{$index->name}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </label>
-                                                    </section>
-                                                    @else
-                                                    <section class="col col-3">
-                                                        <label for="" class="label">Select Comapny</label>
-                                                        <label class="input"><i></i>
-                                                            <input type="text" value="{{$company_obj->getCompany->name}}" disabled/>
-                                                        </label>
-                                                        <input type="hidden" name="company_group" value="{{$company_obj->getCompany->id}}"/>
-                                                    </section>
+                                                </fieldset>
 
-                                                    @endif
-                                                    <section class="col col-3">
-                                                        <label for="" class="label">status</label>
-                                                        <label class="checkbox">
-                                                            <input type="checkbox" name="active">
-                                                            <i></i>Active Status
-                                                        </label>
-                                                    </section>
-
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <section>
-                                                    <label class="textarea"> <i class="icon-append fa fa-comment"></i>
-                                                        <textarea rows="5" name="description" placeholder="Tell us about your advertiser"></textarea>
-                                                    </label>
-                                                </section>
-                                            </fieldset>
+                                            </div>
+                                            <div class="clearfix"></div>
                                             <footer>
-                                                <button type="submit" class="btn btn-success">
-                                                    Submit
-                                                </button>
+                                                <div class="row">
+                                                    <div class="col-md-5 col-md-offset-3">
+                                                        <button type="submit"
+                                                                class=" button button--antiman button--round-l button--text-medium">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </footer>
                                         </form>
                                     </div>

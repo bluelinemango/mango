@@ -29,34 +29,11 @@
             </ol>
             <!-- end breadcrumb -->
 
-            <!-- You can also add more buttons to the
-            ribbon for further usability
-
-            Example below:
-                        <span class="ribbon-button-alignment pull-right">
-            <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-            <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-            <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-            </span>
-
- -->
 
         </div>
         <!-- END RIBBON -->
         <!-- MAIN CONTENT -->
         <div id="content">
-            @if(isset($errors))
-                @foreach($errors->get('msg') as $error)
-                    <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
-                        <a class="close" data-dismiss="alert" href="#">×</a>
-                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
-
-                        <p>
-                            {{$error}}
-                        </p>
-                    </div>
-                @endforeach
-            @endif
             @if(Session::has('CaptchaError'))
                 <ul>
                     <li>{{Session::get('CaptchaError')}}</li>
@@ -93,7 +70,7 @@
                                             <header>
                                                 General Information
                                             </header>
-                                            <div class="col-md-12">
+                                            <div class="well col-md-12">
                                                 <fieldset>
                                                     <section class="col col-2">
                                                         <label class="label" for="">Name (required)</label>
@@ -123,8 +100,6 @@
                                                     </section>
 
                                                 </fieldset>
-                                            </div>
-                                            <div class="col-md-12">
                                                 <fieldset>
                                                     <section class="col col-2">
                                                         <label class="label" for="">Domain Name</label>
@@ -141,7 +116,7 @@
                                             <header>
                                                 Budget Information
                                             </header>
-                                            <div class="col-md-6">
+                                            <div class="well col-md-6">
                                                 <fieldset>
                                                     <section class="col col-5">
                                                         <label class="label" for="">Max Impression</label>
@@ -161,7 +136,7 @@
                                                     </section>
                                                 </fieldset>
                                             </div>
-                                            <div class="col-md-6 ">
+                                            <div class="well col-md-6 ">
                                                 <fieldset>
                                                     <section class="col col-5">
                                                         <label class="label" for="">Max Budget</label>
@@ -182,10 +157,10 @@
                                                 </fieldset>
                                             </div>
                                             <div class="clearfix"></div>
-                                            <div class="col-md-12">
+                                            <div class="well col-md-6">
 
                                                 <fieldset>
-                                                    <section class="col col-2">
+                                                    <section class="col col-4">
                                                         <label class="label" for="">cpm</label>
                                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
                                                             <input type="text" name="cpm" placeholder="CPM"
@@ -194,10 +169,11 @@
                                                     </section>
                                                 </fieldset>
                                             </div>
+                                            <div class="clearfix"></div>
                                             <header>
                                                 Date Rang
                                             </header>
-                                            <div class="col-md-6">
+                                            <div class="well col-md-6">
                                                 <fieldset>
                                                     <div class="row">
                                                         <section class="col col-4">
@@ -223,9 +199,9 @@
                                                 </fieldset>
                                             </div>
                                             <div class="clearfix"></div>
-                                            <div class="col-md-12">
+                                            <div class="well col-md-12">
                                             <fieldset>
-                                                <section>
+                                                <section class="col col-4">
                                                     <label class="label" for="">Description</label>
                                                     <label class="textarea"> <i class="icon-append fa fa-comment"></i>
                                                         <textarea rows="5" name="description"
@@ -234,16 +210,25 @@
                                                 </section>
                                             </fieldset>
                                             </div>
+                                            <div class="clearfix"></div>
                                             <footer>
-                                                <button type="submit" class="btn btn-success">
-                                                    Submit
-                                                </button>
-                                                @if(in_array('ADD_EDIT_TARGETGROUP',$permission))
-                                                    <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/campaign/cmp'.$campaign_obj->id.'/targetgroup/add')}}"
-                                                       class=" btn btn-primary pull-left">
-                                                        Add Target Group
-                                                    </a>
-                                                @endif
+                                                <div class="row">
+                                                    <div class="col-md-5 col-md-offset-3">
+                                                        <button type="submit"
+                                                                class=" button button--antiman button--round-l button--text-medium">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-md-3 pull-right ">
+                                                        @if(in_array('ADD_EDIT_TARGETGROUP',$permission))
+                                                            <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/campaign/cmp'.$campaign_obj->id.'/targetgroup/add')}}"
+                                                               class=" btn btn-primary pull-right">
+                                                                Add Target Group
+                                                            </a>
+                                                        @endif
+
+                                                    </div>
+                                                </div>
                                             </footer>
                                         </form>
                                     </div>
