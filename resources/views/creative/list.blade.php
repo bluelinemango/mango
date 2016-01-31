@@ -48,22 +48,18 @@
                         <div class="well">
 
                             <!-- widget div-->
-                            <div>
                                 <!-- widget content -->
-                                <div class="">
 
                                     <!-- widget grid -->
-                                    <section id="widget-grid" class="">
 
                                         <!-- row -->
                                         <div class="row">
 
                                             <!-- NEW WIDGET START -->
-                                            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
                                                 <table id="jqgrid"></table>
                                                 <div id="pjqgrid"></div>
-
                                             </div>
                                             <!-- WIDGET END -->
 
@@ -71,13 +67,9 @@
 
                                         <!-- end row -->
 
-                                    </section>
                                     <!-- end widget grid -->
 
-                                </div>
                                 <!-- end widget content -->
-
-                            </div>
                             <!-- end widget div -->
 
                         </div>

@@ -69,22 +69,22 @@
                                                 General Information
                                             </header>
 
-                                            <div class="well col-md-12">
+                                            <div class="well col-md-6">
                                                 <fieldset>
                                                     <div class="row">
-                                                        <section class="col col-2">
+                                                        <section class="col col-3">
                                                             <label class="label" for=""> Name</label>
                                                             <label class="input"> <i class="icon-append fa fa-user"></i>
                                                                 <input type="text" name="name" placeholder="Name">
                                                             </label>
                                                         </section>
-                                                        <section class="col col-2">
+                                                        <section class="col col-3">
                                                             <label class="label" for="">Advertiser Name</label>
                                                             <label class="input">
                                                                 <h6>{{$advertiser_obj->name}}</h6>
                                                             </label>
                                                         </section>
-                                                        <section class="col col-2">
+                                                        <section class="col col-3">
                                                             <label class="label" for="">Client Name</label>
                                                             <label class="input">
                                                                 <h6>{{$advertiser_obj->GetClientID->name}}</h6>
@@ -98,9 +98,14 @@
                                             </div>
                                             <div class="clearfix"></div>
                                             <footer>
-                                                <button type="submit" class="btn btn-success">
-                                                    Submit
-                                                </button>
+                                                <div class="row">
+                                                    <div class="col-md-5 col-md-offset-3">
+                                                        <button type="submit"
+                                                                class=" button button--antiman button--round-l button--text-medium">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </footer>
                                         </form>
                                     </div>

@@ -542,10 +542,10 @@
                 if(client.val()==id){
                     client.val('');
                     advertiser.val('');
+                    creative.val('');
+                    geosegment.val('');
                     campaign.val('');
                     targetgroup.val('');
-                    geosegment.val('');
-                    creative.val('');
                     type='client_unfilter'
                 }else if(client.val()=='' && (advertiser.val()!='' || campaign.val()!='' || targetgroup.val()!='' || geosegment.val()!='' || creative.val()!='')){
                     client.val(id);
@@ -559,11 +559,6 @@
                     geosegment.val('');
                     creative.val('');
                     client.val(id);
-//                    $('#client_list').find('a').removeClass();
-//                    $('#cln' + id).addClass('report-selected');
-//                    $('#cln' + id).parents('tr').addClass('report-selected');
-//                    $('#client_list').find('tr:not(.report-selected)').hide();
-//                    $.each(response[1], function () {
                 }
             }
             if(type=='close_entity'){
@@ -863,6 +858,7 @@
                             $('#targetgroup_list').dataTable().fnAddData(data);
                         }
                     }
+
                     if (response[0] == 'client_unfilter') {
                         $('#client_list').dataTable().fnClearTable();
                         $('#advertiser_list').dataTable().fnClearTable();
@@ -957,6 +953,7 @@
                         }
 
                     }
+
                     if (response[0] == 'unfilter') {
                         if (response[1].length > 0) {
                             $('#client_list').dataTable().fnClearTable();
@@ -1049,6 +1046,7 @@
                             $('#targetgroup_list').dataTable().fnAddData(data);
                         }
                     }
+
                     if (response[0] == 'campaign_unfilter') {
                         $('#campaign_list').dataTable().fnClearTable();
                         $('#targetgroup_list').dataTable().fnClearTable();
@@ -1108,6 +1106,7 @@
                             $('#creative_list').dataTable().fnAddData(data);
                         }
                     }
+
                     if (response[0] == 'geosegment_unfilter') {
                         $('#geosegment_list').dataTable().fnClearTable();
                         if (response[1].length > 0) {
@@ -1346,8 +1345,8 @@
                                 $('#targetgroup_list').dataTable().fnAddData(data);
                             }
                         }
-
                     }
+
                     if (response[0] == 'targetgroup') {
                         $('#targetgroup_list').dataTable().fnClearTable();
                         if(client.val()=='') {
@@ -1451,6 +1450,7 @@
                         }
 
                     }
+
                     if (response[0] == 'creative') {
                         $('#creative_list').dataTable().fnClearTable();
                         if(client.val()=='') {
@@ -1553,6 +1553,7 @@
                             }
                         }
                     }
+
                     if (response[0] == 'geosegment') {
                         $('#geosegment_list').dataTable().fnClearTable();
                         if(client.val()=='') {
@@ -1656,6 +1657,7 @@
                         }
 
                     }
+
                     if (response[0] == 'advertiser') {
                         $('#advertiser_list').dataTable().fnClearTable();
                         $('#campaign_list').dataTable().fnClearTable();
@@ -1750,98 +1752,45 @@
                             $('#targetgroup_list').dataTable().fnAddData(data);
                         }
                     }
-                    if(response[0] == 'report_type'){
-                        if (response[1].length > 15) {
-                            function data_temp1() {
-                                return response[1];
-                            }
-                            g1 = new Dygraph(document.getElementById("impression"), data_temp1, {
-                                customBars : true,
-                                ylabel : 'Impression',
-                                legend : 'always',
-                                labelsDivStyles : {
-                                    'textAlign' : 'right'
-                                },
-                                showRangeSelector : true
-                            });
-                        }else{
 
-                        }
-                        if (response[2].length > 15) {
-                            function data_temp2() {
-                                return response[2];
-                            }
-                            g2 = new Dygraph(document.getElementById("click"), data_temp2, {
-                                customBars : true,
-                                title : '',
-                                ylabel : 'Click',
-                                legend : 'always',
-                                labelsDivStyles : {
-                                    'textAlign' : 'right'
-                                },
-                                showRangeSelector : true
-                            });
-                        }
-                        if (response[3].length > 15) {
-                            function data_temp3() {
-                                return response[3];
-                            }
-                            g3 = new Dygraph(document.getElementById("conversion"), data_temp3, {
-                                customBars : true,
-                                title : '',
-                                ylabel : 'conversion',
-                                legend : 'always',
-                                labelsDivStyles : {
-                                    'textAlign' : 'right'
-                                },
-                                showRangeSelector : true
-                            });
-                        }
+                    function Imps_chart() {
+                        return response[7];
+                    }
+                    g1 = new Dygraph(document.getElementById("impression"), Imps_chart, {
+                        customBars : true,
+                        ylabel : 'Impression',
+                        legend : 'always',
+                        labelsDivStyles : {
+                            'textAlign' : 'right'
+                        },
+                        showRangeSelector : true
+                    });
 
+                    function Click_chart() {
+                        return response[8];
                     }
+                    g2 = new Dygraph(document.getElementById("click"), Click_chart, {
+                        customBars : true,
+                        ylabel : 'Click',
+                        legend : 'always',
+                        labelsDivStyles : {
+                            'textAlign' : 'right'
+                        },
+                        showRangeSelector : true
+                    });
 
-                    if (response[7].length > 15) {
-                        function data_temp7() {
-                            return response[7];
-                        }
-                        g1 = new Dygraph(document.getElementById("impression"), data_temp7, {
-                            customBars : true,
-                            ylabel : 'Impression',
-                            legend : 'always',
-                            labelsDivStyles : {
-                                'textAlign' : 'right'
-                            },
-                            showRangeSelector : true
-                        });
+                    function Conversions_chart() {
+                        return response[9];
                     }
-                    if (response[8].length > 15) {
-                        function data_temp8() {
-                            return response[8];
-                        }
-                        g1 = new Dygraph(document.getElementById("impression"), data_temp8, {
-                            customBars : true,
-                            ylabel : 'Impression',
-                            legend : 'always',
-                            labelsDivStyles : {
-                                'textAlign' : 'right'
-                            },
-                            showRangeSelector : true
-                        });
-                    }
-                    if (response[9].length > 15) {
-                        function data_temp9() {
-                            return response[9];
-                        }
-                        g1 = new Dygraph(document.getElementById("impression"), data_temp9, {
-                            customBars : true,
-                            ylabel : 'Impression',
-                            legend : 'always',
-                            labelsDivStyles : {
-                                'textAlign' : 'right'
-                            },
-                            showRangeSelector : true
-                        });
-                    }
+                    g3 = new Dygraph(document.getElementById("conversion"), Conversions_chart, {
+                        customBars : true,
+                        ylabel : 'Conversion',
+                        legend : 'always',
+                        labelsDivStyles : {
+                            'textAlign' : 'right'
+                        },
+                        showRangeSelector : true
+                    });
 
 //                var cb = '';
 //                var data = jQuery.parseJSON(response);
@@ -1984,17 +1933,10 @@
                 }
             });
 
-
-
-
-
-
-
-
             $( ".glyphicon-search" ).parent().css( "display", "none" );
             /* END BASIC */
             // START AND FINISH DATE
-            g3 = new Dygraph(document.getElementById("conversion"), data_temp, {
+            g3 = new Dygraph(document.getElementById("conversion"), conversions, {
                 customBars : true,
                 ylabel : 'conversion',
                 legend : 'always',
@@ -2003,7 +1945,7 @@
                 },
                 showRangeSelector : true
             });
-            g2 = new Dygraph(document.getElementById("click"), data_temp, {
+            g2 = new Dygraph(document.getElementById("click"), clicks, {
                 customBars : true,
                 ylabel : 'click',
                 legend : 'always',
@@ -2012,7 +1954,7 @@
                 },
                 showRangeSelector : true
             });
-            g1 = new Dygraph(document.getElementById("impression"), data_temp, {
+            g1 = new Dygraph(document.getElementById("impression"), imps, {
                 customBars : true,
                 ylabel : 'Impression',
                 legend : 'always',

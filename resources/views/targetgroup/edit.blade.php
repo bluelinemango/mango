@@ -136,6 +136,7 @@
 
                                                                                                     <input type="text"
                                                                                                            name="name"
+                                                                                                           id="name"
                                                                                                            value="{{$targetgroup_obj->name}}"
                                                                                                            placeholder="Name">
                                                                                                 </label>
@@ -194,7 +195,7 @@
                                                                                                 <div class="form-group">
                                                                                                     <select name="iab_category"
                                                                                                             class="form-control "
-                                                                                                            id=""
+                                                                                                            id="iab_category"
                                                                                                             onchange="ShowSubCategory(this.value)">
                                                                                                         <option value="0"
                                                                                                                 disabled>
@@ -823,7 +824,7 @@
                                                                                                         {{$index->getPublisher->name}}
                                                                                                     </td>
                                                                                                     <td>
-                                                                                                        <input type="text" class="form-control" value="{{$index->bid_price}}"/>
+                                                                                                        <input type="text" name="{{$index->getPublisher->id}}-bid" class="form-control" value="{{$index->bid_price}}"/>
                                                                                                     </td>
                                                                                                 </tr>
                                                                                             @endforeach
@@ -1115,6 +1116,7 @@
             });
         }
         function setReview() {
+            $('#rev_assign_geolocation').html('');
             $('#rev_assign_creative').html('');
             $('#rev_assign_bwlist').html('');
             $('#rev_assign_geosegment').html('');
@@ -1142,7 +1144,7 @@
             });
             console.log($('#initializeDuallistbox'));
             $('#rev_name').html($('#name').val());
-            $('#rev_domain_name').html($('#nameadvertiser_domain_name').val());
+            $('#rev_domain_name').html($('#advertiser_domain_name').val());
             $('#rev_max_imp').html($('#max_impression').val());
             $('#rev_daily_max_imp').html($('#daily_max_impression').val());
             $('#rev_max_budget').html($('#max_budget').val());

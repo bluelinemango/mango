@@ -339,10 +339,36 @@ class TargetgroupController extends Controller
                         $data=array();
                         $audit=new AuditsController();
                         $audit_key=$audit->generateRandomString();
-                        if($targetgroup->start_date != $request->input('start_date')){
+
+                        $bid_hour = '';
+                        for ($i = 0; $i < 7; $i++) {
+                            for ($j = 0; $j < 24; $j++) {
+                                if ($j < 12) {
+                                    if (!is_null($request->input($i . '-' . $j . '-am'))) {
+                                        $bid_hour1[$j] = "1";
+                                    } else {
+                                        $bid_hour1[$j] = "0";
+                                    }
+                                } else {
+                                    if (!is_null($request->input($i . '-' . ($j - 12) . '-pm'))) {
+                                        $bid_hour1[$j] = "1";
+                                    } else {
+                                        $bid_hour1[$j] = "0";
+                                    }
+                                }
+                            }
+                            $bid_hour[$i + 1] = $bid_hour1;
+                        }
+
+                        $target_bid_hour = Targetgroup_Bidhour_Map::where('targetgroup_id',$targetgroup_id)->first();
+                        $target_bid_hour->hours = json_encode($bid_hour);
+                        $target_bid_hour->save();
+
+//                        return dd($request->input('startdate'));
+                        if($targetgroup->start_date != $request->input('startdate')){
                             $start_date = \DateTime::createFromFormat('m.d.Y', $request->input('startdate'));
                         }
-                        if($targetgroup->start_date != $request->input('start_date')){
+                        if($targetgroup->end_date != $request->input('finishdate')){
                             $end_date = \DateTime::createFromFormat('m.d.Y', $request->input('finishdate'));
                         }
                         if($targetgroup->name != $request->input('name')){
@@ -462,11 +488,33 @@ class TargetgroupController extends Controller
                             foreach ($geoSegment_map as $index) {
                                 if (!in_array($index->geosegmentlist_id, $request->input('to_geosegment'))) {
                                     Targetgroup_Geosegmentlist_Map::where('targetgroup_id',$targetgroup_id)->where('geosegmentlist_id',$index->geosegmentlist_id)->delete();
-                                    $audit->store('targetgroup_geosegment_map', $index, $targetgroup_id, 'remove', $audit_key);
+                                    $audit->store('targetgroup_geosegment_map', $index->geosegment_id, $targetgroup_id, 'remove', $audit_key);
                                 }
                             }
                         }
 
+                        $map=Targetgroup_Geolocation_Map::where('targetgroup_id', $targetgroup_id)->get();
+                        $mapArr=array();
+                        foreach($map as $index){
+                            array_push($mapArr,$index->geolocation_id);
+                        }
+                        if ($request->has('to_geolocation')) {
+                            foreach ($request->input('to_geolocation') as $index) {
+                                if (!in_array($index, $mapArr)) {
+                                    $geolocation_assign = new Targetgroup_Geolocation_Map();
+                                    $geolocation_assign->targetgroup_id = $targetgroup->id;
+                                    $geolocation_assign->geolocation_id = $index;
+                                    $geolocation_assign->save();
+                                    $audit->store('targetgroup_geolocation_map', $index, $targetgroup_id, 'add', $audit_key);
+                                }
+                            }
+                            foreach ($map as $index) {
+                                if (!in_array($index->geolocation_id, $request->input('to_geolocation'))) {
+                                    Targetgroup_Geolocation_Map::where('targetgroup_id',$targetgroup_id)->where('geolocation_id',$index->geolocation_id)->delete();
+                                    $audit->store('targetgroup_geolocation_map', $index->geolocation_id, $targetgroup_id, 'remove', $audit_key);
+                                }
+                            }
+                        }
 
 
                         $map=Targetgroup_Creative_Map::where('targetgroup_id', $targetgroup_id)->get();
@@ -476,7 +524,7 @@ class TargetgroupController extends Controller
                         }
                         if ($request->has('to_creative')) {
                             foreach ($request->input('to_creative') as $index) {
-                                if (!in_array($index, $geoSegArr)) {
+                                if (!in_array($index, $mapArr)) {
                                     $creative_assign = new Targetgroup_Creative_Map();
                                     $creative_assign->targetgroup_id = $targetgroup->id;
                                     $creative_assign->creative_id = $index;
@@ -487,7 +535,7 @@ class TargetgroupController extends Controller
                             foreach ($map as $index) {
                                 if (!in_array($index->creative_id, $request->input('to_creative'))) {
                                     Targetgroup_Creative_Map::where('targetgroup_id',$targetgroup_id)->where('creative_id',$index->creative_id)->delete();
-                                    $audit->store('targetgroup_creative_map', $index, $targetgroup_id, 'remove', $audit_key);
+                                    $audit->store('targetgroup_creative_map', $index->creative_id, $targetgroup_id, 'remove', $audit_key);
                                 }
                             }
                         }
@@ -496,11 +544,11 @@ class TargetgroupController extends Controller
                         $map=Targetgroup_Bwlist_Map::where('targetgroup_id', $targetgroup_id)->get();
                         $mapArr=array();
                         foreach($map as $index){
-                            array_push($mapArr,$index->creative_id);
+                            array_push($mapArr,$index->bwlist_id);
                         }
                         if ($request->has('to_blacklist') and !$request->has('to_whitelist')) {
                             foreach ($request->input('to_blacklist') as $index) {
-                                if (!in_array($index, $geoSegArr)) {
+                                if (!in_array($index, $mapArr)) {
                                     $blacklist_assign = new Targetgroup_Bwlist_Map();
                                     $blacklist_assign->targetgroup_id = $targetgroup->id;
                                     $blacklist_assign->bwlist_id = $index;
@@ -510,13 +558,13 @@ class TargetgroupController extends Controller
                             }
                             foreach ($map as $index) {
                                 if (!in_array($index->bwlist_id, $request->input('to_blacklist'))) {
-                                    Targetgroup_Bwlist_Map::where('targetgroup_id',$targetgroup_id)->where('creative_id',$index->bwlist_id)->delete();
+                                    Targetgroup_Bwlist_Map::where('targetgroup_id',$targetgroup_id)->where('bwlist_id',$index->bwlist_id)->delete();
                                     $audit->store('targetgroup_bwlist_map', $index, $targetgroup_id, 'remove', $audit_key);
                                 }
                             }
                         }elseif (!$request->has('to_blacklist') and $request->has('to_whitelist')) {
                             foreach ($request->input('to_whitelist') as $index) {
-                                if (!in_array($index, $geoSegArr)) {
+                                if (!in_array($index, $mapArr)) {
                                     $blacklist_assign = new Targetgroup_Bwlist_Map();
                                     $blacklist_assign->targetgroup_id = $targetgroup->id;
                                     $blacklist_assign->bwlist_id = $index;
@@ -526,7 +574,7 @@ class TargetgroupController extends Controller
                             }
                             foreach ($map as $index) {
                                 if (!in_array($index->bwlist_id, $request->input('to_whitelist'))) {
-                                    Targetgroup_Bwlist_Map::where('targetgroup_id',$targetgroup_id)->where('creative_id',$index->bwlist_id)->delete();
+                                    Targetgroup_Bwlist_Map::where('targetgroup_id',$targetgroup_id)->where('bwlist_id',$index->bwlist_id)->delete();
                                     $audit->store('targetgroup_bwlist_map', $index, $targetgroup_id, 'remove', $audit_key);
                                 }
                             }

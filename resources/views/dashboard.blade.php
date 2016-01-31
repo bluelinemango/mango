@@ -434,15 +434,14 @@
 
                                                         @if($audit_obj[$i]->audit_type == 'edit')
                                                             <div class="well well-sm display-inline">
-                                                                {{--<p>Field <strong>{{$audit_obj[$i]->field}}</strong> From <strong>{{$audit_obj[$i]->before_value}}</strong> To <strong>{{$audit_obj[$i]->after_value}}</strong></p>--}}
                                                                 @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='edit')
-                                                                    <p>Field <strong>{{$audit_obj[$i]->field}}</strong> From <strong>{{$audit_obj[$i]->before_value}}</strong> To <strong>{{$audit_obj[$i]->after_value}}</strong>    </p>
+                                                                    <p>Field <strong>{{$audit_obj[$i]->field}}</strong> From <strong>{{$audit_obj[$i]->before_value}}</strong> To <strong>{{$audit_obj[$i]->after_value}}</strong></p>
                                                                     <?php $i=$i+2; ?>
                                                                 @endwhile
                                                             </div>
 
                                                         @endif
-                                                        @if($audit_obj[$i]->audit_type == 'add' and $audit_obj[$i]->change_key==$change_key)
+                                                        @if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'add' and $audit_obj[$i]->change_key==$change_key)
                                                             <div class="well well-sm display-inline">
                                                                 @if($audit_obj[$i]->entity_type == 'geosegment')
                                                                     Entrie(s):
@@ -483,7 +482,7 @@
                                                             </div>
 
                                                         @endif
-                                                        @if($audit_obj[$i]->audit_type == 'del' and $audit_obj[$i]->change_key==$change_key)
+                                                        @if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'del' and $audit_obj[$i]->change_key==$change_key)
                                                             <div class="well well-sm display-inline">
                                                                 @if($audit_obj[$i]->entity_type == 'geosegment')
                                                                     Entrie(s):

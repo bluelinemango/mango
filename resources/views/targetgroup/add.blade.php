@@ -18,6 +18,18 @@
             border: none;
             background: rgba(239, 242, 244, 0.3);
         }
+        .time_table_unselect {
+            background-color: rgba(17, 115, 119, 0.45);
+            min-height: 30px;
+            min-width: 30px;
+            cursor: pointer;
+        }
+        .time-table-div-select {
+            background-color: rgba(20, 24, 73, 0.98);
+            min-height: 30px;
+            min-width: 30px;
+            cursor: pointer
+        }
     </style>
 @endsection
 @section('content')
@@ -752,22 +764,35 @@
                                                                             <div class="tab-pane fade" id="u2">
                                                                                 <div class="row">
                                                                                     <div class="col-md-12">
-                                                                                        <table class="table table-hover">
+                                                                                        <table class="table table-hover time-table">
                                                                                             <thead>
                                                                                             <tr>
                                                                                                 <th>Hours</th>
-                                                                                                <th>1:00</th>
-                                                                                                <th>2:00</th>
-                                                                                                <th>3:00</th>
-                                                                                                <th>4:00</th>
-                                                                                                <th>5:00</th>
-                                                                                                <th>6:00</th>
-                                                                                                <th>7:00</th>
-                                                                                                <th>8:00</th>
-                                                                                                <th>9:00</th>
-                                                                                                <th>10:00</th>
-                                                                                                <th>11:00</th>
-                                                                                                <th>12:00</th>
+                                                                                                <th>12am</th>
+                                                                                                <th>1</th>
+                                                                                                <th>2</th>
+                                                                                                <th>3</th>
+                                                                                                <th>4</th>
+                                                                                                <th>5</th>
+                                                                                                <th>6</th>
+                                                                                                <th>7</th>
+                                                                                                <th>8</th>
+                                                                                                <th>9</th>
+                                                                                                <th>10</th>
+                                                                                                <th>11</th>
+                                                                                                <th>12pm</th>
+                                                                                                <th>1</th>
+                                                                                                <th>2</th>
+                                                                                                <th>3</th>
+                                                                                                <th>4</th>
+                                                                                                <th>5</th>
+                                                                                                <th>6</th>
+                                                                                                <th>7</th>
+                                                                                                <th>8</th>
+                                                                                                <th>9</th>
+                                                                                                <th>10</th>
+                                                                                                <th>11</th>
+
                                                                                             </tr>
                                                                                             </thead>
                                                                                             <tbody>
@@ -781,14 +806,11 @@
                                                                                                             friday @elseif($i==5)
                                                                                                             satarday @elseif($i==6)
                                                                                                             sunday @endif</td>
-                                                                                                    @for($j=0;$j<12;$j++)
-                                                                                                        <td>
-                                                                                                            <input type="checkbox"
-                                                                                                                   class="form-control"
-                                                                                                                   name="{{$i}}-{{$j}}-am">
-                                                                                                            <input type="checkbox"
-                                                                                                                   class="form-control"
-                                                                                                                   name="{{$i}}-{{$j}}-pm">
+                                                                                                    @for($j=0;$j<24;$j++)
+                                                                                                        <td style="padding: 1px!important;">
+                                                                                                            <div id="{{$i}}-{{$j}}-time" class="time_table_unselect" ></div>
+
+                                                                                                            <input type="checkbox" name="{{$i}}-{{$j}}-hour" id="{{$i}}-{{$j}}-time-checkbox" style="display: none"/>
                                                                                                         </td>
                                                                                                     @endfor
                                                                                                 </tr>
@@ -800,6 +822,27 @@
 
                                                                                     </div>
 
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-md-3">
+                                                                                        <a id="clear_all" class="btn btn-primary">Clear All</a>
+                                                                                    </div>
+                                                                                    <div class="col-md-5">
+                                                                                        <h4 style="float: left; padding: 5px 10px;">Legend:</h4>
+                                                                                        <div class="time_table_unselect" style="max-width: 40px; float: left; padding: 5px 10px;"></div>
+                                                                                        <div style="float: left; padding: 5px 10px;">Inactive</div>
+                                                                                        <div class="time-table-div-select" style="max-width: 40px; float: left; padding: 5px 10px;"></div>
+                                                                                        <div style="float: left; padding: 5px 10px;">Active</div>
+                                                                                        <div class="clearfix"></div>
+                                                                                    </div>
+                                                                                    <div class="col-md-3">
+                                                                                        <select name=""
+                                                                                                id="suggested">
+                                                                                            <option value="business-hours">Business Hours</option>
+                                                                                            <option value="happy-hours">Happy Hours</option>
+                                                                                            <option value="business-hours">Business Hours</option>
+                                                                                        </select>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
 
@@ -971,6 +1014,64 @@
     <script src="{{cdn('js/plugin/fuelux/wizard/wizard.min.js')}}"></script>
     <script src="{{cdn('js/multi_select/multiselect.min.js')}}"></script>
     <script src="{{cdn('js/plugin/bootstrap-duallistbox/jquery.bootstrap-duallistbox.min.js')}}"></script>
+
+    <script>
+        for(var i=0; i<7; i++){
+            for(var j=0;j<24;j++){
+                $('#'+i+'-'+j+'-time').click(function () {
+                    var id =$(this).attr('id');
+                    $('#'+id+'-checkbox').prop('checked', true);
+                    $(this).removeClass();
+                    $(this).addClass('time-table-div-select');
+                });
+            }
+        }
+        $('#clear_all').click(function () {
+            for(var i=0; i<7; i++){
+                for(var j=0;j<24;j++){
+                    var id =$('#'+i+'-'+j+'-time').attr('id');
+                    $('#'+id+'-checkbox').prop('checked', false);
+                    $('#'+i+'-'+j+'-time').removeClass();
+                    $('#'+i+'-'+j+'-time').addClass('time_table_unselect');
+                }
+            }
+
+        })
+        $('#suggested').change(function () {
+            if($(this).val()=='business-hours'){
+                $('#clear_all').click();
+                for(var i=0; i<5; i++){
+                    for(var j=9;j<17;j++){
+                        var id =$('#'+i+'-'+j+'-time').attr('id');
+                        $('#'+id+'-checkbox').prop('checked', true);
+                        $('#'+i+'-'+j+'-time').removeClass();
+                        $('#'+i+'-'+j+'-time').addClass('time-table-div-select');
+                    }
+                }
+            }
+            if($(this).val()=='happy-hours'){
+                $('#clear_all').click();
+                for(var i=0; i<5; i++){
+                    for(var j=17;j<24;j++){
+                        var id =$('#'+i+'-'+j+'-time').attr('id');
+                        $('#'+id+'-checkbox').prop('checked', true);
+                        $('#'+i+'-'+j+'-time').removeClass();
+                        $('#'+i+'-'+j+'-time').addClass('time-table-div-select');
+                    }
+                }
+                for(var i=5; i<7; i++){
+                    for(var j=0;j<24;j++){
+                        var id =$('#'+i+'-'+j+'-time').attr('id');
+                        $('#'+id+'-checkbox').prop('checked', true);
+                        $('#'+i+'-'+j+'-time').removeClass();
+                        $('#'+i+'-'+j+'-time').addClass('time-table-div-select');
+                    }
+                }
+            }
+        })
+    </script>
+
+
     <script>
         $.ajaxSetup({
             headers: {

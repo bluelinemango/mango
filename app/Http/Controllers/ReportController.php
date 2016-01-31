@@ -119,6 +119,7 @@ class ReportController extends Controller
                     $clientArry = Client::get(['id'])->toArray();
                     $advertiserArry = Advertiser::get(['id'])->toArray();
                     $query="1 = 1 ";
+
                     if($request->has('client') ){
                         $query .=" and impression.client_id=".$request->input('client');
                     }
@@ -137,10 +138,11 @@ class ReportController extends Controller
                     if($request->has('targetgroup') ){
                         $query .=" and impression.targetgroup_id=".$request->input('targetgroup');
                     }
+
                     if($request->input('report_type')=='today'){
                         $time="between '".date('Y-m-d H:i:s',time() - 60 * 60 * 24)."' and '".date('Y-m-d H:i:s')."'";
                         $interval=300;
-//                        $query .=" and impression.created_at ". $time;
+                        $query .=" and impression.created_at ". $time;
                     }
                     if($request->input('report_type')=='10m'){
                         $time="between '".date('Y-m-d H:i:s',time() - 600)."' and '".date('Y-m-d H:i:s')."'";
@@ -516,7 +518,7 @@ class ReportController extends Controller
 
 
 
-
+//                    return dd($query);
 
                     if($time!='') {
                         $impChart = Impression::where('event_type', 'impression')
@@ -526,24 +528,30 @@ class ReportController extends Controller
                             ->get();
                         $imps = 1;
                         $flg = 0;
-                        $impsString = 'Date,Imps\n';
-                        foreach ($impChart as $key => $index) {
-                            if ($flg == 0) {
-                                $timeToShow = $index->created_at;
-                                $firstHop = strtotime($index->created_at);
-                                $nextHop = $firstHop + $interval;
-                                $flg = 1;
-                            }
-                            if (isset($impChart[$key + 1]) and strtotime($impChart[$key + 1]->created_at) >= $nextHop) {
-                                $impsString .= $timeToShow . ",0;" . $imps . ";0\n";
-                                $flg = 0;
-                                $imps = 0;
-                            }
-                            if (!isset($impChart[$key + 1])) {
+//                        return dd($impChart);
+                        $impsString = "Date,Imps\n";
+                        if($impChart){
+                            foreach ($impChart as $key => $index) {
+                                if ($flg == 0) {
+                                    $timeToShow = $index->created_at;
+                                    $firstHop = strtotime($index->created_at);
+                                    $nextHop = $firstHop + $interval;
+                                    $flg = 1;
+                                }
+                                if (isset($impChart[$key + 1]) and strtotime($impChart[$key + 1]->created_at) >= $nextHop) {
+                                    $impsString .= $timeToShow . ",0;" . $imps . ";0\n";
+                                    $flg = 0;
+                                    $imps = 0;
+                                }
+                                if (!isset($impChart[$key + 1])) {
 
+                                }
+                                $imps++;
                             }
-                            $imps++;
+
                         }
+
+//                        return dd($impsString);
                         $clkChart = Impression::where('event_type', 'click')
                             ->whereRaw($query)
                             ->whereRaw('created_at ' . $time)
@@ -551,7 +559,7 @@ class ReportController extends Controller
                             ->get();
                         $imps = 1;
                         $flg = 0;
-                        $clkString = 'Date,clicks\n';
+                        $clkString = "Date,Clicks\n";
                         foreach ($clkChart as $key => $index) {
                             if ($flg == 0) {
                                 $timeToShow = $index->created_at;
@@ -576,7 +584,7 @@ class ReportController extends Controller
                             ->get();
                         $imps = 1;
                         $flg = 0;
-                        $cnvString = 'Date,conv\n';
+                        $cnvString = "Date,Conversion\n";
                         foreach ($cnvChart as $key => $index) {
                             if ($flg == 0) {
                                 $timeToShow = $index->created_at;

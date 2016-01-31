@@ -108,7 +108,11 @@
         @if(isset($errors))
         @foreach($errors->get('msg') as $error)
         $.smallBox({
-            title: "System MSG",
+            @if($errors->get('success')[0] == true)
+            title: "Success",
+            @elseif($errors->get('success')[0] == false)
+            title: "Warning",
+            @endif
             content: "{{$error}}",
             @if($errors->get('success')[0] == true)
             color: "#739E73",
