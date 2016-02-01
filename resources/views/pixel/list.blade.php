@@ -16,7 +16,7 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li><li>Pixel List</li>
+               <li>Pixel List</li>
             </ol>
             <!-- end breadcrumb -->
 

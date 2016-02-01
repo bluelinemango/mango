@@ -106,7 +106,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li>
                 <li>system Reporting</li>
             </ol>
             <!-- end breadcrumb -->

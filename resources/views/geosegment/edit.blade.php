@@ -19,7 +19,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home></li>
                 <li><a href="{{url('/client/cl'.$geosegment_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client : cl{{$geosegment_obj->getAdvertiser->GetClientID->id}}</a></li>
                 <li><a href="{{url('/client/cl'.$geosegment_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$geosegment_obj->advertiser_id.'/edit/')}}">Advertiser : adv{{$geosegment_obj->getAdvertiser->id}}</a></li>
                 <li>Geo Segment List Editing</li>

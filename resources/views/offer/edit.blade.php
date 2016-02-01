@@ -15,7 +15,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li><a href="{{url('/dashboard')}}">Home</a></li>
                 <li><a href="{{url('/client/cl'.$offer_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client: cl{{$offer_obj->getAdvertiser->GetClientID->id}}</a></li>
                 <li><a href="{{url('/client/cl'.$offer_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$offer_obj->advertiser_id.'/edit')}}">Advertiser: adv{{$offer_obj->advertiser_id}}</a></li>
                 <li>Offer: ofr{{$offer_obj->id}}</li>

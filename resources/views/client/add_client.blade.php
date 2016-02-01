@@ -15,7 +15,7 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home></li><li>Forms</li><li>Smart Form Layouts</li>
+                <li>Add New Client</li>
             </ol>
             <!-- end breadcrumb -->
 

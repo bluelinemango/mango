@@ -22,7 +22,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li>
                 <li>Client List</li>
             </ol>
 
@@ -147,7 +146,6 @@
                 deleteConfirm: "Do you really want to delete the client?",
 
                 controller: db,
-
                 fields: [
                     { name: "Name", type: "text", width: 150 },
                     { name: "Age", type: "number", width: 50 },
@@ -155,7 +153,16 @@
                     { name: "Country", type: "select", items: db.countries, valueField: "Id", textField: "Name" },
                     { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
                     { type: "control" }
-                ]
+                ],
+                updateItem: function(item) {
+                    return $.ajax({
+                        type: "PUT",
+                        url: "{{url('/ajax/jqgrid/client')}}",
+                        data: item,
+                        dataType: "json"
+                    });
+                }
+
             });
 
         });

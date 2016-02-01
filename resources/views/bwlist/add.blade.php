@@ -18,9 +18,8 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li>
-                <li>Client: <a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/edit')}}">cl{{$advertiser_obj->GetClientID->id}}</a></li>
-                <li>Advertiser: <a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$advertiser_obj->id.'/edit')}}">adv{{$advertiser_obj->id}}</a></li>
+                <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/edit')}}">Client: cl{{$advertiser_obj->GetClientID->id}}</a></li>
+                <li>a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$advertiser_obj->id.'/edit')}}">Advertiser: <adv{{$advertiser_obj->id}}</a></li>
                 <li>Black White List Registration</li>
             </ol>
             <!-- end breadcrumb -->

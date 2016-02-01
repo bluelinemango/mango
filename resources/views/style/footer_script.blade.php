@@ -104,6 +104,10 @@
         })
     }
     $(document).ready(function() {
+
+        jQuery.validator.addMethod("domain", function(value, element) {
+            return /^([a-zA-Z0-9])+\.([a-zA-Z0-9]{2,4})+$/.test(value);
+        }, "Please specify the correct Domain Name like: yourdomain.com");
         //////////////////////////////SYSTEM MSG//////////////////////////////////////
         @if(isset($errors))
         @foreach($errors->get('msg') as $error)

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 30, 2016 at 04:55 PM
+-- Generation Time: Feb 01, 2016 at 07:23 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -44,10 +44,10 @@ CREATE TABLE IF NOT EXISTS `advertiser` (
 
 INSERT INTO `advertiser` (`id`, `name`, `description`, `status`, `client_id`, `domain_name`, `created_at`, `updated_at`) VALUES
 (2, 'adv_2', 'adv_descript_2', 'Active', 4, '', '0000-00-00 00:00:00', '2016-01-26 13:12:01'),
-(4, 'adv_1111', 'adv_descript_1', 'Active', 3, 'aaaa', '0000-00-00 00:00:00', '2016-01-26 10:20:10'),
+(4, 'adv_1111', 'adv_descript_1', 'Inactive', 3, 'aaaa', '0000-00-00 00:00:00', '2016-01-31 12:31:44'),
 (5, 'aaaaaaa', '1111', 'Active', 7, '111', '2015-10-23 10:06:50', '2016-01-26 10:20:10'),
-(6, 'test1', 'aaaaa', 'Active', 1, '', '2015-11-07 12:58:57', '2016-01-26 10:20:11'),
-(7, 'wwww', '', 'Active', 8, 'aaaa.com', '2015-11-17 06:52:09', '2015-11-17 06:52:09'),
+(6, 'test1', 'aaaaa', 'Inactive', 1, '', '2015-11-07 12:58:57', '2016-02-01 11:27:49'),
+(7, 'wwww', '', 'Inactive', 8, 'aaaa.com', '2015-11-17 06:52:09', '2016-02-01 11:28:00'),
 (8, 'adv change', '', 'Active', 1, 'ddd.com', '2015-11-17 09:26:12', '2016-01-26 10:07:31'),
 (9, 'asdasdas', '', 'Active', 1, 'adadas', '2015-11-17 12:37:45', '2016-01-26 13:11:59'),
 (10, 'aa', '', 'Active', 1, 'aaa', '2015-12-23 12:21:42', '2015-12-23 12:21:42'),
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `advertiser_publisher` (
   `advertiser_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `advertiser_publisher`
@@ -117,7 +117,9 @@ INSERT INTO `advertiser_publisher` (`id`, `name`, `advertiser_id`, `created_at`,
 (22, 'yyy.com', 4, '2016-01-21 12:23:09', '2016-01-21 12:23:09'),
 (23, 'asdasdas.com', 4, '2016-01-28 09:03:58', '2016-01-28 09:03:58'),
 (24, 'asdasd123', 4, '2016-01-28 09:04:03', '2016-01-28 09:04:03'),
-(25, 'sad', 4, '2016-01-28 09:35:50', '2016-01-28 09:35:50');
+(25, 'sad', 4, '2016-01-28 09:35:50', '2016-01-28 09:35:50'),
+(26, 'asd', 4, '2016-01-30 14:29:20', '2016-01-30 14:29:20'),
+(27, 'asdasd', 4, '2016-01-31 11:56:49', '2016-01-31 11:56:49');
 
 -- --------------------------------------------------------
 
@@ -138,198 +140,39 @@ CREATE TABLE IF NOT EXISTS `audits` (
   `date_change` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=348 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `audits`
 --
 
 INSERT INTO `audits` (`id`, `user_id`, `entity_type`, `entity_id`, `audit_type`, `field`, `before_value`, `after_value`, `change_key`, `date_change`, `created_at`, `updated_at`) VALUES
-(163, 1, 'modelTable', 4, 'edit', 'name', 'test111', 'test1111', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
-(164, 1, 'modelTable', 4, 'edit', 'segment_name_seed', '2341', '23411', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
-(165, 1, 'modelTable', 4, 'edit', 'description', 'axdffs1', 'axdffs12', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
-(166, 1, 'modelTable', 4, 'edit', 'feature_recency_in_sec', '3241', '32411', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
-(167, 1, 'modelTable', 4, 'edit', 'max_num_both_neg_pos_devices', '231', '2312', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
-(168, 1, 'modelTable', 4, 'edit', 'cut_off_score', '1.00', '11.00', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
-(169, 1, 'modelTable', 4, 'edit', 'pixel_hit_recency_in_seconds', '1', '12', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
-(170, 1, 'modelTable', 4, 'edit', 'max_number_of_device_history_per_feature', '1', '12', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
-(171, 1, 'modelTable', 4, 'edit', 'number_of_positive_device_to_be_used_for_modeling', '1', '12', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
-(172, 1, 'modelTable', 4, 'edit', 'number_of_negative_device_to_be_used_for_modeling', '1', '12', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
-(173, 1, 'modelTable', 4, 'edit', 'number_of_both_negative_positive_device_to_be_used', '1', '12', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
-(174, 1, 'positive_offer_model', 1, 'add', '', '', '4', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
-(175, 1, 'negative_offer_model', 1, 'del', '', '', '4', '$2y$10$v.4samEGzl3/QaHMRjmXw.6cV4nlgTBlttgAK5JnX7kUb4lA5o/hC', '2016-01-25 13:45:53', '2016-01-25 13:45:53', '2016-01-25 13:45:53'),
-(176, 1, 'negative_offer_model', 1, 'add', '', '', '4', '$2y$10$jbWSnAwjEtV2u0gvZmwTKu78q3CwRdVn1Rk1ZAUr9gvAcVtyLoSyi', '2016-01-25 14:35:34', '2016-01-25 14:35:34', '2016-01-25 14:35:34'),
-(177, 1, 'negative_offer_model', 2, 'add', '', '', '4', '$2y$10$jbWSnAwjEtV2u0gvZmwTKu78q3CwRdVn1Rk1ZAUr9gvAcVtyLoSyi', '2016-01-25 14:35:34', '2016-01-25 14:35:34', '2016-01-25 14:35:34'),
-(178, 1, 'positive_offer_model', 1, 'del', '', '', '4', '$2y$10$jbWSnAwjEtV2u0gvZmwTKu78q3CwRdVn1Rk1ZAUr9gvAcVtyLoSyi', '2016-01-25 14:35:34', '2016-01-25 14:35:34', '2016-01-25 14:35:34'),
-(179, 1, 'positive_offer_model', 2, 'del', '', '', '4', '$2y$10$jbWSnAwjEtV2u0gvZmwTKu78q3CwRdVn1Rk1ZAUr9gvAcVtyLoSyi', '2016-01-25 14:35:34', '2016-01-25 14:35:34', '2016-01-25 14:35:34'),
-(180, 1, 'modelTable', 4, 'edit', 'name', 'test1111', 'test11112', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(181, 1, 'modelTable', 4, 'edit', 'segment_name_seed', '23411', '234112', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(182, 1, 'modelTable', 4, 'edit', 'description', 'axdffs12', 'axdffs122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(183, 1, 'modelTable', 4, 'edit', 'feature_recency_in_sec', '32411', '324112', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(184, 1, 'modelTable', 4, 'edit', 'max_num_both_neg_pos_devices', '2312', '23122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(185, 1, 'modelTable', 4, 'edit', 'cut_off_score', '11.00', '11.002', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(186, 1, 'modelTable', 4, 'edit', 'pixel_hit_recency_in_seconds', '12', '1223', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(187, 1, 'modelTable', 4, 'edit', 'max_number_of_device_history_per_feature', '12', '122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(188, 1, 'modelTable', 4, 'edit', 'number_of_positive_device_to_be_used_for_modeling', '12', '122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(189, 1, 'modelTable', 4, 'edit', 'number_of_negative_device_to_be_used_for_modeling', '12', '122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(190, 1, 'modelTable', 4, 'edit', 'number_of_both_negative_positive_device_to_be_used', '12', '122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(191, 1, 'positive_offer_model', 2, 'add', '', '', '4', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(192, 1, 'negative_offer_model', 2, 'del', '', '', '4', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(193, 1, 'modelTable', 4, 'edit', 'name', 'test1111', 'test11112', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(194, 1, 'modelTable', 4, 'edit', 'segment_name_seed', '23411', '234112', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(195, 1, 'modelTable', 4, 'edit', 'description', 'axdffs12', 'axdffs122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(196, 1, 'modelTable', 4, 'edit', 'feature_recency_in_sec', '32411', '324112', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(197, 1, 'modelTable', 4, 'edit', 'max_num_both_neg_pos_devices', '2312', '23122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(198, 1, 'modelTable', 4, 'edit', 'cut_off_score', '11.00', '11.002', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(199, 1, 'modelTable', 4, 'edit', 'pixel_hit_recency_in_seconds', '12', '1223', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(200, 1, 'modelTable', 4, 'edit', 'max_number_of_device_history_per_feature', '12', '122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(201, 1, 'modelTable', 4, 'edit', 'number_of_positive_device_to_be_used_for_modeling', '12', '122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(202, 1, 'modelTable', 4, 'edit', 'number_of_negative_device_to_be_used_for_modeling', '12', '122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(203, 1, 'modelTable', 4, 'edit', 'number_of_both_negative_positive_device_to_be_used', '12', '122', '$2y$10$iDLz.7vlfxy0.A6AnQ3LVeqUTHOfoalB4PfOzWqwJrzw1IsqEA7NC', '2016-01-25 15:35:04', '2016-01-25 15:35:04', '2016-01-25 15:35:04'),
-(204, 1, 'advertiser', 4, 'edit', 'status', '1', '0', '$2y$10$GkCCsUlkflN.9FfZQAIYZeQb325wW3rVj4fCxVN.Jv4p33ioB1gZ2', '2016-01-26 09:57:14', '2016-01-26 09:57:14', '2016-01-26 09:57:14'),
-(205, 1, 'advertiser', 4, 'edit', 'status', 'Disable', 'Active', '$2y$10$tU5KXZJT5QbCgUXHdUH4UuPgsAzlglJcNMFFmNuIvV3oKi4LTv4DO', '2016-01-26 10:01:29', '2016-01-26 10:01:29', '2016-01-26 10:01:29'),
-(206, 1, 'advertiser', 4, 'edit', 'status', 'Active', 'Disable', '$2y$10$nN5Bc6JdqCim6rE6f7Umg.6hdAoo6OUz3nfx6dCSs.bu4Qr3Sfzb2', '2016-01-26 10:05:06', '2016-01-26 10:05:06', '2016-01-26 10:05:06'),
-(207, 1, 'advertiser', 4, 'edit', 'status', 'Disable', 'Active', '$2y$10$z67I9eYaZ/45AyTHC6eZ/e2niAE765qGUEsyK9eh5/YSL6reFoh8.', '2016-01-26 10:05:08', '2016-01-26 10:05:08', '2016-01-26 10:05:08'),
-(208, 1, 'advertiser', 4, 'edit', 'status', 'Active', 'Disable', '$2y$10$gLdrr0p5YAjgxho.7RyZKuQSC.TJoWdIxRrvehaJc2DRCjCqIc9Ay', '2016-01-26 10:05:13', '2016-01-26 10:05:13', '2016-01-26 10:05:13'),
-(209, 1, 'advertiser', 4, 'edit', 'status', 'Disable', 'Active', '$2y$10$QzT.fsTVYYHee.gdy2OQ2.le0ehQv3KPAJ67RupVQeM/FUGcWLepW', '2016-01-26 10:05:15', '2016-01-26 10:05:15', '2016-01-26 10:05:15'),
-(210, 1, 'advertiser', 4, 'edit', 'status', 'Active', 'Disable', '$2y$10$MYkkAin6xQ3JNbCuRp.1jubJ4/MwYy.rq.mxEA5.9mV72Lwi8i7Ii', '2016-01-26 10:05:30', '2016-01-26 10:05:30', '2016-01-26 10:05:30'),
-(211, 1, 'advertiser', 4, 'edit', 'status', 'Disable', 'Active', '$2y$10$DiXAIPE/L83RFRwLhME9YO0HJf1MWJHP5Some0lZu6biDIzImAyRq', '2016-01-26 10:05:32', '2016-01-26 10:05:32', '2016-01-26 10:05:32'),
-(212, 1, 'advertiser', 4, 'edit', 'status', 'Active', 'Disable', '$2y$10$X9Pfb22h/.tN.o7kQOui9.rXV94Bl/YZQ6kTJS2qxJMMaMYHOREsO', '2016-01-26 10:06:24', '2016-01-26 10:06:24', '2016-01-26 10:06:24'),
-(213, 1, 'advertiser', 4, 'edit', 'status', 'Disable', 'Active', '$2y$10$EmkfzsZ4eigEpARrtW65Uu50zOK0lvliB.LfuA5YBJ7gn4uY8VdXm', '2016-01-26 10:06:26', '2016-01-26 10:06:26', '2016-01-26 10:06:26'),
-(214, 1, 'advertiser', 6, 'edit', 'status', 'Disable', 'Active', '$2y$10$JrAAyFdef1PH/NUTu8rtMOfGjw0z.qH7Qm/2aam8c4P.pxB3K6MYG', '2016-01-26 10:06:29', '2016-01-26 10:06:29', '2016-01-26 10:06:29'),
-(215, 1, 'advertiser', 6, 'edit', 'status', 'Active', 'Disable', '$2y$10$OPS4hUyQlCDFUvQXVQV1XOaMxDeA.z8NN7hFfl0QVuq3m8H6B525q', '2016-01-26 10:06:58', '2016-01-26 10:06:58', '2016-01-26 10:06:58'),
-(216, 1, 'advertiser', 8, 'edit', 'status', 'Active', 'Disable', '$2y$10$cm3TeRFs5a9U/FhstzT2j.cCQEBz8zZ2ehsELDP9fn43XYei5oQEW', '2016-01-26 10:06:59', '2016-01-26 10:06:59', '2016-01-26 10:06:59'),
-(217, 1, 'advertiser', 8, 'edit', 'status', 'Disable', 'Active', '$2y$10$Nocu0a5QeDLftKxEiW2Fm./QQu9zT9eyONQ0JLFWDnVWgw8ux.6Wi', '2016-01-26 10:07:29', '2016-01-26 10:07:29', '2016-01-26 10:07:29'),
-(218, 1, 'advertiser', 8, 'edit', 'status', 'Active', 'Disable', '$2y$10$lDOjuA6ENC0UiPb5VAwiBupbPTDKuVOXYSBu0ZZ191/NNaGUHq5/6', '2016-01-26 10:07:31', '2016-01-26 10:07:31', '2016-01-26 10:07:31'),
-(219, 1, 'advertiser', 2, 'edit', 'status', 'Active', 'Disable', '$2y$10$UaCYj8tCq4FBuTfFeirZZuZMmaeO.fL2QFbqjVVOjAxDlMy9SOXQm', '2016-01-26 10:07:36', '2016-01-26 10:07:36', '2016-01-26 10:07:36'),
-(220, 1, 'advertiser', 2, 'edit', 'status', 'Disable', 'Active', '$2y$10$jHotJ1RK/SRCa54.VGJoMe1041lyqB/BTRXhCTwLc6Dtn9AVEAMd.', '2016-01-26 10:07:37', '2016-01-26 10:07:38', '2016-01-26 10:07:38'),
-(221, 1, 'advertiser', 4, 'edit', 'status', 'Active', 'Disable', '$2y$10$7sXniloWOFiu5jnRa1ybHORwHlECdW7L0oF6nEUaRb3F4XTgU8Q9u', '2016-01-26 10:19:55', '2016-01-26 10:19:55', '2016-01-26 10:19:55'),
-(222, 1, 'advertiser', 5, 'edit', 'status', 'Active', 'Disable', '$2y$10$oXBumzjKN2kwrv/mQbDY3.no4896psWjR64q07AolSMrERov9me06', '2016-01-26 10:19:55', '2016-01-26 10:19:56', '2016-01-26 10:19:56'),
-(223, 1, 'advertiser', 6, 'edit', 'status', 'Disable', 'Active', '$2y$10$jkpqE5RFBRQiN.6tWo9st.VN/6Eu0b3/5ch2ZD/YA4Xzdp4edvxnS', '2016-01-26 10:19:56', '2016-01-26 10:19:56', '2016-01-26 10:19:56'),
-(224, 1, 'advertiser', 6, 'edit', 'status', 'Active', 'Disable', '$2y$10$qgRqtpsuksrcqHfW7bfHt.Uch263qg6.Y0a7/xlAkrBNtaOPIH3VS', '2016-01-26 10:20:06', '2016-01-26 10:20:06', '2016-01-26 10:20:06'),
-(225, 1, 'advertiser', 4, 'edit', 'status', 'Disable', 'Active', '$2y$10$UMz3pSucgvO0EBHYndkSEeN933YBbq9V90CSC9mScg6RPGllYfKy6', '2016-01-26 10:20:09', '2016-01-26 10:20:10', '2016-01-26 10:20:10'),
-(226, 1, 'advertiser', 5, 'edit', 'status', 'Disable', 'Active', '$2y$10$jer0zDJpV.BKib1gOrLqV.wvmtzM5SXeMyyc.MnYv/kNwWUAgixD2', '2016-01-26 10:20:10', '2016-01-26 10:20:10', '2016-01-26 10:20:10'),
-(227, 1, 'advertiser', 6, 'edit', 'status', 'Disable', 'Active', '$2y$10$wNeqBnsnmv63cx43zy982.dkcAdG4b2jrsaw79T2kB0b0RP4XZwFW', '2016-01-26 10:20:11', '2016-01-26 10:20:11', '2016-01-26 10:20:11'),
-(228, 1, 'creative', 4, 'edit', 'status', 'Active', 'Disable', '$2y$10$.LP.qG84ggbBHXrWlovf2ORVd2ZYYHlfEI7hL310qnzRQRgSiaNSS', '2016-01-26 10:20:42', '2016-01-26 10:20:42', '2016-01-26 10:20:42'),
-(229, 1, 'creative', 5, 'edit', 'status', 'Active', 'Disable', '$2y$10$tPnXJL2ffY0Kc6TIbSa20eXjQFgRHAQspB3MFhUALlKNpNyG/7JDO', '2016-01-26 10:20:42', '2016-01-26 10:20:43', '2016-01-26 10:20:43'),
-(230, 1, 'creative', 6, 'edit', 'status', 'Active', 'Disable', '$2y$10$Hz6ThzcFBt7w6MmatwxTHOivzsJoT99Z77bjNrcXTeGoDso949Qv.', '2016-01-26 10:20:43', '2016-01-26 10:20:43', '2016-01-26 10:20:43'),
-(231, 1, 'creative', 2, 'edit', 'status', 'Active', 'Disable', '$2y$10$NP3gyecKwbu1TTNWwQMnP.ikbiOCvQAjWKgd/q/7knV/CFDjGri1W', '2016-01-26 10:20:44', '2016-01-26 10:20:44', '2016-01-26 10:20:44'),
-(232, 1, 'creative', 3, 'edit', 'status', 'Active', 'Disable', '$2y$10$sgjelqqxIXD/DS5T5LtOWOW0DqsyCzH6Go9AMhOV/HERIGqUQV7Ji', '2016-01-26 10:20:44', '2016-01-26 10:20:44', '2016-01-26 10:20:44'),
-(233, 1, 'creative', 4, 'edit', 'status', 'Disable', 'Active', '$2y$10$3dcFIIxwdb8IJrO0IW8Js.otcHpCYKEHkkxptNLO8.orHb4eZa9ne', '2016-01-26 10:20:45', '2016-01-26 10:20:46', '2016-01-26 10:20:46'),
-(234, 1, 'creative', 5, 'edit', 'status', 'Disable', 'Active', '$2y$10$ra.1Ky/uqt/QJ7emXC8NselrJmN/7N7E17ct4RIGl0GShj1rEPBum', '2016-01-26 10:20:46', '2016-01-26 10:20:46', '2016-01-26 10:20:46'),
-(235, 1, 'creative', 6, 'edit', 'status', 'Disable', 'Active', '$2y$10$6NJProX5hsgk5O7uaI98yOIhV7ZQ105plXwR5FMphc39fgIcHSKaO', '2016-01-26 10:20:46', '2016-01-26 10:20:47', '2016-01-26 10:20:47'),
-(236, 1, 'offer', 1, 'edit', 'status', 'Active', 'Disable', '$2y$10$9BoiZKGIbzVO6jG0xDWvMeHq6WbCDZRzZmO0SkLqLRyArsM9b.thG', '2016-01-26 10:27:57', '2016-01-26 10:27:57', '2016-01-26 10:27:57'),
-(237, 1, 'campaign', 8, 'edit', 'status', '0', 'Disable', '$2y$10$vE.izWnQhQULDOqDfJR0Pe.3wgAdVuX2cV.r8b3aPVIBzP1L0Ubmq', '2016-01-26 10:28:17', '2016-01-26 10:28:17', '2016-01-26 10:28:17'),
-(238, 1, 'campaign', 4, 'edit', 'status', 'Active', 'Disable', '$2y$10$02K3HLGJcvbN6Kv2Tm1kcuBLw2VTCLP8kwesELHsh8hqpr6VNKgO.', '2016-01-26 10:29:35', '2016-01-26 10:29:35', '2016-01-26 10:29:35'),
-(239, 1, 'campaign', 5, 'edit', 'status', 'Active', 'Disable', '$2y$10$oy0.v2jb/q.R0pcUDLOKduudWEl5evxxINvVAqe3Eqx9f9gGUCuou', '2016-01-26 10:29:35', '2016-01-26 10:29:36', '2016-01-26 10:29:36'),
-(240, 1, 'pixel', 1, 'edit', 'status', 'Active', 'Disable', '$2y$10$cnaVHEFqEDpYwu.itgyd/..xJSIowZDYsU4lUiG8YuD8T3MS7I3Dq', '2016-01-26 10:31:21', '2016-01-26 10:31:21', '2016-01-26 10:31:21'),
-(241, 1, 'geosegment', 14, 'edit', 'status', 'Active', 'Disable', '$2y$10$Yqc.WSslR0i2B/NQ6G0AneSpTlgw6ga31wdvQFfA5AvGO2r3nTFZW', '2016-01-26 11:04:25', '2016-01-26 11:04:25', '2016-01-26 11:04:25'),
-(242, 1, 'geosegment', 13, 'edit', 'status', 'Active', 'Disable', '$2y$10$aEdg8jroWte/K1s78AEXyOzvwaow0N2Zj11CH15Ebj26gotglf4k2', '2016-01-26 11:04:26', '2016-01-26 11:04:26', '2016-01-26 11:04:26'),
-(243, 1, 'bwlist', 19, 'edit', 'status', 'Active', 'Disable', '$2y$10$OPSVP17SPfgwGPCC9fwe9OMWqi14MeNIMHZNiFszz/NTZvYHz0h/S', '2016-01-26 11:08:31', '2016-01-26 11:08:31', '2016-01-26 11:08:31'),
-(244, 1, 'bwlist', 17, 'edit', 'status', 'Active', 'Disable', '$2y$10$HPdh2Rq0OTlNFOY.MFABwOcAt.C8qCBAdTvm/kqhHnlAlhHlptd92', '2016-01-26 11:08:33', '2016-01-26 11:08:33', '2016-01-26 11:08:33'),
-(245, 1, 'advertiser', 9, 'edit', 'status', 'Active', 'Disable', '$2y$10$6AWel60WXtmuIfnIEqTRpeOV3Suy7R5fxRH4NRxExJKdAMf6nO88e', '2016-01-26 13:11:57', '2016-01-26 13:11:57', '2016-01-26 13:11:57'),
-(246, 1, 'advertiser', 9, 'edit', 'status', 'Disable', 'Active', '$2y$10$KB7b9MCy7RzUcS9P7WJiUucU9JB4bSlwnvS2jroTe/g9VL3d2lO0O', '2016-01-26 13:11:58', '2016-01-26 13:11:59', '2016-01-26 13:11:59'),
-(247, 1, 'advertiser', 2, 'edit', 'status', 'Active', 'Disable', '$2y$10$tJhz/qjAZhWKFZz9wbQVUuKEoiu3jdBHtldL4jaSMF4pSnVY3gQwK', '2016-01-26 13:12:01', '2016-01-26 13:12:01', '2016-01-26 13:12:01'),
-(248, 1, 'campaign', 6, 'edit', 'status', 'Active', 'Disable', '$2y$10$.DZIlIcu4Ghg6wGmjK5D9OFWFkNFh/3ABPDMh69lJqlRvFzOc0wtu', '2016-01-26 13:12:08', '2016-01-26 13:12:08', '2016-01-26 13:12:08'),
-(249, 1, 'creative', 4, 'edit', 'status', 'Active', 'Disable', '$2y$10$t9g5oLLhSgjnYY3oUipHFuNR6d/EaDFEswui2wUODl3mbT0M4Ucpm', '2016-01-26 13:12:12', '2016-01-26 13:12:12', '2016-01-26 13:12:12'),
-(250, 1, 'offer', 2, 'edit', 'status', 'Active', 'Disable', '$2y$10$bGrpfNuh3oAgmhiRl0.ssefryt/ePj9jXc6126Y.CjIRvKV2mUQfa', '2016-01-26 13:12:15', '2016-01-26 13:12:15', '2016-01-26 13:12:15'),
-(251, 1, 'offer', 1, 'edit', 'status', 'Disable', 'Active', '$2y$10$EC7t2wpDXG.a94Q4LvdUnedAOJ7cl/BK4HnQJ7TwJ9p3WGKm2hNsO', '2016-01-26 13:12:16', '2016-01-26 13:12:16', '2016-01-26 13:12:16'),
-(252, 1, 'offer', 2, 'edit', 'status', 'Disable', 'Active', '$2y$10$XwGeIpiBB38X62SP1ZFo1OrdUES1OOQPBOQKFhrbwhHVXRm0vueJ6', '2016-01-26 13:12:16', '2016-01-26 13:12:16', '2016-01-26 13:12:16'),
-(253, 1, 'pixel', 1, 'edit', 'status', 'Disable', 'Active', '$2y$10$7c/QEzYGtuMamAjWAkrOZeBu.jg2e9i4/UHcB81ERMqMfMQTjuV6y', '2016-01-26 13:12:19', '2016-01-26 13:12:19', '2016-01-26 13:12:19'),
-(254, 1, 'pixel', 2, 'edit', 'status', 'Active', 'Disable', '$2y$10$.B598HJIDBGjXuPRtvp8CeA2LDooxLDwPs3HTk4J5NlWzPujuiX7a', '2016-01-26 13:12:19', '2016-01-26 13:12:19', '2016-01-26 13:12:19'),
-(255, 1, 'bwlistentrie', 149, 'edit', 'domain_name', 'asdaasdasd1231233123s.com', 'asdaasdasd12312313123s.com', '$2y$10$is1oIGMPZOyznuIXy1cmiegl9tm/uHtagnm6pjLxObOrj8pjFd.wS', '2016-01-27 12:34:31', '2016-01-27 12:34:31', '2016-01-27 12:34:31'),
-(256, 1, 'bwlistentrie', 149, 'edit', 'domain_name', 'asdaasdasd1231233123s.com', 'asdaasdasd123123s3123s.com', '$2y$10$cZUeUWrXxs2mfoU2GXit3e845COJxH1Ub7BMNCJYZBIzBYM3u63xq', '2016-01-27 12:39:33', '2016-01-27 12:39:34', '2016-01-27 12:39:34'),
-(257, 1, 'bwlistentrie', 155, 'add', '', '', '17', '$2y$10$LobD7rCaXs2LGmRB3AV4zuXAbl0pi.eLc8Wbgx8FK77tDL00fQA3G', '2016-01-27 12:41:17', '2016-01-27 12:41:17', '2016-01-27 12:41:17'),
-(258, 1, 'adv_mdl_map', 2, 'add', '', '', '11', '$2y$10$7vKCaVyu8lKAz8cikKLiounZjyUIJu0UsYcP2l3VtwJ/MvKNSVLAS', '2016-01-27 13:08:46', '2016-01-27 13:08:46', '2016-01-27 13:08:46'),
-(259, 1, 'advertiser', 11, 'add', '', '', '', '$2y$10$7vKCaVyu8lKAz8cikKLiounZjyUIJu0UsYcP2l3VtwJ/MvKNSVLAS', '2016-01-27 13:08:46', '2016-01-27 13:08:46', '2016-01-27 13:08:46'),
-(260, 1, 'bwlistentrie', 155, 'edit', 'domain_name', 'asdasd.com', 'as1dasd.com', '$2y$10$/DssdKB9gQHahUC2YYyuneSxB130fHpA4rv8iDyKeZ6b8tFLHKZr6', '2016-01-27 13:19:21', '2016-01-27 13:19:21', '2016-01-27 13:19:21'),
-(261, 1, 'bwlistentrie', 156, 'add', '', '', '17', '$2y$10$IGamTMXT5TZ6w06cbhPum.Gtr0NbFi2fAy1S054yNdg37RebrsQ0.', '2016-01-27 13:19:27', '2016-01-27 13:19:27', '2016-01-27 13:19:27'),
-(262, 1, 'bwlistentrie', 157, 'add', '', '', '17', '$2y$10$E0dUilppztIdnt7p/ULO4OR0SebKsoL.37S.MRwfImYTtTZ1vL0rm', '2016-01-27 13:20:40', '2016-01-27 13:20:40', '2016-01-27 13:20:40'),
-(263, 1, 'bwlistentrie', 158, 'add', '', '', '17', '$2y$10$XWXq50Bzu0jEefHMRXBuvukFO.bhntFE5P4goI9B4S5S2qf53xCMm', '2016-01-27 13:21:42', '2016-01-27 13:21:42', '2016-01-27 13:21:42'),
-(264, 1, 'bwlistentrie', 159, 'add', '', '', '17', '$2y$10$X1r4dRwcCL7WnfzM1hFr9OvGsU0Wi3VDxkeMiTCYhk1SL6eMFjWwy', '2016-01-27 13:23:56', '2016-01-27 13:23:56', '2016-01-27 13:23:56'),
-(265, 1, 'campaign', 4, 'edit', 'status', 'Inactive', 'Active', '$2y$10$YXTxLn09bm8MgRUJ.0lv2.SYDQF8tK0C.B8GIHX.lZ8giJ/4e/cYC', '2016-01-27 13:56:07', '2016-01-27 13:56:07', '2016-01-27 13:56:07'),
-(266, 1, 'campaign', 4, 'edit', 'status', 'Active', 'Inactive', '$2y$10$TwaL4fI0TAhPV6cfjFF/t.ABP90s9hhmcO0dIG3fhDt7yfIAVAOD.', '2016-01-27 13:56:08', '2016-01-27 13:56:08', '2016-01-27 13:56:08'),
-(267, 1, 'campaign', 4, 'edit', 'status', 'Inactive', 'Active', '$2y$10$qwuuHLjzhenM2ar75gUSX.1nHMOb37/rxwSAzlbIWRKUgXNonypOy', '2016-01-27 13:56:42', '2016-01-27 13:56:42', '2016-01-27 13:56:42'),
-(268, 1, 'campaign', 4, 'edit', 'status', 'Active', 'Inactive', '$2y$10$pU3CLd9x8gNwPEExKwD/reZAZhy/FHhZz6u9Ip36gfWxEOFvgSZlW', '2016-01-27 13:56:42', '2016-01-27 13:56:42', '2016-01-27 13:56:42'),
-(269, 1, 'targetgroup', 20, 'add', '', '', '', '$2y$10$wrlFgSIf0rDOyy.t/VtWheYY9aqS5uRm5oKM/yeWIfjel/3helLQi', '2016-01-28 09:06:16', '2016-01-28 09:06:16', '2016-01-28 09:06:16'),
-(270, 1, 'targetgroup_geosegment', 25, 'add', '', '', '20', '$2y$10$wrlFgSIf0rDOyy.t/VtWheYY9aqS5uRm5oKM/yeWIfjel/3helLQi', '2016-01-28 09:06:16', '2016-01-28 09:06:16', '2016-01-28 09:06:16'),
-(271, 1, 'targetgroup_geosegment', 26, 'add', '', '', '20', '$2y$10$wrlFgSIf0rDOyy.t/VtWheYY9aqS5uRm5oKM/yeWIfjel/3helLQi', '2016-01-28 09:06:16', '2016-01-28 09:06:16', '2016-01-28 09:06:16'),
-(272, 1, 'targetgroup_creative', 16, 'add', '', '', '20', '$2y$10$wrlFgSIf0rDOyy.t/VtWheYY9aqS5uRm5oKM/yeWIfjel/3helLQi', '2016-01-28 09:06:16', '2016-01-28 09:06:16', '2016-01-28 09:06:16'),
-(273, 1, 'targetgroup_geolocation', 10, 'add', '', '', '20', '$2y$10$wrlFgSIf0rDOyy.t/VtWheYY9aqS5uRm5oKM/yeWIfjel/3helLQi', '2016-01-28 09:06:16', '2016-01-28 09:06:16', '2016-01-28 09:06:16'),
-(274, 1, 'targetgroup_geolocation', 11, 'add', '', '', '20', '$2y$10$wrlFgSIf0rDOyy.t/VtWheYY9aqS5uRm5oKM/yeWIfjel/3helLQi', '2016-01-28 09:06:16', '2016-01-28 09:06:16', '2016-01-28 09:06:16'),
-(275, 1, 'targetgroup_geolocation', 12, 'add', '', '', '20', '$2y$10$wrlFgSIf0rDOyy.t/VtWheYY9aqS5uRm5oKM/yeWIfjel/3helLQi', '2016-01-28 09:06:16', '2016-01-28 09:06:16', '2016-01-28 09:06:16'),
-(276, 1, 'targetgroup_bwlist', 7, 'add', '', '', '20', '$2y$10$wrlFgSIf0rDOyy.t/VtWheYY9aqS5uRm5oKM/yeWIfjel/3helLQi', '2016-01-28 09:06:16', '2016-01-28 09:06:16', '2016-01-28 09:06:16'),
-(277, 1, 'targetgroup', 21, 'add', '', '', '', '$2y$10$yuI8.xr88tu4oMPGbSn5AOGDv66K7Ap5aWdfyTnpH1x6tLEinJorG', '2016-01-28 09:08:55', '2016-01-28 09:08:55', '2016-01-28 09:08:55'),
-(278, 1, 'targetgroup_geosegment', 27, 'add', '', '', '21', '$2y$10$yuI8.xr88tu4oMPGbSn5AOGDv66K7Ap5aWdfyTnpH1x6tLEinJorG', '2016-01-28 09:08:55', '2016-01-28 09:08:55', '2016-01-28 09:08:55'),
-(279, 1, 'targetgroup_geosegment', 28, 'add', '', '', '21', '$2y$10$yuI8.xr88tu4oMPGbSn5AOGDv66K7Ap5aWdfyTnpH1x6tLEinJorG', '2016-01-28 09:08:55', '2016-01-28 09:08:55', '2016-01-28 09:08:55'),
-(280, 1, 'targetgroup_creative', 17, 'add', '', '', '21', '$2y$10$yuI8.xr88tu4oMPGbSn5AOGDv66K7Ap5aWdfyTnpH1x6tLEinJorG', '2016-01-28 09:08:55', '2016-01-28 09:08:55', '2016-01-28 09:08:55'),
-(281, 1, 'targetgroup_geolocation', 13, 'add', '', '', '21', '$2y$10$yuI8.xr88tu4oMPGbSn5AOGDv66K7Ap5aWdfyTnpH1x6tLEinJorG', '2016-01-28 09:08:55', '2016-01-28 09:08:55', '2016-01-28 09:08:55'),
-(282, 1, 'targetgroup_geolocation', 14, 'add', '', '', '21', '$2y$10$yuI8.xr88tu4oMPGbSn5AOGDv66K7Ap5aWdfyTnpH1x6tLEinJorG', '2016-01-28 09:08:55', '2016-01-28 09:08:55', '2016-01-28 09:08:55'),
-(283, 1, 'targetgroup_geolocation', 15, 'add', '', '', '21', '$2y$10$yuI8.xr88tu4oMPGbSn5AOGDv66K7Ap5aWdfyTnpH1x6tLEinJorG', '2016-01-28 09:08:55', '2016-01-28 09:08:55', '2016-01-28 09:08:55'),
-(284, 1, 'targetgroup_bwlist', 8, 'add', '', '', '21', '$2y$10$yuI8.xr88tu4oMPGbSn5AOGDv66K7Ap5aWdfyTnpH1x6tLEinJorG', '2016-01-28 09:08:55', '2016-01-28 09:08:55', '2016-01-28 09:08:55'),
-(285, 1, 'targetgroup', 22, 'add', '', '', '', '$2y$10$WTMiUFIRWn8mInHsdFOrkedH8KrD4w0WhC40tcjh/on78N0KlTx2e', '2016-01-28 09:13:08', '2016-01-28 09:13:08', '2016-01-28 09:13:08'),
-(286, 1, 'targetgroup', 23, 'add', '', '', '', '$2y$10$Cm90/IukPJq8WES6hQq2beNnsQam8EGZ9CqlZnUQ6WNpnnZJExvze', '2016-01-28 10:07:37', '2016-01-28 10:07:37', '2016-01-28 10:07:37'),
-(287, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$WiFvXNCGrwQeIY9Se08r/.2fb.NJ0Ii3ampNd3b4iTCHCwFFH1E4q', '2016-01-28 11:08:08', '2016-01-28 11:08:08', '2016-01-28 11:08:08'),
-(288, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$WiFvXNCGrwQeIY9Se08r/.2fb.NJ0Ii3ampNd3b4iTCHCwFFH1E4q', '2016-01-28 11:08:08', '2016-01-28 11:08:08', '2016-01-28 11:08:08'),
-(289, 1, 'targetgroup_geosegment_map', 13, 'add', '', '', '20', '$2y$10$WiFvXNCGrwQeIY9Se08r/.2fb.NJ0Ii3ampNd3b4iTCHCwFFH1E4q', '2016-01-28 11:08:08', '2016-01-28 11:08:08', '2016-01-28 11:08:08'),
-(290, 1, 'targetgroup_geosegment_map', 8, 'add', '', '', '20', '$2y$10$WiFvXNCGrwQeIY9Se08r/.2fb.NJ0Ii3ampNd3b4iTCHCwFFH1E4q', '2016-01-28 11:08:08', '2016-01-28 11:08:08', '2016-01-28 11:08:08'),
-(291, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$/FjwE5sEzEQCxpfLGREkGesfwoWxBZxr9k9ADOLhdKFXh2qHiYi6y', '2016-01-28 11:12:14', '2016-01-28 11:12:14', '2016-01-28 11:12:14'),
-(292, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$/FjwE5sEzEQCxpfLGREkGesfwoWxBZxr9k9ADOLhdKFXh2qHiYi6y', '2016-01-28 11:12:14', '2016-01-28 11:12:14', '2016-01-28 11:12:14'),
-(293, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$qMkVAD57zYypeL6jV.QJ6e2sGHSylyyOdYFxItxMUX/2DAxtgTv66', '2016-01-28 11:12:29', '2016-01-28 11:12:29', '2016-01-28 11:12:29'),
-(294, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$qMkVAD57zYypeL6jV.QJ6e2sGHSylyyOdYFxItxMUX/2DAxtgTv66', '2016-01-28 11:12:29', '2016-01-28 11:12:29', '2016-01-28 11:12:29'),
-(295, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$A3EISqDG0wgg0lhnKr0iDOQgeNjHdLoHD1bDI9fyn8XRauKL3gTmW', '2016-01-28 11:12:58', '2016-01-28 11:12:58', '2016-01-28 11:12:58'),
-(296, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$A3EISqDG0wgg0lhnKr0iDOQgeNjHdLoHD1bDI9fyn8XRauKL3gTmW', '2016-01-28 11:12:58', '2016-01-28 11:12:58', '2016-01-28 11:12:58'),
-(297, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$3.04Y6yxKaT4syICafOLVec4cl.Hy.ravflQjQOZrRiMqjMFSYb5i', '2016-01-28 11:13:24', '2016-01-28 11:13:24', '2016-01-28 11:13:24'),
-(298, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$3.04Y6yxKaT4syICafOLVec4cl.Hy.ravflQjQOZrRiMqjMFSYb5i', '2016-01-28 11:13:24', '2016-01-28 11:13:24', '2016-01-28 11:13:24'),
-(299, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$WNVkTmkeSfU2NT4sN8ulf.yzY6hyK9psebvkA9hE883yPO7Ik6pQm', '2016-01-28 11:13:53', '2016-01-28 11:13:53', '2016-01-28 11:13:53'),
-(300, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$WNVkTmkeSfU2NT4sN8ulf.yzY6hyK9psebvkA9hE883yPO7Ik6pQm', '2016-01-28 11:13:53', '2016-01-28 11:13:53', '2016-01-28 11:13:53'),
-(301, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$xauv8dR2No.sj6.uniy2PuobST.Tff/YZc5yKGLyiA/aVK1vgVB6S', '2016-01-28 11:14:34', '2016-01-28 11:14:34', '2016-01-28 11:14:34'),
-(302, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$xauv8dR2No.sj6.uniy2PuobST.Tff/YZc5yKGLyiA/aVK1vgVB6S', '2016-01-28 11:14:34', '2016-01-28 11:14:34', '2016-01-28 11:14:34'),
-(303, 1, 'targetgroup_geosegment_map', 7, 'add', '', '', '20', '$2y$10$xauv8dR2No.sj6.uniy2PuobST.Tff/YZc5yKGLyiA/aVK1vgVB6S', '2016-01-28 11:14:34', '2016-01-28 11:14:34', '2016-01-28 11:14:34'),
-(304, 1, 'targetgroup_geosegment_map', 8, 'add', '', '', '20', '$2y$10$xauv8dR2No.sj6.uniy2PuobST.Tff/YZc5yKGLyiA/aVK1vgVB6S', '2016-01-28 11:14:34', '2016-01-28 11:14:34', '2016-01-28 11:14:34'),
-(305, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$8oEiMEsfNhA4bVFDA3zHqO4FJSnCSOJ.NsG7C47PXnoI1AUUBHyTW', '2016-01-28 11:15:18', '2016-01-28 11:15:18', '2016-01-28 11:15:18'),
-(306, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$8oEiMEsfNhA4bVFDA3zHqO4FJSnCSOJ.NsG7C47PXnoI1AUUBHyTW', '2016-01-28 11:15:18', '2016-01-28 11:15:18', '2016-01-28 11:15:18'),
-(307, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$eqyrRGZPjLZsgO1etvnqmexq56Rln2To03zLIt55ZSMRAjSq/EAQC', '2016-01-28 11:15:29', '2016-01-28 11:15:29', '2016-01-28 11:15:29'),
-(308, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$eqyrRGZPjLZsgO1etvnqmexq56Rln2To03zLIt55ZSMRAjSq/EAQC', '2016-01-28 11:15:29', '2016-01-28 11:15:29', '2016-01-28 11:15:29'),
-(309, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$E/6leZ.4zInestrj9sabvesIpBhLbYNjmMWjhCpr6ORH7hEYr32Ka', '2016-01-28 11:16:03', '2016-01-28 11:16:03', '2016-01-28 11:16:03'),
-(310, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$E/6leZ.4zInestrj9sabvesIpBhLbYNjmMWjhCpr6ORH7hEYr32Ka', '2016-01-28 11:16:03', '2016-01-28 11:16:03', '2016-01-28 11:16:03'),
-(311, 1, 'targetgroup_geosegment_map', 8, 'add', '', '', '20', '$2y$10$E/6leZ.4zInestrj9sabvesIpBhLbYNjmMWjhCpr6ORH7hEYr32Ka', '2016-01-28 11:16:03', '2016-01-28 11:16:03', '2016-01-28 11:16:03'),
-(312, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$iZrQOqtz3eNMUbc8PSwxre2PcOkoPUjWYRw6iycLu7ZuuzzESiheq', '2016-01-28 11:16:44', '2016-01-28 11:16:44', '2016-01-28 11:16:44'),
-(313, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$iZrQOqtz3eNMUbc8PSwxre2PcOkoPUjWYRw6iycLu7ZuuzzESiheq', '2016-01-28 11:16:44', '2016-01-28 11:16:44', '2016-01-28 11:16:44'),
-(314, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$.VdmK4idchmKzheSXSq52.FkdQIid4iIOzlX37C3G149oUhIMkycy', '2016-01-28 11:17:09', '2016-01-28 11:17:09', '2016-01-28 11:17:09'),
-(315, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$.VdmK4idchmKzheSXSq52.FkdQIid4iIOzlX37C3G149oUhIMkycy', '2016-01-28 11:17:09', '2016-01-28 11:17:09', '2016-01-28 11:17:09'),
-(316, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$EbLBaLkjXsWzBWiN0zo9bedymEOfgM5bYscXrgYRWX8q1kLOWlinS', '2016-01-28 11:17:26', '2016-01-28 11:17:26', '2016-01-28 11:17:26'),
-(317, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$EbLBaLkjXsWzBWiN0zo9bedymEOfgM5bYscXrgYRWX8q1kLOWlinS', '2016-01-28 11:17:26', '2016-01-28 11:17:26', '2016-01-28 11:17:26'),
-(318, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$EdRsfD01JYVztmGb9Nshc.iyEh3k9iVWPbrDEDOQh6v3gqfKsRoAO', '2016-01-28 11:17:46', '2016-01-28 11:17:46', '2016-01-28 11:17:46'),
-(319, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$EdRsfD01JYVztmGb9Nshc.iyEh3k9iVWPbrDEDOQh6v3gqfKsRoAO', '2016-01-28 11:17:46', '2016-01-28 11:17:46', '2016-01-28 11:17:46'),
-(320, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$gfjWVaZzIh/QaV/ZF8boV.R1jps9UMxRBEIWH8XGvgck..WdLVJ4S', '2016-01-28 11:18:04', '2016-01-28 11:18:04', '2016-01-28 11:18:04'),
-(321, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$gfjWVaZzIh/QaV/ZF8boV.R1jps9UMxRBEIWH8XGvgck..WdLVJ4S', '2016-01-28 11:18:04', '2016-01-28 11:18:04', '2016-01-28 11:18:04'),
-(322, 1, 'targetgroup_geosegment_map', 8, 'add', '', '', '20', '$2y$10$gfjWVaZzIh/QaV/ZF8boV.R1jps9UMxRBEIWH8XGvgck..WdLVJ4S', '2016-01-28 11:18:04', '2016-01-28 11:18:04', '2016-01-28 11:18:04'),
-(323, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$cdnzK6WF63vKe.7n.P7sAea2B3V/PP25XSXU.RyhJVZIPIqkcN/8a', '2016-01-28 11:18:18', '2016-01-28 11:18:18', '2016-01-28 11:18:18'),
-(324, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$cdnzK6WF63vKe.7n.P7sAea2B3V/PP25XSXU.RyhJVZIPIqkcN/8a', '2016-01-28 11:18:18', '2016-01-28 11:18:18', '2016-01-28 11:18:18'),
-(325, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$MXH1xPa25b/zoh.Jgk/w5e3GgeTXl6R6vTVJr7Q4qHgP5RGhXx/Jm', '2016-01-28 11:18:30', '2016-01-28 11:18:30', '2016-01-28 11:18:30'),
-(326, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$MXH1xPa25b/zoh.Jgk/w5e3GgeTXl6R6vTVJr7Q4qHgP5RGhXx/Jm', '2016-01-28 11:18:30', '2016-01-28 11:18:30', '2016-01-28 11:18:30'),
-(327, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$dM8UJ9.RB1IpFErOnVx6..Hmc11l1NbW9kd0sBH9qaIZwh3k0UCTa', '2016-01-28 11:18:58', '2016-01-28 11:18:58', '2016-01-28 11:18:58'),
-(328, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$dM8UJ9.RB1IpFErOnVx6..Hmc11l1NbW9kd0sBH9qaIZwh3k0UCTa', '2016-01-28 11:18:58', '2016-01-28 11:18:58', '2016-01-28 11:18:58'),
-(329, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '0', '$2y$10$QbfELLaiN0KHrft2dw7gbeFYwTD6DYNnhhfuRypScox4Ph1RnPOBO', '2016-01-28 11:19:25', '2016-01-28 11:19:25', '2016-01-28 11:19:25'),
-(330, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '0', '$2y$10$QbfELLaiN0KHrft2dw7gbeFYwTD6DYNnhhfuRypScox4Ph1RnPOBO', '2016-01-28 11:19:25', '2016-01-28 11:19:25', '2016-01-28 11:19:25'),
-(331, 1, 'targetgroup_geosegment_map', 8, 'add', '', '', '20', '$2y$10$QbfELLaiN0KHrft2dw7gbeFYwTD6DYNnhhfuRypScox4Ph1RnPOBO', '2016-01-28 11:19:25', '2016-01-28 11:19:25', '2016-01-28 11:19:25'),
-(332, 1, 'targetgroup', 20, 'edit', 'name', 'final', 'final1', '$2y$10$3W4dt0X7O7QfIr68qpmSp.ItJuBC9aoZ3f0hc3OSSQ8ok6n4NPpgy', '2016-01-28 11:33:31', '2016-01-28 11:33:31', '2016-01-28 11:33:31'),
-(333, 1, 'targetgroup', 20, 'edit', 'Max Impression', '213', '2131', '$2y$10$3W4dt0X7O7QfIr68qpmSp.ItJuBC9aoZ3f0hc3OSSQ8ok6n4NPpgy', '2016-01-28 11:33:31', '2016-01-28 11:33:31', '2016-01-28 11:33:31'),
-(334, 1, 'targetgroup', 20, 'edit', 'Daily max Impression', '123', '1231', '$2y$10$3W4dt0X7O7QfIr68qpmSp.ItJuBC9aoZ3f0hc3OSSQ8ok6n4NPpgy', '2016-01-28 11:33:31', '2016-01-28 11:33:31', '2016-01-28 11:33:31'),
-(335, 1, 'targetgroup', 20, 'edit', 'Max Budget', '123', '1231', '$2y$10$3W4dt0X7O7QfIr68qpmSp.ItJuBC9aoZ3f0hc3OSSQ8ok6n4NPpgy', '2016-01-28 11:33:31', '2016-01-28 11:33:31', '2016-01-28 11:33:31'),
-(336, 1, 'targetgroup', 20, 'edit', 'Daily Max Budget', '123', '1231', '$2y$10$3W4dt0X7O7QfIr68qpmSp.ItJuBC9aoZ3f0hc3OSSQ8ok6n4NPpgy', '2016-01-28 11:33:31', '2016-01-28 11:33:31', '2016-01-28 11:33:31'),
-(337, 1, 'targetgroup', 20, 'edit', 'CPM', '123', '1231', '$2y$10$3W4dt0X7O7QfIr68qpmSp.ItJuBC9aoZ3f0hc3OSSQ8ok6n4NPpgy', '2016-01-28 11:33:31', '2016-01-28 11:33:31', '2016-01-28 11:33:31'),
-(338, 1, 'targetgroup', 20, 'edit', 'Domain Name', 'http://www.asd.com', 'http://www.asd1.com', '$2y$10$3W4dt0X7O7QfIr68qpmSp.ItJuBC9aoZ3f0hc3OSSQ8ok6n4NPpgy', '2016-01-28 11:33:31', '2016-01-28 11:33:31', '2016-01-28 11:33:31'),
-(339, 1, 'targetgroup', 20, 'edit', 'Pacing Plan', '123', '1231', '$2y$10$3W4dt0X7O7QfIr68qpmSp.ItJuBC9aoZ3f0hc3OSSQ8ok6n4NPpgy', '2016-01-28 11:33:31', '2016-01-28 11:33:31', '2016-01-28 11:33:31'),
-(340, 1, 'targetgroup', 20, 'edit', 'Frequency In Sec', '123', '1231', '$2y$10$3W4dt0X7O7QfIr68qpmSp.ItJuBC9aoZ3f0hc3OSSQ8ok6n4NPpgy', '2016-01-28 11:33:31', '2016-01-28 11:33:31', '2016-01-28 11:33:31'),
-(341, 1, 'targetgroup', 20, 'edit', 'Iab Category', '2', '3', '$2y$10$3W4dt0X7O7QfIr68qpmSp.ItJuBC9aoZ3f0hc3OSSQ8ok6n4NPpgy', '2016-01-28 11:33:31', '2016-01-28 11:33:31', '2016-01-28 11:33:31'),
-(342, 1, 'targetgroup', 20, 'edit', 'Iab Sub Category', '5', '9', '$2y$10$3W4dt0X7O7QfIr68qpmSp.ItJuBC9aoZ3f0hc3OSSQ8ok6n4NPpgy', '2016-01-28 11:33:31', '2016-01-28 11:33:31', '2016-01-28 11:33:31'),
-(343, 1, 'targetgroup', 20, 'edit', 'Start Date', '0000-00-00 00:00:00', '2017-07-01 15:03:31', '$2y$10$3W4dt0X7O7QfIr68qpmSp.ItJuBC9aoZ3f0hc3OSSQ8ok6n4NPpgy', '2016-01-28 11:33:31', '2016-01-28 11:33:31', '2016-01-28 11:33:31'),
-(344, 1, 'targetgroup', 20, 'edit', 'End Date', '0000-00-00 00:00:00', '2018-06-01 15:03:31', '$2y$10$3W4dt0X7O7QfIr68qpmSp.ItJuBC9aoZ3f0hc3OSSQ8ok6n4NPpgy', '2016-01-28 11:33:31', '2016-01-28 11:33:31', '2016-01-28 11:33:31'),
-(345, 1, 'targetgroup_creative_map', 5, 'add', '', '', '20', '$2y$10$3W4dt0X7O7QfIr68qpmSp.ItJuBC9aoZ3f0hc3OSSQ8ok6n4NPpgy', '2016-01-28 11:33:31', '2016-01-28 11:33:31', '2016-01-28 11:33:31'),
-(346, 1, 'targetgroup', 24, 'add', '', '', '', '$2y$10$ZCa4bTJrUzoTYBUJIqAhq.IMZA5hlbOBCkA6dbRradiRZ1tvVmibm', '2016-01-30 07:03:47', '2016-01-30 07:03:47', '2016-01-30 07:03:47'),
-(347, 1, 'targetgroup_bwlist', 9, 'add', '', '', '24', '$2y$10$ZCa4bTJrUzoTYBUJIqAhq.IMZA5hlbOBCkA6dbRradiRZ1tvVmibm', '2016-01-30 07:03:47', '2016-01-30 07:03:47', '2016-01-30 07:03:47');
+(1, 1, 'targetgroup', 20, 'edit', 'name', 'final11', 'final1', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(2, 1, 'targetgroup', 20, 'edit', 'Max Impression', '21311', '2131', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(3, 1, 'targetgroup', 20, 'edit', 'Daily max Impression', '12311', '1231', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(4, 1, 'targetgroup', 20, 'edit', 'Max Budget', '12311', '1231', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(5, 1, 'targetgroup', 20, 'edit', 'Daily Max Budget', '12311', '1231', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(6, 1, 'targetgroup', 20, 'edit', 'CPM', '12311', '1231', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(7, 1, 'targetgroup', 20, 'edit', 'Domain Name', 'http://www.as1d1.com', 'http://www.as1d.com', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(8, 1, 'targetgroup', 20, 'edit', 'Pacing Plan', '12311', '1231', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(9, 1, 'targetgroup', 20, 'edit', 'Frequency In Sec', '12311', '1231', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(10, 1, 'targetgroup', 20, 'edit', 'Iab Category', '2', '1', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(11, 1, 'targetgroup', 20, 'edit', 'Iab Sub Category', '5', '3', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(12, 1, 'targetgroup', 20, 'edit', 'Start Date', '2016-10-01 10:11:01', '2016-10-01 10:12:03', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(13, 1, 'targetgroup', 20, 'edit', 'End Date', '2018-04-01 10:11:01', '2018-04-01 10:12:03', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(14, 1, 'targetgroup_geosegment_map', 8, 'add', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(15, 1, 'targetgroup_geosegment_map', 0, 'del', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(16, 1, 'targetgroup_geolocation_map', 22, 'add', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(17, 1, 'targetgroup_geolocation_map', 23, 'add', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(18, 1, 'targetgroup_geolocation_map', 24, 'add', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:04', '2016-01-31 06:42:04', '2016-01-31 06:42:04'),
+(19, 1, 'targetgroup_geolocation_map', 4, 'del', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:04', '2016-01-31 06:42:04', '2016-01-31 06:42:04'),
+(20, 1, 'targetgroup_geolocation_map', 5, 'del', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:04', '2016-01-31 06:42:04', '2016-01-31 06:42:04'),
+(21, 1, 'targetgroup_geolocation_map', 6, 'del', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:04', '2016-01-31 06:42:04', '2016-01-31 06:42:04'),
+(22, 1, 'targetgroup_bwlist_map', 2, 'add', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:04', '2016-01-31 06:42:04', '2016-01-31 06:42:04'),
+(23, 1, 'targetgroup_bwlist_map', 0, 'del', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:04', '2016-01-31 06:42:04', '2016-01-31 06:42:04'),
+(24, 1, 'advertiser', 4, 'edit', 'status', 'Active', 'Inactive', '$2y$10$.CZAVp4vTnbU0aoTlyfbuOZ4cMpnPy.jUJxFZlksZSxHdJtpgX1Xm', '2016-01-31 12:31:44', '2016-01-31 12:31:44', '2016-01-31 12:31:44'),
+(25, 1, 'advertiser', 6, 'edit', 'status', 'Active', 'Inactive', '$2y$10$QPLQX9IalTW94tFpGYWJOuwgNjBUdkCPcYd/Vp9/mPJXW74U4pp1q', '2016-02-01 11:27:49', '2016-02-01 11:27:49', '2016-02-01 11:27:49'),
+(26, 1, 'advertiser', 7, 'edit', 'status', 'Active', 'Inactive', '$2y$10$Orbdfxx9Rec8862pIsEGz.1mUfTMETunwwJVi1HdypzOkisf6TVde', '2016-02-01 11:27:59', '2016-02-01 11:28:00', '2016-02-01 11:28:00');
 
 -- --------------------------------------------------------
 
@@ -444,7 +287,7 @@ INSERT INTO `bwlist` (`id`, `name`, `status`, `list_type`, `advertiser_id`, `cre
 (7, 'aa', 'Active', 'white', 8, '2015-11-20 12:56:12', '2015-11-20 12:56:12'),
 (8, 'ali', 'Active', 'white', 8, '2015-11-21 13:12:34', '2015-11-21 13:12:34'),
 (17, 'alireza2', 'Active', 'white', 8, '2015-11-28 13:13:17', '2016-01-26 11:08:33'),
-(18, 'alio1', 'Active', 'black', 9, '2015-12-05 12:29:45', '2015-12-21 11:16:30'),
+(18, 'alio1', 'Disable', 'black', 9, '2015-12-05 12:29:45', '2016-01-30 12:33:04'),
 (19, 'reza', 'Active', 'black', 6, '2016-01-18 15:25:21', '2016-01-26 11:08:31');
 
 -- --------------------------------------------------------
@@ -11541,7 +11384,7 @@ CREATE TABLE IF NOT EXISTS `targetgroup` (
   `advertiser_domain_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `targetgroup`
@@ -11552,8 +11395,8 @@ INSERT INTO `targetgroup` (`id`, `name`, `campaign_id`, `description`, `status`,
 (2, 'sadasd', 3, '4ghh', 'Active', '234', '234', 234234, 234, 2341234, 234234, '234234', 456, 45646, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '456456', '2015-10-23 09:56:19', '2015-10-23 09:56:19'),
 (3, 'asdasd', 3, 'fhfgh', 'Active', '5646', '456456', 45645, 645, 6456, 46, '464', 4564, 5646, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '46', '2015-10-23 09:59:06', '2015-10-23 09:59:06'),
 (4, 'asdasd1', 7, 'ggggfjfjf g gh jfg ', 'Active', '324', '567', 65, 87, 856756, 7567, '567', 567, 567, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '567', '2015-10-23 10:00:05', '2015-10-23 10:00:05'),
-(5, 'ali', 3, '', 'Active', '1', NULL, 1, 2, 3, 4, '7', 6, 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'ddd', '2015-11-30 14:13:26', '2015-11-30 14:13:26'),
-(20, 'final1', 3, '', '', '3', '9', 2131, 1231, 1231, 1231, '1231', 1231, 1231, '2017-07-01 10:33:31', '2018-06-01 10:33:31', 'http://www.asd1.com', '2016-01-28 09:06:16', '2016-01-28 11:33:31');
+(13, 'ali', 3, '', 'Active', '1', NULL, 1, 2, 3, 4, '7', 6, 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'ddd', '2015-11-30 14:13:26', '2015-11-30 14:13:26'),
+(20, 'final1', 3, '', '', '1', '3', 2131, 1231, 1231, 1231, '1231', 1231, 1231, '2016-10-01 06:42:03', '2018-04-01 05:42:03', 'http://www.as1d.com', '2016-01-28 09:06:16', '2016-01-31 06:42:03');
 
 -- --------------------------------------------------------
 
@@ -11567,14 +11410,14 @@ CREATE TABLE IF NOT EXISTS `targetgroup_bidhour_map` (
   `targetgroup_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `targetgroup_bidhour_map`
 --
 
 INSERT INTO `targetgroup_bidhour_map` (`id`, `hours`, `targetgroup_id`, `created_at`, `updated_at`) VALUES
-(10, '{"1":["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"],"2":["1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0"],"3":["0","0","0","0","1","0","0","0","0","0","0","1","0","0","0","0","1","1","0","0","0","0","0","0"],"4":["1","0","1","0","0","0","0","1","0","0","0","1","0","0","0","0","0","0","1","1","0","0","0","0"],"5":["0","0","0","0","0","0","0","0","1","0","1","0","0","0","1","0","0","0","0","0","0","0","1","0"],"6":["1","0","0","0","1","0","0","1","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0"],"7":["0","0","0","0","0","0","1","0","0","1","0","0","1","0","0","0","0","0","1","0","0","1","0","0"]}', 20, '2016-01-28 10:07:37', '2016-01-28 10:07:37');
+(10, '{"1":["0","0","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"],"2":["1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0"],"3":["0","0","0","0","1","0","0","0","0","0","0","1","0","0","0","0","1","1","0","0","0","0","0","0"],"4":["1","0","1","0","0","0","0","1","0","0","0","1","0","0","0","0","0","0","1","1","0","0","0","0"],"5":["0","0","0","0","0","0","0","0","1","0","1","0","0","0","1","0","0","0","0","0","0","0","1","0"],"6":["1","0","0","0","1","0","0","1","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0"],"7":["0","0","0","0","0","0","1","0","0","1","0","0","1","0","0","0","0","0","1","0","0","1","0","0"]}', 20, '2016-01-28 10:07:37', '2016-01-30 14:23:24');
 
 -- --------------------------------------------------------
 
@@ -11589,7 +11432,7 @@ CREATE TABLE IF NOT EXISTS `targetgroup_bid_advpublisher` (
   `targetgroup_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `targetgroup_bid_advpublisher`
@@ -11611,14 +11454,14 @@ CREATE TABLE IF NOT EXISTS `targetgroup_bwlist_map` (
   `bwlist_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `targetgroup_bwlist_map`
 --
 
 INSERT INTO `targetgroup_bwlist_map` (`id`, `targetgroup_id`, `bwlist_id`, `created_at`, `updated_at`) VALUES
-(9, 20, 2, '2016-01-30 07:03:47', '2016-01-30 07:03:47');
+(16, 20, 2, '2016-01-31 06:42:04', '2016-01-31 06:42:04');
 
 -- --------------------------------------------------------
 
@@ -11632,14 +11475,17 @@ CREATE TABLE IF NOT EXISTS `targetgroup_creative_map` (
   `creative_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `targetgroup_creative_map`
 --
 
 INSERT INTO `targetgroup_creative_map` (`id`, `targetgroup_id`, `creative_id`, `created_at`, `updated_at`) VALUES
-(18, 20, 5, '2016-01-28 11:33:31', '2016-01-28 11:33:31');
+(18, 20, 5, '2016-01-28 11:33:31', '2016-01-28 11:33:31'),
+(19, 20, 5, '2016-01-30 12:40:48', '2016-01-30 12:40:48'),
+(20, 20, 5, '2016-01-30 12:44:45', '2016-01-30 12:44:45'),
+(21, 20, 5, '2016-01-30 12:44:56', '2016-01-30 12:44:56');
 
 -- --------------------------------------------------------
 
@@ -11653,16 +11499,16 @@ CREATE TABLE IF NOT EXISTS `targetgroup_geolocation_map` (
   `targetgroup_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `targetgroup_geolocation_map`
 --
 
 INSERT INTO `targetgroup_geolocation_map` (`id`, `geolocation_id`, `targetgroup_id`, `created_at`, `updated_at`) VALUES
-(10, 3, 20, '2016-01-28 09:06:16', '2016-01-28 09:06:16'),
-(11, 4, 20, '2016-01-28 09:06:16', '2016-01-28 09:06:16'),
-(12, 5, 20, '2016-01-28 09:06:16', '2016-01-28 09:06:16');
+(29, 22, 20, '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(30, 23, 20, '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(31, 24, 20, '2016-01-31 06:42:04', '2016-01-31 06:42:04');
 
 -- --------------------------------------------------------
 
@@ -11676,7 +11522,7 @@ CREATE TABLE IF NOT EXISTS `targetgroup_geosegmentlist_map` (
   `geosegmentlist_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `targetgroup_geosegmentlist_map`
@@ -11684,7 +11530,7 @@ CREATE TABLE IF NOT EXISTS `targetgroup_geosegmentlist_map` (
 
 INSERT INTO `targetgroup_geosegmentlist_map` (`id`, `targetgroup_id`, `geosegmentlist_id`, `created_at`, `updated_at`) VALUES
 (25, 20, 7, '2016-01-28 09:06:16', '2016-01-28 09:06:16'),
-(35, 20, 8, '2016-01-28 11:19:25', '2016-01-28 11:19:25');
+(37, 20, 8, '2016-01-31 06:42:03', '2016-01-31 06:42:03');
 
 -- --------------------------------------------------------
 
@@ -11712,8 +11558,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `company_id`, `company`, `name`, `email`, `password`, `active`, `remember_token`, `last_login_time`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 'aaa11', 'alireza', '09364991494@yahoo.com', '$2y$10$q0O2WoGF6tKnk7s638v/wue4N4iSKeZ21JwH7JY0XGyj06MDyfF2K', 1, 'kdBtZGoEuNs5jTz6aHyUwNe6oQrY5h5y4bX6Mwol1FEBwzc6xCFOHbcsPtnH', '2016-01-26 00:28:54', '0000-00-00 00:00:00', '2016-01-26 12:28:54'),
-(2, 2, 2, '', 'alireza11111', 'a@b.com', '$2y$10$q0O2WoGF6tKnk7s638v/wue4N4iSKeZ21JwH7JY0XGyj06MDyfF2K', 0, 'wbEqCaXMvVOVvc2rbjhBh5aeEdqW05qjv85rHERzLV7MuomjOC6jx0VN4Blf', NULL, '0000-00-00 00:00:00', '2015-12-08 04:34:02'),
+(1, 1, 2, 'aaa11', 'alireza', '09364991494@yahoo.com', '$2y$10$7nej63o0f9G.YpQsDqLzgOD78qiXyfXysoR07HN78WrbNFboj1FHe', 0, '42pjfzj591AoGFk3MTSVJC3Dwj5OXVy5BsMDvTGVoPvJOvRDiFIw0bpQcKv8', '2016-02-01 01:19:12', '0000-00-00 00:00:00', '2016-02-01 13:19:12'),
+(2, 2, 2, '', 'alireza11111', 'a@b.com', '$2y$10$AnPJLJLGvF3CBCP4oq1LrumBxVnk8KEgOGoKehIs6n3MJwyXM7ja6', 0, '8LXFUcuczRjwxoZ6xmYxTBph34WeifuV7E26rP9os9YjwvP76NA9M2pbA9oe', '2016-02-01 00:29:47', '0000-00-00 00:00:00', '2016-02-01 13:19:09'),
 (3, 2, 1, '', 'asdasd1', '09364sad4@yahoo.com', '$2y$10$Y4lkrHpSphWo6Qgk52xLlOS0lemOrUHjvkfOWY1pLiYrtu.bwNev.', 0, 'czxQnGYoWOHuVBZBxDuqnGGQmdnae8PLzjlaVCzL08GrYY4eqM7zRW1XUXjd', '2015-12-16 00:16:22', '2015-12-06 08:35:25', '2015-12-16 13:33:26'),
 (4, 4, 1, '', 'asdasdas222', '123213494@yahoo.com', '$2y$10$q0O2WoGF6tKnk7s638v/wue4N4iSKeZ21JwH7JY0XGyj06MDyfF2K', 1, '1NGp5eILuC7ZyxXAn5ZyVTvAX8HKoYftF5HQfvDywy8o0vg1nPpGrXWnVm7n', '0000-00-00 00:00:00', '2015-12-06 08:38:53', '2015-12-08 05:53:18'),
 (5, 3, 1, '', 'asdas', 'asdasdafdsff494@yahoo.com', '$2y$10$Z.GwzLNeDhDF5SFwThGp9Oiey/jA3ea1GLjjVIhZvWtqGlBzDo9Ae', 1, NULL, '0000-00-00 00:00:00', '2015-12-06 10:18:58', '2015-12-07 11:57:27'),
@@ -11996,12 +11842,12 @@ ALTER TABLE `advertiser_model_map`
 -- AUTO_INCREMENT for table `advertiser_publisher`
 --
 ALTER TABLE `advertiser_publisher`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `audits`
 --
 ALTER TABLE `audits`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=348;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `bwentries`
 --
@@ -12101,37 +11947,37 @@ ALTER TABLE `role_permission_mapping`
 -- AUTO_INCREMENT for table `targetgroup`
 --
 ALTER TABLE `targetgroup`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `targetgroup_bidhour_map`
 --
 ALTER TABLE `targetgroup_bidhour_map`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `targetgroup_bid_advpublisher`
 --
 ALTER TABLE `targetgroup_bid_advpublisher`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `targetgroup_bwlist_map`
 --
 ALTER TABLE `targetgroup_bwlist_map`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `targetgroup_creative_map`
 --
 ALTER TABLE `targetgroup_creative_map`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `targetgroup_geolocation_map`
 --
 ALTER TABLE `targetgroup_geolocation_map`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `targetgroup_geosegmentlist_map`
 --
 ALTER TABLE `targetgroup_geosegmentlist_map`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=36;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT for table `users`
 --

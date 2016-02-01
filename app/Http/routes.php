@@ -137,7 +137,7 @@ Route::get('/get_iab_sub_category/{id?}', ['uses'=>'TargetgroupController@Iab_Ca
 Route::group(['prefix' => 'ajax'], function()
 {
     Route::group(['prefix' => 'jqgrid'], function() {
-        Route::post('/client', 'ClientController@jqgrid');
+        Route::put('/client', 'ClientController@jqgrid');
         Route::post('/advertiser', 'AdvertiserController@jqgrid');
         Route::post('/campaign', 'CampaignController@jqgrid');
         Route::post('/creative', 'CreativeController@jqgrid');

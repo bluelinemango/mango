@@ -29,7 +29,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li>
                 <li><a
                             href="{{url('/client/cl'.$targetgroup_obj->getCampaign->getAdvertiser->GetClientID->id.'/edit')}}">Client: cl{{$targetgroup_obj->getCampaign->getAdvertiser->GetClientID->id}}</a>
                 </li>

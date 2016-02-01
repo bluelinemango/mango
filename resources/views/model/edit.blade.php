@@ -19,7 +19,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li>
                 <li><a href="{{url('/client/cl'.$model_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client: cl{{$model_obj->getAdvertiser->GetClientID->id}}</a></li>
                 <li><a href="{{url('/client/cl'.$model_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$model_obj->advertiser_id.'/edit')}}">Advertiser: adv{{$model_obj->advertiser_id}}</a></li>
                 <li>Model: mdl{{$model_obj->id}}</li>
@@ -454,35 +453,50 @@
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
                 rules : {
-                    name : {
-                        required : true
+                    name: {
+                        required: true
                     },
-                    advertiser_id : {
-                        required : true
+                    advertiser_id: {
+                        required: true
                     },
-                    max_impression : {
-                        required : true
+                    segment_name_seed: {
+                        required: true
                     },
-                    daily_max_impression : {
-                        required : true
+                    daily_max_impression: {
+                        required: true
                     },
-                    max_budget : {
-                        required : true
+                    algo: {
+                        required: true
                     },
-                    daily_max_budget : {
-                        required : true
+                    model_type: {
+                        required: true
                     },
-                    cpm : {
-                        required : true
+                    feature_recency_in_sec: {
+                        required: true
                     },
-                    start_date : {
-                        required : true
+                    cut_off_score: {
+                        required: true
                     },
-                    end_date : {
-                        required : true
+                    max_number_of_device_history_per_feature: {
+                        required: true
                     },
-                    cpm : {
-                        required : true
+                    max_num_both_neg_pos_devices: {
+                        required: true
+                    },
+                    number_of_positive_device_to_be_used_for_modeling: {
+                        required: true
+                    },
+                    number_of_negative_device_to_be_used_for_modeling: {
+                        required: true
+                    },
+                    number_of_both_negative_positive_device_to_be_used: {
+                        required: true
+                    },
+                    start_date: {
+                        required: true
+                    },
+                    end_date: {
+                        required: true
                     }
                 },
 

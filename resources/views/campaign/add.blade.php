@@ -15,7 +15,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li>
                 <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/edit')}}">Client: cl{{$advertiser_obj->GetClientID->id}}</a></li>
                 <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$advertiser_obj->id.'/edit')}}">Advertiser: adv{{$advertiser_obj->id}}</a></li>
                 <li>Campaign Registration</li>
@@ -95,7 +94,7 @@
                                                         <section class="col col-2">
                                                             <label class="label" for="">Domain Name</label>
                                                             <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                                <input type="text" name="advertiser_domain_name" placeholder="Domain Name">
+                                                                <input type="text" name="advertiser_domain_name" id="domain_name" placeholder="Domain Name">
                                                             </label>
                                                         </section>
 
@@ -228,31 +227,42 @@
                     name : {
                         required : true
                     },
+                    advertiser_domain_name: {
+                        required: true,
+                        domain: true
+                    },
                     advertiser_id : {
                         required : true
                     },
                     max_impression : {
-                        required : true
+                        required: true,
+                        min: 0,
+                        number: 'Enter number Plz'
                     },
                     daily_max_impression : {
-                        required : true
+                        required: true,
+                        min: 0,
+                        number: 'Enter number Plz'
                     },
                     max_budget : {
-                        required : true
+                        required: true,
+                        min: 0,
+                        number: 'Enter number Plz'
                     },
                     daily_max_budget : {
-                        required : true
+                        required: true,
+                        min: 0,
+                        number: 'Enter number Plz'
                     },
                     cpm : {
-                        required : true
+                        required: true,
+                        min: 0,
+                        number: 'Enter number Plz'
                     },
                     start_date : {
                         required : true
                     },
                     end_date : {
-                        required : true
-                    },
-                    cpm : {
                         required : true
                     }
                 },
@@ -299,81 +309,6 @@
                 nextText: '<i class="fa fa-chevron-right"></i>',
                 onSelect: function (selectedDate) {
                     $('#startdate').datepicker('option', 'maxDate', selectedDate);
-                }
-            });
-
-            var $validator = $("#wizard-1").validate({
-
-                rules: {
-                    email: {
-                        required: true,
-                        email: "Your email address must be in the format of name@domain.com"
-                    },
-                    fname: {
-                        required: true
-                    },
-                    lname: {
-                        required: true
-                    },
-                    country: {
-                        required: true
-                    },
-                    city: {
-                        required: true
-                    },
-                    postal: {
-                        required: true,
-                        minlength: 4
-                    },
-                    wphone: {
-                        required: true,
-                        minlength: 10
-                    },
-                    hphone: {
-                        required: true,
-                        minlength: 10
-                    }
-                },
-
-                messages: {
-                    fname: "Please specify your First name",
-                    lname: "Please specify your Last name",
-                    email: {
-                        required: "We need your email address to contact you",
-                        email: "Your email address must be in the format of name@domain.com"
-                    }
-                },
-
-                highlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-                },
-                unhighlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-                },
-                errorElement: 'span',
-                errorClass: 'help-block',
-                errorPlacement: function (error, element) {
-                    if (element.parent('.input-group').length) {
-                        error.insertAfter(element.parent());
-                    } else {
-                        error.insertAfter(element);
-                    }
-                }
-            });
-
-            $('#bootstrap-wizard-1').bootstrapWizard({
-                'tabClass': 'form-wizard',
-                'onNext': function (tab, navigation, index) {
-                    var $valid = $("#wizard-1").valid();
-                    if (!$valid) {
-                        $validator.focusInvalid();
-                        return false;
-                    } else {
-                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).addClass(
-                                'complete');
-                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).find('.step')
-                                .html('<i class="fa fa-check"></i>');
-                    }
                 }
             });
 

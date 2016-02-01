@@ -19,13 +19,13 @@
             background: rgba(239, 242, 244, 0.3);
         }
         .time_table_unselect {
-            background-color: rgba(17, 115, 119, 0.45);
+            background-color: rgba(19, 222, 230, 0.45);
             min-height: 30px;
             min-width: 30px;
             cursor: pointer;
         }
         .time-table-div-select {
-            background-color: rgba(20, 24, 73, 0.98);
+            background-color: rgba(71, 78, 170, 0.98);
             min-height: 30px;
             min-width: 30px;
             cursor: pointer
@@ -41,7 +41,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li>
                 <li><a
                             href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client: cl{{$campaign_obj->getAdvertiser->GetClientID->id}}</a>
                 </li>
@@ -444,7 +443,7 @@
                                                                                  id="v1">
 
                                                                                 <div class="row">
-                                                                                    <div class="col-md-6 col-md-offset-3">
+                                                                                    <div class="col-md-12">
                                                                                         <!-- widget content -->
                                                                                         <div style="margin: 20px 0;">
                                                                                             <div class="col-xs-5">
@@ -478,7 +477,7 @@
                                                                                  id="v2">
 
                                                                                 <div class="row">
-                                                                                    <div class="col-md-6 col-md-offset-3">
+                                                                                    <div class="col-md-12">
                                                                                         <!-- widget content -->
                                                                                         <div style="margin: 20px 0;">
                                                                                             <div class="col-xs-5">
@@ -511,7 +510,7 @@
                                                                                  id="v3">
 
                                                                                 <div class="row">
-                                                                                    <div class="col-md-6 col-md-offset-3">
+                                                                                    <div class="col-md-12">
 
                                                                                         <div class="panel-group"
                                                                                              id="accordion">
@@ -622,7 +621,7 @@
                                                                                  id="v4">
 
                                                                                 <div class="row">
-                                                                                    <div class="col-md-6 col-md-offset-3">
+                                                                                    <div class="col-md-12">
                                                                                         <!-- widget content -->
 
                                                                                         <div style="margin: 20px 0;">
@@ -685,168 +684,155 @@
                                                                     <!-- widget content -->
                                                                     <div class="">
 
-                                                                        <hr class="simple">
-                                                                        <ul id="myTab2" class="nav nav-tabs bordered">
-                                                                            <li class="active">
-                                                                                <a href="#u1" data-toggle="tab">Bid by
-                                                                                    publisher</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#u2" data-toggle="tab"><i
-                                                                                            class="fa fa-fw fa-lg fa-gear"></i>
-                                                                                    Hours</a>
-                                                                            </li>
 
+                                                                        <div class="well">
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                    <table class="table table-hover time-table">
+                                                                                        <thead>
+                                                                                        <tr>
+                                                                                            <th>Hours</th>
+                                                                                            <th>12am</th>
+                                                                                            <th>1</th>
+                                                                                            <th>2</th>
+                                                                                            <th>3</th>
+                                                                                            <th>4</th>
+                                                                                            <th>5</th>
+                                                                                            <th>6</th>
+                                                                                            <th>7</th>
+                                                                                            <th>8</th>
+                                                                                            <th>9</th>
+                                                                                            <th>10</th>
+                                                                                            <th>11</th>
+                                                                                            <th>12pm</th>
+                                                                                            <th>1</th>
+                                                                                            <th>2</th>
+                                                                                            <th>3</th>
+                                                                                            <th>4</th>
+                                                                                            <th>5</th>
+                                                                                            <th>6</th>
+                                                                                            <th>7</th>
+                                                                                            <th>8</th>
+                                                                                            <th>9</th>
+                                                                                            <th>10</th>
+                                                                                            <th>11</th>
 
-                                                                        </ul>
-
-                                                                        <div id="myTabContent3"
-                                                                             class="tab-content">
-                                                                            <div class="tab-pane fade in active"
-                                                                                 id="u1">
-                                                                                <div class="row"
-                                                                                     id="advertiser_publisher">
-                                                                                    <div class="col-sm-3">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-md"
-                                                                                                       placeholder="Publisher Name"
-                                                                                                       type="text"
-                                                                                                       name="publisher_name0"
-                                                                                                       id="publisher_name">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-2">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-md"
-                                                                                                       placeholder="Bid"
-                                                                                                       type="text"
-                                                                                                       name="bid0"
-                                                                                                       id="bid">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-6">
-                                                                                        <input type="button"
-                                                                                               value="send"
-                                                                                               onclick="submitForm() "/>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-3">
-                                                                                        <table class="table table-striped table-bordered ">
-                                                                                            <thead>
+                                                                                        </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                        @for($i=0;$i<7;$i++)
                                                                                             <tr>
-                                                                                                <th>id</th>
-                                                                                                <th>Publisher name</th>
-                                                                                                <th>Bid :</th>
+                                                                                                <td>@if($i==0)
+                                                                                                        Monday @elseif($i==1)
+                                                                                                        Tusday @elseif($i==2)
+                                                                                                        Wendsday @elseif($i==3)
+                                                                                                        Tursday @elseif($i==4)
+                                                                                                        Friday @elseif($i==5)
+                                                                                                        Satarday @elseif($i==6)
+                                                                                                        Sunday @endif</td>
+                                                                                                @for($j=0;$j<24;$j++)
+                                                                                                    <td style="padding: 1px!important;">
+                                                                                                        <div id="{{$i}}-{{$j}}-time" class="time_table_unselect" ></div>
+
+                                                                                                        <input type="checkbox" name="{{$i}}-{{$j}}-hour" id="{{$i}}-{{$j}}-time-checkbox" style="display: none"/>
+                                                                                                    </td>
+                                                                                                @endfor
                                                                                             </tr>
-                                                                                            </thead>
-                                                                                            <tbody id="show_bid">
+                                                                                        @endfor
 
-                                                                                            </tbody>
-                                                                                        </table>
+                                                                                        </tbody>
+                                                                                    </table>
 
-                                                                                    </div>
+
                                                                                 </div>
 
                                                                             </div>
-                                                                            <div class="tab-pane fade" id="u2">
-                                                                                <div class="row">
-                                                                                    <div class="col-md-12">
-                                                                                        <table class="table table-hover time-table">
-                                                                                            <thead>
-                                                                                            <tr>
-                                                                                                <th>Hours</th>
-                                                                                                <th>12am</th>
-                                                                                                <th>1</th>
-                                                                                                <th>2</th>
-                                                                                                <th>3</th>
-                                                                                                <th>4</th>
-                                                                                                <th>5</th>
-                                                                                                <th>6</th>
-                                                                                                <th>7</th>
-                                                                                                <th>8</th>
-                                                                                                <th>9</th>
-                                                                                                <th>10</th>
-                                                                                                <th>11</th>
-                                                                                                <th>12pm</th>
-                                                                                                <th>1</th>
-                                                                                                <th>2</th>
-                                                                                                <th>3</th>
-                                                                                                <th>4</th>
-                                                                                                <th>5</th>
-                                                                                                <th>6</th>
-                                                                                                <th>7</th>
-                                                                                                <th>8</th>
-                                                                                                <th>9</th>
-                                                                                                <th>10</th>
-                                                                                                <th>11</th>
-
-                                                                                            </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                            @for($i=0;$i<7;$i++)
-                                                                                                <tr>
-                                                                                                    <td>@if($i==0)
-                                                                                                            monday @elseif($i==1)
-                                                                                                            tusday @elseif($i==2)
-                                                                                                            wendsday @elseif($i==3)
-                                                                                                            tursday @elseif($i==4)
-                                                                                                            friday @elseif($i==5)
-                                                                                                            satarday @elseif($i==6)
-                                                                                                            sunday @endif</td>
-                                                                                                    @for($j=0;$j<24;$j++)
-                                                                                                        <td style="padding: 1px!important;">
-                                                                                                            <div id="{{$i}}-{{$j}}-time" class="time_table_unselect" ></div>
-
-                                                                                                            <input type="checkbox" name="{{$i}}-{{$j}}-hour" id="{{$i}}-{{$j}}-time-checkbox" style="display: none"/>
-                                                                                                        </td>
-                                                                                                    @endfor
-                                                                                                </tr>
-                                                                                            @endfor
-
-                                                                                            </tbody>
-                                                                                        </table>
-
-
-                                                                                    </div>
-
+                                                                            <div class="row">
+                                                                                <div class="col-md-3">
+                                                                                    <a id="clear_all" class="btn btn-primary">Clear All</a>
                                                                                 </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-md-3">
-                                                                                        <a id="clear_all" class="btn btn-primary">Clear All</a>
-                                                                                    </div>
-                                                                                    <div class="col-md-5">
-                                                                                        <h4 style="float: left; padding: 5px 10px;">Legend:</h4>
-                                                                                        <div class="time_table_unselect" style="max-width: 40px; float: left; padding: 5px 10px;"></div>
-                                                                                        <div style="float: left; padding: 5px 10px;">Inactive</div>
-                                                                                        <div class="time-table-div-select" style="max-width: 40px; float: left; padding: 5px 10px;"></div>
-                                                                                        <div style="float: left; padding: 5px 10px;">Active</div>
-                                                                                        <div class="clearfix"></div>
-                                                                                    </div>
-                                                                                    <div class="col-md-3">
-                                                                                        <select name=""
-                                                                                                id="suggested">
-                                                                                            <option value="business-hours">Business Hours</option>
-                                                                                            <option value="happy-hours">Happy Hours</option>
-                                                                                            <option value="business-hours">Business Hours</option>
-                                                                                        </select>
-                                                                                    </div>
+                                                                                <div class="col-md-5">
+                                                                                    <h4 style="float: left; padding: 5px 10px;">Legend:</h4>
+                                                                                    <div class="time_table_unselect" style="max-width: 40px; float: left; padding: 5px 10px;"></div>
+                                                                                    <div style="float: left; padding: 5px 10px;">Inactive</div>
+                                                                                    <div class="time-table-div-select" style="max-width: 40px; float: left; padding: 5px 10px;"></div>
+                                                                                    <div style="float: left; padding: 5px 10px;">Active</div>
+                                                                                    <div class="clearfix"></div>
+                                                                                </div>
+                                                                                <div class="col-md-3">
+                                                                                    <select name=""
+                                                                                            id="suggested">
+                                                                                        <option value="business-hours">Business Hours</option>
+                                                                                        <option value="happy-hours">Happy Hours</option>
+                                                                                        <option value="business-hours">Business Hours</option>
+                                                                                    </select>
                                                                                 </div>
                                                                             </div>
 
                                                                         </div>
+
+                                                                        <hr class="simple">
+
+                                                                        <div class="well">
+                                                                            <div class="row"
+                                                                                 id="advertiser_publisher">
+                                                                                <div class="col-sm-3">
+                                                                                    <div class="form-group">
+                                                                                        <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                            <input class="form-control input-md"
+                                                                                                   placeholder="Publisher Name"
+                                                                                                   type="text"
+                                                                                                   name="publisher_name0"
+                                                                                                   id="publisher_name">
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-sm-2">
+                                                                                    <div class="form-group">
+                                                                                        <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                            <input class="form-control input-md"
+                                                                                                   placeholder="Bid"
+                                                                                                   type="text"
+                                                                                                   name="bid0"
+                                                                                                   id="bid">
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-sm-6">
+                                                                                    <input type="button"
+                                                                                           value="send"
+                                                                                           onclick="submitForm() "/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-sm-3">
+                                                                                    <table class="table table-striped table-bordered ">
+                                                                                        <thead>
+                                                                                        <tr>
+                                                                                            <th>id</th>
+                                                                                            <th>Publisher name</th>
+                                                                                            <th>Bid :</th>
+                                                                                        </tr>
+                                                                                        </thead>
+                                                                                        <tbody id="show_bid">
+
+                                                                                        </tbody>
+                                                                                    </table>
+
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+
+
 
                                                                     </div>
                                                                     <!-- end widget content -->
@@ -1205,6 +1191,7 @@
             });
 
 
+
             var $validator = $("#wizard-1").validate({
 
                 rules: {
@@ -1213,39 +1200,47 @@
                     },
                     advertiser_domain_name: {
                         required: true,
-                        url: "site url like: www.yourdomain.com"
+                        domain: true
                     },
                     iab_sub_category: {
                         required: true
                     },
                     max_impression: {
-                        required: true
+                        required: true,
+                        min: 0,
+                        number: 'Enter number Plz'
                     },
                     daily_max_impression: {
                         required: true,
+                        min: 0,
                         number: 'Enter number Plz'
                     },
                     max_budget: {
                         required: true,
+                        min: 0,
                         number: 'Enter number Plz'
                     },
                     daily_max_budget: {
                         required: true,
+                        min: 0,
                         minlength: 2,
                         number: 'Enter number Plz'
                     },
                     frequency_in_sec: {
                         required: true,
+                        min: 0,
                         minlength: 2,
                         number: 'Enter number Plz'
                     },
                     cpm: {
                         required: true,
+                        min: 0,
                         minlength: 2,
                         number: 'Enter number Plz'
                     },
                     pacing_plan: {
                         required: true,
+                        min: 0,
                         minlength: 2,
                         number: 'Enter number Plz'
                     },
@@ -1260,7 +1255,7 @@
                 messages: {
                     fname: "Please specify your First name",
                     lname: "Please specify your Last name",
-                    advertiser_domain_name: "Your site must be in the format of http://www.yourdomian.com",
+                    advertiser_domain_name: "Your site must be in the format of yourdomian.com",
                     email: {
                         required: "We need your email address to contact you",
                         email: "Your email address must be in the format of name@domain.com"

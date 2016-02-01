@@ -18,7 +18,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li>
                 <li><a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/edit')}}">client:
                         cl{{$adver_obj->GetClientID->id}}</a></li>
                 <li>Advertiser: adv{{$adver_obj->id}} </li>
@@ -764,6 +763,47 @@
     <script>
         $(document).ready(function () {
             pageSetUp();
+
+            var $orderForm = $("#order-form").validate({
+                // Rules for form validation
+                rules : {
+                    name : {
+                        required : true
+                    },
+                    domain_name: {
+                        required: true,
+                        domain: true
+                    },
+                    client_id : {
+                        required : true
+                    }
+                },
+
+                // Messages for form validation
+                messages : {
+                    name : {
+                        required : 'Please enter your name'
+                    },
+                    email : {
+                        required : 'Please enter your email address',
+                        email : 'Please enter a VALID email address'
+                    },
+                    phone : {
+                        required : 'Please enter your phone number'
+                    },
+                    client_id : {
+                        required : 'Please select Client Name'
+                    },
+                    budget : {
+                        required : 'Please select your budget'
+                    }
+                },
+
+                // Do not change code below
+                errorPlacement : function(error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
 
 
             $('#assign_model').multiselect({

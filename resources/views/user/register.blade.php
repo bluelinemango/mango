@@ -16,7 +16,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li>
                 <li>User Registration</li>
             </ol>
             <!-- end breadcrumb -->

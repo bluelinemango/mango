@@ -51,7 +51,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li>
                 <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/edit')}}">Client:
                         cl{{$advertiser_obj->GetClientID->id}}</a></li>
                 <li>
@@ -60,18 +59,6 @@
                 <li>Add Model</li>
             </ol>
             <!-- end breadcrumb -->
-
-            <!-- You can also add more buttons to the
-            ribbon for further usability
-
-            Example below:
-                        <span class="ribbon-button-alignment pull-right">
-            <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-            <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-            <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-            </span>
-
-    -->
 
         </div>
         <!-- END RIBBON -->
@@ -518,28 +505,43 @@
                     advertiser_id: {
                         required: true
                     },
-                    max_impression: {
+                    segment_name_seed: {
                         required: true
                     },
                     daily_max_impression: {
                         required: true
                     },
-                    max_budget: {
+                    algo: {
                         required: true
                     },
-                    daily_max_budget: {
+                    model_type: {
                         required: true
                     },
-                    cpm: {
+                    feature_recency_in_sec: {
+                        required: true
+                    },
+                    cut_off_score: {
+                        required: true
+                    },
+                    max_number_of_device_history_per_feature: {
+                        required: true
+                    },
+                    max_num_both_neg_pos_devices: {
+                        required: true
+                    },
+                    number_of_positive_device_to_be_used_for_modeling: {
+                        required: true
+                    },
+                    number_of_negative_device_to_be_used_for_modeling: {
+                        required: true
+                    },
+                    number_of_both_negative_positive_device_to_be_used: {
                         required: true
                     },
                     start_date: {
                         required: true
                     },
                     end_date: {
-                        required: true
-                    },
-                    cpm: {
                         required: true
                     }
                 },

@@ -16,7 +16,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li>
                 <li>List Of Role Permission</li>
             </ol>
             <!-- end breadcrumb -->

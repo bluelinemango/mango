@@ -16,7 +16,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li>
                 <li>Edit Role Permission: {{$role_obj->name}}</li>
             </ol>
             <!-- end breadcrumb -->

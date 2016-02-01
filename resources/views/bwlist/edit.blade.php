@@ -19,7 +19,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li>
                 <li><a href="{{url('/client/cl'.$bwlist_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client : cl{{$bwlist_obj->getAdvertiser->GetClientID->id}}</a></li>
                 <li><a href="{{url('/client/cl'.$bwlist_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$bwlist_obj->advertiser_id.'/edit/')}}">Advertiser : adv{{$bwlist_obj->getAdvertiser->id}}</a></li>
                 <li>B/W List Editing : bwl{{$bwlist_obj->id}}</li>

@@ -122,7 +122,7 @@ class ClientController extends Controller
     }
 
     public function jqgrid(Request $request){
-//        return dd($request->all());
+        return dd($request->all());
         if(Auth::check()) {
             if (in_array('ADD_EDIT_CLIENT', $this->permission)) {
                 $validate = \Validator::make($request->all(), ['name' => 'required']);

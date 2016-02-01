@@ -15,7 +15,7 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home></li><li>Client : {{$client_obj->name}}</li>
+               <li>Client : {{$client_obj->name}}</li>
             </ol>
             <!-- end breadcrumb -->
 

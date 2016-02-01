@@ -15,7 +15,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li><a href="{{url('/dashboard')}}">Home</a></li>
                 <li><a href="{{url('/client/cl'.$pixel_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client: cl{{$pixel_obj->getAdvertiser->GetClientID->id}}</a></li>
                 <li><a href="{{url('/client/cl'.$pixel_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$pixel_obj->advertiser_id.'/edit')}}">Advertiser: adv{{$pixel_obj->advertiser_id}}</a></li>
                 <li>Pixel: pxl{{$pixel_obj->id}}</li>

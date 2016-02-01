@@ -16,7 +16,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li>
                 <li>Client: <a href="{{url('/client/cl'.$client_obj->id.'/edit')}}">cl{{$client_obj->id}}</a></li>
                 <li>Advertiser Registration</li>
             </ol>
@@ -83,11 +82,13 @@
                                             <fieldset>
                                                 <div class="row">
                                                     <section class="col col-3">
+                                                        <label class="label" for=""> Name</label>
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
                                                             <input type="text" name="name" placeholder="Name">
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
+                                                        <label class="label" for=""> Domain Name</label>
                                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
                                                             <input type="text" name="domain_name" placeholder="Domain Name">
                                                         </label>
@@ -187,19 +188,13 @@
                     name : {
                         required : true
                     },
-//                    email : {
-//                        required : true,
-//                        email : true
-//                    },
-//                    phone : {
-//                        required : true
-//                    },
+                    domain_name: {
+                        required: true,
+                        domain: true
+                    },
                     client_id : {
                         required : true
                     }
-//                    budget : {
-//                        required : true
-//                    }
                 },
 
                 // Messages for form validation
@@ -247,80 +242,6 @@
                 }
             });
 
-            var $validator = $("#wizard-1").validate({
-
-                rules: {
-                    email: {
-                        required: true,
-                        email: "Your email address must be in the format of name@domain.com"
-                    },
-                    fname: {
-                        required: true
-                    },
-                    lname: {
-                        required: true
-                    },
-                    country: {
-                        required: true
-                    },
-                    city: {
-                        required: true
-                    },
-                    postal: {
-                        required: true,
-                        minlength: 4
-                    },
-                    wphone: {
-                        required: true,
-                        minlength: 10
-                    },
-                    hphone: {
-                        required: true,
-                        minlength: 10
-                    }
-                },
-
-                messages: {
-                    fname: "Please specify your First name",
-                    lname: "Please specify your Last name",
-                    email: {
-                        required: "We need your email address to contact you",
-                        email: "Your email address must be in the format of name@domain.com"
-                    }
-                },
-
-                highlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-                },
-                unhighlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-                },
-                errorElement: 'span',
-                errorClass: 'help-block',
-                errorPlacement: function (error, element) {
-                    if (element.parent('.input-group').length) {
-                        error.insertAfter(element.parent());
-                    } else {
-                        error.insertAfter(element);
-                    }
-                }
-            });
-
-            $('#bootstrap-wizard-1').bootstrapWizard({
-                'tabClass': 'form-wizard',
-                'onNext': function (tab, navigation, index) {
-                    var $valid = $("#wizard-1").valid();
-                    if (!$valid) {
-                        $validator.focusInvalid();
-                        return false;
-                    } else {
-                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).addClass(
-                                'complete');
-                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).find('.step')
-                                .html('<i class="fa fa-check"></i>');
-                    }
-                }
-            });
 
 
             // fuelux wizard

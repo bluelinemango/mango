@@ -14,7 +14,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li>
                 <li>User Edit: usr{{$user_obj->id}}</li>
             </ol>
             <!-- end breadcrumb -->

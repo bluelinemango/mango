@@ -16,7 +16,7 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li><li>Geo Segment List</li>
+                <li>Geo Segment List</li>
             </ol>
             <!-- end breadcrumb -->
 
@@ -127,7 +127,7 @@
                     name : '{{$index->name}}',
                     advertiser_name : '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
                     @if(count($index->getGeoEntries)>0)
-                    entreies: '{{$index->getGeoEntries[0]->geosegment_count}} Advertiser(s)',
+                    entreies: '{{$index->getGeoEntries[0]->geosegment_count}} ',
                     @else
                     entreies : 'Empty',
                     @endif
@@ -147,7 +147,7 @@
                 data : jqgrid_data,
                 datatype : "local",
                 height : 'auto',
-                colNames : ['Actions', 'ID', 'Name','Advertiser Name','# of entreies','Status','Modify Date','Full Actions'],
+                colNames : ['Actions', 'ID', 'Name','Advertiser Name','# of Geosegments','Status','Modify Date','Full Actions'],
                 colModel : [{
                     name : 'act',
                     index : 'act',

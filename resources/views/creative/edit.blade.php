@@ -16,7 +16,6 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li>
                 <li><a href="{{url('/client/cl'.$creative_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client : cl{{$creative_obj->getAdvertiser->GetClientID->id}}</a></li>
                 <li><a href="{{url('/client/cl'.$creative_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$creative_obj->advertiser_id.'/edit/')}}">Advertiser : adv{{$creative_obj->getAdvertiser->id}}</a></li>
                 <li>Edit Creative: {{$creative_obj->name}} </li>
@@ -212,7 +211,8 @@
                         required : true
                     },
                     advertiser_domain_name : {
-                        required : true
+                        required : true,
+                        domain: true
                     },
                     ad_tag : {
                         required : true
@@ -221,10 +221,14 @@
                         required : true
                     },
                     size_width : {
-                        required : true
+                        required : true,
+                        min: 0,
+                        number: 'Enter number Plz'
                     },
                     size_height : {
-                        required : true
+                        required : true,
+                        min: 0,
+                        number: 'Enter number Plz'
                     },
                     attributes : {
                         required : true
