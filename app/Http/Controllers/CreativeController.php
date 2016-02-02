@@ -27,12 +27,12 @@ class CreativeController extends Controller
                         $q->with('GetClientID');
                     }])->get();
                 }else{
-                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
-                    $creative = Creative::with(['getAdvertiser' => function ($q) use($usr_company) {
-                        $q->with(['GetClientID' => function ($p) use ($usr_company) {
+                    $usr_company = $this->user_company();
+                    $creative = Creative::whereHas('getAdvertiser' , function ($q) use($usr_company) {
+                        $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
-                        }]);
-                    }])->get();
+                        });
+                    })->get();
                 }
                 return view('creative.list')->with('creative_obj',$creative);
             }
@@ -44,12 +44,18 @@ class CreativeController extends Controller
         if(!is_null($advid)) {
             if (Auth::check()) {
                 if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
-                    $chkUser = Advertiser::with('GetClientID')->find($advid);
-                    if (count($chkUser) > 0 and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                    if (User::isSuperAdmin()) {
                         $advertiser_obj = Advertiser::with('GetClientID')->find($advid);
-                        return view('creative.add')->with('advertiser_obj', $advertiser_obj);
+                    } else {
+                        $usr_company = $this->user_company();
+                        $advertiser_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        })->find($advid);
+                        if (!$advertiser_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
                     }
-                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    return view('creative.add')->with('advertiser_obj', $advertiser_obj);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }

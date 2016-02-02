@@ -44,7 +44,7 @@ Route::put('/client/edit/update', ['uses'=>'ClientController@edit_client','as'=>
 
 /////////////////////////ADVERTISER///////////////////////////////////////////
 Route::get('/client/cl{clid?}/advertiser/add','AdvertiserController@AddAdvertiserView');
-Route::get('/client/{clid?}/advertiser/adv{id?}/edit',['uses'=>'AdvertiserController@AdvertiserEditView','as'=>'edit_advertiser']);
+Route::get('/client/cl{clid?}/advertiser/adv{id?}/edit',['uses'=>'AdvertiserController@AdvertiserEditView','as'=>'edit_advertiser']);
 Route::get('/advertiser','AdvertiserController@GetView');
 //Route::get('/advertiser/delete/{id?}','AdvertiserController@Delete_Advertiser');
 Route::put('/advertiser/edit/update', ['uses'=>'AdvertiserController@edit_advertiser','as'=>'advertiser_update']);

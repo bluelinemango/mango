@@ -118,6 +118,7 @@
                                             </fieldset>
                                             <fieldset>
                                                 <div style="margin: 20px 0;">
+                                                    <h5>Assign Models</h5>
                                                     <div class="col-xs-5">
                                                         <select name="from_model[]" id="assign_model" class="form-control" size="8" multiple="multiple">
                                                             @foreach($model_obj as $index)

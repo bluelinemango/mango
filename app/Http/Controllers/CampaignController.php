@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Redirect;
 
 class CampaignController extends Controller
 {
+
+    //TODO: CHECK create and update for permission
     public function GetView()
     {
         if (Auth::check()) {
@@ -22,12 +24,12 @@ class CampaignController extends Controller
                         $q->with('GetClientID');
                     }])->get();
                 } else {
-                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
-                    $campaign = Campaign::with(['getAdvertiser' => function ($q) use($usr_company) {
-                        $q->with(['GetClientID' => function ($p) use ($usr_company) {
+                    $usr_company = $this->user_company();
+                    $campaign = Campaign::whereHas('getAdvertiser' , function ($q) use($usr_company) {
+                        $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
-                        }]);
-                    }])->get();
+                        });
+                    })->get();
 
                 }
                 return view('campaign.list')->with('campaign_obj', $campaign);
@@ -41,12 +43,18 @@ class CampaignController extends Controller
     {
         if (Auth::check()) {
             if (in_array('ADD_EDIT_CAMPAIGN', $this->permission)) {
-                $chkUser = Advertiser::with('GetClientID')->find($advid);
-                if (count($chkUser) > 0 and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                if (User::isSuperAdmin()) {
                     $advertiser_obj = Advertiser::with('GetClientID')->find($advid);
-                    return view('campaign.add')->with('advertiser_obj', $advertiser_obj);
+                } else {
+                    $usr_company = $this->user_company();
+                    $advertiser_obj = Advertiser::whereHas('GetClientID' , function ($p) use ($usr_company) {
+                        $p->whereIn('user_id', $usr_company);
+                    })->find($advid);
+                    if(!$advertiser_obj){
+                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    }
                 }
-                return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                return view('campaign.add')->with('advertiser_obj', $advertiser_obj);
             }
             return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
         }
@@ -56,14 +64,15 @@ class CampaignController extends Controller
 
     public function add_campaign(Request $request)
     {
+//        return dd($request->all());
         if (Auth::check()) {
             if (in_array('ADD_EDIT_CAMPAIGN', $this->permission)) {
                 $validate = \Validator::make($request->all(), ['name' => 'required']);
                 if ($validate->passes()) {
                     $chkUser = Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
                     if (!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
-                        $start_date = \DateTime::createFromFormat('m/d/Y', $request->input('start_date'));
-                        $end_date = \DateTime::createFromFormat('m/d/Y', $request->input('end_date'));
+                        $start_date = \DateTime::createFromFormat('d.m.Y', $request->input('start_date'));
+                        $end_date = \DateTime::createFromFormat('d.m.Y', $request->input('end_date'));
                         $campaign = new Campaign();
                         $campaign->name = $request->input('name');
                         $campaign->max_impression = $request->input('max_impression');
@@ -90,32 +99,29 @@ class CampaignController extends Controller
         return Redirect::to(url('/user/login'));
     }
 
-
-    public function DeleteCampaign($id)
-    {
-//        if(Auth::check()){
-//            if(1==1) { //      permission goes here
-//                Campaign::where('id',$id)->delete();
-//                return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Campaign Deleted Successfully']);
-//            }
-//        }else{
-//            return Redirect::to(url('/user/login'));
-//        }
-    }
-
     public function CampaignEditView($clid, $advid, $cmpid)
     {
         if (!is_null($cmpid)) {
             if (Auth::check()) {
                 if (in_array('ADD_EDIT_CAMPAIGN', $this->permission)) {
-                    $chkUser = Advertiser::with('GetClientID')->find($advid);
-                    if (!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                    if (User::isSuperAdmin()) {
                         $campaign_obj = Campaign::with(['getAdvertiser' => function ($q) {
                             $q->with('GetClientID');
                         }])->with('Targetgroup')->find($cmpid);
-                        return view('campaign.edit')->with('campaign_obj', $campaign_obj);
+                    } else {
+                        $usr_company = $this->user_company();
+
+                        $campaign_obj = Campaign::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->with('Targetgroup')->find($cmpid);
+//                        return dd($campaign_obj);
+                        if(!$campaign_obj) {
+                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                        }
                     }
-                    return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                    return view('campaign.edit')->with('campaign_obj', $campaign_obj);
                 }
                 return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
             }
@@ -294,74 +300,4 @@ class CampaignController extends Controller
         return Redirect::to(url('user/login'));
     }
 
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

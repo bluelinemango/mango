@@ -77,7 +77,15 @@ class ClientController extends Controller
         if(!is_null($id)){
             if(Auth::check()){
                 if(in_array('ADD_EDIT_CLIENT',$this->permission)) {
-                    $client_obj = Client::with('getAdvertiser')->find($id);
+                    if (User::isSuperAdmin()) {
+                        $client_obj = Client::with('getAdvertiser')->find($id);
+                    } else {
+                        $usr_company=$this->user_company();
+                        $client_obj = Client::with('getAdvertiser')->whereIn('user_id', $usr_company)->find($id);
+                        if(!$client_obj) {
+                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                        }
+                    }
                     return view('client.edit')->with('client_obj',$client_obj);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
@@ -122,7 +130,7 @@ class ClientController extends Controller
     }
 
     public function jqgrid(Request $request){
-        return dd($request->all());
+//        return dd($request->all());
         if(Auth::check()) {
             if (in_array('ADD_EDIT_CLIENT', $this->permission)) {
                 $validate = \Validator::make($request->all(), ['name' => 'required']);
