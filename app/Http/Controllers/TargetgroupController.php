@@ -65,9 +65,11 @@ class TargetgroupController extends Controller
                             $p->whereIn('user_id', $usr_company);
                         }]);
                     }])->find($cmpid);
+//                    return dd($campaign_obj);
                     if (!$campaign_obj) {
                         return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
+
                 }
                 $geolocation_obj = Geolocation::get();
                 $iab_category_obj = Iab_Category::get();
@@ -99,18 +101,10 @@ class TargetgroupController extends Controller
                         $bid_hour = '';
                         for ($i = 0; $i < 7; $i++) {
                             for ($j = 0; $j < 24; $j++) {
-                                if ($j < 12) {
-                                    if (!is_null($request->input($i . '-' . $j . '-am'))) {
-                                        $bid_hour1[$j] = "1";
-                                    } else {
-                                        $bid_hour1[$j] = "0";
-                                    }
+                                if (!is_null($request->input($i . '-' . $j . '-hour'))) {
+                                    $bid_hour1[$j] = "1";
                                 } else {
-                                    if (!is_null($request->input($i . '-' . ($j - 12) . '-pm'))) {
-                                        $bid_hour1[$j] = "1";
-                                    } else {
-                                        $bid_hour1[$j] = "0";
-                                    }
+                                    $bid_hour1[$j] = "0";
                                 }
                             }
                             $bid_hour[$i + 1] = $bid_hour1;
@@ -469,6 +463,7 @@ class TargetgroupController extends Controller
                         }
                         $targetgroup->save();
                         $audit->store('targetgroup',$targetgroup_id,$data,'edit',$audit_key);
+
                         $geoSegment_map=Targetgroup_Geosegmentlist_Map::where('targetgroup_id', $targetgroup_id)->get();
                         $geoSegArr=array();
                         foreach($geoSegment_map as $index){

@@ -78,6 +78,14 @@
                                                             </label>
                                                         </section>
                                                         <section class="col col-3">
+                                                            <label for="" class="label">Status</label>
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" name="active">
+                                                                <i></i>Active
+                                                            </label>
+                                                        </section>
+
+                                                        <section class="col col-3">
                                                             <label class="label" for="">Advertiser Name</label>
                                                             <label class="input">
                                                                 <h6>{{$advertiser_obj->name}}</h6>

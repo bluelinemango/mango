@@ -86,11 +86,17 @@ class AdvertiserController extends Controller
                 if ($validate->passes()) {
                     $chkUser = Client::find($request->input('client_id'));
                     if (count($chkUser) > 0 and Auth::user()->id == $chkUser->user_id) {
+                        $active='Inactive';
+                        if($request->input('active')=='on'){
+                            $active='Active';
+                        }
+
                         $audit = new AuditsController();
                         $audit_key = $audit->generateRandomString();
                         $advertiser = new Advertiser();
                         $advertiser->name = $request->input('name');
                         $advertiser->domain_name = $request->input('domain_name');
+                        $advertiser->status = $active;
                         $advertiser->description = $request->input('description');
                         $advertiser->client_id = $request->input('client_id');
                         $advertiser->save();
@@ -125,12 +131,11 @@ class AdvertiserController extends Controller
                 if (User::isSuperAdmin()) {
                     $adver = Advertiser::find($adver_id);
                 } else {
-                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
-                    if (count($usr_company) > 0 and in_array(Auth::user()->id, $usr_company)) {
-                        $adver = Advertiser::with(['GetClientID' => function ($p) use ($usr_company) {
-                            $p->whereIn('user_id', $usr_company);
-                        }])->find($adver_id);
-                    } else {
+                    $usr_company = $this->user_company();
+                    $adver = Advertiser::whereHas('GetClientID' , function ($p) use ($usr_company) {
+                        $p->whereIn('user_id', $usr_company);
+                    })->find($adver_id);
+                    if(!$adver){
                         return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
                 }
@@ -213,22 +218,32 @@ class AdvertiserController extends Controller
                     $adver_id = $request->input('adver_id');
                     $adver = Advertiser::find($adver_id);
                     if ($adver) {
+                        $active='Inactive';
+                        if($request->input('active')=='on'){
+                            $active='Active';
+                        }
                         $data = array();
                         $audit = new AuditsController();
                         if ($adver->name != $request->input('name')) {
-                            array_push($data, 'name');
+                            array_push($data, 'Name');
                             array_push($data, $adver->name);
                             array_push($data, $request->input('name'));
                             $adver->name = $request->input('name');
                         }
+                        if ($adver->status != $active) {
+                            array_push($data, 'Status');
+                            array_push($data, $adver->status);
+                            array_push($data, $active);
+                            $adver->name = $active;
+                        }
                         if ($adver->domain_name != $request->input('domain_name')) {
-                            array_push($data, 'company');
+                            array_push($data, 'Domain Name');
                             array_push($data, $adver->domain_name);
                             array_push($data, $request->input('domain_name'));
                             $adver->domain_name = $request->input('domain_name');
                         }
                         if ($adver->description != $request->input('description')) {
-                            array_push($data, 'company');
+                            array_push($data, 'Description');
                             array_push($data, $adver->description);
                             array_push($data, $request->input('description'));
                             $adver->description = $request->input('description');
@@ -247,29 +262,41 @@ class AdvertiserController extends Controller
 
     public function jqgrid(Request $request)
     {
-//        return dd($request->all());
         if (Auth::check()) {
             if (in_array('ADD_EDIT_ADVERTISER', $this->permission)) {
                 $validate = \Validator::make($request->all(), ['name' => 'required']);
                 if ($validate->passes()) {
-                    switch ($request->input('oper')) {
-                        case 'edit':
-                            $adver_id = $request->input('id');
-                            $adver_id = substr($adver_id, 3);
-                            $adver = Advertiser::find($adver_id);
-                            if ($adver) {
-                                $adver->name = $request->input('name');
-                                $adver->save();
-                                return "ok";
-                            }
-                            return "false";
-                            break;
+                    $adver_id = substr($request->input('id'),3);
+                    if (!User::isSuperAdmin()) {
+                        $usr_company = $this->user_company();
+                        $adver = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        })->with('Campaign')->with('Model')->with('GeoSegment')->with('BWList')->with('Creative')->with('GetClientID')->find($adver_id);
+                        if (!$adver) {
+                            return $msg=(['success' => false, 'msg' => "Some things went wrong"]);
+                        }
                     }
+                    $adver = Advertiser::find($adver_id);
+                    if ($adver) {
+                        $data = array();
+                        $audit = new AuditsController();
+                        if ($adver->name != $request->input('name')) {
+                            array_push($data, 'Name');
+                            array_push($data, $adver->name);
+                            array_push($data, $request->input('name'));
+                            $adver->name = $request->input('name');
+                        }
+                        $audit->store('advertiser', $adver_id, $data, 'edit');
+                        $adver->save();
+                        return $msg=(['success' => true, 'msg' => "your Advertiser name Saved successfully"]);
+                    }
+                    return $msg=(['success' => false, 'msg' => "Please Select an Advertiser First"]);
                 }
                 //return print_r($validate->messages());
-                return Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();
+                return $msg=(['success' => false, 'msg' => "Please Type a Name"]);
+
             }
-            return "don't have permission";
+            return $msg=(['success' => false, 'msg' => "You don't have permission"]);
         }
         return Redirect::to(url('user/login'));
     }

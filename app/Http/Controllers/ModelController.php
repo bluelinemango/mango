@@ -23,12 +23,12 @@ class ModelController extends Controller
                 if (User::isSuperAdmin()) {
                     $model_obj = ModelTable::with('getAdvertiser')->get();
                 }else{
-                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
-                    $model_obj = ModelTable::with(['getAdvertiser' => function ($q) use($usr_company) {
-                        $q->with(['GetClientID' => function ($p) use ($usr_company) {
+                    $usr_company = $this->user_company();
+                    $model_obj = ModelTable::whereHas('getAdvertiser' , function ($q) use($usr_company) {
+                        $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
-                        }]);
-                    }])->get();
+                        });
+                    })->get();
                 }
                 return view('model.list')->with('model_obj',$model_obj);
             }
@@ -44,17 +44,17 @@ class ModelController extends Controller
                     $offer=Offer::get();
                     $advertiser_obj = Advertiser::with('GetClientID')->find($advid);
                 } else {
-                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
-                    if(count($usr_company) > 0 and in_array(Auth::user()->id,$usr_company)) {
-                        $advertiser_obj = Advertiser::with('GetClientID')->find($advid);
-                        $offer = Offer::with(['getAdvertiser' => function ($q) use($usr_company) {
-                            $q->with(['GetClientID' => function ($p) use ($usr_company) {
-                                $p->whereIn('user_id', $usr_company);
-                            }]);
-                        }])->get();
-
-                    }else{
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    $usr_company = $this->user_company();
+                    $advertiser_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
+                        $p->whereIn('user_id', $usr_company);
+                    })->find($advid);
+                    $offer = Offer::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                        $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        });
+                    })->get();
+                    if (!$advertiser_obj) {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
                 }
                 return view('model.add')
@@ -145,23 +145,22 @@ class ModelController extends Controller
                             $q->with('GetClientID');
                         }])->find($mdlid);
                     } else {
-                        $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
-                        if(count($usr_company) > 0 and in_array(Auth::user()->id,$usr_company)) {
-                            $model_obj = ModelTable::with(['getAdvertiser' => function ($q) use($usr_company) {
-                                $q->with(['GetClientID' => function ($p) use ($usr_company) {
-                                    $p->whereIn('user_id', $usr_company);
-                                }]);
-                            }])->find($mdlid);
-                            $offer = Offer::with(['getAdvertiser' => function ($q) use($usr_company) {
-                                $q->with(['GetClientID' => function ($p) use ($usr_company) {
-                                    $p->whereIn('user_id', $usr_company);
-                                }]);
-                            }])->get();
-
-                        }else{
-                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                        $usr_company = $this->user_company();
+                        $model_obj = ModelTable::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->find($mdlid);
+                        $offer = Offer::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->get();
+                        if (!$model_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                         }
                     }
+
                     $positive_offer_id=array();
                     $negative_offer_id=array();
                     if(!is_null($model_obj->positive_offer_id))

@@ -70,6 +70,10 @@ class CreativeController extends Controller
                 if($validate->passes()) {
                     $chkUser=Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                        $active='Inactive';
+                        if($request->input('active')=='on'){
+                            $active='Active';
+                        }
                         $size = $request->input('size_width') . 'x' . $request->input('size_height');
                         $creative = new Creative();
                         $creative->name = $request->input('name');
@@ -77,6 +81,7 @@ class CreativeController extends Controller
                         $creative->description = $request->input('description');
                         $creative->advertiser_id = $request->input('advertiser_id');
                         $creative->size = $size;
+                        $creative->status = $active;
                         $creative->ad_tag = $request->input('ad_tag');
                         $creative->landing_page_url = $request->input('landing_page_url');
                         $creative->preview_url = $request->input('preview_url');
@@ -100,15 +105,22 @@ class CreativeController extends Controller
         if(!is_null($crtid)){
             if(Auth::check()){
                 if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
-                    $chkUser=Advertiser::with('GetClientID')->find($advid);
-                    if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                    if (User::isSuperAdmin()) {
                         $creative_obj = Creative::with(['getAdvertiser' => function ($q) {
                             $q->with('GetClientID');
                         }])->find($crtid);
-                        return view('creative.edit')->with('creative_obj', $creative_obj);
-                    }else{
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    } else {
+                        $usr_company = $this->user_company();
+                        $creative_obj = Creative::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->find($crtid);
+                        if (!$creative_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
                     }
+                    return view('creative.edit')->with('creative_obj', $creative_obj);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
@@ -125,53 +137,63 @@ class CreativeController extends Controller
                     $creative=Creative::find($creative_id);
                     if($creative){
                         $size = $request->input('size_width').'x'.$request->input('size_height');
+                        $active='Inactive';
+                        if($request->input('active')=='on'){
+                            $active='Active';
+                        }
 
                         $data=array();
                         $audit= new AuditsController();
                         if($creative->name != $request->input('name')){
-                            array_push($data,'name');
+                            array_push($data,'Name');
                             array_push($data,$creative->name);
                             array_push($data,$request->input('name'));
                             $creative->name=$request->input('name');
                         }
+                        if ($creative->status != $active) {
+                            array_push($data, 'Status');
+                            array_push($data, $creative->status);
+                            array_push($data, $active);
+                            $creative->name = $active;
+                        }
                         if($creative->advertiser_domain_name!=$request->input('advertiser_domain_name')){
-                            array_push($data,'advertiser_domain_name');
+                            array_push($data,'Domain Name');
                             array_push($data,$creative->advertiser_domain_name);
                             array_push($data,$request->input('advertiser_domain_name'));
                             $creative->advertiser_domain_name=$request->input('advertiser_domain_name');
                         }
                         if($creative->description!=$request->input('description')){
-                            array_push($data,'description');
+                            array_push($data,'Description');
                             array_push($data,$creative->description);
                             array_push($data,$request->input('description'));
                             $creative->description=$request->input('description');
                         }
                         if($creative->landing_page_url!=$request->input('landing_page_url')){
-                            array_push($data,'landing_page_url');
+                            array_push($data,'Landing Page URL');
                             array_push($data,$creative->landing_page_url);
                             array_push($data,$request->input('landing_page_url'));
                             $creative->landing_page_url=$request->input('landing_page_url');
                         }
                         if($creative->preview_url!=$request->input('preview_url')){
-                            array_push($data,'preview_url');
+                            array_push($data,'Preview URL');
                             array_push($data,$creative->preview_url);
                             array_push($data,$request->input('preview_url'));
                             $creative->preview_url=$request->input('preview_url');
                         }
                         if($creative->attributes!=$request->input('attributes')){
-                            array_push($data,'attributes');
+                            array_push($data,'Attributes');
                             array_push($data,$creative->attributes);
                             array_push($data,$request->input('attributes'));
                             $creative->attributes=$request->input('attributes');
                         }
                         if($creative->ad_tag!=$request->input('ad_tag')){
-                            array_push($data,'ad_tag');
+                            array_push($data,'AD Tag');
                             array_push($data,$creative->ad_tag);
                             array_push($data,$request->input('ad_tag'));
                             $creative->ad_tag=$request->input('ad_tag');
                         }
                         if($creative->size!=$size){
-                            array_push($data,'size');
+                            array_push($data,'Size');
                             array_push($data,$creative->size);
                             array_push($data,$size);
                             $creative->size=$size;
@@ -226,14 +248,13 @@ class CreativeController extends Controller
                 if (User::isSuperAdmin()) {
                     $entity=Creative::find($id);
                 } else {
-                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
-                    if (count($usr_company) > 0 and in_array(Auth::user()->id, $usr_company)) {
-                        $entity = Creative::with(['getAdvertiser' => function ($q) use($usr_company) {
-                            $q->with(['GetClientID' => function ($p) use ($usr_company) {
-                                $p->whereIn('user_id', $usr_company);
-                            }]);
-                        }])->find($id);
-                    } else {
+                    $usr_company = $this->user_company();
+                    $entity = Creative::whereHas('getAdvertiser' , function ($q) use($usr_company) {
+                        $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        });
+                    })->find($id);
+                    if(!$entity){
                         return 'please Select your Client';
                     }
                 }

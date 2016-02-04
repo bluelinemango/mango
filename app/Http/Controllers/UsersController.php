@@ -65,7 +65,6 @@ class UsersController extends Controller
         }else{
             $company_obj=User::with('getCompany')->find(Auth::user()->id);
             $role_obj = Role::where('id','>',1)->get();
-
         }
         return view('user.register')
             ->with('role_obj', $role_obj)
@@ -184,6 +183,7 @@ class UsersController extends Controller
         //return print_r($validate->messages());
         return \Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();
     }
+
     public function role_create(Request $request){
 //        return dd($request->all());
         $validate = \Validator::make($request->all(), ['name'=>'required']);
@@ -200,6 +200,7 @@ class UsersController extends Controller
         //return print_r($validate->messages());
         return \Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();
     }
+
     public function edit_permission_assign(Request $request){
 //        return dd($request->all());
         if(!is_null($request->input('role_group')) and $request->input('role_group') != "") {
@@ -402,76 +403,5 @@ class UsersController extends Controller
                 ->with('audit_obj',$audit_obj);
         }
         return Redirect::to(url('user/login'));
-
-    }
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

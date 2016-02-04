@@ -686,6 +686,7 @@
 
 
                                                                         <div class="well">
+                                                                           <h4>Bid By Hours</h4>
                                                                             <div class="row">
                                                                                 <div class="col-md-12">
                                                                                     <table class="table table-hover time-table">
@@ -774,6 +775,7 @@
                                                                         <hr class="simple">
 
                                                                         <div class="well">
+                                                                            <h4>Bid By Publisher</h4>
                                                                             <div class="row"
                                                                                  id="advertiser_publisher">
                                                                                 <div class="col-sm-3">
@@ -1144,7 +1146,6 @@
         }
         function taggleBWList(type) {
             if (type == 'blacklist') {
-
                 jQuery('#assign_whitelist_leftAll').click();
             }
             if (type == 'whitelist') {

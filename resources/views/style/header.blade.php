@@ -20,6 +20,11 @@
     <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/smartadmin-skins.min.css')}}">
 
     @yield('header_extra')
+
+    <link rel="stylesheet" type="text/css" href="{{cdn('css/jsgrid/jsgrid.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{cdn('css/jsgrid/theme.css')}}" />
+
+
     <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/your_style.css')}}">
     <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/demo.min.css')}}">
 

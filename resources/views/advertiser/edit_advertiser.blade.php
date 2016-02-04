@@ -82,6 +82,14 @@
                                                             </label>
                                                         </section>
                                                         <section class="col col-3">
+                                                            <label for="" class="label">status</label>
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" name="active" @if($adver_obj->status=='Active') checked @endif>
+                                                                <i></i>Active Status
+                                                            </label>
+                                                        </section>
+
+                                                        <section class="col col-3">
                                                             <label class="label" for="">Client Name</label>
                                                             <label class="input">
                                                                 <h6>{{$adver_obj->GetClientID->name}}</h6>
@@ -185,35 +193,6 @@
                                 <div>
                                     <!-- widget content -->
                                     <div class="">
-                                        @if(in_array('ADD_EDIT_CAMPAIGN',$permission))
-                                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/add')}}"
-                                               class=" btn btn-primary pull-left">
-                                                ADD Campaign
-                                            </a>
-                                            <div class="clearfix"></div>
-
-                                        @endif
-                                        @if(in_array('ADD_EDIT_CREATIVE',$permission))
-                                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/creative/add')}}"
-                                               class=" btn btn-primary pull-left">
-                                                Add Creative
-                                            </a>
-                                            <div class="clearfix"></div>
-                                        @endif
-                                        @if(in_array('ADD_EDIT_BWLIST',$permission))
-                                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/bwlist/add')}}"
-                                               class=" btn btn-primary pull-left">
-                                                Add B/W List
-                                            </a>
-                                            <div class="clearfix"></div>
-                                        @endif
-                                        @if(in_array('ADD_EDIT_MODEL',$permission))
-                                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/model/add')}}"
-                                               class=" btn btn-primary pull-left">
-                                                Add Model
-                                            </a>
-                                            <div class="clearfix"></div>
-                                        @endif
                                         @if(in_array('ADD_EDIT_OFFER',$permission))
                                             <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/offer/add')}}"
                                                class=" btn btn-primary pull-left">
@@ -228,27 +207,6 @@
                                             </a>
                                             <div class="clearfix"></div>
                                         @endif
-                                        @if(in_array('ADD_EDIT_GEOSEGMENTLIST',$permission))
-                                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/geosegment/add')}}"
-                                               class=" btn btn-primary pull-left">
-                                                Add Geo Segment List
-                                            </a>
-                                            <div class="clearfix"></div>
-                                        @endif
-                                        @if(in_array('ADD_EDIT_BWLIST',$permission))
-                                            <button type="reset" class="btn btn-primary btn-lg" data-toggle="modal"
-                                                    data-target="#myModal">
-                                                Upload BW list
-                                            </button>
-                                            <div class="clearfix"></div>
-                                        @endif
-                                        @if(in_array('ADD_EDIT_GEOSEGMENTLIST',$permission))
-                                            <button type="reset" class="btn btn-primary btn-lg" data-toggle="modal"
-                                                    data-target="#myModal_geo">
-                                                Upload Geo list
-                                            </button>
-                                            <div class="clearfix"></div>
-                                        @endif
                                     </div>
                                     <!-- end widget content -->
                                 </div>
@@ -261,80 +219,30 @@
                     <!-- END ROW -->
 
                     <!-- row -->
-                    <div class="row">
+                    <div class="row" id="campaign_list" style="display: block">
                         <!-- NEW WIDGET START -->
                         <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0"
-                                 data-widget-editbutton="false" data-widget-colorbutton="true"
-                                 data-widget-deletebutton="false" data-widget-fullscreenbutton="false">
-                                <!-- widget options:
-                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                    data-widget-colorbutton="false"
-                                    data-widget-editbutton="false"
-                                    data-widget-togglebutton="false"
-                                    data-widget-deletebutton="false"
-                                    data-widget-fullscreenbutton="false"
-                                    data-widget-custombutton="false"
-                                    data-widget-collapsed="true"
-                                    data-widget-sortable="false"
-
-                                -->
+                            <div class="well">
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-arrows-v"></i> </span>
-
-                                    <h2 class="font-md"><strong>List Of Campaign</strong></h2>
+                                    <h2 class="font-md pull-left"><strong>List Of Campaign</strong></h2>
+                                    @if(in_array('ADD_EDIT_CAMPAIGN',$permission))
+                                        <h2 class=" pull-right">                                        <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/add')}}"
+                                                                                       class=" btn btn-primary">
+                                                ADD Campaign
+                                            </a>
+                                        </h2>
+                                    @endif
 
                                 </header>
 
                                 <!-- widget div-->
                                 <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
-
                                     <!-- widget content -->
-                                    <div class="widget-body">
+                                    <div class="">
 
-                                        <table id="dt_basic" class="table table-striped table-bordered table-hover"
-                                               width="100%">
-                                            <thead>
-                                            <tr>
-                                                <th data-hide="phone">ID</th>
-                                                <th data-class="expand"><i
-                                                            class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>
-                                                    Name
-                                                </th>
-                                                <th data-hide="phone,tablet"><i
-                                                            class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i>
-                                                    Start Date
-                                                </th>
-                                                <th data-hide="phone,tablet"><i
-                                                            class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i>
-                                                    End Date
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($adver_obj->Campaign as $index_cmp)
-                                                <tr>
-                                                    <td>cmp{{$index_cmp->id}}</td>
-                                                    <td>
-                                                        <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/cmp'.$index_cmp->id.'/edit')}}">{{$index_cmp->name}}</a>
-                                                    </td>
-                                                    <td>{{$index_cmp->start_date}}</td>
-                                                    <td>{{$index_cmp->end_date}}</td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-
+                                        <div id="campaign_grid"></div>
 
                                     </div>
                                     <!-- end widget content -->
@@ -351,35 +259,32 @@
 
                     </div>
 
-                    <div class="row">
+                    <div class="row" id="creative_list" style="display: none">
 
                         <!-- NEW WIDGET START -->
                         <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-1"
-                                 data-widget-editbutton="false" data-widget-colorbutton="false"
-                                 data-widget-deletebutton="false" data-widget-fullscreenbutton="false"
-                                 data-widget-collapsed="true">
+                            <div class="well" >
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-arrows-v"></i> </span>
+                                    <h2 class="font-md pull-left"><strong>List Of Creative</strong></h2>
 
-                                    <h2 class="font-md"><strong>List Of Creative</strong></h2>
+                                    @if(in_array('ADD_EDIT_CREATIVE',$permission))
+                                        <h2 class="pull-right">
+                                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/creative/add')}}"
+                                               class=" btn btn-primary pull-left">
+                                                Add Creative
+                                            </a>
+
+                                        </h2>
+                                    @endif
 
                                 </header>
 
                                 <!-- widget div-->
                                 <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
-
                                     <!-- widget content -->
-                                    <div class="widget-body">
+                                    <div class="">
 
                                         <table id="dt_basic1" class="table table-striped table-bordered table-hover"
                                                width="100%">
@@ -421,35 +326,32 @@
                         </article>
                         <!-- WIDGET END -->
                     </div>
-                    <div class="row">
+
+                    <div class="row" id="model_list" style="display: none">
 
                         <!-- NEW WIDGET START -->
                         <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-2"
-                                 data-widget-editbutton="false" data-widget-colorbutton="false"
-                                 data-widget-deletebutton="false" data-widget-fullscreenbutton="false"
-                                 data-widget-collapsed="true">
+                            <div class="well" >
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-arrows-v"></i> </span>
+                                    <h2 class="font-md pull-left"><strong>List Of Models</strong></h2>
+                                    @if(in_array('ADD_EDIT_MODEL',$permission))
+                                        <h2 class="pull-right">
+                                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/model/add')}}"
+                                               class=" btn btn-primary pull-left">
+                                                Add Model
+                                            </a>
 
-                                    <h2 class="font-md"><strong>List Of Models</strong></h2>
+                                        </h2>
+                                    @endif
 
                                 </header>
 
                                 <!-- widget div-->
                                 <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
-
                                     <!-- widget content -->
-                                    <div class="widget-body">
+                                    <div class="">
 
                                         <table id="dt_basic2" class="table table-striped table-bordered table-hover"
                                                width="100%">
@@ -491,35 +393,38 @@
                         </article>
                         <!-- WIDGET END -->
                     </div>
-                    <div class="row">
+
+                    <div class="row" id="bwlist_list" style="display: none">
 
                         <!-- NEW WIDGET START -->
                         <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-3"
-                                 data-widget-editbutton="false" data-widget-colorbutton="false"
-                                 data-widget-deletebutton="false" data-widget-fullscreenbutton="false"
-                                 data-widget-collapsed="true">
+                            <div class="well" >
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-arrows-v"></i> </span>
+                                    <h2 class="font-md pull-left"><strong>List Of Black White List </strong></h2>
+                                    @if(in_array('ADD_EDIT_BWLIST',$permission))
+                                        <h2 class="pull-right">
+                                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/bwlist/add')}}"
+                                               class=" btn btn-primary pull-left">
+                                                Add B/W List
+                                            </a>
+                                        </h2>
+                                        <h2 class="pull-right">
+                                            <button type="reset" class="btn btn-primary btn-lg" data-toggle="modal"
+                                                    data-target="#myModal">
+                                                Upload BW list
+                                            </button>
 
-                                    <h2 class="font-md"><strong>List Of Black White List </strong></h2>
+                                        </h2>
+                                    @endif
 
                                 </header>
 
                                 <!-- widget div-->
                                 <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
-
                                     <!-- widget content -->
-                                    <div class="widget-body">
+                                    <div class="">
 
                                         <table id="dt_basic3" class="table table-striped table-bordered table-hover"
                                                width="100%">
@@ -562,35 +467,36 @@
 
                     </div>
 
-                    <div class="row">
+                    <div class="row" id="geosegment_list" style="display: none">
 
                         <!-- NEW WIDGET START -->
                         <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-4"
-                                 data-widget-editbutton="false" data-widget-colorbutton="false"
-                                 data-widget-deletebutton="false" data-widget-fullscreenbutton="false"
-                                 data-widget-collapsed="true">
+                            <div class="well" >
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-arrows-v"></i> </span>
-
-                                    <h2 class="font-md"><strong>List Of Geo Segment List </strong></h2>
+                                    <h2 class="font-md pull-left"><strong>List Of Geo Segment List </strong></h2>
+                                    @if(in_array('ADD_EDIT_GEOSEGMENTLIST',$permission))
+                                        <h2 class="pull-right">
+                                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/geosegment/add')}}"
+                                               class=" btn btn-primary pull-left">
+                                                Add Geo Segment List
+                                            </a>
+                                        </h2>
+                                        <h2 class="pull-right">
+                                            <button type="reset" class="btn btn-primary btn-lg" data-toggle="modal"
+                                                    data-target="#myModal_geo">
+                                                Upload Geo list
+                                            </button>
+                                        </h2>
+                                    @endif
 
                                 </header>
 
                                 <!-- widget div-->
                                 <div>
-
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
-
                                     <!-- widget content -->
-                                    <div class="widget-body">
+                                    <div class="">
 
                                         <table id="dt_basic4" class="table table-striped table-bordered table-hover"
                                                width="100%">
@@ -757,7 +663,10 @@
     <script src="{{cdn('js/plugin/datatables/dataTables.tableTools.min.js')}}"></script>
     <script src="{{cdn('js/plugin/datatables/dataTables.bootstrap.min.js')}}"></script>
     <script src="{{cdn('js/plugin/datatable-responsive/datatables.responsive.min.js')}}"></script>
+{{--////////////////////////////DONT NEED UP ///////////////////--}}
+
     <script src="{{cdn('js/multi_select/multiselect.min.js')}}"></script>
+    <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
 
 
     <script>
@@ -812,6 +721,108 @@
                     right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
                 }
             });
+
+
+            $(function() {
+
+                var db = {
+
+                    loadData: function(filter) {
+                        return $.grep(this.clients, function(client) {
+                            return (!filter.Name || client.Name.indexOf(filter.Name) > -1);
+                        });
+                    },
+
+                    insertItem: function(insertingClient) {
+                        insertingClient['oper']='add';
+                        console.log(insertingClient);
+                        $.ajax({
+                            type: "PUT",
+                            url: "{{url('/ajax/jqgrid/client')}}",
+                            data: insertingClient,
+                            dataType: "json"
+                        }).done();
+
+                    },
+
+                    updateItem: function(updatingClient) {
+                        updatingClient['oper']='edit';
+                        console.log(updatingClient) ;
+                        $.ajax({
+                            type: "PUT",
+                            url: "{{url('/ajax/jqgrid/client')}}",
+                            data: updatingClient,
+                            dataType: "json"
+                        });
+                    },
+
+                    deleteItem: function(deletingClient) {
+                        var clientIndex = $.inArray(deletingClient, this.clients);
+                        this.clients.splice(clientIndex, 1);
+                    }
+
+                };
+
+                window.db = db;
+
+                db.clients = [
+
+                @foreach($adver_obj->Campaign as $index)
+                    {
+                        "id" : '<a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/cmp'.$index->id.'/edit')}}">cmp{{$index->id}}</a>',
+                        "name" : '{{$index->name}}',
+                        "start_date": '{{$index->start_date}}',
+                        "end_date": '{{$index->end_date}}',
+                        "date_modify" : '{{$index->updated_at}}',
+                        "action": '<a class="btn btn-info" href={{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/cmp'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>'
+
+                    },
+                    @endforeach
+                ];
+
+                $("#campaign_grid").jsGrid({
+                    width: "100%",
+
+                    filtering: true,
+                    editing: true,
+                    sorting: true,
+                    paging: true,
+                    autoload: true,
+
+                    pageSize: 15,
+                    pageButtonCount: 5,
+
+                    deleteConfirm: "Do you really want to delete the client?",
+
+                    controller: db,
+                    fields: [
+                        { name: "id",title: "ID", width: 40,align :"center" },
+                        { name: "name",title: "Name", type: "text", width: 70 },
+                        { name: "start_date", title:"Start Date", type: "text",  width: 100,align :"center" },
+                        { name: "end_date", title:"End Date", type: "text",  width: 100,align :"center" },
+                        { name: "date_modify" ,title:"Date of Modify",align :"center"},
+                        { name: "action", title: "Full Action", sorting: false,width: 50,align :"center" },
+                        { type: "control" }
+                    ]
+
+                });
+
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             /* BASIC ;*/
             var responsiveHelper_dt_basic = undefined;
             var responsiveHelper_dt_basic1 = undefined;

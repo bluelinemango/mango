@@ -71,25 +71,33 @@
 
                                             <fieldset>
                                                 <div class="row">
-                                                    <section class="col col-3">
+                                                    <section class="col col-2">
                                                         <label class="label" for=""> Name</label>
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
                                                             <input type="text" name="name" placeholder="Name">
                                                         </label>
                                                     </section>
-                                                    <section class="col col-3">
+                                                    <section class="col col-2">
                                                         <label class="label" for="">Domain Name</label>
                                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
                                                             <input type="text" name="advertiser_domain_name" placeholder="Domain Name">
                                                         </label>
                                                     </section>
-                                                    <section class="col col-3">
+                                                    <section class="col col-2">
+                                                        <label for="" class="label">Status</label>
+                                                        <label class="checkbox">
+                                                            <input type="checkbox" name="active">
+                                                            <i></i>Active
+                                                        </label>
+                                                    </section>
+
+                                                    <section class="col col-2">
                                                         <label class="label" for="">Advertiser Name</label>
                                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
                                                             <input type="text" value="{{$advertiser_obj->name}}" disabled>
                                                         </label>
                                                     </section>
-                                                    <section class="col col-3">
+                                                    <section class="col col-2">
                                                         <label class="label" for="">Client Name</label>
                                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
                                                             <input type="text" value="{{$advertiser_obj->GetClientID->name}}" disabled>

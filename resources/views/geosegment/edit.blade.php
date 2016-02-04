@@ -81,6 +81,13 @@
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
+                                                        <label for="" class="label">status</label>
+                                                        <label class="checkbox">
+                                                            <input type="checkbox" name="active" @if($geosegment_obj->status=='Active') checked @endif>
+                                                            <i></i>Active Status
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-3">
                                                         <label class="label" for=""> Advertiser Name</label>
                                                         <label class="input"> <h6>{{$geosegment_obj->getAdvertiser->name}}</h6>
                                                         </label>

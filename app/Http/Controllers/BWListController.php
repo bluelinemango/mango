@@ -28,15 +28,14 @@ class BWListController extends Controller
                         $q->with('GetClientID');
                     }])->get();
                 }else{
-                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
+                    $usr_company = $this->user_company();
                     $bwlist = BWList::with(['getEntries' => function ($q) {
                         $q->select(DB::raw('*,count(bwlist_id) as bwlist_count'))->groupBy('bwlist_id');
-                    }])->with(['getAdvertiser' => function ($q) use($usr_company) {
-                        $q->with(['GetClientID' => function ($p) use ($usr_company) {
+                    }])->whereHas('getAdvertiser' , function ($q) use($usr_company) {
+                        $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
-                        }]);
-                    }])->get();
-
+                        });
+                    })->get();
                 }
                 return view('bwlist.list')->with('bwlist_obj',$bwlist);
             }
@@ -126,13 +125,18 @@ class BWListController extends Controller
         if(!is_null($advid)) {
             if (Auth::check()) {
                 if(in_array('ADD_EDIT_BWLIST',$this->permission)) {
-                    $chkUser = Advertiser::with('GetClientID')->find($advid);
-                    if (count($chkUser) > 0 and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                    if (User::isSuperAdmin()) {
                         $advertiser_obj = Advertiser::with('GetClientID')->find($advid);
-                        return view('bwlist.add')->with('advertiser_obj', $advertiser_obj);
-                    }else{
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    } else {
+                        $usr_company = $this->user_company();
+                        $advertiser_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        })->find($advid);
+                        if (!$advertiser_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
                     }
+                    return view('bwlist.add')->with('advertiser_obj', $advertiser_obj);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
@@ -261,11 +265,16 @@ class BWListController extends Controller
                             }
                         }
                         if($flg==0) {
+                            $active='Active';
+                            if($request->input('active')=='on'){
+                                $active='Inactive';
+                            }
                             $key= new AuditsController();
                             $key=$key->generateRandomString();
                             $audit= new AuditsController();
                             $bwlist = new BWList();
                             $bwlist->name = $request->input('name');
+                            $bwlist->status = $active;
                             $bwlist->list_type = $request->input('list_type');
                             $bwlist->advertiser_id = $request->input('advertiser_id');
                             $bwlist->save();
@@ -295,15 +304,22 @@ class BWListController extends Controller
         if(!is_null($bwlid)){
             if(Auth::check()){
                 if(in_array('ADD_EDIT_BWLIST',$this->permission)) {
-                    $chkUser=Advertiser::with('GetClientID')->find($advid);
-                    if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                    if (User::isSuperAdmin()) {
                         $bwlist_obj = BWList::with(['getAdvertiser' => function ($q) {
                             $q->with('GetClientID');
                         }])->with('getEntries')->find($bwlid);
-//                    return dd($bwlist_obj);
-                        return view('bwlist.edit')->with('bwlist_obj', $bwlist_obj);
+                    } else {
+                        $usr_company = $this->user_company();
+                        $bwlist_obj = BWList::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->with('getEntries')->find($bwlid);
+                        if (!$bwlist_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
                     }
-                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    return view('bwlist.edit')->with('bwlist_obj', $bwlist_obj);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
@@ -352,14 +368,13 @@ class BWListController extends Controller
                 if (User::isSuperAdmin()) {
                     $entity=BWList::find($id);
                 } else {
-                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
-                    if (count($usr_company) > 0 and in_array(Auth::user()->id, $usr_company)) {
-                        $entity = BWList::with(['getAdvertiser' => function ($q) use($usr_company) {
-                            $q->with(['GetClientID' => function ($p) use ($usr_company) {
-                                $p->whereIn('user_id', $usr_company);
-                            }]);
-                        }])->find($id);
-                    } else {
+                    $usr_company = $this->user_company();
+                    $entity = BWList::whereHas('getAdvertiser' , function ($q) use($usr_company) {
+                        $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        });
+                    })->find($id);
+                    if(!$entity){
                         return 'please Select your Client';
                     }
                 }
@@ -389,74 +404,4 @@ class BWListController extends Controller
         return Redirect::to(url('user/login'));
     }
 
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

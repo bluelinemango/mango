@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Redirect;
 class PixelController extends Controller
 {
 
-    public function GetView(){
+public function GetView(){
         if(Auth::check()){
             if (in_array('VIEW_PIXEL', $this->permission)) {
                 if (User::isSuperAdmin()) {
@@ -23,12 +23,12 @@ class PixelController extends Controller
                         $q->with('GetClientID');
                     }])->get();
                 }else{
-                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
-                    $pixel_obj = Pixel::with(['getAdvertiser' => function ($q) use($usr_company) {
-                        $q->with(['GetClientID' => function ($p) use ($usr_company) {
+                    $usr_company = $this->user_company();
+                    $pixel_obj = Pixel::whereHas('getAdvertiser' , function ($q) use($usr_company) {
+                        $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
-                        }]);
-                    }])->get();
+                        });
+                    })->get();
                 }
                 return view('pixel.list')->with('pixel_obj',$pixel_obj);
             }
@@ -40,12 +40,18 @@ class PixelController extends Controller
         if(!is_null($advid)) {
             if (Auth::check()) {
                 if (in_array('ADD_EDIT_PIXEL', $this->permission)) {
-                    $chkUser = Advertiser::with('GetClientID')->find($advid);
-                    if (count($chkUser) > 0 and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                    if (User::isSuperAdmin()) {
                         $advertiser_obj = Advertiser::with('GetClientID')->find($advid);
-                        return view('pixel.add')->with('advertiser_obj', $advertiser_obj);
+                    } else {
+                        $usr_company = $this->user_company();
+                        $advertiser_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        })->find($advid);
+                        if (!$advertiser_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
                     }
-                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    return view('pixel.add')->with('advertiser_obj', $advertiser_obj);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
@@ -60,9 +66,14 @@ class PixelController extends Controller
                 if($validate->passes()) {
                     $chkUser=Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                        $active='Inactive';
+                        if($request->input('active')=='on'){
+                            $active='Active';
+                        }
                         $rndstr=new AuditsController();
                         $pixel = new Pixel();
                         $pixel->name = $request->input('name');
+                        $pixel->status = $active;
                         $pixel->advertiser_id = $request->input('advertiser_id');
                         $pixel->version = 'version1';
                         $pixel->part_a = $rndstr->randomStr();
@@ -86,15 +97,22 @@ class PixelController extends Controller
         if(!is_null($pxlid)){
             if(Auth::check()){
                 if (in_array('ADD_EDIT_PIXEL', $this->permission)) {
-                    $chkUser=Advertiser::with('GetClientID')->find($advid);
-                    if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                    if (User::isSuperAdmin()) {
                         $pixel_obj = Pixel::with(['getAdvertiser' => function ($q) {
                             $q->with('GetClientID');
                         }])->find($pxlid);
-                        return view('pixel.edit')->with('pixel_obj', $pixel_obj);
-                    }else{
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    } else {
+                        $usr_company = $this->user_company();
+                        $pixel_obj = Pixel::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->find($pxlid);
+                        if (!$pixel_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
                     }
+                    return view('pixel.edit')->with('pixel_obj', $pixel_obj);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
@@ -110,13 +128,23 @@ class PixelController extends Controller
                     $pixel_id = $request->input('pixel_id');
                     $pixel=Pixel::find($pixel_id);
                     if($pixel){
+                        $active='Inactive';
+                        if($request->input('active')=='on'){
+                            $active='Active';
+                        }
                         $data=array();
                         $audit= new AuditsController();
                         if($pixel->name != $request->input('name')){
-                            array_push($data,'name');
+                            array_push($data,'Name');
                             array_push($data,$pixel->name);
                             array_push($data,$request->input('name'));
                             $pixel->name=$request->input('name');
+                        }
+                        if ($pixel->status != $active) {
+                            array_push($data, 'Status');
+                            array_push($data, $pixel->status);
+                            array_push($data, $active);
+                            $pixel->name = $active;
                         }
                         $audit->store('creative',$pixel_id,$data,'edit');
                         $pixel->save();
@@ -175,14 +203,13 @@ class PixelController extends Controller
                 if (User::isSuperAdmin()) {
                     $entity=Pixel::find($id);
                 } else {
-                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
-                    if (count($usr_company) > 0 and in_array(Auth::user()->id, $usr_company)) {
-                        $entity = Pixel::with(['getAdvertiser' => function ($q) use($usr_company) {
-                            $q->with(['GetClientID' => function ($p) use ($usr_company) {
-                                $p->whereIn('user_id', $usr_company);
-                            }]);
-                        }])->find($id);
-                    } else {
+                    $usr_company = $this->user_company();
+                    $entity = Pixel::whereHas('getAdvertiser' , function ($q) use($usr_company) {
+                        $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        });
+                    })->find($id);
+                    if(!$entity){
                         return 'please Select your Client';
                     }
                 }
@@ -212,75 +239,4 @@ class PixelController extends Controller
         return Redirect::to(url('user/login'));
     }
 
-
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

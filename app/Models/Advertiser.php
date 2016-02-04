@@ -19,10 +19,10 @@ class Advertiser extends Model
         return $this->hasMany('App\Models\ModelTable');
     }
     public function GeoSegment(){
-        return $this->hasMany('App\Models\GeoSegmentList');
+        return $this->hasMany('App\Models\GeoSegmentList','advertiser_id');
     }
     public function BWList(){
-        return $this->hasMany('App\Models\BWList');
+        return $this->hasMany('App\Models\BWList','advertiser_id');
     }
     public function Creative(){
         return $this->hasMany('App\Models\Creative');

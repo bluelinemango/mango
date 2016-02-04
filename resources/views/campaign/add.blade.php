@@ -97,6 +97,14 @@
                                                                 <input type="text" name="advertiser_domain_name" id="domain_name" placeholder="Domain Name">
                                                             </label>
                                                         </section>
+                                                        <section class="col col-2">
+                                                            <label for="" class="label">Status</label>
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" name="active">
+                                                                <i></i>Active
+                                                            </label>
+                                                        </section>
+
 
                                                     </div>
                                                 </fieldset>

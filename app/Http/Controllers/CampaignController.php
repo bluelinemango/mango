@@ -71,6 +71,10 @@ class CampaignController extends Controller
                 if ($validate->passes()) {
                     $chkUser = Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
                     if (!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                        $active='Inactive';
+                        if($request->input('active')=='on'){
+                            $active='Active';
+                        }
                         $start_date = \DateTime::createFromFormat('d.m.Y', $request->input('start_date'));
                         $end_date = \DateTime::createFromFormat('d.m.Y', $request->input('end_date'));
                         $campaign = new Campaign();
@@ -80,6 +84,7 @@ class CampaignController extends Controller
                         $campaign->max_budget = $request->input('max_budget');
                         $campaign->daily_max_budget = $request->input('daily_max_budget');
                         $campaign->cpm = $request->input('cpm');
+                        $campaign->status = $active;
                         $campaign->advertiser_domain_name = $request->input('advertiser_domain_name');
                         $campaign->description = $request->input('description');
                         $campaign->advertiser_id = $request->input('advertiser_id');
@@ -140,70 +145,85 @@ class CampaignController extends Controller
                     $campaign_id = $request->input('campaign_id');
                     $campaign = Campaign::find($campaign_id);
                     if ($campaign) {
+                        $active='Inactive';
+                        if($request->input('active')=='on'){
+                            $active='Active';
+                        }
+
                         if($campaign->start_date != $request->input('start_date')){
                             $start_date = \DateTime::createFromFormat('d.m.Y', $request->input('start_date'));
                         }
                         if($campaign->end_date != $request->input('end_date')) {
                             $end_date = \DateTime::createFromFormat('d.m.Y', $request->input('end_date'));
                         }
+                        $active='Inactive';
+                        if($request->input('active')=='on'){
+                            $active='Active';
+                        }
                         $data=array();
                         $audit= new AuditsController();
                         if($campaign->name != $request->input('name')){
-                            array_push($data,'name');
+                            array_push($data,'Name');
                             array_push($data,$campaign->name);
                             array_push($data,$request->input('name'));
                             $campaign->name=$request->input('name');
                         }
+                        if ($campaign->status != $active) {
+                            array_push($data, 'Status');
+                            array_push($data, $campaign->status);
+                            array_push($data, $active);
+                            $campaign->name = $active;
+                        }
                         if($campaign->max_impression != $request->input('max_impression')){
-                            array_push($data,'max_impression');
+                            array_push($data,'Max Imps');
                             array_push($data,$campaign->max_impression);
                             array_push($data,$request->input('max_impression'));
                             $campaign->max_impression=$request->input('max_impression');
                         }
                         if($campaign->daily_max_impression != $request->input('daily_max_impression')){
-                            array_push($data,'daily_max_impression');
+                            array_push($data,'Daily Max Imps');
                             array_push($data,$campaign->daily_max_impression);
                             array_push($data,$request->input('daily_max_impression'));
                             $campaign->daily_max_impression = $request->input('daily_max_impression');
                         }
                         if($campaign->max_budget != $request->input('max_budget')){
-                            array_push($data,'max_budget');
+                            array_push($data,'Max Budget');
                             array_push($data,$campaign->max_budget);
                             array_push($data,$request->input('max_budget'));
                             $campaign->max_budget = $request->input('max_budget');
                         }
                         if($campaign->daily_max_budget != $request->input('daily_max_budget')){
-                            array_push($data,'daily_max_budget');
+                            array_push($data,'Daily Max Budget');
                             array_push($data,$campaign->daily_max_budget);
                             array_push($data,$request->input('daily_max_budget'));
                             $campaign->daily_max_budget = $request->input('daily_max_budget');
                         }
                         if($campaign->cpm != $request->input('cpm')){
-                            array_push($data,'cpm');
+                            array_push($data,'CPM');
                             array_push($data,$campaign->cpm);
                             array_push($data,$request->input('cpm'));
                             $campaign->cpm = $request->input('cpm');
                         }
                         if($campaign->advertiser_domain_name != $request->input('advertiser_domain_name')){
-                            array_push($data,'advertiser_domain_name');
+                            array_push($data,'Domain Name');
                             array_push($data,$campaign->advertiser_domain_name);
                             array_push($data,$request->input('advertiser_domain_name'));
                             $campaign->advertiser_domain_name = $request->input('advertiser_domain_name');
                         }
                         if($campaign->description != $request->input('description')){
-                            array_push($data,'description');
+                            array_push($data,'Description');
                             array_push($data,$campaign->description);
                             array_push($data,$request->input('description'));
                             $campaign->description = $request->input('description');
                         }
                         if(isset($start_date)){
-                            array_push($data,'start_date');
+                            array_push($data,'Start Date');
                             array_push($data,$campaign->start_date);
                             array_push($data,$start_date);
                             $campaign->start_date = $start_date;
                         }
                         if(isset($end_date)){
-                            array_push($data,'end_date');
+                            array_push($data,'End Date');
                             array_push($data,$campaign->end_date);
                             array_push($data,$end_date);
                             $campaign->end_date = $end_date;
@@ -229,30 +249,49 @@ class CampaignController extends Controller
                 $validate = \Validator::make($request->all(), ['name' => 'required']);
                 if ($validate->passes()) {
                     $camp_id = substr($request->input('id'), 3);
-                    $chkUser = Campaign::with(['getAdvertiser' => function ($q) {
-                        $q->with('GetClientID');
-                    }])->where('id', $camp_id)->get();
-                    if (!is_null($chkUser) and Auth::user()->id == $chkUser[0]->getAdvertiser->GetClientID->user_id) {
-                        switch ($request->input('oper')) {
-                            case 'edit':
-                                $campaign = Campaign::find($camp_id);
-                                if ($campaign) {
-                                    $campaign->name = $request->input('name');
-                                    $campaign->max_impression = $request->input('max_imp');
-                                    $campaign->max_budget = $request->input('max_budget');
-                                    $campaign->save();
-                                    return "ok";
-                                }
-                                return "false";
-                                break;
+                    if (User::isSuperAdmin()) {
+                        $campaign = Campaign::find($camp_id);
+                    }else{
+                        $usr_company = $this->user_company();
+                        $campaign = Campaign::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->find($camp_id);
+                        if (!$campaign) {
+                            return $msg=(['success' => false, 'msg' => "Some things went wrong"]);
                         }
                     }
-                    return "invalid campaign ID";
-
+                    if ($campaign) {
+                        $data = array();
+                        $audit = new AuditsController();
+                        if ($campaign->name != $request->input('name')) {
+                            array_push($data, 'Name');
+                            array_push($data, $campaign->name);
+                            array_push($data, $request->input('name'));
+                            $campaign->name = $request->input('name');
+                        }
+                        if ($campaign->max_impression != $request->input('max_imp')) {
+                            array_push($data, 'Max Impression');
+                            array_push($data, $campaign->max_impression);
+                            array_push($data, $request->input('max_imp'));
+                            $campaign->max_impression = $request->input('max_imp');
+                        }
+                        if ($campaign->max_budget != $request->input('max_budget')) {
+                            array_push($data, 'Max Budget');
+                            array_push($data, $campaign->max_budget);
+                            array_push($data, $request->input('max_budget'));
+                            $campaign->max_budget = $request->input('max_budget');
+                        }
+                        $audit->store('advertiser', $camp_id, $data, 'edit');
+                        $campaign->save();
+                        return $msg=(['success' => true, 'msg' => "your Campaign Saved successfully"]);
+                    }
+                    return $msg=(['success' => false, 'msg' => "Please Select a Campaign First"]);
                 }
-                return Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();
+                return $msg=(['success' => false, 'msg' => "Please Check your field"]);
             }
-            return "don't have permission";
+            return $msg=(['success' => false, 'msg' => "You don't have permission"]);
         }
         return Redirect::to('/user/login');
     }

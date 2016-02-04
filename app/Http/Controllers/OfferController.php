@@ -25,12 +25,12 @@ class OfferController extends Controller
                         $q->with('GetClientID');
                     }])->get();
                 }else{
-                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
-                    $offer_obj = Offer::with(['getAdvertiser' => function ($q) use($usr_company) {
-                        $q->with(['GetClientID' => function ($p) use ($usr_company) {
+                    $usr_company = $this->user_company();
+                    $offer_obj = Offer::whereHas('getAdvertiser' , function ($q) use($usr_company) {
+                        $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
-                        }]);
-                    }])->get();
+                        });
+                    })->get();
                 }
                 return view('offer.list')->with('offer_obj',$offer_obj);
             }
@@ -42,12 +42,18 @@ class OfferController extends Controller
         if(!is_null($advid)) {
             if (Auth::check()) {
                 if (in_array('ADD_EDIT_OFFER', $this->permission)) {
-                    $chkUser = Advertiser::with('GetClientID')->find($advid);
-                    if (count($chkUser) > 0 and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                    if (User::isSuperAdmin()) {
                         $advertiser_obj = Advertiser::with('GetClientID')->find($advid);
-                        return view('offer.add')->with('advertiser_obj', $advertiser_obj);
+                    } else {
+                        $usr_company = $this->user_company();
+                        $advertiser_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        })->find($advid);
+                        if (!$advertiser_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
                     }
-                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    return view('offer.add')->with('advertiser_obj', $advertiser_obj);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
@@ -63,9 +69,14 @@ class OfferController extends Controller
                 if($validate->passes()) {
                     $chkUser=Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
                     if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                        $active='Inactive';
+                        if($request->input('active')=='on'){
+                            $active='Active';
+                        }
                         $offer = new Offer();
                         $offer->name = $request->input('name');
                         $offer->advertiser_id = $request->input('advertiser_id');
+                        $offer->status = $active;
                         $offer->save();
                         $audit= new AuditsController();
                         $audit->store('offer',$offer->id,null,'add');
@@ -85,27 +96,42 @@ class OfferController extends Controller
         if(!is_null($ofrid)){
             if(Auth::check()){
                 if (in_array('ADD_EDIT_OFFER', $this->permission)) {
-                    $chkUser=Advertiser::with('GetClientID')->find($advid);
-                    if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                    if (User::isSuperAdmin()) {
                         $offer_obj = Offer::with(['getAdvertiser' => function ($q) {
                             $q->with('GetClientID');
                         }])->find($ofrid);
                         $get_pixel=Pixel::get();
-                        $offer_pixel=Offer_Pixel_Map::where('offer_id',$ofrid)->get(['id']);
-                        $offer_pixel1 = array();
-                        if(count($offer_pixel)>0) {
-                            foreach($offer_pixel as $index) {
-                                array_push($offer_pixel1,$index->id);
-                            }
+                    } else {
+                        $usr_company = $this->user_company();
+                        $offer_obj = Offer::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->find($ofrid);
+                        $get_pixel=Pixel::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->get();
+
+                        if (!$offer_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                         }
-//                        return dd($offer_pixel);
-                        return view('offer.edit')
-                            ->with('pixel_obj', $get_pixel)
-                            ->with('offer_pixel', $offer_pixel1)
-                            ->with('offer_obj', $offer_obj);
-                    }else{
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                     }
+
+                    $offer_pixel=Offer_Pixel_Map::where('offer_id',$ofrid)->get();
+                    $offer_pixel1 = array();
+                    if(count($offer_pixel)>0) {
+                        foreach($offer_pixel as $index) {
+                            array_push($offer_pixel1,$index->pixel_id);
+                        }
+                    }
+//                        return dd($offer_pixel1);
+                    return view('offer.edit')
+                        ->with('pixel_obj', $get_pixel)
+                        ->with('offer_pixel', $offer_pixel1)
+                        ->with('offer_obj', $offer_obj);
+
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
@@ -123,24 +149,47 @@ class OfferController extends Controller
                     if($offer){
                         $key_audit= new AuditsController();
                         $key_audit=$key_audit->generateRandomString();
+                        $active='Inactive';
+                        if($request->input('active')=='on'){
+                            $active='Active';
+                        }
                         $data=array();
-                        $audit= new AuditsController();
+                        $audit=new AuditsController();
+                        $audit_key=$audit->generateRandomString();
+
                         if($offer->name != $request->input('name')){
-                            array_push($data,'name');
+                            array_push($data,'Name');
                             array_push($data,$offer->name);
                             array_push($data,$request->input('name'));
                             $offer->name=$request->input('name');
                         }
-                        if(count($request->input('to_pixel'))>0){
-                            $chk = array();
-                            foreach($request->input('to_pixel') as $index) {
-                                if(!in_array($index,$chk)) {
-                                    $offer_pixel_assign = new Offer_Pixel_Map();
-                                    $offer_pixel_assign->offer_id = $offer_id;
-                                    $offer_pixel_assign->pixel_id = $index;
-                                    $offer_pixel_assign->save();
-                                    $audit->store('offer_pixel',$offer_pixel_assign->id,null,'add',$key_audit);
-                                    array_push($chk,$index);
+                        if ($offer->status != $active) {
+                            array_push($data, 'Status');
+                            array_push($data, $offer->status);
+                            array_push($data, $active);
+                            $offer->name = $active;
+                        }
+
+                        $offer_pixel_map=Offer_Pixel_Map::where('offer_id', $offer_id)->get();
+                        $ofrPxlArr=array();
+                        foreach($offer_pixel_map as $index){
+                            array_push($ofrPxlArr,$index->pixel_id);
+                        }
+
+                        if ($request->has('to_pixel')) {
+                            foreach ($request->input('to_pixel') as $index) {
+                                if (!in_array($index, $ofrPxlArr)) {
+                                    $pixel_assign = new Offer_Pixel_Map();
+                                    $pixel_assign->offer_id = $offer_id;
+                                    $pixel_assign->pixel_id = $index;
+                                    $pixel_assign->save();
+                                    $audit->store('offer_pixel_map', $index, $offer_id, 'add', $audit_key);
+                                }
+                            }
+                            foreach ($offer_pixel_map as $index) {
+                                if (!in_array($index->pixel_id, $request->input('to_pixel'))) {
+                                    Offer_Pixel_Map::where('offer_id',$offer_id)->where('pixel_id',$index->pixel_id)->delete();
+                                    $audit->store('offer_pixel_map', $index->pixel_id, $offer_id, 'remove', $audit_key);
                                 }
                             }
                         }
@@ -201,14 +250,13 @@ class OfferController extends Controller
                 if (User::isSuperAdmin()) {
                     $entity=Offer::find($id);
                 } else {
-                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
-                    if (count($usr_company) > 0 and in_array(Auth::user()->id, $usr_company)) {
-                        $entity = Offer::with(['getAdvertiser' => function ($q) use($usr_company) {
-                            $q->with(['GetClientID' => function ($p) use ($usr_company) {
-                                $p->whereIn('user_id', $usr_company);
-                            }]);
-                        }])->find($id);
-                    } else {
+                    $usr_company = $this->user_company();
+                    $entity = Offer::whereHas('getAdvertiser' , function ($q) use($usr_company) {
+                        $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        });
+                    })->find($id);
+                    if(!$entity){
                         return 'please Select your Client';
                     }
                 }
@@ -236,76 +284,5 @@ class OfferController extends Controller
             return "You don't have permission";
         }
         return Redirect::to(url('user/login'));
-    }
-
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

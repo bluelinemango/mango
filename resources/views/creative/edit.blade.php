@@ -88,6 +88,14 @@
                                                             <input type="text" name="advertiser_domain_name" placeholder="Domain Name" value="{{$creative_obj->advertiser_domain_name}}">
                                                         </label>
                                                     </section>
+                                                    <section class="col col-3">
+                                                        <label for="" class="label">status</label>
+                                                        <label class="checkbox">
+                                                            <input type="checkbox" name="active" @if($creative_obj->status=='Active') checked @endif>
+                                                            <i></i>Active Status
+                                                        </label>
+                                                    </section>
+
 
                                                 </fieldset>
                                             </div>

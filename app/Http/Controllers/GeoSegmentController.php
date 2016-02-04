@@ -22,21 +22,20 @@ class GeoSegmentController extends Controller
         if(Auth::check()){
             if(in_array('VIEW_GEOSEGMENTLIST',$this->permission)) {
                 if (User::isSuperAdmin()) {
-
                     $geosegment_obj = GeoSegmentList::with(['getGeoEntries' => function ($q) {
                         $q->select(DB::raw('*,count(geosegmentlist_id) as geosegment_count'))->groupBy('geosegmentlist_id');
                     }])->with(['getAdvertiser' => function ($q) {
                         $q->with('GetClientID');
                     }])->get();
                 }else{
-                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
+                    $usr_company = $this->user_company();
                     $geosegment_obj = GeoSegmentList::with(['getGeoEntries' => function ($q) {
                         $q->select(DB::raw('*,count(geosegmentlist_id) as geosegment_count'))->groupBy('geosegmentlist_id');
-                    }])->with(['getAdvertiser' => function ($q) use($usr_company) {
-                        $q->with(['GetClientID' => function ($p) use ($usr_company) {
+                    }])->whereHas('getAdvertiser' , function ($q) use($usr_company) {
+                        $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
-                        }]);
-                    }])->get();
+                        });
+                    })->get();
                 }
                 return view('geosegment.list')->with('geosegment_obj',$geosegment_obj);
             }
@@ -49,12 +48,18 @@ class GeoSegmentController extends Controller
         if(!is_null($advid)) {
             if (Auth::check()) {
                 if(in_array('ADD_EDIT_GEOSEGMENTLIST',$this->permission)) {
-                    $chkUser = Advertiser::with('GetClientID')->find($advid);
-                    if (count($chkUser) > 0 and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                    if (User::isSuperAdmin()) {
                         $advertiser_obj = Advertiser::with('GetClientID')->find($advid);
-                        return view('geosegment.add')->with('advertiser_obj', $advertiser_obj);
+                    } else {
+                        $usr_company = $this->user_company();
+                        $advertiser_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        })->find($advid);
+                        if (!$advertiser_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
                     }
-                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    return view('geosegment.add')->with('advertiser_obj', $advertiser_obj);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
@@ -140,11 +145,16 @@ class GeoSegmentController extends Controller
                             }
                         }
                         if($flg==0) {
+                            $active='Inactive';
+                            if($request->input('active')=='on'){
+                                $active='Active';
+                            }
                             $key= new AuditsController();
                             $key=$key->generateRandomString();
                             $audit= new AuditsController();
                             $geosegmentlist = new GeoSegmentList();
                             $geosegmentlist->name = $request->input('name');
+                            $geosegmentlist->status = $active;
                             $geosegmentlist->advertiser_id = $request->input('advertiser_id');
                             $geosegmentlist->save();
                             $audit->store('geosegment',$geosegmentlist->id,null,'add',$key);
@@ -177,15 +187,22 @@ class GeoSegmentController extends Controller
         if(!is_null($gsmid)){
             if(Auth::check()){
                 if(in_array('ADD_EDIT_GEOSEGMENTLIST',$this->permission)) {
-                    $chkUser=Advertiser::with('GetClientID')->find($advid);
-                    if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                    if (User::isSuperAdmin()) {
                         $geosegment_obj = GeoSegmentList::with(['getAdvertiser' => function ($q) {
                             $q->with('GetClientID');
                         }])->with('getGeoEntries')->find($gsmid);
-                        return view('geosegment.edit')->with('geosegment_obj', $geosegment_obj);
-                    }else{
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    } else {
+                        $usr_company = $this->user_company();
+                        $geosegment_obj = GeoSegmentList::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->with('getGeoEntries')->find($gsmid);
+                        if (!$geosegment_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
                     }
+                    return view('geosegment.edit')->with('geosegment_obj', $geosegment_obj);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
@@ -202,13 +219,23 @@ class GeoSegmentController extends Controller
                     $geosegmentlist_id = $request->input('geosegmentlist_id');
                     $geosegmentlist=GeoSegmentList::find($geosegmentlist_id);
                     if($geosegmentlist){
+                        $active='Inactive';
+                        if($request->input('active')=='on'){
+                            $active='Active';
+                        }
                         $data=array();
                         $audit= new AuditsController();
                         if($geosegmentlist->name!=$request->input('name')){
-                            array_push($data,'name');
+                            array_push($data,'Name');
                             array_push($data,$geosegmentlist->name);
                             array_push($data,$request->input('name'));
                             $geosegmentlist->name=$request->input('name');
+                        }
+                        if ($geosegmentlist->status != $active) {
+                            array_push($data, 'Status');
+                            array_push($data, $geosegmentlist->status);
+                            array_push($data, $active);
+                            $geosegmentlist->name = $active;
                         }
                         $audit->store('geosegment',$geosegmentlist_id,$data,'edit');
                         $geosegmentlist->save();
@@ -345,14 +372,13 @@ class GeoSegmentController extends Controller
                 if (User::isSuperAdmin()) {
                     $entity=GeoSegmentList::find($id);
                 } else {
-                    $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
-                    if (count($usr_company) > 0 and in_array(Auth::user()->id, $usr_company)) {
-                        $entity = GeoSegmentList::with(['getAdvertiser' => function ($q) use($usr_company) {
-                            $q->with(['GetClientID' => function ($p) use ($usr_company) {
+                    $usr_company = $this->user_company();
+                        $entity = GeoSegmentList::whereHas('getAdvertiser' , function ($q) use($usr_company) {
+                            $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
                                 $p->whereIn('user_id', $usr_company);
-                            }]);
-                        }])->find($id);
-                    } else {
+                            });
+                        })->find($id);
+                    if(!$entity){
                         return 'please Select your Client';
                     }
                 }
@@ -382,74 +408,4 @@ class GeoSegmentController extends Controller
         return Redirect::to(url('user/login'));
     }
 
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

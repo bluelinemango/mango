@@ -1,10 +1,6 @@
 @extends('Layout')
 @section('siteTitle')List Of {{\Illuminate\Support\Facades\Auth::user()->name}} Clients @endsection
 @section('header_extra')
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.3.1/jsgrid.min.css" />
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.3.1/jsgrid-theme.min.css" />
-    {{--<link rel="stylesheet" type="text/css" href="{{cdn('css/jsgrid/jsgrid.css')}}" />--}}
-    {{--<link rel="stylesheet" type="text/css" href="{{cdn('css/jsgrid/theme.css')}}" />--}}
     <style>
         .ui-widget *, .ui-widget input, .ui-widget select, .ui-widget button  {
             font-family: inherit;
@@ -167,7 +163,6 @@
 {{--    <script src="{{cdn('js/plugin/jqgrid/grid.locale-en.min.js')}}"></script>--}}
     {{--////////////////////////////////////////////////////////////////////////--}}
 <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
-<script src="{{cdn('js/srcjsgrid/db.js')}}"></script>
 
     <script>
         $.ajaxSetup({

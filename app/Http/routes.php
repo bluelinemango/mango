@@ -40,6 +40,14 @@ Route::post('/client/add/create', ['uses'=>'ClientController@add_client','as'=>'
 Route::put('/client/edit/update', ['uses'=>'ClientController@edit_client','as'=>'client_update']);
 /////////////////////////END CLIENT///////////////////////////////////////////
 
+/////////////////////////Company///////////////////////////////////////////
+Route::get('/company','CompanyController@ListView');
+Route::get('/company/add','CompanyController@AddCompanyView');
+Route::get('/company/{id?}/edit','CompanyController@CompanyEditView');
+Route::post('/company/add/create', ['uses'=>'CompanyController@add_company','as'=>'company_create']);
+Route::put('/company/edit/update', ['uses'=>'CompanyController@edit_company','as'=>'company_update']);
+/////////////////////////END Company///////////////////////////////////////////
+
 
 
 /////////////////////////ADVERTISER///////////////////////////////////////////
@@ -138,8 +146,8 @@ Route::group(['prefix' => 'ajax'], function()
 {
     Route::group(['prefix' => 'jqgrid'], function() {
         Route::put('/client', 'ClientController@jqgrid');
-        Route::post('/advertiser', 'AdvertiserController@jqgrid');
-        Route::post('/campaign', 'CampaignController@jqgrid');
+        Route::put('/advertiser', 'AdvertiserController@jqgrid');
+        Route::put('/campaign', 'CampaignController@jqgrid');
         Route::post('/creative', 'CreativeController@jqgrid');
         Route::post('/offer', 'OfferController@jqgrid');
         Route::post('/pixel', 'OfferController@jqgrid');
