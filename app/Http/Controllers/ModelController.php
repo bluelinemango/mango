@@ -342,27 +342,39 @@ class ModelController extends Controller
             if (in_array('ADD_EDIT_MODEL', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
-                    $model_id=substr($request->input('id'),2);
-                    $chkUser=ModelTable::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->where('id',$model_id)->get();
-                    if(!is_null($chkUser) and Auth::user()->id == $chkUser[0]->getAdvertiser->GetClientID->user_id) {
-                        switch ($request->input('oper')) {
-                            case 'edit':
-                                $modelTable=ModelTable::find($model_id);
-                                if($modelTable){
-                                    $modelTable->name=$request->input('name');
-                                    $modelTable->save();
-                                    return "ok";
-                                }
-                                return "false";
-                                break;
+                    $model_id=substr($request->input('id'),3);
+                    if (User::isSuperAdmin()) {
+                        $modelTable=ModelTable::find($model_id);
+                    }else{
+                        $usr_company = $this->user_company();
+                        $modelTable=ModelTable::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->find($model_id);
+                        if (!$modelTable) {
+                            return $msg=(['success' => false, 'msg' => "Some things went wrong"]);
                         }
                     }
-                    return "invalid Model ID";
+                    if ($modelTable) {
+                        $data = array();
+                        $audit = new AuditsController();
+                        if ($modelTable->name != $request->input('name')) {
+                            array_push($data, 'Name');
+                            array_push($data, $modelTable->name);
+                            array_push($data, $request->input('name'));
+                            $modelTable->name = $request->input('name');
+                        }
+                        $audit->store('modelTable', $model_id, $data, 'edit');
+                        $modelTable->save();
+                        return $msg=(['success' => true, 'msg' => "your Model Saved successfully"]);
+                    }
+
+                    return $msg=(['success' => false, 'msg' => "Please Select a Model First"]);
                 }
-                //return print_r($validate->messages());
-                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+                return $msg=(['success' => false, 'msg' => "Please Check your field"]);
             }
-            return "don't have permission";
+            return $msg=(['success' => false, 'msg' => "You don't have permission"]);
         }
         return Redirect::to(url('/user/login'));
     }

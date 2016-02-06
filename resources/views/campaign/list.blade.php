@@ -111,8 +111,8 @@
 
 @section('FooterScripts')
     <!-- PAGE RELATED PLUGIN(S) -->
-    <script src="{{cdn('js/plugin/jqgrid/jquery.jqGrid.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/jqgrid/grid.locale-en.min.js')}}"></script>
+{{--    <script src="{{cdn('js/plugin/jqgrid/jquery.jqGrid.min.js')}}"></script>--}}
+{{--    <script src="{{cdn('js/plugin/jqgrid/grid.locale-en.min.js')}}"></script>--}}
     <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
 
 

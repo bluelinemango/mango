@@ -283,7 +283,7 @@ class CampaignController extends Controller
                             array_push($data, $request->input('max_budget'));
                             $campaign->max_budget = $request->input('max_budget');
                         }
-                        $audit->store('advertiser', $camp_id, $data, 'edit');
+                        $audit->store('campaign', $camp_id, $data, 'edit');
                         $campaign->save();
                         return $msg=(['success' => true, 'msg' => "your Campaign Saved successfully"]);
                     }

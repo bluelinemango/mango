@@ -148,13 +148,13 @@ Route::group(['prefix' => 'ajax'], function()
         Route::put('/client', 'ClientController@jqgrid');
         Route::put('/advertiser', 'AdvertiserController@jqgrid');
         Route::put('/campaign', 'CampaignController@jqgrid');
-        Route::post('/creative', 'CreativeController@jqgrid');
-        Route::post('/offer', 'OfferController@jqgrid');
-        Route::post('/pixel', 'OfferController@jqgrid');
-        Route::post('/targetgroup', 'TargetgroupController@jqgrid');
-        Route::post('/model', 'ModelController@jqgrid');
-        Route::post('/bwlist', 'BWListController@jqgridList');
-        Route::post('/geolist', 'GeoSegmentController@jqgridList');
+        Route::put('/creative', 'CreativeController@jqgrid');
+        Route::put('/offer', 'OfferController@jqgrid');
+        Route::put('/pixel', 'OfferController@jqgrid');
+        Route::put('/targetgroup', 'TargetgroupController@jqgrid');
+        Route::put('/model', 'ModelController@jqgrid');
+        Route::put('/bwlist', 'BWListController@jqgridList');
+        Route::put('/geolist', 'GeoSegmentController@jqgridList');
     });
     Route::group(['prefix' => 'status'], function() {
         Route::get('/advertiser/{id?}', 'AdvertiserController@ChangeStatus');

@@ -217,27 +217,37 @@ class CreativeController extends Controller
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $creative_id=substr($request->input('id'),3);
-                    $chkUser=Creative::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->where('id',$creative_id)->get();
-                    if(!is_null($chkUser) and Auth::user()->id == $chkUser[0]->getAdvertiser->GetClientID->user_id) {
-                        switch ($request->input('oper')) {
-                            case 'edit':
-                                $creative=Creative::find($creative_id);
-                                if($creative){
-                                    $creative->name=$request->input('name');
-                                    $creative->size=$request->input('size');
-                                    $creative->save();
-                                    return "ok";
-                                }
-                                return "false";
-                            break;
+                    if (User::isSuperAdmin()) {
+                        $creative=Creative::find($creative_id);
+                    }else{
+                        $usr_company = $this->user_company();
+                        $creative=Creative::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->find($creative_id);
+                        if (!$creative) {
+                            return $msg=(['success' => false, 'msg' => "Some things went wrong"]);
                         }
                     }
-                    return "invalid Creative ID";
+                    if ($creative) {
+                        $data = array();
+                        $audit = new AuditsController();
+                        if ($creative->name != $request->input('name')) {
+                            array_push($data, 'Name');
+                            array_push($data, $creative->name);
+                            array_push($data, $request->input('name'));
+                            $creative->name = $request->input('name');
+                        }
+                        $audit->store('creative', $creative_id, $data, 'edit');
+                        $creative->save();
+                        return $msg=(['success' => true, 'msg' => "your Creative Saved successfully"]);
+                    }
+                    return $msg=(['success' => false, 'msg' => "Please Select a Creative First"]);
                 }
-                //return print_r($validate->messages());
-                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+                return $msg=(['success' => false, 'msg' => "Please Check your field"]);
             }
-            return "don't have permission";
+            return $msg=(['success' => false, 'msg' => "You don't have permission"]);
         }
         return Redirect::to(url('/user/login'));
     }
@@ -284,74 +294,4 @@ class CreativeController extends Controller
         return Redirect::to(url('user/login'));
     }
 
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

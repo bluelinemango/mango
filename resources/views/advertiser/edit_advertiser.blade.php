@@ -58,6 +58,7 @@
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="hidden" name="_method" value="PUT"/>
                                             <input type="hidden" name="adver_id" value="{{$adver_obj->id}}"/>
+                                            <input type="hidden" id="active_show"/>
                                             <header>
                                                 General Information
                                             </header>
@@ -193,6 +194,11 @@
                                 <div>
                                     <!-- widget content -->
                                     <div class="">
+                                        <button id="show_creative" class="btn btn-primary btn-block">Crearive </button>
+                                        <button id="show_campaign" class="btn btn-primary btn-block">Campaign </button>
+                                        <button id="show_bwlist" class="btn btn-primary btn-block">B W List </button>
+                                        <button id="show_geosegment" class="btn btn-primary btn-block">Geo Segment </button>
+                                        <button id="show_model" class="btn btn-primary btn-block">Model </button>
                                         @if(in_array('ADD_EDIT_OFFER',$permission))
                                             <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/offer/add')}}"
                                                class=" btn btn-primary pull-left">
@@ -219,7 +225,7 @@
                     <!-- END ROW -->
 
                     <!-- row -->
-                    <div class="row" id="campaign_list" style="display: block">
+                    <div class="row" id="campaign_list" style="display: none">
                         <!-- NEW WIDGET START -->
                         <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
@@ -668,7 +674,64 @@
     <script src="{{cdn('js/multi_select/multiselect.min.js')}}"></script>
     <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
 
+    <script>
+        $('#show_campaign').click(function () {
+            var active_Show= $('#active_show').val();
+            $('#active_show').val('campaign_list');
+            $('#'+active_Show).fadeOut("fast");
+            $('#campaign_list').fadeIn("slow");
+            $('html, body').animate({
+                        scrollTop: $(document).height()-$(window).height()},
+                    1400,
+                    "easeOutQuint"
+            );
 
+        });
+        $('#show_creative').click(function () {
+            var active_Show= $('#active_show').val();
+            $('#active_show').val('creative_list');
+            $('#'+active_Show).fadeOut("fast");
+            $('#creative_list').fadeIn("slow");
+            $('html, body').animate({
+                        scrollTop: $(document).height()-$(window).height()},
+                    1400,
+                    "easeOutQuint"
+            );
+        });
+        $('#show_model').click(function () {
+            var active_Show= $('#active_show').val();
+            $('#active_show').val('model_list');
+            $('#'+active_Show).fadeOut("fast");
+            $('#model_list').fadeIn("slow");
+            $('html, body').animate({
+                        scrollTop: $(document).height()-$(window).height()},
+                    1400,
+                    "easeOutQuint"
+            );
+        });
+        $('#show_bwlist').click(function () {
+            var active_Show= $('#active_show').val();
+            $('#active_show').val('bwlist_list');
+            $('#'+active_Show).fadeOut("fast");
+            $('#bwlist_list').fadeIn("slow");
+            $('html, body').animate({
+                        scrollTop: $(document).height()-$(window).height()},
+                    1400,
+                    "easeOutQuint"
+            );
+        });
+        $('#show_geosegment').click(function () {
+            var active_Show= $('#active_show').val();
+            $('#active_show').val('geosegment_list');
+            $('#'+active_Show).fadeOut("fast");
+            $('#geosegment_list').fadeIn("slow");
+            $('html, body').animate({
+                        scrollTop: $(document).height()-$(window).height()},
+                    1400,
+                    "easeOutQuint"
+            );
+        });
+    </script>
     <script>
         $(document).ready(function () {
             pageSetUp();
