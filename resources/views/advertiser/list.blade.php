@@ -116,8 +116,8 @@
                 var db = {
 
                     loadData: function (filter) {
-                        return $.grep(this.advertiser, function (client) {
-                            return (!filter.Name || client.Name.indexOf(filter.Name) > -1);
+                        return $.grep(this.advertiser, function (advertiser) {
+                            return (!filter.name || advertiser.name.indexOf(filter.name) > -1);
                         });
                     },
 
@@ -162,9 +162,9 @@
                         "id": 'adv{{$index->id}}',
                         "name": '{{$index->name}}',
                         @if(count($index->Campaign)>0)
-                        "campaign": '{{$index->Campaign[0]->advertiser_count}} Campaign(s)',
+                        "campaign": '{{$index->Campaign[0]->advertiser_count}} ',
                         @else
-                        "campaign": 'Empty',
+                        "campaign": '0',
                         @endif
                         @if($index->status == 'Active')
                         "status": '<a id="advertiser{{$index->id}}" href="javascript: ChangeStatus(`advertiser`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
@@ -194,11 +194,11 @@
 
                     controller: db,
                     fields: [
-                        {name: "id", title: "ID", width: 40, align: "center"},
-                        {name: "name", title: "Name", type: "text", width: 70},
-                        {name: "campaign", title: "# of Campaign", width: 100, align: "center"},
+                        {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
+                        {name: "name", title: "Name",autosearch: true, type: "text", width: 70},
+                        {name: "campaign", title: "# of CMP.", width: 50, align: "center"},
                         {name: "status", title: "Status", width: 50, align: "center"},
-                        {name: "date_modify", title: "Date of Modify", align: "center"},
+                        {name: "date_modify", title: "Last Modified", align: "center"},
                         {name: "action", title: "Full Action", sorting: false, width: 70, align: "center"},
                         {type: "control"}
                     ]

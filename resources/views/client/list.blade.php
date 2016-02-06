@@ -252,11 +252,11 @@
 
                 controller: db,
                 fields: [
-                    { name: "id",title: "ID", width: 20,align :"center" },
+                    { name: "id",title: "ID", width: 40, type: "text",align :"center",editing:false },
                     { name: "name",title: "Name", type: "text", width: 150 },
                     { name: "advertiser",title: "# of Advertiser", width: 70,editing:false },
                     { name: "add_advertiser", title:"Add Advertiser",  width: 80,align :"center" },
-                    { name: "date_modify" ,title:"Date of Modify",align :"center"},
+                    { name: "date_modify" ,title:"Last Modified",align :"center"},
                     { name: "action", title: "Full Action", sorting: false,width: 50,align :"center" },
                     {
                         type: "control",

@@ -131,8 +131,8 @@
                 var db = {
 
                     loadData: function (filter) {
-                        return $.grep(this.campaign, function (client) {
-                            return (!filter.Name || client.Name.indexOf(filter.Name) > -1);
+                        return $.grep(this.campaign, function (campaign) {
+                            return (!filter.name || campaign.name.indexOf(filter.name) > -1);
                         });
                     },
 
@@ -207,14 +207,14 @@
 
                     controller: db,
                     fields: [
-                        {name: "id", title: "ID", width: 40, align: "center"},
+                        {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
                         {name: "name", title: "Name", type: "text", width: 70},
                         {name: "max_imp", title: "Max Imps", type: "text", width: 50, align: "center"},
                         {name: "daily_max_imp", title: "Daily Max Imps", type: "text", width: 70, align: "center"},
                         {name: "max_budget", title: "Max Budget", type: "text", width: 60, align: "center"},
                         {name: "daily_max_budget", title: "Daily Max Budget", type: "text", width: 80, align: "center"},
                         {name: "status", title: "Status", width: 50, align: "center"},
-                        {name: "date_modify", title: "Date of Modify", align: "center"},
+                        {name: "date_modify", title: "Last Modified", align: "center"},
                         {name: "action", title: "Full Action", sorting: false, width: 120, align: "center"},
                         {type: "control"}
                     ]

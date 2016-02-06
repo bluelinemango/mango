@@ -99,8 +99,6 @@
                                                     </div>
                                                 </fieldset>
 
-                                            </div>
-                                            <div class="well col-md-12">
                                                 <fieldset>
 
                                                     <section class="col -col4">
@@ -113,16 +111,13 @@
                                                     </section>
                                                 </fieldset>
 
-                                            </div>
-
-                                            <div class="well col-md-12">
                                                 <fieldset>
                                                     <div style="margin: 20px 0;">
                                                         <h5>Assign Models</h5>
 
                                                         <div class="col-xs-5">
                                                             <select name="from_model[]" id="assign_model"
-                                                                    class="form-control" size="8" multiple="multiple">
+                                                                    class="form-control" size="4" multiple="multiple">
                                                                 @foreach($model_obj as $index)
                                                                     <option value="{{$index->id}}">{{$index->name}}</option>
                                                                 @endforeach
@@ -150,7 +145,7 @@
 
                                                         <div class="col-xs-5">
                                                             <select name="to_model[]" id="assign_model_to"
-                                                                    class="form-control" size="8" multiple="multiple">
+                                                                    class="form-control" size="4" multiple="multiple">
                                                                 @foreach($model_obj as $index)
                                                                     @if(in_array($index->id,$adv_mdl_map))
                                                                         <option value="{{$index->id}}">{{$index->name}}</option>
@@ -189,7 +184,7 @@
                         <article class="col-sm-3 col-md-3 col-lg-3">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well">
+                            <div class="well"  style="position: fixed; width: 18%">
                                 <!-- widget div-->
                                 <div>
                                     <!-- widget content -->
@@ -201,14 +196,14 @@
                                         <button id="show_model" class="btn btn-primary btn-block">Model </button>
                                         @if(in_array('ADD_EDIT_OFFER',$permission))
                                             <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/offer/add')}}"
-                                               class=" btn btn-primary pull-left">
+                                               class=" btn btn-primary btn-block">
                                                 Add Offer
                                             </a>
                                             <div class="clearfix"></div>
                                         @endif
                                         @if(in_array('ADD_EDIT_PIXEL',$permission))
                                             <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/pixel/add')}}"
-                                               class=" btn btn-primary pull-left">
+                                               class=" btn btn-primary btn-block">
                                                 Add Pixel
                                             </a>
                                             <div class="clearfix"></div>
@@ -678,7 +673,7 @@
         $('#show_campaign').click(function () {
             var active_Show= $('#active_show').val();
             $('#active_show').val('campaign_list');
-            $('#'+active_Show).fadeOut("fast");
+            $('#'+active_Show).hide();
             $('#campaign_list').fadeIn("slow");
             $('html, body').animate({
                         scrollTop: $(document).height()-$(window).height()},
@@ -690,7 +685,7 @@
         $('#show_creative').click(function () {
             var active_Show= $('#active_show').val();
             $('#active_show').val('creative_list');
-            $('#'+active_Show).fadeOut("fast");
+            $('#'+active_Show).hide();
             $('#creative_list').fadeIn("slow");
             $('html, body').animate({
                         scrollTop: $(document).height()-$(window).height()},
@@ -701,7 +696,7 @@
         $('#show_model').click(function () {
             var active_Show= $('#active_show').val();
             $('#active_show').val('model_list');
-            $('#'+active_Show).fadeOut("fast");
+            $('#'+active_Show).hide();
             $('#model_list').fadeIn("slow");
             $('html, body').animate({
                         scrollTop: $(document).height()-$(window).height()},
@@ -712,7 +707,7 @@
         $('#show_bwlist').click(function () {
             var active_Show= $('#active_show').val();
             $('#active_show').val('bwlist_list');
-            $('#'+active_Show).fadeOut("fast");
+            $('#'+active_Show).hide();
             $('#bwlist_list').fadeIn("slow");
             $('html, body').animate({
                         scrollTop: $(document).height()-$(window).height()},
@@ -723,7 +718,7 @@
         $('#show_geosegment').click(function () {
             var active_Show= $('#active_show').val();
             $('#active_show').val('geosegment_list');
-            $('#'+active_Show).fadeOut("fast");
+            $('#'+active_Show).hide();
             $('#geosegment_list').fadeIn("slow");
             $('html, body').animate({
                         scrollTop: $(document).height()-$(window).height()},

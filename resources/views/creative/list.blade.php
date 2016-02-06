@@ -115,8 +115,8 @@
                 var db = {
 
                     loadData: function (filter) {
-                        return $.grep(this.creative, function (client) {
-                            return (!filter.Name || client.Name.indexOf(filter.Name) > -1);
+                        return $.grep(this.creative, function (creative) {
+                            return (!filter.name || creative.name.indexOf(filter.name) > -1);
                         });
                     },
 
@@ -190,12 +190,12 @@
 
                     controller: db,
                     fields: [
-                        {name: "id", title: "ID", width: 40, align: "center"},
+                        {name: "id", title: "ID", width: 40, type: "text", align: "center",editing:false},
                         {name: "name", title: "Name", type: "text", width: 70},
-                        {name: "size", title: "Size", width: 50, align: "center"},
-                        {name: "advertiser", title: "Advertiser", width: 70, align: "center"},
+                        {name: "size", title: "Size", type: "text", width: 50, align: "center",editing:false},
+                        {name: "advertiser", title: "Advertiser", type: "text", width: 70, align: "center",editing:false},
                         {name: "status", title: "Status", width: 50, align: "center"},
-                        {name: "date_modify", title: "Date of Modify", align: "center"},
+                        {name: "date_modify", title: "Last Modified", align: "center"},
                         {name: "action", title: "Full Action", sorting: false, width: 120, align: "center"},
                         {type: "control"}
                     ]

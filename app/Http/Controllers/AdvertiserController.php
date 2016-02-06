@@ -53,23 +53,14 @@ class AdvertiserController extends Controller
             if (in_array('ADD_EDIT_ADVERTISER', $this->permission)) {
                 if (User::isSuperAdmin()) {
                     $client_obj = Client::find($clid);
-                    $model_obj = ModelTable::with(['getAdvertiser' => function ($q) {
-                        $q->with('GetClientID');
-                    }])->get();
                 } else {
                     $usr_company = $this->user_company();
-                    $model_obj = ModelTable::whereHas('getAdvertiser', function ($q) use ($usr_company) {
-                        $q->whereHas('GetClientID', function ($p) use ($usr_company) {
-                            $p->whereIn('user_id', $usr_company);
-                        });
-                    })->get();
                     $client_obj = Client::whereIn('user_id', $usr_company)->find($clid);
                     if (!$client_obj) {
                         return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
                 }
                 return view('advertiser.add_advertiser')
-                    ->with('model_obj', $model_obj)
                     ->with('client_obj', $client_obj);
             }
             return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
@@ -172,12 +163,12 @@ class AdvertiserController extends Controller
                 if (in_array('ADD_EDIT_ADVERTISER', $this->permission)) {
                     if (User::isSuperAdmin()) {
                         $adver = Advertiser::with('Campaign')->with('Model')->with('GeoSegment')->with('BWList')->with('Creative')->with('GetClientID')->find($advid);
-                        $model_obj = ModelTable::with(['getAdvertiser' => function ($q) {
+                        $model_obj = ModelTable::where('advertiser_id',$advid)->with(['getAdvertiser' => function ($q) {
                             $q->with('GetClientID');
                         }])->get();
                     } else {
                         $usr_company = $this->user_company();
-                        $model_obj = ModelTable::whereHas('getAdvertiser', function ($q) use ($usr_company) {
+                        $model_obj = ModelTable::where('advertiser_id',$advid)->whereHas('getAdvertiser', function ($q) use ($usr_company) {
                             $q->whereHas('GetClientID', function ($p) use ($usr_company) {
                                 $p->whereIn('user_id', $usr_company);
                             });

@@ -124,31 +124,6 @@
                                                     </label>
                                                 </section>
                                             </fieldset>
-                                            <fieldset>
-                                                <div style="margin: 20px 0;">
-                                                    <h5>Assign Models</h5>
-                                                    <div class="col-xs-5">
-                                                        <select name="from_model[]" id="assign_model" class="form-control" size="8" multiple="multiple">
-                                                            @foreach($model_obj as $index)
-                                                                <option value="{{$index->id}}">{{$index->name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-xs-2">
-                                                        <button type="button" id="assign_model_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
-                                                        <button type="button" id="assign_model_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
-                                                        <button type="button" id="assign_model_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
-                                                        <button type="button" id="assign_model_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
-                                                    </div>
-
-                                                    <div class="col-xs-5">
-                                                        <select name="to_model[]" id="assign_model_to" class="form-control" size="8" multiple="multiple"></select>
-                                                    </div>
-                                                    <div class="clearfix"></div>
-                                                </div>
-
-                                            </fieldset>
                                             <footer>
                                                 <div class="row">
                                                     <div class="col-md-5 col-md-offset-3">
