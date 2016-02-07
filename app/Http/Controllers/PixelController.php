@@ -165,34 +165,37 @@ public function GetView(){
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $pixel_id=substr($request->input('id'),3);
-                    $chkUser=Pixel::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->where('id',$pixel_id)->get();
-                    if(!is_null($chkUser) and Auth::user()->id == $chkUser[0]->getAdvertiser->GetClientID->user_id) {
-                        switch ($request->input('oper')) {
-                            case 'edit':
-                                $pixel=Pixel::find($pixel_id);
-                                if($pixel){
-                                    $data=array();
-                                    $audit= new AuditsController();
-                                    if($pixel->name != $request->input('name')){
-                                        array_push($data,'name');
-                                        array_push($data,$pixel->name);
-                                        array_push($data,$request->input('name'));
-                                        $pixel->name=$request->input('name');
-                                    }
-                                    $audit->store('pixel',$pixel_id,$data,'edit');
-                                    $pixel->save();
-                                    return "ok";
-                                }
-                                return "false";
-                                break;
+                    if (User::isSuperAdmin()) {
+                        $pixel=Pixel::find($pixel_id);
+                    }else{
+                        $usr_company = $this->user_company();
+                        $pixel=Pixel::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->find($pixel_id);
+                        if (!$pixel) {
+                            return $msg=(['success' => false, 'msg' => "Some things went wrong"]);
                         }
                     }
-                    return "invalid Creative ID";
+                    if ($pixel) {
+                        $data = array();
+                        $audit = new AuditsController();
+                        if($pixel->name != $request->input('name')){
+                            array_push($data,'name');
+                            array_push($data,$pixel->name);
+                            array_push($data,$request->input('name'));
+                            $pixel->name=$request->input('name');
+                        }
+                        $audit->store('pixel', $pixel_id, $data, 'edit');
+                        $pixel->save();
+                        return $msg=(['success' => true, 'msg' => "your Pixel Saved successfully"]);
+                    }
+                    return $msg=(['success' => false, 'msg' => "Please Select a Campaign First"]);
                 }
-                //return print_r($validate->messages());
-                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+                return $msg=(['success' => false, 'msg' => "Please Check your field"]);
             }
-            return "don't have permission";
+            return $msg=(['success' => false, 'msg' => "You don't have permission"]);
         }
         return Redirect::to(url('/user/login'));
     }

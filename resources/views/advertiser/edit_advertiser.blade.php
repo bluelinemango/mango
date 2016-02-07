@@ -165,8 +165,8 @@
                                                 <div class="row">
                                                     <div class="col-md-5 col-md-offset-3">
                                                         <button type="submit"
-                                                                class=" button button--antiman button--round-l button--text-medium">
-                                                            Submit
+                                                                class=" button button--ujarak button--border-thick button--text-upper button--size-s button--inverted button--text-thick">
+                                                            Save
                                                         </button>
                                                     </div>
                                                 </div>
@@ -199,14 +199,12 @@
                                                class=" btn btn-primary btn-block">
                                                 Add Offer
                                             </a>
-                                            <div class="clearfix"></div>
                                         @endif
                                         @if(in_array('ADD_EDIT_PIXEL',$permission))
                                             <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/pixel/add')}}"
                                                class=" btn btn-primary btn-block">
                                                 Add Pixel
                                             </a>
-                                            <div class="clearfix"></div>
                                         @endif
                                     </div>
                                     <!-- end widget content -->

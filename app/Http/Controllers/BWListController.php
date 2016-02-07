@@ -152,27 +152,40 @@ class BWListController extends Controller
                 if($validate->passes()) {
                     $bwlist_id=substr($request->input('id'),3);
 //                    return dd($model_id);
-                    $chkUser=BWList::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->where('id',$bwlist_id)->get();
-                    if(!is_null($chkUser) and Auth::user()->id == $chkUser[0]->getAdvertiser->GetClientID->user_id) {
-                        switch ($request->input('oper')) {
-                            case 'edit':
-                                $bwlist=BWList::find($bwlist_id);
-                                if($bwlist){
-                                    $bwlist->name=$request->input('name');
-                                    $bwlist->save();
-                                    return "ok";
-                                }
-                                return "false";
-                                break;
+                    if (User::isSuperAdmin()) {
+                        $bwlist=BWList::find($bwlist_id);
+                    }else{
+                        $usr_company = $this->user_company();
+                        $bwlist=BWList::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->find($bwlist_id);
+                        if (!$bwlist) {
+                            return $msg=(['success' => false, 'msg' => "Some things went wrong"]);
                         }
                     }
-                    return "invalid Black/White List  ID";
+                    if ($bwlist) {
+                        $data = array();
+                        $audit = new AuditsController();
+                        if ($bwlist->name != $request->input('name')) {
+                            array_push($data, 'Name');
+                            array_push($data, $bwlist->name);
+                            array_push($data, $request->input('name'));
+                            $bwlist->name = $request->input('name');
+                        }
+                        $audit->store('campaign', $bwlist_id, $data, 'edit');
+                        $bwlist->save();
+                        return $msg=(['success' => true, 'msg' => "your Campaign Saved successfully"]);
+                    }
+
+                    return $msg=(['success' => false, 'msg' => "Please Select a Campaign First"]);
 
                 }
                 //return print_r($validate->messages());
-                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+                return $msg=(['success' => false, 'msg' => "Please Check your field"]);
             }
-            return "don't have permission";
+            return $msg=(['success' => false, 'msg' => "You don't have permission"]);
 
         }
         return Redirect::to(url('/user/login'));

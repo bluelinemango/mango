@@ -23,11 +23,7 @@ class CompanyController extends Controller
         }
         return Redirect::to('/user/login');
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function AddCompanyView()
     {
         if(Auth::check()){
@@ -56,6 +52,7 @@ class CompanyController extends Controller
         return Redirect::to(url('user/login'));
 
     }
+
     public function CompanyEditView($id){
         if(!is_null($id)){
             if(Auth::check()){

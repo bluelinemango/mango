@@ -61,8 +61,9 @@
                                             <!-- NEW WIDGET START -->
                                             <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-                                                <table id="jqgrid"></table>
-                                                <div id="pjqgrid"></div>
+                                                <div id="offer_grid"></div>
+                                                {{--<table id="jqgrid"></table>--}}
+                                                {{--<div id="pjqgrid"></div>--}}
 
                                             </div>
                                             <!-- WIDGET END -->
@@ -104,10 +105,10 @@
 
 @section('FooterScripts')
     <!-- PAGE RELATED PLUGIN(S) -->
-    <script src="{{cdn('js/plugin/jqgrid/jquery.jqGrid.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/jqgrid/grid.locale-en.min.js')}}"></script>
+    {{--<script src="{{cdn('js/plugin/jqgrid/jquery.jqGrid.min.js')}}"></script>--}}
+    {{--<script src="{{cdn('js/plugin/jqgrid/grid.locale-en.min.js')}}"></script>--}}
 
-    <script src="{{cdn('js/plugin/bootstrap-tags/bootstrap-tagsinput.min.js')}}"></script>
+    <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
 
     <script type="text/javascript">
         $.ajaxSetup({
@@ -118,203 +119,213 @@
         $(document).ready(function() {
             pageSetUp();
 
-            var jqgrid_data = [
-                @foreach($offer_obj as $index)
-                @if(!is_null($index->getAdvertiser->GetClientID))
-                {
-                    id   : 'ofr{{$index->id}}',
-                    name : '{{$index->name}}',
-                    @if($index->status == 'Active')
-                    status: '<a id="offer{{$index->id}}" href="javascript: ChangeStatus(`offer`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
-                    @elseif($index->status == 'Inactive')
-                status: '<a id="offer{{$index->id}}" href="javascript: ChangeStatus(`offer`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
-                    @endif
-                    date_modify : '{{$index->updated_at}}',
-                    full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/offer/ofr'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) +'| <a class="btn bg-color-magenta txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/offer/add')}}">+ Offer</a>'@endif
-                },
-                @endif
-                @endforeach
-            ];
+            $(function () {
 
-            jQuery("#jqgrid").jqGrid({
-                data : jqgrid_data,
-                datatype : "local",
-                height : 'auto',
-                colNames : ['Actions', 'ID', 'Name', 'Status','Modify Date','Full Actions'],
-                colModel : [{
-                    name : 'act',
-                    index : 'act',
-                    width: '100%',
-                    sortable : false
-                }, {
-                    name : 'id',
-                    width: '50%',
-                    index : 'id'
-                }, {
-                    name : 'name',
-                    index : 'name',
-                    width: '100%',
-                    editable : true
-                }, {
-                    name : 'status',
-                    index : 'status',
-                    width: '60%',
-                    editable : false
-                }, {
-                    name : 'date_modify',
-                    index : 'date_modify',
-                    editable : false
-                }, {
-                    name : 'full_edit',
-                    index : 'full_edit',
-                    editable : false
-                }],
-                rowNum : 10,
-                rowList : [10, 20, 30],
-                pager : '#pjqgrid',
-                sortname : 'campaign',
-                ajaxRowOptions: { async: true },
-                toolbarfilter : true,
-                viewrecords : true,
-                sortorder : "desc",
-                gridComplete : function() {
-                    var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
-                    for (var i = 0; i < ids.length; i++) {
-                        var cl = ids[i];
-                        be = "<button class='btn btn-xs btn-default' data-original-title='Edit Row' onclick=\"jQuery('#jqgrid').editRow('" + cl + "');\"><i class='fa fa-pencil'></i></button>";
-                        se = "<button class='btn btn-xs btn-default' data-original-title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('" + cl + "');\"><i class='fa fa-save'></i></button>";
-                        ca = "<button class='btn btn-xs btn-default' data-original-title='Cancel' onclick=\"jQuery('#jqgrid').restoreRow('" + cl + "');\"><i class='fa fa-times'></i></button>";
-//                        ce = "<button class='btn btn-xs btn-default' onclick=\"jQuery('#jqgrid').restoreRow('"+cl+"');\"><i class='fa fa-times'></i></button>";
-//                        jQuery("#jqgrid").jqGrid('setRowData',ids[i],{act:be+se+ce});
-                        jQuery("#jqgrid").jqGrid('setRowData', ids[i], {
-                            act : be + se + ca
+                var db = {
+
+                    loadData: function (filter) {
+                        return $.grep(this.offer, function (offer) {
+                            return (!filter.name || offer.name.indexOf(filter.name) > -1);
+                        });
+                    },
+
+                    updateItem: function (updatingOffer) {
+                        updatingOffer['oper'] = 'edit';
+                        console.log(updatingOffer);
+                        $.ajax({
+                            type: "PUT",
+                            url: "{{url('/ajax/jqgrid/offer')}}",
+                            data: updatingOffer,
+                            dataType: "json"
+                        }).done(function (response) {
+                            console.log(response);
+                            if(response.success==true){
+                                var title= "Success";
+                                var color="#739E73";
+                                var icon="fa fa-check";
+                            }else if(response.success==false) {
+                                var title= "Warning";
+                                var color="#C46A69";
+                                var icon="fa fa-bell";
+                            };
+
+                            $.smallBox({
+                                title: title,
+                                content: response.msg,
+                                color: color,
+                                icon: icon,
+                                timeout: 8000
+                            });
                         });
                     }
-                },
-                editurl : "{{url('/ajax/jqgrid/offer')}}",
-                caption : "Offer List",
-                multiselect : true,
-                autowidth : true
+
+                };
+
+                window.db = db;
+
+                db.offer = [
+
+                    @foreach($offer_obj as $index)
+                    {
+                        "id": 'ofr{{$index->id}}',
+                        "name": '{{$index->name}}',
+                        @if($index->status == 'Active')
+                        "status": '<a id="offer{{$index->id}}" href="javascript: ChangeStatus(`offer`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                        @elseif($index->status == 'Inactive')
+                        "status": '<a id="offer{{$index->id}}" href="javascript: ChangeStatus(`offer`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
+                        @endif
+                        "date_modify": '{{$index->updated_at}}',
+                        "action": '<a class="btn " href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/offer/ofr'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) +'| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/offer/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+
+                    },
+                    @endforeach
+                ];
+
+                $("#offer_grid").jsGrid({
+                    width: "100%",
+
+                    filtering: true,
+                    editing: true,
+                    sorting: true,
+                    paging: true,
+                    autoload: true,
+
+                    pageSize: 15,
+                    pageButtonCount: 5,
+
+                    deleteConfirm: "Do you really want to delete the client?",
+
+                    controller: db,
+                    fields: [
+                        {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
+                        {name: "name", title: "Name", type: "text", width: 70},
+                        {name: "status", title: "Status", width: 50, align: "center"},
+                        {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
+                        {name: "action", title: "Edit | +Offer", sorting: false, width: 70, align: "center"},
+                        {type: "control"}
+                    ]
+
+                });
 
             });
-//            jQuery('#jqgrid').jqGrid('clearGridData');
-//            jQuery('#jqgrid').jqGrid('setGridParam', {data: [{id:2,name:"sss"},{id:3,name:"ddd"}]});
-//            jQuery('#jqgrid').trigger('reloadGrid');
 
 
-            jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {
-                edit : false,
-                add : false,
-                del : false
-            });
-            jQuery("#jqgrid").jqGrid('inlineNav', "#pjqgrid");
-            /* Add tooltips */
-            $('.navtable .ui-pg-button').tooltip({
-                container : 'body'
-            });
 
-            jQuery("#m1").click(function() {
-                var s;
-                s = jQuery("#jqgrid").jqGrid('getGridParam', 'selarrrow');
-                alert(s);
-            });
-            jQuery("#m1s").click(function() {
-                jQuery("#jqgrid").jqGrid('setSelection', "13");
-            });
 
-            // remove classes
-            $(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
-            $(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
-            $(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
-            $(".ui-jqgrid-pager").removeClass("ui-state-default");
-            $(".ui-jqgrid").removeClass("ui-widget-content");
 
-            // add classes
-            $(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
-            $(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
 
-            $(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
-            $(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
-            $(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
-            $(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
-            $(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
-            $(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
-            $(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
-            $(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
 
-            $(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
-            $(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
 
-            $(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
-            $(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
 
-            $(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
-            $(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
 
-            $(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
-            $(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
 
-            var $orderForm = $("#order-form").validate({
-                // Rules for form validation
-                rules : {
-                    name : {
-                        required : true
-                    },
-                    advertiser_id : {
-                        required : true
-                    },
-                    max_impression : {
-                        required : true
-                    },
-                    daily_max_impression : {
-                        required : true
-                    },
-                    max_budget : {
-                        required : true
-                    },
-                    daily_max_budget : {
-                        required : true
-                    },
-                    cpm : {
-                        required : true
-                    },
-                    start_date : {
-                        required : true
-                    },
-                    end_date : {
-                        required : true
-                    },
-                    cpm : {
-                        required : true
-                    }
-                },
 
-                // Messages for form validation
-                messages : {
-                    name : {
-                        required : 'Please enter your name'
-                    },
-                    email : {
-                        required : 'Please enter your email address',
-                        email : 'Please enter a VALID email address'
-                    },
-                    phone : {
-                        required : 'Please enter your phone number'
-                    },
-                    interested : {
-                        required : 'Please select interested service'
-                    },
-                    budget : {
-                        required : 'Please select your budget'
-                    }
-                },
 
-                // Do not change code below
-                errorPlacement : function(error, element) {
-                    error.insertAfter(element.parent());
-                }
-            });
 
+
+
+
+
+
+
+
+
+            {{--var jqgrid_data = [--}}
+                {{--@foreach($offer_obj as $index)--}}
+                {{--@if(!is_null($index->getAdvertiser->GetClientID))--}}
+                {{--{--}}
+                    {{--id   : 'ofr{{$index->id}}',--}}
+                    {{--name : '{{$index->name}}',--}}
+                    {{--@if($index->status == 'Active')--}}
+                    {{--status: '<a id="offer{{$index->id}}" href="javascript: ChangeStatus(`offer`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',--}}
+                    {{--@elseif($index->status == 'Inactive')--}}
+                {{--status: '<a id="offer{{$index->id}}" href="javascript: ChangeStatus(`offer`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',--}}
+                    {{--@endif--}}
+                    {{--date_modify : '{{$index->updated_at}}',--}}
+                    {{--full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/offer/ofr'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) +'| <a class="btn bg-color-magenta txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/offer/add')}}">+ Offer</a>'@endif--}}
+                {{--},--}}
+                {{--@endif--}}
+                {{--@endforeach--}}
+            {{--];--}}
+
+            {{--jQuery("#jqgrid").jqGrid({--}}
+                {{--data : jqgrid_data,--}}
+                {{--datatype : "local",--}}
+                {{--height : 'auto',--}}
+                {{--colNames : ['Actions', 'ID', 'Name', 'Status','Modify Date','Full Actions'],--}}
+                {{--colModel : [{--}}
+                    {{--name : 'act',--}}
+                    {{--index : 'act',--}}
+                    {{--width: '100%',--}}
+                    {{--sortable : false--}}
+                {{--}, {--}}
+                    {{--name : 'id',--}}
+                    {{--width: '50%',--}}
+                    {{--index : 'id'--}}
+                {{--}, {--}}
+                    {{--name : 'name',--}}
+                    {{--index : 'name',--}}
+                    {{--width: '100%',--}}
+                    {{--editable : true--}}
+                {{--}, {--}}
+                    {{--name : 'status',--}}
+                    {{--index : 'status',--}}
+                    {{--width: '60%',--}}
+                    {{--editable : false--}}
+                {{--}, {--}}
+                    {{--name : 'date_modify',--}}
+                    {{--index : 'date_modify',--}}
+                    {{--editable : false--}}
+                {{--}, {--}}
+                    {{--name : 'full_edit',--}}
+                    {{--index : 'full_edit',--}}
+                    {{--editable : false--}}
+                {{--}],--}}
+                {{--rowNum : 10,--}}
+                {{--rowList : [10, 20, 30],--}}
+                {{--pager : '#pjqgrid',--}}
+                {{--sortname : 'campaign',--}}
+                {{--ajaxRowOptions: { async: true },--}}
+                {{--toolbarfilter : true,--}}
+                {{--viewrecords : true,--}}
+                {{--sortorder : "desc",--}}
+                {{--gridComplete : function() {--}}
+                    {{--var ids = jQuery("#jqgrid").jqGrid('getDataIDs');--}}
+                    {{--for (var i = 0; i < ids.length; i++) {--}}
+                        {{--var cl = ids[i];--}}
+                        {{--be = "<button class='btn btn-xs btn-default' data-original-title='Edit Row' onclick=\"jQuery('#jqgrid').editRow('" + cl + "');\"><i class='fa fa-pencil'></i></button>";--}}
+                        {{--se = "<button class='btn btn-xs btn-default' data-original-title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('" + cl + "');\"><i class='fa fa-save'></i></button>";--}}
+                        {{--ca = "<button class='btn btn-xs btn-default' data-original-title='Cancel' onclick=\"jQuery('#jqgrid').restoreRow('" + cl + "');\"><i class='fa fa-times'></i></button>";--}}
+                        {{--jQuery("#jqgrid").jqGrid('setRowData', ids[i], {--}}
+                            {{--act : be + se + ca--}}
+                        {{--});--}}
+                    {{--}--}}
+                {{--},--}}
+                {{--editurl : "{{url('/ajax/jqgrid/offer')}}",--}}
+                {{--caption : "Offer List",--}}
+                {{--multiselect : true,--}}
+                {{--autowidth : true--}}
+
+            {{--});--}}
+
+            {{--jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {--}}
+                {{--edit : false,--}}
+                {{--add : false,--}}
+                {{--del : false--}}
+            {{--});--}}
+            {{--jQuery("#jqgrid").jqGrid('inlineNav', "#pjqgrid");--}}
+            {{--$('.navtable .ui-pg-button').tooltip({--}}
+                {{--container : 'body'--}}
+            {{--});--}}
+
+            {{--jQuery("#m1").click(function() {--}}
+                {{--var s;--}}
+                {{--s = jQuery("#jqgrid").jqGrid('getGridParam', 'selarrrow');--}}
+                {{--alert(s);--}}
+            {{--});--}}
+            {{--jQuery("#m1s").click(function() {--}}
+                {{--jQuery("#jqgrid").jqGrid('setSelection', "13");--}}
+            {{--});--}}
 
 
         })

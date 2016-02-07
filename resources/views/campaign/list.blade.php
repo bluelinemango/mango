@@ -64,7 +64,7 @@
                                         <div class="row">
 
                                             <!-- NEW WIDGET START -->
-                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
                                                 <div id="campaign_grid"></div>
                                                 {{--<table id="jqgrid"></table>--}}
@@ -175,9 +175,8 @@
                     {
                         "id": 'cmp{{$index->id}}',
                         "name": '{{$index->name}}',
-                        "max_imp":'{{$index->max_impression}}',
                         "daily_max_imp":'{{$index->daily_max_impression}}',
-                        "max_budget":'{{$index->max_budget}}',
+                        "cpm":'{{$index->cpm}}',
                         "daily_max_budget":'{{$index->daily_max_budget}}',
                         @if($index->status == 'Active')
                         "status": '<a id="campaign{{$index->id}}" href="javascript: ChangeStatus(`campaign`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
@@ -185,7 +184,7 @@
                         "status": '<a id="campaign{{$index->id}}" href="javascript: ChangeStatus(`campaign`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
                         @endif
                         "date_modify": '{{$index->updated_at}}',
-                        "action": '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) +'| <a class="btn bg-color-magenta txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/targetgroup/add')}}">+ Target Group</a>'@endif
+                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /> </a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) +' <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/targetgroup/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
 
                     },
                     @endforeach
@@ -209,13 +208,12 @@
                     fields: [
                         {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
                         {name: "name", title: "Name", type: "text", width: 70},
-                        {name: "max_imp", title: "Max Imps", type: "text", width: 50, align: "center"},
-                        {name: "daily_max_imp", title: "Daily Max Imps", type: "text", width: 70, align: "center"},
-                        {name: "max_budget", title: "Max Budget", type: "text", width: 60, align: "center"},
-                        {name: "daily_max_budget", title: "Daily Max Budget", type: "text", width: 80, align: "center"},
+                        {name: "daily_max_imp", title: "Daily Imps", type: "text", width: 70, align: "center"},
+                        {name: "cpm", title: "CPM", type: "text", width: 60, align: "center"},
+                        {name: "daily_max_budget", title: "Daily Budget", type: "text", width: 80, align: "center"},
                         {name: "status", title: "Status", width: 50, align: "center"},
-                        {name: "date_modify", title: "Last Modified", align: "center"},
-                        {name: "action", title: "Full Action", sorting: false, width: 120, align: "center"},
+                        {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
+                        {name: "action", title: "Edit / +TG", sorting: false, width: 70, align: "center"},
                         {type: "control"}
                     ]
 

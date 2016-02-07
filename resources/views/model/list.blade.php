@@ -173,7 +173,7 @@
                         "algo":'{{$index->algo}}',
                         "advertiser":'<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
                         "date_modify":'{{$index->updated_at}}',
-                        "action": '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/mdl'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>' @if(in_array('ADD_EDIT_MODEL',$permission)) +'| <a class="btn bg-color-magenta txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/add')}}">+ Model</a>'@endif
+                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/mdl'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_MODEL',$permission)) +'| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
 
                     },
                     @endforeach
@@ -200,7 +200,7 @@
                         {name: "algo", title: "Algoritm",editing:false,type: "text", width: 50, align: "center"},
                         {name: "advertiser", title: "Advertiser",editing:false,type: "text", width: 70, align: "center"},
                         {name: "date_modify", title: "Last Modified", align: "center"},
-                        {name: "action", title: "Full Action", sorting: false, width: 120, align: "center"},
+                        {name: "action", title: "Edit | +Model", sorting: false, width: 80, align: "center"},
                         {type: "control"}
                     ]
 

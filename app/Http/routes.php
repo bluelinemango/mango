@@ -48,6 +48,14 @@ Route::post('/company/add/create', ['uses'=>'CompanyController@add_company','as'
 Route::put('/company/edit/update', ['uses'=>'CompanyController@edit_company','as'=>'company_update']);
 /////////////////////////END Company///////////////////////////////////////////
 
+/////////////////////////Inventory///////////////////////////////////////////
+Route::get('/inventory','InventoryController@ListView');
+Route::get('/inventory/add','InventoryController@AddInventoryView');
+Route::get('/inventory/{id?}/edit','InventoryController@InventoryEditView');
+Route::post('/inventory/add/create', ['uses'=>'InventoryController@add_inventory','as'=>'inventory_create']);
+Route::put('/inventory/edit/update', ['uses'=>'InventoryController@edit_inventory','as'=>'inventory_update']);
+/////////////////////////END Inventory///////////////////////////////////////////
+
 
 
 /////////////////////////ADVERTISER///////////////////////////////////////////
@@ -150,7 +158,7 @@ Route::group(['prefix' => 'ajax'], function()
         Route::put('/campaign', 'CampaignController@jqgrid');
         Route::put('/creative', 'CreativeController@jqgrid');
         Route::put('/offer', 'OfferController@jqgrid');
-        Route::put('/pixel', 'OfferController@jqgrid');
+        Route::put('/pixel', 'PixelController@jqgrid');
         Route::put('/targetgroup', 'TargetgroupController@jqgrid');
         Route::put('/model', 'ModelController@jqgrid');
         Route::put('/bwlist', 'BWListController@jqgridList');

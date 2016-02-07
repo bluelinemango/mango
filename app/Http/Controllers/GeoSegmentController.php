@@ -342,26 +342,37 @@ class GeoSegmentController extends Controller
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $geolist_id=substr($request->input('id'),3);
-//                    return dd($model_id);
-                    $chkUser=GeoSegmentList::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->where('id',$geolist_id)->get();
-                    if(!is_null($chkUser) and Auth::user()->id == $chkUser[0]->getAdvertiser->GetClientID->user_id) {
-                        switch ($request->input('oper')) {
-                            case 'edit':
-                                $geolist=GeoSegmentList::find($geolist_id);
-                                if($geolist){
-                                    $geolist->name=$request->input('name');
-                                    $geolist->save();
-                                    return "ok";
-                                }
-                                return "false";
-                                break;
+                    if (User::isSuperAdmin()) {
+                        $geolist=GeoSegmentList::find($geolist_id);
+                    }else{
+                        $usr_company = $this->user_company();
+                        $geolist=GeoSegmentList::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->find($geolist_id);
+                        if (!$geolist) {
+                            return $msg=(['success' => false, 'msg' => "Some things went wrong"]);
                         }
                     }
-                    return "invalid Geo Segment List ID";
+                    if ($geolist) {
+                        $data = array();
+                        $audit = new AuditsController();
+                        if ($geolist->name != $request->input('name')) {
+                            array_push($data, 'Name');
+                            array_push($data, $geolist->name);
+                            array_push($data, $request->input('name'));
+                            $geolist->name = $request->input('name');
+                        }
+                        $audit->store('geosegment', $geolist_id, $data, 'edit');
+                        $geolist->save();
+                        return $msg=(['success' => true, 'msg' => "your Campaign Saved successfully"]);
+                    }
+                    return $msg=(['success' => false, 'msg' => "Please Select a Campaign First"]);
                 }
-                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+                return $msg=(['success' => false, 'msg' => "Please Check your field"]);
             }
-            return "don't have permission";
+            return $msg=(['success' => false, 'msg' => "You don't have permission"]);
         }
         return Redirect::to('/user/login');
     }

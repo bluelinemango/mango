@@ -172,7 +172,7 @@
                         "status": '<a id="advertiser{{$index->id}}" href="javascript: ChangeStatus(`advertiser`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
                         @endif
                         "date_modify": '{{$index->updated_at}}',
-                        "action": '<a class="btn btn-info" href="{{url('/client/cl'.$index->GetClientID->id.'/advertiser/adv'.$index->id.'/edit')}}"><i class="fa fa-edit"></i></a>'
+                        "action": '<a class="btn " href="{{url('/client/cl'.$index->GetClientID->id.'/advertiser/adv'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /> </a>'
 
                     },
                     @endforeach
@@ -199,7 +199,7 @@
                         {name: "campaign", title: "# of CMP.", width: 50, align: "center"},
                         {name: "status", title: "Status", width: 50, align: "center"},
                         {name: "date_modify", title: "Last Modified", align: "center"},
-                        {name: "action", title: "Full Action", sorting: false, width: 70, align: "center"},
+                        {name: "action", title: "Edit", sorting: false, width: 50, align: "center"},
                         {type: "control"}
                     ]
 

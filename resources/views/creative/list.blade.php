@@ -56,7 +56,7 @@
                                         <div class="row">
 
                                             <!-- NEW WIDGET START -->
-                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
                                                 <div id="creative_grid"></div>
                                                 {{--<table id="jqgrid"></table>--}}
@@ -168,7 +168,7 @@
                         @elseif($index->status == 'Inactive')
                         "status": '<a id="creative{{$index->id}}" href="javascript: ChangeStatus(`creative`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
                         @endif                        "date_modify": '{{$index->updated_at}}',
-                        "action": '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/crt'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>' @if(in_array('ADD_EDIT_CREATIVE',$permission)) +'| <a class="btn bg-color-magenta txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/add')}}">+ Creative</a>'@endif
+                        "action": '<a class="btn " href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/crt'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_CREATIVE',$permission)) +'| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
 
                     },
                     @endforeach
@@ -196,7 +196,7 @@
                         {name: "advertiser", title: "Advertiser", type: "text", width: 70, align: "center",editing:false},
                         {name: "status", title: "Status", width: 50, align: "center"},
                         {name: "date_modify", title: "Last Modified", align: "center"},
-                        {name: "action", title: "Full Action", sorting: false, width: 120, align: "center"},
+                        {name: "action", title: "Edit | +Creative", sorting: false, width: 70, align: "center"},
                         {type: "control"}
                     ]
 

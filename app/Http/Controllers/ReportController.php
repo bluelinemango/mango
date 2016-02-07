@@ -174,7 +174,7 @@ class ReportController extends Controller
                         $query .=" and impression.created_at ". $time;
                         $interval=60*60;
                     }
-                    if($request->input('report_type')=='rang'){
+                    if($request->input('report_type')=='rang'){ //todo: 120 noghte
                         $start_date = DateTime::createFromFormat('d.m.Y', $request->input('start_date'));
                         $end_date = DateTime::createFromFormat('d.m.Y', $request->input('end_date'));
                         $time="between '".$start_date->format('Y-m-d H:i:s')."' and '".$end_date->format('Y-m-d H:i:s')."'";
