@@ -47,6 +47,9 @@
 
                         <!-- Widget ID (each widget will need unique ID)-->
                         <div class="well " >
+                            <header>
+                                <h2>Advertiser List</h2>
+                            </header>
                             <!-- widget div-->
                             <div>
 

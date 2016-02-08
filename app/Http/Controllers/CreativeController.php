@@ -83,6 +83,8 @@ class CreativeController extends Controller
                         $creative->size = $size;
                         $creative->status = $active;
                         $creative->ad_tag = $request->input('ad_tag');
+                        $creative->ad_type = $request->input('ad_type');
+                        $creative->api = json_encode($request->input('api'));
                         $creative->landing_page_url = $request->input('landing_page_url');
                         $creative->preview_url = $request->input('preview_url');
                         $creative->attributes = $request->input('attributes');
@@ -120,7 +122,9 @@ class CreativeController extends Controller
                             return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                         }
                     }
-                    return view('creative.edit')->with('creative_obj', $creative_obj);
+                    return view('creative.edit')
+                        ->with('api_select', json_decode($creative_obj->api))
+                        ->with('creative_obj', $creative_obj);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
@@ -129,6 +133,8 @@ class CreativeController extends Controller
     }
 
     public function edit_creative(Request $request){
+//        return dd($request->all());
+//        return dd(json_encode($request->input('api')));
         if(Auth::check()){
             if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
@@ -155,6 +161,18 @@ class CreativeController extends Controller
                             array_push($data, $creative->status);
                             array_push($data, $active);
                             $creative->name = $active;
+                        }
+                        if($creative->ad_type!=$request->input('ad_type')){
+                            array_push($data,'Ad Type');
+                            array_push($data,$creative->ad_type);
+                            array_push($data,$request->input('ad_type'));
+                            $creative->ad_type=$request->input('ad_type');
+                        }
+                        if($creative->api!=json_encode($request->input('api'))){
+                            array_push($data,'API');
+                            array_push($data,$creative->api);
+                            array_push($data,json_encode($request->input('api')));
+                            $creative->api=json_encode($request->input('api'));
                         }
                         if($creative->advertiser_domain_name!=$request->input('advertiser_domain_name')){
                             array_push($data,'Domain Name');

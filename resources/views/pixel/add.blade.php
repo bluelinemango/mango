@@ -104,8 +104,8 @@
                                                 <div class="row">
                                                     <div class="col-md-5 col-md-offset-3">
                                                         <button type="submit"
-                                                                class=" button button--antiman button--round-l button--text-medium">
-                                                            Submit
+                                                                class=" button button--ujarak button--border-thick button--text-upper button--size-s button--inverted button--text-thick">
+                                                            Save
                                                         </button>
                                                     </div>
                                                 </div>

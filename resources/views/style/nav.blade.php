@@ -95,6 +95,12 @@
 
                 </li>
             @endif
+            @if(\Illuminate\Support\Facades\Auth::user()->role_id==1)
+                <li>
+                    <a href="{{url('inventory')}}"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">Inventory</span></a>
+
+                </li>
+            @endif
             <li>
                 <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">User</span></a>
                 <ul>

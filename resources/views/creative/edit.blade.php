@@ -95,7 +95,19 @@
                                                             <i></i>Active Status
                                                         </label>
                                                     </section>
+                                                    <section class="col col-2">
+                                                        <label for="" class="label">Ad Type</label>
+                                                        <label class="select"><i></i>
+                                                            <select name="ad_type">
+                                                                <option value="0">Select One</option>
+                                                                <option value="IFRAME" @if($creative_obj->ad_type=='IFRAME') selected @endif>IFrame</option>
+                                                                <option value="JAVASCRIPT" @if($creative_obj->ad_type=='JAVASCRIPT') selected @endif>Javascript</option>
+                                                                <option value="XHTML_BANNER_AD" @if($creative_obj->ad_type=='XHTML_BANNER_AD') selected @endif>XHTML Banner Ad</option>
+                                                                <option value="XHTML_TEXT_AD" @if($creative_obj->ad_type=='XHTML_TEXT_AD') selected @endif>XHTML Text Ad</option>
 
+                                                            </select>
+                                                        </label>
+                                                    </section>
 
                                                 </fieldset>
                                             </div>
@@ -154,6 +166,22 @@
                                                             <textarea rows="5" name="ad_tag" placeholder="Tell us about your Creative">
                                                                 {{$creative_obj->ad_tag}}</textarea>
                                                         </label>
+                                                    </section>
+
+
+                                                    <section class="col col-4">
+                                                        <label class="label">Multiple select</label>
+                                                        <label class="select select-multiple">
+                                                            <select name="api[]" multiple class="custom-scroll">
+                                                                <option value="VPAID_1.0" @if(in_array('VPAID_1.0',$api_select)) selected @endif>VPAID 1.0</option>
+                                                                <option value="VPAID_2.0" @if(in_array('VPAID_2.0',$api_select)) selected @endif>VPAID 2.0</option>
+                                                                <option value="MRAID-1" @if(in_array('MRAID-1',$api_select)) selected @endif> MRAID-1</option>
+                                                                <option value="ORMMA" @if(in_array('ORMMA',$api_select)) selected @endif>ORMMA</option>
+                                                                <option value="MRAID-2" @if(in_array('MRAID-2',$api_select)) selected @endif>MRAID-2</option>
+                                                            </select> </label>
+                                                        <div class="note">
+                                                            <strong>Note:</strong> hold down the ctrl/cmd button to select multiple options.
+                                                        </div>
                                                     </section>
 
                                                 </fieldset>

@@ -15,6 +15,9 @@ class Advertiser extends Model
     public function Campaign(){
         return $this->hasMany('App\Models\Campaign');
     }
+    public function Segment(){
+        return $this->hasMany('App\Models\Segment');
+    }
     public function Model(){
         return $this->hasMany('App\Models\ModelTable');
     }

@@ -46,6 +46,9 @@
 
                                 <!-- Widget ID (each widget will need unique ID)-->
                                 <div class="well">
+                                    <header>
+                                        <h2>Black / White List</h2>
+                                    </header>
                                     <!-- widget div-->
                                     <div>
                                         <!-- widget content -->

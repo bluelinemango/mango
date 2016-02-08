@@ -188,7 +188,26 @@
                             url: "{{url('/ajax/jqgrid/company')}}",
                             data: insertingCompany,
                             dataType: "json"
-                        }).done();
+                        }).done(function (response) {
+                            console.log(response);
+                            if(response.success==true){
+                                var title= "Success";
+                                var color="#739E73";
+                                var icon="fa fa-check";
+                            }else if(response.success==false) {
+                                var title= "Warning";
+                                var color="#C46A69";
+                                var icon="fa fa-bell";
+                            };
+
+                            $.smallBox({
+                                title: title,
+                                content: response.msg,
+                                color: color,
+                                icon: icon,
+                                timeout: 8000
+                            });
+                        });
 
                     },
 

@@ -14,6 +14,9 @@ class Targetgroup extends Model
     public function getGeoSegment(){
         return $this->hasMany('App\Models\Targetgroup_Geosegmentlist_Map');
     }
+    public function getSegment(){
+        return $this->hasMany('App\Models\Targetgroup_Segment_Map','Segment_id');
+    }
     public function getGeoLocation(){
         return $this->hasMany('App\Models\Targetgroup_Geolocation_Map');
     }

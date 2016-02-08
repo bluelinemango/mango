@@ -77,6 +77,11 @@ Route::put('/campaign/edit/update', ['uses'=>'CampaignController@edit_campaign',
 /////////////////////////END CAMPAIGN///////////////////////////////////////////
 
 
+/////////////////////////END Segment///////////////////////////////////////////
+Route::get('/segment','SegmentController@GetView');
+/////////////////////////END Segment///////////////////////////////////////////
+
+
 /////////////////////////TARGET GROUP///////////////////////////////////////////
 Route::get('/targetgroup','TargetgroupController@GetView');
 Route::get('/client/cl{clid?}/advertiser/adv{advid?}/campaign/cmp{cmpid?}/targetgroup/add','TargetgroupController@TargetgroupAddView');

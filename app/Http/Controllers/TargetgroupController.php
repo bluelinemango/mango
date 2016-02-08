@@ -16,6 +16,8 @@ use App\Models\Targetgroup_Bwlist_Map;
 use App\Models\Targetgroup_Creative_Map;
 use App\Models\Targetgroup_Geolocation_Map;
 use App\Models\Targetgroup_Geosegmentlist_Map;
+use App\Models\Targetgroup_Realtime;
+use App\Models\Targetgroup_Segment_Map;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -241,35 +243,36 @@ class TargetgroupController extends Controller
                                 $p->with('GetClientID');
                             }]);
                         }])
-                            ->with('getCreative', 'getBWList', 'getGeoSegment','getGeoLocation','getBidhour')
+                            ->with('getCreative', 'getBWList', 'getGeoSegment','getSegment','getGeoLocation','getBidhour')
                             ->with(['getBidAdvPublisher'=>function($r){
                                 $r->with('getPublisher');
                             }])
                             ->find($tgid);
                         $campaign_obj = Campaign::with(['getAdvertiser' => function ($q) {
-                            $q->with('Creative', 'GeoSegment', 'BWList');
+                            $q->with('Creative', 'GeoSegment', 'BWList','Segment');
                         }])->find($cmpid);
-//                        return dd($bb);
+//                        return dd($campaign_obj);
                     } else {
                         $usr_company = $this->user_company();
-                        $targetgroup_obj = Targetgroup::with(['getCampaign' => function ($q) use ($usr_company) {
-                            $q->with(['getAdvertiser' => function ($p) use ($usr_company) {
-                                $p->with(['GetClientID' => function ($r) use ($usr_company) {
+                        $targetgroup_obj = Targetgroup::whereHas('getCampaign' , function ($q) use ($usr_company) {
+                            $q->whereHas('getAdvertiser' , function ($p) use ($usr_company) {
+                                $p->whereHas('GetClientID' , function ($r) use ($usr_company) {
                                     $r->whereIn('user_id', $usr_company);
-                                }]);
-                            }]);
-                        }])
-                            ->with('getCreative', 'getBWList', 'getGeoSegment','getGeoLocation','getBidhour','getBidAdvPublisher')
+                                });
+                            });
+                        })
+                            ->with('getCreative', 'getBWList', 'getGeoSegment','getSegment','getGeoLocation','getBidhour','getBidAdvPublisher')
                             ->find($tgid);
                         $campaign_obj = Campaign::with(['getAdvertiser' => function ($q) use ($usr_company) {
-                            $q->with('Creative', 'GeoSegment', 'BWList')->with(['GetClientID' => function ($p) use ($usr_company) {
+                            $q->with('Creative', 'GeoSegment', 'BWList','Segment')->whereHas('GetClientID' , function ($p) use ($usr_company) {
                                 $p->whereIn('user_id', $usr_company);
-                            }]);
+                            });
                         }])->find($cmpid);
                         if (!$targetgroup_obj) {
                             return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                         }
                     }
+                    $real_time=Targetgroup_Realtime::where('targetgroup_id',$tgid)->get();
                     $bid_hour=json_decode($targetgroup_obj->getBidhour->hours);
                     $hours=array();
                     foreach($bid_hour as $index){
@@ -281,6 +284,7 @@ class TargetgroupController extends Controller
                     $targetgroupCreative = array();
                     $targetgroupBWList = array();
                     $targetgroupGeoSegment = array();
+                    $targetgroupSegment = array();
                     $targetgroupGeoLocation = array();
                     if (count($targetgroup_obj->getCreative) > 0) {
                         foreach ($targetgroup_obj->getCreative as $index) {
@@ -297,10 +301,19 @@ class TargetgroupController extends Controller
                             array_push($targetgroupGeoSegment, $index->geosegmentlist_id);
                         }
                     }
+                    if (count($targetgroup_obj->getSegment) > 0) {
+                        foreach ($targetgroup_obj->getSegment as $index) {
+                            array_push($targetgroupSegment, $index->segment_id);
+                        }
+                    }
                     if (count($targetgroup_obj->getGeoLocation) > 0) {
                         foreach ($targetgroup_obj->getGeoLocation as $index) {
                             array_push($targetgroupGeoLocation, $index->geolocation_id);
                         }
+                    }
+                    $ad_select= array();
+                    if(!is_null(json_decode($targetgroup_obj->ad_position))){
+                        $ad_select=json_decode($targetgroup_obj->ad_position);
                     }
 
                     return view('targetgroup.edit')
@@ -308,11 +321,14 @@ class TargetgroupController extends Controller
                         ->with('campaign_obj', $campaign_obj)
                         ->with('targetgroupCreative', $targetgroupCreative)
                         ->with('targetgroupBWList', $targetgroupBWList)
+                        ->with('ad_select',$ad_select )
                         ->with('targetgroupGeoSegment', $targetgroupGeoSegment)
+                        ->with('targetgroupSegment', $targetgroupSegment)
                         ->with('geolocation_obj', $geolocation_obj)
                         ->with('hours', $hours)
                         ->with('targetgroupGeoLocation', $targetgroupGeoLocation)
-                        ->with('iab_category_obj', $iab_category_obj);
+                        ->with('iab_category_obj', $iab_category_obj)
+                        ->with('real_time', $real_time);
                 }
                 return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
             }
@@ -382,6 +398,12 @@ class TargetgroupController extends Controller
                             array_push($data,$targetgroup->daily_max_impression);
                             array_push($data,$request->input('daily_max_impression'));
                             $targetgroup->daily_max_impression = $request->input('daily_max_impression');
+                        }
+                        if($targetgroup->ad_position!=json_encode($request->input('ad_position'))){
+                            array_push($data,'Ad Position');
+                            array_push($data,$targetgroup->ad_position);
+                            array_push($data,json_encode($request->input('ad_position')));
+                            $targetgroup->ad_position=json_encode($request->input('ad_position'));
                         }
                         if($targetgroup->max_budget != $request->input('max_budget')){
                             array_push($data,'Max Budget');
@@ -484,6 +506,30 @@ class TargetgroupController extends Controller
                                 if (!in_array($index->geosegmentlist_id, $request->input('to_geosegment'))) {
                                     Targetgroup_Geosegmentlist_Map::where('targetgroup_id',$targetgroup_id)->where('geosegmentlist_id',$index->geosegmentlist_id)->delete();
                                     $audit->store('targetgroup_geosegment_map', $index->geosegment_id, $targetgroup_id, 'remove', $audit_key);
+                                }
+                            }
+                        }
+
+                        $segment_map=Targetgroup_Segment_Map::where('targetgroup_id', $targetgroup_id)->get();
+                        $segArr=array();
+                        foreach($segment_map as $index){
+                            array_push($segArr,$index->segment_id);
+                        }
+//                        return dd($geoSegArr);
+                        if ($request->has('to_segment')) {
+                            foreach ($request->input('to_segment') as $index) {
+                                if (!in_array($index, $segArr)) {
+                                    $segment_assign = new Targetgroup_Segment_Map();
+                                    $segment_assign->targetgroup_id = $targetgroup->id;
+                                    $segment_assign->segment_id = $index;
+                                    $segment_assign->save();
+                                    $audit->store('targetgroup_segment_map', $index, $targetgroup_id, 'add', $audit_key);
+                                }
+                            }
+                            foreach ($segment_map as $index) {
+                                if (!in_array($index->segment_id, $request->input('to_segment'))) {
+                                    Targetgroup_Segment_Map::where('targetgroup_id',$targetgroup_id)->where('segment_id',$index->segment_id)->delete();
+                                    $audit->store('targetgroup_segment_map', $index->segment_id, $targetgroup_id, 'remove', $audit_key);
                                 }
                             }
                         }
@@ -634,74 +680,4 @@ class TargetgroupController extends Controller
         return Redirect::to(url('/user/login'));
     }
 
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

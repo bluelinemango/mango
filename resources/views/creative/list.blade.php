@@ -46,6 +46,9 @@
 
                         <!-- Widget ID (each widget will need unique ID)-->
                         <div class="well">
+                            <header>
+                                <h2>Creative List</h2>
+                            </header>
 
                             <!-- widget div-->
                                 <!-- widget content -->
@@ -116,7 +119,10 @@
 
                     loadData: function (filter) {
                         return $.grep(this.creative, function (creative) {
-                            return (!filter.name || creative.name.indexOf(filter.name) > -1);
+                            return (!filter.name || creative.name.indexOf(filter.name) > -1)
+                                    && (!filter.size || creative.size.indexOf(filter.size) > -1)
+                                    && (!filter.advertiser || creative.advertiser.indexOf(filter.advertiser) > -1)
+                                    && (!filter.id || creative.id.indexOf(filter.id) > -1);
                         });
                     },
 
@@ -161,8 +167,6 @@
                         "name": '{{$index->name}}',
                         "size":'{{$index->size}}',
                         "advertiser":'<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
-                        "max_budget":'{{$index->max_budget}}',
-                        "daily_max_budget":'{{$index->daily_max_budget}}',
                         @if($index->status == 'Active')
                         "status": '<a id="creative{{$index->id}}" href="javascript: ChangeStatus(`creative`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
                         @elseif($index->status == 'Inactive')

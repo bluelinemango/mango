@@ -1,5 +1,5 @@
 @extends('Layout')
-@section('siteTitle')List Of Campaign for {{\Illuminate\Support\Facades\Auth::user()->name}} @endsection
+@section('siteTitle')List Of Segment for {{\Illuminate\Support\Facades\Auth::user()->name}} @endsection
 
 @section('content')
     <!-- MAIN PANEL -->
@@ -16,7 +16,7 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Campaign List</li>
+                <li>Segment List</li>
             </ol>
             <!-- end breadcrumb -->
 
@@ -47,7 +47,7 @@
                         <!-- Widget ID (each widget will need unique ID)-->
                         <div class="well" >
                             <header>
-                                <h2>Campaign List</h2>
+                                <h2>Segment List</h2>
 
                             </header>
 
@@ -66,7 +66,7 @@
                                             <!-- NEW WIDGET START -->
                                             <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-                                                <div id="campaign_grid"></div>
+                                                <div id="segment_grid"></div>
                                                 {{--<table id="jqgrid"></table>--}}
                                                 {{--<div id="pjqgrid"></div>--}}
 
@@ -131,22 +131,22 @@
                 var db = {
 
                     loadData: function (filter) {
-                        return $.grep(this.campaign, function (campaign) {
-                            return (!filter.name || campaign.name.indexOf(filter.name) > -1)
-                                    && (!filter.daily_max_imp || campaign.daily_max_imp.indexOf(filter.daily_max_imp) > -1)
-                                    && (!filter.cpm || campaign.cpm.indexOf(filter.cpm) > -1)
-                                    && (!filter.id || campaign.id.indexOf(filter.id) > -1)
-                                    && (!filter.daily_max_budget || campaign.daily_max_budget.indexOf(filter.daily_max_budget) > -1);
+                        return $.grep(this.segment, function (segment) {
+                            return (!filter.name || segment.name.indexOf(filter.name) > -1)
+                                    && (!filter.daily_max_imp || segment.daily_max_imp.indexOf(filter.daily_max_imp) > -1)
+                                    && (!filter.cpm || segment.cpm.indexOf(filter.cpm) > -1)
+                                    && (!filter.id || segment.id.indexOf(filter.id) > -1)
+                                    && (!filter.daily_max_budget || segment.daily_max_budget.indexOf(filter.daily_max_budget) > -1);
                         });
                     },
 
-                    updateItem: function (updatingCampaign) {
-                        updatingCampaign['oper'] = 'edit';
-                        console.log(updatingCampaign);
+                    updateItem: function (updatingSegment) {
+                        updatingSegment['oper'] = 'edit';
+                        console.log(updatingSegment);
                         $.ajax({
                             type: "PUT",
-                            url: "{{url('/ajax/jqgrid/campaign')}}",
-                            data: updatingCampaign,
+                            url: "{{url('/ajax/jqgrid/segment')}}",
+                            data: updatingSegment,
                             dataType: "json"
                         }).done(function (response) {
                             console.log(response);
@@ -174,31 +174,23 @@
 
                 window.db = db;
 
-                db.campaign = [
-                    @foreach($campaign_obj as $index)
+                db.segment = [
+                    @foreach($segment_obj as $index)
                     {
-                        "id": 'cmp{{$index->id}}',
+                        "id": 'sgt{{$index->id}}',
                         "name": '{{$index->name}}',
-                        "daily_max_imp":'{{$index->daily_max_impression}}',
-                        "cpm":'{{$index->cpm}}',
-                        "daily_max_budget":'{{$index->daily_max_budget}}',
-                        @if($index->status == 'Active')
-                        "status": '<a id="campaign{{$index->id}}" href="javascript: ChangeStatus(`campaign`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
-                        @elseif($index->status == 'Inactive')
-                        "status": '<a id="campaign{{$index->id}}" href="javascript: ChangeStatus(`campaign`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
-                        @endif
-                        "date_modify": '{{$index->updated_at}}',
-                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /> </a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) +' <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/targetgroup/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
-
+                        "advertiser": '{{$index->getAdvertiser->name}}',
+                        "model": '{{$index->getModel->name}}',
+                        "date_modify": '{{$index->updated_at}}'
                     },
                     @endforeach
                 ];
 
-                $("#campaign_grid").jsGrid({
+                $("#segment_grid").jsGrid({
                     width: "100%",
 
                     filtering: true,
-                    editing: true,
+                    editing: false,
                     sorting: true,
                     paging: true,
                     autoload: true,
@@ -212,13 +204,9 @@
                     fields: [
                         {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
                         {name: "name", title: "Name", type: "text", width: 70},
-                        {name: "daily_max_imp", title: "Daily Imps", type: "text", width: 70, align: "center"},
-                        {name: "cpm", title: "CPM", type: "text", width: 60, align: "center"},
-                        {name: "daily_max_budget", title: "Daily Budget", type: "text", width: 80, align: "center"},
-                        {name: "status", title: "Status", width: 50, align: "center"},
-                        {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
-                        {name: "action", title: "Edit / +TG", sorting: false, width: 70, align: "center"},
-                        {type: "control"}
+                        {name: "advertiser", title: "Advertiser", type: "text", width: 70, align: "center"},
+                        {name: "model", title: "Model", type: "text", width: 60, align: "center"},
+                        {name: "date_modify", title: "Last Modified", width: 70, align: "center"}
                     ]
 
                 });
@@ -244,7 +232,7 @@
 
 
             {{--var jqgrid_data = [--}}
-                {{--@foreach($campaign_obj as $index)--}}
+                {{--@foreach($segment_obj as $index)--}}
                 {{--@if(!is_null($index->getAdvertiser->GetClientID))--}}
                 {{--{--}}
                     {{--id : 'cmp{{$index->id}}',--}}
@@ -254,12 +242,12 @@
                     {{--max_budget:'{{$index->max_budget}}',--}}
                     {{--daily_max_budget:'{{$index->daily_max_budget}}',--}}
                     {{--@if($index->status == 'Active')--}}
-                    {{--status: '<a id="campaign{{$index->id}}" href="javascript: ChangeStatus(`campaign`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',--}}
+                    {{--status: '<a id="segment{{$index->id}}" href="javascript: ChangeStatus(`segment`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',--}}
                     {{--@elseif($index->status == 'Inactive')--}}
-                    {{--status: '<a id="campaign{{$index->id}}" href="javascript: ChangeStatus(`campaign`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',--}}
+                    {{--status: '<a id="segment{{$index->id}}" href="javascript: ChangeStatus(`segment`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',--}}
                     {{--@endif--}}
                     {{--date_modify : '{{$index->updated_at}}',--}}
-                    {{--full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) +'| <a class="btn bg-color-magenta txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/targetgroup/add')}}">+ Target Group</a>'@endif--}}
+                    {{--full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/segment/cmp'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) +'| <a class="btn bg-color-magenta txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/segment/cmp'.$index->id.'/targetgroup/add')}}">+ Target Group</a>'@endif--}}
                 {{--},--}}
                 {{--@endif--}}
                 {{--@endforeach--}}
@@ -311,7 +299,7 @@
                 {{--rowNum : 10,--}}
                 {{--rowList : [10, 20, 30],--}}
                 {{--pager : '#pjqgrid',--}}
-                {{--sortname : 'campaign',--}}
+                {{--sortname : 'segment',--}}
                 {{--ajaxRowOptions: { async: true },--}}
                 {{--toolbarfilter : true,--}}
                 {{--viewrecords : true,--}}
@@ -330,8 +318,8 @@
                         {{--});--}}
                     {{--}--}}
                 {{--},--}}
-                {{--editurl : "{{url('/ajax/jqgrid/campaign')}}",--}}
-                {{--caption : "Campaign List",--}}
+                {{--editurl : "{{url('/ajax/jqgrid/segment')}}",--}}
+                {{--caption : "Segment List",--}}
                 {{--multiselect : true,--}}
                 {{--autowidth : true--}}
 

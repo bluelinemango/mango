@@ -35,7 +35,7 @@
         <!-- END RIBBON -->
         <!-- MAIN CONTENT -->
         <div id="content">
-            @if(Session::has('CaptchaError'))
+        @if(Session::has('CaptchaError'))
                 <ul>
                     <li>{{Session::get('CaptchaError')}}</li>
                 </ul>
@@ -80,8 +80,9 @@
                                             </fieldset>
 
                                             <footer>
-                                                <button type="submit" class="btn btn-success">
-                                                    Submit
+                                                <button type="submit"
+                                                        class=" button button--ujarak button--border-thick button--text-upper button--size-s button--inverted button--text-thick">
+                                                    Save
                                                 </button>
                                             </footer>
                                         </form>

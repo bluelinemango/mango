@@ -58,6 +58,85 @@
         <!-- MAIN CONTENT -->
         <div id="content">
 
+            {{--REAL TIME INFO--}}
+            @if(isset($real_time[0]))
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #00c0ef " >
+                        <i class="fa fa-eye" ></i>
+                    </span>
+                    <div class="real-time-content">
+                        Imps to Now:
+                        <br/>
+                        <strong>{{$real_time[0]->impressions_shown_today_until_now}}</strong>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #dd4b39 " >
+                        <i class="fa fa-eye" ></i>
+                    </span>
+                    <div class="real-time-content">
+                        Total Imps:
+                        <br/>
+                        <strong>{{$real_time[0]->total_impression_show_until_now}}</strong>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #00a65a " >
+                        <i class="fa fa-dollar" ></i>
+                    </span>
+                    <div class="real-time-content">
+                        Budget to Now:
+                        <br/>
+                        <strong>{{$real_time[0]->daily_budget_spent_today_until_now}}</strong>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #f39c12 " >
+                        <i class="fa fa-dollar" ></i>
+                    </span>
+                    <div class="real-time-content">
+                        Total Budget:
+                        <br/>
+                        <strong>{{$real_time[0]->total_budget_spent_until_now}}</strong>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #f39c12 " >
+                        <i class="fa fa-gear" ></i>
+                    </span>
+                    <div class="real-time-content">
+                        Pacing Status:
+                        <br/>
+                        <strong>{{$real_time[0]->target_group_pacing_status}}</strong>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #f39c12 " >
+                        <i class="fa fa-gear" ></i>
+                    </span>
+                    <div class="real-time-content">
+                        Last Shown:
+                        <br/>
+                        <strong>{{$real_time[0]->last_time_ad_shown}}</strong>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            @endif
+            {{--END REAL TIME INFO--}}
+
             <!-- widget grid -->
             <section id="widget-grid" class="">
 
@@ -377,6 +456,25 @@
                                                                                             </label>
                                                                                         </div>
                                                                                     </section>
+                                                                                    <section class="col col-5">
+                                                                                        <label class="label">Ad Position</label>
+                                                                                        <label class="select select-multiple">
+                                                                                            <select name="ad_position[]" multiple class="custom-scroll">
+                                                                                                <option value="Any" @if(in_array('Any',$ad_select)) selected @endif>Any</option>
+                                                                                                <option value="Above_the_Fold" @if(in_array('Above_the_Fold',$ad_select)) selected @endif>Above the Fold</option>
+                                                                                                <option value="Below_the_Fold" @if(in_array('Below_the_Fold',$ad_select)) selected @endif>Below the Fold</option>
+                                                                                                <option value="Header" @if(in_array('Header',$ad_select)) selected @endif>Header</option>
+                                                                                                <option value="Footer" @if(in_array('Footer',$ad_select)) selected @endif>Footer</option>
+                                                                                                <option value="Sidebar" @if(in_array('Sidebar',$ad_select)) selected @endif>Sidebar</option>
+                                                                                                <option value="Full_Screen" @if(in_array('Full_Screen',$ad_select)) selected @endif>Full Screen</option>
+
+
+                                                                                            </select> </label>
+                                                                                        <div class="note">
+                                                                                            <strong>Note:</strong> hold down the ctrl/cmd button to select multiple options.
+                                                                                        </div>
+                                                                                    </section>
+
                                                                                 </div>
                                                                                 <div class="clearfix"></div>
                                                                                 <p>
@@ -445,83 +543,62 @@
                                                             <div class="well">
                                                                 <!-- widget div-->
                                                                 <div>
-
-
                                                                     <!-- widget content -->
                                                                     <div class="">
 
-                                                                        <ul id="myTab1" class="nav nav-tabs bordered">
-                                                                            <li class="active">
-                                                                                <a href="#v1" data-toggle="tab">Set Geo
-                                                                                    Location</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#v2" data-toggle="tab"><i
-                                                                                            class="fa fa-fw fa-lg fa-gear"></i>
-                                                                                    Assign Creative</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#v3" data-toggle="tab"><i
-                                                                                            class="fa fa-fw fa-lg fa-gear"></i>
-                                                                                    Set Black\white list</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#v4" data-toggle="tab"><i
-                                                                                            class="fa fa-fw fa-lg fa-gear"></i>
-                                                                                    Set Geo Segments</a>
-                                                                            </li>
-
-
-                                                                        </ul>
-
                                                                         <div id="myTabContent2"
                                                                              class="tab-content">
-                                                                            <div class="tab-pane fade in active"
-                                                                                 id="v1">
+                                                                            <div class="row">
+                                                                                <div class="col-md-3 pull-right">
+                                                                                    <div class="well"  >
+                                                                                        <button id="show_geoLocation" class="btn btn-primary btn-block">Assign Geo Location </button>
+                                                                                        <button id="show_creative" class="btn btn-primary btn-block">Assign Creative </button>
+                                                                                        <button id="show_geoSegment" class="btn btn-primary btn-block">Assign Geo Segment</button>
+                                                                                        <button id="show_bwList" class="btn btn-primary btn-block">Assign B/W List</button>
+                                                                                        <button id="show_segment" class="btn btn-primary btn-block">Assign Segment </button>
 
-                                                                                <div class="row">
-                                                                                    <div class="col-md-6 col-md-offset-3">
-                                                                                        <!-- widget content -->
-                                                                                        <div style="margin: 20px 0;">
-                                                                                            <div class="col-xs-5">
-                                                                                                <select name="from_geolocation[]" id="assign_geolocation" class="form-control" size="8" multiple="multiple">
-                                                                                                    @foreach($geolocation_obj as $index)
-                                                                                                        <option value="{{$index->id}}">{{$index->state}}</option>
-                                                                                                    @endforeach
-                                                                                                </select>
-                                                                                            </div>
+                                                                                    </div>
 
-                                                                                            <div class="col-xs-2">
-                                                                                                <button type="button" id="assign_geolocation_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
-                                                                                                <button type="button" id="assign_geolocation_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
-                                                                                                <button type="button" id="assign_geolocation_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
-                                                                                                <button type="button" id="assign_geolocation_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
-                                                                                            </div>
-
-                                                                                            <div class="col-xs-5">
-                                                                                                <select name="to_geolocation[]" id="assign_geolocation_to" class="form-control" size="8" multiple="multiple">
-                                                                                                    @foreach($geolocation_obj as $index)
-                                                                                                        @if(in_array($index->id,$targetgroupGeoLocation))
-                                                                                                            <option value="{{$index->id}}">{{$index->state}}</option>
-                                                                                                        @endif
-                                                                                                    @endforeach
-
-                                                                                                </select>
-                                                                                            </div>
-                                                                                            <div class="clearfix"></div>
+                                                                                </div>
+                                                                                <input type="hidden" id="active_show" value="geoLocation"/>
+                                                                                <div class="well col-md-9" id="geoLocation">
+                                                                                    <h4>Assign Geo Location</h4>
+                                                                                    <!-- widget content -->
+                                                                                    <div style="margin: 20px 0;">
+                                                                                        <div class="col-xs-5">
+                                                                                            <select name="from_geolocation[]" id="assign_geolocation" class="form-control" size="8" multiple="multiple">
+                                                                                                @foreach($geolocation_obj as $index)
+                                                                                                    <option value="{{$index->id}}">{{$index->state}}</option>
+                                                                                                @endforeach
+                                                                                            </select>
                                                                                         </div>
 
+                                                                                        <div class="col-xs-2">
+                                                                                            <button type="button" id="assign_geolocation_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                                                            <button type="button" id="assign_geolocation_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                                                            <button type="button" id="assign_geolocation_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                                                            <button type="button" id="assign_geolocation_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                                                        </div>
 
-                                                                                        <!-- end widget content -->
+                                                                                        <div class="col-xs-5">
+                                                                                            <select name="to_geolocation[]" id="assign_geolocation_to" class="form-control" size="8" multiple="multiple">
+                                                                                                @foreach($geolocation_obj as $index)
+                                                                                                    @if(in_array($index->id,$targetgroupGeoLocation))
+                                                                                                        <option value="{{$index->id}}">{{$index->state}}</option>
+                                                                                                    @endif
+                                                                                                @endforeach
+
+                                                                                            </select>
+                                                                                        </div>
+                                                                                        <div class="clearfix"></div>
                                                                                     </div>
+
+
+                                                                                    <!-- end widget content -->
                                                                                 </div>
 
-                                                                            </div>
-                                                                            <div class="tab-pane fade"
-                                                                                 id="v2">
-
-                                                                                <div class="row">
-                                                                                    <div class="col-md-6 col-md-offset-3">
+                                                                                <div class="well col-md-9" id="creative" style="display: none">
+                                                                                        <h4>Assign Creative</h4>
                                                                                         <!-- widget content -->
                                                                                         <div style="margin: 20px 0;">
                                                                                             <div class="col-xs-5">
@@ -554,14 +631,8 @@
 
                                                                                         <!-- end widget content -->
                                                                                     </div>
-                                                                                </div>
 
-                                                                            </div>
-                                                                            <div class="tab-pane fade"
-                                                                                 id="v3">
-
-                                                                                <div class="row">
-                                                                                    <div class="col-md-6 col-md-offset-3">
+                                                                                <div class="well col-md-9" id="bwList" style="display: none">
 
                                                                                         <div class="panel-group"
                                                                                              id="accordion">
@@ -682,13 +753,8 @@
                                                                                         </div>
                                                                                     </div>
 
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="tab-pane fade"
-                                                                                 id="v4">
-
-                                                                                <div class="row">
-                                                                                    <div class="col-md-6 col-md-offset-3">
+                                                                                <div class="well col-md-9" id="geoSegment" style="display: none">
+                                                                                        <h4>Assign Geo Segment</h4>
                                                                                         <!-- widget content -->
 
                                                                                         <div style="margin: 20px 0;">
@@ -722,10 +788,43 @@
                                                                                         <!-- end widget content -->
 
                                                                                     </div>
-                                                                                </div>
 
+                                                                                <div class="well col-md-9" id="segment" style="display: none">
+                                                                                        <h4>Assign Segment</h4>
+                                                                                        <!-- widget content -->
+
+                                                                                        <div style="margin: 20px 0;">
+                                                                                            <div class="col-xs-5">
+                                                                                                <select name="from_segment[]" id="assign_segment" class="form-control" size="8" multiple="multiple">
+                                                                                                    @foreach($campaign_obj->getAdvertiser->Segment as $index)
+                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                    @endforeach
+                                                                                                </select>
+                                                                                            </div>
+
+                                                                                            <div class="col-xs-2">
+                                                                                                <button type="button" id="assign_segment_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                                                                <button type="button" id="assign_segment_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                                                                <button type="button" id="assign_segment_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                                                                <button type="button" id="assign_segment_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                                                            </div>
+
+                                                                                            <div class="col-xs-5">
+                                                                                                <select name="to_segment[]" id="assign_segment_to" class="form-control" size="8" multiple="multiple">
+                                                                                                    @foreach($campaign_obj->getAdvertiser->Segment as $index)
+                                                                                                        @if(in_array($index->id,$targetgroupSegment))
+                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                        @endif
+                                                                                                    @endforeach
+
+                                                                                                </select>
+                                                                                            </div>
+                                                                                            <div class="clearfix"></div>
+                                                                                        </div>
+                                                                                        <!-- end widget content -->
+
+                                                                                    </div>
                                                                             </div>
-
                                                                         </div>
 
                                                                     </div>
@@ -1072,7 +1171,7 @@
                                                             <div class="col-md-12">
                                                                 <h2>Step 2</h2>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-2">
                                                                 <h3>Assigned Geo Location</h3>
                                                                 <table class="table table-bordered table-responsive">
                                                                     <tr>
@@ -1080,7 +1179,7 @@
                                                                     </tr>
                                                                 </table>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-2">
                                                                 <h3>Assigned Creative</h3>
                                                                 <table class="table table-bordered table-responsive">
                                                                     <tr>
@@ -1088,7 +1187,7 @@
                                                                     </tr>
                                                                 </table>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-2">
                                                                 <h3>Assigned Black/White List <span
                                                                             id="rev_bwlist"></span></h3>
                                                                 <table class="table table-bordered table-responsive">
@@ -1097,11 +1196,20 @@
                                                                     </tr>
                                                                 </table>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-2">
                                                                 <h3>Assigned Geo Segment</h3>
                                                                 <table class="table table-bordered table-responsive">
                                                                     <tr>
                                                                         <td><span id="rev_assign_geosegment"></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <h3>Assigned Segment</h3>
+                                                                <table class="table table-bordered table-responsive">
+                                                                    <tr>
+                                                                        <td><span id="rev_assign_segment"></span>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
@@ -1179,6 +1287,43 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        $('#show_geoLocation').click(function (e) {
+            e.preventDefault();
+            var active_Show= $('#active_show').val();
+            $('#active_show').val('geoLocation');
+            $('#'+active_Show).hide();
+            $('#geoLocation').fadeIn("slow");
+        });
+        $('#show_creative').click(function (e) {
+            e.preventDefault();
+            var active_Show= $('#active_show').val();
+            $('#active_show').val('creative');
+            $('#'+active_Show).hide();
+            $('#creative').fadeIn("slow");
+        });
+        $('#show_geoSegment').click(function (e) {
+            e.preventDefault();
+            var active_Show= $('#active_show').val();
+            $('#active_show').val('geoSegment');
+            $('#'+active_Show).hide();
+            $('#geoSegment').fadeIn("slow");
+        });
+        $('#show_segment').click(function (e) {
+            e.preventDefault();
+            var active_Show= $('#active_show').val();
+            $('#active_show').val('segment');
+            $('#'+active_Show).hide();
+            $('#segment').fadeIn("slow");
+        });
+        $('#show_bwList').click(function (e) {
+            e.preventDefault();
+            var active_Show= $('#active_show').val();
+            $('#active_show').val('bwList');
+            $('#'+active_Show).hide();
+            $('#bwList').fadeIn("slow");
+        });
+
+
         function submitForm() {
 //            var form=$('#publisher_bid');
 //            console.log(form);
@@ -1221,6 +1366,7 @@
             $('#rev_assign_creative').html('');
             $('#rev_assign_bwlist').html('');
             $('#rev_assign_geosegment').html('');
+            $('#rev_assign_segment').html('');
             $('#rev_bwlist').html('');
             $('#assign_creative_to').find('option').each(function () {
                 $('#rev_assign_creative').append($(this).html() + '<br>');
@@ -1239,6 +1385,9 @@
             }
             $('#assign_geosegment_to').find('option').each(function () {
                 $('#rev_assign_geosegment').append($(this).html() + '<br>');
+            });
+            $('#assign_segment_to').find('option').each(function () {
+                $('#rev_assign_segment').append($(this).html() + '<br>');
             });
             $('#assign_geolocation_to').find('option').each(function () {
                 $('#rev_assign_geolocation').append($(this).html() + '<br>');
@@ -1354,6 +1503,13 @@
                 }
             });
 
+            $('#assign_segment').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                }
+            });
+
             $('#assign_blacklist').multiselect({
                 search: {
                     left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
@@ -1462,41 +1618,6 @@
                                 .html('<i class="fa fa-check"></i>');
                     }
                 }
-            });
-            var initializeDuallistbox = $('#initializeDuallistbox').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
-            });
-            var initializeDuallistbox_blacklist = $('#initializeDuallistbox_blacklist').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
-            });
-            var initializeDuallistbox_whitelist = $('#initializeDuallistbox_whitelist').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
-            });
-            var initializeDuallistbox_creative = $('#initializeDuallistbox_creative').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
-            });
-            var initializeDuallistbox_geolocation = $('#initializeDuallistbox_geolocation').bootstrapDualListbox({
-                nonSelectedListLabel: 'Non-selected',
-                selectedListLabel: 'Selected',
-                preserveSelectionOnMove: 'moved',
-                moveOnSelect: false,
-                nonSelectedFilter: ''
             });
 
             // START AND FINISH DATE

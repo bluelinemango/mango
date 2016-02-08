@@ -103,6 +103,20 @@
                                                             <input type="text" value="{{$advertiser_obj->GetClientID->name}}" disabled>
                                                         </label>
                                                     </section>
+                                                    <section class="col col-2">
+                                                        <label for="" class="label">Ad Type</label>
+                                                        <label class="select"><i></i>
+                                                            <select name="ad_type">
+                                                                <option value="0">Select One</option>
+                                                                <option value="IFRAME">IFrame</option>
+                                                                <option value="JAVASCRIPT" >Javascript</option>
+                                                                <option value="XHTML_BANNER_AD" >XHTML Banner Ad</option>
+                                                                <option value="XHTML_TEXT_AD" >XHTML Text Ad</option>
+
+                                                            </select>
+                                                        </label>
+                                                    </section>
+
                                                 </div>
                                             </fieldset>
                                             <header>
@@ -149,6 +163,21 @@
                                                             <input type="text" name="preview_url" placeholder="Preview URL">
                                                         </label>
                                                     </section>
+                                                    <section class="col col-3">
+                                                        <label class="label">Multiple select</label>
+                                                        <label class="select select-multiple">
+                                                            <select name="api[]" multiple class="custom-scroll">
+                                                                <option value="VPAID_1.0" >VPAID 1.0</option>
+                                                                <option value="VPAID_2.0" >VPAID 2.0</option>
+                                                                <option value="MRAID-1" > MRAID-1</option>
+                                                                <option value="ORMMA" >ORMMA</option>
+                                                                <option value="MRAID-2" >MRAID-2</option>
+                                                            </select> </label>
+                                                        <div class="note">
+                                                            <strong>Note:</strong> hold down the ctrl/cmd button to select multiple options.
+                                                        </div>
+                                                    </section>
+
                                                 </div>
                                                 <section>
                                                     <label class="label" for="">Description</label>

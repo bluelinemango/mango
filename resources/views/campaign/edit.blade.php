@@ -33,7 +33,76 @@
         <!-- END RIBBON -->
         <!-- MAIN CONTENT -->
         <div id="content">
-            @if(Session::has('CaptchaError'))
+            {{--REAL TIME INFO--}}
+            @if(isset($real_time))
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #00c0ef " >
+                        <i class="fa fa-eye" ></i>
+                    </span>
+                        <div class="real-time-content">
+                            Imps to Now:
+                            <br/>
+                            <strong>{{$real_time[0]->impressions_shown_today_until_now}}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #dd4b39 " >
+                        <i class="fa fa-eye" ></i>
+                    </span>
+                        <div class="real-time-content">
+                            Total Imps:
+                            <br/>
+                            <strong>{{$real_time[0]->total_impression_show_until_now}}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #00a65a " >
+                        <i class="fa fa-dollar" ></i>
+                    </span>
+                        <div class="real-time-content">
+                            Budget to Now:
+                            <br/>
+                            <strong>{{$real_time[0]->daily_budget_spent_today_until_now}}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #f39c12 " >
+                        <i class="fa fa-dollar" ></i>
+                    </span>
+                        <div class="real-time-content">
+                            Total Budget:
+                            <br/>
+                            <strong>{{$real_time[0]->total_budget_spent_until_now}}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #f39c12 " >
+                        <i class="fa fa-gear" ></i>
+                    </span>
+                        <div class="real-time-content">
+                            Last Shown:
+                            <br/>
+                            <strong>{{$real_time[0]->last_time_ad_shown}}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
+            {{--END REAL TIME INFO--}}
+
+
+
+        @if(Session::has('CaptchaError'))
                 <ul>
                     <li>{{Session::get('CaptchaError')}}</li>
                 </ul>

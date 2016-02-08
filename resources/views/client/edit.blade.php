@@ -123,8 +123,9 @@
                                             </fieldset>
 
                                             <footer>
-                                                <button type="submit" class="btn btn-success">
-                                                    Submit
+                                                <button type="submit"
+                                                        class=" button button--ujarak button--border-thick button--text-upper button--size-s button--inverted button--text-thick">
+                                                    Save
                                                 </button>
                                                 @if(in_array('ADD_EDIT_ADVERTISER',$permission))
                                                 <a href="{{url('client/cl'.$client_obj->id.'/advertiser/add')}}" class="btn btn-primary pull-left">

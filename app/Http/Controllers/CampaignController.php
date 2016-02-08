@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Models\Advertiser;
 use App\Models\Campaign;
+use App\Models\Campaign_Realtime;
 use App\Models\Creative;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -126,7 +127,11 @@ class CampaignController extends Controller
                             return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                         }
                     }
-                    return view('campaign.edit')->with('campaign_obj', $campaign_obj);
+                    $real_time=Campaign_Realtime::where('campaign_id',$cmpid)->get();
+
+                    return view('campaign.edit')
+                        ->with('real_time', $real_time)
+                        ->with('campaign_obj', $campaign_obj);
                 }
                 return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
             }

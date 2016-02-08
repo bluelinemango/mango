@@ -98,7 +98,7 @@
                                         <div class="row">
 
                                             <!-- NEW WIDGET START -->
-                                            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+                                            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
                                                 <div id="jsGrid"></div>
                                                 {{--<table id="jqgrid"></table>--}}
@@ -192,7 +192,26 @@
                         url: "{{url('/ajax/jqgrid/client')}}",
                         data: insertingClient,
                         dataType: "json"
-                    }).done();
+                    }).done(function (response) {
+                        console.log(response);
+                        if(response.success==true){
+                            var title= "Success";
+                            var color="#739E73";
+                            var icon="fa fa-check";
+                        }else if(response.success==false) {
+                            var title= "Warning";
+                            var color="#C46A69";
+                            var icon="fa fa-bell";
+                        };
+
+                        $.smallBox({
+                            title: title,
+                            content: response.msg,
+                            color: color,
+                            icon: icon,
+                            timeout: 8000
+                        });
+                    });
 
                 },
 
@@ -222,15 +241,12 @@
                     "id" : '{{$index->id}}',
                     "name" : '{{$index->name}}',
                     @if(count($index->getAdvertiser)>0)
-                    "advertiser": '{{$index->getAdvertiser[0]->client_count}} Advertiser(s)',
+                    "advertiser": '{{$index->getAdvertiser[0]->client_count}}',
                     @else
-                    "advertiser": 'Empty',
-                    @endif
-                    @if(in_array('ADD_EDIT_ADVERTISER',$permission))
-                    "add_advertiser": '<a class="btn bg-color-magenta txt-color-white" href="{{url('client/cl'.$index->id.'/advertiser/add')}}">Add Advertiser </a>',
+                    "advertiser": '0',
                     @endif
                     "date_modify" : '{{$index->updated_at}}',
-                    "action": '<a class="btn btn-info" href="{{url('/client/cl'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>'
+                    "action": '<a class="btn" href="{{url('/client/cl'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /> </a> |'@if(in_array('ADD_EDIT_ADVERTISER',$permission)) +' <a class="btn txt-color-white" href="{{url('client/cl'.$index->id.'/advertiser/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
 
                 },
                 @endforeach
@@ -254,10 +270,9 @@
                 fields: [
                     { name: "id",title: "ID", width: 40, type: "text",align :"center",editing:false },
                     { name: "name",title: "Name", type: "text", width: 150 },
-                    { name: "advertiser",title: "# of Advertiser", width: 70,editing:false },
-                    { name: "add_advertiser", title:"Add Advertiser",  width: 80,align :"center" },
+                    { name: "advertiser",title: "#Advertiser", width: 50,editing:false,align :"center" },
                     { name: "date_modify" ,title:"Last Modified",align :"center"},
-                    { name: "action", title: "Full Action", sorting: false,width: 50,align :"center" },
+                    { name: "action", title: "Edit | +Advertiser", sorting: false,width: 70,align :"center" },
                     {
                         type: "control",
                         modeSwitchButton: false,
