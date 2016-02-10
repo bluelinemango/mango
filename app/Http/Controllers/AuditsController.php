@@ -9,35 +9,22 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\BWEntries;
+use App\Models\BWList;
+use App\Models\Campaign;
+use App\Models\Client;
+use App\Models\Creative;
+use App\Models\GeoSegment;
+use App\Models\GeoSegmentList;
+use App\Models\ModelTable;
+use App\Models\Offer;
+use App\Models\Targetgroup;
+use App\Models\Pixel;
+use App\Models\Advertiser;
+
 
 class AuditsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function generateRandomString($length = 80) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+';
         $charactersLength = strlen($characters);
@@ -121,48 +108,136 @@ class AuditsController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+    public function SubAudit($audit){
+        $audit_obj = array();
+        foreach($audit as $index){
+            $entity_obj=null;
+            switch ($index->entity_type){
+                case 'client':
+                    if(in_array('VIEW_CLIENT',$this->permission)) {
+                        $entity_obj=Client::where('id',$index->entity_id)->get(['id','name']);
+                    }
+                    break;
+                case 'advertiser':
+                    if(in_array('VIEW_ADVERTISER',$this->permission)) {
+                        $entity_obj=Advertiser::with('GetClientID')->where('id',$index->entity_id)->get();
+                    }
+                    break;
+                case 'creative':
+                    if(in_array('VIEW_CREATIVE',$this->permission)) {
+                        $entity_obj = Creative::with(['getAdvertiser'=>function($q){
+                            $q->with('GetClientID');
+                        }])
+                            ->where('id', $index->entity_id)->get();
+//                                return dd($entity_obj);
+                    }
+                    break;
+                case 'campaign':
+                    if(in_array('VIEW_CAMPAIGN',$this->permission)) {
+                        $entity_obj = Campaign::with(['getAdvertiser'=>function($q){
+                            $q->with('GetClientID');
+                        }])
+                            ->where('id', $index->entity_id)->get();
+                    }
+                    break;
+                case 'offer':
+                    if(in_array('VIEW_OFFER',$this->permission)) {
+                        $entity_obj = Offer::with(['getAdvertiser'=>function($q){
+                            $q->with('GetClientID');
+                        }])->where('id', $index->entity_id)->get();
+                    }
+                    break;
+                case 'pixel':
+                    if(in_array('VIEW_PIXEL',$this->permission)) {
+                        $entity_obj = Pixel::with(['getAdvertiser'=>function($q){
+                            $q->with('GetClientID');
+                        }])->where('id', $index->entity_id)->get();
+                    }
+                    break;
+                case 'targetgroup':
+                    if(in_array('VIEW_TARGETGROUP',$this->permission)) {
+                        $entity_obj = Targetgroup::where('id', $index->entity_id)->get(['id', 'name']);
+                    }
+                    break;
+                case 'geosegment':
+                    if(in_array('VIEW_GEOSEGMENTLIST',$this->permission)) {
+                        $entity_obj = GeoSegmentList::with(['getAdvertiser'=>function($q){
+                            $q->with('GetClientID');
+                        }])
+                            ->where('id', $index->entity_id)->get();
+                    }
+                    break;
+                case 'geosegmententrie':
+                    if(in_array('VIEW_GEOSEGMENTLIST',$this->permission)) {
+                        if($index->audit_type=='del') {
+                            $entity_obj = GeoSegmentList::where('id', $index->after_value)->get();
+                        }else{
+                            $entity_obj = GeoSegmentList::where('id', $index->after_value)->get();
+                        }
+                    }
+                    break;
+                case 'bwlistentrie':
+                    if(in_array('VIEW_BWLIST',$this->permission)) {
+                        if($index->audit_type=='del') {
+                            $entity_obj = BWList::where('id', $index->after_value)->get();
+
+                        }else {
+                            $entity_obj = BWList::where('id', $index->after_value)->get();
+                        }
+                    }
+                    break;
+                case 'modelTable':
+                    if(in_array('VIEW_MODEL',$this->permission)) {
+                        if($index->audit_type=='del') {
+                            $entity_obj = BWList::where('id', $index->after_value)->get();
+
+                        }else{
+                            $entity_obj = ModelTable::with(['getAdvertiser'=>function($q){
+                                $q->with('GetClientID');
+                            }])->where('id', $index->entity_id)->get();
+                        }
+                    }
+                    break;
+                case 'positive_offer_model':
+                    if(in_array('VIEW_MODEL',$this->permission)) {
+                        $entity_obj = Offer::with(['getAdvertiser'=>function($q){
+                            $q->with('GetClientID');
+                        }])->where('id', $index->entity_id)->get();
+                    }
+                    break;
+                case 'offer_pixel_map':
+                    if(in_array('VIEW_OFFER',$this->permission)) {
+                        $entity_obj = Pixel::with(['getAdvertiser'=>function($q){
+                            $q->with('GetClientID');
+                        }])->where('id', $index->entity_id)->get();
+                    }
+                    break;
+                case 'negative_offer_model':
+                    if(in_array('VIEW_MODEL',$this->permission)) {
+                        $entity_obj = Offer::with(['getAdvertiser'=>function($q){
+                            $q->with('GetClientID');
+                        }])->where('id', $index->entity_id)->get();
+                    }
+                    break;
+                case 'bwlist':
+                    if(in_array('VIEW_BWLIST',$this->permission)) {
+                        $entity_obj = BWList::with(['getAdvertiser'=>function($q){
+                            $q->with('GetClientID');
+                        }])
+                            ->where('id', $index->entity_id)->get();
+                    }
+                    break;
+            }
+            if(!is_null($entity_obj)) {
+                array_push($audit_obj, $index);
+                array_push($audit_obj, $entity_obj);
+            }
+        }
+
+        return $audit_obj;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+
 }

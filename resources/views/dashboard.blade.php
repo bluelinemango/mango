@@ -9,14 +9,18 @@
         <div id="ribbon">
 
 				<span class="ribbon-button-alignment">
-					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"
+                          rel="tooltip" data-placement="bottom"
+                          data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings."
+                          data-html="true">
 						<i class="fa fa-refresh"></i>
 					</span>
 				</span>
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li>Home</li><li>Dashboard</li>
+                <li>Home</li>
+                <li>Dashboard</li>
             </ol>
             <!-- end breadcrumb -->
 
@@ -41,6 +45,7 @@
                     <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
                         <a class="close" data-dismiss="alert" href="#">×</a>
                         <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> System MSG!</h4>
+
                         <p>
                             {{$error}}
                         </p>
@@ -55,24 +60,30 @@
 
             <div class="row">
                 <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-                    <h1 class="page-title txt-color-blueDark"><i class="fa-fw fa fa-home"></i> Hi <span> {{$user_obj->name}} ({{$user_obj->getRole->name}})</span></h1>
+                    <h1 class="page-title txt-color-blueDark"><i class="fa-fw fa fa-home"></i> Hi <span> {{$user_obj->name}}
+                            ({{$user_obj->getRole->name}})</span></h1>
                 </div>
                 <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
                     <ul id="sparks" class="">
                         <li class="sparks-info">
                             <h5> My Income <span class="txt-color-blue">$47,171</span></h5>
+
                             <div class="sparkline txt-color-blue hidden-mobile hidden-md hidden-sm">
                                 1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471
                             </div>
                         </li>
                         <li class="sparks-info">
-                            <h5> Site Traffic <span class="txt-color-purple"><i class="fa fa-arrow-circle-up"></i>&nbsp;45%</span></h5>
+                            <h5> Site Traffic <span class="txt-color-purple"><i class="fa fa-arrow-circle-up"></i>&nbsp;45%</span>
+                            </h5>
+
                             <div class="sparkline txt-color-purple hidden-mobile hidden-md hidden-sm">
                                 110,150,300,130,400,240,220,310,220,300, 270, 210
                             </div>
                         </li>
                         <li class="sparks-info">
-                            <h5> Site Orders <span class="txt-color-greenDark"><i class="fa fa-shopping-cart"></i>&nbsp;2447</span></h5>
+                            <h5> Site Orders <span class="txt-color-greenDark"><i class="fa fa-shopping-cart"></i>&nbsp;2447</span>
+                            </h5>
+
                             <div class="sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm">
                                 110,150,300,130,400,240,220,310,220,300, 270, 210
                             </div>
@@ -87,7 +98,9 @@
                 <div class="row">
                     <article class="col-sm-12">
                         <!-- new widget -->
-                        <div class="jarviswidget" id="wid-id-0" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-fullscreenbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
+                        <div class="jarviswidget" id="wid-id-0" data-widget-togglebutton="false"
+                             data-widget-editbutton="false" data-widget-fullscreenbutton="false"
+                             data-widget-colorbutton="false" data-widget-deletebutton="false">
                             <!-- widget options:
                             usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
@@ -102,20 +115,25 @@
 
                             -->
                             <header>
-                                <span class="widget-icon"> <i class="glyphicon glyphicon-stats txt-color-darken"></i> </span>
+                                <span class="widget-icon"> <i
+                                            class="glyphicon glyphicon-stats txt-color-darken"></i> </span>
+
                                 <h2>Live Feeds </h2>
 
                                 <ul class="nav nav-tabs pull-right in" id="myTab">
                                     <li class="active">
-                                        <a data-toggle="tab" href="#s1"><i class="fa fa-clock-o"></i> <span class="hidden-mobile hidden-tablet">Live Stats</span></a>
+                                        <a data-toggle="tab" href="#s1"><i class="fa fa-clock-o"></i> <span
+                                                    class="hidden-mobile hidden-tablet">Live Stats</span></a>
                                     </li>
 
                                     <li>
-                                        <a data-toggle="tab" href="#s2"><i class="fa fa-facebook"></i> <span class="hidden-mobile hidden-tablet">Social Network</span></a>
+                                        <a data-toggle="tab" href="#s2"><i class="fa fa-facebook"></i> <span
+                                                    class="hidden-mobile hidden-tablet">Social Network</span></a>
                                     </li>
 
                                     <li>
-                                        <a data-toggle="tab" href="#s3"><i class="fa fa-dollar"></i> <span class="hidden-mobile hidden-tablet">Revenue</span></a>
+                                        <a data-toggle="tab" href="#s3"><i class="fa fa-dollar"></i> <span
+                                                    class="hidden-mobile hidden-tablet">Revenue</span></a>
                                     </li>
                                 </ul>
 
@@ -136,35 +154,66 @@
                                         <div class="tab-pane fade active in padding-10 no-padding-bottom" id="s1">
                                             <div class="row no-space">
                                                 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-														<span class="demo-liveupdate-1"> <span class="onoffswitch-title">Live switch</span> <span class="onoffswitch">
-																<input type="checkbox" name="start_interval" class="onoffswitch-checkbox" id="start_interval">
+														<span class="demo-liveupdate-1"> <span
+                                                                    class="onoffswitch-title">Live switch</span> <span
+                                                                    class="onoffswitch">
+																<input type="checkbox" name="start_interval"
+                                                                       class="onoffswitch-checkbox" id="start_interval">
 																<label class="onoffswitch-label" for="start_interval">
-                                                                    <span class="onoffswitch-inner" data-swchon-text="ON" data-swchoff-text="OFF"></span>
-                                                                    <span class="onoffswitch-switch"></span> </label> </span> </span>
+                                                                    <span class="onoffswitch-inner"
+                                                                          data-swchon-text="ON"
+                                                                          data-swchoff-text="OFF"></span>
+                                                                    <span class="onoffswitch-switch"></span>
+                                                                </label> </span> </span>
+
                                                     <div id="updating-chart" class="chart-large txt-color-blue"></div>
 
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 show-stats">
 
                                                     <div class="row">
-                                                        <div class="col-xs-6 col-sm-6 col-md-12 col-lg-12"> <span class="text"> My Tasks <span class="pull-right">130/200</span> </span>
-                                                            <div class="progress">
-                                                                <div class="progress-bar bg-color-blueDark" style="width: 65%;"></div>
-                                                            </div> </div>
-                                                        <div class="col-xs-6 col-sm-6 col-md-12 col-lg-12"> <span class="text"> Transfered <span class="pull-right">440 GB</span> </span>
-                                                            <div class="progress">
-                                                                <div class="progress-bar bg-color-blue" style="width: 34%;"></div>
-                                                            </div> </div>
-                                                        <div class="col-xs-6 col-sm-6 col-md-12 col-lg-12"> <span class="text"> Bugs Squashed<span class="pull-right">77%</span> </span>
-                                                            <div class="progress">
-                                                                <div class="progress-bar bg-color-blue" style="width: 77%;"></div>
-                                                            </div> </div>
-                                                        <div class="col-xs-6 col-sm-6 col-md-12 col-lg-12"> <span class="text"> User Testing <span class="pull-right">7 Days</span> </span>
-                                                            <div class="progress">
-                                                                <div class="progress-bar bg-color-greenLight" style="width: 84%;"></div>
-                                                            </div> </div>
+                                                        <div class="col-xs-6 col-sm-6 col-md-12 col-lg-12"><span
+                                                                    class="text"> My Tasks <span class="pull-right">130/200</span> </span>
 
-                                                        <span class="show-stat-buttons"> <span class="col-xs-12 col-sm-6 col-md-6 col-lg-6"> <a href="javascript:void(0);" class="btn btn-default btn-block hidden-xs">Generate PDF</a> </span> <span class="col-xs-12 col-sm-6 col-md-6 col-lg-6"> <a href="javascript:void(0);" class="btn btn-default btn-block hidden-xs">Report a bug</a> </span> </span>
+                                                            <div class="progress">
+                                                                <div class="progress-bar bg-color-blueDark"
+                                                                     style="width: 65%;"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-6 col-md-12 col-lg-12"><span
+                                                                    class="text"> Transfered <span class="pull-right">440 GB</span> </span>
+
+                                                            <div class="progress">
+                                                                <div class="progress-bar bg-color-blue"
+                                                                     style="width: 34%;"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-6 col-md-12 col-lg-12"><span
+                                                                    class="text"> Bugs Squashed<span class="pull-right">77%</span> </span>
+
+                                                            <div class="progress">
+                                                                <div class="progress-bar bg-color-blue"
+                                                                     style="width: 77%;"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-6 col-md-12 col-lg-12"><span
+                                                                    class="text"> User Testing <span class="pull-right">7 Days</span> </span>
+
+                                                            <div class="progress">
+                                                                <div class="progress-bar bg-color-greenLight"
+                                                                     style="width: 84%;"></div>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="show-stat-buttons"> <span
+                                                                    class="col-xs-12 col-sm-6 col-md-6 col-lg-6"> <a
+                                                                        href="javascript:void(0);"
+                                                                        class="btn btn-default btn-block hidden-xs">Generate
+                                                                    PDF</a> </span> <span
+                                                                    class="col-xs-12 col-sm-6 col-md-6 col-lg-6"> <a
+                                                                        href="javascript:void(0);"
+                                                                        class="btn btn-default btn-block hidden-xs">Report
+                                                                    a bug</a> </span> </span>
 
                                                     </div>
 
@@ -174,71 +223,96 @@
                                             <div class="show-stat-microcharts">
                                                 <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
-                                                    <div class="easy-pie-chart txt-color-orangeDark" data-percent="33" data-pie-size="50">
+                                                    <div class="easy-pie-chart txt-color-orangeDark" data-percent="33"
+                                                         data-pie-size="50">
                                                         <span class="percent percent-sign">35</span>
                                                     </div>
-                                                    <span class="easy-pie-title"> Server Load <i class="fa fa-caret-up icon-color-bad"></i> </span>
+                                                    <span class="easy-pie-title"> Server Load <i
+                                                                class="fa fa-caret-up icon-color-bad"></i> </span>
                                                     <ul class="smaller-stat hidden-sm pull-right">
                                                         <li>
-                                                            <span class="label bg-color-greenLight"><i class="fa fa-caret-up"></i> 97%</span>
+                                                            <span class="label bg-color-greenLight"><i
+                                                                        class="fa fa-caret-up"></i> 97%</span>
                                                         </li>
                                                         <li>
-                                                            <span class="label bg-color-blueLight"><i class="fa fa-caret-down"></i> 44%</span>
+                                                            <span class="label bg-color-blueLight"><i
+                                                                        class="fa fa-caret-down"></i> 44%</span>
                                                         </li>
                                                     </ul>
-                                                    <div class="sparkline txt-color-greenLight hidden-sm hidden-md pull-right" data-sparkline-type="line" data-sparkline-height="33px" data-sparkline-width="70px" data-fill-color="transparent">
+                                                    <div class="sparkline txt-color-greenLight hidden-sm hidden-md pull-right"
+                                                         data-sparkline-type="line" data-sparkline-height="33px"
+                                                         data-sparkline-width="70px" data-fill-color="transparent">
                                                         130, 187, 250, 257, 200, 210, 300, 270, 363, 247, 270, 363, 247
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                                                    <div class="easy-pie-chart txt-color-greenLight" data-percent="78.9" data-pie-size="50">
+                                                    <div class="easy-pie-chart txt-color-greenLight" data-percent="78.9"
+                                                         data-pie-size="50">
                                                         <span class="percent percent-sign">78.9 </span>
                                                     </div>
-                                                    <span class="easy-pie-title"> Disk Space <i class="fa fa-caret-down icon-color-good"></i></span>
+                                                    <span class="easy-pie-title"> Disk Space <i
+                                                                class="fa fa-caret-down icon-color-good"></i></span>
                                                     <ul class="smaller-stat hidden-sm pull-right">
                                                         <li>
-                                                            <span class="label bg-color-blueDark"><i class="fa fa-caret-up"></i> 76%</span>
+                                                            <span class="label bg-color-blueDark"><i
+                                                                        class="fa fa-caret-up"></i> 76%</span>
                                                         </li>
                                                         <li>
-                                                            <span class="label bg-color-blue"><i class="fa fa-caret-down"></i> 3%</span>
+                                                            <span class="label bg-color-blue"><i
+                                                                        class="fa fa-caret-down"></i> 3%</span>
                                                         </li>
                                                     </ul>
-                                                    <div class="sparkline txt-color-blue hidden-sm hidden-md pull-right" data-sparkline-type="line" data-sparkline-height="33px" data-sparkline-width="70px" data-fill-color="transparent">
+                                                    <div class="sparkline txt-color-blue hidden-sm hidden-md pull-right"
+                                                         data-sparkline-type="line" data-sparkline-height="33px"
+                                                         data-sparkline-width="70px" data-fill-color="transparent">
                                                         257, 200, 210, 300, 270, 363, 130, 187, 250, 247, 270, 363, 247
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                                                    <div class="easy-pie-chart txt-color-blue" data-percent="23" data-pie-size="50">
+                                                    <div class="easy-pie-chart txt-color-blue" data-percent="23"
+                                                         data-pie-size="50">
                                                         <span class="percent percent-sign">23 </span>
                                                     </div>
-                                                    <span class="easy-pie-title"> Transfered <i class="fa fa-caret-up icon-color-good"></i></span>
+                                                    <span class="easy-pie-title"> Transfered <i
+                                                                class="fa fa-caret-up icon-color-good"></i></span>
                                                     <ul class="smaller-stat hidden-sm pull-right">
                                                         <li>
                                                             <span class="label bg-color-darken">10GB</span>
                                                         </li>
                                                         <li>
-                                                            <span class="label bg-color-blueDark"><i class="fa fa-caret-up"></i> 10%</span>
+                                                            <span class="label bg-color-blueDark"><i
+                                                                        class="fa fa-caret-up"></i> 10%</span>
                                                         </li>
                                                     </ul>
-                                                    <div class="sparkline txt-color-darken hidden-sm hidden-md pull-right" data-sparkline-type="line" data-sparkline-height="33px" data-sparkline-width="70px" data-fill-color="transparent">
+                                                    <div class="sparkline txt-color-darken hidden-sm hidden-md pull-right"
+                                                         data-sparkline-type="line" data-sparkline-height="33px"
+                                                         data-sparkline-width="70px" data-fill-color="transparent">
                                                         200, 210, 363, 247, 300, 270, 130, 187, 250, 257, 363, 247, 270
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                                                    <div class="easy-pie-chart txt-color-darken" data-percent="36" data-pie-size="50">
-                                                        <span class="percent degree-sign">36 <i class="fa fa-caret-up"></i></span>
+                                                    <div class="easy-pie-chart txt-color-darken" data-percent="36"
+                                                         data-pie-size="50">
+                                                        <span class="percent degree-sign">36 <i
+                                                                    class="fa fa-caret-up"></i></span>
                                                     </div>
-                                                    <span class="easy-pie-title"> Temperature <i class="fa fa-caret-down icon-color-good"></i></span>
+                                                    <span class="easy-pie-title"> Temperature <i
+                                                                class="fa fa-caret-down icon-color-good"></i></span>
                                                     <ul class="smaller-stat hidden-sm pull-right">
                                                         <li>
-                                                            <span class="label bg-color-red"><i class="fa fa-caret-up"></i> 124</span>
+                                                            <span class="label bg-color-red"><i
+                                                                        class="fa fa-caret-up"></i> 124</span>
                                                         </li>
                                                         <li>
-                                                            <span class="label bg-color-blue"><i class="fa fa-caret-down"></i> 40 F</span>
+                                                            <span class="label bg-color-blue"><i
+                                                                        class="fa fa-caret-down"></i> 40 F</span>
                                                         </li>
                                                     </ul>
-                                                    <div class="sparkline txt-color-red hidden-sm hidden-md pull-right" data-sparkline-type="line" data-sparkline-height="33px" data-sparkline-width="70px" data-fill-color="transparent">
-                                                        2700, 3631, 2471, 2700, 3631, 2471, 1300, 1877, 2500, 2577, 2000, 2100, 3000
+                                                    <div class="sparkline txt-color-red hidden-sm hidden-md pull-right"
+                                                         data-sparkline-type="line" data-sparkline-height="33px"
+                                                         data-sparkline-width="70px" data-fill-color="transparent">
+                                                        2700, 3631, 2471, 2700, 3631, 2471, 1300, 1877, 2500, 2577,
+                                                        2000, 2100, 3000
                                                     </div>
                                                 </div>
                                             </div>
@@ -253,20 +327,27 @@
 
                                                     <div class="form-group">
                                                         <label class="sr-only" for="s123">Show From</label>
-                                                        <input type="email" class="form-control input-sm" id="s123" placeholder="Show From">
+                                                        <input type="email" class="form-control input-sm" id="s123"
+                                                               placeholder="Show From">
                                                     </div>
                                                     <div class="form-group">
-                                                        <input type="email" class="form-control input-sm" id="s124" placeholder="To">
+                                                        <input type="email" class="form-control input-sm" id="s124"
+                                                               placeholder="To">
                                                     </div>
 
                                                     <div class="btn-group hidden-phone pull-right">
-                                                        <a class="btn dropdown-toggle btn-xs btn-default" data-toggle="dropdown"><i class="fa fa-cog"></i> More <span class="caret"> </span> </a>
+                                                        <a class="btn dropdown-toggle btn-xs btn-default"
+                                                           data-toggle="dropdown"><i class="fa fa-cog"></i> More <span
+                                                                    class="caret"> </span> </a>
                                                         <ul class="dropdown-menu pull-right">
                                                             <li>
-                                                                <a href="javascript:void(0);"><i class="fa fa-file-text-alt"></i> Export to PDF</a>
+                                                                <a href="javascript:void(0);"><i
+                                                                            class="fa fa-file-text-alt"></i> Export to
+                                                                    PDF</a>
                                                             </li>
                                                             <li>
-                                                                <a href="javascript:void(0);"><i class="fa fa-question-sign"></i> Help</a>
+                                                                <a href="javascript:void(0);"><i
+                                                                            class="fa fa-question-sign"></i> Help</a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -288,24 +369,32 @@
                                                 <div class="inline-group">
 
                                                     <label for="gra-0" class="checkbox">
-                                                        <input type="checkbox" name="gra-0" id="gra-0" checked="checked">
+                                                        <input type="checkbox" name="gra-0" id="gra-0"
+                                                               checked="checked">
                                                         <i></i> Target </label>
                                                     <label for="gra-1" class="checkbox">
-                                                        <input type="checkbox" name="gra-1" id="gra-1" checked="checked">
+                                                        <input type="checkbox" name="gra-1" id="gra-1"
+                                                               checked="checked">
                                                         <i></i> Actual </label>
                                                     <label for="gra-2" class="checkbox">
-                                                        <input type="checkbox" name="gra-2" id="gra-2" checked="checked">
+                                                        <input type="checkbox" name="gra-2" id="gra-2"
+                                                               checked="checked">
                                                         <i></i> Signups </label>
                                                 </div>
 
                                                 <div class="btn-group hidden-phone pull-right">
-                                                    <a class="btn dropdown-toggle btn-xs btn-default" data-toggle="dropdown"><i class="fa fa-cog"></i> More <span class="caret"> </span> </a>
+                                                    <a class="btn dropdown-toggle btn-xs btn-default"
+                                                       data-toggle="dropdown"><i class="fa fa-cog"></i> More <span
+                                                                class="caret"> </span> </a>
                                                     <ul class="dropdown-menu pull-right">
                                                         <li>
-                                                            <a href="javascript:void(0);"><i class="fa fa-file-text-alt"></i> Export to PDF</a>
+                                                            <a href="javascript:void(0);"><i
+                                                                        class="fa fa-file-text-alt"></i> Export to
+                                                                PDF</a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:void(0);"><i class="fa fa-question-sign"></i> Help</a>
+                                                            <a href="javascript:void(0);"><i
+                                                                        class="fa fa-question-sign"></i> Help</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -339,7 +428,7 @@
                     <article class="col-sm-12 col-md-12 col-lg-6">
 
                         <!-- new widget -->
-                        <div class="well" >
+                        <div class="well">
                             <header>
                                 <h2> Audit Time Line </h2>
                             </header>
@@ -352,182 +441,240 @@
 
                                     <div class="well well-sm">
                                         <!-- Timeline Content -->
-{{--                                        {{dd($audit_obj)}}--}}
+                                        {{--                                        {{dd($audit_obj)}}--}}
                                         <div class="smart-timeline">
                                             <ul class="smart-timeline-list">
-                                                @for($i=0;$i<count($audit_obj);$i++)
-{{--                                                @foreach($audit_obj as $index)--}}
-                                                    <?php $change_key=$audit_obj[$i]->change_key; ?>
-                                                <li>
-                                                    <div class="smart-timeline-icon">
-                                                        @if($audit_obj[$i]->audit_type == 'add')
-                                                            <i class="fa fa-plus"></i>
-                                                        @else
-                                                            <i class="fa fa-file-text"></i>
-                                                        @endif
-                                                    </div>
-                                                    <div class="smart-timeline-time">
-                                                        <small>{{$audit_obj[$i]->created_at}}</small>
-                                                    </div>
-                                                    <div class="smart-timeline-content">
-
-                                                        <p>
-                                                            <a href="{{url('user/usr'.$audit_obj[$i]->user_id.'/edit')}}">{{$audit_obj[$i]->getUser->name}}</a>
+                                                @for($i=0;$i<count($audit_obj);)
+                                                    {{--                                                @foreach($audit_obj as $index)--}}
+                                                    <?php $change_key = $audit_obj[$i]->change_key; ?>
+                                                    <li>
+                                                        <div class="smart-timeline-icon">
                                                             @if($audit_obj[$i]->audit_type == 'add')
+                                                                <i class="fa fa-plus"></i>
+                                                            @else
+                                                                <i class="fa fa-file-text"></i>
+                                                            @endif
+                                                        </div>
+                                                        <div class="smart-timeline-time">
+                                                            <small>{{$audit_obj[$i]->created_at}}</small>
+                                                        </div>
+                                                        <div class="smart-timeline-content">
+
+                                                            <p>
+                                                                <a href="{{url('user/usr'.$audit_obj[$i]->user_id.'/edit')}}">{{$audit_obj[$i]->getUser->name}}</a>
+                                                                @if($audit_obj[$i]->audit_type == 'add')
+                                                                    @if($audit_obj[$i]->entity_type == 'positive_offer_model' or $audit_obj[$i]->entity_type == 'negative_offer_model')
+                                                                        changed Model:
+                                                                    @elseif($audit_obj[$i]->entity_type == 'offer_pixel_map')
+                                                                        changed Offer:
+                                                                    @else
+                                                                        created a new {{$audit_obj[$i]->entity_type}}:
+                                                                    @endif
+                                                                @elseif($audit_obj[$i]->audit_type == 'edit')
+                                                                    changed {{$audit_obj[$i]->entity_type}}:
+                                                                @elseif($audit_obj[$i]->audit_type == 'del')
+                                                                    deleted {{$audit_obj[$i]->entity_type}}:
+                                                                @endif
+                                                                @if($audit_obj[$i]->entity_type == 'client')
+                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">cl{{$audit_obj[$i+1][0]->id}}</a>
+                                                                    </strong>
+                                                                @endif
+                                                                @if($audit_obj[$i]->entity_type == 'advertiser')
+                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->id.'/edit')}}">adv{{$audit_obj[$i+1][0]->id}}</a>
+                                                                    </strong>
+                                                                @endif
+                                                                @if($audit_obj[$i]->entity_type == 'creative')
+                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/creative/crt'.$audit_obj[$i+1][0]->id.'/edit')}}">crt{{$audit_obj[$i+1][0]->id}}</a>
+                                                                    </strong>
+                                                                @endif
+                                                                @if($audit_obj[$i]->entity_type == 'offer')
+                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/offer/ofr'.$audit_obj[$i+1][0]->id.'/edit')}}">ofr{{$audit_obj[$i+1][0]->id}}</a>
+                                                                    </strong>
+                                                                @endif
+                                                                @if($audit_obj[$i]->entity_type == 'pixel')
+                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/pixel/pxl'.$audit_obj[$i+1][0]->id.'/edit')}}">pxl{{$audit_obj[$i+1][0]->id}}</a>
+                                                                    </strong>
+                                                                @endif
+                                                                @if($audit_obj[$i]->entity_type == 'bwlist')
+                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/bwlist/bwl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a>
+                                                                    </strong>
+                                                                @endif
+                                                                @if($audit_obj[$i]->entity_type == 'geosegment')
+                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/geosegment/gsm'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a>
+                                                                    </strong>
+                                                                @endif
+                                                                @if($audit_obj[$i]->entity_type == 'campaign')
+                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/campaign/cmp'.$audit_obj[$i+1][0]->id.'/edit')}}">cmp{{$audit_obj[$i+1][0]->id}}</a>
+                                                                    </strong>
+                                                                @endif
+                                                                @if($audit_obj[$i]->entity_type == 'modelTable')
+                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/model/mdl'.$audit_obj[$i+1][0]->id.'/edit')}}">mdl{{$audit_obj[$i+1][0]->id}}</a>
+                                                                    </strong>
+                                                                @endif
                                                                 @if($audit_obj[$i]->entity_type == 'positive_offer_model' or $audit_obj[$i]->entity_type == 'negative_offer_model')
-                                                                    changed Model:
-                                                                @else
-                                                                created a new {{$audit_obj[$i]->entity_type}}:
+                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/model/mdl'.$audit_obj[$i]->after_value.'/edit')}}">mdl{{$audit_obj[$i]->after_value}}</a>
+                                                                    </strong>
                                                                 @endif
-                                                            @elseif($audit_obj[$i]->audit_type == 'edit')
-                                                                changed {{$audit_obj[$i]->entity_type}}:
-                                                            @elseif($audit_obj[$i]->audit_type == 'del')
-                                                                deleted {{$audit_obj[$i]->entity_type}}:
-                                                            @endif
-                                                            @if($audit_obj[$i]->entity_type == 'client')
-                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">cl{{$audit_obj[$i+1][0]->id}}</a> </strong>
-                                                            @endif
-                                                            @if($audit_obj[$i]->entity_type == 'advertiser')
-                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->id.'/edit')}}">adv{{$audit_obj[$i+1][0]->id}}</a> </strong>
-                                                            @endif
-                                                            @if($audit_obj[$i]->entity_type == 'creative')
-                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/creative/crt'.$audit_obj[$i+1][0]->id.'/edit')}}">crt{{$audit_obj[$i+1][0]->id}}</a> </strong>
-                                                            @endif
-                                                            @if($audit_obj[$i]->entity_type == 'bwlist')
-                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/bwlist/bwl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
-                                                            @endif
-                                                            @if($audit_obj[$i]->entity_type == 'geosegment')
-                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/geosegment/geo'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
-                                                            @endif
-                                                            @if($audit_obj[$i]->entity_type == 'campaign')
-                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/campaign/cmp'.$audit_obj[$i+1][0]->id.'/edit')}}">cmp{{$audit_obj[$i+1][0]->id}}</a> </strong>
-                                                            @endif
-                                                            @if($audit_obj[$i]->entity_type == 'modelTable')
-                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/model/mdl'.$audit_obj[$i+1][0]->id.'/edit')}}">mdl{{$audit_obj[$i+1][0]->id}}</a> </strong>
-                                                            @endif
-                                                            @if($audit_obj[$i]->entity_type == 'positive_offer_model' or $audit_obj[$i]->entity_type == 'negative_offer_model')
-                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/model/mdl'.$audit_obj[$i]->after_value.'/edit')}}">mdl{{$audit_obj[$i]->after_value}}</a> </strong>
-                                                            @endif
-                                                            @if($audit_obj[$i]->entity_type == 'targetgroup')
-                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a> </strong>
-                                                            @endif
-                                                            @if($audit_obj[$i]->entity_type == 'geosegmententrie')
-                                                                @if($audit_obj[$i]->audit_type == 'del')
-                                                                    <strong>{{$audit_obj[$i]->before_vale}}</strong>
-                                                                    from <strong>GSL{{$audit_obj[$i+1][0]->id}}</strong>
-                                                                @else
-                                                                <strong>GS{{$audit_obj[$i]->entity_id}} </strong>
-                                                                for <strong>GSL{{$audit_obj[$i+1][0]->id}}</strong>
+                                                                @if($audit_obj[$i]->entity_type == 'offer_pixel_map')
+                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/offer/ofr'.$audit_obj[$i]->after_value.'/edit')}}">ofr{{$audit_obj[$i]->after_value}}</a>
+                                                                    </strong>
                                                                 @endif
-                                                            @endif
-                                                            @if($audit_obj[$i]->entity_type == 'bwlistentrie')
-                                                                @if($audit_obj[$i]->audit_type == 'del')
-                                                                    <strong>{{$audit_obj[$i]->before_vale}}</strong>
-                                                                    from <strong>BWL{{$audit_obj[$i+1][0]->id}}</strong>
-                                                                @else
-                                                                <strong>BWE{{$audit_obj[$i]->entity_id}} </strong>
-                                                                for <strong>BWL{{$audit_obj[$i+1][0]->id}}</strong>
+                                                                @if($audit_obj[$i]->entity_type == 'targetgroup')
+                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a>
+                                                                    </strong>
                                                                 @endif
-                                                            @endif
-                                                        </p>
+                                                                @if($audit_obj[$i]->entity_type == 'geosegmententrie')
+                                                                    @if($audit_obj[$i]->audit_type == 'del')
+                                                                        <strong>{{$audit_obj[$i]->before_vale}}</strong>
+                                                                        from
+                                                                        <strong>GSL{{$audit_obj[$i+1][0]->id}}</strong>
+                                                                    @else
+                                                                        <strong>GS{{$audit_obj[$i]->entity_id}} </strong>
+                                                                        for
+                                                                        <strong>GSL{{$audit_obj[$i+1][0]->id}}</strong>
+                                                                    @endif
+                                                                @endif
+                                                                @if($audit_obj[$i]->entity_type == 'bwlistentrie')
+                                                                    @if($audit_obj[$i]->audit_type == 'del')
+                                                                        <strong>{{$audit_obj[$i]->before_vale}}</strong>
+                                                                        from
+                                                                        <strong>BWL{{$audit_obj[$i+1][0]->id}}</strong>
+                                                                    @else
+                                                                        <strong>BWE{{$audit_obj[$i]->entity_id}} </strong>
+                                                                        for
+                                                                        <strong>BWL{{$audit_obj[$i+1][0]->id}}</strong>
+                                                                    @endif
+                                                                @endif
+                                                            </p>
 
+                                                            @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key)
 
-                                                        @if($audit_obj[$i]->audit_type == 'edit')
-                                                            <div class="well well-sm display-inline">
-                                                                @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='edit')
-                                                                    <p>Field <strong>{{$audit_obj[$i]->field}}</strong> From <strong>{{$audit_obj[$i]->before_value}}</strong> To <strong>{{$audit_obj[$i]->after_value}}</strong></p>
-                                                                    <?php $i=$i+2; ?>
-                                                                @endwhile
-                                                            </div>
+                                                            @if($audit_obj[$i]->audit_type == 'edit')
+                                                                <div class="well well-sm display-inline">
+                                                                    @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='edit')
+                                                                        <p>Field
+                                                                            <strong>{{$audit_obj[$i]->field}}</strong>
+                                                                            From
+                                                                            <strong>{{$audit_obj[$i]->before_value}}</strong>
+                                                                            To
+                                                                            <strong>{{$audit_obj[$i]->after_value}}</strong>
+                                                                        </p>
+                                                                        <?php $i = $i + 2; ?>
+                                                                    @endwhile
+                                                                </div>
 
-                                                        @endif
-                                                        @if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'add' and $audit_obj[$i]->change_key==$change_key)
-                                                            <div class="well well-sm display-inline">
-                                                                @if($audit_obj[$i]->entity_type == 'geosegment')
-                                                                    Entrie(s):
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'bwlist')
-                                                                    Domain Name(s):
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'positive_offer_model')
+                                                            @endif
+                                                            @if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'add' and $audit_obj[$i]->change_key==$change_key)
+                                                                <div class="well well-sm display-inline">
+                                                                    @if($audit_obj[$i]->entity_type == 'geosegment')
+                                                                        Entrie(s):
+                                                                    @endif
+                                                                    @if($audit_obj[$i]->entity_type == 'bwlist')
+                                                                        Domain Name(s):
+                                                                    @endif
+                                                                    @if($audit_obj[$i]->entity_type == 'offer_pixel_map')
+                                                                        Pixel(s) Added:
+                                                                    @endif
+                                                                    @if($audit_obj[$i]->entity_type == 'positive_offer_model')
                                                                         Positive Offer(s) Added:
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'negative_offer_model')
+                                                                    @endif
+                                                                    @if($audit_obj[$i]->entity_type == 'negative_offer_model')
                                                                         Negative Offer(s) Added:
-                                                                @endif
-                                                                <?php $flg=0; $count=0; ?>
-                                                                @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type == 'add')
-                                                                        @if($flg>=20)
-                                                                             <?php $count++ ?>
-                                                                        @endif
-                                                                    <p>
-                                                                        @if($audit_obj[$i]->entity_type == 'geosegmententrie' and $flg < 20)
-                                                                    name: <strong>{{$audit_obj[$i+1][0]->name}}</strong>
-                                                                        @endif
-                                                                        @if($audit_obj[$i]->entity_type == 'positive_offer_model' and $flg < 20)
-                                                                    name: <strong>{{$audit_obj[$i+1][0]->name}}</strong>
-                                                                        @endif
-                                                                        @if($audit_obj[$i]->entity_type == 'negative_offer_model' and $flg < 20)
-                                                                    name: <strong>{{$audit_obj[$i+1][0]->name}}</strong>
-                                                                        @endif
-                                                                        @if($audit_obj[$i]->entity_type == 'bwlistentrie' and $flg < 2)
-                                                                    name: <strong>{{$audit_obj[$i+1][0]->domain_name}}</strong>
-                                                                        @endif
-                                                                    </p>
-                                                                    <?php $i=$i+2; $flg++; ?>
-                                                                @endwhile
-                                                                    @if($flg>20)
-                                                                        <p> and other <strong>{{$count}}</strong> more...</p>
                                                                     @endif
-                                                            </div>
-
-                                                        @endif
-                                                        @if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'del' and $audit_obj[$i]->change_key==$change_key)
-                                                            <div class="well well-sm display-inline">
-                                                                @if($audit_obj[$i]->entity_type == 'geosegment')
-                                                                    Entrie(s):
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'positive_offer_model')
-                                                                    Positive Offer(s) Removed:
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'negative_offer_model')
-                                                                    Negative Offer(s) Removed:
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'bwlist')
-                                                                    Domain(s):
-                                                                @endif
-
-                                                                <?php $flg=0; $count=0; ?>
-                                                                @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type == 'del')
+                                                                    <?php $flg = 0; $count = 0; ?>
+                                                                    @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type == 'add')
                                                                         @if($flg>=20)
-                                                                             <?php $count++ ?>
+                                                                            <?php $count++ ?>
                                                                         @endif
-                                                                    <p>
-                                                                        @if($audit_obj[$i]->entity_type == 'geosegmententrie' and $flg < 2)
-                                                                    name: <strong>{{$audit_obj[$i]->before_value}}</strong>
-                                                                        @endif
-                                                                        @if($audit_obj[$i]->entity_type == 'positive_offer_model' and $flg < 20)
-                                                                    name: <strong>{{$audit_obj[$i+1][0]->name}}</strong>
-                                                                        @endif
-                                                                        @if($audit_obj[$i]->entity_type == 'negative_offer_model' and $flg < 20)
-                                                                    name: <strong>{{$audit_obj[$i+1][0]->name}}</strong>
-                                                                        @endif
-                                                                        @if($audit_obj[$i]->entity_type == 'bwlistentrie' and $flg < 2)
-                                                                    name: <strong>{{$audit_obj[$i]->before_value}}</strong>
-                                                                        @endif
-                                                                    </p>
-                                                                    <?php $i=$i+2; $flg++; ?>
-                                                                @endwhile
-                                                                <p>
+                                                                        <p>
+                                                                            @if($audit_obj[$i]->entity_type == 'geosegmententrie' and $flg < 20)
+                                                                                name:
+                                                                                <strong>{{$audit_obj[$i+1][0]->name}}</strong>
+                                                                            @endif
+                                                                            @if($audit_obj[$i]->entity_type == 'offer_pixel_map' and $flg < 20)
+                                                                                name:
+                                                                                <strong>{{$audit_obj[$i+1][0]->name}}</strong>
+                                                                            @endif
+                                                                            @if($audit_obj[$i]->entity_type == 'positive_offer_model' and $flg < 20)
+                                                                                name:
+                                                                                <strong>{{$audit_obj[$i+1][0]->name}}</strong>
+                                                                            @endif
+                                                                            @if($audit_obj[$i]->entity_type == 'negative_offer_model' and $flg < 20)
+                                                                                name:
+                                                                                <strong>{{$audit_obj[$i+1][0]->name}}</strong>
+                                                                            @endif
+                                                                            @if($audit_obj[$i]->entity_type == 'bwlistentrie' and $flg < 2)
+                                                                                name:
+                                                                                <strong>{{$audit_obj[$i+1][0]->domain_name}}</strong>
+                                                                            @endif
+                                                                        </p>
+                                                                        <?php $i = $i + 2; $flg++; ?>
+                                                                    @endwhile
                                                                     @if($flg>20)
-                                                                        and other <strong>{{$count}}</strong> more...</p>
+                                                                        <p> and other <strong>{{$count}}</strong>
+                                                                            more...</p>
                                                                     @endif
-                                                            </div>
+                                                                </div>
 
-                                                        @endif
-                                                    </div>
-                                                </li>
-                                                    <?php $i++ ?>
+                                                            @endif
+
+                                                            @if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'del' and $audit_obj[$i]->change_key==$change_key)
+                                                                <div class="well well-sm display-inline">
+                                                                    @if($audit_obj[$i]->entity_type == 'geosegment')
+                                                                        Entrie(s):
+                                                                    @endif
+                                                                    @if($audit_obj[$i]->entity_type == 'offer_pixel_map')
+                                                                        Pixel(s) Removed:
+                                                                    @endif
+                                                                    @if($audit_obj[$i]->entity_type == 'positive_offer_model')
+                                                                        Positive Offer(s) Removed:
+                                                                    @endif
+                                                                    @if($audit_obj[$i]->entity_type == 'negative_offer_model')
+                                                                        Negative Offer(s) Removed:
+                                                                    @endif
+                                                                    @if($audit_obj[$i]->entity_type == 'bwlist')
+                                                                        Domain(s):
+                                                                    @endif
+
+                                                                    <?php $flg = 0; $count = 0; ?>
+                                                                    @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type == 'del')
+                                                                        @if($flg>=20)
+                                                                            <?php $count++ ?>
+                                                                        @endif
+                                                                        <p>
+                                                                            @if($audit_obj[$i]->entity_type == 'geosegmententrie' and $flg < 2)
+                                                                                name:
+                                                                                <strong>{{$audit_obj[$i]->before_value}}</strong>
+                                                                            @endif
+                                                                            @if($audit_obj[$i]->entity_type == 'offer_pixel_map' and $flg < 20)
+                                                                                name:
+                                                                                <strong>{{$audit_obj[$i+1][0]->name}}</strong>
+                                                                            @endif
+                                                                            @if($audit_obj[$i]->entity_type == 'positive_offer_model' and $flg < 20)
+                                                                                name:
+                                                                                <strong>{{$audit_obj[$i+1][0]->name}}</strong>
+                                                                            @endif
+                                                                            @if($audit_obj[$i]->entity_type == 'negative_offer_model' and $flg < 20)
+                                                                                name:
+                                                                                <strong>{{$audit_obj[$i+1][0]->name}}</strong>
+                                                                            @endif
+                                                                            @if($audit_obj[$i]->entity_type == 'bwlistentrie' and $flg < 2)
+                                                                                name:
+                                                                                <strong>{{$audit_obj[$i]->before_value}}</strong>
+                                                                            @endif
+                                                                        </p>
+                                                                        <?php $i = $i + 2; $flg++; ?>
+                                                                    @endwhile
+                                                                    <p>
+                                                                        @if($flg>20)
+                                                                            and other <strong>{{$count}}</strong>
+                                                                            more...</p>
+                                                                    @endif
+                                                                </div>
+                                                            @endif
+                                                            @endwhile
+                                                        </div>
+                                                    </li>
                                                 @endfor
                                                 <li>
                                                     <div class="smart-timeline-icon">
@@ -538,11 +685,14 @@
                                                     </div>
                                                     <div class="smart-timeline-content">
                                                         <p>
-                                                            <strong>Meeting invite for "GENERAL GNU" [<a href="javascript:void(0);"><i>Go to my calendar</i></a>]</strong>
+                                                            <strong>Meeting invite for "GENERAL GNU" [<a
+                                                                        href="javascript:void(0);"><i>Go to my
+                                                                        calendar</i></a>]</strong>
                                                         </p>
 
                                                         <div class="well well-sm display-inline">
-                                                            <p>Will you be able to attend the meeting - <strong> 10:00 am</strong> tomorrow?</p>
+                                                            <p>Will you be able to attend the meeting - <strong> 10:00
+                                                                    am</strong> tomorrow?</p>
                                                         </div>
 
                                                     </div>
@@ -587,23 +737,34 @@
                                                     </div>
                                                     <div class="smart-timeline-content">
                                                         <p>
-                                                            <a href="javascript:void(0);"><strong>Update user information</strong></a>
-                                                        </p>
-                                                        <p>
-                                                            Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus.
+                                                            <a href="javascript:void(0);"><strong>Update user
+                                                                    information</strong></a>
                                                         </p>
 
-                                                        Tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit
+                                                        <p>
+                                                            Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam
+                                                            rhoncus. Maecenas tempus, tellus eget condimentum rhoncus,
+                                                            sem quam semper libero, sit amet adipiscing sem neque sed
+                                                            ipsum. Nam quam nunc, blandit vel, luctus pulvinar,
+                                                            hendrerit id, lorem. Maecenas nec odio et ante tincidunt
+                                                            tempus. Donec vitae sapien ut libero venenatis faucibus.
+                                                        </p>
+
+                                                        Tellus eget condimentum rhoncus, sem quam semper libero, sit
+                                                        amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit
 
                                                         <ul class="list-inline">
                                                             <li>
-                                                                <img src="img/superbox/superbox-thumb-6.jpg" alt="img" width="50">
+                                                                <img src="img/superbox/superbox-thumb-6.jpg" alt="img"
+                                                                     width="50">
                                                             </li>
                                                             <li>
-                                                                <img src="img/superbox/superbox-thumb-5.jpg" alt="img" width="50">
+                                                                <img src="img/superbox/superbox-thumb-5.jpg" alt="img"
+                                                                     width="50">
                                                             </li>
                                                             <li>
-                                                                <img src="img/superbox/superbox-thumb-7.jpg" alt="img" width="50">
+                                                                <img src="img/superbox/superbox-thumb-7.jpg" alt="img"
+                                                                     width="50">
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -617,16 +778,22 @@
                                                     </div>
                                                     <div class="smart-timeline-content">
                                                         <p>
-                                                            <a href="javascript:void(0);"><strong>Nabi Resource Report</strong></a>
+                                                            <a href="javascript:void(0);"><strong>Nabi Resource
+                                                                    Report</strong></a>
                                                         </p>
+
                                                         <p>
-                                                            Ean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis.
+                                                            Ean vulputate eleifend tellus. Aenean leo ligula, porttitor
+                                                            eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
+                                                            dapibus in, viverra quis.
                                                         </p>
-                                                        <a href="javascript:void(0);" class="btn btn-xs btn-default">Read more</a>
+                                                        <a href="javascript:void(0);" class="btn btn-xs btn-default">Read
+                                                            more</a>
                                                     </div>
                                                 </li>
                                                 <li class="text-center">
-                                                    <a href="javascript:void(0)" class="btn btn-sm btn-default"><i class="fa fa-arrow-down text-muted"></i> LOAD MORE</a>
+                                                    <a href="javascript:void(0)" class="btn btn-sm btn-default"><i
+                                                                class="fa fa-arrow-down text-muted"></i> LOAD MORE</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -644,7 +811,8 @@
                         <!-- end widget -->
 
                         <!-- new widget -->
-                        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3" data-widget-colorbutton="false">
+                        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
+                             data-widget-colorbutton="false">
 
                             <!-- widget options:
                             usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
@@ -661,7 +829,9 @@
                             -->
                             <header>
                                 <span class="widget-icon"> <i class="fa fa-calendar"></i> </span>
+
                                 <h2> My Events </h2>
+
                                 <div class="widget-toolbar">
                                     <!-- add: non-hidden - to disable auto hide -->
                                     <div class="btn-group">
@@ -700,8 +870,10 @@
                                         <div id="calendar-buttons">
 
                                             <div class="btn-group">
-                                                <a href="javascript:void(0)" class="btn btn-default btn-xs" id="btn-prev"><i class="fa fa-chevron-left"></i></a>
-                                                <a href="javascript:void(0)" class="btn btn-default btn-xs" id="btn-next"><i class="fa fa-chevron-right"></i></a>
+                                                <a href="javascript:void(0)" class="btn btn-default btn-xs"
+                                                   id="btn-prev"><i class="fa fa-chevron-left"></i></a>
+                                                <a href="javascript:void(0)" class="btn btn-default btn-xs"
+                                                   id="btn-next"><i class="fa fa-chevron-right"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -720,7 +892,8 @@
                     <article class="col-sm-12 col-md-12 col-lg-6">
 
                         <!-- new widget -->
-                        <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false">
+                        <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false"
+                             data-widget-editbutton="false">
 
                             <!-- widget options:
                             usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
@@ -738,12 +911,18 @@
 
                             <header>
                                 <span class="widget-icon"> <i class="fa fa-map-marker"></i> </span>
+
                                 <h2>Birds Eye</h2>
+
                                 <div class="widget-toolbar hidden-mobile">
                                     <span class="onoffswitch-title"><i class="fa fa-location-arrow"></i> Realtime</span>
-										<span class="onoffswitch">
-											<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="checked" id="myonoffswitch">
-											<label class="onoffswitch-label" for="myonoffswitch"> <span class="onoffswitch-inner" data-swchon-text="YES" data-swchoff-text="NO"></span> <span class="onoffswitch-switch"></span> </label> </span>
+                                            <span class="onoffswitch">
+                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"
+                                                       checked="checked" id="myonoffswitch">
+                                                <label class="onoffswitch-label" for="myonoffswitch"> <span
+                                                            class="onoffswitch-inner" data-swchon-text="YES"
+                                                            data-swchoff-text="NO"></span> <span
+                                                            class="onoffswitch-switch"></span> </label> </span>
                                 </div>
                             </header>
 
@@ -753,7 +932,7 @@
                                 <div class="jarviswidget-editbox">
                                     <div>
                                         <label>Title:</label>
-                                        <input type="text" />
+                                        <input type="text"/>
                                     </div>
                                 </div>
                                 <!-- end widget edit box -->
@@ -783,181 +962,252 @@
                                             <td><a href="javascript:void(0);">USA</a></td>
                                             <td>4,977</td>
                                             <td class="text-align-center">
-                                                <div class="sparkline txt-color-blue text-align-center" data-sparkline-height="22px" data-sparkline-width="90px" data-sparkline-barwidth="2">
-                                                    2700, 3631, 2471, 1300, 1877, 2500, 2577, 2700, 3631, 2471, 2000, 2100, 3000
-                                                </div></td>
+                                                <div class="sparkline txt-color-blue text-align-center"
+                                                     data-sparkline-height="22px" data-sparkline-width="90px"
+                                                     data-sparkline-barwidth="2">
+                                                    2700, 3631, 2471, 1300, 1877, 2500, 2577, 2700, 3631, 2471, 2000,
+                                                    2100, 3000
+                                                </div>
+                                            </td>
                                             <td class="text-align-center hidden-xs">143</td>
                                             <td class="text-align-center">
-                                                <div class="sparkline display-inline" data-sparkline-type='pie' data-sparkline-piecolor='["#E979BB", "#57889C"]' data-sparkline-offset="90" data-sparkline-piesize="23px">
+                                                <div class="sparkline display-inline" data-sparkline-type='pie'
+                                                     data-sparkline-piecolor='["#E979BB", "#57889C"]'
+                                                     data-sparkline-offset="90" data-sparkline-piesize="23px">
                                                     17,83
                                                 </div>
                                                 <div class="btn-group display-inline pull-right text-align-left hidden-tablet">
-                                                    <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+                                                    <button class="btn btn-xs btn-default dropdown-toggle"
+                                                            data-toggle="dropdown">
                                                         <i class="fa fa-cog fa-lg"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-xs pull-right">
                                                         <li>
-                                                            <a href="javascript:void(0);"><i class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i> <u>P</u>DF</a>
+                                                            <a href="javascript:void(0);"><i
+                                                                        class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i>
+                                                                <u>P</u>DF</a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:void(0);"><i class="fa fa-times fa-lg fa-fw txt-color-red"></i> <u>D</u>elete</a>
+                                                            <a href="javascript:void(0);"><i
+                                                                        class="fa fa-times fa-lg fa-fw txt-color-red"></i>
+                                                                <u>D</u>elete</a>
                                                         </li>
                                                         <li class="divider"></li>
                                                         <li class="text-align-center">
                                                             <a href="javascript:void(0);">Cancel</a>
                                                         </li>
                                                     </ul>
-                                                </div></td>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td><a href="javascript:void(0);">Australia</a></td>
                                             <td>4,873</td>
                                             <td class="text-align-center">
-                                                <div class="sparkline txt-color-blue text-align-center" data-sparkline-height="22px" data-sparkline-width="90px" data-sparkline-barwidth="2">
-                                                    1000, 1100, 3030, 1300, -1877, -2500, -2577, -2700, 3631, 2471, 4700, 1631, 2471
-                                                </div></td>
+                                                <div class="sparkline txt-color-blue text-align-center"
+                                                     data-sparkline-height="22px" data-sparkline-width="90px"
+                                                     data-sparkline-barwidth="2">
+                                                    1000, 1100, 3030, 1300, -1877, -2500, -2577, -2700, 3631, 2471,
+                                                    4700, 1631, 2471
+                                                </div>
+                                            </td>
                                             <td class="text-align-center hidden-xs">247</td>
                                             <td class="text-align-center">
-                                                <div class="sparkline display-inline" data-sparkline-type='pie' data-sparkline-piecolor='["#E979BB", "#57889C"]' data-sparkline-offset="90" data-sparkline-piesize="23px">
+                                                <div class="sparkline display-inline" data-sparkline-type='pie'
+                                                     data-sparkline-piecolor='["#E979BB", "#57889C"]'
+                                                     data-sparkline-offset="90" data-sparkline-piesize="23px">
                                                     22,88
                                                 </div>
                                                 <div class="btn-group display-inline pull-right text-align-left hidden-tablet">
-                                                    <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+                                                    <button class="btn btn-xs btn-default dropdown-toggle"
+                                                            data-toggle="dropdown">
                                                         <i class="fa fa-cog fa-lg"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-xs pull-right">
                                                         <li>
-                                                            <a href="javascript:void(0);"><i class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i> <u>P</u>DF</a>
+                                                            <a href="javascript:void(0);"><i
+                                                                        class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i>
+                                                                <u>P</u>DF</a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:void(0);"><i class="fa fa-times fa-lg fa-fw txt-color-red"></i> <u>D</u>elete</a>
+                                                            <a href="javascript:void(0);"><i
+                                                                        class="fa fa-times fa-lg fa-fw txt-color-red"></i>
+                                                                <u>D</u>elete</a>
                                                         </li>
                                                         <li class="divider"></li>
                                                         <li class="text-align-center">
                                                             <a href="javascript:void(0);">Cancel</a>
                                                         </li>
                                                     </ul>
-                                                </div></td>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td><a href="javascript:void(0);">India</a></td>
                                             <td>3,671</td>
                                             <td class="text-align-center">
-                                                <div class="sparkline txt-color-blue text-align-center" data-sparkline-height="22px" data-sparkline-width="90px" data-sparkline-barwidth="2">
-                                                    3631, 1471, 2400, 3631, 471, 1300, 1177, 2500, 2577, 3000, 4100, 3000, 7700
-                                                </div></td>
+                                                <div class="sparkline txt-color-blue text-align-center"
+                                                     data-sparkline-height="22px" data-sparkline-width="90px"
+                                                     data-sparkline-barwidth="2">
+                                                    3631, 1471, 2400, 3631, 471, 1300, 1177, 2500, 2577, 3000, 4100,
+                                                    3000, 7700
+                                                </div>
+                                            </td>
                                             <td class="text-align-center hidden-xs">373</td>
                                             <td class="text-align-center">
-                                                <div class="sparkline display-inline" data-sparkline-type='pie' data-sparkline-piecolor='["#E979BB", "#57889C"]' data-sparkline-offset="90" data-sparkline-piesize="23px">
+                                                <div class="sparkline display-inline" data-sparkline-type='pie'
+                                                     data-sparkline-piecolor='["#E979BB", "#57889C"]'
+                                                     data-sparkline-offset="90" data-sparkline-piesize="23px">
                                                     10,90
                                                 </div>
                                                 <div class="btn-group display-inline pull-right text-align-left hidden-tablet">
-                                                    <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+                                                    <button class="btn btn-xs btn-default dropdown-toggle"
+                                                            data-toggle="dropdown">
                                                         <i class="fa fa-cog fa-lg"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-xs pull-right">
                                                         <li>
-                                                            <a href="javascript:void(0);"><i class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i> <u>P</u>DF</a>
+                                                            <a href="javascript:void(0);"><i
+                                                                        class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i>
+                                                                <u>P</u>DF</a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:void(0);"><i class="fa fa-times fa-lg fa-fw txt-color-red"></i> <u>D</u>elete</a>
+                                                            <a href="javascript:void(0);"><i
+                                                                        class="fa fa-times fa-lg fa-fw txt-color-red"></i>
+                                                                <u>D</u>elete</a>
                                                         </li>
                                                         <li class="divider"></li>
                                                         <li class="text-align-center">
                                                             <a href="javascript:void(0);">Cancel</a>
                                                         </li>
                                                     </ul>
-                                                </div></td>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td><a href="javascript:void(0);">Brazil</a></td>
                                             <td>2,476</td>
                                             <td class="text-align-center">
-                                                <div class="sparkline txt-color-blue text-align-center" data-sparkline-height="22px" data-sparkline-width="90px" data-sparkline-barwidth="2">
-                                                    2700, 1877, 2500, 2577, 2000, 3631, 2471, -2700, -3631, 2471, 1300, 2100, 3000,
-                                                </div></td>
+                                                <div class="sparkline txt-color-blue text-align-center"
+                                                     data-sparkline-height="22px" data-sparkline-width="90px"
+                                                     data-sparkline-barwidth="2">
+                                                    2700, 1877, 2500, 2577, 2000, 3631, 2471, -2700, -3631, 2471, 1300,
+                                                    2100, 3000,
+                                                </div>
+                                            </td>
                                             <td class="text-align-center hidden-xs ">741</td>
                                             <td class="text-align-center">
-                                                <div class="sparkline display-inline" data-sparkline-type='pie' data-sparkline-piecolor='["#E979BB", "#57889C"]' data-sparkline-offset="90" data-sparkline-piesize="23px">
+                                                <div class="sparkline display-inline" data-sparkline-type='pie'
+                                                     data-sparkline-piecolor='["#E979BB", "#57889C"]'
+                                                     data-sparkline-offset="90" data-sparkline-piesize="23px">
                                                     34,66
                                                 </div>
                                                 <div class="btn-group display-inline pull-right text-align-left hidden-tablet">
-                                                    <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+                                                    <button class="btn btn-xs btn-default dropdown-toggle"
+                                                            data-toggle="dropdown">
                                                         <i class="fa fa-cog fa-lg"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-xs pull-right">
                                                         <li>
-                                                            <a href="javascript:void(0);"><i class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i> <u>P</u>DF</a>
+                                                            <a href="javascript:void(0);"><i
+                                                                        class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i>
+                                                                <u>P</u>DF</a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:void(0);"><i class="fa fa-times fa-lg fa-fw txt-color-red"></i> <u>D</u>elete</a>
+                                                            <a href="javascript:void(0);"><i
+                                                                        class="fa fa-times fa-lg fa-fw txt-color-red"></i>
+                                                                <u>D</u>elete</a>
                                                         </li>
                                                         <li class="divider"></li>
                                                         <li class="text-align-center">
                                                             <a href="javascript:void(0);">Cancel</a>
                                                         </li>
                                                     </ul>
-                                                </div></td>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td><a href="javascript:void(0);">Turkey</a></td>
                                             <td>1,476</td>
                                             <td class="text-align-center">
-                                                <div class="sparkline txt-color-blue text-align-center" data-sparkline-height="22px" data-sparkline-width="90px" data-sparkline-barwidth="2">
-                                                    1300, 1877, 2500, 2577, 2000, 2100, 3000, -2471, -2700, -3631, -2471, 2700, 3631
-                                                </div></td>
+                                                <div class="sparkline txt-color-blue text-align-center"
+                                                     data-sparkline-height="22px" data-sparkline-width="90px"
+                                                     data-sparkline-barwidth="2">
+                                                    1300, 1877, 2500, 2577, 2000, 2100, 3000, -2471, -2700, -3631,
+                                                    -2471, 2700, 3631
+                                                </div>
+                                            </td>
                                             <td class="text-align-center hidden-xs">123</td>
                                             <td class="text-align-center">
-                                                <div class="sparkline display-inline" data-sparkline-type='pie' data-sparkline-piecolor='["#E979BB", "#57889C"]' data-sparkline-offset="90" data-sparkline-piesize="23px">
+                                                <div class="sparkline display-inline" data-sparkline-type='pie'
+                                                     data-sparkline-piecolor='["#E979BB", "#57889C"]'
+                                                     data-sparkline-offset="90" data-sparkline-piesize="23px">
                                                     75,25
                                                 </div>
                                                 <div class="btn-group display-inline pull-right text-align-left hidden-tablet">
-                                                    <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+                                                    <button class="btn btn-xs btn-default dropdown-toggle"
+                                                            data-toggle="dropdown">
                                                         <i class="fa fa-cog fa-lg"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-xs pull-right">
                                                         <li>
-                                                            <a href="javascript:void(0);"><i class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i> <u>P</u>DF</a>
+                                                            <a href="javascript:void(0);"><i
+                                                                        class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i>
+                                                                <u>P</u>DF</a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:void(0);"><i class="fa fa-times fa-lg fa-fw txt-color-red"></i> <u>D</u>elete</a>
+                                                            <a href="javascript:void(0);"><i
+                                                                        class="fa fa-times fa-lg fa-fw txt-color-red"></i>
+                                                                <u>D</u>elete</a>
                                                         </li>
                                                         <li class="divider"></li>
                                                         <li class="text-align-center">
                                                             <a href="javascript:void(0);">Cancel</a>
                                                         </li>
                                                     </ul>
-                                                </div></td>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td><a href="javascript:void(0);">Canada</a></td>
                                             <td>146</td>
                                             <td class="text-align-center">
-                                                <div class="sparkline txt-color-orange text-align-center" data-sparkline-height="22px" data-sparkline-width="90px" data-sparkline-barwidth="2">
+                                                <div class="sparkline txt-color-orange text-align-center"
+                                                     data-sparkline-height="22px" data-sparkline-width="90px"
+                                                     data-sparkline-barwidth="2">
                                                     5, 34, 10, 1, 4, 6, -9, -1, 0, 0, 5, 6, 7
-                                                </div></td>
+                                                </div>
+                                            </td>
                                             <td class="text-align-center hidden-xs">23</td>
                                             <td class="text-align-center">
-                                                <div class="sparkline display-inline" data-sparkline-type='pie' data-sparkline-piecolor='["#E979BB", "#57889C"]' data-sparkline-offset="90" data-sparkline-piesize="23px">
+                                                <div class="sparkline display-inline" data-sparkline-type='pie'
+                                                     data-sparkline-piecolor='["#E979BB", "#57889C"]'
+                                                     data-sparkline-offset="90" data-sparkline-piesize="23px">
                                                     50,50
                                                 </div>
                                                 <div class="btn-group display-inline pull-right text-align-left hidden-tablet">
-                                                    <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+                                                    <button class="btn btn-xs btn-default dropdown-toggle"
+                                                            data-toggle="dropdown">
                                                         <i class="fa fa-cog fa-lg"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-xs pull-right">
                                                         <li>
-                                                            <a href="javascript:void(0);"><i class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i> <u>P</u>DF</a>
+                                                            <a href="javascript:void(0);"><i
+                                                                        class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i>
+                                                                <u>P</u>DF</a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:void(0);"><i class="fa fa-times fa-lg fa-fw txt-color-red"></i> <u>D</u>elete</a>
+                                                            <a href="javascript:void(0);"><i
+                                                                        class="fa fa-times fa-lg fa-fw txt-color-red"></i>
+                                                                <u>D</u>elete</a>
                                                         </li>
                                                         <li class="divider"></li>
                                                         <li class="text-align-center">
                                                             <a href="javascript:void(0);">Cancel</a>
                                                         </li>
                                                     </ul>
-                                                </div></td>
+                                                </div>
+                                            </td>
                                         </tr>
                                         </tbody>
                                         <tfoot>
@@ -979,7 +1229,8 @@
                                                     <li class="next">
                                                         <a href="javascript:void(0);">Next</a>
                                                     </li>
-                                                </ul></td>
+                                                </ul>
+                                            </td>
                                         </tr>
                                         </tfoot>
                                     </table>
@@ -994,7 +1245,8 @@
                         <!-- end widget -->
 
                         <!-- new widget -->
-                        <div class="jarviswidget jarviswidget-color-blue" id="wid-id-4" data-widget-editbutton="false" data-widget-colorbutton="false">
+                        <div class="jarviswidget jarviswidget-color-blue" id="wid-id-4" data-widget-editbutton="false"
+                             data-widget-colorbutton="false">
 
                             <!-- widget options:
                             usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
@@ -1012,6 +1264,7 @@
 
                             <header>
                                 <span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
+
                                 <h2> ToDo's </h2>
                                 <!-- <div class="widget-toolbar">
                                 add: non-hidden - to disable auto hide
@@ -1025,63 +1278,90 @@
                                 <div class="jarviswidget-editbox">
                                     <div>
                                         <label>Title:</label>
-                                        <input type="text" />
+                                        <input type="text"/>
                                     </div>
                                 </div>
                                 <!-- end widget edit box -->
 
                                 <div class="widget-body no-padding smart-form">
                                     <!-- content goes here -->
-                                    <h5 class="todo-group-title"><i class="fa fa-warning"></i> Critical Tasks (<small class="num-of-tasks">1</small>)</h5>
+                                    <h5 class="todo-group-title"><i class="fa fa-warning"></i> Critical Tasks (
+                                        <small class="num-of-tasks">1</small>
+                                        )
+                                    </h5>
                                     <ul id="sortable1" class="todo">
                                         <li>
-												<span class="handle"> <label class="checkbox">
-                                                        <input type="checkbox" name="checkbox-inline">
-                                                        <i></i> </label> </span>
+                                                    <span class="handle"> <label class="checkbox">
+                                                            <input type="checkbox" name="checkbox-inline">
+                                                            <i></i> </label> </span>
+
                                             <p>
-                                                <strong>Ticket #17643</strong> - Hotfix for WebApp interface issue [<a href="javascript:void(0);" class="font-xs">More Details</a>] <span class="text-muted">Sea deep blessed bearing under darkness from God air living isn't. </span>
+                                                <strong>Ticket #17643</strong> - Hotfix for WebApp interface issue [<a
+                                                        href="javascript:void(0);" class="font-xs">More Details</a>]
+                                                <span class="text-muted">Sea deep blessed bearing under darkness from God air living isn't. </span>
                                                 <span class="date">Jan 1, 2014</span>
                                             </p>
                                         </li>
                                     </ul>
-                                    <h5 class="todo-group-title"><i class="fa fa-exclamation"></i> Important Tasks (<small class="num-of-tasks">3</small>)</h5>
+                                    <h5 class="todo-group-title"><i class="fa fa-exclamation"></i> Important Tasks (
+                                        <small class="num-of-tasks">3</small>
+                                        )
+                                    </h5>
                                     <ul id="sortable2" class="todo">
                                         <li>
-												<span class="handle"> <label class="checkbox">
-                                                        <input type="checkbox" name="checkbox-inline">
-                                                        <i></i> </label> </span>
+                                                    <span class="handle"> <label class="checkbox">
+                                                            <input type="checkbox" name="checkbox-inline">
+                                                            <i></i> </label> </span>
+
                                             <p>
-                                                <strong>Ticket #1347</strong> - Inbox email is being sent twice <small>(bug fix)</small> [<a href="javascript:void(0);" class="font-xs">More Details</a>] <span class="date">Nov 22, 2013</span>
+                                                <strong>Ticket #1347</strong> - Inbox email is being sent twice
+                                                <small>(bug fix)</small>
+                                                [<a href="javascript:void(0);" class="font-xs">More Details</a>] <span
+                                                        class="date">Nov 22, 2013</span>
                                             </p>
                                         </li>
                                         <li>
-												<span class="handle"> <label class="checkbox">
-                                                        <input type="checkbox" name="checkbox-inline">
-                                                        <i></i> </label> </span>
+                                                    <span class="handle"> <label class="checkbox">
+                                                            <input type="checkbox" name="checkbox-inline">
+                                                            <i></i> </label> </span>
+
                                             <p>
-                                                <strong>Ticket #1314</strong> - Call customer support re: Issue <a href="javascript:void(0);" class="font-xs">#6134</a><small>(code review)</small>
+                                                <strong>Ticket #1314</strong> - Call customer support re: Issue <a
+                                                        href="javascript:void(0);" class="font-xs">#6134</a>
+                                                <small>(code review)</small>
                                                 <span class="date">Nov 22, 2013</span>
                                             </p>
                                         </li>
                                         <li>
-												<span class="handle"> <label class="checkbox">
-                                                        <input type="checkbox" name="checkbox-inline">
-                                                        <i></i> </label> </span>
+                                                    <span class="handle"> <label class="checkbox">
+                                                            <input type="checkbox" name="checkbox-inline">
+                                                            <i></i> </label> </span>
+
                                             <p>
-                                                <strong>Ticket #17643</strong> - Hotfix for WebApp interface issue [<a href="javascript:void(0);" class="font-xs">More Details</a>] <span class="text-muted">Sea deep blessed bearing under darkness from God air living isn't. </span>
+                                                <strong>Ticket #17643</strong> - Hotfix for WebApp interface issue [<a
+                                                        href="javascript:void(0);" class="font-xs">More Details</a>]
+                                                <span class="text-muted">Sea deep blessed bearing under darkness from God air living isn't. </span>
                                                 <span class="date">Jan 1, 2014</span>
                                             </p>
                                         </li>
                                     </ul>
 
-                                    <h5 class="todo-group-title"><i class="fa fa-check"></i> Completed Tasks (<small class="num-of-tasks">1</small>)</h5>
+                                    <h5 class="todo-group-title"><i class="fa fa-check"></i> Completed Tasks (
+                                        <small class="num-of-tasks">1</small>
+                                        )
+                                    </h5>
                                     <ul id="sortable3" class="todo">
                                         <li class="complete">
-												<span class="handle" style="display:none"> <label class="checkbox state-disabled">
-                                                        <input type="checkbox" name="checkbox-inline" checked="checked" disabled="disabled">
-                                                        <i></i> </label> </span>
+                                                    <span class="handle" style="display:none"> <label
+                                                                class="checkbox state-disabled">
+                                                            <input type="checkbox" name="checkbox-inline"
+                                                                   checked="checked" disabled="disabled">
+                                                            <i></i> </label> </span>
+
                                             <p>
-                                                <strong>Ticket #17643</strong> - Hotfix for WebApp interface issue [<a href="javascript:void(0);" class="font-xs">More Details</a>] <span class="text-muted">Sea deep blessed bearing under darkness from God air living isn't. </span>
+                                                <strong>Ticket #17643</strong> - Hotfix for WebApp interface issue [<a
+                                                        href="javascript:void(0);" class="font-xs">More Details</a>]
+                                                <span class="text-muted">Sea deep blessed bearing under darkness from God air living isn't. </span>
                                                 <span class="date">Jan 1, 2014</span>
                                             </p>
                                         </li>
@@ -1128,7 +1408,7 @@
     <script src="{{cdn('js/plugin/fullcalendar/jquery.fullcalendar.min.js')}}"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
             // DO NOT REMOVE : GLOBAL FUNCTIONS!
             pageSetUp();
@@ -1137,7 +1417,7 @@
              * PAGE RELATED SCRIPTS
              */
 
-            $(".js-status-update a").click(function() {
+            $(".js-status-update a").click(function () {
                 var selText = $(this).text();
                 var $this = $(this);
                 $this.parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
@@ -1150,16 +1430,16 @@
              */
 
             // initialize sortable
-            $(function() {
+            $(function () {
                 $("#sortable1, #sortable2").sortable({
-                    handle : '.handle',
-                    connectWith : ".todo",
-                    update : countTasks
+                    handle: '.handle',
+                    connectWith: ".todo",
+                    update: countTasks
                 }).disableSelection();
             });
 
             // check and uncheck
-            $('.todo .checkbox > input[type="checkbox"]').click(function() {
+            $('.todo .checkbox > input[type="checkbox"]').click(function () {
                 var $this = $(this).parent().parent().parent();
 
                 if ($(this).prop('checked')) {
@@ -1170,7 +1450,7 @@
                     $(this).parent().hide();
 
                     // once clicked - add class, copy to memory then remove and add to sortable3
-                    $this.slideUp(500, function() {
+                    $this.slideUp(500, function () {
                         $this.clone().prependTo("#sortable3").effect("highlight", {}, 800);
                         $this.remove();
                         countTasks();
@@ -1183,7 +1463,7 @@
             // count tasks
             function countTasks() {
 
-                $('.todo-group-title').each(function() {
+                $('.todo-group-title').each(function () {
                     var $this = $(this);
                     $this.find(".num-of-tasks").text($this.next().find("li").size());
                 });
@@ -1223,7 +1503,7 @@
 
             // setup control widget
             var updateInterval = 1500;
-            $("#updating-chart").val(updateInterval).change(function() {
+            $("#updating-chart").val(updateInterval).change(function () {
 
                 var v = $(this).val();
                 if (v && !isNaN(+v)) {
@@ -1235,27 +1515,27 @@
 
             // setup plot
             var options = {
-                yaxis : {
-                    min : 0,
-                    max : 100
+                yaxis: {
+                    min: 0,
+                    max: 100
                 },
-                xaxis : {
-                    min : 0,
-                    max : 100
+                xaxis: {
+                    min: 0,
+                    max: 100
                 },
-                colors : [$UpdatingChartColors],
-                series : {
-                    lines : {
-                        lineWidth : 1,
-                        fill : true,
-                        fillColor : {
-                            colors : [{
-                                opacity : 0.4
+                colors: [$UpdatingChartColors],
+                series: {
+                    lines: {
+                        lineWidth: 1,
+                        fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.4
                             }, {
-                                opacity : 0
+                                opacity: 0
                             }]
                         },
-                        steps : false
+                        steps: false
 
                     }
                 }
@@ -1264,7 +1544,7 @@
             var plot = $.plot($("#updating-chart"), [getRandomData()], options);
 
             /* live switch */
-            $('input[type="checkbox"]#start_interval').click(function() {
+            $('input[type="checkbox"]#start_interval').click(function () {
                 if ($(this).prop('checked')) {
                     $on = true;
                     updateInterval = 1500;
@@ -1293,62 +1573,60 @@
 
             /* TAB 2: Social Network  */
 
-            $(function() {
+            $(function () {
                 // jQuery Flot Chart
                 var twitter = [[1, 27], [2, 34], [3, 51], [4, 48], [5, 55], [6, 65], [7, 61], [8, 70], [9, 65], [10, 75], [11, 57], [12, 59], [13, 62]], facebook = [[1, 25], [2, 31], [3, 45], [4, 37], [5, 38], [6, 40], [7, 47], [8, 55], [9, 43], [10, 50], [11, 47], [12, 39], [13, 47]], data = [{
-                    label : "Twitter",
-                    data : twitter,
-                    lines : {
-                        show : true,
-                        lineWidth : 1,
-                        fill : true,
-                        fillColor : {
-                            colors : [{
-                                opacity : 0.1
+                    label: "Twitter",
+                    data: twitter,
+                    lines: {
+                        show: true,
+                        lineWidth: 1,
+                        fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.1
                             }, {
-                                opacity : 0.13
+                                opacity: 0.13
                             }]
                         }
                     },
-                    points : {
-                        show : true
+                    points: {
+                        show: true
                     }
                 }, {
-                    label : "Facebook",
-                    data : facebook,
-                    lines : {
-                        show : true,
-                        lineWidth : 1,
-                        fill : true,
-                        fillColor : {
-                            colors : [{
-                                opacity : 0.1
+                    label: "Facebook",
+                    data: facebook,
+                    lines: {
+                        show: true,
+                        lineWidth: 1,
+                        fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.1
                             }, {
-                                opacity : 0.13
+                                opacity: 0.13
                             }]
                         }
                     },
-                    points : {
-                        show : true
+                    points: {
+                        show: true
                     }
                 }];
 
                 var options = {
-                    grid : {
-                        hoverable : true
+                    grid: {
+                        hoverable: true
                     },
-                    colors : ["#568A89", "#3276B1"],
-                    tooltip : true,
-                    tooltipOpts : {
+                    colors: ["#568A89", "#3276B1"],
+                    tooltip: true,
+                    tooltipOpts: {
                         //content : "Value <b>$x</b> Value <span>$y</span>",
-                        defaultTheme : false
+                        defaultTheme: false
                     },
-                    xaxis : {
-                        ticks : [[1, "JAN"], [2, "FEB"], [3, "MAR"], [4, "APR"], [5, "MAY"], [6, "JUN"], [7, "JUL"], [8, "AUG"], [9, "SEP"], [10, "OCT"], [11, "NOV"], [12, "DEC"], [13, "JAN+1"]]
+                    xaxis: {
+                        ticks: [[1, "JAN"], [2, "FEB"], [3, "MAR"], [4, "APR"], [5, "MAY"], [6, "JUN"], [7, "JUL"], [8, "AUG"], [9, "SEP"], [10, "OCT"], [11, "NOV"], [12, "DEC"], [13, "JAN+1"]]
                     },
-                    yaxes : {
-
-                    }
+                    yaxes: {}
                 };
 
                 var plot3 = $.plot($("#statsChart"), data, options);
@@ -1359,60 +1637,60 @@
             // TAB THREE GRAPH //
             /* TAB 3: Revenew  */
 
-            $(function() {
+            $(function () {
 
                 var trgt = [[1354586000000, 153], [1364587000000, 658], [1374588000000, 198], [1384589000000, 663], [1394590000000, 801], [1404591000000, 1080], [1414592000000, 353], [1424593000000, 749], [1434594000000, 523], [1444595000000, 258], [1454596000000, 688], [1464597000000, 364]], prft = [[1354586000000, 53], [1364587000000, 65], [1374588000000, 98], [1384589000000, 83], [1394590000000, 980], [1404591000000, 808], [1414592000000, 720], [1424593000000, 674], [1434594000000, 23], [1444595000000, 79], [1454596000000, 88], [1464597000000, 36]], sgnups = [[1354586000000, 647], [1364587000000, 435], [1374588000000, 784], [1384589000000, 346], [1394590000000, 487], [1404591000000, 463], [1414592000000, 479], [1424593000000, 236], [1434594000000, 843], [1444595000000, 657], [1454596000000, 241], [1464597000000, 341]], toggles = $("#rev-toggles"), target = $("#flotcontainer");
 
                 var data = [{
-                    label : "Target Profit",
-                    data : trgt,
-                    bars : {
-                        show : true,
-                        align : "center",
-                        barWidth : 30 * 30 * 60 * 1000 * 80
+                    label: "Target Profit",
+                    data: trgt,
+                    bars: {
+                        show: true,
+                        align: "center",
+                        barWidth: 30 * 30 * 60 * 1000 * 80
                     }
                 }, {
-                    label : "Actual Profit",
-                    data : prft,
-                    color : '#3276B1',
-                    lines : {
-                        show : true,
-                        lineWidth : 3
+                    label: "Actual Profit",
+                    data: prft,
+                    color: '#3276B1',
+                    lines: {
+                        show: true,
+                        lineWidth: 3
                     },
-                    points : {
-                        show : true
+                    points: {
+                        show: true
                     }
                 }, {
-                    label : "Actual Signups",
-                    data : sgnups,
-                    color : '#71843F',
-                    lines : {
-                        show : true,
-                        lineWidth : 1
+                    label: "Actual Signups",
+                    data: sgnups,
+                    color: '#71843F',
+                    lines: {
+                        show: true,
+                        lineWidth: 1
                     },
-                    points : {
-                        show : true
+                    points: {
+                        show: true
                     }
                 }]
 
                 var options = {
-                    grid : {
-                        hoverable : true
+                    grid: {
+                        hoverable: true
                     },
-                    tooltip : true,
-                    tooltipOpts : {
+                    tooltip: true,
+                    tooltipOpts: {
                         //content: '%x - %y',
                         //dateFormat: '%b %y',
-                        defaultTheme : false
+                        defaultTheme: false
                     },
-                    xaxis : {
-                        mode : "time"
+                    xaxis: {
+                        mode: "time"
                     },
-                    yaxes : {
-                        tickFormatter : function(val, axis) {
+                    yaxes: {
+                        tickFormatter: function (val, axis) {
                             return "$" + val;
                         },
-                        max : 1200
+                        max: 1200
                     }
 
                 };
@@ -1421,7 +1699,7 @@
 
                 function plotNow() {
                     var d = [];
-                    toggles.find(':checkbox').each(function() {
+                    toggles.find(':checkbox').each(function () {
                         if ($(this).is(':checked')) {
                             d.push(data[$(this).attr("name").substr(4, 1)]);
                         }
@@ -1437,7 +1715,7 @@
 
                 };
 
-                toggles.find(':checkbox').on('change', function() {
+                toggles.find(':checkbox').on('change', function () {
                     plotNow();
                 });
                 plotNow()
@@ -1449,36 +1727,36 @@
              */
 
             data_array = {
-                "US" : 4977,
-                "AU" : 4873,
-                "IN" : 3671,
-                "BR" : 2476,
-                "TR" : 1476,
-                "CN" : 146,
-                "CA" : 134,
-                "BD" : 100
+                "US": 4977,
+                "AU": 4873,
+                "IN": 3671,
+                "BR": 2476,
+                "TR": 1476,
+                "CN": 146,
+                "CA": 134,
+                "BD": 100
             };
 
             $('#vector-map').vectorMap({
-                map : 'world_mill_en',
-                backgroundColor : '#fff',
-                regionStyle : {
-                    initial : {
-                        fill : '#c4c4c4'
+                map: 'world_mill_en',
+                backgroundColor: '#fff',
+                regionStyle: {
+                    initial: {
+                        fill: '#c4c4c4'
                     },
-                    hover : {
-                        "fill-opacity" : 1
+                    hover: {
+                        "fill-opacity": 1
                     }
                 },
-                series : {
-                    regions : [{
-                        values : data_array,
-                        scale : ['#85a8b6', '#4d7686'],
-                        normalizeFunction : 'polynomial'
+                series: {
+                    regions: [{
+                        values: data_array,
+                        scale: ['#85a8b6', '#4d7686'],
+                        normalizeFunction: 'polynomial'
                     }]
                 },
-                onRegionLabelShow : function(e, el, code) {
-                    if ( typeof data_array[code] == 'undefined') {
+                onRegionLabelShow: function (e, el, code) {
+                    if (typeof data_array[code] == 'undefined') {
                         e.preventDefault();
                     } else {
                         var countrylbl = data_array[code];
@@ -1499,84 +1777,84 @@
 
                 var calendar = $('#calendar').fullCalendar({
 
-                    editable : true,
-                    draggable : true,
-                    selectable : false,
-                    selectHelper : true,
-                    unselectAuto : false,
-                    disableResizing : false,
+                    editable: true,
+                    draggable: true,
+                    selectable: false,
+                    selectHelper: true,
+                    unselectAuto: false,
+                    disableResizing: false,
 
-                    header : {
-                        left : 'title', //,today
-                        center : 'prev, next, today',
-                        right : 'month, agendaWeek, agenDay' //month, agendaDay,
+                    header: {
+                        left: 'title', //,today
+                        center: 'prev, next, today',
+                        right: 'month, agendaWeek, agenDay' //month, agendaDay,
                     },
 
-                    select : function(start, end, allDay) {
+                    select: function (start, end, allDay) {
                         var title = prompt('Event Title:');
                         if (title) {
                             calendar.fullCalendar('renderEvent', {
-                                        title : title,
-                                        start : start,
-                                        end : end,
-                                        allDay : allDay
+                                        title: title,
+                                        start: start,
+                                        end: end,
+                                        allDay: allDay
                                     }, true // make the event "stick"
                             );
                         }
                         calendar.fullCalendar('unselect');
                     },
 
-                    events : [{
-                        title : 'All Day Event',
-                        start : new Date(y, m, 1),
-                        description : 'long description',
-                        className : ["event", "bg-color-greenLight"],
-                        icon : 'fa-check'
+                    events: [{
+                        title: 'All Day Event',
+                        start: new Date(y, m, 1),
+                        description: 'long description',
+                        className: ["event", "bg-color-greenLight"],
+                        icon: 'fa-check'
                     }, {
-                        title : 'Long Event',
-                        start : new Date(y, m, d - 5),
-                        end : new Date(y, m, d - 2),
-                        className : ["event", "bg-color-red"],
-                        icon : 'fa-lock'
+                        title: 'Long Event',
+                        start: new Date(y, m, d - 5),
+                        end: new Date(y, m, d - 2),
+                        className: ["event", "bg-color-red"],
+                        icon: 'fa-lock'
                     }, {
-                        id : 999,
-                        title : 'Repeating Event',
-                        start : new Date(y, m, d - 3, 16, 0),
-                        allDay : false,
-                        className : ["event", "bg-color-blue"],
-                        icon : 'fa-clock-o'
+                        id: 999,
+                        title: 'Repeating Event',
+                        start: new Date(y, m, d - 3, 16, 0),
+                        allDay: false,
+                        className: ["event", "bg-color-blue"],
+                        icon: 'fa-clock-o'
                     }, {
-                        id : 999,
-                        title : 'Repeating Event',
-                        start : new Date(y, m, d + 4, 16, 0),
-                        allDay : false,
-                        className : ["event", "bg-color-blue"],
-                        icon : 'fa-clock-o'
+                        id: 999,
+                        title: 'Repeating Event',
+                        start: new Date(y, m, d + 4, 16, 0),
+                        allDay: false,
+                        className: ["event", "bg-color-blue"],
+                        icon: 'fa-clock-o'
                     }, {
-                        title : 'Meeting',
-                        start : new Date(y, m, d, 10, 30),
-                        allDay : false,
-                        className : ["event", "bg-color-darken"]
+                        title: 'Meeting',
+                        start: new Date(y, m, d, 10, 30),
+                        allDay: false,
+                        className: ["event", "bg-color-darken"]
                     }, {
-                        title : 'Lunch',
-                        start : new Date(y, m, d, 12, 0),
-                        end : new Date(y, m, d, 14, 0),
-                        allDay : false,
-                        className : ["event", "bg-color-darken"]
+                        title: 'Lunch',
+                        start: new Date(y, m, d, 12, 0),
+                        end: new Date(y, m, d, 14, 0),
+                        allDay: false,
+                        className: ["event", "bg-color-darken"]
                     }, {
-                        title : 'Birthday Party',
-                        start : new Date(y, m, d + 1, 19, 0),
-                        end : new Date(y, m, d + 1, 22, 30),
-                        allDay : false,
-                        className : ["event", "bg-color-darken"]
+                        title: 'Birthday Party',
+                        start: new Date(y, m, d + 1, 19, 0),
+                        end: new Date(y, m, d + 1, 22, 30),
+                        allDay: false,
+                        className: ["event", "bg-color-darken"]
                     }, {
-                        title : 'Smartadmin Open Day',
-                        start : new Date(y, m, 28),
-                        end : new Date(y, m, 29),
-                        className : ["event", "bg-color-darken"]
+                        title: 'Smartadmin Open Day',
+                        start: new Date(y, m, 28),
+                        end: new Date(y, m, 29),
+                        className: ["event", "bg-color-darken"]
                     }],
 
-                    eventRender : function(event, element, icon) {
+                    eventRender: function (event, element, icon) {
                         if (!event.description == "") {
                             element.find('.fc-event-title').append("<br/><span class='ultra-light'>" + event.description + "</span>");
                         }
@@ -1586,41 +1864,42 @@
                     }
                 });
 
-            };
+            }
+            ;
 
             /* hide default buttons */
             $('.fc-header-right, .fc-header-center').hide();
 
             // calendar prev
-            $('#calendar-buttons #btn-prev').click(function() {
+            $('#calendar-buttons #btn-prev').click(function () {
                 $('.fc-button-prev').click();
                 return false;
             });
 
             // calendar next
-            $('#calendar-buttons #btn-next').click(function() {
+            $('#calendar-buttons #btn-next').click(function () {
                 $('.fc-button-next').click();
                 return false;
             });
 
             // calendar today
-            $('#calendar-buttons #btn-today').click(function() {
+            $('#calendar-buttons #btn-today').click(function () {
                 $('.fc-button-today').click();
                 return false;
             });
 
             // calendar month
-            $('#mt').click(function() {
+            $('#mt').click(function () {
                 $('#calendar').fullCalendar('changeView', 'month');
             });
 
             // calendar agenda week
-            $('#ag').click(function() {
+            $('#ag').click(function () {
                 $('#calendar').fullCalendar('changeView', 'agendaWeek');
             });
 
             // calendar agenda day
-            $('#td').click(function() {
+            $('#td').click(function () {
                 $('#calendar').fullCalendar('changeView', 'agendaDay');
             });
 
@@ -1639,14 +1918,14 @@
              */
 
             // custom css expression for a case-insensitive contains()
-            jQuery.expr[':'].Contains = function(a, i, m) {
+            jQuery.expr[':'].Contains = function (a, i, m) {
                 return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
             };
 
             function listFilter(list) {// header is any element, list is an unordered list
                 // create and add the filter form to the header
 
-                $.filter_input.change(function() {
+                $.filter_input.change(function () {
                     var filter = $(this).val();
                     if (filter) {
                         // this finds all links in a list that contain the input,
@@ -1657,7 +1936,7 @@
                         $.chat_users.find("li").slideDown();
                     }
                     return false;
-                }).keyup(function() {
+                }).keyup(function () {
                     // fire the above change event after every letter
                     $(this).change();
 
@@ -1669,12 +1948,12 @@
             listFilter($.chat_users);
 
             // open chat list
-            $.chat_list_btn.click(function() {
+            $.chat_list_btn.click(function () {
                 $(this).parent('#chat-container').toggleClass('open');
             })
 
             $.chat_body.animate({
-                scrollTop : $.chat_body[0].scrollHeight
+                scrollTop: $.chat_body[0].scrollHeight
             }, 500);
 
         });

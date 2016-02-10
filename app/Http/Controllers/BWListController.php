@@ -350,14 +350,25 @@ class BWListController extends Controller
                     if($bwlist){
                         $data=array();
                         $audit= new AuditsController();
+                        $active='Inactive';
+                        if($request->input('active')=='on'){
+                            $active='Active';
+                        }
                         if($bwlist->name!=$request->input('name')){
-                            array_push($data,'name');
+                            array_push($data,'Name');
                             array_push($data,$bwlist->name);
                             array_push($data,$request->input('name'));
                             $bwlist->name=$request->input('name');
                         }
+                        if ($bwlist->status != $active) {
+                            array_push($data, 'Status');
+                            array_push($data, $bwlist->status);
+                            array_push($data, $active);
+                            $bwlist->status = $active;
+                        }
+
                         if($bwlist->list_type!=$request->input('list_type')){
-                            array_push($data,'list_type');
+                            array_push($data,'List Type');
                             array_push($data,$bwlist->list_type);
                             array_push($data,$request->input('list_type'));
                             $bwlist->list_type=$request->input('list_type');

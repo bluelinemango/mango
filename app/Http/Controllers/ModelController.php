@@ -197,96 +197,97 @@ class ModelController extends Controller
                         if($request->has('negative_offer_id'))
                             $negative_offer_id=implode(',',$request->input('negative_offer_id'));
                         if($modelTable->name != $request->input('name')){
-                            array_push($data,'name');
+                            array_push($data,'Name');
                             array_push($data,$modelTable->name);
                             array_push($data,$request->input('name'));
                             $modelTable->name=$request->input('name');
                         }
                         if($modelTable->seed_web_sites != json_encode($request->input('seed_web_sites'))){
-                            array_push($data,'seed_web_sites');
+                            array_push($data,'Seed Sites');
                             array_push($data,$modelTable->seed_web_sites);
                             array_push($data,json_encode($request->input('seed_web_sites')));
                             $modelTable->seed_web_sites = json_encode($request->input('seed_web_sites'));
                         }
                         if($modelTable->algo != $request->input('algo')){
-                            array_push($data,'algo');
+                            array_push($data,'Algo');
                             array_push($data,$modelTable->algo);
                             array_push($data,$request->input('algo'));
                             $modelTable->algo = $request->input('algo');
                         }
                         if($modelTable->segment_name_seed != $request->input('segment_name_seed')){
-                            array_push($data,'segment_name_seed');
+                            array_push($data,'Segment Name Seed');
                             array_push($data,$modelTable->segment_name_seed);
                             array_push($data,$request->input('segment_name_seed'));
                             $modelTable->segment_name_seed = $request->input('segment_name_seed');
                         }
                         if($modelTable->description != $request->input('description')){
-                            array_push($data,'description');
+                            array_push($data,'Description');
                             array_push($data,$modelTable->description);
                             array_push($data,$request->input('description'));
                             $modelTable->description = $request->input('description');
                         }
                         if($modelTable->feature_recency_in_sec != $request->input('feature_recency_in_sec')){
-                            array_push($data,'feature_recency_in_sec');
+                            array_push($data,'Feature Recency In Sec');
                             array_push($data,$modelTable->feature_recency_in_sec);
                             array_push($data,$request->input('feature_recency_in_sec'));
                             $modelTable->feature_recency_in_sec = $request->input('feature_recency_in_sec');
                         }
                         if($modelTable->max_num_both_neg_pos_devices != $request->input('max_num_both_neg_pos_devices')){
-                            array_push($data,'max_num_both_neg_pos_devices');
+                            array_push($data,'Xax #Both Devices');
                             array_push($data,$modelTable->max_num_both_neg_pos_devices);
                             array_push($data,$request->input('max_num_both_neg_pos_devices'));
                             $modelTable->max_num_both_neg_pos_devices = $request->input('max_num_both_neg_pos_devices');
                         }
                         if($modelTable->negative_features_requested != json_encode($request->input('negative_features_requested'))){
-                            array_push($data,'negative_features_requested');
+                            array_push($data,'Negative Features Requested');
                             array_push($data,$modelTable->negative_features_requested);
                             array_push($data,json_encode($request->input('negative_features_requested')));
                             $modelTable->negative_features_requested = json_encode($request->input('negative_features_requested'));
                         }
                         if($modelTable->cut_off_score != $request->input('cut_off_score')){
-                            array_push($data,'cut_off_score');
+                            array_push($data,'Cut Off Score');
                             array_push($data,$modelTable->cut_off_score);
                             array_push($data,$request->input('cut_off_score'));
                             $modelTable->cut_off_score = $request->input('cut_off_score');
                         }
                         if($modelTable->pixel_hit_recency_in_seconds != $request->input('pixel_hit_recency_in_seconds')){
-                            array_push($data,'pixel_hit_recency_in_seconds');
+                            array_push($data,'Pixel Hit Recency In Seconds');
                             array_push($data,$modelTable->pixel_hit_recency_in_seconds);
                             array_push($data,$request->input('pixel_hit_recency_in_seconds'));
                             $modelTable->pixel_hit_recency_in_seconds = $request->input('pixel_hit_recency_in_seconds');
                         }
                         if($modelTable->max_number_of_device_history_per_feature != $request->input('max_number_of_device_history_per_feature')){
-                            array_push($data,'max_number_of_device_history_per_feature');
+                            array_push($data,'Max #Device History/Feature');
                             array_push($data,$modelTable->max_number_of_device_history_per_feature);
                             array_push($data,$request->input('max_number_of_device_history_per_feature'));
                             $modelTable->max_number_of_device_history_per_feature = $request->input('max_number_of_device_history_per_feature');
                         }
                         if($modelTable->max_number_of_negative_feature_to_pick != $request->input('max_number_of_negative_feature_to_pick')){
-                            array_push($data,'max_number_of_negative_feature_to_pick');
+                            array_push($data,'Max #Negative Feature to Pick');
                             array_push($data,$modelTable->max_number_of_negative_feature_to_pick);
                             array_push($data,$request->input('max_number_of_negative_feature_to_pick'));
                             $modelTable->max_number_of_negative_feature_to_pick = $request->input('max_number_of_negative_feature_to_pick');
                         }
                         if($modelTable->number_of_positive_device_to_be_used_for_modeling != $request->input('number_of_positive_device_to_be_used_for_modeling')){
-                            array_push($data,'number_of_positive_device_to_be_used_for_modeling');
+                            array_push($data,'#Positive Device to be Used');
                             array_push($data,$modelTable->number_of_positive_device_to_be_used_for_modeling);
                             array_push($data,$request->input('number_of_positive_device_to_be_used_for_modeling'));
                             $modelTable->number_of_positive_device_to_be_used_for_modeling = $request->input('number_of_positive_device_to_be_used_for_modeling');
                         }
                         if($modelTable->number_of_negative_device_to_be_used_for_modeling != $request->input('number_of_negative_device_to_be_used_for_modeling')){
-                            array_push($data,'number_of_negative_device_to_be_used_for_modeling');
+                            array_push($data,'#Negative Device to be Used');
                             array_push($data,$modelTable->number_of_negative_device_to_be_used_for_modeling);
                             array_push($data,$request->input('number_of_negative_device_to_be_used_for_modeling'));
                             $modelTable->number_of_negative_device_to_be_used_for_modeling = $request->input('number_of_negative_device_to_be_used_for_modeling');
                         }
                         if($modelTable->number_of_both_negative_positive_device_to_be_used != $request->input('number_of_both_negative_positive_device_to_be_used')){
-                            array_push($data,'number_of_both_negative_positive_device_to_be_used');
+                            array_push($data,'#Both Device to be Used');
                             array_push($data,$modelTable->number_of_both_negative_positive_device_to_be_used);
                             array_push($data,$request->input('number_of_both_negative_positive_device_to_be_used'));
                             $modelTable->number_of_both_negative_positive_device_to_be_used = $request->input('number_of_both_negative_positive_device_to_be_used');
                         }
                         $audit->store('modelTable',$model_id,$data,'edit',$audit_key);
+
                         $old_positive_offer_id=explode(',',$modelTable->positive_offer_id);
                         $old_negative_offer_id=explode(',',$modelTable->negative_offer_id);
                         if($request->has('positive_offer_id')) {
@@ -326,7 +327,7 @@ class ModelController extends Controller
                         $modelTable->positive_offer_id = $positive_offer_id;
                         $modelTable->negative_offer_id = $negative_offer_id;
                         $modelTable->save();
-                        $audit->store('modelTable',$model_id,$data,'edit',$audit_key);
+//                        $audit->store('modelTable',$model_id,$data,'edit',$audit_key);
                         return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Model Edited Successfully']);
                     }
                 }

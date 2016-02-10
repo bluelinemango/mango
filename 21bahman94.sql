@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 02, 2016 at 04:25 PM
+-- Generation Time: Feb 10, 2016 at 06:50 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -31,26 +31,29 @@ CREATE TABLE IF NOT EXISTS `advertiser` (
   `id` int(10) unsigned NOT NULL,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Inactive',
   `client_id` int(10) unsigned NOT NULL,
   `domain_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `advertiser`
 --
 
 INSERT INTO `advertiser` (`id`, `name`, `description`, `status`, `client_id`, `domain_name`, `created_at`, `updated_at`) VALUES
-(2, 'adv_2', 'adv_descript_2', 'Active', 4, '', '0000-00-00 00:00:00', '2016-01-26 13:12:01'),
+(2, 'Active', 'adv_descript_21', 'Inactive', 4, 'asdasd.com', '0000-00-00 00:00:00', '2016-02-10 12:51:34'),
 (4, 'adv_1111', 'adv_descript_1', 'Inactive', 4, 'aaaa', '0000-00-00 00:00:00', '2016-01-31 12:31:44'),
 (6, 'test1', 'aaaaa', 'Inactive', 1, '', '2015-11-07 12:58:57', '2016-02-01 11:27:49'),
 (8, 'adv change', '', 'Active', 3, 'ddd.com', '2015-11-17 09:26:12', '2016-01-26 10:07:31'),
 (9, 'asdasdas', '', 'Active', 2, 'adadas', '2015-11-17 12:37:45', '2016-01-26 13:11:59'),
-(10, 'aa', '', 'Active', 1, 'aaa', '2015-12-23 12:21:42', '2015-12-23 12:21:42'),
-(11, 'asd', '', 'Active', 4, 'sdasd', '2016-01-27 13:08:46', '2016-01-27 13:08:46'),
-(12, 'advertiser_1_bing', '', '', 19, 'bing.com', '2016-02-02 10:57:50', '2016-02-02 10:57:50');
+(10, '11111', '', 'Active', 1, 'aaa', '2015-12-23 12:21:42', '2016-02-04 06:46:12'),
+(11, 'asd132111', '', 'Active', 4, 'sdasd', '2016-01-27 13:08:46', '2016-02-04 06:46:40'),
+(12, 'Active', '', '', 19, 'bing1.com', '2016-02-02 10:57:50', '2016-02-10 13:57:06'),
+(13, 'adv 1 abc', '', 'Inactive', 27, 'abc.com', '2016-02-04 09:56:51', '2016-02-04 10:08:41'),
+(14, 'adv.2_abc1', '', 'Inactive', 27, 'abc2.com', '2016-02-04 09:57:28', '2016-02-04 10:09:48'),
+(15, 'asdasdasd', '', 'Inactive', 27, 'asd.com', '2016-02-04 11:14:03', '2016-02-04 11:14:03');
 
 -- --------------------------------------------------------
 
@@ -65,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `advertiser_model_map` (
   `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -79,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `advertiser_publisher` (
   `advertiser_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `advertiser_publisher`
@@ -111,7 +114,8 @@ INSERT INTO `advertiser_publisher` (`id`, `name`, `advertiser_id`, `created_at`,
 (24, 'asdasd123', 4, '2016-01-28 09:04:03', '2016-01-28 09:04:03'),
 (25, 'sad', 4, '2016-01-28 09:35:50', '2016-01-28 09:35:50'),
 (26, 'asd', 4, '2016-01-30 14:29:20', '2016-01-30 14:29:20'),
-(27, 'asdasd', 4, '2016-01-31 11:56:49', '2016-01-31 11:56:49');
+(27, 'asdasd', 4, '2016-01-31 11:56:49', '2016-01-31 11:56:49'),
+(28, 'asda', 13, '2016-02-04 11:09:36', '2016-02-04 11:09:36');
 
 -- --------------------------------------------------------
 
@@ -132,46 +136,65 @@ CREATE TABLE IF NOT EXISTS `audits` (
   `date_change` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `audits`
 --
 
 INSERT INTO `audits` (`id`, `user_id`, `entity_type`, `entity_id`, `audit_type`, `field`, `before_value`, `after_value`, `change_key`, `date_change`, `created_at`, `updated_at`) VALUES
-(1, 1, 'targetgroup', 20, 'edit', 'name', 'final11', 'final1', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(2, 1, 'targetgroup', 20, 'edit', 'Max Impression', '21311', '2131', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(3, 1, 'targetgroup', 20, 'edit', 'Daily max Impression', '12311', '1231', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(4, 1, 'targetgroup', 20, 'edit', 'Max Budget', '12311', '1231', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(5, 1, 'targetgroup', 20, 'edit', 'Daily Max Budget', '12311', '1231', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(6, 1, 'targetgroup', 20, 'edit', 'CPM', '12311', '1231', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(7, 1, 'targetgroup', 20, 'edit', 'Domain Name', 'http://www.as1d1.com', 'http://www.as1d.com', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(8, 1, 'targetgroup', 20, 'edit', 'Pacing Plan', '12311', '1231', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(9, 1, 'targetgroup', 20, 'edit', 'Frequency In Sec', '12311', '1231', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(10, 1, 'targetgroup', 20, 'edit', 'Iab Category', '2', '1', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(11, 1, 'targetgroup', 20, 'edit', 'Iab Sub Category', '5', '3', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(12, 1, 'targetgroup', 20, 'edit', 'Start Date', '2016-10-01 10:11:01', '2016-10-01 10:12:03', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(13, 1, 'targetgroup', 20, 'edit', 'End Date', '2018-04-01 10:11:01', '2018-04-01 10:12:03', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(14, 1, 'targetgroup_geosegment_map', 8, 'add', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(15, 1, 'targetgroup_geosegment_map', 0, 'del', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(16, 1, 'targetgroup_geolocation_map', 22, 'add', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(17, 1, 'targetgroup_geolocation_map', 23, 'add', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:03', '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(18, 1, 'targetgroup_geolocation_map', 24, 'add', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:04', '2016-01-31 06:42:04', '2016-01-31 06:42:04'),
-(19, 1, 'targetgroup_geolocation_map', 4, 'del', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:04', '2016-01-31 06:42:04', '2016-01-31 06:42:04'),
-(20, 1, 'targetgroup_geolocation_map', 5, 'del', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:04', '2016-01-31 06:42:04', '2016-01-31 06:42:04'),
-(21, 1, 'targetgroup_geolocation_map', 6, 'del', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:04', '2016-01-31 06:42:04', '2016-01-31 06:42:04'),
-(22, 1, 'targetgroup_bwlist_map', 2, 'add', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:04', '2016-01-31 06:42:04', '2016-01-31 06:42:04'),
-(23, 1, 'targetgroup_bwlist_map', 0, 'del', '', '', '20', '$2y$10$KZ7QNChr/uluH.y3xd3lnO1mjoSDGtzi5xpAXxW/hdn7ZgDA6pPC.', '2016-01-31 06:42:04', '2016-01-31 06:42:04', '2016-01-31 06:42:04'),
-(24, 1, 'advertiser', 4, 'edit', 'status', 'Active', 'Inactive', '$2y$10$.CZAVp4vTnbU0aoTlyfbuOZ4cMpnPy.jUJxFZlksZSxHdJtpgX1Xm', '2016-01-31 12:31:44', '2016-01-31 12:31:44', '2016-01-31 12:31:44'),
-(25, 1, 'advertiser', 6, 'edit', 'status', 'Active', 'Inactive', '$2y$10$QPLQX9IalTW94tFpGYWJOuwgNjBUdkCPcYd/Vp9/mPJXW74U4pp1q', '2016-02-01 11:27:49', '2016-02-01 11:27:49', '2016-02-01 11:27:49'),
-(26, 1, 'advertiser', 7, 'edit', 'status', 'Active', 'Inactive', '$2y$10$Orbdfxx9Rec8862pIsEGz.1mUfTMETunwwJVi1HdypzOkisf6TVde', '2016-02-01 11:27:59', '2016-02-01 11:28:00', '2016-02-01 11:28:00'),
-(27, 1, 'campaign', 5, 'edit', 'status', 'Active', 'Inactive', '$2y$10$BrAzNS.FX/2QaZ/uZQFl3uqvjmo4Rdpftg5U6/Tz.7RtbnQ6fqQwm', '2016-02-02 08:59:19', '2016-02-02 08:59:20', '2016-02-02 08:59:20'),
-(28, 1, 'campaign', 6, 'edit', 'status', 'Active', 'Inactive', '$2y$10$abJhv71k/R68kKnP0ffdyOvW6ZbrQbwE1tBhS/4tqH9EFClUmMMjW', '2016-02-02 08:59:21', '2016-02-02 08:59:21', '2016-02-02 08:59:21'),
-(29, 1, 'campaign', 6, 'edit', 'status', 'Inactive', 'Active', '$2y$10$VjvhnafwT9i66QD.ACT7J.Yfen7bneKwF3v.5bKzpZK2OV50lUdKC', '2016-02-02 08:59:22', '2016-02-02 08:59:22', '2016-02-02 08:59:22'),
-(30, 1, 'campaign', 5, 'edit', 'status', 'Inactive', 'Active', '$2y$10$X4lW6sE8fzTPK9QN/yYj.O7u5N6S3UzJE7AJyQNeVblA2sNxWO8C.', '2016-02-02 08:59:28', '2016-02-02 08:59:28', '2016-02-02 08:59:28'),
-(31, 8, 'client', 19, 'add', '', '', '', '$2y$10$z/Al.PJkkBy9wO9zLRv9pO948wBlUl3ZPSAqEuACdxlagI/peJdGy', '2016-02-02 10:54:33', '2016-02-02 10:54:33', '2016-02-02 10:54:33'),
-(32, 8, 'advertiser', 12, 'add', '', '', '', '$2y$10$2Ae3KnVphZfJ/RyM0.lmy.anH46iIw0DJHlQZM/ONKln3mNCXVjoC', '2016-02-02 10:57:50', '2016-02-02 10:57:50', '2016-02-02 10:57:50'),
-(33, 8, 'campaign', 10, 'add', '', '', '', '$2y$10$/6JJM4Fy.Pam52aGUpBEVe62h7FPHY2PDF5X3MfPjYyFpixoH/Uw2', '2016-02-02 11:13:38', '2016-02-02 11:13:38', '2016-02-02 11:13:38');
+(1, 1, 'client', 1, 'edit', 'name', 'pepsiasd1235', 'pepsiasd12351', '$2y$10$wU8kk5RKIoUG9CgPmkbYf.1MTpMgPXQZGPblEozPdqUZmIXIixkoi', '2016-02-10 12:50:34', '2016-02-10 12:50:34', '2016-02-10 12:50:34'),
+(2, 1, 'advertiser', 2, 'edit', 'Name', 'adv_23', 'adv_231', '$2y$10$/Czcu5YvsyQ.4Tw9d9FF3eMp/dx4a3Ya.gNX1JbRoivD2J3r45kj6', '2016-02-10 12:51:34', '2016-02-10 12:51:34', '2016-02-10 12:51:34'),
+(3, 1, 'advertiser', 2, 'edit', 'Status', 'Inactive', 'Active', '$2y$10$/Czcu5YvsyQ.4Tw9d9FF3eMp/dx4a3Ya.gNX1JbRoivD2J3r45kj6', '2016-02-10 12:51:34', '2016-02-10 12:51:34', '2016-02-10 12:51:34'),
+(4, 1, 'advertiser', 2, 'edit', 'Domain Name', '', 'asdasd.com', '$2y$10$/Czcu5YvsyQ.4Tw9d9FF3eMp/dx4a3Ya.gNX1JbRoivD2J3r45kj6', '2016-02-10 12:51:34', '2016-02-10 12:51:34', '2016-02-10 12:51:34'),
+(5, 1, 'advertiser', 2, 'edit', 'Description', 'adv_descript_2', 'adv_descript_21', '$2y$10$/Czcu5YvsyQ.4Tw9d9FF3eMp/dx4a3Ya.gNX1JbRoivD2J3r45kj6', '2016-02-10 12:51:34', '2016-02-10 12:51:34', '2016-02-10 12:51:34'),
+(6, 1, 'campaign', 3, 'edit', 'Name', 'fsdf111121', 'fsdf1111211', '$2y$10$ZUFp8xr2BfOcSe9zvKJqr.L.N33YSLntylM0NkeW43rRJ.dSbrGLy', '2016-02-10 13:11:21', '2016-02-10 13:11:21', '2016-02-10 13:11:21'),
+(7, 1, 'campaign', 3, 'edit', 'Status', 'Active', 'Inactive', '$2y$10$ZUFp8xr2BfOcSe9zvKJqr.L.N33YSLntylM0NkeW43rRJ.dSbrGLy', '2016-02-10 13:11:21', '2016-02-10 13:11:21', '2016-02-10 13:11:21'),
+(8, 1, 'campaign', 3, 'edit', 'Max Imps', '13123', '131231', '$2y$10$ZUFp8xr2BfOcSe9zvKJqr.L.N33YSLntylM0NkeW43rRJ.dSbrGLy', '2016-02-10 13:11:21', '2016-02-10 13:11:21', '2016-02-10 13:11:21'),
+(9, 1, 'campaign', 3, 'edit', 'Daily Max Imps', '2342', '23421', '$2y$10$ZUFp8xr2BfOcSe9zvKJqr.L.N33YSLntylM0NkeW43rRJ.dSbrGLy', '2016-02-10 13:11:21', '2016-02-10 13:11:21', '2016-02-10 13:11:21'),
+(10, 1, 'campaign', 3, 'edit', 'Max Budget', '34231', '342311', '$2y$10$ZUFp8xr2BfOcSe9zvKJqr.L.N33YSLntylM0NkeW43rRJ.dSbrGLy', '2016-02-10 13:11:21', '2016-02-10 13:11:21', '2016-02-10 13:11:21'),
+(11, 1, 'campaign', 3, 'edit', 'Daily Max Budget', '4234', '42341', '$2y$10$ZUFp8xr2BfOcSe9zvKJqr.L.N33YSLntylM0NkeW43rRJ.dSbrGLy', '2016-02-10 13:11:21', '2016-02-10 13:11:21', '2016-02-10 13:11:21'),
+(12, 1, 'campaign', 3, 'edit', 'CPM', '234', '2341', '$2y$10$ZUFp8xr2BfOcSe9zvKJqr.L.N33YSLntylM0NkeW43rRJ.dSbrGLy', '2016-02-10 13:11:21', '2016-02-10 13:11:21', '2016-02-10 13:11:21'),
+(13, 1, 'campaign', 3, 'edit', 'Domain Name', '234', '2341.com', '$2y$10$ZUFp8xr2BfOcSe9zvKJqr.L.N33YSLntylM0NkeW43rRJ.dSbrGLy', '2016-02-10 13:11:21', '2016-02-10 13:11:21', '2016-02-10 13:11:21'),
+(14, 1, 'campaign', 3, 'edit', 'Description', 'asdas', 'asdass', '$2y$10$ZUFp8xr2BfOcSe9zvKJqr.L.N33YSLntylM0NkeW43rRJ.dSbrGLy', '2016-02-10 13:11:21', '2016-02-10 13:11:21', '2016-02-10 13:11:21'),
+(15, 1, 'campaign', 3, 'edit', 'Start Date', '2015-11-09 18:02:32', '2016-02-17 16:41:21', '$2y$10$ZUFp8xr2BfOcSe9zvKJqr.L.N33YSLntylM0NkeW43rRJ.dSbrGLy', '2016-02-10 13:11:21', '2016-02-10 13:11:21', '2016-02-10 13:11:21'),
+(16, 1, 'campaign', 3, 'edit', 'End Date', '2015-11-25 18:02:32', '2016-02-18 16:41:21', '$2y$10$ZUFp8xr2BfOcSe9zvKJqr.L.N33YSLntylM0NkeW43rRJ.dSbrGLy', '2016-02-10 13:11:21', '2016-02-10 13:11:21', '2016-02-10 13:11:21'),
+(17, 1, 'creative', 2, 'edit', 'Name', 'aaa1sss3', 'aaa1sss31', '$2y$10$VC.fl6Fk0UmWyJjL0VProu7g2016DIIHv5Gd4u8/sVsd7aOVn21Fy', '2016-02-10 13:12:05', '2016-02-10 13:12:06', '2016-02-10 13:12:06'),
+(18, 1, 'creative', 2, 'edit', 'Ad Type', 'IFRAME', 'XHTML_BANNER_AD', '$2y$10$VC.fl6Fk0UmWyJjL0VProu7g2016DIIHv5Gd4u8/sVsd7aOVn21Fy', '2016-02-10 13:12:05', '2016-02-10 13:12:06', '2016-02-10 13:12:06'),
+(19, 1, 'creative', 2, 'edit', 'API', '["VPAID_1.0","VPAID_2.0","MRAID-1"]', '["MRAID-1","ORMMA"]', '$2y$10$VC.fl6Fk0UmWyJjL0VProu7g2016DIIHv5Gd4u8/sVsd7aOVn21Fy', '2016-02-10 13:12:05', '2016-02-10 13:12:06', '2016-02-10 13:12:06'),
+(20, 1, 'creative', 2, 'edit', 'Domain Name', 'aaaas.com', 'aaaa1s.com', '$2y$10$VC.fl6Fk0UmWyJjL0VProu7g2016DIIHv5Gd4u8/sVsd7aOVn21Fy', '2016-02-10 13:12:05', '2016-02-10 13:12:06', '2016-02-10 13:12:06'),
+(21, 1, 'creative', 2, 'edit', 'Description', '', 'asdas', '$2y$10$VC.fl6Fk0UmWyJjL0VProu7g2016DIIHv5Gd4u8/sVsd7aOVn21Fy', '2016-02-10 13:12:05', '2016-02-10 13:12:06', '2016-02-10 13:12:06'),
+(22, 1, 'creative', 2, 'edit', 'Landing Page URL', 'ads1', 'ads11', '$2y$10$VC.fl6Fk0UmWyJjL0VProu7g2016DIIHv5Gd4u8/sVsd7aOVn21Fy', '2016-02-10 13:12:05', '2016-02-10 13:12:06', '2016-02-10 13:12:06'),
+(23, 1, 'creative', 2, 'edit', 'Preview URL', 'adsa', 'adsa1', '$2y$10$VC.fl6Fk0UmWyJjL0VProu7g2016DIIHv5Gd4u8/sVsd7aOVn21Fy', '2016-02-10 13:12:05', '2016-02-10 13:12:06', '2016-02-10 13:12:06'),
+(24, 1, 'creative', 2, 'edit', 'Attributes', 'asd', 'asd1', '$2y$10$VC.fl6Fk0UmWyJjL0VProu7g2016DIIHv5Gd4u8/sVsd7aOVn21Fy', '2016-02-10 13:12:05', '2016-02-10 13:12:06', '2016-02-10 13:12:06'),
+(25, 1, 'creative', 2, 'edit', 'AD Tag', '                                                                                                                                asd', '                                                                                                                                                                                                asd', '$2y$10$VC.fl6Fk0UmWyJjL0VProu7g2016DIIHv5Gd4u8/sVsd7aOVn21Fy', '2016-02-10 13:12:05', '2016-02-10 13:12:06', '2016-02-10 13:12:06'),
+(26, 1, 'creative', 2, 'edit', 'Size', '23x232', '231x2321', '$2y$10$VC.fl6Fk0UmWyJjL0VProu7g2016DIIHv5Gd4u8/sVsd7aOVn21Fy', '2016-02-10 13:12:05', '2016-02-10 13:12:06', '2016-02-10 13:12:06'),
+(29, 1, 'offer', 1, 'edit', 'Name', 'Inactive', 'Inactive1', '$2y$10$QyWwszhoXsRyMA2hb5jvre0cK/lrb3wgAMrRHYpiLMsuepNoxJsG.', '2016-02-10 13:14:09', '2016-02-10 13:14:09', '2016-02-10 13:14:09'),
+(30, 1, 'offer', 1, 'edit', 'Status', 'Active', 'Inactive', '$2y$10$QyWwszhoXsRyMA2hb5jvre0cK/lrb3wgAMrRHYpiLMsuepNoxJsG.', '2016-02-10 13:14:09', '2016-02-10 13:14:09', '2016-02-10 13:14:09'),
+(33, 1, 'pixel', 1, 'edit', 'Name', 'Inactive', 'pixle1111', '$2y$10$j/Q6fozmi7p6j5xNGzbmje0r7pTQ8PKpz6ji/PkdIovW5LWJWWlz2', '2016-02-10 13:18:44', '2016-02-10 13:18:44', '2016-02-10 13:18:44'),
+(34, 1, 'pixel', 1, 'edit', 'Status', 'Active', 'Inactive', '$2y$10$j/Q6fozmi7p6j5xNGzbmje0r7pTQ8PKpz6ji/PkdIovW5LWJWWlz2', '2016-02-10 13:18:44', '2016-02-10 13:18:44', '2016-02-10 13:18:44'),
+(37, 1, 'bwlist', 1, 'edit', 'name', 'shomare 11122', 'qweqwe', '$2y$10$w99iOqUdpcbDcG6cSRInTO0dk8pn66N60P9/.q67PEQR4I/67QhPa', '2016-02-10 13:21:52', '2016-02-10 13:21:52', '2016-02-10 13:21:52'),
+(38, 1, 'bwlist', 1, 'edit', 'Status', 'Active', 'Inactive', '$2y$10$w99iOqUdpcbDcG6cSRInTO0dk8pn66N60P9/.q67PEQR4I/67QhPa', '2016-02-10 13:21:52', '2016-02-10 13:21:52', '2016-02-10 13:21:52'),
+(39, 1, 'bwlist', 1, 'edit', 'list_type', 'white', 'black', '$2y$10$w99iOqUdpcbDcG6cSRInTO0dk8pn66N60P9/.q67PEQR4I/67QhPa', '2016-02-10 13:21:52', '2016-02-10 13:21:52', '2016-02-10 13:21:52'),
+(42, 1, 'geosegment', 7, 'edit', 'Name', 'Inactive', 'gsmssss', '$2y$10$L.cRICkSJhdN72yv0XPKlu9RQvE4iLTxIlY1xCjXpUBdP4tdOy8Y2', '2016-02-10 13:24:41', '2016-02-10 13:24:41', '2016-02-10 13:24:41'),
+(43, 1, 'geosegment', 7, 'edit', 'Status', 'Active', 'Inactive', '$2y$10$L.cRICkSJhdN72yv0XPKlu9RQvE4iLTxIlY1xCjXpUBdP4tdOy8Y2', '2016-02-10 13:24:41', '2016-02-10 13:24:41', '2016-02-10 13:24:41'),
+(98, 1, 'positive_offer_model', 2, 'add', '', '', '4', '$2y$10$bqcANFOs5Ps04IBOxzde1.M7vQiXFRLqURLVgJ1PpW75PkEc0Dzma', '2016-02-10 13:42:08', '2016-02-10 13:42:08', '2016-02-10 13:42:08'),
+(99, 1, 'positive_offer_model', 5, 'del', '', '', '4', '$2y$10$bqcANFOs5Ps04IBOxzde1.M7vQiXFRLqURLVgJ1PpW75PkEc0Dzma', '2016-02-10 13:42:08', '2016-02-10 13:42:08', '2016-02-10 13:42:08'),
+(100, 1, 'negative_offer_model', 1, 'add', '', '', '4', '$2y$10$bqcANFOs5Ps04IBOxzde1.M7vQiXFRLqURLVgJ1PpW75PkEc0Dzma', '2016-02-10 13:42:08', '2016-02-10 13:42:08', '2016-02-10 13:42:08'),
+(101, 1, 'negative_offer_model', 5, 'add', '', '', '4', '$2y$10$bqcANFOs5Ps04IBOxzde1.M7vQiXFRLqURLVgJ1PpW75PkEc0Dzma', '2016-02-10 13:42:08', '2016-02-10 13:42:08', '2016-02-10 13:42:08'),
+(102, 1, 'negative_offer_model', 2, 'del', '', '', '4', '$2y$10$bqcANFOs5Ps04IBOxzde1.M7vQiXFRLqURLVgJ1PpW75PkEc0Dzma', '2016-02-10 13:42:08', '2016-02-10 13:42:08', '2016-02-10 13:42:08'),
+(103, 1, 'modelTable', 4, 'edit', 'Name', 'test111121', 'test111121s', '$2y$10$bqcANFOs5Ps04IBOxzde1.M7vQiXFRLqURLVgJ1PpW75PkEc0Dzma', '2016-02-10 13:42:08', '2016-02-10 13:42:08', '2016-02-10 13:42:08'),
+(104, 1, 'modelTable', 4, 'edit', 'Segment Name Seed', '234112', '2341122', '$2y$10$bqcANFOs5Ps04IBOxzde1.M7vQiXFRLqURLVgJ1PpW75PkEc0Dzma', '2016-02-10 13:42:08', '2016-02-10 13:42:08', '2016-02-10 13:42:08'),
+(108, 1, 'offer_pixel_map', 5, 'add', '', '', '1', '$2y$10$08QqL645N0a6FVT70pxu1eZQqYmkiYppuDUIdBkbdHi5SintKxekO', '2016-02-10 13:44:53', '2016-02-10 13:44:53', '2016-02-10 13:44:53'),
+(109, 1, 'offer_pixel_map', 4, 'add', '', '', '1', '$2y$10$08QqL645N0a6FVT70pxu1eZQqYmkiYppuDUIdBkbdHi5SintKxekO', '2016-02-10 13:44:53', '2016-02-10 13:44:53', '2016-02-10 13:44:53'),
+(110, 1, 'offer_pixel_map', 3, 'add', '', '', '1', '$2y$10$08QqL645N0a6FVT70pxu1eZQqYmkiYppuDUIdBkbdHi5SintKxekO', '2016-02-10 13:44:53', '2016-02-10 13:44:53', '2016-02-10 13:44:53'),
+(111, 1, 'offer_pixel_map', 1, 'add', '', '', '1', '$2y$10$G09MX.EUa473UEhApjoCMe5Usad8.Ueo/L0vsn313vXozKvih0ql6', '2016-02-10 13:52:06', '2016-02-10 13:52:06', '2016-02-10 13:52:06'),
+(112, 1, 'offer_pixel_map', 2, 'add', '', '', '1', '$2y$10$G09MX.EUa473UEhApjoCMe5Usad8.Ueo/L0vsn313vXozKvih0ql6', '2016-02-10 13:52:06', '2016-02-10 13:52:06', '2016-02-10 13:52:06'),
+(113, 1, 'offer_pixel_map', 5, 'del', '', '', '1', '$2y$10$G09MX.EUa473UEhApjoCMe5Usad8.Ueo/L0vsn313vXozKvih0ql6', '2016-02-10 13:52:06', '2016-02-10 13:52:06', '2016-02-10 13:52:06'),
+(114, 1, 'offer_pixel_map', 4, 'del', '', '', '1', '$2y$10$G09MX.EUa473UEhApjoCMe5Usad8.Ueo/L0vsn313vXozKvih0ql6', '2016-02-10 13:52:06', '2016-02-10 13:52:06', '2016-02-10 13:52:06'),
+(115, 8, 'advertiser', 12, 'edit', 'Name', 'advertiser_1_bing', 'advertiser1_1_bing', '$2y$10$34/h22oi7aeJGZk5hlaA6OJXjzRxxZdKVDrcIdA/PQNLzYpn0h3DC', '2016-02-10 13:57:06', '2016-02-10 13:57:06', '2016-02-10 13:57:06'),
+(116, 8, 'advertiser', 12, 'edit', 'Status', '', 'Active', '$2y$10$34/h22oi7aeJGZk5hlaA6OJXjzRxxZdKVDrcIdA/PQNLzYpn0h3DC', '2016-02-10 13:57:06', '2016-02-10 13:57:06', '2016-02-10 13:57:06'),
+(117, 8, 'advertiser', 12, 'edit', 'Domain Name', 'bing.com', 'bing1.com', '$2y$10$34/h22oi7aeJGZk5hlaA6OJXjzRxxZdKVDrcIdA/PQNLzYpn0h3DC', '2016-02-10 13:57:06', '2016-02-10 13:57:06', '2016-02-10 13:57:06');
 
 -- --------------------------------------------------------
 
@@ -185,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `bwentries` (
   `bwlist_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=174 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `bwentries`
@@ -253,7 +276,21 @@ INSERT INTO `bwentries` (`id`, `domain_name`, `bwlist_id`, `created_at`, `update
 (156, 'asdasd.com', 17, '2016-01-27 13:19:27', '2016-01-27 13:19:27'),
 (157, 'asdsadasd.com', 17, '2016-01-27 13:20:40', '2016-01-27 13:20:40'),
 (158, 'sadsss.com', 17, '2016-01-27 13:21:42', '2016-01-27 13:21:42'),
-(159, 'asdasdasdas.com', 17, '2016-01-27 13:23:56', '2016-01-27 13:23:56');
+(159, 'asdasdasdas.com', 17, '2016-01-27 13:23:56', '2016-01-27 13:23:56'),
+(160, 'ab1c.com', 20, '2016-02-04 10:49:27', '2016-02-04 10:49:39'),
+(161, 'abc1.com', 20, '2016-02-04 10:49:27', '2016-02-04 10:49:27'),
+(162, 'all.com', 20, '2016-02-04 10:50:09', '2016-02-04 10:50:09'),
+(163, 'abcw.com', 21, '2016-02-04 10:50:37', '2016-02-04 10:50:37'),
+(164, 'abcwq2.com', 21, '2016-02-04 10:50:37', '2016-02-04 10:50:37'),
+(165, 'asdas.com', 22, '2016-02-04 11:05:11', '2016-02-04 11:05:11'),
+(166, 'asdasd.com', 22, '2016-02-04 11:05:11', '2016-02-04 11:05:11'),
+(167, 'ttee.com', 22, '2016-02-04 11:05:11', '2016-02-04 11:05:11'),
+(168, 'yutei.com', 23, '2016-02-04 11:05:35', '2016-02-04 11:05:35'),
+(169, 'sydtgjas.ir', 23, '2016-02-04 11:05:35', '2016-02-04 11:05:35'),
+(170, 'asdgkajd.org', 23, '2016-02-04 11:05:35', '2016-02-04 11:05:35'),
+(171, 'cnn.com', 24, '2016-02-04 11:20:01', '2016-02-04 11:20:01'),
+(172, 'fff.com', 24, '2016-02-04 11:20:01', '2016-02-04 11:20:01'),
+(173, 'ddd.com', 24, '2016-02-04 11:20:01', '2016-02-04 11:20:01');
 
 -- --------------------------------------------------------
 
@@ -269,14 +306,14 @@ CREATE TABLE IF NOT EXISTS `bwlist` (
   `advertiser_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `bwlist`
 --
 
 INSERT INTO `bwlist` (`id`, `name`, `status`, `list_type`, `advertiser_id`, `created_at`, `updated_at`) VALUES
-(1, 'shomare 1', 'Active', 'black', 4, '2015-11-20 12:37:03', '2015-11-20 12:37:03'),
+(1, 'qweqwe', 'Inactive', 'black', 4, '2015-11-20 12:37:03', '2016-02-10 13:21:52'),
 (2, 'sdafasdf', 'Active', 'black', 4, '2015-11-20 12:38:15', '2015-11-20 12:38:15'),
 (3, 'sdafasdf', 'Active', 'white', 4, '2015-11-20 12:43:21', '2015-11-20 12:43:21'),
 (5, 'aa', 'Active', 'black', 8, '2015-11-20 12:54:09', '2015-11-20 12:54:09'),
@@ -285,7 +322,12 @@ INSERT INTO `bwlist` (`id`, `name`, `status`, `list_type`, `advertiser_id`, `cre
 (8, 'ali', 'Active', 'white', 8, '2015-11-21 13:12:34', '2015-11-21 13:12:34'),
 (17, 'alireza2', 'Active', 'white', 8, '2015-11-28 13:13:17', '2016-01-26 11:08:33'),
 (18, 'alio1', 'Disable', 'black', 9, '2015-12-05 12:29:45', '2016-01-30 12:33:04'),
-(19, 'reza', 'Active', 'black', 6, '2016-01-18 15:25:21', '2016-01-26 11:08:31');
+(19, 'reza', 'Active', 'black', 6, '2016-01-18 15:25:21', '2016-01-26 11:08:31'),
+(20, 'bwlist 1 abc', 'Disable', 'black', 14, '2016-02-04 10:49:27', '2016-02-04 10:52:07'),
+(21, 'bwlist 1 abc w', 'Active', 'white', 14, '2016-02-04 10:50:37', '2016-02-04 10:52:08'),
+(22, 'bwlist 3 abc', 'Active', 'black', 13, '2016-02-04 11:05:11', '2016-02-04 11:05:11'),
+(23, 'bwlist 4 abc', 'Active', 'white', 13, '2016-02-04 11:05:35', '2016-02-04 11:05:35'),
+(24, 'alireza', '', 'black', 13, '2016-02-04 11:20:01', '2016-02-04 11:20:01');
 
 -- --------------------------------------------------------
 
@@ -298,7 +340,7 @@ CREATE TABLE IF NOT EXISTS `campaign` (
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `advertiser_id` int(10) unsigned NOT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Inactive',
   `max_impression` int(11) NOT NULL,
   `daily_max_impression` int(11) NOT NULL,
   `max_budget` int(11) NOT NULL,
@@ -310,20 +352,47 @@ CREATE TABLE IF NOT EXISTS `campaign` (
   `advertiser_domain_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `campaign`
 --
 
 INSERT INTO `campaign` (`id`, `name`, `advertiser_id`, `description`, `status`, `max_impression`, `daily_max_impression`, `max_budget`, `daily_max_budget`, `cpm`, `advertiser_domain`, `start_date`, `end_date`, `advertiser_domain_name`, `created_at`, `updated_at`) VALUES
-(3, 'fsdf111121', 4, 'asdas', 'Active', 13123, 2342, 34231, 4234, 234, '', '2015-11-09 14:32:32', '2015-11-25 14:32:32', '234', '2015-10-14 11:38:02', '2015-12-20 11:34:48'),
+(3, 'Inactive', 4, 'asdass', 'Active', 131231, 23421, 342311, 42341, 2341, '', '2016-02-17 13:11:21', '2016-02-18 13:11:21', '2341.com', '2015-10-14 11:38:02', '2016-02-10 13:11:21'),
 (4, 'asdasd', 4, 'asd asd a', 'Inactive', 2332, 2323, 2222, 2222, 222, '', '2016-01-06 08:14:25', '2016-01-14 08:14:25', '222', '2015-10-23 10:07:43', '2016-01-27 13:56:42'),
 (5, '111111112', 6, 'asdasd3', 'Active', 2223123, 2223123, 2223123, 223123, 22332, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'asdas1', '2015-11-07 13:02:52', '2016-02-02 08:59:28'),
 (6, 'aaaaaaaa', 4, '', 'Active', 2147483647, 2147483647, 2234123, 2123, 2147483647, '', '2016-01-18 12:32:38', '2016-01-30 12:32:38', 'aaaaaaa', '2015-11-17 07:42:08', '2016-02-02 08:59:22'),
 (7, 'asd', 8, '', 'Active', 123, 123, 123, 123, 123, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '123', '2015-11-17 09:31:34', '2015-11-17 09:31:34'),
 (9, 'asd asd', 9, '', 'Active', 0, 0, 0, 0, 0, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'as das ', '2015-11-17 12:38:53', '2015-11-17 12:38:53'),
-(10, 'CMP_1_bing', 12, '2222', '', 1, 2, 3, 4, 5, '', '2016-02-02 11:46:19', '2016-02-18 11:46:19', 'bing.com', '2016-02-02 11:13:38', '2016-02-02 11:13:38');
+(10, 'CMP_1_bing', 12, '2222', '', 1, 2, 3, 4, 5, '', '2016-02-02 11:46:19', '2016-02-18 11:46:19', 'bing.com', '2016-02-02 11:13:38', '2016-02-02 11:13:38'),
+(12, 'camp 1 abc1', 13, '', 'Inactive', 19, 29, 39, 49, 59, '', '2016-02-05 10:18:31', '2016-02-29 10:18:31', 'cmpab1c.com', '2016-02-04 10:17:34', '2016-02-04 10:18:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `campaign_realtime_info`
+--
+
+CREATE TABLE IF NOT EXISTS `campaign_realtime_info` (
+  `id` int(10) unsigned NOT NULL,
+  `campaign_id` int(10) unsigned NOT NULL,
+  `today_date` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `impressions_shown_today_until_now` int(11) NOT NULL,
+  `total_impression_show_until_now` int(11) NOT NULL,
+  `daily_budget_spent_today_until_now` decimal(8,2) NOT NULL,
+  `total_budget_spent_until_now` decimal(8,2) NOT NULL,
+  `last_time_ad_shown` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `campaign_realtime_info`
+--
+
+INSERT INTO `campaign_realtime_info` (`id`, `campaign_id`, `today_date`, `impressions_shown_today_until_now`, `total_impression_show_until_now`, `daily_budget_spent_today_until_now`, `total_budget_spent_until_now`, `last_time_ad_shown`, `created_at`, `updated_at`) VALUES
+(1, 3, '', 12, 32, '654.20', '123.22', '2016-02-08 01:46:22', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -338,18 +407,26 @@ CREATE TABLE IF NOT EXISTS `client` (
   `company` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `client`
 --
 
 INSERT INTO `client` (`id`, `user_id`, `name`, `company`, `created_at`, `updated_at`) VALUES
-(1, 1, 'pepsiasd123', 'pepsi company', '0000-00-00 00:00:00', '2016-02-02 08:20:25'),
+(1, 1, 'pepsiasd12351', 'pepsi company', '0000-00-00 00:00:00', '2016-02-10 12:50:34'),
 (2, 1, 'cocacola', 'cocacola company', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (3, 7, 'alireza_pepsi', 'aaa', '2015-10-08 11:47:15', '2015-10-08 11:47:15'),
 (4, 3, 'ali1', 'ssss', '2015-10-08 11:50:08', '2016-02-02 08:57:38'),
-(19, 8, 'client_bing', '', '2016-02-02 10:54:33', '2016-02-02 10:54:33');
+(19, 8, 'client_bing', '', '2016-02-02 10:54:33', '2016-02-02 10:54:33'),
+(20, 1, 'asdasd', '', '2016-02-02 12:29:05', '2016-02-02 12:29:05'),
+(21, 1, 'sadasd1234', '', '2016-02-02 12:29:13', '2016-02-02 12:29:13'),
+(22, 1, 'asdasd34', '', '2016-02-02 12:29:17', '2016-02-02 12:29:17'),
+(23, 1, 'asdas', '', '2016-02-02 12:29:20', '2016-02-02 12:29:20'),
+(24, 1, 'fdsfsd', '', '2016-02-02 12:29:27', '2016-02-02 12:29:27'),
+(25, 1, 'erwrw', '', '2016-02-02 12:29:30', '2016-02-02 12:29:30'),
+(26, 1, 'asdasr', '', '2016-02-02 12:29:32', '2016-02-02 12:29:32'),
+(27, 10, 'clientTestAmir2016JanuaryTest', '', '2016-02-04 09:54:10', '2016-02-04 09:54:10');
 
 -- --------------------------------------------------------
 
@@ -362,16 +439,17 @@ CREATE TABLE IF NOT EXISTS `company` (
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `company`
 --
 
 INSERT INTO `company` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'Google', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1, 'Google', '0000-00-00 00:00:00', '2016-02-04 07:59:23'),
 (2, 'Apple', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(3, 'Bing', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(3, 'Bing', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 'ABC', '2016-02-04 09:49:00', '2016-02-04 09:49:00');
 
 -- --------------------------------------------------------
 
@@ -384,8 +462,10 @@ CREATE TABLE IF NOT EXISTS `creative` (
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `advertiser_id` int(10) unsigned NOT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Inactive',
   `ad_tag` text COLLATE utf8_unicode_ci NOT NULL,
+  `api` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `ad_type` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `landing_page_url` text COLLATE utf8_unicode_ci NOT NULL,
   `preview_url` text COLLATE utf8_unicode_ci NOT NULL,
   `size` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
@@ -394,15 +474,17 @@ CREATE TABLE IF NOT EXISTS `creative` (
   `advertiser_domain_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `creative`
 --
 
-INSERT INTO `creative` (`id`, `name`, `advertiser_id`, `description`, `status`, `ad_tag`, `landing_page_url`, `preview_url`, `size`, `is_secure`, `attributes`, `advertiser_domain_name`, `created_at`, `updated_at`) VALUES
-(2, 'aaa1s', 8, '', 'Active', 'asd', 'ads1', 'adsa', '23x232', 0, 'asd', 'aaaas', '2015-11-17 10:07:22', '2016-01-26 10:20:44'),
-(5, 'as32423d1سیبسی', 4, '12311', 'Active', '2131324', '1231234', '1231234', '1231x231', 0, '1231234', '1231', '2015-10-23 06:15:09', '2016-01-26 10:20:46');
+INSERT INTO `creative` (`id`, `name`, `advertiser_id`, `description`, `status`, `ad_tag`, `api`, `ad_type`, `landing_page_url`, `preview_url`, `size`, `is_secure`, `attributes`, `advertiser_domain_name`, `created_at`, `updated_at`) VALUES
+(2, 'aaa1sss31', 8, 'asdas', 'Active', '                                                                                                                                                                                                asd', '["MRAID-1","ORMMA"]', 'XHTML_BANNER_AD', 'ads11', 'adsa1', '231x2321', 0, 'asd1', 'aaaa1s.com', '2015-11-17 10:07:22', '2016-02-10 13:12:06'),
+(5, 'as32423d1سیبسی', 4, '12311', 'Active', '2131324', '', '', '1231234', '1231234', '1231x231', 0, '1231234', '1231', '2015-10-23 06:15:09', '2016-02-06 11:10:53'),
+(7, 'creative 1 Bing', 12, 'as da', '', 'asdsad', '', '', 'sad asd', ' asd as asd', '23x23', 0, 'asdasd', 'bingCrt.com', '2016-02-02 12:03:42', '2016-02-02 12:03:42'),
+(8, 'crt 1 abc1', 13, '', 'Inactive', 'jdfg aksjgsjasjkasjasklj  f f f f', '', '', 'sdfas dfs1', 'dsfsd9', '2399x239', 0, 'zsdf9', 'crtab1.com', '2016-02-04 10:24:09', '2016-02-04 10:27:17');
 
 -- --------------------------------------------------------
 
@@ -500,7 +582,7 @@ CREATE TABLE IF NOT EXISTS `geosegment` (
   `geosegmentlist_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `geosegment`
@@ -515,7 +597,17 @@ INSERT INTO `geosegment` (`id`, `name`, `lat`, `lon`, `segment_radius`, `geosegm
 (30, 'asdf', '324', '234', 34, 13, '2016-01-18 14:21:49', '2016-01-18 14:21:49'),
 (31, 'asd', '324', '324', 32, 13, '2016-01-18 14:21:49', '2016-01-18 14:21:49'),
 (40, 'sad', '231', '12', 313, 14, '2016-01-18 16:25:08', '2016-01-18 16:25:08'),
-(41, 'asdasd', '21312', '312', 31, 14, '2016-01-18 17:16:50', '2016-01-18 17:16:50');
+(41, 'asdasd', '21312', '312', 31, 14, '2016-01-18 17:16:50', '2016-01-18 17:16:50'),
+(42, 'gsme1 abc', '12', '13', 12, 15, '2016-02-04 10:54:08', '2016-02-04 10:54:08'),
+(43, 'sada sdasd', '32', '34', 1, 15, '2016-02-04 10:54:17', '2016-02-04 10:54:17'),
+(44, 'asdas', '34', '34', 34, 16, '2016-02-04 11:06:04', '2016-02-04 11:06:04'),
+(45, 'asdasd', '4', '3', 4, 16, '2016-02-04 11:06:04', '2016-02-04 11:06:04'),
+(46, 'sadasd', '34', '43', 43, 16, '2016-02-04 11:06:04', '2016-02-04 11:06:04'),
+(47, 'alireza', '12.233', '6.1234', 12, 17, '2016-02-04 11:22:41', '2016-02-04 11:22:41'),
+(48, 'mmm', '32.656', '12.4564', 5, 17, '2016-02-04 11:22:41', '2016-02-04 11:22:41'),
+(49, 'asdas', '55.66541', '32.654', 2, 17, '2016-02-04 11:22:41', '2016-02-04 11:22:41'),
+(50, 'adada', '12.233', '6.1234', 12, 17, '2016-02-04 11:22:41', '2016-02-04 11:22:41'),
+(51, 'fffff', '12.233', '6.1234', 12, 17, '2016-02-04 11:22:41', '2016-02-04 11:22:41');
 
 -- --------------------------------------------------------
 
@@ -526,23 +618,26 @@ INSERT INTO `geosegment` (`id`, `name`, `lat`, `lon`, `segment_radius`, `geosegm
 CREATE TABLE IF NOT EXISTS `geosegmentlist` (
   `id` int(10) unsigned NOT NULL,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Inactive',
   `advertiser_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `geosegmentlist`
 --
 
 INSERT INTO `geosegmentlist` (`id`, `name`, `status`, `advertiser_id`, `created_at`, `updated_at`) VALUES
-(7, 'aaaaaaaasdasdas', 'Active', 4, '2015-11-28 13:14:23', '2015-11-28 13:14:23'),
+(7, 'gsmssss', 'Inactive', 4, '2015-11-28 13:14:23', '2016-02-10 13:24:41'),
 (8, 'gggggggggggg', 'Active', 4, '2015-11-28 13:14:23', '2015-11-28 13:14:23'),
 (9, 'ali', 'Active', 8, '2015-12-05 13:25:30', '2015-12-05 13:25:30'),
 (12, 'aa11a112', 'Active', 9, '2015-12-05 13:57:05', '2016-01-17 11:03:44'),
 (13, 'asd', 'Active', 4, '2016-01-18 14:21:49', '2016-01-26 11:04:26'),
-(14, 'ali', 'Active', 9, '2016-01-18 14:32:09', '2016-01-26 11:04:25');
+(14, 'ali', 'Active', 9, '2016-01-18 14:32:09', '2016-01-26 11:04:25'),
+(15, 'gsm 1 abc', 'Inactive', 13, '2016-02-04 10:53:40', '2016-02-04 11:24:56'),
+(16, 'gsm 4 abc', 'Active', 13, '2016-02-04 11:06:04', '2016-02-04 11:24:54'),
+(17, 'test Upload', '', 13, '2016-02-04 11:22:41', '2016-02-04 11:22:41');
 
 -- --------------------------------------------------------
 
@@ -612,7 +707,7 @@ CREATE TABLE IF NOT EXISTS `impression` (
   `geosegment_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=2147306497 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2080991137 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `impression`
@@ -653,6 +748,30 @@ INSERT INTO `impression` (`id`, `event_type`, `targetgroup_id`, `creative_id`, `
 (2041386496, 'impression', 12, 5, 3, 4, 3, 8, '2016-01-30 15:25:04', '2016-01-04 06:32:00'),
 (2046296064, 'impression', 12, 5, 3, 4, 3, 8, '2016-01-30 15:33:04', '2016-01-04 03:23:00'),
 (2080991136, 'impression', 12, 5, 3, 4, 3, 8, '2016-01-30 14:30:04', '2016-01-04 03:26:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventory`
+--
+
+CREATE TABLE IF NOT EXISTS `inventory` (
+  `id` int(10) unsigned NOT NULL,
+  `name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Inactive',
+  `type` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `category` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `daily_limit` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `inventory`
+--
+
+INSERT INTO `inventory` (`id`, `name`, `status`, `type`, `category`, `daily_limit`, `created_at`, `updated_at`) VALUES
+(1, 'inv11', 'Inactive', 'type1', 'cat1', 231, '2016-02-07 10:51:29', '2016-02-07 11:01:12');
 
 -- --------------------------------------------------------
 
@@ -704,7 +823,12 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 ('2016_01_21_125202_offer_pixel_map-table', 22),
 ('2016_01_21_125224_pixel-table', 22),
 ('2016_01_23_173443_fieald_to_model', 23),
-('2016_01_27_152941_advertiser_model_map-table', 24);
+('2016_01_27_152941_advertiser_model_map-table', 24),
+('2016_02_07_140514_create-inventory-table', 25),
+('2016_02_08_143515_create-segment-table', 26),
+('2016_02_08_143530_create-targetgroup_segment_map', 26),
+('2016_02_08_143547_create-targetgroup_realtime_info', 26),
+('2016_02_08_143557_create-campaign_realtime_info', 26);
 
 -- --------------------------------------------------------
 
@@ -752,8 +876,7 @@ CREATE TABLE IF NOT EXISTS `model` (
 --
 
 INSERT INTO `model` (`id`, `name`, `advertiser_id`, `seed_web_sites`, `algo`, `segment_name_seed`, `process_result`, `description`, `num_neg_devices_used`, `num_pos_devices_used`, `feature_recency_in_sec`, `max_num_both_neg_pos_devices`, `negative_features_requested`, `feature_avg_num_history_used`, `negative_feature_used`, `date_of_request`, `created_at`, `updated_at`, `positive_feature_used`, `feature_score_map`, `top_feature_score_map`, `model_type`, `cut_off_score`, `pixel_hit_recency_in_seconds`, `positive_offer_id`, `negative_offer_id`, `max_number_of_device_history_per_feature`, `max_number_of_negative_feature_to_pick`, `number_of_positive_device_to_be_used_for_modeling`, `number_of_negative_device_to_be_used_for_modeling`, `number_of_both_negative_positive_device_to_be_used`, `date_of_request_completion`) VALUES
-(1, 'aaa', 6, '"asd,dd,d"', 'heat', 'aaa', 'asdas', '1111', 1, 1, 1, 1, '"asd,fgsd,fg,df,w"', '', '"asd,ac,zc,sdf,g"', '2016-01-11 07:00:06', '2015-11-12 06:34:38', '2015-11-12 07:06:34', '', '', '', '', '0.00', 0, '', '', 0, 0, 0, 0, 0, '0000-00-00 00:00:00'),
-(4, 'test11112', 4, 'null', '', '234112', 'submitted', 'axdffs122', 0, 0, 324112, 23122, 'null', '', '', '2016-01-25 13:05:02', '2016-01-25 11:09:18', '2016-01-25 15:35:04', '', '', '', 'pixel_model', '11.00', 1223, '2', '1', 122, 0, 122, 122, 122, '2016-01-25 13:05:02');
+(4, 'test111121s', 4, 'null', 'lakers', '2341122', 'submitted', 'axdffs122', 0, 0, 324112, 23122, 'null', '', '', '2016-01-25 13:05:02', '2016-01-25 11:09:18', '2016-02-10 13:42:08', '', '', '', 'pixel_model', '52.00', 1223, '4,2', '1,3,5', 122, 0, 122, 122, 122, '2016-01-25 13:05:02');
 
 -- --------------------------------------------------------
 
@@ -764,20 +887,23 @@ INSERT INTO `model` (`id`, `name`, `advertiser_id`, `seed_web_sites`, `algo`, `s
 CREATE TABLE IF NOT EXISTS `offer` (
   `id` int(10) unsigned NOT NULL,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Inactive',
   `advertiser_id` int(10) unsigned NOT NULL,
   `description` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `offer`
 --
 
 INSERT INTO `offer` (`id`, `name`, `status`, `advertiser_id`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'offer1234', 'Active', 4, '', '2016-01-21 11:13:17', '2016-01-26 13:12:16'),
-(2, 'offer4', 'Active', 4, '', '2016-01-21 12:35:00', '2016-01-26 13:12:16');
+(1, 'Inactive', 'Active', 4, '', '2016-01-21 11:13:17', '2016-02-10 13:12:45'),
+(2, 'offer4', 'Active', 4, '', '2016-01-21 12:35:00', '2016-01-26 13:12:16'),
+(3, 'offer 1 Bing', '', 12, '', '2016-02-03 13:37:18', '2016-02-03 13:37:18'),
+(4, 'offer 1 abc', 'Inactive', 13, '', '2016-02-04 10:28:33', '2016-02-04 10:30:10'),
+(5, 'offer 2 abc', 'Active', 13, '', '2016-02-04 10:28:59', '2016-02-04 10:30:09');
 
 -- --------------------------------------------------------
 
@@ -791,14 +917,18 @@ CREATE TABLE IF NOT EXISTS `offer_pixel_map` (
   `pixel_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `offer_pixel_map`
 --
 
 INSERT INTO `offer_pixel_map` (`id`, `offer_id`, `pixel_id`, `created_at`, `updated_at`) VALUES
-(2, 2, 1, '2016-01-21 13:07:07', '2016-01-21 13:07:07');
+(2, 2, 1, '2016-01-21 13:07:07', '2016-01-21 13:07:07'),
+(7, 4, 5, '2016-02-04 10:48:20', '2016-02-04 10:48:20'),
+(10, 1, 3, '2016-02-10 13:44:53', '2016-02-10 13:44:53'),
+(11, 1, 1, '2016-02-10 13:52:06', '2016-02-10 13:52:06'),
+(12, 1, 2, '2016-02-10 13:52:06', '2016-02-10 13:52:06');
 
 -- --------------------------------------------------------
 
@@ -824,7 +954,7 @@ CREATE TABLE IF NOT EXISTS `permission` (
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `permission`
@@ -850,7 +980,8 @@ INSERT INTO `permission` (`id`, `name`, `description`, `created_at`, `updated_at
 (25, 'ADD_EDIT_OFFER', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (26, 'ADD_EDIT_PIXEL', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (27, 'VIEW_OFFER', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(28, 'VIEW_PIXEL', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(28, 'VIEW_PIXEL', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(29, 'VIEW_SEGMENT', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -861,7 +992,7 @@ INSERT INTO `permission` (`id`, `name`, `description`, `created_at`, `updated_at
 CREATE TABLE IF NOT EXISTS `pixel` (
   `id` int(10) unsigned NOT NULL,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Inactive',
   `advertiser_id` int(10) unsigned NOT NULL,
   `part_a` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `part_b` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
@@ -869,15 +1000,18 @@ CREATE TABLE IF NOT EXISTS `pixel` (
   `description` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `pixel`
 --
 
 INSERT INTO `pixel` (`id`, `name`, `status`, `advertiser_id`, `part_a`, `part_b`, `version`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'asd233', 'Active', 4, 'wXTXfP2d4ggkmJHwXcUvc80vVuAeuLJUJU1gZoAv7cZlsMl1Q6eeDDLdFmvGhKzQjKxq7QwEy06eVGno', '7SWQs1SOM6N0qBMEgsqtCaPGlGA0MtMDLw0kDhnhgIsdYkmlB2GovmvAwerD08yLM2sGcpfC7dvhSVkU', 'version1', '', '2016-01-21 11:47:51', '2016-01-26 13:12:19'),
-(2, 'pixle111', 'Active', 4, 'qIx3eXHRwDlpEexTsGU3htx7YA0LStpgP7mhaYX5L0LmWHSkx1VJUqXLTTBaQTW8AozouQzanfybA3BE', 'ZejhUfLic4AqbbQSJx8nbBz8mmITDhGPPj4HhWXHS8WzUl7vfy5effWZImgs2n9T1hcZ2vvZV3FA0nL0', 'version1', '', '2016-01-21 12:35:31', '2016-01-26 13:12:19');
+(1, 'pixle1111', 'Inactive', 4, 'wXTXfP2d4ggkmJHwXcUvc80vVuAeuLJUJU1gZoAv7cZlsMl1Q6eeDDLdFmvGhKzQjKxq7QwEy06eVGno', '7SWQs1SOM6N0qBMEgsqtCaPGlGA0MtMDLw0kDhnhgIsdYkmlB2GovmvAwerD08yLM2sGcpfC7dvhSVkU', 'version1', '', '2016-01-21 11:47:51', '2016-02-10 13:18:44'),
+(2, 'pixle11112', 'Active', 4, 'qIx3eXHRwDlpEexTsGU3htx7YA0LStpgP7mhaYX5L0LmWHSkx1VJUqXLTTBaQTW8AozouQzanfybA3BE', 'ZejhUfLic4AqbbQSJx8nbBz8mmITDhGPPj4HhWXHS8WzUl7vfy5effWZImgs2n9T1hcZ2vvZV3FA0nL0', 'version1', '', '2016-01-21 12:35:31', '2016-02-07 14:49:04'),
+(3, 'pixle 1 bing1', '', 12, '9tdRmgLnlhu8OTSbYWSayKY9Ma7JmyO0wKZyY49vWoeq83IpMTA3BfisOYNc7pBpLoDDsgp0pTQ5kArZ', 'teajw8u8I9m3LCgbTpa5OPxRKKl8pv3X2VDWjnycuHMihdNkTNyU2Mx7XZHxmMwit0XXZ0uC9C5TFcdR', 'version1', '', '2016-02-03 13:46:26', '2016-02-07 13:43:22'),
+(4, 'pixel 1 abc', 'Inactive', 13, 'sHOHt7O6sDYkF5gXMN852DAk9V3LkwvYjLr4juOE235NIie54yIEjGv3915pPppi3cXP2eGzuP3DES3B', 'fG9At6ja3u0rcGb0E1kWClqRPZUQtPLuibtTuUZEOlMQskP48cAr5P2w1wDq9amKd4Fzp5xvsyrCzllw', 'version1', '', '2016-02-04 10:32:13', '2016-02-04 10:33:46'),
+(5, 'pexel 2 abc1', 'Active', 13, 'dWvSmRsjCtGccEa7PImaIwfWAphxEerxEkc3MxvFLcQtPab4GMZxyTfu9Po0IrpGW5LC3AroMiT7k35o', 'pdvhhC6pCBmQE1fb7ddxd0fvFLN9HkR512TpRJQHWLd3sYX49IxQeOVYqCAyWYv9ve9Tkdsm8iWD9jxk', 'version1', '', '2016-02-04 10:32:25', '2016-02-04 10:33:45');
 
 -- --------------------------------------------------------
 
@@ -917,7 +1051,7 @@ CREATE TABLE IF NOT EXISTS `role_permission_mapping` (
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=528 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=549 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `role_permission_mapping`
@@ -926,26 +1060,6 @@ CREATE TABLE IF NOT EXISTS `role_permission_mapping` (
 INSERT INTO `role_permission_mapping` (`id`, `permission_id`, `role_id`, `description`, `created_at`, `updated_at`) VALUES
 (15, 7, 3, '', '2015-12-07 13:09:51', '2015-12-07 13:09:51'),
 (16, 16, 3, '', '2015-12-07 13:09:51', '2015-12-07 13:09:51'),
-(488, 1, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(489, 3, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(490, 4, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(491, 6, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(492, 7, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(493, 9, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(494, 10, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(495, 12, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(496, 13, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(497, 15, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(498, 16, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(499, 18, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(500, 19, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(501, 21, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(502, 22, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(503, 24, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(504, 25, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(505, 26, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(506, 27, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
-(507, 28, 1, '', '2016-01-21 10:55:13', '2016-01-21 10:55:13'),
 (508, 1, 2, '', '2016-02-02 10:57:10', '2016-02-02 10:57:10'),
 (509, 3, 2, '', '2016-02-02 10:57:10', '2016-02-02 10:57:10'),
 (510, 4, 2, '', '2016-02-02 10:57:10', '2016-02-02 10:57:10'),
@@ -965,7 +1079,50 @@ INSERT INTO `role_permission_mapping` (`id`, `permission_id`, `role_id`, `descri
 (524, 25, 2, '', '2016-02-02 10:57:10', '2016-02-02 10:57:10'),
 (525, 26, 2, '', '2016-02-02 10:57:10', '2016-02-02 10:57:10'),
 (526, 27, 2, '', '2016-02-02 10:57:10', '2016-02-02 10:57:10'),
-(527, 28, 2, '', '2016-02-02 10:57:10', '2016-02-02 10:57:10');
+(527, 28, 2, '', '2016-02-02 10:57:10', '2016-02-02 10:57:10'),
+(528, 1, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(529, 3, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(530, 4, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(531, 6, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(532, 7, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(533, 9, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(534, 10, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(535, 12, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(536, 13, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(537, 15, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(538, 16, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(539, 18, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(540, 19, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(541, 21, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(542, 22, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(543, 24, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(544, 25, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(545, 26, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(546, 27, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(547, 28, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04'),
+(548, 29, 1, '', '2016-02-08 11:22:04', '2016-02-08 11:22:04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `segment`
+--
+
+CREATE TABLE IF NOT EXISTS `segment` (
+  `id` int(10) unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `advertiser_id` int(10) unsigned NOT NULL,
+  `model_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `segment`
+--
+
+INSERT INTO `segment` (`id`, `name`, `advertiser_id`, `model_id`, `created_at`, `updated_at`) VALUES
+(2, 'segment 2', 4, 4, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -978,7 +1135,7 @@ CREATE TABLE IF NOT EXISTS `targetgroup` (
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `campaign_id` int(10) unsigned NOT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Inactive',
   `iab_category` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `iab_sub_category` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `max_impression` int(11) NOT NULL,
@@ -987,25 +1144,27 @@ CREATE TABLE IF NOT EXISTS `targetgroup` (
   `daily_max_budget` int(11) NOT NULL,
   `pacing_plan` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `cpm` int(11) NOT NULL,
+  `ad_position` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `frequency_in_sec` int(11) NOT NULL,
   `start_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `end_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `advertiser_domain_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `targetgroup`
 --
 
-INSERT INTO `targetgroup` (`id`, `name`, `campaign_id`, `description`, `status`, `iab_category`, `iab_sub_category`, `max_impression`, `daily_max_impression`, `max_budget`, `daily_max_budget`, `pacing_plan`, `cpm`, `frequency_in_sec`, `start_date`, `end_date`, `advertiser_domain_name`, `created_at`, `updated_at`) VALUES
-(1, 'dfsasd222', 3, 'df fsdfs d1', 'Active', 'asd1', 'asd1', 32141, 2342341, 2341, 2341, '2341', 2341, 2341, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '234231', '2015-10-22 05:17:18', '2015-10-22 05:42:47'),
-(2, 'sadasd', 3, '4ghh', 'Active', '234', '234', 234234, 234, 2341234, 234234, '234234', 456, 45646, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '456456', '2015-10-23 09:56:19', '2015-10-23 09:56:19'),
-(3, 'asdasd', 3, 'fhfgh', 'Active', '5646', '456456', 45645, 645, 6456, 46, '464', 4564, 5646, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '46', '2015-10-23 09:59:06', '2015-10-23 09:59:06'),
-(4, 'asdasd1', 7, 'ggggfjfjf g gh jfg ', 'Active', '324', '567', 65, 87, 856756, 7567, '567', 567, 567, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '567', '2015-10-23 10:00:05', '2015-10-23 10:00:05'),
-(13, 'ali', 3, '', 'Active', '1', NULL, 1, 2, 3, 4, '7', 6, 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'ddd', '2015-11-30 14:13:26', '2015-11-30 14:13:26'),
-(20, 'final1', 3, '', '', '1', '3', 2131, 1231, 1231, 1231, '1231', 1231, 1231, '2016-10-01 06:42:03', '2018-04-01 05:42:03', 'http://www.as1d.com', '2016-01-28 09:06:16', '2016-01-31 06:42:03');
+INSERT INTO `targetgroup` (`id`, `name`, `campaign_id`, `description`, `status`, `iab_category`, `iab_sub_category`, `max_impression`, `daily_max_impression`, `max_budget`, `daily_max_budget`, `pacing_plan`, `cpm`, `ad_position`, `frequency_in_sec`, `start_date`, `end_date`, `advertiser_domain_name`, `created_at`, `updated_at`) VALUES
+(1, 'dfsasd222', 3, 'df fsdfs d1', 'Active', 'asd1', 'asd1', 32141, 2342341, 2341, 2341, '2341', 2341, '', 2341, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '234231', '2015-10-22 05:17:18', '2015-10-22 05:42:47'),
+(2, 'sadasd', 3, '4ghh', 'Active', '234', '234', 234234, 234, 2341234, 234234, '234234', 456, '', 45646, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '456456', '2015-10-23 09:56:19', '2015-10-23 09:56:19'),
+(3, 'asdasd', 3, 'fhfgh', 'Active', '5646', '456456', 45645, 645, 6456, 46, '464', 4564, '', 5646, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '46', '2015-10-23 09:59:06', '2015-10-23 09:59:06'),
+(4, 'asdasd1', 7, 'ggggfjfjf g gh jfg ', 'Active', '324', '567', 65, 87, 856756, 7567, '567', 567, '', 567, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '567', '2015-10-23 10:00:05', '2015-10-23 10:00:05'),
+(13, 'ali', 3, '', 'Active', '1', NULL, 1, 2, 3, 4, '7', 6, '', 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'ddd', '2015-11-30 14:13:26', '2015-11-30 14:13:26'),
+(20, 'final1', 3, '', '', '1', '3', 2131, 1231, 1231, 1231, '1231', 1231, '', 1231, '2016-10-01 06:42:03', '2018-04-01 05:42:03', 'http://www.as1d.com', '2016-01-28 09:06:16', '2016-01-31 06:42:03'),
+(21, 'fdgdrsd1', 12, '', '', '2', '5', 21, 32, 23, 23, '23', 23, '["Any","Above_the_Fold","Below_the_Fold"]', 32, '2016-09-02 10:15:13', '2017-06-02 10:15:13', 'sad1.com', '2016-02-04 11:10:05', '2016-02-08 16:08:59');
 
 -- --------------------------------------------------------
 
@@ -1019,14 +1178,15 @@ CREATE TABLE IF NOT EXISTS `targetgroup_bidhour_map` (
   `targetgroup_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `targetgroup_bidhour_map`
 --
 
 INSERT INTO `targetgroup_bidhour_map` (`id`, `hours`, `targetgroup_id`, `created_at`, `updated_at`) VALUES
-(10, '{"1":["0","0","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"],"2":["1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0"],"3":["0","0","0","0","1","0","0","0","0","0","0","1","0","0","0","0","1","1","0","0","0","0","0","0"],"4":["1","0","1","0","0","0","0","1","0","0","0","1","0","0","0","0","0","0","1","1","0","0","0","0"],"5":["0","0","0","0","0","0","0","0","1","0","1","0","0","0","1","0","0","0","0","0","0","0","1","0"],"6":["1","0","0","0","1","0","0","1","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0"],"7":["0","0","0","0","0","0","1","0","0","1","0","0","1","0","0","0","0","0","1","0","0","1","0","0"]}', 20, '2016-01-28 10:07:37', '2016-01-30 14:23:24');
+(10, '{"1":["0","0","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"],"2":["1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0","0"],"3":["0","0","0","0","1","0","0","0","0","0","0","1","0","0","0","0","1","1","0","0","0","0","0","0"],"4":["1","0","1","0","0","0","0","1","0","0","0","1","0","0","0","0","0","0","1","1","0","0","0","0"],"5":["0","0","0","0","0","0","0","0","1","0","1","0","0","0","1","0","0","0","0","0","0","0","1","0"],"6":["1","0","0","0","1","0","0","1","0","0","0","0","0","0","0","0","1","0","0","0","0","0","0","0"],"7":["0","0","0","0","0","0","1","0","0","1","0","0","1","0","0","0","0","0","1","0","0","1","0","0"]}', 20, '2016-01-28 10:07:37', '2016-01-30 14:23:24'),
+(11, '{"1":["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"],"2":["0","1","0","0","0","0","0","1","0","0","0","0","0","0","0","0","1","0","0","0","1","0","0","0"],"3":["0","1","0","1","0","0","1","0","0","0","1","0","0","0","1","0","0","0","1","0","0","0","0","1"],"4":["0","0","0","1","0","1","0","0","0","0","0","0","0","1","0","0","0","1","0","0","0","1","0","0"],"5":["0","0","0","0","0","0","1","0","0","0","1","0","1","0","0","0","0","0","0","1","0","0","0","0"],"6":["1","0","0","1","0","0","0","1","0","0","0","0","0","0","0","1","0","1","0","1","0","0","0","0"],"7":["1","0","0","1","0","0","0","1","0","1","0","1","0","0","0","1","0","0","0","1","0","1","0","1"]}', 21, '2016-02-04 11:10:05', '2016-02-04 11:10:05');
 
 -- --------------------------------------------------------
 
@@ -1041,7 +1201,7 @@ CREATE TABLE IF NOT EXISTS `targetgroup_bid_advpublisher` (
   `targetgroup_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `targetgroup_bid_advpublisher`
@@ -1049,7 +1209,8 @@ CREATE TABLE IF NOT EXISTS `targetgroup_bid_advpublisher` (
 
 INSERT INTO `targetgroup_bid_advpublisher` (`id`, `bid_price`, `advertiser_publisher_id`, `targetgroup_id`, `created_at`, `updated_at`) VALUES
 (10, 12, 23, 20, '2016-01-28 09:06:16', '2016-01-28 09:06:16'),
-(11, 22, 24, 20, '2016-01-28 09:06:16', '2016-01-28 09:06:16');
+(11, 22, 24, 20, '2016-01-28 09:06:16', '2016-01-28 09:06:16'),
+(12, 33, 28, 21, '2016-02-04 11:10:05', '2016-02-04 11:10:05');
 
 -- --------------------------------------------------------
 
@@ -1063,14 +1224,15 @@ CREATE TABLE IF NOT EXISTS `targetgroup_bwlist_map` (
   `bwlist_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `targetgroup_bwlist_map`
 --
 
 INSERT INTO `targetgroup_bwlist_map` (`id`, `targetgroup_id`, `bwlist_id`, `created_at`, `updated_at`) VALUES
-(16, 20, 2, '2016-01-31 06:42:04', '2016-01-31 06:42:04');
+(16, 20, 2, '2016-01-31 06:42:04', '2016-01-31 06:42:04'),
+(17, 21, 22, '2016-02-04 11:10:05', '2016-02-04 11:10:05');
 
 -- --------------------------------------------------------
 
@@ -1084,7 +1246,7 @@ CREATE TABLE IF NOT EXISTS `targetgroup_creative_map` (
   `creative_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `targetgroup_creative_map`
@@ -1094,7 +1256,8 @@ INSERT INTO `targetgroup_creative_map` (`id`, `targetgroup_id`, `creative_id`, `
 (18, 20, 5, '2016-01-28 11:33:31', '2016-01-28 11:33:31'),
 (19, 20, 5, '2016-01-30 12:40:48', '2016-01-30 12:40:48'),
 (20, 20, 5, '2016-01-30 12:44:45', '2016-01-30 12:44:45'),
-(21, 20, 5, '2016-01-30 12:44:56', '2016-01-30 12:44:56');
+(21, 20, 5, '2016-01-30 12:44:56', '2016-01-30 12:44:56'),
+(22, 21, 8, '2016-02-04 11:10:05', '2016-02-04 11:10:05');
 
 -- --------------------------------------------------------
 
@@ -1108,7 +1271,7 @@ CREATE TABLE IF NOT EXISTS `targetgroup_geolocation_map` (
   `targetgroup_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `targetgroup_geolocation_map`
@@ -1117,7 +1280,11 @@ CREATE TABLE IF NOT EXISTS `targetgroup_geolocation_map` (
 INSERT INTO `targetgroup_geolocation_map` (`id`, `geolocation_id`, `targetgroup_id`, `created_at`, `updated_at`) VALUES
 (29, 22, 20, '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
 (30, 23, 20, '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
-(31, 24, 20, '2016-01-31 06:42:04', '2016-01-31 06:42:04');
+(31, 24, 20, '2016-01-31 06:42:04', '2016-01-31 06:42:04'),
+(32, 1, 21, '2016-02-04 11:10:05', '2016-02-04 11:10:05'),
+(33, 2, 21, '2016-02-04 11:10:05', '2016-02-04 11:10:05'),
+(34, 5, 21, '2016-02-04 11:10:05', '2016-02-04 11:10:05'),
+(35, 6, 21, '2016-02-04 11:10:05', '2016-02-04 11:10:05');
 
 -- --------------------------------------------------------
 
@@ -1131,7 +1298,7 @@ CREATE TABLE IF NOT EXISTS `targetgroup_geosegmentlist_map` (
   `geosegmentlist_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `targetgroup_geosegmentlist_map`
@@ -1139,7 +1306,57 @@ CREATE TABLE IF NOT EXISTS `targetgroup_geosegmentlist_map` (
 
 INSERT INTO `targetgroup_geosegmentlist_map` (`id`, `targetgroup_id`, `geosegmentlist_id`, `created_at`, `updated_at`) VALUES
 (25, 20, 7, '2016-01-28 09:06:16', '2016-01-28 09:06:16'),
-(37, 20, 8, '2016-01-31 06:42:03', '2016-01-31 06:42:03');
+(37, 20, 8, '2016-01-31 06:42:03', '2016-01-31 06:42:03'),
+(38, 21, 15, '2016-02-04 11:10:05', '2016-02-04 11:10:05'),
+(39, 21, 16, '2016-02-04 11:10:05', '2016-02-04 11:10:05');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `targetgroup_realtime_info`
+--
+
+CREATE TABLE IF NOT EXISTS `targetgroup_realtime_info` (
+  `id` int(10) unsigned NOT NULL,
+  `targetgroup_id` int(10) unsigned NOT NULL,
+  `today_date` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `impressions_shown_today_until_now` int(11) NOT NULL,
+  `total_impression_show_until_now` int(11) NOT NULL,
+  `daily_budget_spent_today_until_now` decimal(8,2) NOT NULL,
+  `total_budget_spent_until_now` decimal(8,2) NOT NULL,
+  `last_time_ad_shown` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `target_group_pacing_status` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `targetgroup_realtime_info`
+--
+
+INSERT INTO `targetgroup_realtime_info` (`id`, `targetgroup_id`, `today_date`, `impressions_shown_today_until_now`, `total_impression_show_until_now`, `daily_budget_spent_today_until_now`, `total_budget_spent_until_now`, `last_time_ad_shown`, `target_group_pacing_status`, `created_at`, `updated_at`) VALUES
+(2, 20, '2016-10-01', 12, 23, '34.12', '432.23', '2016-02-07 22:41:21', 'Active', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `targetgroup_segment_map`
+--
+
+CREATE TABLE IF NOT EXISTS `targetgroup_segment_map` (
+  `id` int(10) unsigned NOT NULL,
+  `targetgroup_id` int(10) unsigned NOT NULL,
+  `segment_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `targetgroup_segment_map`
+--
+
+INSERT INTO `targetgroup_segment_map` (`id`, `targetgroup_id`, `segment_id`, `created_at`, `updated_at`) VALUES
+(1, 20, 2, '2016-02-08 12:26:03', '2016-02-08 12:26:03');
 
 -- --------------------------------------------------------
 
@@ -1160,21 +1377,23 @@ CREATE TABLE IF NOT EXISTS `users` (
   `last_login_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `role_id`, `company_id`, `company`, `name`, `email`, `password`, `active`, `remember_token`, `last_login_time`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 'aaa11', 'alireza', '09364991494@yahoo.com', '$2y$10$7nej63o0f9G.YpQsDqLzgOD78qiXyfXysoR07HN78WrbNFboj1FHe', 0, 'ig6RIR9Zfh9wW0EGQ1YQlVucVtLUClRNO1AP4eASGqrFOxBUiTHsrkn5SEvE', '2016-02-01 22:56:39', '0000-00-00 00:00:00', '2016-02-02 10:56:39'),
+(1, 1, 2, 'aaa11', 'alireza', '09364991494@yahoo.com', '$2y$10$7nej63o0f9G.YpQsDqLzgOD78qiXyfXysoR07HN78WrbNFboj1FHe', 0, 'E2OV0kScjAfkXLCNz0T1Qi5dROg57MxPhEzyW3T4WjdI9Jlbp56nimIjvyJf', '2016-02-03 23:27:04', '0000-00-00 00:00:00', '2016-02-04 11:27:04'),
 (2, 2, 2, '', 'alireza11111', 'a@b.com', '$2y$10$7nej63o0f9G.YpQsDqLzgOD78qiXyfXysoR07HN78WrbNFboj1FHe', 0, 'escgKZLuQi66aB6EvHtgXCw0fiuW1U2ksa2gPmh0KXU2HPVDYn6VMGPTx4cy', '2016-02-01 22:46:05', '0000-00-00 00:00:00', '2016-02-02 10:53:45'),
 (3, 2, 1, '', 'asdasd1', 'a@yahoo.com', '$2y$10$7nej63o0f9G.YpQsDqLzgOD78qiXyfXysoR07HN78WrbNFboj1FHe', 0, 'Ba6wjWdQ9efNaILSuDtLxQLTt7CibJf6Ajw00wMzjqTg9C8lQXFf3IDb39F6', '2016-02-01 22:44:27', '2015-12-06 08:35:25', '2016-02-02 10:45:56'),
 (4, 2, 1, '', 'asdasdas222', 'b@yahoo.com', '$2y$10$7nej63o0f9G.YpQsDqLzgOD78qiXyfXysoR07HN78WrbNFboj1FHe', 1, '1NGp5eILuC7ZyxXAn5ZyVTvAX8HKoYftF5HQfvDywy8o0vg1nPpGrXWnVm7n', '0000-00-00 00:00:00', '2015-12-06 08:38:53', '2015-12-08 05:53:18'),
 (5, 3, 1, '', 'asdas', 'c@yahoo.com', '$2y$10$7nej63o0f9G.YpQsDqLzgOD78qiXyfXysoR07HN78WrbNFboj1FHe', 1, NULL, '0000-00-00 00:00:00', '2015-12-06 10:18:58', '2015-12-07 11:57:27'),
 (6, 4, 1, '', 'asda111', 'd@yahoo.com', '$2y$10$7nej63o0f9G.YpQsDqLzgOD78qiXyfXysoR07HN78WrbNFboj1FHe', 1, NULL, '0000-00-00 00:00:00', '2015-12-15 13:35:09', '2015-12-15 13:40:52'),
 (7, 2, 2, '', 'test_apple', 'g@yahoo.com', '$2y$10$TY2jwFS.CVRSkA6GfrNJz.rffHzKn1FD6waYPCDdjyleqPUzknFE2', 1, NULL, '0000-00-00 00:00:00', '2016-02-02 10:48:07', '2016-02-02 10:48:07'),
-(8, 2, 3, '', 'user_bing', 'bing@yahoo.com', '$2y$10$YqTtfNdmplSOvCtrq4cUm.woKsZh0FmvjahfetW/u8VSUcOiL85Fy', 1, 'dheU4g7EnyL7RuEgTL3sE7X6HvRq1ARFNtEoCaUt9BHiMNUjpk3Fc0k2bnw2', '2016-02-01 22:56:46', '2016-02-02 10:53:24', '2016-02-02 10:56:46');
+(8, 2, 3, '', 'user_bing', 'bing@yahoo.com', '$2y$10$YqTtfNdmplSOvCtrq4cUm.woKsZh0FmvjahfetW/u8VSUcOiL85Fy', 1, 'GkKEJMqbB2hT7jStprUlwq1KAfs97EDX8YpFFRpvVEouyrIGYrm7T4cVrQN5', '2016-02-10 01:56:49', '2016-02-02 10:53:24', '2016-02-10 13:56:49'),
+(9, 1, 4, '', 'abd User', 'abc.user@yahoo.com', '$2y$10$PRmqUdfcdfAYKywijL0Aq.jEYkEmqe.AHabPjEsQhOjZ8J3hr5efa', 1, 'f8bcbYGUv3qDq4xgCr3S89EOkmAiTapsV85SPtpswKAaZtfThXBl3CN6ZHkY', '2016-02-03 21:51:02', '2016-02-04 09:50:23', '2016-02-04 09:52:24'),
+(10, 2, 4, '', 'abc user admin', 'abc.admin@yahoo.com', '$2y$10$m7Vku3vbLjazRsjHBwIsR.c2pWzzKzEBCvnRKQu0zSgjGvA2U7SQ6', 1, '1bYnXfC9qAAiOdbFfmu9QqXn2e8d225cI9LxcV6Sr2DsaCNAHrKhC9hGw8v6', '2016-02-03 22:19:58', '2016-02-04 09:52:12', '2016-02-04 11:27:02');
 
 -- --------------------------------------------------------
 
@@ -1245,6 +1464,13 @@ ALTER TABLE `campaign`
   ADD KEY `campaign_advertiser_id_foreign` (`advertiser_id`);
 
 --
+-- Indexes for table `campaign_realtime_info`
+--
+ALTER TABLE `campaign_realtime_info`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `campaign_realtime_info_campaign_id_foreign` (`campaign_id`);
+
+--
 -- Indexes for table `client`
 --
 ALTER TABLE `client`
@@ -1310,6 +1536,12 @@ ALTER TABLE `impression`
   ADD KEY `impression_geosegment_id_foreign` (`geosegment_id`);
 
 --
+-- Indexes for table `inventory`
+--
+ALTER TABLE `inventory`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `model`
 --
 ALTER TABLE `model`
@@ -1363,6 +1595,14 @@ ALTER TABLE `role_permission_mapping`
   ADD PRIMARY KEY (`id`),
   ADD KEY `role_permission_mapping_permission_id_foreign` (`permission_id`),
   ADD KEY `role_permission_mapping_role_id_foreign` (`role_id`);
+
+--
+-- Indexes for table `segment`
+--
+ALTER TABLE `segment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `segment_advertiser_id_foreign` (`advertiser_id`),
+  ADD KEY `segment_model_id_foreign` (`model_id`);
 
 --
 -- Indexes for table `targetgroup`
@@ -1419,6 +1659,21 @@ ALTER TABLE `targetgroup_geosegmentlist_map`
   ADD KEY `targetgroup_geosegmentlist_map_geosegmentlist_id_foreign` (`geosegmentlist_id`);
 
 --
+-- Indexes for table `targetgroup_realtime_info`
+--
+ALTER TABLE `targetgroup_realtime_info`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `targetgroup_realtime_info_targetgroup_id_foreign` (`targetgroup_id`);
+
+--
+-- Indexes for table `targetgroup_segment_map`
+--
+ALTER TABLE `targetgroup_segment_map`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `targetgroup_segment_map_targetgroup_id_foreign` (`targetgroup_id`),
+  ADD KEY `targetgroup_segment_map_segment_id_foreign` (`segment_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -1443,52 +1698,57 @@ ALTER TABLE `user_role_mapping`
 -- AUTO_INCREMENT for table `advertiser`
 --
 ALTER TABLE `advertiser`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `advertiser_model_map`
 --
 ALTER TABLE `advertiser_model_map`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `advertiser_publisher`
 --
 ALTER TABLE `advertiser_publisher`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `audits`
 --
 ALTER TABLE `audits`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=35;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=118;
 --
 -- AUTO_INCREMENT for table `bwentries`
 --
 ALTER TABLE `bwentries`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=160;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=174;
 --
 -- AUTO_INCREMENT for table `bwlist`
 --
 ALTER TABLE `bwlist`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `campaign`
 --
 ALTER TABLE `campaign`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `campaign_realtime_info`
+--
+ALTER TABLE `campaign_realtime_info`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `company`
 --
 ALTER TABLE `company`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `creative`
 --
 ALTER TABLE `creative`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `geolocation`
 --
@@ -1498,12 +1758,12 @@ ALTER TABLE `geolocation`
 -- AUTO_INCREMENT for table `geosegment`
 --
 ALTER TABLE `geosegment`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=42;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=52;
 --
 -- AUTO_INCREMENT for table `geosegmentlist`
 --
 ALTER TABLE `geosegmentlist`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `iab_category`
 --
@@ -1518,7 +1778,12 @@ ALTER TABLE `iab_sub_category`
 -- AUTO_INCREMENT for table `impression`
 --
 ALTER TABLE `impression`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2147306497;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2080991137;
+--
+-- AUTO_INCREMENT for table `inventory`
+--
+ALTER TABLE `inventory`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `model`
 --
@@ -1528,22 +1793,22 @@ ALTER TABLE `model`
 -- AUTO_INCREMENT for table `offer`
 --
 ALTER TABLE `offer`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `offer_pixel_map`
 --
 ALTER TABLE `offer_pixel_map`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT for table `pixel`
 --
 ALTER TABLE `pixel`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `role`
 --
@@ -1553,47 +1818,62 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `role_permission_mapping`
 --
 ALTER TABLE `role_permission_mapping`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=528;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=549;
+--
+-- AUTO_INCREMENT for table `segment`
+--
+ALTER TABLE `segment`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `targetgroup`
 --
 ALTER TABLE `targetgroup`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `targetgroup_bidhour_map`
 --
 ALTER TABLE `targetgroup_bidhour_map`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `targetgroup_bid_advpublisher`
 --
 ALTER TABLE `targetgroup_bid_advpublisher`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `targetgroup_bwlist_map`
 --
 ALTER TABLE `targetgroup_bwlist_map`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `targetgroup_creative_map`
 --
 ALTER TABLE `targetgroup_creative_map`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `targetgroup_geolocation_map`
 --
 ALTER TABLE `targetgroup_geolocation_map`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT for table `targetgroup_geosegmentlist_map`
 --
 ALTER TABLE `targetgroup_geosegmentlist_map`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
+--
+-- AUTO_INCREMENT for table `targetgroup_realtime_info`
+--
+ALTER TABLE `targetgroup_realtime_info`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `targetgroup_segment_map`
+--
+ALTER TABLE `targetgroup_segment_map`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `user_role_mapping`
 --
@@ -1645,6 +1925,12 @@ ALTER TABLE `bwlist`
 --
 ALTER TABLE `campaign`
   ADD CONSTRAINT `campaign_advertiser_id_foreign` FOREIGN KEY (`advertiser_id`) REFERENCES `advertiser` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `campaign_realtime_info`
+--
+ALTER TABLE `campaign_realtime_info`
+  ADD CONSTRAINT `campaign_realtime_info_campaign_id_foreign` FOREIGN KEY (`campaign_id`) REFERENCES `campaign` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `creative`
@@ -1713,6 +1999,13 @@ ALTER TABLE `role_permission_mapping`
   ADD CONSTRAINT `role_permission_mapping_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `segment`
+--
+ALTER TABLE `segment`
+  ADD CONSTRAINT `segment_advertiser_id_foreign` FOREIGN KEY (`advertiser_id`) REFERENCES `advertiser` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `segment_model_id_foreign` FOREIGN KEY (`model_id`) REFERENCES `model` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `targetgroup`
 --
 ALTER TABLE `targetgroup`
@@ -1758,6 +2051,19 @@ ALTER TABLE `targetgroup_geolocation_map`
 ALTER TABLE `targetgroup_geosegmentlist_map`
   ADD CONSTRAINT `targetgroup_geosegmentlist_map_geosegmentlist_id_foreign` FOREIGN KEY (`geosegmentlist_id`) REFERENCES `geosegmentlist` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `targetgroup_geosegmentlist_map_targetgroup_id_foreign` FOREIGN KEY (`targetgroup_id`) REFERENCES `targetgroup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `targetgroup_realtime_info`
+--
+ALTER TABLE `targetgroup_realtime_info`
+  ADD CONSTRAINT `targetgroup_realtime_info_targetgroup_id_foreign` FOREIGN KEY (`targetgroup_id`) REFERENCES `targetgroup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `targetgroup_segment_map`
+--
+ALTER TABLE `targetgroup_segment_map`
+  ADD CONSTRAINT `targetgroup_segment_map_segment_id_foreign` FOREIGN KEY (`segment_id`) REFERENCES `segment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `targetgroup_segment_map_targetgroup_id_foreign` FOREIGN KEY (`targetgroup_id`) REFERENCES `targetgroup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_role_mapping`

@@ -29,13 +29,23 @@ class ClientController extends Controller
                     $clients = Client::with(['getAdvertiser' => function ($q) {
                         $q->select(DB::raw('*,count(client_id) as client_count'))->groupBy('client_id');
                     }])->get();
+                    $audit= Audits::with('getUser')->where('entity_type','client')->orderBy('created_at','DESC')->get();
+
                 }else {
-                    $usr_comp = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
+                    $usr_comp = $this->user_company();
                     $clients = Client::with(['getAdvertiser' => function ($q) {
                         $q->select(DB::raw('*,count(client_id) as client_count'))->groupBy('client_id');
                     }])->whereIn('user_id', $usr_comp)->get();
+                    $audit= Audits::with('getUser')->where('entity_type','client')->whereIn('user_id', $usr_comp)->orderBy('created_at','DESC')->get();
                 }
-                return view('client.list')->with('clients', $clients);
+                $audit_obj= array();
+                if($audit) {
+                    $sub = new AuditsController();
+                    $audit_obj = $sub->SubAudit($audit);
+                }
+                return view('client.list')
+                    ->with('audit_obj',$audit_obj)
+                    ->with('clients', $clients);
             }
             return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
@@ -111,13 +121,13 @@ class ClientController extends Controller
                         $data=array();
                         $audit= new AuditsController();
                         if($client->name!=$request->input('name')){
-                            array_push($data,'name');
+                            array_push($data,'Name');
                             array_push($data,$client->name);
                             array_push($data,$request->input('name'));
                             $client->name=$request->input('name');
                         }
                         if($client->company!=$request->input('company')){
-                            array_push($data,'company');
+                            array_push($data,'Company');
                             array_push($data,$client->company);
                             array_push($data,$request->input('company'));
                             $client->company=$request->input('company');

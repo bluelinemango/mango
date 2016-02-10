@@ -144,9 +144,9 @@ public function GetView(){
                             array_push($data, 'Status');
                             array_push($data, $pixel->status);
                             array_push($data, $active);
-                            $pixel->name = $active;
+                            $pixel->status = $active;
                         }
-                        $audit->store('creative',$pixel_id,$data,'edit');
+                        $audit->store('pixel',$pixel_id,$data,'edit');
                         $pixel->save();
                         return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Pixel Edited Successfully']);
                     }

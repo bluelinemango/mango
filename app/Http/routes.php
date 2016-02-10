@@ -178,7 +178,6 @@ Route::group(['prefix' => 'ajax'], function()
         Route::get('/targetgroup/{id?}', 'TargetgroupController@ChangeStatus');
         Route::get('/offer/{id?}', 'OfferController@ChangeStatus');
         Route::get('/pixel/{id?}', 'PixelController@ChangeStatus');
-
     });
 //    Route::resource('features','FeatureController');
 });

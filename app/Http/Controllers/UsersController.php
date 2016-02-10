@@ -3,22 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Models\Advertiser;
 use App\Models\Audits;
-use App\Models\BWEntries;
-use App\Models\BWList;
-use App\Models\Campaign;
-use App\Models\Client;
 use App\Models\Company;
-use App\Models\Creative;
-use App\Models\GeoSegment;
-use App\Models\GeoSegmentList;
-use App\Models\ModelTable;
-use App\Models\Offer;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Role_Permission;
-use App\Models\Targetgroup;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -289,115 +278,15 @@ class UsersController extends Controller
         if(Auth::check()) {
             if(User::isSuperAdmin()){
                 $audit= Audits::with('getUser')->orderBy('created_at','DESC')->get();
-//                return dd($audit);
-                $audit_obj = array();
-                foreach($audit as $index){
-                    $entity_obj=null;
-                    switch ($index->entity_type){
-                        case 'client':
-                            if(in_array('VIEW_CLIENT',$this->permission)) {
-                                $entity_obj=Client::where('id',$index->entity_id)->get(['id','name']);
-                            }
-                            break;
-                        case 'advertiser':
-                            if(in_array('VIEW_ADVERTISER',$this->permission)) {
-                                $entity_obj=Advertiser::with('GetClientID')->where('id',$index->entity_id)->get();
-                            }
-                            break;
-                        case 'creative':
-                            if(in_array('VIEW_CREATIVE',$this->permission)) {
-                                $entity_obj = Creative::with(['getAdvertiser'=>function($q){
-                                    $q->with('GetClientID');
-                                }])
-                                    ->where('id', $index->entity_id)->get();
-//                                return dd($entity_obj);
-                            }
-                            break;
-                        case 'campaign':
-                            if(in_array('VIEW_CAMPAIGN',$this->permission)) {
-                                $entity_obj = Campaign::with(['getAdvertiser'=>function($q){
-                                    $q->with('GetClientID');
-                                }])
-                                    ->where('id', $index->entity_id)->get();
-                            }
-                            break;
-                        case 'targetgroup':
-                            if(in_array('VIEW_TARGETGROUP',$this->permission)) {
-                                $entity_obj = Targetgroup::where('id', $index->entity_id)->get(['id', 'name']);
-                            }
-                            break;
-                        case 'geosegment':
-                            if(in_array('VIEW_GEOSEGMENTLIST',$this->permission)) {
-                                $entity_obj = GeoSegmentList::with(['getAdvertiser'=>function($q){
-                                    $q->with('GetClientID');
-                                }])
-                                    ->where('id', $index->entity_id)->get();
-                            }
-                            break;
-                        case 'geosegmententrie':
-                            if(in_array('VIEW_GEOSEGMENTLIST',$this->permission)) {
-                                if($index->audit_type=='del') {
-                                    $entity_obj = GeoSegmentList::where('id', $index->after_value)->get();
-                                }else{
-                                    $entity_obj = GeoSegmentList::where('id', $index->after_value)->get();
-                                }
-                            }
-                            break;
-                        case 'bwlistentrie':
-                            if(in_array('VIEW_BWLIST',$this->permission)) {
-                                if($index->audit_type=='del') {
-                                    $entity_obj = BWList::where('id', $index->after_value)->get();
-
-                                }else {
-                                    $entity_obj = BWList::where('id', $index->after_value)->get();
-                                }
-                            }
-                            break;
-                        case 'modelTable':
-                            if(in_array('VIEW_MODEL',$this->permission)) {
-                                if($index->audit_type=='del') {
-                                    $entity_obj = BWList::where('id', $index->after_value)->get();
-
-                                }else{
-                                    $entity_obj = ModelTable::with(['getAdvertiser'=>function($q){
-                                        $q->with('GetClientID');
-                                    }])->where('id', $index->entity_id)->get();
-                                }
-                            }
-                            break;
-                        case 'positive_offer_model':
-                            if(in_array('VIEW_MODEL',$this->permission)) {
-                                $entity_obj = Offer::with(['getAdvertiser'=>function($q){
-                                    $q->with('GetClientID');
-                                }])->where('id', $index->entity_id)->get();
-                            }
-                            break;
-                        case 'negative_offer_model':
-                            if(in_array('VIEW_MODEL',$this->permission)) {
-                                $entity_obj = Offer::with(['getAdvertiser'=>function($q){
-                                    $q->with('GetClientID');
-                                }])->where('id', $index->entity_id)->get();
-                            }
-                            break;
-                        case 'bwlist':
-                            if(in_array('VIEW_BWLIST',$this->permission)) {
-                                $entity_obj = BWList::with(['getAdvertiser'=>function($q){
-                                    $q->with('GetClientID');
-                                }])
-                                    ->where('id', $index->entity_id)->get();
-                            }
-                            break;
-                    }
-                    if(!is_null($entity_obj)) {
-                        array_push($audit_obj, $index);
-                        array_push($audit_obj, $entity_obj);
-                    }
-                }
             }else {
-                $usr_comp = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
-                $audit= Audits::with('getUser')->whereIn('user_id', $usr_comp)->get();
+                $usr_comp = $this->user_company();
+                $audit= Audits::with('getUser')->whereIn('user_id', $usr_comp)->orderBy('created_at','DESC')->get();
             }
+            $sub= new AuditsController();
+            $audit_obj=$sub->SubAudit($audit);
+
             $user_obj=User::with('getRole')->find(Auth::user()->id);
+//            return dd($audit_obj);
             return view('dashboard')
                 ->with('user_obj',$user_obj)
                 ->with('audit_obj',$audit_obj);

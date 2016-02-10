@@ -167,7 +167,7 @@ class OfferController extends Controller
                             array_push($data, 'Status');
                             array_push($data, $offer->status);
                             array_push($data, $active);
-                            $offer->name = $active;
+                            $offer->status = $active;
                         }
 
                         $offer_pixel_map=Offer_Pixel_Map::where('offer_id', $offer_id)->get();
@@ -194,7 +194,7 @@ class OfferController extends Controller
                             }
                         }
 
-                        $audit->store('creative',$offer_id,$data,'edit');
+                        $audit->store('offer',$offer_id,$data,'edit');
                         $offer->save();
                         return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Offer Edited Successfully']);
                     }

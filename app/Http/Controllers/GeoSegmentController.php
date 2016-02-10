@@ -235,7 +235,7 @@ class GeoSegmentController extends Controller
                             array_push($data, 'Status');
                             array_push($data, $geosegmentlist->status);
                             array_push($data, $active);
-                            $geosegmentlist->name = $active;
+                            $geosegmentlist->status = $active;
                         }
                         $audit->store('geosegment',$geosegmentlist_id,$data,'edit');
                         $geosegmentlist->save();
