@@ -34,70 +34,6 @@
         <!-- MAIN CONTENT -->
         <div id="content">
             {{--REAL TIME INFO--}}
-            @if(isset($real_time))
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="real-time-box">
-                    <span class="real-time-icon" style="background-color: #00c0ef " >
-                        <i class="fa fa-eye" ></i>
-                    </span>
-                        <div class="real-time-content">
-                            Imps to Now:
-                            <br/>
-                            <strong>{{$real_time[0]->impressions_shown_today_until_now}}</strong>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="real-time-box">
-                    <span class="real-time-icon" style="background-color: #dd4b39 " >
-                        <i class="fa fa-eye" ></i>
-                    </span>
-                        <div class="real-time-content">
-                            Total Imps:
-                            <br/>
-                            <strong>{{$real_time[0]->total_impression_show_until_now}}</strong>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="real-time-box">
-                    <span class="real-time-icon" style="background-color: #00a65a " >
-                        <i class="fa fa-dollar" ></i>
-                    </span>
-                        <div class="real-time-content">
-                            Budget to Now:
-                            <br/>
-                            <strong>{{$real_time[0]->daily_budget_spent_today_until_now}}</strong>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="real-time-box">
-                    <span class="real-time-icon" style="background-color: #f39c12 " >
-                        <i class="fa fa-dollar" ></i>
-                    </span>
-                        <div class="real-time-content">
-                            Total Budget:
-                            <br/>
-                            <strong>{{$real_time[0]->total_budget_spent_until_now}}</strong>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="real-time-box">
-                    <span class="real-time-icon" style="background-color: #f39c12 " >
-                        <i class="fa fa-gear" ></i>
-                    </span>
-                        <div class="real-time-content">
-                            Last Shown:
-                            <br/>
-                            <strong>{{$real_time[0]->last_time_ad_shown}}</strong>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endif
             {{--END REAL TIME INFO--}}
 
 
@@ -114,7 +50,7 @@
                     <!-- START ROW -->
                     <div class="row">
                         <!-- NEW COL START -->
-                        <article class="col-sm-12 col-md-12 col-lg-12">
+                        <article class="col-sm-12 col-md-9 col-lg-9">
 
                             <!-- Widget ID (each widget will need unique ID)-->
                             <div class="well">
@@ -134,6 +70,78 @@
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="hidden" name="_method" value="PUT"/>
                                             <input type="hidden" name="campaign_id" value="{{$campaign_obj->id}}"/>
+
+                                            <header>
+                                                Real Time Information
+                                            </header>
+
+                                            <div class="well col-md-12">
+                                                @if(isset($real_time))
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #00c0ef " >
+                        <i class="fa fa-eye" ></i>
+                    </span>
+                                                                <div class="real-time-content">
+                                                                    Imps to Now:
+                                                                    <br/>
+                                                                    <strong>{{$real_time[0]->impressions_shown_today_until_now}}</strong>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #dd4b39 " >
+                        <i class="fa fa-eye" ></i>
+                    </span>
+                                                                <div class="real-time-content">
+                                                                    Total Imps:
+                                                                    <br/>
+                                                                    <strong>{{$real_time[0]->total_impression_show_until_now}}</strong>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #00a65a " >
+                        <i class="fa fa-dollar" ></i>
+                    </span>
+                                                                <div class="real-time-content">
+                                                                    Budget to Now:
+                                                                    <br/>
+                                                                    <strong>{{$real_time[0]->daily_budget_spent_today_until_now}}</strong>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #f39c12 " >
+                        <i class="fa fa-dollar" ></i>
+                    </span>
+                                                                <div class="real-time-content">
+                                                                    Total Budget:
+                                                                    <br/>
+                                                                    <strong>{{$real_time[0]->total_budget_spent_until_now}}</strong>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #f39c12 " >
+                        <i class="fa fa-gear" ></i>
+                    </span>
+                                                                <div class="real-time-content">
+                                                                    Last Shown:
+                                                                    <br/>
+                                                                    {{$real_time[0]->last_time_ad_shown}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                            </div>
 
                                             <header>
                                                 General Information
@@ -244,14 +252,10 @@
                                                     </section>
                                                 </fieldset>
                                             </div>
-                                            <div class="clearfix"></div>
-                                            <header>
-                                                Date Rang
-                                            </header>
                                             <div class="well col-md-6">
                                                 <fieldset>
                                                     <div class="row">
-                                                        <section class="col col-4">
+                                                        <section class="col col-6">
                                                             <label class="label" for="">Start Date</label>
                                                             <label class="input"> <i
                                                                         class="icon-append fa fa-calendar"></i>
@@ -260,7 +264,7 @@
                                                                        value="{{$campaign_obj->start_date}}">
                                                             </label>
                                                         </section>
-                                                        <section class="col col-4">
+                                                        <section class="col col-6">
                                                             <label class="label" for="">End Date</label>
                                                             <label class="input"> <i
                                                                         class="icon-append fa fa-calendar"></i>

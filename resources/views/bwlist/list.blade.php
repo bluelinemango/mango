@@ -114,11 +114,10 @@
                                                                                     @if($audit_obj[$i]->audit_type == 'edit')
                                                                                         <div class="well well-sm display-inline">
                                                                                             @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='edit')
-                                                                                                <p>Field
-                                                                                                    <strong>{{$audit_obj[$i]->field}}</strong>
-                                                                                                    From
+                                                                                                <p> <strong>{{$audit_obj[$i]->field}}</strong>
+                                                                                                    from
                                                                                                     <strong>{{$audit_obj[$i]->before_value}}</strong>
-                                                                                                    To
+                                                                                                    to
                                                                                                     <strong>{{$audit_obj[$i]->after_value}}</strong>
                                                                                                 </p>
                                                                                                 <?php $i = $i + 2; ?>

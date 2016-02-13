@@ -273,12 +273,13 @@ class TargetgroupController extends Controller
                         }
                     }
                     $real_time=Targetgroup_Realtime::where('targetgroup_id',$tgid)->get();
-                    $bid_hour=json_decode($targetgroup_obj->getBidhour->hours);
-                    $hours=array();
-                    foreach($bid_hour as $index){
-                        array_push($hours,$index);
+                    $hours = array();
+                    if(isset($targetgroup_obj->getBidhour->hours)) {
+                        $bid_hour = json_decode($targetgroup_obj->getBidhour->hours);
+                        foreach ($bid_hour as $index) {
+                            array_push($hours, $index);
+                        }
                     }
-
                     $iab_category_obj = Iab_Category::get();
                     $geolocation_obj = Geolocation::get();
                     $targetgroupCreative = array();
