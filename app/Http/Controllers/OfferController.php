@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Advertiser;
+use App\Models\Audits;
 use App\Models\Offer;
 use App\Models\Offer_Pixel_Map;
 use App\Models\Pixel;
@@ -24,6 +25,7 @@ class OfferController extends Controller
                     $offer_obj = Offer::with(['getAdvertiser' => function ($q) {
                         $q->with('GetClientID');
                     }])->get();
+                    $audit= Audits::with('getUser')->where('entity_type','offer')->orWhere('entity_type','offer_pixel_map')->orderBy('created_at','DESC')->get();
                 }else{
                     $usr_company = $this->user_company();
                     $offer_obj = Offer::whereHas('getAdvertiser' , function ($q) use($usr_company) {
@@ -31,8 +33,17 @@ class OfferController extends Controller
                             $p->whereIn('user_id', $usr_company);
                         });
                     })->get();
+                    $audit= Audits::with('getUser')->where('entity_type','offer')->orWhere('entity_type','offer_pixel_map')->whereIn('user_id', $usr_company)->orderBy('created_at','DESC')->get();
                 }
-                return view('offer.list')->with('offer_obj',$offer_obj);
+                $audit_obj= array();
+                if($audit) {
+                    $sub = new AuditsController();
+                    $audit_obj = $sub->SubAudit($audit);
+                }
+
+                return view('offer.list')
+                    ->with('audit_obj',$audit_obj)
+                    ->with('offer_obj',$offer_obj);
             }
             return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }

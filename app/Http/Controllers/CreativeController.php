@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Advertiser;
+use App\Models\Audits;
 use App\Models\Creative;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -26,6 +27,7 @@ class CreativeController extends Controller
                     $creative = Creative::with(['getAdvertiser' => function ($q) {
                         $q->with('GetClientID');
                     }])->get();
+                    $audit= Audits::with('getUser')->where('entity_type','creative')->orderBy('created_at','DESC')->get();
                 }else{
                     $usr_company = $this->user_company();
                     $creative = Creative::whereHas('getAdvertiser' , function ($q) use($usr_company) {
@@ -33,8 +35,16 @@ class CreativeController extends Controller
                             $p->whereIn('user_id', $usr_company);
                         });
                     })->get();
+                    $audit= Audits::with('getUser')->where('entity_type','creative')->whereIn('user_id', $usr_company)->orderBy('created_at','DESC')->get();
                 }
-                return view('creative.list')->with('creative_obj',$creative);
+                $audit_obj= array();
+                if($audit) {
+                    $sub = new AuditsController();
+                    $audit_obj = $sub->SubAudit($audit);
+                }
+                return view('creative.list')
+                    ->with('audit_obj',$audit_obj)
+                    ->with('creative_obj',$creative);
             }
             return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }

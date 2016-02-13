@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\Advertiser;
+use App\Models\Audits;
 use App\Models\Campaign;
 use App\Models\Campaign_Realtime;
 use App\Models\Creative;
@@ -24,6 +25,7 @@ class CampaignController extends Controller
                     $campaign = Campaign::with(['getAdvertiser' => function ($q) {
                         $q->with('GetClientID');
                     }])->get();
+                    $audit= Audits::with('getUser')->where('entity_type','campaign')->orderBy('created_at','DESC')->get();
                 } else {
                     $usr_company = $this->user_company();
                     $campaign = Campaign::whereHas('getAdvertiser' , function ($q) use($usr_company) {
@@ -31,9 +33,16 @@ class CampaignController extends Controller
                             $p->whereIn('user_id', $usr_company);
                         });
                     })->get();
-
+                    $audit= Audits::with('getUser')->where('entity_type','campaign')->whereIn('user_id', $usr_company)->orderBy('created_at','DESC')->get();
                 }
-                return view('campaign.list')->with('campaign_obj', $campaign);
+                $audit_obj= array();
+                if($audit) {
+                    $sub = new AuditsController();
+                    $audit_obj = $sub->SubAudit($audit);
+                }
+                return view('campaign.list')
+                    ->with('audit_obj',$audit_obj)
+                    ->with('campaign_obj', $campaign);
             }
             return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
         }

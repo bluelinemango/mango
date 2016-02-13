@@ -121,6 +121,8 @@ th {
 }
 .card-body {
     padding: 20px 24px;
+    max-height: 400px;
+    overflow: auto;
 }
 .card-heading {
     position: relative;

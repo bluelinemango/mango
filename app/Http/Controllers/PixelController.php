@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Advertiser;
+use App\Models\Audits;
 use App\Models\Pixel;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ public function GetView(){
                     $pixel_obj = Pixel::with(['getAdvertiser' => function ($q) {
                         $q->with('GetClientID');
                     }])->get();
+                    $audit= Audits::with('getUser')->where('entity_type','pixel')->orderBy('created_at','DESC')->get();
                 }else{
                     $usr_company = $this->user_company();
                     $pixel_obj = Pixel::whereHas('getAdvertiser' , function ($q) use($usr_company) {
@@ -29,8 +31,17 @@ public function GetView(){
                             $p->whereIn('user_id', $usr_company);
                         });
                     })->get();
+                    $audit= Audits::with('getUser')->where('entity_type','pixel')->whereIn('user_id', $usr_company)->orderBy('created_at','DESC')->get();
                 }
-                return view('pixel.list')->with('pixel_obj',$pixel_obj);
+                $audit_obj= array();
+                if($audit) {
+                    $sub = new AuditsController();
+                    $audit_obj = $sub->SubAudit($audit);
+                }
+
+                return view('pixel.list')
+                    ->with('audit_obj',$audit_obj)
+                    ->with('pixel_obj',$pixel_obj);
             }
             return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
@@ -64,13 +75,24 @@ public function GetView(){
             if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
-                    $chkUser=Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
-                    if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
-                        $active='Inactive';
-                        if($request->input('active')=='on'){
-                            $active='Active';
+                    if (User::isSuperAdmin()) {
+                        $advertiser_obj = Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
+
+                    }else{
+                        $usr_company = $this->user_company();
+                        $advertiser_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        })->find($request->input('advertiser_id'));
+                        if (!$advertiser_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                         }
-                        $rndstr=new AuditsController();
+                    }
+                    if($advertiser_obj) {
+                        $active = 'Inactive';
+                        if ($request->input('active') == 'on') {
+                            $active = 'Active';
+                        }
+                        $rndstr = new AuditsController();
                         $pixel = new Pixel();
                         $pixel->name = $request->input('name');
                         $pixel->status = $active;
@@ -79,11 +101,11 @@ public function GetView(){
                         $pixel->part_a = $rndstr->randomStr();
                         $pixel->part_b = $rndstr->randomStr();
                         $pixel->save();
-                        $audit= new AuditsController();
-                        $audit->store('pixel',$pixel->id,null,'add');
-                        return Redirect::to(url('/client/cl'.$chkUser->GetClientID->id.'/advertiser/adv'.$request->input('advertiser_id').'/pixel/pxl'.$pixel->id.'/edit'))->withErrors(['success' => true, 'msg' => "Pixel added successfully"]);
+                        $audit = new AuditsController();
+                        $audit->store('pixel', $pixel->id, null, 'add');
+                        return Redirect::to(url('/client/cl' . $advertiser_obj->GetClientID->id . '/advertiser/adv' . $request->input('advertiser_id') . '/pixel/pxl' . $pixel->id . '/edit'))->withErrors(['success' => true, 'msg' => "Pixel added successfully"]);
                     }
-                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>"Select An Advertiser first"]);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }

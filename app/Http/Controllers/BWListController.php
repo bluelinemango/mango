@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Advertiser;
+use App\Models\Audits;
 use App\Models\BWEntries;
 use App\Models\BWList;
 use App\Models\User;
@@ -27,6 +28,10 @@ class BWListController extends Controller
                     }])->with(['getAdvertiser' => function ($q) {
                         $q->with('GetClientID');
                     }])->get();
+                    $audit= Audits::with('getUser')
+                        ->where('entity_type','bwlist')
+                        ->orWhere('entity_type','bwlistentrie')
+                        ->orderBy('created_at','DESC')->get();
                 }else{
                     $usr_company = $this->user_company();
                     $bwlist = BWList::with(['getEntries' => function ($q) {
@@ -36,8 +41,20 @@ class BWListController extends Controller
                             $p->whereIn('user_id', $usr_company);
                         });
                     })->get();
+                    $audit= Audits::with('getUser')
+                        ->where('entity_type','bwlist')
+                        ->orWhere('entity_type','bwlistentrie')
+                        ->whereIn('user_id', $usr_company)
+                        ->orderBy('created_at','DESC')->get();
                 }
-                return view('bwlist.list')->with('bwlist_obj',$bwlist);
+                $audit_obj= array();
+                if($audit) {
+                    $sub = new AuditsController();
+                    $audit_obj = $sub->SubAudit($audit);
+                }
+                return view('bwlist.list')
+                    ->with('audit_obj',$audit_obj)
+                    ->with('bwlist_obj',$bwlist);
             }
             return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }

@@ -569,7 +569,7 @@
                                                                     @if($audit_obj[$i]->entity_type == 'geosegment')
                                                                         Entrie(s):
                                                                     @endif
-                                                                    @if($audit_obj[$i]->entity_type == 'bwlist')
+                                                                    @if($audit_obj[$i]->entity_type == 'bwlistentrie')
                                                                         Domain Name(s):
                                                                     @endif
                                                                     @if($audit_obj[$i]->entity_type == 'offer_pixel_map')
@@ -605,7 +605,7 @@
                                                                             @endif
                                                                             @if($audit_obj[$i]->entity_type == 'bwlistentrie' and $flg < 2)
                                                                                 name:
-                                                                                <strong>{{$audit_obj[$i+1][0]->domain_name}}</strong>
+                                                                                <strong>{{$audit_obj[$i+1][0]->name}}</strong>
                                                                             @endif
                                                                         </p>
                                                                         <?php $i = $i + 2; $flg++; ?>
@@ -632,7 +632,7 @@
                                                                     @if($audit_obj[$i]->entity_type == 'negative_offer_model')
                                                                         Negative Offer(s) Removed:
                                                                     @endif
-                                                                    @if($audit_obj[$i]->entity_type == 'bwlist')
+                                                                    @if($audit_obj[$i]->entity_type == 'bwlistentrie')
                                                                         Domain(s):
                                                                     @endif
 

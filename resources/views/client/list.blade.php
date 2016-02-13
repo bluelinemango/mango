@@ -157,20 +157,7 @@
 
                                                                             @endif
                                                                             @if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'add' and $audit_obj[$i]->change_key==$change_key)
-                                                                                <div class="well well-sm display-inline">
-                                                                                    <?php $flg = 0; $count = 0; ?>
-                                                                                    @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type == 'add')
-                                                                                        @if($flg>=20)
-                                                                                            <?php $count++ ?>
-                                                                                        @endif
-                                                                                        <?php $i = $i + 2; $flg++; ?>
-                                                                                    @endwhile
-                                                                                    @if($flg>20)
-                                                                                        <p> and other <strong>{{$count}}</strong>
-                                                                                            more...</p>
-                                                                                    @endif
-                                                                                </div>
-
+                                                                                <?php $i = $i + 2;  ?>
                                                                             @endif
                                                                         @endwhile
                                                                     </div>
