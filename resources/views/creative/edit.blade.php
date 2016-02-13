@@ -89,10 +89,10 @@
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
-                                                        <label for="" class="label">status</label>
+                                                        <label for="" class="label">Status</label>
                                                         <label class="checkbox">
                                                             <input type="checkbox" name="active" @if($creative_obj->status=='Active') checked @endif>
-                                                            <i></i>Active Status
+                                                            <i></i>
                                                         </label>
                                                     </section>
                                                     <section class="col col-2">

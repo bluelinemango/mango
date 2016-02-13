@@ -37,13 +37,13 @@ class TargetgroupController extends Controller
                     }])->get();
                 } else {
                     $usr_company = User::where('company_id', Auth::user()->company_id)->get(['id'])->toArray();
-                    $targetgroup = Targetgroup::with(['getCampaign' => function ($p) use ($usr_company) {
-                        $p->with(['getAdvertiser' => function ($q) use ($usr_company) {
-                            $q->with(['GetClientID' => function ($p) use ($usr_company) {
+                    $targetgroup = Targetgroup::whereHas('getCampaign' ,function ($p) use ($usr_company) {
+                        $p->whereHas('getAdvertiser' , function ($q) use ($usr_company) {
+                            $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
                                 $p->whereIn('user_id', $usr_company);
-                            }]);
-                        }]);
-                    }])->get();
+                            });
+                        });
+                    })->get();
                 }
                 return view('targetgroup.list')->with('targetgroup_obj', $targetgroup);
             }
@@ -653,31 +653,85 @@ class TargetgroupController extends Controller
                 $validate = \Validator::make($request->all(), ['name' => 'required']);
                 if ($validate->passes()) {
                     $targetgroup_id = substr($request->input('id'), 2);
-                    $chekUser = Targetgroup::with(['getCampaign' => function ($q) {
-                        $q->with(['getAdvertiser' => function ($p) {
-                            $p->with('GetClientID');
-                        }]);
-                    }])->where('id', $targetgroup_id)->get();
-                    if (count($chekUser) > 0 and Auth::user()->id == $chekUser[0]->getCampaign->getAdvertiser->GetClientID->user_id) {
-                        switch ($request->input('oper')) {
-                            case 'edit':
-                                $targetgroup = Targetgroup::find($targetgroup_id);
-                                if ($targetgroup) {
-                                    $targetgroup->name = $request->input('name');
-                                    $targetgroup->save();
-                                    return "ok";
-                                }
-                                return "false";
-                                break;
+                    if (User::isSuperAdmin()) {
+                        $entity=Targetgroup::find($targetgroup_id);
+                    }else{
+                        $usr_company = $this->user_company();
+                        $entity = Targetgroup::whereHas('getCampaign' ,function ($p) use ($usr_company) {
+                            $p->whereHas('getAdvertiser' , function ($q) use ($usr_company) {
+                                $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                                    $p->whereIn('user_id', $usr_company);
+                                });
+                            });
+                        })->fide($targetgroup_id);
+                        if (!$entity) {
+                            return $msg=(['success' => false, 'msg' => "Some things went wrong"]);
                         }
                     }
-                    return "invalid Target Group ID";
+                    if ($entity) {
+                        $data = array();
+                        $audit = new AuditsController();
+                        if ($entity->name != $request->input('name')) {
+                            array_push($data, 'Name');
+                            array_push($data, $entity->name);
+                            array_push($data, $request->input('name'));
+                            $entity->name = $request->input('name');
+                        }
+                        $audit->store('targetgroup', $targetgroup_id, $data, 'edit');
+                        $entity->save();
+                        return $msg=(['success' => true, 'msg' => "your Target Group Saved successfully"]);
+                    }
+                    return $msg=(['success' => false, 'msg' => "Please Select a Target Group First"]);
                 }
-                return Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();
+                return $msg=(['success' => false, 'msg' => "Please Check your field"]);
             }
-            return "don't have permission";
+            return $msg=(['success' => false, 'msg' => "You don't have permission"]);
         }
         return Redirect::to(url('/user/login'));
     }
+    public function ChangeStatus($id){
+        if(Auth::check()){
+            if (in_array('ADD_EDIT_TARGETGROUP', $this->permission)) {
+                if (User::isSuperAdmin()) {
+                    $entity=Targetgroup::find($id);
+                } else {
+                    $usr_company = $this->user_company();
+                    $entity = Targetgroup::whereHas('getCampaign' ,function ($p) use ($usr_company) {
+                        $p->whereHas('getAdvertiser' , function ($q) use ($usr_company) {
+                            $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        });
+                    })->fide($id);
+                    if (!$entity) {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                    }
+                }
+                if($entity){
+                    $data=array();
+                    $audit= new AuditsController();
+                    if($entity->status=='Active'){
+                        array_push($data,'status');
+                        array_push($data,$entity->status);
+                        array_push($data,'Inactive');
+                        $entity->status='Inactive';
+                        $msg='disable';
+                    }elseif($entity->status=='Inactive'){
+                        array_push($data,'status');
+                        array_push($data,$entity->status);
+                        array_push($data,'Active');
+                        $entity->status='Active';
+                        $msg='actived';
+                    }
+                    $audit->store('targetgroup',$id,$data,'edit');
+                    $entity->save();
+                    return $msg;
+                }
+            }
+            return "You don't have permission";
+        }
+        return Redirect::to(url('user/login'));
+    }
+
 
 }

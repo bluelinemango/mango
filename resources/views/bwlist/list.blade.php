@@ -317,7 +317,7 @@
                     paging: true,
                     autoload: true,
 
-                    pageSize: 15,
+                    pageSize: 10,
                     pageButtonCount: 5,
 
                     deleteConfirm: "Do you really want to delete the client?",

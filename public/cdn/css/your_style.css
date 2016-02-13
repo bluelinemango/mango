@@ -167,3 +167,6 @@ th {
     margin-top: 8px;
     opacity: .5;
 }
+.card-body p{
+    font-size: 11px;
+}

@@ -80,7 +80,7 @@
                                                         <label for="" class="label">Status</label>
                                                         <label class="checkbox">
                                                             <input type="checkbox" name="active">
-                                                            <i></i>Active
+                                                            <i></i>
                                                         </label>
                                                     </section>
 
