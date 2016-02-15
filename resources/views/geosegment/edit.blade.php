@@ -54,7 +54,7 @@
                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well">
+                            <div class="well col-md-9">
                                 <header>
                                     <h2>Geo Segment list edit: {{$geosegment_obj->name}} </h2>
                                 </header>
@@ -116,6 +116,27 @@
                                 <!-- end widget div -->
                             </div>
                             <!-- end widget -->
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-heading">
+                                        <h2 class="pull-left">Activities</h2>
+                                        <select id="audit_status" class="pull-right">
+                                            <option value="entity">This Entity</option>
+                                            <option value="all">All</option>
+                                            <option value="user">User</option>
+                                        </select>
+                                        <div class="clearfix"></div>
+                                        <small>All Activities for this Entity </small>
+                                    </div>
+                                    <div class="card-body" >
+                                        <div class="streamline b-l b-accent m-b" id="show_audit">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- WIDGET END -->
+
+                            </div>
+
                         </article>
                         <!-- END COL -->
                     </div>
@@ -166,6 +187,34 @@
         });
         $(document).ready(function() {
             pageSetUp();
+
+            $.ajax({
+                url: "{{url('ajax/getAudit/geosegment/'.$geosegment_obj->id)}}"
+            }).success(function (response) {
+                $('#show_audit').html(response);
+            });
+
+            $('#audit_status').change(function () {
+                if($(this).val()=='all'){
+                    $.ajax({
+                        url: "{{url('ajax/getAllAudits')}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
+                }else if($(this).val()=='entity') {
+                    $.ajax({
+                        url: "{{url('ajax/getAudit/geosegment/'.$geosegment_obj->id)}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
+                }else if($(this).val()=='user') {
+                    $.ajax({
+                        url: "{{url('ajax/getAudit/user')}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
+                }
+            });
 
             var jqgrid_data = [
                 @foreach($geosegment_obj->getGeoEntries as $index)

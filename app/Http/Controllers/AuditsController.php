@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Audits;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -45,6 +46,122 @@ class AuditsController extends Controller
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
+    }
+
+    public function getAllAudits(){
+        if(Auth::check()){
+            if(User::isSuperAdmin()){
+                $audit= Audits::with('getUser')->orderBy('created_at','DESC')->get();
+            }else {
+                $usr_comp = $this->user_company();
+                $audit= Audits::with('getUser')->whereIn('user_id', $usr_comp)->orderBy('created_at','DESC')->get();
+            }
+            $audit_obj= array();
+            if($audit) {
+                $sub = new AuditsController();
+                $audit_obj = $sub->SubAudit($audit);
+            }
+            return view('audit.template.all_audits')
+                ->with('audit_obj',$audit_obj);
+        }
+        return 'check ur login';
+    }
+    public function getAudit($id,$entity_id=null){
+        if(Auth::check()){
+            $query = '1';
+            switch ($id){
+                case 'client':
+                    if(!is_null($entity_id)) {
+                        $query .= " and (entity_type = 'client' and entity_id = '".$entity_id."')";
+                    }else{
+                        $query .= " and (entity_type = 'client')";
+                    }
+                    break;
+                case 'advertiser':
+                    if(!is_null($entity_id)) {
+                        $query .= " and (entity_type = 'advertiser' and entity_id = '".$entity_id."')";
+                    }else{
+                        $query .= " and (entity_type = 'advertiser')";
+                    }
+                    break;
+                case 'campaign':
+                    if(!is_null($entity_id)) {
+                        $query .= " and (entity_type = 'campaign' and entity_id = '".$entity_id."')";
+                    }else{
+                        $query .= " and (entity_type = 'campaign')";
+                    }
+                    break;
+                case 'creative':
+                    if(!is_null($entity_id)){
+                        $query.=" and (entity_type = 'creative' and entity_id = '".$entity_id."')";
+                    }else{
+                        $query.=" and (entity_type = 'creative')";
+                    }
+                    break;
+                case 'offer':
+                    if(!is_null($entity_id)) {
+                        $query .= " and (entity_type = 'offer' or entity_type = 'offer_pixel_map') and entity_id = '".$entity_id."'";
+                    }else{
+                        $query .= " and (entity_type = 'offer' or entity_type = 'offer_pixel_map')";
+                    }
+                    break;
+                case 'pixel':
+                    if(!is_null($entity_id)) {
+                        $query .= " and (entity_type = 'pixel' and entity_id = '".$entity_id."')";
+                    }else{
+                        $query .= " and (entity_type = 'pixel')";
+                    }
+                    break;
+                case 'targetgroup':
+                    if(!is_null($entity_id)) {
+                        $query .= " and (entity_type = 'targetgroup' and entity_id = '".$entity_id."')";
+                    }else{
+                        $query .= " and (entity_type = 'targetgroup')";
+                    }
+                    break;
+                case 'geosegment':
+                    if(!is_null($entity_id)) {
+                        $query .= " and (entity_type = 'geosegment' and entity_id = '".$entity_id."')";
+                    }else{
+                        $query .= " and (entity_type = 'geosegment')";
+                    }
+                    break;
+                case 'bwlist':
+                    if(!is_null($entity_id)) {
+                        $query .= " and (entity_type = 'bwlist' or entity_type = 'bwlistentrie') and entity_id = '".$entity_id."'";
+                    }else{
+                        $query .= " and (entity_type = 'bwlist' or entity_type = 'bwlistentrie')";
+                    }
+                    break;
+                case 'model':
+                    if(!is_null($entity_id)) {
+                        $query .= " and (entity_type = 'modelTable' or entity_type = 'negative_offer_model' or entity_type = 'positive_offer_model') and entity_id = '".$entity_id."'";
+                    }else{
+                        $query .= " and (entity_type = 'modelTable' or entity_type = 'negative_offer_model' or entity_type = 'positive_offer_model')";
+                    }
+                    break;
+                case 'user_id':
+                    $user_id=Auth::user()->id;
+                    $query.=" and (user_id = '".$user_id."')";
+                    break;
+
+            }
+            if(User::isSuperAdmin()){
+
+                $audit= Audits::with('getUser')->whereRaw($query)->orderBy('created_at','DESC')->get();
+            }else {
+                $usr_comp = $this->user_company();
+                $audit= Audits::with('getUser')->whereRaw($query)->whereIn('user_id', $usr_comp)->orderBy('created_at','DESC')->get();
+            }
+            $audit_obj= array();
+            if($audit) {
+                $sub = new AuditsController();
+                $audit_obj = $sub->SubAudit($audit);
+            }
+            return view('audit.template.all_audits')
+                ->with('audit_obj',$audit_obj);
+        }
+        return 'check ur login';
     }
 
     public function store($entity_type,$entity_id,$data='',$audit_type,$key='')

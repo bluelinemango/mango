@@ -7,15 +7,6 @@
         <!-- RIBBON -->
         <div id="ribbon">
 
-				<span class="ribbon-button-alignment">
-					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"
-                          rel="tooltip" data-placement="bottom"
-                          data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings."
-                          data-html="true">
-						<i class="fa fa-refresh"></i>
-					</span>
-				</span>
-
             <!-- breadcrumb -->
             <ol class="breadcrumb">
                 <li>
@@ -50,10 +41,10 @@
                     <!-- START ROW -->
                     <div class="row">
                         <!-- NEW COL START -->
-                        <article class="col-sm-12 col-md-9 col-lg-9">
+                        <article class="col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well">
+                            <div class="well col-md-9">
                                 <header>
                                     <h2><strong>Edit Campaign: {{$campaign_obj->name}} </strong></h2>
 
@@ -148,10 +139,10 @@
                                             </header>
                                             <div class="well col-md-12">
                                                 <fieldset>
-                                                    <section class="col col-2">
+                                                    <section class="col col-4">
                                                         <label class="label" for="">Name (required)</label>
 
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                                        <label class="input">
                                                             <input type="text" name="name" placeholder="Name"
                                                                    value="{{$campaign_obj->name}}">
                                                         </label>
@@ -177,10 +168,9 @@
 
                                                 </fieldset>
                                                 <fieldset>
-                                                    <section class="col col-2">
+                                                    <section class="col col-4">
                                                         <label class="label" for="">Domain Name</label>
-                                                        <label class="input"> <i
-                                                                    class="icon-append fa fa-briefcase"></i>
+                                                        <label class="input">
                                                             <input type="text" name="advertiser_domain_name"
                                                                    placeholder="Domain Name"
                                                                    value="{{$campaign_obj->advertiser_domain_name}}">
@@ -280,10 +270,10 @@
                                             <div class="clearfix"></div>
                                             <div class="well col-md-12">
                                             <fieldset>
-                                                <section class="col col-4">
+                                                <section class="col col-8">
                                                     <label class="label" for="">Description</label>
                                                     <label class="textarea"> <i class="icon-append fa fa-comment"></i>
-                                                        <textarea rows="5" name="description"
+                                                        <textarea rows="3" name="description"
                                                                   placeholder="Tell us about your Campaign">{{$campaign_obj->description}}</textarea>
                                                     </label>
                                                 </section>
@@ -316,6 +306,28 @@
                                 <!-- end widget div -->
                             </div>
                             <!-- end widget -->
+
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-heading">
+                                        <h2 class="pull-left">Activities</h2>
+                                        <select id="audit_status" class="pull-right">
+                                            <option value="entity">This Entity</option>
+                                            <option value="all">All</option>
+                                            <option value="user">User</option>
+                                        </select>
+                                        <div class="clearfix"></div>
+                                        <small>All Activities for this Entity </small>
+                                    </div>
+                                    <div class="card-body" >
+                                        <div class="streamline b-l b-accent m-b" id="show_audit">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- WIDGET END -->
+
+                            </div>
+
                         </article>
                         <!-- END COL -->
                     </div>
@@ -333,40 +345,17 @@
                         <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0"
-                                 data-widget-editbutton="false">
-                                <!-- widget options:
-                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                            data-widget-colorbutton="false"
-                            data-widget-editbutton="false"
-                            data-widget-togglebutton="false"
-                            data-widget-deletebutton="false"
-                            data-widget-fullscreenbutton="false"
-                            data-widget-custombutton="false"
-                            data-widget-collapsed="true"
-                            data-widget-sortable="false"
-
-                            -->
+                            <div class="well">
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-
-                                    <h2>List Of Target Group </h2>
-
+                                    <h2>List of Target Group </h2>
                                 </header>
 
                                 <!-- widget div-->
                                 <div>
 
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
 
                                     <!-- widget content -->
-                                    <div class="widget-body no-padding">
+                                    <div class="">
 
                                         <table id="dt_basic" class="table table-striped table-bordered table-hover"
                                                width="100%">
@@ -544,6 +533,36 @@
                 nextText: '<i class="fa fa-chevron-right"></i>',
                 onSelect: function (selectedDate) {
                     $('#startdate').datepicker('option', 'maxDate', selectedDate);
+                }
+            });
+
+
+
+            $.ajax({
+                url: "{{url('ajax/getAudit/campaign/'.$campaign_obj->id)}}"
+            }).success(function (response) {
+                $('#show_audit').html(response);
+            });
+
+            $('#audit_status').change(function () {
+                if($(this).val()=='all'){
+                    $.ajax({
+                        url: "{{url('ajax/getAllAudits')}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
+                }else if($(this).val()=='entity') {
+                    $.ajax({
+                        url: "{{url('ajax/getAudit/campaign/'.$campaign_obj->id)}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
+                }else if($(this).val()=='user') {
+                    $.ajax({
+                        url: "{{url('ajax/getAudit/user')}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
                 }
             });
 

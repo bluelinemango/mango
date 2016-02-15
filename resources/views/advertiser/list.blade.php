@@ -62,11 +62,32 @@
                                         <div class="row">
 
                                             <!-- NEW WIDGET START -->
-                                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
                                                 <div id="advertiser_grid"></div>
 
                                             </div>
+                                            <div class="col-md-3">
+                                                <div class="card">
+                                                    <div class="card-heading">
+                                                        <h2 class="pull-left">Activities</h2>
+                                                        <select id="audit_status" class="pull-right">
+                                                            <option value="entity">This Entity</option>
+                                                            <option value="all">All</option>
+                                                            <option value="user">User</option>
+                                                        </select>
+                                                        <div class="clearfix"></div>
+                                                        <small>All Activities for this Entity </small>
+                                                    </div>
+                                                    <div class="card-body" >
+                                                        <div class="streamline b-l b-accent m-b" id="show_audit">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- WIDGET END -->
+
+                                            </div>
+
                                             <!-- WIDGET END -->
 
                                         </div>
@@ -115,6 +136,34 @@
             pageSetUp();
 
             $(function () {
+
+                $.ajax({
+                    url: "{{url('ajax/getAudit/advertiser')}}"
+                }).success(function (response) {
+                    $('#show_audit').html(response);
+                });
+
+                $('#audit_status').change(function () {
+                    if($(this).val()=='all'){
+                        $.ajax({
+                            url: "{{url('ajax/getAllAudits')}}"
+                        }).success(function (response) {
+                            $('#show_audit').html(response);
+                        });
+                    }else if($(this).val()=='entity') {
+                        $.ajax({
+                            url: "{{url('ajax/getAudit/advertiser')}}"
+                        }).success(function (response) {
+                            $('#show_audit').html(response);
+                        });
+                    }else if($(this).val()=='user') {
+                        $.ajax({
+                            url: "{{url('ajax/getAudit/user')}}"
+                        }).success(function (response) {
+                            $('#show_audit').html(response);
+                        });
+                    }
+                });
 
                 var db = {
 

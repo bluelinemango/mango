@@ -52,7 +52,7 @@
                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well">
+                            <div class="well col-md-9">
                                 <header>
                                     <h2><strong>Edit Offer: {{$offer_obj->name}} </strong></h2>
 
@@ -159,6 +159,28 @@
                                 <!-- end widget div -->
                             </div>
                             <!-- end widget -->
+
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-heading">
+                                        <h2 class="pull-left">Activities</h2>
+                                        <select id="audit_status" class="pull-right">
+                                            <option value="entity">This Entity</option>
+                                            <option value="all">All</option>
+                                            <option value="user">User</option>
+                                        </select>
+                                        <div class="clearfix"></div>
+                                        <small>All Activities for this Entity </small>
+                                    </div>
+                                    <div class="card-body" >
+                                        <div class="streamline b-l b-accent m-b" id="show_audit">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- WIDGET END -->
+
+                            </div>
+
                         </article>
                         <!-- END COL -->
                     </div>
@@ -251,64 +273,34 @@
                 }
             });
 
-            var $validator = $("#wizard-1").validate({
+            $.ajax({
+                url: "{{url('ajax/getAudit/offer/'.$offer_obj->id)}}"
+            }).success(function (response) {
+                $('#show_audit').html(response);
+            });
 
-                rules: {
-                    email: {
-                        required: true,
-                        email: "Your email address must be in the format of name@domain.com"
-                    },
-                    fname: {
-                        required: true
-                    },
-                    lname: {
-                        required: true
-                    },
-                    country: {
-                        required: true
-                    },
-                    city: {
-                        required: true
-                    },
-                    postal: {
-                        required: true,
-                        minlength: 4
-                    },
-                    wphone: {
-                        required: true,
-                        minlength: 10
-                    },
-                    hphone: {
-                        required: true,
-                        minlength: 10
-                    }
-                },
-
-                messages: {
-                    fname: "Please specify your First name",
-                    lname: "Please specify your Last name",
-                    email: {
-                        required: "We need your email address to contact you",
-                        email: "Your email address must be in the format of name@domain.com"
-                    }
-                },
-
-                highlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-                },
-                unhighlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-                },
-                errorElement: 'span',
-                errorClass: 'help-block',
-                errorPlacement: function (error, element) {
-                    if (element.parent('.input-group').length) {
-                        error.insertAfter(element.parent());
-                    } else {
-                        error.insertAfter(element);
-                    }
+            $('#audit_status').change(function () {
+                if($(this).val()=='all'){
+                    $.ajax({
+                        url: "{{url('ajax/getAllAudits')}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
+                }else if($(this).val()=='entity') {
+                    $.ajax({
+                        url: "{{url('ajax/getAudit/offer/'.$offer_obj->id)}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
+                }else if($(this).val()=='user') {
+                    $.ajax({
+                        url: "{{url('ajax/getAudit/user')}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
                 }
             });
+
 
         });
 

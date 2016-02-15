@@ -22,11 +22,6 @@ class ModelController extends Controller
             if (in_array('VIEW_MODEL', $this->permission)) {
                 if (User::isSuperAdmin()) {
                     $model_obj = ModelTable::with('getAdvertiser')->get();
-                    $audit= Audits::with('getUser')
-                        ->where('entity_type','modelTable')
-                        ->orWhere('entity_type','negative_offer_model')
-                        ->orWhere('entity_type','positive_offer_model')
-                        ->orderBy('created_at','DESC')->get();
                 }else{
                     $usr_company = $this->user_company();
                     $model_obj = ModelTable::whereHas('getAdvertiser' , function ($q) use($usr_company) {
@@ -34,20 +29,9 @@ class ModelController extends Controller
                             $p->whereIn('user_id', $usr_company);
                         });
                     })->get();
-                    $audit= Audits::with('getUser')
-                        ->where('entity_type','modelTable')
-                        ->orWhere('entity_type','negative_offer_model')
-                        ->orWhere('entity_type','positive_offer_model')
-                        ->whereIn('user_id', $usr_company)
-                        ->orderBy('created_at','DESC')->get();
                 }
                 $audit_obj= array();
-                if($audit) {
-                    $sub = new AuditsController();
-                    $audit_obj = $sub->SubAudit($audit);
-                }
                 return view('model.list')
-                    ->with('audit_obj',$audit_obj)
                     ->with('model_obj',$model_obj);
             }
             return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);

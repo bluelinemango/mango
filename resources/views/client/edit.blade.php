@@ -47,23 +47,9 @@
                         <!-- NEW COL START -->
                         <article class="col-sm-12 col-md-12 col-lg-12">
 
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false" data-widget-custombutton="false">
-                                <!-- widget options:
-                                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                                    data-widget-colorbutton="false"
-                                    data-widget-editbutton="false"
-                                    data-widget-togglebutton="false"
-                                    data-widget-deletebutton="false"
-                                    data-widget-fullscreenbutton="false"
-                                    data-widget-custombutton="false"
-                                    data-widget-collapsed="true"
-                                    data-widget-sortable="false"
-
-                                -->
+                            <!-- Widget ID ()-->
+                            <div class="well col-md-9" >
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
                                     <h2>Edit Client #: cl{{$client_obj->id}} </h2>
 
                                 </header>
@@ -71,15 +57,8 @@
                                 <!-- widget div-->
                                 <div>
 
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
-
                                     <!-- widget content -->
-                                    <div class="widget-body no-padding">
+                                    <div class="">
 
                                         <form id="order-form" class="smart-form" action="{{URL::route('client_update')}}" method="post" novalidate="novalidate" >
 
@@ -140,6 +119,27 @@
                                 <!-- end widget div -->
                             </div>
                             <!-- end widget -->
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-heading">
+                                        <h2 class="pull-left">Activities</h2>
+                                        <select id="audit_status" class="pull-right">
+                                            <option value="entity">This Entity</option>
+                                            <option value="all">All</option>
+                                            <option value="user">User</option>
+                                        </select>
+                                        <div class="clearfix"></div>
+                                        <small>All Activities for this Entity </small>
+                                    </div>
+                                    <div class="card-body" >
+                                        <div class="streamline b-l b-accent m-b" id="show_audit">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- WIDGET END -->
+
+                            </div>
+
                         </article>
                         <!-- END COL -->
                     </div>
@@ -152,38 +152,18 @@
                         <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
-                                <!-- widget options:
-                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                            <div class="well col-md-9" >
 
-                            data-widget-colorbutton="false"
-                            data-widget-editbutton="false"
-                            data-widget-togglebutton="false"
-                            data-widget-deletebutton="false"
-                            data-widget-fullscreenbutton="false"
-                            data-widget-custombutton="false"
-                            data-widget-collapsed="true"
-                            data-widget-sortable="false"
-
-                            -->
                                 <header>
-                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                                     <h2>List Of Advertiser </h2>
-
                                 </header>
 
                                 <!-- widget div-->
                                 <div>
 
-                                    <!-- widget edit box -->
-                                    <div class="jarviswidget-editbox">
-                                        <!-- This area used as dropdown edit box -->
-
-                                    </div>
-                                    <!-- end widget edit box -->
 
                                     <!-- widget content -->
-                                    <div class="widget-body no-padding">
+                                    <div class="">
 
                                         <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
                                             <thead>
@@ -248,6 +228,33 @@
 
             pageSetUp();
 
+            $.ajax({
+                url: "{{url('ajax/getAudit/client/'.$client_obj->id)}}"
+            }).success(function (response) {
+                $('#show_audit').html(response);
+            });
+
+            $('#audit_status').change(function () {
+                if($(this).val()=='all'){
+                    $.ajax({
+                        url: "{{url('ajax/getAllAudits')}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
+                }else if($(this).val()=='entity') {
+                    $.ajax({
+                        url: "{{url('ajax/getAudit/client/'.$client_obj->id)}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
+                }else if($(this).val()=='user') {
+                    $.ajax({
+                        url: "{{url('ajax/getAudit/user')}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
+                }
+            });
 
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation

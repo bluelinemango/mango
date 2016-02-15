@@ -110,7 +110,7 @@
                                                 <div class="card">
                                                     <div class="card-heading">
                                                         <h2 class="pull-left">Activities</h2>
-                                                        <select name="" id="" class="pull-right">
+                                                        <select id="audit_status" class="pull-right">
                                                             <option value="entity">This Entity</option>
                                                             <option value="all">All</option>
                                                             <option value="user">User</option>
@@ -118,50 +118,8 @@
                                                         <div class="clearfix"></div>
                                                         <small>All Activities for this Entity </small>
                                                     </div>
-                                                    <div class="card-body">
-                                                        <div class="streamline b-l b-accent m-b">
-                                                            @for($i=0;$i<count($audit_obj);)
-                                                                {{--                                                @foreach($audit_obj as $index)--}}
-                                                                <?php $change_key = $audit_obj[$i]->change_key; ?>
-                                                                <div class="sl-item">
-                                                                    <div class="sl-content">
-                                                                        <div class="text-muted-dk">{{$audit_obj[$i]->created_at}}</div>
-                                                                        <p>
-                                                                            <a href="{{url('user/usr'.$audit_obj[$i]->user_id.'/edit')}}">{{$audit_obj[$i]->getUser->name}}</a>
-                                                                            @if($audit_obj[$i]->audit_type == 'add')
-                                                                                created a new {{$audit_obj[$i]->entity_type}}:
-                                                                            @elseif($audit_obj[$i]->audit_type == 'edit')
-                                                                                changed {{$audit_obj[$i]->entity_type}}:
-                                                                            @endif
-                                                                            @if($audit_obj[$i]->entity_type == 'client')
-                                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">cl{{$audit_obj[$i+1][0]->id}}</a>
-                                                                                </strong>
-                                                                            @endif
-                                                                        </p>
-
-                                                                        @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key)
-
-                                                                            @if($audit_obj[$i]->audit_type == 'edit')
-                                                                                <div class="well well-sm display-inline">
-                                                                                    @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='edit')
-                                                                                        <p>
-                                                                                            <strong>{{$audit_obj[$i]->field}}</strong>
-                                                                                            from
-                                                                                            <strong>{{$audit_obj[$i]->before_value}}</strong>
-                                                                                            to
-                                                                                            <strong>{{$audit_obj[$i]->after_value}}</strong>
-                                                                                        </p>
-                                                                                        <?php $i = $i + 2; ?>
-                                                                                    @endwhile
-                                                                                </div>
-
-                                                                            @endif
-                                                                            @if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'add' and $audit_obj[$i]->change_key==$change_key)
-                                                                                <?php $i = $i + 2;  ?>
-                                                                            @endif
-                                                                        @endwhile
-                                                                    </div>
-                                                            @endfor
+                                                    <div class="card-body" >
+                                                        <div class="streamline b-l b-accent m-b" id="show_audit">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -233,7 +191,29 @@
         });
 
     </script>
-
+    <script>
+        $('#audit_status').change(function () {
+            if($(this).val()=='all'){
+                $.ajax({
+                    url: "{{url('ajax/getAllAudits')}}"
+                }).success(function (response) {
+                    $('#show_audit').html(response);
+                });
+            }else if($(this).val()=='entity') {
+                $.ajax({
+                    url: "{{url('ajax/getAudit/client')}}"
+                }).success(function (response) {
+                    $('#show_audit').html(response);
+                });
+            }else if($(this).val()=='user') {
+                $.ajax({
+                    url: "{{url('ajax/getAudit/user')}}"
+                }).success(function (response) {
+                    $('#show_audit').html(response);
+                });
+            }
+            });
+    </script>
     <script> //NEW JS GRID
         $(function() {
 
@@ -404,6 +384,11 @@
     <script type="text/javascript">
         $(document).ready(function() {
             pageSetUp();
+            $.ajax({
+                url: "{{url('ajax/getAudit/client')}}"
+            }).success(function (response) {
+                $('#show_audit').html(response);
+            });
 
             var jqgrid_data = [
                 @foreach($clients as $index)

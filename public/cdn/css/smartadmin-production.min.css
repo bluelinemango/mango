@@ -8581,15 +8581,15 @@ textarea.clone {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     width: 100%;
-    height: 32px;
-    line-height: 32px;
+    height: 27px;
+    line-height: 27px;
     padding: 5px 10px;
     outline: 0;
     border-width: 1px;
     border-style: solid;
     border-radius: 0;
     background: #fff;
-    font: 13px/16px 'Open Sans', Helvetica, Arial, sans-serif;
+    font: 13px/16px ;
     color: #404040;
     appearance: normal;
     -moz-appearance: none;
@@ -8881,7 +8881,7 @@ textarea.clone {
 
 .smart-form .icon-append, .smart-form .icon-prepend {
     position: absolute;
-    top: 5px;
+    top: 2px;
     width: 22px;
     height: 22px;
     font-size: 14px;

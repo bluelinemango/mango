@@ -170,9 +170,15 @@ th {
 .card-body p{
     font-size: 11px;
 }
-.label{
+fieldset .label{
     padding-left:0 !important; ;
 }
 fieldset h6{
     white-space: pre !important;
+}
+.smart-form fieldset{
+    padding: 0!important;
+}
+.well{
+    padding: 10px !important;
 }

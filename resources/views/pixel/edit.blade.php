@@ -52,7 +52,7 @@
                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well">
+                            <div class="well col-md-9">
                                 <header>
                                     <h2><strong>Edit Pixel: {{$pixel_obj->name}} </strong></h2>
 
@@ -126,6 +126,28 @@
                                 <!-- end widget div -->
                             </div>
                             <!-- end widget -->
+
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-heading">
+                                        <h2 class="pull-left">Activities</h2>
+                                        <select id="audit_status" class="pull-right">
+                                            <option value="entity">This Entity</option>
+                                            <option value="all">All</option>
+                                            <option value="user">User</option>
+                                        </select>
+                                        <div class="clearfix"></div>
+                                        <small>All Activities for this Entity </small>
+                                    </div>
+                                    <div class="card-body" >
+                                        <div class="streamline b-l b-accent m-b" id="show_audit">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- WIDGET END -->
+
+                            </div>
+
                         </article>
                         <!-- END COL -->
                     </div>
@@ -147,128 +169,97 @@
 
             pageSetUp();
 
+            $.ajax({
+                url: "{{url('ajax/getAudit/pixel/'.$pixel_obj->id)}}"
+            }).success(function (response) {
+                $('#show_audit').html(response);
+            });
+
+            $('#audit_status').change(function () {
+                if ($(this).val() == 'all') {
+                    $.ajax({
+                        url: "{{url('ajax/getAllAudits')}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
+                } else if ($(this).val() == 'entity') {
+                    $.ajax({
+                        url: "{{url('ajax/getAudit/pixel/'.$pixel_obj->id)}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
+                } else if ($(this).val() == 'user') {
+                    $.ajax({
+                        url: "{{url('ajax/getAudit/user')}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
+                }
+            });
 
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
-                rules : {
-                    name : {
-                        required : true
+                rules: {
+                    name: {
+                        required: true
                     },
-                    advertiser_id : {
-                        required : true
+                    advertiser_id: {
+                        required: true
                     },
-                    max_impression : {
-                        required : true
+                    max_impression: {
+                        required: true
                     },
-                    daily_max_impression : {
-                        required : true
+                    daily_max_impression: {
+                        required: true
                     },
-                    max_budget : {
-                        required : true
+                    max_budget: {
+                        required: true
                     },
-                    daily_max_budget : {
-                        required : true
+                    daily_max_budget: {
+                        required: true
                     },
-                    cpm : {
-                        required : true
+                    cpm: {
+                        required: true
                     },
-                    start_date : {
-                        required : true
+                    start_date: {
+                        required: true
                     },
-                    end_date : {
-                        required : true
+                    end_date: {
+                        required: true
                     },
-                    cpm : {
-                        required : true
+                    cpm: {
+                        required: true
                     }
                 },
 
                 // Messages for form validation
-                messages : {
-                    name : {
-                        required : 'Please enter your name'
+                messages: {
+                    name: {
+                        required: 'Please enter your name'
                     },
-                    email : {
-                        required : 'Please enter your email address',
-                        email : 'Please enter a VALID email address'
+                    email: {
+                        required: 'Please enter your email address',
+                        email: 'Please enter a VALID email address'
                     },
-                    phone : {
-                        required : 'Please enter your phone number'
+                    phone: {
+                        required: 'Please enter your phone number'
                     },
-                    interested : {
-                        required : 'Please select interested service'
+                    interested: {
+                        required: 'Please select interested service'
                     },
-                    budget : {
-                        required : 'Please select your budget'
+                    budget: {
+                        required: 'Please select your budget'
                     }
                 },
 
                 // Do not change code below
-                errorPlacement : function(error, element) {
+                errorPlacement: function (error, element) {
                     error.insertAfter(element.parent());
                 }
             });
 
 
-            var $validator = $("#wizard-1").validate({
-
-                rules: {
-                    email: {
-                        required: true,
-                        email: "Your email address must be in the format of name@domain.com"
-                    },
-                    fname: {
-                        required: true
-                    },
-                    lname: {
-                        required: true
-                    },
-                    country: {
-                        required: true
-                    },
-                    city: {
-                        required: true
-                    },
-                    postal: {
-                        required: true,
-                        minlength: 4
-                    },
-                    wphone: {
-                        required: true,
-                        minlength: 10
-                    },
-                    hphone: {
-                        required: true,
-                        minlength: 10
-                    }
-                },
-
-                messages: {
-                    fname: "Please specify your First name",
-                    lname: "Please specify your Last name",
-                    email: {
-                        required: "We need your email address to contact you",
-                        email: "Your email address must be in the format of name@domain.com"
-                    }
-                },
-
-                highlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-                },
-                unhighlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-                },
-                errorElement: 'span',
-                errorClass: 'help-block',
-                errorPlacement: function (error, element) {
-                    if (element.parent('.input-group').length) {
-                        error.insertAfter(element.parent());
-                    } else {
-                        error.insertAfter(element);
-                    }
-                }
-            });
-
+        })
 
         /* END BASIC */
 

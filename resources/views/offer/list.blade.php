@@ -74,7 +74,7 @@
                                                 <div class="card">
                                                     <div class="card-heading">
                                                         <h2 class="pull-left">Activities</h2>
-                                                        <select name="" id="" class="pull-right">
+                                                        <select id="audit_status" class="pull-right">
                                                             <option value="entity">This Entity</option>
                                                             <option value="all">All</option>
                                                             <option value="user">User</option>
@@ -82,110 +82,8 @@
                                                         <div class="clearfix"></div>
                                                         <small>All Activities for this Entity </small>
                                                     </div>
-                                                    <div class="card-body">
-                                                        <div class="streamline b-l b-accent m-b">
-                                                            @for($i=0;$i<count($audit_obj);)
-                                                                <?php $change_key = $audit_obj[$i]->change_key; ?>
-                                                                <div class="sl-item">
-                                                                    <div class="sl-content">
-                                                                        <div class="text-muted-dk">{{$audit_obj[$i]->created_at}}</div>
-                                                                        <p>
-                                                                            <a href="{{url('user/usr'.$audit_obj[$i]->user_id.'/edit')}}">{{$audit_obj[$i]->getUser->name}}</a>
-                                                                            @if($audit_obj[$i]->audit_type == 'add')
-                                                                                created a new {{$audit_obj[$i]->entity_type}}:
-                                                                            @elseif($audit_obj[$i]->audit_type == 'edit')
-                                                                                changed {{$audit_obj[$i]->entity_type}}:
-                                                                            @endif
-                                                                            @if($audit_obj[$i]->entity_type == 'offer')
-                                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/offer/ofr'.$audit_obj[$i+1][0]->id.'/edit')}}">ofr{{$audit_obj[$i+1][0]->id}}</a>
-                                                                                </strong>
-                                                                            @endif
-                                                                            @if($audit_obj[$i]->entity_type == 'offer_pixel_map')
-                                                                                <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/offer/ofr'.$audit_obj[$i]->after_value.'/edit')}}">ofr{{$audit_obj[$i]->after_value}}</a>
-                                                                                </strong>
-                                                                            @endif
-                                                                        </p>
-
-                                                                        @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key)
-
-                                                                            @if($audit_obj[$i]->audit_type == 'edit')
-                                                                                <div class="well well-sm display-inline">
-                                                                                    @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='edit')
-                                                                                        <p>
-                                                                                            <strong>{{$audit_obj[$i]->field}}</strong>
-                                                                                            from
-                                                                                            <strong>{{$audit_obj[$i]->before_value}}</strong>
-                                                                                            to
-                                                                                            <strong>{{$audit_obj[$i]->after_value}}</strong>
-                                                                                        </p>
-                                                                                        <?php $i = $i + 2; ?>
-                                                                                    @endwhile
-                                                                                </div>
-
-                                                                            @endif
-                                                                            @if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'add' and $audit_obj[$i]->change_key==$change_key)
-                                                                                <div class="well well-sm display-inline">
-                                                                                    @if($audit_obj[$i]->entity_type == 'offer_pixel_map')
-                                                                                        Pixel(s) Added:
-                                                                                    @endif
-
-                                                                                    <?php $flg = 0; $count = 0; ?>
-
-
-
-                                                                                    @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type == 'add')
-                                                                                        @if($flg>=20)
-                                                                                            <?php $count++ ?>
-                                                                                        @endif
-                                                                                            <p>
-                                                                                                @if($audit_obj[$i]->entity_type == 'offer_pixel_map' and $flg < 20)
-                                                                                                    name:
-                                                                                                    <strong>{{$audit_obj[$i+1][0]->name}}</strong>
-                                                                                                @endif
-                                                                                            </p>
-
-
-                                                                                        <?php $i = $i + 2; $flg++; ?>
-                                                                                    @endwhile
-                                                                                    @if($flg>20)
-                                                                                        <p> and other <strong>{{$count}}</strong>
-                                                                                            more...</p>
-                                                                                    @endif
-                                                                                </div>
-
-                                                                            @endif
-
-                                                                            @if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'del' and $audit_obj[$i]->change_key==$change_key)
-                                                                                    <div class="well well-sm display-inline">
-                                                                                        @if($audit_obj[$i]->entity_type == 'offer_pixel_map')
-                                                                                            Pixel(s) Removed:
-                                                                                        @endif
-                                                                                        <?php $flg = 0; $count = 0; ?>
-                                                                                        @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type == 'del')
-                                                                                            @if($flg>=20)
-                                                                                                <?php $count++ ?>
-                                                                                            @endif
-                                                                                            <p>
-                                                                                                @if($audit_obj[$i]->entity_type == 'offer_pixel_map' and $flg < 20)
-                                                                                                    name:
-                                                                                                    <strong>{{$audit_obj[$i+1][0]->name}}</strong>
-                                                                                                @endif
-                                                                                            </p>
-                                                                                            <?php $i = $i + 2; $flg++; ?>
-                                                                                        @endwhile
-                                                                                        <p>
-                                                                                            @if($flg>20)
-                                                                                                and other <strong>{{$count}}</strong>
-                                                                                                more...</p>
-                                                                                        @endif
-                                                                                    </div>
-                                                                                @endif
-
-
-                                                                        @endwhile
-                                                                    </div>
-                                                                    @endfor
-                                                                </div>
+                                                    <div class="card-body" >
+                                                        <div class="streamline b-l b-accent m-b" id="show_audit">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -243,8 +141,36 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        $('#audit_status').change(function () {
+            if($(this).val()=='all'){
+                $.ajax({
+                    url: "{{url('ajax/getAllAudits')}}"
+                }).success(function (response) {
+                    $('#show_audit').html(response);
+                });
+            }else if($(this).val()=='entity') {
+                $.ajax({
+                    url: "{{url('ajax/getAudit/offer')}}"
+                }).success(function (response) {
+                    $('#show_audit').html(response);
+                });
+            }else if($(this).val()=='user') {
+                $.ajax({
+                    url: "{{url('ajax/getAudit/user')}}"
+                }).success(function (response) {
+                    $('#show_audit').html(response);
+                });
+            }
+        });
+
         $(document).ready(function() {
             pageSetUp();
+            $.ajax({
+                url: "{{url('ajax/getAudit/offer')}}"
+            }).success(function (response) {
+                $('#show_audit').html(response);
+            });
 
             $(function () {
 

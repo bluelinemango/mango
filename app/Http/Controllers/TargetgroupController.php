@@ -643,7 +643,8 @@ class TargetgroupController extends Controller
     {
         if (is($id)) {
             $sub_category = Iab_Sub_Category::where('iab_category_id', $id)->get();
-            return json_encode($sub_category);
+            return view('targetgroup.template.iab_category')->with('sub_category',$sub_category);
+//            return json_encode($sub_category);
         }
     }
 
