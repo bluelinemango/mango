@@ -153,7 +153,10 @@
 
                     loadData: function (filter) {
                         return $.grep(this.bwlist, function (bwlist) {
-                            return (!filter.name || bwlist.name.indexOf(filter.name) > -1);
+                            return (!filter.name || bwlist.name.indexOf(filter.name) > -1)
+                                    && (!filter.advertiser_name || bwlist.advertiser_name.indexOf(filter.advertiser_name) > -1)
+                                    && (!filter.id || bwlist.id.indexOf(filter.id) > -1)
+                                    && (!filter.website || bwlist.website.indexOf(filter.website) > -1);
                         });
                     },
 

@@ -203,7 +203,7 @@
                                                         <label class="input"> <i
                                                                     class="icon-append fa fa-gear "></i>
                                                             <input type="text" name="max_number_of_negative_feature_to_pick"
-                                                                   placeholder="">
+                                                                   placeholder="Max Number of Negative Feature to Pick" rel="tooltip" data-placement="top" data-original-title="Max Number of Negative Feature to Pick">
                                                         </label>
                                                     </section>
 
@@ -269,7 +269,7 @@
                                                         <label class="input"> <i
                                                                     class="icon-append fa fa-gear "></i>
                                                             <input type="text" name="max_number_of_device_history_per_feature"
-                                                                   placeholder="">
+                                                                   placeholder="" rel="tooltip" data-placement="top" data-original-title="Max Number of Device History per Feature">
                                                         </label>
                                                     </section>
                                                     <section class="col col-2">
@@ -277,7 +277,7 @@
                                                         <label class="input"> <i
                                                                     class="icon-append fa fa-gear "></i>
                                                             <input type="text" name="max_num_both_neg_pos_devices"
-                                                                   placeholder="Max Number of Both Negative & Posetive Devices">
+                                                                   placeholder="Max Number of Both Negative & Posetive Devices" rel="tooltip" data-placement="top" data-original-title="Max Number of Both Negative & Posetive Devices">
                                                         </label>
                                                     </section>
 
@@ -290,7 +290,7 @@
                                                         <label class="input"> <i
                                                                     class="icon-append fa fa-gear "></i>
                                                             <input type="text" name="number_of_positive_device_to_be_used_for_modeling"
-                                                                   placeholder="">
+                                                                   placeholder="Number of Positive Device to be used" rel="tooltip" data-placement="top" data-original-title="Number of Positive Device to be used ">
                                                         </label>
                                                     </section>
                                                     <section class="col col-2">
@@ -298,7 +298,7 @@
                                                         <label class="input"> <i
                                                                     class="icon-append fa fa-gear "></i>
                                                             <input type="text" name="number_of_negative_device_to_be_used_for_modeling"
-                                                                   placeholder="">
+                                                                   placeholder="Number of Negative Device to be used " rel="tooltip" data-placement="top" data-original-title="Number of Negative Device to be used ">
                                                         </label>
                                                     </section>
                                                     <section class="col col-2">
@@ -306,7 +306,7 @@
                                                         <label class="input"> <i
                                                                     class="icon-append fa fa-gear "></i>
                                                             <input type="text" name="number_of_both_negative_positive_device_to_be_used"
-                                                                   placeholder="">
+                                                                   placeholder="Number of both Negative Positive Device to be used" rel="tooltip" data-placement="top" data-original-title="Number of both Negative Positive Device to be used ">
                                                         </label>
                                                     </section>
                                                 </fieldset>

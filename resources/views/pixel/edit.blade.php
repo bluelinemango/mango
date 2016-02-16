@@ -52,16 +52,16 @@
                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well col-md-9">
+                            <div class="well">
                                 <header>
                                     <h2><strong>Edit Pixel: {{$pixel_obj->name}} </strong></h2>
 
                                 </header>
 
                                 <!-- widget div-->
-                                <div>
+                                <div class="row">
                                     <!-- widget content -->
-                                    <div class="">
+                                    <div class="col-md-9">
 
                                         <form id="order-form" class="smart-form" action="{{URL::route('pixel_update')}}" method="post" novalidate="novalidate" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -72,43 +72,42 @@
                                                 General Information
                                             </header>
 
+                                            <div class="well">
                                             <fieldset>
-                                                <div class="row">
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Name (required)</label>
+                                                <section class="col col-3">
+                                                    <label class="label" for="">Name (required)</label>
 
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="name" placeholder="Name" value="{{$pixel_obj->name}}">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label for="" class="label">Status</label>
-                                                        <label class="checkbox">
-                                                            <input type="checkbox" name="active" @if($pixel_obj->status=='Active') checked @endif>
-                                                            <i></i>
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Advertiser Name</label>
-                                                        <label class="input">
-                                                            <h6>{{$pixel_obj->getAdvertiser->name}}</h6>
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Client Name</label>
-                                                        <label class="input">
-                                                            <h6>{{$pixel_obj->getAdvertiser->GetClientID->name}}</h6>
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Last Modified</label>
-                                                        <label class="input">
-                                                            <h6>{{$pixel_obj->updated_at}}</h6>
-                                                        </label>
-                                                    </section>
-                                                </div>
-
+                                                    <label class="input">
+                                                        <input type="text" name="name" placeholder="Name" value="{{$pixel_obj->name}}">
+                                                    </label>
+                                                </section>
+                                                <section class="col col-2">
+                                                    <label for="" class="label">Status</label>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="active" @if($pixel_obj->status=='Active') checked @endif>
+                                                        <i></i>
+                                                    </label>
+                                                </section>
+                                                <section class="col col-2">
+                                                    <label class="label" for="">Advertiser Name</label>
+                                                    <label class="input">
+                                                        <h6>{{$pixel_obj->getAdvertiser->name}}</h6>
+                                                    </label>
+                                                </section>
+                                                <section class="col col-2">
+                                                    <label class="label" for="">Client Name</label>
+                                                    <label class="input">
+                                                        <h6>{{$pixel_obj->getAdvertiser->GetClientID->name}}</h6>
+                                                    </label>
+                                                </section>
+                                                <section class="col col-2">
+                                                    <label class="label" for="">Last Modified</label>
+                                                    <label class="input">
+                                                        <h6>{{$pixel_obj->updated_at}}</h6>
+                                                    </label>
+                                                </section>
                                             </fieldset>
+                                            </div>
                                             <footer>
                                                 <div class="row">
                                                     <div class="col-md-5 col-md-offset-3">
@@ -121,32 +120,33 @@
                                             </footer>
                                         </form>
                                     </div>
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-heading">
+                                                <h2 class="pull-left">Activities</h2>
+                                                <select id="audit_status" class="pull-right">
+                                                    <option value="entity">This Entity</option>
+                                                    <option value="all">All</option>
+                                                    <option value="user">User</option>
+                                                </select>
+                                                <div class="clearfix"></div>
+                                                <small>All Activities for this Entity </small>
+                                            </div>
+                                            <div class="card-body" >
+                                                <div class="streamline b-l b-accent m-b" id="show_audit">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- WIDGET END -->
+
+                                    </div>
+
                                     <!-- end widget content -->
                                 </div>
                                 <!-- end widget div -->
                             </div>
                             <!-- end widget -->
 
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <h2 class="pull-left">Activities</h2>
-                                        <select id="audit_status" class="pull-right">
-                                            <option value="entity">This Entity</option>
-                                            <option value="all">All</option>
-                                            <option value="user">User</option>
-                                        </select>
-                                        <div class="clearfix"></div>
-                                        <small>All Activities for this Entity </small>
-                                    </div>
-                                    <div class="card-body" >
-                                        <div class="streamline b-l b-accent m-b" id="show_audit">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- WIDGET END -->
-
-                            </div>
 
                         </article>
                         <!-- END COL -->

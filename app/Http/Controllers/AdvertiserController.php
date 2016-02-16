@@ -7,6 +7,7 @@ use App\Models\Advertiser_Model_Map;
 use App\Models\Campaign;
 use App\Models\Client;
 use App\Models\ModelTable;
+use App\Models\Segment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -162,7 +163,7 @@ class AdvertiserController extends Controller
             if (Auth::check()) {
                 if (in_array('ADD_EDIT_ADVERTISER', $this->permission)) {
                     if (User::isSuperAdmin()) {
-                        $adver = Advertiser::with('Campaign')->with('Model')->with('GeoSegment')->with('BWList')->with('Creative')->with('GetClientID')->find($advid);
+                        $adver = Advertiser::with('Campaign','Model','GeoSegment','BWList','Creative','GetClientID','Segment')->find($advid);
                         $model_obj = ModelTable::where('advertiser_id',$advid)->with(['getAdvertiser' => function ($q) {
                             $q->with('GetClientID');
                         }])->get();
@@ -175,7 +176,8 @@ class AdvertiserController extends Controller
                         })->get();
                         $adver = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
-                        })->with('Campaign')->with('Model')->with('GeoSegment')->with('BWList')->with('Creative')->with('GetClientID')->find($advid);
+                        })->with('Campaign','Model','GeoSegment','BWList','Creative','GetClientID','Segment')->find($advid);
+
                         if (!$adver) {
                             return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                         }
@@ -225,7 +227,7 @@ class AdvertiserController extends Controller
                             array_push($data, 'Status');
                             array_push($data, $adver->status);
                             array_push($data, $active);
-                            $adver->name = $active;
+                            $adver->status = $active;
                         }
                         if ($adver->domain_name != $request->input('domain_name')) {
                             array_push($data, 'Domain Name');

@@ -175,7 +175,11 @@
 
                     loadData: function (filter) {
                         return $.grep(this.geosegment, function (geosegment) {
-                            return (!filter.name || geosegment.name.indexOf(filter.name) > -1);
+                            return (!filter.name || geosegment.name.indexOf(filter.name) > -1)
+                                    && (!filter.id || geosegment.id.indexOf(filter.id) > -1)
+                                    && (!filter.advertiser_name || geosegment.advertiser_name.indexOf(filter.advertiser_name) > -1)
+                                    && (!filter.entreies || geosegment.entreies.indexOf(filter.entreies) > -1)
+                                    ;
                         });
                     },
 

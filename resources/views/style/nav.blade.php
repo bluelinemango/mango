@@ -71,6 +71,9 @@
                 <a href="{{url('geosegment')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Geo Segment</span></a>
             </li>
             @endif
+            <li>
+                <a href="{{url('bulk-editing')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Bulk Editing</span></a>
+            </li>
             @if(!in_array('VIEW_REPORT',$permission))
             <li>
                 <a href="{{url('reporting')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Reporting</span></a>

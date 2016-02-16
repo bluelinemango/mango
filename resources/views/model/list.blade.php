@@ -172,7 +172,10 @@
 
                     loadData: function (filter) {
                         return $.grep(this.model, function (model) {
-                            return (!filter.name || model.name.indexOf(filter.name) > -1);
+                            return (!filter.name || model.name.indexOf(filter.name) > -1)
+                                    && (!filter.id || model.id.indexOf(filter.id) > -1)
+                                    && (!filter.algo || model.algo.indexOf(filter.algo) > -1)
+                                    && (!filter.advertiser || model.advertiser.indexOf(filter.advertiser) > -1);
                         });
                     },
 

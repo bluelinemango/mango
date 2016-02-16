@@ -48,17 +48,16 @@
                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID ()-->
-                            <div class="well col-md-9" >
+                            <div class="well" >
                                 <header>
                                     <h2>Edit Client #: cl{{$client_obj->id}} </h2>
-
                                 </header>
 
                                 <!-- widget div-->
-                                <div>
+                                <div class="row">
 
                                     <!-- widget content -->
-                                    <div class="">
+                                    <div class="col-md-9">
 
                                         <form id="order-form" class="smart-form" action="{{URL::route('client_update')}}" method="post" novalidate="novalidate" >
 
@@ -114,31 +113,32 @@
                                             </footer>
                                         </form>
                                     </div>
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-heading">
+                                                <h2 class="pull-left">Activities</h2>
+                                                <select id="audit_status" class="pull-right">
+                                                    <option value="entity">This Entity</option>
+                                                    <option value="all">All</option>
+                                                    <option value="user">User</option>
+                                                </select>
+                                                <div class="clearfix"></div>
+                                                <small>All Activities for this Entity </small>
+                                            </div>
+                                            <div class="card-body" >
+                                                <div class="streamline b-l b-accent m-b" id="show_audit">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- WIDGET END -->
+
+                                    </div>
+
                                     <!-- end widget content -->
                                 </div>
                                 <!-- end widget div -->
                             </div>
                             <!-- end widget -->
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <h2 class="pull-left">Activities</h2>
-                                        <select id="audit_status" class="pull-right">
-                                            <option value="entity">This Entity</option>
-                                            <option value="all">All</option>
-                                            <option value="user">User</option>
-                                        </select>
-                                        <div class="clearfix"></div>
-                                        <small>All Activities for this Entity </small>
-                                    </div>
-                                    <div class="card-body" >
-                                        <div class="streamline b-l b-accent m-b" id="show_audit">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- WIDGET END -->
-
-                            </div>
 
                         </article>
                         <!-- END COL -->

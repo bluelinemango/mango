@@ -188,7 +188,10 @@
 
                     loadData: function(filter) {
                         return $.grep(this.inventory, function(inventory) {
-                            return (!filter.name || inventory.name.indexOf(filter.name) > -1);
+                            return (!filter.name || inventory.name.indexOf(filter.name) > -1)
+                                    && (!filter.category || inventory.category.indexOf(filter.category) > -1)
+                                    && (!filter.type || inventory.type.indexOf(filter.type) > -1)
+                                    && (!filter.id || inventory.id.indexOf(filter.id) > -1);
                         });
                     },
 
@@ -227,7 +230,7 @@
                         "category" : '{{$index->category}}',
                         "type" : '{{$index->type}}',
                         "date_modify" : '{{$index->updated_at}}',
-                        "action": '<a class="btn btn-info" href="{{url('/inventory/'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>'
+                        "action": '<a class="btn" href="{{url('/inventory/'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>'
 
                     },
                     @endforeach
@@ -249,7 +252,7 @@
 
                     controller: db,
                     fields: [
-                        { name: "id",title: "ID", width: 20,align :"center" },
+                        { name: "id",title: "ID", type: "text",width: 20,align :"center",editing:false },
                         { name: "name",title: "Name", type: "text", width: 70 },
                         { name: "category",title: "Category", type: "text", width: 70 },
                         { name: "type",title: "Type", type: "text", width: 70 },

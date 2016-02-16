@@ -42,15 +42,15 @@
                         <article class="col-sm-12 col-md-9 col-lg-9">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well col-md-9">
+                            <div class="well">
                                 <header>
                                     <h2>Edit Advertiser: {{$adver_obj->name}} </h2>
                                 </header>
 
                                 <!-- widget div-->
-                                <div>
+                                <div class="row">
                                     <!-- widget content -->
-                                    <div class="">
+                                    <div class="col-md-9">
 
                                         <form id="order-form" class="smart-form"
                                               action="{{URL::route('advertiser_update')}}" method="post"
@@ -173,31 +173,32 @@
                                             </footer>
                                         </form>
                                     </div>
+                                    <div class="col-md-3">
+                                        <div class="card" >
+                                            <div class="card-heading">
+                                                <h2 class="pull-left">Activities</h2>
+                                                <select id="audit_status" class="pull-right">
+                                                    <option value="entity">This Entity</option>
+                                                    <option value="all">All</option>
+                                                    <option value="user">User</option>
+                                                </select>
+                                                <div class="clearfix"></div>
+                                                <small>All Activities for this Entity </small>
+                                            </div>
+                                            <div class="card-body" >
+                                                <div class="streamline b-l b-accent m-b" id="show_audit">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- WIDGET END -->
+
+                                    </div>
+
                                     <!-- end widget content -->
                                 </div>
                                 <!-- end widget div -->
                             </div>
                             <!-- end widget -->
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <h2 class="pull-left">Activities</h2>
-                                        <select id="audit_status" class="pull-right">
-                                            <option value="entity">This Entity</option>
-                                            <option value="all">All</option>
-                                            <option value="user">User</option>
-                                        </select>
-                                        <div class="clearfix"></div>
-                                        <small>All Activities for this Entity </small>
-                                    </div>
-                                    <div class="card-body" >
-                                        <div class="streamline b-l b-accent m-b" id="show_audit">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- WIDGET END -->
-
-                            </div>
 
                         </article>
                         <!-- END COL -->
@@ -215,6 +216,9 @@
                                         <button id="show_bwlist" class="btn btn-primary btn-block">B W List </button>
                                         <button id="show_geosegment" class="btn btn-primary btn-block">Geo Segment </button>
                                         <button id="show_model" class="btn btn-primary btn-block">Model </button>
+                                        @if(\Illuminate\Support\Facades\Auth::user()->role_id==1)
+                                            <button id="show_segment" class="btn btn-primary btn-block">Segment </button>
+                                        @endif
                                         @if(in_array('ADD_EDIT_OFFER',$permission))
                                             <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/offer/add')}}"
                                                class=" btn btn-primary btn-block">
@@ -242,7 +246,6 @@
                     <div class="row" id="campaign_list" style="display: none">
                         <!-- NEW WIDGET START -->
                         <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-
                             <!-- Widget ID (each widget will need unique ID)-->
                             <div class="well">
                                 <header>
@@ -254,26 +257,27 @@
                                             </a>
                                         </h2>
                                     @endif
-
                                 </header>
-
-                                <!-- widget div-->
-                                <div>
-                                    <!-- widget content -->
-                                    <div class="">
-
-                                        <div id="campaign_grid"></div>
-
-                                    </div>
-                                    <!-- end widget content -->
-
-                                </div>
-                                <!-- end widget div -->
-
+                                <div id="campaign_grid"></div>
                             </div>
                             <!-- end widget -->
+                        </article>
+                        <!-- WIDGET END -->
 
+                    </div>
 
+                    <div class="row" id="segment_list" style="display: none">
+                        <!-- NEW WIDGET START -->
+                        <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <div class="well">
+                                <header>
+                                    <h2 class="font-md pull-left"><strong>List Of Segment</strong></h2>
+                                </header>
+                                <div id="segment_grid"></div>
+                            </div>
+                            <!-- end widget -->
                         </article>
                         <!-- WIDGET END -->
 
@@ -300,49 +304,9 @@
                                     @endif
 
                                 </header>
-
-                                <!-- widget div-->
-                                <div>
-                                    <!-- widget content -->
-                                    <div class="">
-
-                                        <table id="dt_basic1" class="table table-striped table-bordered table-hover"
-                                               width="100%">
-                                            <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>
-                                                    <i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>
-                                                    Name
-                                                </th>
-                                                <th>
-                                                    <i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i>
-                                                    Date Of Modify
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($adver_obj->Creative as $index_crt)
-                                                <tr>
-                                                    <td>crt{{$index_crt->id}}</td>
-                                                    <td>
-                                                        <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/creative/crt'.$index_crt->id.'/edit')}}">{{$index_crt->name}}</a>
-                                                    </td>
-                                                    <td>{{$index_crt->updated_at}}</td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!-- end widget content -->
-
-                                </div>
-                                <!-- end widget div -->
-
+                                <div id="creative_grid"></div>
                             </div>
                             <!-- end widget -->
-
-
                         </article>
                         <!-- WIDGET END -->
                     </div>
@@ -367,49 +331,9 @@
                                     @endif
 
                                 </header>
-
-                                <!-- widget div-->
-                                <div>
-                                    <!-- widget content -->
-                                    <div class="">
-
-                                        <table id="dt_basic2" class="table table-striped table-bordered table-hover"
-                                               width="100%">
-                                            <thead>
-                                            <tr>
-                                                <th data-hide="phone">ID</th>
-                                                <th data-class="expand"><i
-                                                            class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>
-                                                    Name
-                                                </th>
-                                                <th data-hide="phone,tablet"><i
-                                                            class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i>
-                                                    Date Of modifay
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($adver_obj->Model as $index_mdl)
-                                                <tr>
-                                                    <td>mdl{{$index_mdl->id}}</td>
-                                                    <td>
-                                                        <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/model/mdl'.$index_mdl->id.'/edit')}}">{{$index_mdl->name}}</a>
-                                                    </td>
-                                                    <td>{{$index_mdl->updated_at}}</td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!-- end widget content -->
-
-                                </div>
-                                <!-- end widget div -->
-
+                                <div id="model_grid"></div>
                             </div>
                             <!-- end widget -->
-
-
                         </article>
                         <!-- WIDGET END -->
                     </div>
@@ -440,48 +364,9 @@
                                     @endif
 
                                 </header>
-
-                                <!-- widget div-->
-                                <div>
-                                    <!-- widget content -->
-                                    <div class="">
-
-                                        <table id="dt_basic3" class="table table-striped table-bordered table-hover"
-                                               width="100%">
-                                            <thead>
-                                            <tr>
-                                                <th data-hide="phone">ID</th>
-                                                <th data-class="expand"><i
-                                                            class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>
-                                                    Name
-                                                </th>
-                                                <th data-hide="phone,tablet"><i
-                                                            class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i>
-                                                    Date Of modifay
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($adver_obj->BWList as $index_bwl)
-                                                <tr>
-                                                    <td>mdl{{$index_bwl->id}}</td>
-                                                    <td>
-                                                        <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/bwlist/bwl'.$index_bwl->id.'/edit')}}">{{$index_bwl->name}}</a>
-                                                    </td>
-                                                    <td>{{$index_bwl->updated_at}}</td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!-- end widget content -->
-
-                                </div>
-                                <!-- end widget div -->
+                                <div id="bwlist_grid"></div>
                             </div>
                             <!-- end widget -->
-
-
                         </article>
                         <!-- WIDGET END -->
 
@@ -512,42 +397,7 @@
                                     @endif
 
                                 </header>
-
-                                <!-- widget div-->
-                                <div>
-                                    <!-- widget content -->
-                                    <div class="">
-
-                                        <table id="dt_basic4" class="table table-striped table-bordered table-hover"
-                                               width="100%">
-                                            <thead>
-                                            <tr>
-                                                <th data-hide="phone">ID</th>
-                                                <th data-class="expand"><i
-                                                            class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>
-                                                    Name
-                                                </th>
-                                                <th data-hide="phone,tablet"><i
-                                                            class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i>
-                                                    Date Of modifay
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($adver_obj->GeoSegment as $index_gsm)
-                                                <tr>
-                                                    <td>mdl{{$index_gsm->id}}</td>
-                                                    <td><a href="{{url()}}">{{$index_gsm->name}}</a></td>
-                                                    <td>{{$index_gsm->updated_at}}</td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!-- end widget content -->
-
-                                </div>
-                                <!-- end widget div -->
+                                <div id="geosegment_grid"></div>
                             </div>
                             <!-- end widget -->
                         </article>
@@ -677,14 +527,6 @@
 @endsection
 @section('FooterScripts')
 
-    <!-- PAGE RELATED PLUGIN(S) -->
-    <script src="{{cdn('js/plugin/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatables/dataTables.colVis.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatables/dataTables.tableTools.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatables/dataTables.bootstrap.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatable-responsive/datatables.responsive.min.js')}}"></script>
-{{--////////////////////////////DONT NEED UP ///////////////////--}}
-
     <script src="{{cdn('js/multi_select/multiselect.min.js')}}"></script>
     <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
 
@@ -694,6 +536,18 @@
             $('#active_show').val('campaign_list');
             $('#'+active_Show).hide();
             $('#campaign_list').fadeIn("slow");
+            $('html, body').animate({
+                        scrollTop: $(document).height()-$(window).height()},
+                    1400,
+                    "easeOutQuint"
+            );
+
+        });
+        $('#show_segment').click(function () {
+            var active_Show= $('#active_show').val();
+            $('#active_show').val('segment_list');
+            $('#'+active_Show).hide();
+            $('#segment_list').fadeIn("slow");
             $('html, body').animate({
                         scrollTop: $(document).height()-$(window).height()},
                     1400,
@@ -915,125 +769,493 @@
 
             });
 
+            @if(\Illuminate\Support\Facades\Auth::user()->role_id==1)
+            $(function () {
 
+                var db = {
 
+                    loadData: function (filter) {
+                        return $.grep(this.segment, function (segment) {
+                            return (!filter.name || segment.name.indexOf(filter.name) > -1)
+                                    && (!filter.daily_max_imp || segment.daily_max_imp.indexOf(filter.daily_max_imp) > -1)
+                                    && (!filter.cpm || segment.cpm.indexOf(filter.cpm) > -1)
+                                    && (!filter.id || segment.id.indexOf(filter.id) > -1)
+                                    && (!filter.daily_max_budget || segment.daily_max_budget.indexOf(filter.daily_max_budget) > -1);
+                        });
+                    },
 
+                    updateItem: function (updatingSegment) {
+                        updatingSegment['oper'] = 'edit';
+                        console.log(updatingSegment);
+                        $.ajax({
+                            type: "PUT",
+                            url: "{{url('/ajax/jqgrid/segment')}}",
+                            data: updatingSegment,
+                            dataType: "json"
+                        }).done(function (response) {
+                            console.log(response);
+                            if(response.success==true){
+                                var title= "Success";
+                                var color="#739E73";
+                                var icon="fa fa-check";
+                            }else if(response.success==false) {
+                                var title= "Warning";
+                                var color="#C46A69";
+                                var icon="fa fa-bell";
+                            };
 
-
-
-
-
-
-
-
-
-
-
-            /* BASIC ;*/
-            var responsiveHelper_dt_basic = undefined;
-            var responsiveHelper_dt_basic1 = undefined;
-            var responsiveHelper_dt_basic2 = undefined;
-            var responsiveHelper_dt_basic3 = undefined;
-            var responsiveHelper_dt_basic4 = undefined;
-            var responsiveHelper_datatable_fixed_column = undefined;
-            var responsiveHelper_datatable_col_reorder = undefined;
-            var responsiveHelper_datatable_tabletools = undefined;
-
-            var breakpointDefinition = {
-                tablet: 1024,
-                phone: 480
-            };
-
-            $('#dt_basic').dataTable({
-                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
-                "t" +
-                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-                "autoWidth": true,
-                "preDrawCallback": function () {
-                    // Initialize the responsive datatables helper once.
-                    if (!responsiveHelper_dt_basic) {
-                        responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
+                            $.smallBox({
+                                title: title,
+                                content: response.msg,
+                                color: color,
+                                icon: icon,
+                                timeout: 8000
+                            });
+                        });
                     }
-                },
-                "rowCallback": function (nRow) {
-                    responsiveHelper_dt_basic.createExpandIcon(nRow);
-                },
-                "drawCallback": function (oSettings) {
-                    responsiveHelper_dt_basic.respond();
-                }
+
+                };
+
+                window.db = db;
+
+                db.segment = [
+                    @foreach($adver_obj->Segment as $index)
+                    {
+                        "id": 'sgt{{$index->id}}',
+                        "name": '{{$index->name}}',
+                        "advertiser": '{{$index->getAdvertiser->name}}',
+                        "model": '{{$index->getModel->name}}',
+                        "date_modify": '{{$index->updated_at}}'
+                    },
+                    @endforeach
+                ];
+
+                $("#segment_grid").jsGrid({
+                    width: "100%",
+
+                    filtering: true,
+                    editing: false,
+                    sorting: true,
+                    paging: true,
+                    autoload: true,
+
+                    pageSize: 15,
+                    pageButtonCount: 5,
+
+                    deleteConfirm: "Do you really want to delete the client?",
+
+                    controller: db,
+                    fields: [
+                        {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
+                        {name: "name", title: "Name", type: "text", width: 70},
+                        {name: "advertiser", title: "Advertiser", type: "text", width: 70, align: "center"},
+                        {name: "model", title: "Model", type: "text", width: 60, align: "center"},
+                        {name: "date_modify", title: "Last Modified", width: 70, align: "center"}
+                    ]
+
+                });
+
             });
-            $('#dt_basic1').dataTable({
-                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
-                "t" +
-                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-                "autoWidth": true,
-                "preDrawCallback": function () {
-                    // Initialize the responsive datatables helper once.
-                    if (!responsiveHelper_dt_basic1) {
-                        responsiveHelper_dt_basic1 = new ResponsiveDatatablesHelper($('#dt_basic1'), breakpointDefinition);
+            @endif
+
+            //Creative //
+            $(function () {//LIST OF CREATIVE
+
+                var db = {
+
+                    loadData: function (filter) {
+                        return $.grep(this.creative, function (creative) {
+                            return (!filter.name || creative.name.indexOf(filter.name) > -1)
+                                    && (!filter.size || creative.size.indexOf(filter.size) > -1)
+                                    && (!filter.advertiser || creative.advertiser.indexOf(filter.advertiser) > -1)
+                                    && (!filter.id || creative.id.indexOf(filter.id) > -1);
+                        });
+                    },
+
+                    updateItem: function (updatingCreative) {
+                        updatingCreative['oper'] = 'edit';
+                        console.log(updatingCreative);
+                        $.ajax({
+                            type: "PUT",
+                            url: "{{url('/ajax/jqgrid/creative')}}",
+                            data: updatingCreative,
+                            dataType: "json"
+                        }).done(function (response) {
+                            console.log(response);
+                            if(response.success==true){
+                                var title= "Success";
+                                var color="#739E73";
+                                var icon="fa fa-check";
+                            }else if(response.success==false) {
+                                var title= "Warning";
+                                var color="#C46A69";
+                                var icon="fa fa-bell";
+                            };
+
+                            $.smallBox({
+                                title: title,
+                                content: response.msg,
+                                color: color,
+                                icon: icon,
+                                timeout: 8000
+                            });
+                        });
                     }
-                },
-                "rowCallback": function (nRow) {
-                    responsiveHelper_dt_basic1.createExpandIcon(nRow);
-                },
-                "drawCallback": function (oSettings) {
-                    responsiveHelper_dt_basic1.respond();
-                }
+
+                };
+
+                window.db = db;
+
+                db.creative = [
+                    @foreach($adver_obj->Creative as $index)
+                    {
+                        "id": 'crt{{$index->id}}',
+                        "name": '{{$index->name}}',
+                        "size":'{{$index->size}}',
+                        "advertiser":'<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
+                        @if($index->status == 'Active')
+                        "status": '<a id="creative{{$index->id}}" href="javascript: ChangeStatus(`creative`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                        @elseif($index->status == 'Inactive')
+                        "status": '<a id="creative{{$index->id}}" href="javascript: ChangeStatus(`creative`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
+                        @endif                        "date_modify": '{{$index->updated_at}}',
+                        "action": '<a class="btn " href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/crt'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_CREATIVE',$permission)) +'| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+
+            },
+                    @endforeach
+                ];
+
+                $("#creative_grid").jsGrid({
+                    width: "100%",
+
+                    filtering: true,
+                    editing: true,
+                    sorting: true,
+                    paging: true,
+                    autoload: true,
+
+                    pageSize: 15,
+                    pageButtonCount: 5,
+
+                    deleteConfirm: "Do you really want to delete the client?",
+
+                    controller: db,
+                    fields: [
+                        {name: "id", title: "ID", width: 40, type: "text", align: "center",editing:false},
+                        {name: "name", title: "Name", type: "text", width: 70},
+                        {name: "size", title: "Size", type: "text", width: 50, align: "center",editing:false},
+                        {name: "advertiser", title: "Advertiser", type: "text", width: 70, align: "center",editing:false},
+                        {name: "status", title: "Status", width: 50, align: "center"},
+                        {name: "date_modify", title: "Last Modified", align: "center"},
+                        {name: "action", title: "Edit | +Creative", sorting: false, width: 70, align: "center"},
+                        {type: "control"}
+                    ]
+
+                });
+
             });
-            $('#dt_basic2').dataTable({
-                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
-                "t" +
-                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-                "autoWidth": true,
-                "preDrawCallback": function () {
-                    // Initialize the responsive datatables helper once.
-                    if (!responsiveHelper_dt_basic2) {
-                        responsiveHelper_dt_basic2 = new ResponsiveDatatablesHelper($('#dt_basic2'), breakpointDefinition);
+            //End Creative //
+
+            //BWLIST //
+            $(function () { //BW LIST
+
+                var db = {
+
+                    loadData: function (filter) {
+                        return $.grep(this.bwlist, function (bwlist) {
+                            return (!filter.name || bwlist.name.indexOf(filter.name) > -1)
+                                    && (!filter.advertiser_name || bwlist.advertiser_name.indexOf(filter.advertiser_name) > -1)
+                                    && (!filter.id || bwlist.id.indexOf(filter.id) > -1)
+                                    && (!filter.website || bwlist.website.indexOf(filter.website) > -1);
+                        });
+                    },
+
+                    updateItem: function (updatingBWlist) {
+                        updatingBWlist['oper'] = 'edit';
+                        console.log(updatingBWlist);
+                        $.ajax({
+                            type: "PUT",
+                            url: "{{url('/ajax/jqgrid/bwlist')}}",
+                            data: updatingBWlist,
+                            dataType: "json"
+                        }).done(function (response) {
+                            console.log(response);
+                            if(response.success==true){
+                                var title= "Success";
+                                var color="#739E73";
+                                var icon="fa fa-check";
+                            }else if(response.success==false) {
+                                var title= "Warning";
+                                var color="#C46A69";
+                                var icon="fa fa-bell";
+                            };
+
+                            $.smallBox({
+                                title: title,
+                                content: response.msg,
+                                color: color,
+                                icon: icon,
+                                timeout: 8000
+                            });
+                        });
                     }
-                },
-                "rowCallback": function (nRow) {
-                    responsiveHelper_dt_basic2.createExpandIcon(nRow);
-                },
-                "drawCallback": function (oSettings) {
-                    responsiveHelper_dt_basic2.respond();
-                }
+
+                };
+
+                window.db = db;
+
+                db.bwlist = [
+
+                    @foreach($adver_obj->BWList as $index)
+                    {
+                        "id": 'bwl{{$index->id}}',
+                        "name": '{{$index->name}}',
+                        "advertiser_name" : '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
+                        @if(count($index->getEntries)>0)
+                        "website": '{{$index->getEntries[0]->bwlist_count}}',
+                        @else
+                        "website" : '0',
+                        @endif
+                        @if($index->status == 'Active')
+                        "status": '<a id="bwlist{{$index->id}}" href="javascript: ChangeStatus(`bwlist`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                        @elseif($index->status == 'Inactive')
+                        "status": '<a id="bwlist{{$index->id}}" href="javascript: ChangeStatus(`bwlist`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
+                        @endif
+                        "date_modify": '{{$index->updated_at}}',
+                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bwlist/bwl'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) +'| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bwlist/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+
+                    },
+                    @endforeach
+                ];
+
+                $("#bwlist_grid").jsGrid({
+                    width: "100%",
+
+                    filtering: true,
+                    editing: true,
+                    sorting: true,
+                    paging: true,
+                    autoload: true,
+
+                    pageSize: 10,
+                    pageButtonCount: 5,
+
+                    deleteConfirm: "Do you really want to delete the client?",
+
+                    controller: db,
+                    fields: [
+                        {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
+                        {name: "name", title: "Name", type: "text", width: 70},
+                        {name: "advertiser_name", title: "Advertiser", type: "text", width: 60, align: "center",editing:false},
+                        {name: "website", title: "#Entery", type: "text", width: 40, align: "center",editing:false},
+                        {name: "status", title: "Status", width: 50, align: "center"},
+                        {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
+                        {name: "action", title: "Edit | + B/W", sorting: false, width: 60, align: "center"},
+                        {type: "control"}
+                    ]
+
+                });
+
             });
-            $('#dt_basic3').dataTable({
-                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
-                "t" +
-                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-                "autoWidth": true,
-                "preDrawCallback": function () {
-                    // Initialize the responsive datatables helper once.
-                    if (!responsiveHelper_dt_basic3) {
-                        responsiveHelper_dt_basic3 = new ResponsiveDatatablesHelper($('#dt_basic3'), breakpointDefinition);
+            //END BWLIST //
+
+            //Geo Segment //
+            $(function () {
+
+                var db = {
+
+                    loadData: function (filter) {
+                        return $.grep(this.geosegment, function (geosegment) {
+                            return (!filter.name || geosegment.name.indexOf(filter.name) > -1)
+                                    && (!filter.id || geosegment.id.indexOf(filter.id) > -1)
+                                    && (!filter.advertiser_name || geosegment.advertiser_name.indexOf(filter.advertiser_name) > -1)
+                                    && (!filter.entreies || geosegment.entreies.indexOf(filter.entreies) > -1)
+                                    ;
+                        });
+                    },
+
+                    updateItem: function (updatingGeo) {
+                        updatingGeo['oper'] = 'edit';
+                        console.log(updatingGeo);
+                        $.ajax({
+                            type: "PUT",
+                            url: "{{url('/ajax/jqgrid/geolist')}}",
+                            data: updatingGeo,
+                            dataType: "json"
+                        }).done(function (response) {
+                            console.log(response);
+                            if(response.success==true){
+                                var title= "Success";
+                                var color="#739E73";
+                                var icon="fa fa-check";
+                            }else if(response.success==false) {
+                                var title= "Warning";
+                                var color="#C46A69";
+                                var icon="fa fa-bell";
+                            };
+
+                            $.smallBox({
+                                title: title,
+                                content: response.msg,
+                                color: color,
+                                icon: icon,
+                                timeout: 8000
+                            });
+                        });
                     }
-                },
-                "rowCallback": function (nRow) {
-                    responsiveHelper_dt_basic3.createExpandIcon(nRow);
-                },
-                "drawCallback": function (oSettings) {
-                    responsiveHelper_dt_basic3.respond();
-                }
+
+                };
+
+                window.db = db;
+
+                db.geosegment = [
+
+                    @foreach($adver_obj->GeoSegment as $index)
+                    {
+                        "id": 'gsm{{$index->id}}',
+                        "name": '{{$index->name}}',
+                        "advertiser_name" : '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
+                        @if(count($index->getGeoEntries)>0)
+                        "entreies": '{{$index->getGeoEntries[0]->geosegment_count}} ',
+                        @else
+                        "entreies" : '0',
+                        @endif
+                        @if($index->status == 'Active')
+                        "status": '<a id="geosegment{{$index->id}}" href="javascript: ChangeStatus(`geosegment`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                        @elseif($index->status == 'Inactive')
+                        "status": '<a id="geosegment{{$index->id}}" href="javascript: ChangeStatus(`geosegment`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
+                        @endif
+                        "date_modify": '{{$index->updated_at}}',
+                        "action": '<a class="btn " href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/gsm'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) +'| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+
+                    },
+                    @endforeach
+                ];
+
+                $("#geosegment_grid").jsGrid({
+                    width: "100%",
+
+                    filtering: true,
+                    editing: true,
+                    sorting: true,
+                    paging: true,
+                    autoload: true,
+
+                    pageSize: 10,
+                    pageButtonCount: 5,
+
+                    deleteConfirm: "Do you really want to delete the client?",
+
+                    controller: db,
+                    fields: [
+                        {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
+                        {name: "name", title: "Name", type: "text", width: 70},
+                        {name: "advertiser_name", title: "Advertiser", type: "text", width: 60, align: "center",editing:false},
+                        {name: "entreies", title: "#Entery", type: "text", width: 40, align: "center",editing:false},
+                        {name: "status", title: "Status", width: 50, align: "center"},
+                        {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
+                        {name: "action", title: "Edit | +Geo", sorting: false, width: 60, align: "center"},
+                        {type: "control"}
+                    ]
+
+                });
+
             });
-            $('#dt_basic4').dataTable({
-                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
-                "t" +
-                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-                "autoWidth": true,
-                "preDrawCallback": function () {
-                    // Initialize the responsive datatables helper once.
-                    if (!responsiveHelper_dt_basic4) {
-                        responsiveHelper_dt_basic4 = new ResponsiveDatatablesHelper($('#dt_basic4'), breakpointDefinition);
+            //END Geo Segment //
+
+            //Model//
+            $(function () {
+
+                var db = {
+
+                    loadData: function (filter) {
+                        return $.grep(this.model, function (model) {
+                            return (!filter.name || model.name.indexOf(filter.name) > -1)
+                                    && (!filter.id || model.id.indexOf(filter.id) > -1)
+                                    && (!filter.algo || model.algo.indexOf(filter.algo) > -1)
+                                    && (!filter.advertiser || model.advertiser.indexOf(filter.advertiser) > -1);
+                        });
+                    },
+
+                    updateItem: function (updatingModel) {
+                        updatingModel['oper'] = 'edit';
+                        console.log(updatingModel);
+                        $.ajax({
+                            type: "PUT",
+                            url: "{{url('/ajax/jqgrid/model')}}",
+                            data: updatingModel,
+                            dataType: "json"
+                        }).done(function (response) {
+                            console.log(response);
+                            if(response.success==true){
+                                var title= "Success";
+                                var color="#739E73";
+                                var icon="fa fa-check";
+                            }else if(response.success==false) {
+                                var title= "Warning";
+                                var color="#C46A69";
+                                var icon="fa fa-bell";
+                            };
+
+                            $.smallBox({
+                                title: title,
+                                content: response.msg,
+                                color: color,
+                                icon: icon,
+                                timeout: 8000
+                            });
+                        });
                     }
-                },
-                "rowCallback": function (nRow) {
-                    responsiveHelper_dt_basic4.createExpandIcon(nRow);
-                },
-                "drawCallback": function (oSettings) {
-                    responsiveHelper_dt_basic4.respond();
-                }
+
+                };
+
+                window.db = db;
+
+                db.model = [
+
+
+                    @foreach($adver_obj->Model as $index)
+                    {
+                        "id": 'mdl{{$index->id}}',
+                        "name": '{{$index->name}}',
+                        "algo":'{{$index->algo}}',
+                        "advertiser":'<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
+                        "date_modify":'{{$index->updated_at}}',
+                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/mdl'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_MODEL',$permission)) +'| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+
+                    },
+                    @endforeach
+                ];
+
+                $("#model_grid").jsGrid({
+                    width: "100%",
+
+                    filtering: true,
+                    editing: true,
+                    sorting: true,
+                    paging: true,
+                    autoload: true,
+
+                    pageSize: 10,
+                    pageButtonCount: 5,
+
+                    deleteConfirm: "Do you really want to delete the client?",
+
+                    controller: db,
+                    fields: [
+                        {name: "id", title: "ID", width: 40,editing:false,type: "text", align: "center"},
+                        {name: "name", title: "Name", type: "text", width: 70},
+                        {name: "algo", title: "Algoritm",editing:false,type: "text", width: 50, align: "center"},
+                        {name: "advertiser", title: "Advertiser",editing:false,type: "text", width: 70, align: "center"},
+                        {name: "date_modify", title: "Last Modified", align: "center"},
+                        {name: "action", title: "Edit | +Model", sorting: false, width: 80, align: "center"},
+                        {type: "control"}
+                    ]
+
+                });
+
             });
+
+            //END Model //
         });
         /* END BASIC */
 

@@ -101,7 +101,7 @@ class UsersController extends Controller
     {
         if (!is_null($id)) {
             if (Auth::check()) {
-                if (1 == 1) { // Permission goes here
+                if (in_array('ADD_EDIT_USER', $this->permission)) {
                     $user_obj = User::with('getCompany')->find($id);
                     if(Auth::user()->role_id==1) {
                         $company_obj = Company::all();
@@ -151,10 +151,11 @@ class UsersController extends Controller
                 $flg=1;
             }
             if($flg== 0) {
-                $active=0;
+                $active='Inactive';
                 if($request->input('active')=='on'){
-                    $active=1;
+                    $active='Active';
                 }
+                $audit = new AuditsController();
                 $user->name = $request->input('name');
                 $user->role_id = $request->input('role_group');
                 if(Auth::user()->role_id==1) {
@@ -162,10 +163,11 @@ class UsersController extends Controller
                 }else{
                     $user->company_id = Auth::user()->company_id ;
                 }
-                $user->active = $active;
+                $user->status = $active;
                 $user->email = $request->input('email');
                 $user->password = \Hash::make($request->input('password'));
                 $user->save();
+                $audit->store('user', $user->id, null, 'add');
                 return \Redirect::to(url('/user/usr'.$user->id.'/edit'))->withErrors(['success' => true, 'msg' =>"User Registered Successfully"]);
             }
         }
@@ -217,41 +219,106 @@ class UsersController extends Controller
     {
 //        return dd($request->all());
         if (Auth::check()) {
-            if (1 == 1) { //permission goes here
+            if (in_array('ADD_EDIT_USER', $this->permission)) {
                 $validate = \Validator::make($request->all(), ['name' => 'required','email' => 'required','company_group' => 'required','role_group' => 'required']);
                 if ($validate->passes()) {
-                    $active=0;
+                    $active='Inactive';
                     if($request->input('active')=='on'){
-                        $active=1;
+                        $active='Active';
                     }
                     $user_id = $request->input('user_id');
                     $password=$request->input('password');
                     $user = User::find($user_id);
-                    $user->name = $request->input('name');
-                    $user->active = $active;
-                    $user->role_id = $request->input('role_group');
-                    if(Auth::user()->role_id==1) {
-                        $user->company_id = $request->input('company_group');
-                    }else{
-                        $user->company_id =Auth::user()->company_id ;
+                    $data = array();
+                    $audit = new AuditsController();
+                    if ($user->name != $request->input('name')) {
+                        array_push($data, 'Name');
+                        array_push($data, $user->name);
+                        array_push($data, $request->input('name'));
+                        $user->name = $request->input('name');
                     }
-                    $user->email = $request->input('email');
+                    if ($user->status != $active) {
+                        array_push($data, 'Status');
+                        array_push($data, $user->status);
+                        array_push($data, $active);
+                        $user->status = $active;
+                    }
+                    if ($user->role_id != $request->input('role_group')) {
+                        array_push($data, 'Role');
+                        array_push($data, $user->role_id);
+                        array_push($data, $request->input('role_group'));
+                        $user->role_id = $request->input('role_group');
+                    }
+
+                    if(User::isSuperAdmin()) {
+                        if ($user->company_id != $request->input('company_group')) {
+                            array_push($data, 'Company');
+                            array_push($data, $user->company_id);
+                            array_push($data, $request->input('company_group'));
+                            $user->company_id = $request->input('company_group');
+                        }
+                    }
+                    if ($user->email != $request->input('email')) {
+                        array_push($data, 'Email');
+                        array_push($data, $user->email);
+                        array_push($data, $request->input('email'));
+                        $user->email = $request->input('email');
+                    }
+
                     if (!is_null($password) and $password!="") {
                         $user->password = Hash::make($password);
                     }
+                    $audit->store('user', $user_id, $data, 'edit');
                     $user->save();
                     return Redirect::back()->withErrors(['success' => true, 'msg' => 'User Edited Successfully']);
-                } else {
-                    return Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();
                 }
-            } else {
-                return Redirect::back()->withErrors(['success' => false, 'msg' => 'dont have Edit Permission']);
-            }
+                return Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();
 
-        } else {
-            return Redirect::to('user/login');
+            }
+            return Redirect::back()->withErrors(['success' => false, 'msg' => 'dont have Edit Permission']);
         }
+        return Redirect::to(url('user/login'));
     }
+    public function ChangeStatus($id)
+    {
+        if (Auth::check()) {
+            if (in_array('ADD_EDIT_USER', $this->permission)) {
+                $user_id = $id;
+
+                if (User::isSuperAdmin()) {
+                    $user = User::find($user_id);
+                } else {
+                    $user = User::where('company_id',Auth::user()->company_id)->find($user_id);
+                    if(!$user){
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your User'])->withInput();
+                    }
+                }
+                if ($user) {
+                    $data = array();
+                    $audit = new AuditsController();
+                    if ($user->status == 'Active') {
+                        array_push($data, 'status');
+                        array_push($data, $user->status);
+                        array_push($data, 'Inactive');
+                        $user->status = 'Inactive';
+                        $msg = 'disable';
+                    } elseif ($user->status == 'Inactive') {
+                        array_push($data, 'status');
+                        array_push($data, $user->status);
+                        array_push($data, 'Active');
+                        $user->status = 'Active';
+                        $msg = 'actived';
+                    }
+                    $audit->store('advertiser', $user_id, $data, 'edit');
+                    $user->save();
+                    return $msg;
+                }
+            }
+            return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
+        }
+        return Redirect::to(url('user/login'));
+    }
+
     public function edit_role(Request $request)
     {
 //        return dd($request->all());

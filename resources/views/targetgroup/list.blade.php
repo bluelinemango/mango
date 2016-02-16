@@ -66,7 +66,7 @@
                                                     <!-- NEW WIDGET START -->
                                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-                                                        <div id="campaign_grid"></div>
+                                                        <div id="targetgroup_grid"></div>
                                                         {{--<table id="jqgrid"></table>--}}
                                                         {{--<div id="pjqgrid"></div>--}}
 
@@ -190,7 +190,7 @@
                     @endforeach
                 ];
 
-                $("#campaign_grid").jsGrid({
+                $("#targetgroup_grid").jsGrid({
                     width: "100%",
 
                     filtering: true,

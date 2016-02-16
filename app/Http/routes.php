@@ -30,6 +30,7 @@ Route::get('/user/role/edit/{id?}','UsersController@RoleEditView');
 Route::put('/user/assign-permission/edit/update', ['uses'=>'UsersController@edit_permission_assign','as'=>'edit_permission_assign']);
 Route::put('/user/role/edit/update', ['uses'=>'UsersController@edit_role','as'=>'edit_role']);
 Route::get('/user/role-permission','UsersController@GetRolePermissionView');
+Route::get('/bulk-editing','MangoController@BulkView');
 
 
 /////////////////////////CLIENT///////////////////////////////////////////
@@ -157,6 +158,14 @@ Route::get('/get_iab_sub_category/{id?}', ['uses'=>'TargetgroupController@Iab_Ca
 
 Route::group(['prefix' => 'ajax'], function()
 {
+    ////////////////////BULK EDITING////////////////////////
+    Route::get('/getCampaign', 'MangoController@getCampaign');
+    Route::post('/bulk_campaign', ['uses'=>'MangoController@campaign_bulk','as'=>'campaign_bulk_update']);
+    Route::post('/bulk_creative', ['uses'=>'MangoController@creative_bulk','as'=>'creative_bulk_update']);
+    Route::get('/getCreative', 'MangoController@getCreative');
+//    Route::get('/getTargetgroup', 'MangoController@getTargetgroup');
+    ////////////////////END BULK EDITING////////////////////////
+
     Route::get('/getAllAudits', 'AuditsController@getAllAudits');
     Route::get('/getAudit/{id?}/{entity_id?}', 'AuditsController@getAudit');
     Route::group(['prefix' => 'jqgrid'], function() {
@@ -180,6 +189,7 @@ Route::group(['prefix' => 'ajax'], function()
         Route::get('/targetgroup/{id?}', 'TargetgroupController@ChangeStatus');
         Route::get('/offer/{id?}', 'OfferController@ChangeStatus');
         Route::get('/pixel/{id?}', 'PixelController@ChangeStatus');
+        Route::get('/user/{id?}', 'UsersController@ChangeStatus');
     });
 //    Route::resource('features','FeatureController');
 });

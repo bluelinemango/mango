@@ -54,15 +54,15 @@
                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well col-md-9">
+                            <div class="well">
                                 <header>
                                     <h2>Geo Segment list edit: {{$geosegment_obj->name}} </h2>
                                 </header>
 
                                 <!-- widget div-->
-                                <div>
+                                <div class="row">
                                     <!-- widget content -->
-                                    <div class="">
+                                    <div class="col-md-9">
 
                                         <form id="order-form" class="smart-form" action="{{URL::route('geosegmentlist_update')}}" method="post" novalidate="novalidate" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -84,7 +84,7 @@
                                                         <label for="" class="label">status</label>
                                                         <label class="checkbox">
                                                             <input type="checkbox" name="active" @if($geosegment_obj->status=='Active') checked @endif>
-                                                            <i></i>Active Status
+                                                            <i></i>
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
@@ -111,31 +111,32 @@
                                             </footer>
                                         </form>
                                     </div>
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-heading">
+                                                <h2 class="pull-left">Activities</h2>
+                                                <select id="audit_status" class="pull-right">
+                                                    <option value="entity">This Entity</option>
+                                                    <option value="all">All</option>
+                                                    <option value="user">User</option>
+                                                </select>
+                                                <div class="clearfix"></div>
+                                                <small>All Activities for this Entity </small>
+                                            </div>
+                                            <div class="card-body" >
+                                                <div class="streamline b-l b-accent m-b" id="show_audit">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- WIDGET END -->
+
+                                    </div>
+
                                     <!-- end widget content -->
                                 </div>
                                 <!-- end widget div -->
                             </div>
                             <!-- end widget -->
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <h2 class="pull-left">Activities</h2>
-                                        <select id="audit_status" class="pull-right">
-                                            <option value="entity">This Entity</option>
-                                            <option value="all">All</option>
-                                            <option value="user">User</option>
-                                        </select>
-                                        <div class="clearfix"></div>
-                                        <small>All Activities for this Entity </small>
-                                    </div>
-                                    <div class="card-body" >
-                                        <div class="streamline b-l b-accent m-b" id="show_audit">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- WIDGET END -->
-
-                            </div>
 
                         </article>
                         <!-- END COL -->

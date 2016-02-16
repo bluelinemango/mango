@@ -10,10 +10,12 @@
             <!-- breadcrumb -->
             <ol class="breadcrumb">
                 <li>
-                    <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client: cl{{$campaign_obj->getAdvertiser->GetClientID->id}}</a>
+                    <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client:
+                        cl{{$campaign_obj->getAdvertiser->GetClientID->id}}</a>
                 </li>
                 <li>
-                    <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->advertiser_id.'/edit')}}">Advertiser: adv{{$campaign_obj->advertiser_id}}</a>
+                    <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->advertiser_id.'/edit')}}">Advertiser:
+                        adv{{$campaign_obj->advertiser_id}}</a>
                 </li>
                 <li>Campaign: cmp{{$campaign_obj->id}}</li>
             </ol>
@@ -29,7 +31,7 @@
 
 
 
-        @if(Session::has('CaptchaError'))
+            @if(Session::has('CaptchaError'))
                 <ul>
                     <li>{{Session::get('CaptchaError')}}</li>
                 </ul>
@@ -44,16 +46,15 @@
                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well col-md-9">
+                            <div class="well">
                                 <header>
                                     <h2><strong>Edit Campaign: {{$campaign_obj->name}} </strong></h2>
-
                                 </header>
 
                                 <!-- widget div-->
-                                <div>
+                                <div class="row">
                                     <!-- widget content -->
-                                    <div class="">
+                                    <div class="col-md-9">
 
                                         <form id="order-form" class="smart-form"
                                               action="{{URL::route('campaign_update')}}" method="post"
@@ -67,70 +68,73 @@
                                             </header>
 
                                             <div class="well col-md-12">
-                                                @if(isset($real_time))
-                                                    <div class="row">
-                                                        <div class="col-md-3">
-                                                            <div class="real-time-box">
-                    <span class="real-time-icon" style="background-color: #00c0ef " >
-                        <i class="fa fa-eye" ></i>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #00c0ef ">
+                        <i class="fa fa-eye"></i>
                     </span>
-                                                                <div class="real-time-content">
-                                                                    Imps to Now:
-                                                                    <br/>
-                                                                    <strong>{{$real_time[0]->impressions_shown_today_until_now}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="real-time-box">
-                    <span class="real-time-icon" style="background-color: #dd4b39 " >
-                        <i class="fa fa-eye" ></i>
-                    </span>
-                                                                <div class="real-time-content">
-                                                                    Total Imps:
-                                                                    <br/>
-                                                                    <strong>{{$real_time[0]->total_impression_show_until_now}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="real-time-box">
-                    <span class="real-time-icon" style="background-color: #00a65a " >
-                        <i class="fa fa-dollar" ></i>
-                    </span>
-                                                                <div class="real-time-content">
-                                                                    Budget to Now:
-                                                                    <br/>
-                                                                    <strong>{{$real_time[0]->daily_budget_spent_today_until_now}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="real-time-box">
-                    <span class="real-time-icon" style="background-color: #f39c12 " >
-                        <i class="fa fa-dollar" ></i>
-                    </span>
-                                                                <div class="real-time-content">
-                                                                    Total Budget:
-                                                                    <br/>
-                                                                    <strong>{{$real_time[0]->total_budget_spent_until_now}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="real-time-box">
-                    <span class="real-time-icon" style="background-color: #f39c12 " >
-                        <i class="fa fa-gear" ></i>
-                    </span>
-                                                                <div class="real-time-content">
-                                                                    Last Shown:
-                                                                    <br/>
-                                                                    {{$real_time[0]->last_time_ad_shown}}
-                                                                </div>
+
+                                                            <div class="real-time-content">
+                                                                Imps to Now:
+                                                                <br/>
+                                                                <strong>{{(isset($real_time[0])) ? $real_time[0]->impressions_shown_today_until_now : '0'}}</strong>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                @endif
+                                                    <div class="col-md-3">
+                                                        <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #dd4b39 ">
+                        <i class="fa fa-eye"></i>
+                    </span>
+
+                                                            <div class="real-time-content">
+                                                                Total Imps:
+                                                                <br/>
+                                                                <strong>{{(isset($real_time[0])) ? $real_time[0]->total_impression_show_until_now : '0'}}</strong>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #00a65a ">
+                        <i class="fa fa-dollar"></i>
+                    </span>
+
+                                                            <div class="real-time-content">
+                                                                Budget to Now:
+                                                                <br/>
+                                                                <strong>{{(isset($real_time[0])) ? $real_time[0]->daily_budget_spent_today_until_now : '0'}}</strong>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #f39c12 ">
+                        <i class="fa fa-dollar"></i>
+                    </span>
+
+                                                            <div class="real-time-content">
+                                                                Total Budget:
+                                                                <br/>
+                                                                <strong>{{(isset($real_time[0])) ? $real_time[0]->total_budget_spent_until_now : '0'}}</strong>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #f39c12 ">
+                        <i class="fa fa-gear"></i>
+                    </span>
+
+                                                            <div class="real-time-content">
+                                                                Last Shown:
+                                                                <br/>
+                                                                {{(isset($real_time[0])) ? $real_time[0]->last_time_ad_shown : '0'}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                             </div>
 
@@ -179,7 +183,9 @@
                                                     <section class="col col-3">
                                                         <label for="" class="label">Status</label>
                                                         <label class="checkbox">
-                                                            <input type="checkbox" name="active" @if($campaign_obj->status=='Active') checked @endif>
+                                                            <input type="checkbox"
+                                                                   name="active" @if($campaign_obj->status=='Active')
+                                                                   checked @endif>
                                                             <i></i>
                                                         </label>
                                                     </section>
@@ -269,15 +275,16 @@
                                             </div>
                                             <div class="clearfix"></div>
                                             <div class="well col-md-12">
-                                            <fieldset>
-                                                <section class="col col-8">
-                                                    <label class="label" for="">Description</label>
-                                                    <label class="textarea"> <i class="icon-append fa fa-comment"></i>
+                                                <fieldset>
+                                                    <section class="col col-8">
+                                                        <label class="label" for="">Description</label>
+                                                        <label class="textarea"> <i
+                                                                    class="icon-append fa fa-comment"></i>
                                                         <textarea rows="3" name="description"
                                                                   placeholder="Tell us about your Campaign">{{$campaign_obj->description}}</textarea>
-                                                    </label>
-                                                </section>
-                                            </fieldset>
+                                                        </label>
+                                                    </section>
+                                                </fieldset>
                                             </div>
                                             <div class="clearfix"></div>
                                             <footer>
@@ -301,32 +308,35 @@
                                             </footer>
                                         </form>
                                     </div>
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="card-heading">
+                                                <h2 class="pull-left">Activities</h2>
+                                                <select id="audit_status" class="pull-right">
+                                                    <option value="entity">This Entity</option>
+                                                    <option value="entity">This Entity</option>
+                                                    <option value="all">All</option>
+                                                    <option value="user">User</option>
+                                                </select>
+
+                                                <div class="clearfix"></div>
+                                                <small>All Activities for this Entity</small>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="streamline b-l b-accent m-b" id="show_audit">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- WIDGET END -->
+
+                                    </div>
+
                                     <!-- end widget content -->
                                 </div>
                                 <!-- end widget div -->
                             </div>
                             <!-- end widget -->
 
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <h2 class="pull-left">Activities</h2>
-                                        <select id="audit_status" class="pull-right">
-                                            <option value="entity">This Entity</option>
-                                            <option value="all">All</option>
-                                            <option value="user">User</option>
-                                        </select>
-                                        <div class="clearfix"></div>
-                                        <small>All Activities for this Entity </small>
-                                    </div>
-                                    <div class="card-body" >
-                                        <div class="streamline b-l b-accent m-b" id="show_audit">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- WIDGET END -->
-
-                            </div>
 
                         </article>
                         <!-- END COL -->
@@ -349,53 +359,7 @@
                                 <header>
                                     <h2>List of Target Group </h2>
                                 </header>
-
-                                <!-- widget div-->
-                                <div>
-
-
-                                    <!-- widget content -->
-                                    <div class="">
-
-                                        <table id="dt_basic" class="table table-striped table-bordered table-hover"
-                                               width="100%">
-                                            <thead>
-                                            <tr>
-                                                <th data-hide="phone">ID</th>
-                                                <th data-class="expand"><i
-                                                            class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>
-                                                    Name
-                                                </th>
-                                                <th data-hide="phone,tablet"><i
-                                                            class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i>
-                                                    Start Date
-                                                </th>
-                                                <th data-hide="phone,tablet"><i
-                                                            class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i>
-                                                    End Date
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($campaign_obj->Targetgroup as $index_trg)
-                                                <tr>
-                                                    <td>trg{{$index_trg->id}}</td>
-                                                    <td>
-                                                        <a href="{{url('/targetgroup/edit/'.$index_trg->id)}}">{{$index_trg->name}}</a>
-                                                    </td>
-                                                    <td>{{$index_trg->start_date}}</td>
-                                                    <td>{{$index_trg->end_date}}</td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-
-                                    </div>
-                                    <!-- end widget content -->
-
-                                </div>
-                                <!-- end widget div -->
-
+                                <div id="targetgroup_grid"></div>
                             </div>
                             <!-- end widget -->
 
@@ -430,12 +394,7 @@
 @endsection
 @section('FooterScripts')
 
-    <!-- PAGE RELATED PLUGIN(S) -->
-    <script src="{{cdn('js/plugin/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatables/dataTables.colVis.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatables/dataTables.tableTools.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatables/dataTables.bootstrap.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatable-responsive/datatables.responsive.min.js')}}"></script>
+    <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
 
 
     <script>
@@ -443,6 +402,107 @@
 
             pageSetUp();
 
+            $(function () {
+
+                var db = {
+
+                    loadData: function (filter) {
+                        return $.grep(this.targetgroup, function (targetgroup) {
+                            return (!filter.name || targetgroup.name.indexOf(filter.name) > -1)
+                                    && (!filter.campaign_name || targetgroup.campaign_name.indexOf(filter.campaign_name) > -1)
+                                    && (!filter.id || targetgroup.id.indexOf(filter.id) > -1);
+                        });
+                    },
+
+                    updateItem: function (updatingTargetgroup) {
+                        updatingTargetgroup['oper'] = 'edit';
+                        console.log(updatingTargetgroup);
+                        $.ajax({
+                            type: "PUT",
+                            url: "{{url('/ajax/jqgrid/targetgroup')}}",
+                            data: updatingTargetgroup,
+                            dataType: "json"
+                        }).done(function (response) {
+                            console.log(response);
+                            if (response.success == true) {
+                                var title = "Success";
+                                var color = "#739E73";
+                                var icon = "fa fa-check";
+                            } else if (response.success == false) {
+                                var title = "Warning";
+                                var color = "#C46A69";
+                                var icon = "fa fa-bell";
+                            }
+                            ;
+
+                            $.smallBox({
+                                title: title,
+                                content: response.msg,
+                                color: color,
+                                icon: icon,
+                                timeout: 8000
+                            });
+                        });
+                    }
+
+                };
+
+                window.db = db;
+
+                db.targetgroup = [
+                    @foreach($campaign_obj->Targetgroup as $index)
+                    {
+                        "id": 'tg{{$index->id}}',
+                        "name": '{{$index->name}}',
+                        "campaign_name": '<a href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/edit')}}">{{$index->getCampaign->name}}</a>',
+                        @if($index->status == 'Active')
+                        "status": '<a id="targetgroup{{$index->id}}" href="javascript: ChangeStatus(`targetgroup`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                        @elseif($index->status == 'Inactive')
+                        "status": '<a id="targetgroup{{$index->id}}" href="javascript: ChangeStatus(`targetgroup`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
+                        @endif
+                        "date_modify": '{{$index->updated_at}}',
+                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/tg'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) + ' <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+
+
+                    },
+                    @endforeach
+                ];
+
+                $("#targetgroup_grid").jsGrid({
+                    width: "100%",
+
+                    filtering: true,
+                    editing: true,
+                    sorting: true,
+                    paging: true,
+                    autoload: true,
+
+                    pageSize: 15,
+                    pageButtonCount: 5,
+
+                    deleteConfirm: "Do you really want to delete the client?",
+
+                    controller: db,
+                    fields: [
+                        {name: "id", title: "ID", type: "text", width: 40, align: "center", editing: false},
+                        {name: "name", title: "Name", type: "text", width: 70},
+                        {
+                            name: "campaign_name",
+                            title: "Campaign",
+                            type: "text",
+                            width: 70,
+                            align: "center",
+                            editing: false
+                        },
+                        {name: "status", title: "Status", width: 50, align: "center"},
+                        {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
+                        {name: "action", title: "Edit / +TG", sorting: false, width: 70, align: "center"},
+                        {type: "control"}
+                    ]
+
+                });
+
+            });
 
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
@@ -537,7 +597,6 @@
             });
 
 
-
             $.ajax({
                 url: "{{url('ajax/getAudit/campaign/'.$campaign_obj->id)}}"
             }).success(function (response) {
@@ -545,19 +604,19 @@
             });
 
             $('#audit_status').change(function () {
-                if($(this).val()=='all'){
+                if ($(this).val() == 'all') {
                     $.ajax({
                         url: "{{url('ajax/getAllAudits')}}"
                     }).success(function (response) {
                         $('#show_audit').html(response);
                     });
-                }else if($(this).val()=='entity') {
+                } else if ($(this).val() == 'entity') {
                     $.ajax({
                         url: "{{url('ajax/getAudit/campaign/'.$campaign_obj->id)}}"
                     }).success(function (response) {
                         $('#show_audit').html(response);
                     });
-                }else if($(this).val()=='user') {
+                } else if ($(this).val() == 'user') {
                     $.ajax({
                         url: "{{url('ajax/getAudit/user')}}"
                     }).success(function (response) {
@@ -567,56 +626,7 @@
             });
 
 
-            // fuelux wizard
-            var wizard = $('.wizard').wizard();
-
-            wizard.on('finished', function (e, data) {
-                //$("#fuelux-wizard").submit();
-                //console.log("submitted!");
-                $.smallBox({
-                    title: "Congratulations! Your form was submitted",
-                    content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-                    color: "#5F895F",
-                    iconSmall: "fa fa-check bounce animated",
-                    timeout: 4000
-                });
-
-            });
-
-
         })
-
-        /* BASIC ;*/
-        var responsiveHelper_dt_basic = undefined;
-        var responsiveHelper_datatable_fixed_column = undefined;
-        var responsiveHelper_datatable_col_reorder = undefined;
-        var responsiveHelper_datatable_tabletools = undefined;
-
-        var breakpointDefinition = {
-            tablet: 1024,
-            phone: 480
-        };
-
-        $('#dt_basic').dataTable({
-            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
-            "t" +
-            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-            "autoWidth": true,
-            "preDrawCallback": function () {
-                // Initialize the responsive datatables helper once.
-                if (!responsiveHelper_dt_basic) {
-                    responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
-                }
-            },
-            "rowCallback": function (nRow) {
-                responsiveHelper_dt_basic.createExpandIcon(nRow);
-            },
-            "drawCallback": function (oSettings) {
-                responsiveHelper_dt_basic.respond();
-            }
-        });
-
-        /* END BASIC */
 
 
     </script>
