@@ -23,13 +23,13 @@
                                     <section class="col col-2">
                                         <label class="label" for=""> Name</label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="name" placeholder="Name">
+                                            <input type="text" name="name" placeholder="Name" readonly>
                                         </label>
                                     </section>
                                     <section class="col col-2">
                                         <label class="label" for="">Domain Name</label>
                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                            <input type="text" name="advertiser_domain_name" placeholder="Domain Name">
+                                            <input type="text" name="advertiser_domain_name" placeholder="Domain Name" readonly>
                                         </label>
                                     </section>
                                     <section class="col col-2">
@@ -65,25 +65,25 @@
                                     <section class="col col-3">
                                         <label class="label" for="">Ad Tag</label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="ad_tag" placeholder="Ad Tag">
+                                            <input type="text" name="ad_tag" placeholder="Ad Tag" readonly>
                                         </label>
                                     </section>
                                     <section class="col col-3">
                                         <label class="label" for="">Landign Page URL</label>
                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                            <input type="text" name="landing_page_url" placeholder="Landign Page URL">
+                                            <input type="text" name="landing_page_url" placeholder="Landign Page URL" readonly>
                                         </label>
                                     </section>
                                     <section class="col col-3">
                                         <label class="label" for="">Width</label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="size_width" placeholder="Width">
+                                            <input type="text" name="size_width" placeholder="Width" readonly>
                                         </label>
                                     </section>
                                     <section class="col col-3">
                                         <label class="label" for="">Height</label>
                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                            <input type="text" name="size_height" placeholder="Height">
+                                            <input type="text" name="size_height" placeholder="Height" readonly>
                                         </label>
                                     </section>
                                 </div>
@@ -91,17 +91,17 @@
                                     <section class="col col-3">
                                         <label class="label" for="">Attributes</label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="attributes" placeholder="Attributes">
+                                            <input type="text" name="attributes" placeholder="Attributes" readonly>
                                         </label>
                                     </section>
                                     <section class="col col-3">
                                         <label class="label" for="">Preview URL</label>
                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                            <input type="text" name="preview_url" placeholder="Preview URL">
+                                            <input type="text" name="preview_url" placeholder="Preview URL" readonly>
                                         </label>
                                     </section>
                                     <section class="col col-3">
-                                        <label class="label">Multiple select</label>
+                                        <label class="label">API</label>
                                         <label class="select select-multiple">
                                             <select name="api[]" multiple class="custom-scroll">
                                                 <option value="VPAID_1.0">VPAID 1.0</option>

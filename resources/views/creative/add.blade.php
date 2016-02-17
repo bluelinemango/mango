@@ -164,7 +164,7 @@
                                                         </label>
                                                     </section>
                                                     <section class="col col-3">
-                                                        <label class="label">Multiple select</label>
+                                                        <label class="label">API</label>
                                                         <label class="select select-multiple">
                                                             <select name="api[]" multiple class="custom-scroll">
                                                                 <option value="VPAID_1.0" >VPAID 1.0</option>

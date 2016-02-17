@@ -223,6 +223,21 @@ class AuditsController extends Controller
                 $audit->save();
             }
         }
+        if($audit_type=='bulk_edit') {
+            $len=count($data);
+            for($i=1;$i<$len;$i=$i+2) {
+                $audit = new Audits();
+                $audit->user_id = Auth::user()->id;
+                $audit->entity_type = $entity_type;
+                $audit->entity_id = $entity_id;
+                $audit->field = $data[$i-1];
+                $audit->after_value = $data[$i];
+                $audit->audit_type = 'bulk_edit';
+                $audit->change_key = $key;
+                $audit->date_change = $date_change;
+                $audit->save();
+            }
+        }
     }
 
     public function SubAudit($audit){
@@ -353,8 +368,4 @@ class AuditsController extends Controller
 
         return $audit_obj;
     }
-
-
-
-
 }

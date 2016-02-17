@@ -1,6 +1,27 @@
 @extends('Layout')
 @section('siteTitle')Bulk Editing @endsection
 @section('header_extra')
+    <style>
+        .time_table_unselect {
+            background-color: rgba(19, 222, 230, 0.45);
+            min-height: 30px;
+            min-width: 30px;
+            cursor: pointer;
+        }
+        .time-table-div-select {
+            background-color: rgba(71, 78, 170, 0.98);
+            min-height: 30px;
+            min-width: 30px;
+            cursor: pointer
+        }
+        input:-moz-read-only { /* For Firefox */
+            background-color: yellow !important;
+        }
+
+        input:read-only {
+            background-color: yellow !important;
+        }
+    </style>
 @endsection
 @section('content')
     <!-- MAIN PANEL -->
@@ -127,73 +148,6 @@
                     url: "{{url('ajax/getCampaign')}}"
                 }).success(function (response) {
                     $('#show_fields').html(response);
-                    var $orderForm = $("#order-form").validate({
-                        rules: {
-                            name: {
-                                required: true
-                            },
-                            advertiser_domain_name: {
-                                required: true,
-                                domain: true
-                            },
-                            max_impression: {
-                                required: true,
-                                min: 0,
-                                number: 'Enter number Plz'
-                            },
-                            daily_max_impression: {
-                                required: true,
-                                min: 0,
-                                number: 'Enter number Plz'
-                            },
-                            max_budget: {
-                                required: true,
-                                min: 0,
-                                number: 'Enter number Plz'
-                            },
-                            daily_max_budget: {
-                                required: true,
-                                min: 0,
-                                number: 'Enter number Plz'
-                            },
-                            cpm: {
-                                required: true,
-                                min: 0,
-                                number: 'Enter number Plz'
-                            },
-                            start_date: {
-                                required: true
-                            },
-                            end_date: {
-                                required: true
-                            }
-                        },
-
-                        // Messages for form validation
-                        messages: {
-                            name: {
-                                required: 'Please enter your name'
-                            },
-                            email: {
-                                required: 'Please enter your email address',
-                                email: 'Please enter a VALID email address'
-                            },
-                            phone: {
-                                required: 'Please enter your phone number'
-                            },
-                            interested: {
-                                required: 'Please select interested service'
-                            },
-                            budget: {
-                                required: 'Please select your budget'
-                            }
-                        },
-
-                        // Do not change code below
-                        errorPlacement: function (error, element) {
-                            error.insertAfter(element.parent());
-                        }
-                    });
                     $('#startdate').datepicker({
                         dateFormat: 'dd.mm.yy',
                         prevText: '<i class="fa fa-chevron-left"></i>',
@@ -213,74 +167,70 @@
                 });
             } else if ($(this).val() == 'targetgroup') {
                 $.ajax({
-                    url: "{{url('ajax/getCampaign')}}"
+                    url: "{{url('ajax/getTargetgroup')}}"
                 }).success(function (response) {
                     $('#show_fields').html(response);
+
+                    for(var i=0; i<7; i++){
+                        for(var j=0;j<24;j++){
+                            $('#'+i+'-'+j+'-time').click(function () {
+                                var id =$(this).attr('id');
+                                $('#'+id+'-checkbox').prop('checked', true);
+                                $(this).removeClass();
+                                $(this).addClass('time-table-div-select');
+                            });
+                        }
+                    }
+                    $('#clear_all').click(function () {
+                        for(var i=0; i<7; i++){
+                            for(var j=0;j<24;j++){
+                                var id =$('#'+i+'-'+j+'-time').attr('id');
+                                $('#'+id+'-checkbox').prop('checked', false);
+                                $('#'+i+'-'+j+'-time').removeClass();
+                                $('#'+i+'-'+j+'-time').addClass('time_table_unselect');
+                            }
+                        }
+
+                    })
+                    $('#suggested').change(function () {
+                        if($(this).val()=='business-hours'){
+                            $('#clear_all').click();
+                            for(var i=0; i<5; i++){
+                                for(var j=9;j<17;j++){
+                                    var id =$('#'+i+'-'+j+'-time').attr('id');
+                                    $('#'+id+'-checkbox').prop('checked', true);
+                                    $('#'+i+'-'+j+'-time').removeClass();
+                                    $('#'+i+'-'+j+'-time').addClass('time-table-div-select');
+                                }
+                            }
+                        }
+                        if($(this).val()=='happy-hours'){
+                            $('#clear_all').click();
+                            for(var i=0; i<5; i++){
+                                for(var j=17;j<24;j++){
+                                    var id =$('#'+i+'-'+j+'-time').attr('id');
+                                    $('#'+id+'-checkbox').prop('checked', true);
+                                    $('#'+i+'-'+j+'-time').removeClass();
+                                    $('#'+i+'-'+j+'-time').addClass('time-table-div-select');
+                                }
+                            }
+                            for(var i=5; i<7; i++){
+                                for(var j=0;j<24;j++){
+                                    var id =$('#'+i+'-'+j+'-time').attr('id');
+                                    $('#'+id+'-checkbox').prop('checked', true);
+                                    $('#'+i+'-'+j+'-time').removeClass();
+                                    $('#'+i+'-'+j+'-time').addClass('time-table-div-select');
+                                }
+                            }
+                        }
+                    })
+
                 });
             } else if ($(this).val() == 'creative') {
                 $.ajax({
                     url: "{{url('ajax/getCreative')}}"
                 }).success(function (response) {
                     $('#show_fields').html(response);
-                    var $orderForm = $("#order-form").validate({
-                        // Rules for form validation
-                        rules: {
-                            name: {
-                                required: true
-                            },
-                            advertiser_domain_name: {
-                                required: true,
-                                domain: true
-                            },
-                            ad_tag: {
-                                required: true
-                            },
-                            landing_page_url: {
-                                required: true
-                            },
-                            size_width: {
-                                required: true,
-                                min: 0,
-                                number: 'Enter number Plz'
-                            },
-                            size_height: {
-                                required: true,
-                                min: 0,
-                                number: 'Enter number Plz'
-                            },
-                            attributes: {
-                                required: true
-                            },
-                            preview_url: {
-                                required: true
-                            }
-                        },
-
-                        // Messages for form validation
-                        messages: {
-                            name: {
-                                required: 'Please enter your name'
-                            },
-                            email: {
-                                required: 'Please enter your email address',
-                                email: 'Please enter a VALID email address'
-                            },
-                            phone: {
-                                required: 'Please enter your phone number'
-                            },
-                            interested: {
-                                required: 'Please select interested service'
-                            },
-                            budget: {
-                                required: 'Please select your budget'
-                            }
-                        },
-
-                        // Do not change code below
-                        errorPlacement: function (error, element) {
-                            error.insertAfter(element.parent());
-                        }
-                    });
                     $('#startdate').datepicker({
                         dateFormat: 'dd.mm.yy',
                         prevText: '<i class="fa fa-chevron-left"></i>',
@@ -300,7 +250,78 @@
                 });
             }
         });
+        $("#show_fields").on("click", "input[readonly]", function(){
+            $(this).removeAttr('readonly');
+        });
+        $("#show_fields").on("change", "#advertiser_change", function(){
+            var ad_id =$(this).val();
+            $.ajax({
+                url: "{{url('ajax/getCampaignList')}}" +'/'+ ad_id
+            }).success(function (response) {
+                $('#show_campaignList').html(response);
+            });
+        });
+        $("#show_fields").on("change", "#show_campaignList", function(){
 
+            var cmpid =$(this).val();
+            $.ajax({
+                url: "{{url('ajax/getAssignList')}}" +'/'+ cmpid
+            }).success(function (response) {
+                $('#show_assign').html(response);
+                $('#show_geoLocation').click(function (e) {
+                    e.preventDefault();
+                    var active_Show= $('#active_show').val();
+                    $('#active_show').val('geoLocation');
+                    $('#'+active_Show).hide();
+                    $('#geoLocation').fadeIn("slow");
+                });
+                $('#show_creative').click(function (e) {
+                    e.preventDefault();
+                    var active_Show= $('#active_show').val();
+                    $('#active_show').val('creative');
+                    $('#'+active_Show).hide();
+                    $('#creative').fadeIn("slow");
+                });
+                $('#show_geoSegment').click(function (e) {
+                    e.preventDefault();
+                    var active_Show= $('#active_show').val();
+                    $('#active_show').val('geoSegment');
+                    $('#'+active_Show).hide();
+                    $('#geoSegment').fadeIn("slow");
+                });
+                $('#show_segment').click(function (e) {
+                    e.preventDefault();
+                    var active_Show= $('#active_show').val();
+                    $('#active_show').val('segment');
+                    $('#'+active_Show).hide();
+                    $('#segment').fadeIn("slow");
+                });
+                $('#show_bwList').click(function (e) {
+                    e.preventDefault();
+                    var active_Show= $('#active_show').val();
+                    $('#active_show').val('bwList');
+                    $('#'+active_Show).hide();
+                    $('#bwList').fadeIn("slow");
+                });
+            });
+        });
+        /////////////Target Group/////////////////
+        function ShowSubCategory(id) {
+            $.ajax({
+                url: "{{url('/get_iab_sub_category')}}" + '/' + id
+            }).success(function (response) {
+                $('#iab_sub_category').html(response);
+            });
+        }
+        function taggleBWList(type) {
+            if (type == 'blacklist') {
+                jQuery('#assign_whitelist_leftAll').click();
+            }
+            if (type == 'whitelist') {
+                jQuery('#assign_blacklist_leftAll').click();
+            }
+        }
+        /////////////End Target Group/////////////////
 
     </script>
 

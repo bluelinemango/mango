@@ -72,6 +72,7 @@ Route::post('/advertiser/add/create', ['uses'=>'AdvertiserController@add_adverti
 Route::get('/campaign','CampaignController@GetView');
 Route::get('/client/cl{clid?}/advertiser/adv{advid?}/campaign/add','CampaignController@CampaignAddView');
 Route::get('/client/cl{clid?}/advertiser/adv{advid?}/campaign/cmp{cmpid?}/edit','CampaignController@CampaignEditView');
+Route::get('/client/cl{clid?}/advertiser/adv{advid?}/campaign/cmp{cmpid?}/clone/{clone?}','CampaignController@CampaignEditView');
 Route::get('/campaign/delete/{id?}','CampaignController@DeleteCampaign');
 Route::post('/campaign/add/create', ['uses'=>'CampaignController@add_campaign','as'=>'campaign_create']);
 Route::put('/campaign/edit/update', ['uses'=>'CampaignController@edit_campaign','as'=>'campaign_update']);
@@ -97,6 +98,7 @@ Route::put('/targetgroup/edit/update', ['uses'=>'TargetgroupController@edit_targ
 Route::get('/creative','CreativeController@GetView');
 Route::get('/client/cl{clid?}/advertiser/adv{advid?}/creative/add','CreativeController@CreativeAddView');
 Route::get('/client/cl{clid?}/advertiser/adv{advid?}/creative/crt{crtid?}/edit','CreativeController@CreativeEditView');
+Route::get('/client/cl{clid?}/advertiser/adv{advid?}/creative/crt{crtid?}/clone/{clone?}','CreativeController@CreativeEditView');
 Route::get('/creative/delete/{id?}','CreativeController@DeleteCreative');
 Route::post('/creative/add/create', ['uses'=>'CreativeController@add_creative','as'=>'creative_create']);
 Route::put('/creative/edit/update', ['uses'=>'CreativeController@edit_creative','as'=>'creative_update']);
@@ -160,10 +162,12 @@ Route::group(['prefix' => 'ajax'], function()
 {
     ////////////////////BULK EDITING////////////////////////
     Route::get('/getCampaign', 'MangoController@getCampaign');
+    Route::get('/getCampaignList/{adv_id?}', 'MangoController@getCampaignList');
+    Route::get('/getAssignList/{cmp_id?}', 'MangoController@getAssign');
     Route::post('/bulk_campaign', ['uses'=>'MangoController@campaign_bulk','as'=>'campaign_bulk_update']);
     Route::post('/bulk_creative', ['uses'=>'MangoController@creative_bulk','as'=>'creative_bulk_update']);
     Route::get('/getCreative', 'MangoController@getCreative');
-//    Route::get('/getTargetgroup', 'MangoController@getTargetgroup');
+    Route::get('/getTargetgroup', 'MangoController@getTargetgroup');
     ////////////////////END BULK EDITING////////////////////////
 
     Route::get('/getAllAudits', 'AuditsController@getAllAudits');

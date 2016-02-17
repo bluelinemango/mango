@@ -24,7 +24,7 @@
                                         <section class="col col-2">
                                             <label class="label" for="">Name</label>
                                             <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                <input type="text" name="name" placeholder="Name">
+                                                <input type="text" name="name" placeholder="Name" readonly>
                                             </label>
                                         </section>
                                     </div>
@@ -34,13 +34,13 @@
                                             <label class="label" for="">Domain Name</label>
                                             <label class="input"> <i class="icon-append fa fa-briefcase"></i>
                                                 <input type="text" name="advertiser_domain_name" id="domain_name"
-                                                       placeholder="Domain Name">
+                                                       placeholder="Domain Name" readonly="readonly">
                                             </label>
                                         </section>
                                         <section class="col col-2">
                                             <label for="" class="label">Status</label>
                                             <label class="checkbox">
-                                                <input type="checkbox" name="active">
+                                                <input type="checkbox" name="active" readonly="readonly">
                                                 <i></i>
                                             </label>
                                         </section>
@@ -58,14 +58,14 @@
                                     <section class="col col-3">
                                         <label class="label" for="">Max Impression</label>
                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                            <input type="text" name="max_impression" placeholder="Max Impression">
+                                            <input type="text" name="max_impression" placeholder="Max Impression" readonly>
                                         </label>
                                     </section>
                                     <section class="col col-3">
                                         <label class="label" for="">Daily Max Impression</label>
                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
                                             <input type="text" name="daily_max_impression"
-                                                   placeholder="Daily Max Impression">
+                                                   placeholder="Daily Max Impression" readonly>
                                         </label>
                                     </section>
                                 </fieldset>
@@ -76,13 +76,13 @@
                                     <section class="col col-3">
                                         <label class="label" for="">Max Budget</label>
                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                            <input type="text" name="max_budget" placeholder="Max Budget">
+                                            <input type="text" name="max_budget" placeholder="Max Budget" readonly="readonly">
                                         </label>
                                     </section>
                                     <section class="col col-3">
                                         <label class="label" for="">Daily Max Budget</label>
                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                            <input type="text" name="daily_max_budget" placeholder="Daily Max Budget">
+                                            <input type="text" name="daily_max_budget" placeholder="Daily Max Budget" readonly="readonly">
                                         </label>
                                     </section>
                                 </fieldset>
@@ -94,7 +94,7 @@
                                     <section class="col col-3">
                                         <label class="label" for="">CPM</label>
                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                            <input type="text" name="cpm" placeholder="CPM">
+                                            <input type="text" name="cpm" placeholder="CPM" readonly="readonly">
                                         </label>
                                     </section>
                                 </fieldset>
@@ -111,14 +111,14 @@
                                             <label class="label" for="">Start Date</label>
                                             <label class="input"> <i class="icon-append fa fa-calendar"></i>
                                                 <input type="text" name="start_date" id="startdate"
-                                                       placeholder="Expected start date">
+                                                       placeholder="Expected start date" readonly="readonly">
                                             </label>
                                         </section>
                                         <section class="col col-4">
                                             <label class="label" for="">End Date</label>
                                             <label class="input"> <i class="icon-append fa fa-calendar"></i>
                                                 <input type="text" name="end_date" id="finishdate"
-                                                       placeholder="Expected finish date">
+                                                       placeholder="Expected finish date" readonly="readonly">
                                             </label>
                                         </section>
                                     </div>

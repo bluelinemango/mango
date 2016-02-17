@@ -1,244 +1,170 @@
 <!DOCTYPE html>
-<html lang="en-us" id="extr-page">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
-    <title> Login Page</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>PLEASURE - User Login</title>
+
     <meta name="description" content="">
     <meta name="author" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <!-- #CSS Links -->
-    <!-- Basic Styles -->
-    <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/bootstrap.min.css')}}">
-    <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/font-awesome.min.css')}}">
-
-    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
-    <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/smartadmin-production-plugins.min.css')}}">
-    <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/smartadmin-production.min.css')}}">
-    <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/smartadmin-skins.min.css')}}">
-
-    <!-- SmartAdmin RTL Support -->
-    <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/smartadmin-rtl.min.css')}}">
-
-    <!-- We recommend you use "your_style.css" to override SmartAdmin
-         specific styles this will also ensure you retrain your customization with each SmartAdmin update.
-    <link rel="stylesheet" type="text/css" media="screen" href="css/your_style.css"> -->
-
-    <!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
-    <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/demo.min.css')}}">
-
-    <!-- #FAVICONS -->
-    <link rel="shortcut icon" href="{{cdn('img/favicon/favicon.ico')}}" type="image/x-icon">
-    <link rel="icon" href="{{cdn('img/favicon/favicon.ico')}}" type="image/x-icon">
-
-    <!-- #GOOGLE FONT -->
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
-
-    <!-- #APP SCREEN / ICONS -->
-    <!-- Specifying a Webpage Icon for Web Clip
-         Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
-    <link rel="apple-touch-icon" href="{{cdn('img/splash/sptouch-icon-iphone.png')}}">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{cdn('img/splash/touch-icon-ipad.png')}}">
-    <link rel="apple-touch-icon" sizes="120x120" href="{{cdn('img/splash/touch-icon-iphone-retina.png')}}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{{cdn('img/splash/touch-icon-ipad-retina.png')}}">
-
-    <!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <!-- Startup image for web apps -->
-    <link rel="apple-touch-startup-image" href="{{cdn('img/splash/ipad-landscape.png')}}" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
-    <link rel="apple-touch-startup-image" href="{{cdn('img/splash/ipad-portrait.png')}}" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
-    <link rel="apple-touch-startup-image" href="{{cdn('img/splash/iphone.png')}}" media="screen and (max-device-width: 320px)">
+    <!-- BEGIN CORE CSS -->
+    <link rel="stylesheet" href="{{cdn('newTheme/admin1/css/admin1.css')}}">
+    <link rel="stylesheet" href="{{cdn('newTheme/globals/css/elements.css')}}">
+    <!-- END CORE CSS -->
 
+    <!-- BEGIN PLUGINS CSS -->
+    <link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/bootstrap-social/bootstrap-social.css')}}">
+    <!-- END PLUGINS CSS -->
+
+    <!-- FIX PLUGINS -->
+    <link rel="stylesheet" href="{{cdn('newTheme/globals/css/plugins.css')}}">
+    <!-- END FIX PLUGINS -->
+
+    <!-- BEGIN SHORTCUT AND TOUCH ICONS -->
+    <link rel="shortcut icon" href="{{cdn('newTheme/globals/img/icons/favicon.ico')}}">
+    <link rel="apple-touch-icon" href="{{cdn('newTheme/globals/img/icons/apple-touch-icon.png')}}">
+    <!-- END SHORTCUT AND TOUCH ICONS -->
+
+    <script src="{{cdn('newTheme/globals/plugins/modernizr/modernizr.min.js')}}"></script>
 </head>
+<body class="bg-login printable">
 
-<body class="animated fadeInDown">
-
-<header id="header">
-
-    <div id="logo-group">
-        <span id="logo"> <img src="{{cdn('img/logo.png')}}" alt="SmartAdmin"> </span>
-    </div>
-
-    <span id="extr-page-header-space"> <span class="hidden-mobile hiddex-xs">Need an account?</span> <a href="register.html" class="btn btn-danger">Create account</a> </span>
-
-</header>
-
-<div id="main" role="main">
-
-    <!-- MAIN CONTENT -->
-    <div id="content" class="container">
-
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8 hidden-xs hidden-sm">
-                <h1 class="txt-color-red login-header-big">SmartAdmin</h1>
-                <div class="hero">
-
-                    <div class="pull-left login-desc-box-l">
-                        <h4 class="paragraph-header">It's Okay to be Smart. Experience the simplicity of SmartAdmin, everywhere you go!</h4>
-                        <div class="login-app-icons">
-                            <a href="javascript:void(0);" class="btn btn-danger btn-sm">Frontend Template</a>
-                            <a href="javascript:void(0);" class="btn btn-danger btn-sm">Find out more</a>
-                        </div>
-                    </div>
-
-                    <img src="{{cdn('img/demo/iphoneview.png')}}" class="pull-right display-image" alt="" style="width:210px">
-
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <h5 class="about-heading">About SmartAdmin - Are you up to date?</h5>
-                        <p>
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa.
-                        </p>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <h5 class="about-heading">Not just your average template!</h5>
-                        <p>
-                            Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi voluptatem accusantium!
-                        </p>
+<div class="login-screen">
+    <div class="panel-login blur-content">
+        <div class="panel-heading"><img src="{{cdn('newTheme/globals/img/teamfox.png')}}" height="100" alt=""></div><!--.panel-heading-->
+        <form method="post" action="{{URL::route('user_login')}}">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <div id="pane-login" class="panel-body active">
+            <h2>Login to Dashboard</h2>
+            <div class="form-group">
+                <div class="inputer">
+                    <div class="input-wrapper">
+                        <input type="email" name="email" class="form-control" placeholder="Enter your email address">
                     </div>
                 </div>
+            </div><!--.form-group-->
+            <div class="form-group">
+                <div class="inputer">
+                    <div class="input-wrapper">
+                        <input type="password" name="password" class="form-control" placeholder="Enter your password">
+                    </div>
+                </div>
+            </div><!--.form-group-->
+            <div class="form-buttons clearfix">
+                <label class="pull-left"><input type="checkbox" name="remember" value="1"> Remember me</label>
+                <button type="submit" class="btn btn-success pull-right">Login</button>
+            </div><!--.form-buttons-->
 
+
+            <ul class="extra-links">
+                <li><a href="#" class="show-pane-forgot-password">Forgot your password</a></li>
+                <li><a href="#" class="show-pane-create-account">Create a new account</a></li>
+            </ul>
+        </div><!--#login.panel-body-->
+        </form>
+
+        <div id="pane-forgot-password" class="panel-body">
+            <h2>Forgot Your Password</h2>
+            <div class="form-group">
+                <div class="inputer">
+                    <div class="input-wrapper">
+                        <input type="email" class="form-control" placeholder="Enter your email address">
+                    </div>
+                </div>
+            </div><!--.form-group-->
+            <div class="form-buttons clearfix">
+                <button type="submit" class="btn btn-white pull-left show-pane-login">Cancel</button>
+                <button type="submit" class="btn btn-success pull-right">Send</button>
+            </div><!--.form-buttons-->
+        </div><!--#pane-forgot-password.panel-body-->
+
+        <div id="pane-create-account" class="panel-body">
+            <h2>Create a New Account</h2>
+            <div class="form-group">
+                <div class="inputer">
+                    <div class="input-wrapper">
+                        <input type="text" class="form-control" placeholder="Enter your full name">
+                    </div>
+                </div>
+            </div><!--.form-group-->
+            <div class="form-group">
+                <div class="inputer">
+                    <div class="input-wrapper">
+                        <input type="email" class="form-control" placeholder="Enter your email address">
+                    </div>
+                </div>
+            </div><!--.form-group-->
+            <div class="form-group">
+                <div class="inputer">
+                    <div class="input-wrapper">
+                        <input type="password" class="form-control" placeholder="Enter your password">
+                    </div>
+                </div>
+            </div><!--.form-group-->
+            <div class="form-group">
+                <div class="inputer">
+                    <div class="input-wrapper">
+                        <input type="password" class="form-control" placeholder="Enter your password again">
+                    </div>
+                </div>
+            </div><!--.form-group-->
+            <div class="form-group">
+                <label><input type="checkbox" name="remember" value="1"> I have read and agree to the term of use.</label>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
-                <div class="well no-padding">
-                    <form method="post"
-                          action="{{URL::route('user_login')}}" id="login-form" class="smart-form client-form">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <header>
-                            Sign In
-                        </header>
+            <div class="form-buttons clearfix">
+                <button type="submit" class="btn btn-white pull-left show-pane-login">Cancel</button>
+                <button type="submit" class="btn btn-success pull-right">Sign Up</button>
+            </div><!--.form-buttons-->
+        </div><!--#login.panel-body-->
 
-                        <fieldset>
+    </div><!--.blur-content-->
+</div><!--.login-screen-->
 
-                            <section>
-                                <label class="label">E-mail</label>
-                                <label class="input"> <i class="icon-append fa fa-user"></i>
-                                    <input type="email" name="email" value="{{old('email')}}">
-                                    <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter email address/username</b></label>
-                            </section>
+<div class="bg-blur dark">
+    <div class="overlay"></div><!--.overlay-->
+</div><!--.bg-blur-->
 
-                            <section>
-                                <label class="label">Password</label>
-                                <label class="input"> <i class="icon-append fa fa-lock"></i>
-                                    <input type="password" name="password">
-                                    <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter your password</b> </label>
-                                <div class="note">
-                                    <a href="forgotpassword.html">Forgot password?</a>
-                                </div>
-                            </section>
+<svg version="1.1" xmlns='http://www.w3.org/2000/svg'>
+    <filter id='blur'>
+        <feGaussianBlur stdDeviation='7' />
+    </filter>
+</svg>
 
-                            <section>
-                                <label class="checkbox">
-                                    <input type="checkbox" name="remember" checked="">
-                                    <i></i>Stay signed in</label>
-                            </section>
-                        </fieldset>
-                        <footer>
-                            <button type="submit" class="btn btn-primary">
-                                Sign in
-                            </button>
-                        </footer>
-                    </form>
+<!-- BEGIN GLOBAL AND THEME VENDORS -->
+<script src="{{cdn('newTheme/globals/js/global-vendors.js')}}"></script>
+<!-- END GLOBAL AND THEME VENDORS -->
 
-                </div>
+<!-- BEGIN PLUGINS AREA -->
+<!-- END PLUGINS AREA -->
 
-                <h5 class="text-center"> - Or sign in using -</h5>
+<!-- PLUGINS INITIALIZATION AND SETTINGS -->
+<script src="{{cdn('newTheme/globals/js/global-vendors.js')}}"></script>
+<!-- END PLUGINS INITIALIZATION AND SETTINGS -->
 
-                <ul class="list-inline text-center">
-                    <li>
-                        <a href="javascript:void(0);" class="btn btn-primary btn-circle"><i class="fa fa-facebook"></i></a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);" class="btn btn-info btn-circle"><i class="fa fa-twitter"></i></a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);" class="btn btn-warning btn-circle"><i class="fa fa-linkedin"></i></a>
-                    </li>
-                </ul>
+<!-- PLEASURE Initializer -->
+<script src="{{cdn('newTheme/globals/js/pleasure.js')}}"></script>
+<!-- ADMIN 1 Layout Functions -->
+<script src="{{cdn('newTheme/admin1/js/layout.js')}}"></script>
 
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<!--================================================== -->
-
-<!-- PACE LOADER - turn this on if you want ajax loading to show (caution: uses lots of memory on iDevices)-->
-<script src="{{cdn('js/plugin/pace/pace.min.js')}}"></script>
-
-<!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script> if (!window.jQuery) { document.write('<script src="js/libs/jquery-2.1.1.min.js"><\/script>');} </script>
-
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-<script> if (!window.jQuery.ui) { document.write('<script src="js/libs/jquery-ui-1.10.3.min.js"><\/script>');} </script>
-
-<!-- IMPORTANT: APP CONFIG -->
-<script src="{{cdn('js/app.config.js')}}"></script>
-
-<!-- JS TOUCH : include this plugin for mobile drag / drop touch events
-<script src="js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script> -->
-
-<!-- BOOTSTRAP JS -->
-<script src="{{cdn('js/bootstrap/bootstrap.min.js')}}"></script>
-
-<!-- JQUERY VALIDATE -->
-<script src="{{cdn('js/plugin/jquery-validate/jquery.validate.min.js')}}"></script>
-
-<!-- JQUERY MASKED INPUT -->
-<script src="{{cdn('js/plugin/masked-input/jquery.maskedinput.min.js')}}"></script>
-
-<!--[if IE 8]>
-
-<h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
-
-<![endif]-->
-
-<!-- MAIN APP JS FILE -->
-<script src="{{cdn('js/app.min.js')}}"></script>
-
-<script type="text/javascript">
-    runAllForms();
-
-    $(function() {
-        // Validation
-        $("#login-form").validate({
-            // Rules for form validation
-            rules : {
-                email : {
-                    required : true,
-                    email : true
-                },
-                password : {
-                    required : true,
-                    minlength : 3,
-                    maxlength : 20
-                }
-            },
-
-            // Messages for form validation
-            messages : {
-                email : {
-                    required : 'Please enter your email address',
-                    email : 'Please enter a VALID email address'
-                },
-                password : {
-                    required : 'Please enter your password'
-                }
-            },
-
-            // Do not change code below
-            errorPlacement : function(error, element) {
-                error.insertAfter(element.parent());
-            }
-        });
+<!-- BEGIN INITIALIZATION-->
+<script>
+    $(document).ready(function () {
+        Pleasure.init();
+        Layout.init();
+        UserPages.login();
     });
 </script>
+<!-- END INITIALIZATION-->
+
 
 </body>
 </html>

@@ -443,359 +443,359 @@
                                         <!-- Timeline Content -->
                                         {{--                                        {{dd($audit_obj)}}--}}
                                         <div class="smart-timeline">
-                                            <ul class="smart-timeline-list">
-                                                @for($i=0;$i<count($audit_obj);)
+                                            {{--<ul class="smart-timeline-list">--}}
+                                                {{--@for($i=0;$i<count($audit_obj);)--}}
                                                     {{--                                                @foreach($audit_obj as $index)--}}
-                                                    <?php $change_key = $audit_obj[$i]->change_key; ?>
-                                                    <li>
-                                                        <div class="smart-timeline-icon">
-                                                            @if($audit_obj[$i]->audit_type == 'add')
-                                                                <i class="fa fa-plus"></i>
-                                                            @else
-                                                                <i class="fa fa-file-text"></i>
-                                                            @endif
-                                                        </div>
-                                                        <div class="smart-timeline-time">
-                                                            <small>{{$audit_obj[$i]->created_at}}</small>
-                                                        </div>
-                                                        <div class="smart-timeline-content">
+                                                    {{--<?php $change_key = $audit_obj[$i]->change_key; ?>--}}
+                                                    {{--<li>--}}
+                                                        {{--<div class="smart-timeline-icon">--}}
+                                                            {{--@if($audit_obj[$i]->audit_type == 'add')--}}
+                                                                {{--<i class="fa fa-plus"></i>--}}
+                                                            {{--@else--}}
+                                                                {{--<i class="fa fa-file-text"></i>--}}
+                                                            {{--@endif--}}
+                                                        {{--</div>--}}
+                                                        {{--<div class="smart-timeline-time">--}}
+                                                            {{--<small>{{$audit_obj[$i]->created_at}}</small>--}}
+                                                        {{--</div>--}}
+                                                        {{--<div class="smart-timeline-content">--}}
 
-                                                            <p>
-                                                                <a href="{{url('user/usr'.$audit_obj[$i]->user_id.'/edit')}}">{{$audit_obj[$i]->getUser->name}}</a>
-                                                                @if($audit_obj[$i]->audit_type == 'add')
-                                                                    @if($audit_obj[$i]->entity_type == 'positive_offer_model' or $audit_obj[$i]->entity_type == 'negative_offer_model')
-                                                                        changed Model:
-                                                                    @elseif($audit_obj[$i]->entity_type == 'offer_pixel_map')
-                                                                        changed Offer:
-                                                                    @else
-                                                                        created a new {{$audit_obj[$i]->entity_type}}:
-                                                                    @endif
-                                                                @elseif($audit_obj[$i]->audit_type == 'edit')
-                                                                    changed {{$audit_obj[$i]->entity_type}}:
-                                                                @elseif($audit_obj[$i]->audit_type == 'del')
-                                                                    deleted {{$audit_obj[$i]->entity_type}}:
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'client')
-                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">cl{{$audit_obj[$i+1][0]->id}}</a>
-                                                                    </strong>
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'advertiser')
-                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->id.'/edit')}}">adv{{$audit_obj[$i+1][0]->id}}</a>
-                                                                    </strong>
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'creative')
-                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/creative/crt'.$audit_obj[$i+1][0]->id.'/edit')}}">crt{{$audit_obj[$i+1][0]->id}}</a>
-                                                                    </strong>
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'offer')
-                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/offer/ofr'.$audit_obj[$i+1][0]->id.'/edit')}}">ofr{{$audit_obj[$i+1][0]->id}}</a>
-                                                                    </strong>
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'pixel')
-                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/pixel/pxl'.$audit_obj[$i+1][0]->id.'/edit')}}">pxl{{$audit_obj[$i+1][0]->id}}</a>
-                                                                    </strong>
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'bwlist')
-                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/bwlist/bwl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a>
-                                                                    </strong>
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'geosegment')
-                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/geosegment/gsm'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a>
-                                                                    </strong>
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'campaign')
-                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/campaign/cmp'.$audit_obj[$i+1][0]->id.'/edit')}}">cmp{{$audit_obj[$i+1][0]->id}}</a>
-                                                                    </strong>
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'modelTable')
-                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/model/mdl'.$audit_obj[$i+1][0]->id.'/edit')}}">mdl{{$audit_obj[$i+1][0]->id}}</a>
-                                                                    </strong>
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'positive_offer_model' or $audit_obj[$i]->entity_type == 'negative_offer_model')
-                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/model/mdl'.$audit_obj[$i]->after_value.'/edit')}}">mdl{{$audit_obj[$i]->after_value}}</a>
-                                                                    </strong>
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'offer_pixel_map')
-                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/offer/ofr'.$audit_obj[$i]->after_value.'/edit')}}">ofr{{$audit_obj[$i]->after_value}}</a>
-                                                                    </strong>
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'targetgroup')
-                                                                    <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a>
-                                                                    </strong>
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'geosegmententrie')
-                                                                    @if($audit_obj[$i]->audit_type == 'del')
-                                                                        <strong>{{$audit_obj[$i]->before_vale}}</strong>
-                                                                        from
-                                                                        <strong>GSL{{$audit_obj[$i+1][0]->id}}</strong>
-                                                                    @else
-                                                                        <strong>GS{{$audit_obj[$i]->entity_id}} </strong>
-                                                                        for
-                                                                        <strong>GSL{{$audit_obj[$i+1][0]->id}}</strong>
-                                                                    @endif
-                                                                @endif
-                                                                @if($audit_obj[$i]->entity_type == 'bwlistentrie')
-                                                                    @if($audit_obj[$i]->audit_type == 'del')
-                                                                        <strong>{{$audit_obj[$i]->before_vale}}</strong>
-                                                                        from
-                                                                        <strong>BWL{{$audit_obj[$i+1][0]->id}}</strong>
-                                                                    @else
-                                                                        <strong>BWE{{$audit_obj[$i]->entity_id}} </strong>
-                                                                        for
-                                                                        <strong>BWL{{$audit_obj[$i+1][0]->id}}</strong>
-                                                                    @endif
-                                                                @endif
-                                                            </p>
+                                                            {{--<p>--}}
+                                                                {{--<a href="{{url('user/usr'.$audit_obj[$i]->user_id.'/edit')}}">{{$audit_obj[$i]->getUser->name}}</a>--}}
+                                                                {{--@if($audit_obj[$i]->audit_type == 'add')--}}
+                                                                    {{--@if($audit_obj[$i]->entity_type == 'positive_offer_model' or $audit_obj[$i]->entity_type == 'negative_offer_model')--}}
+                                                                        {{--changed Model:--}}
+                                                                    {{--@elseif($audit_obj[$i]->entity_type == 'offer_pixel_map')--}}
+                                                                        {{--changed Offer:--}}
+                                                                    {{--@else--}}
+                                                                        {{--created a new {{$audit_obj[$i]->entity_type}}:--}}
+                                                                    {{--@endif--}}
+                                                                {{--@elseif($audit_obj[$i]->audit_type == 'edit')--}}
+                                                                    {{--changed {{$audit_obj[$i]->entity_type}}:--}}
+                                                                {{--@elseif($audit_obj[$i]->audit_type == 'del')--}}
+                                                                    {{--deleted {{$audit_obj[$i]->entity_type}}:--}}
+                                                                {{--@endif--}}
+                                                                {{--@if($audit_obj[$i]->entity_type == 'client')--}}
+                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">cl{{$audit_obj[$i+1][0]->id}}</a>--}}
+                                                                    {{--</strong>--}}
+                                                                {{--@endif--}}
+                                                                {{--@if($audit_obj[$i]->entity_type == 'advertiser')--}}
+                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->id.'/edit')}}">adv{{$audit_obj[$i+1][0]->id}}</a>--}}
+                                                                    {{--</strong>--}}
+                                                                {{--@endif--}}
+                                                                {{--@if($audit_obj[$i]->entity_type == 'creative')--}}
+                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/creative/crt'.$audit_obj[$i+1][0]->id.'/edit')}}">crt{{$audit_obj[$i+1][0]->id}}</a>--}}
+                                                                    {{--</strong>--}}
+                                                                {{--@endif--}}
+                                                                {{--@if($audit_obj[$i]->entity_type == 'offer')--}}
+                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/offer/ofr'.$audit_obj[$i+1][0]->id.'/edit')}}">ofr{{$audit_obj[$i+1][0]->id}}</a>--}}
+                                                                    {{--</strong>--}}
+                                                                {{--@endif--}}
+                                                                {{--@if($audit_obj[$i]->entity_type == 'pixel')--}}
+                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/pixel/pxl'.$audit_obj[$i+1][0]->id.'/edit')}}">pxl{{$audit_obj[$i+1][0]->id}}</a>--}}
+                                                                    {{--</strong>--}}
+                                                                {{--@endif--}}
+                                                                {{--@if($audit_obj[$i]->entity_type == 'bwlist')--}}
+                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/bwlist/bwl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a>--}}
+                                                                    {{--</strong>--}}
+                                                                {{--@endif--}}
+                                                                {{--@if($audit_obj[$i]->entity_type == 'geosegment')--}}
+                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/geosegment/gsm'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a>--}}
+                                                                    {{--</strong>--}}
+                                                                {{--@endif--}}
+                                                                {{--@if($audit_obj[$i]->entity_type == 'campaign')--}}
+                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/campaign/cmp'.$audit_obj[$i+1][0]->id.'/edit')}}">cmp{{$audit_obj[$i+1][0]->id}}</a>--}}
+                                                                    {{--</strong>--}}
+                                                                {{--@endif--}}
+                                                                {{--@if($audit_obj[$i]->entity_type == 'modelTable')--}}
+                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/model/mdl'.$audit_obj[$i+1][0]->id.'/edit')}}">mdl{{$audit_obj[$i+1][0]->id}}</a>--}}
+                                                                    {{--</strong>--}}
+                                                                {{--@endif--}}
+                                                                {{--@if($audit_obj[$i]->entity_type == 'positive_offer_model' or $audit_obj[$i]->entity_type == 'negative_offer_model')--}}
+                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/model/mdl'.$audit_obj[$i]->after_value.'/edit')}}">mdl{{$audit_obj[$i]->after_value}}</a>--}}
+                                                                    {{--</strong>--}}
+                                                                {{--@endif--}}
+                                                                {{--@if($audit_obj[$i]->entity_type == 'offer_pixel_map')--}}
+                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/offer/ofr'.$audit_obj[$i]->after_value.'/edit')}}">ofr{{$audit_obj[$i]->after_value}}</a>--}}
+                                                                    {{--</strong>--}}
+                                                                {{--@endif--}}
+                                                                {{--@if($audit_obj[$i]->entity_type == 'targetgroup')--}}
+                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a>--}}
+                                                                    {{--</strong>--}}
+                                                                {{--@endif--}}
+                                                                {{--@if($audit_obj[$i]->entity_type == 'geosegmententrie')--}}
+                                                                    {{--@if($audit_obj[$i]->audit_type == 'del')--}}
+                                                                        {{--<strong>{{$audit_obj[$i]->before_vale}}</strong>--}}
+                                                                        {{--from--}}
+                                                                        {{--<strong>GSL{{$audit_obj[$i+1][0]->id}}</strong>--}}
+                                                                    {{--@else--}}
+                                                                        {{--<strong>GS{{$audit_obj[$i]->entity_id}} </strong>--}}
+                                                                        {{--for--}}
+                                                                        {{--<strong>GSL{{$audit_obj[$i+1][0]->id}}</strong>--}}
+                                                                    {{--@endif--}}
+                                                                {{--@endif--}}
+                                                                {{--@if($audit_obj[$i]->entity_type == 'bwlistentrie')--}}
+                                                                    {{--@if($audit_obj[$i]->audit_type == 'del')--}}
+                                                                        {{--<strong>{{$audit_obj[$i]->before_vale}}</strong>--}}
+                                                                        {{--from--}}
+                                                                        {{--<strong>BWL{{$audit_obj[$i+1][0]->id}}</strong>--}}
+                                                                    {{--@else--}}
+                                                                        {{--<strong>BWE{{$audit_obj[$i]->entity_id}} </strong>--}}
+                                                                        {{--for--}}
+                                                                        {{--<strong>BWL{{$audit_obj[$i+1][0]->id}}</strong>--}}
+                                                                    {{--@endif--}}
+                                                                {{--@endif--}}
+                                                            {{--</p>--}}
 
-                                                            @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key)
+                                                            {{--@while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key)--}}
 
-                                                            @if($audit_obj[$i]->audit_type == 'edit')
-                                                                <div class="well well-sm display-inline">
-                                                                    @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='edit')
-                                                                        <p>Field
-                                                                            <strong>{{$audit_obj[$i]->field}}</strong>
-                                                                            From
-                                                                            <strong>{{$audit_obj[$i]->before_value}}</strong>
-                                                                            To
-                                                                            <strong>{{$audit_obj[$i]->after_value}}</strong>
-                                                                        </p>
-                                                                        <?php $i = $i + 2; ?>
-                                                                    @endwhile
-                                                                </div>
+                                                            {{--@if($audit_obj[$i]->audit_type == 'edit')--}}
+                                                                {{--<div class="well well-sm display-inline">--}}
+                                                                    {{--@while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='edit')--}}
+                                                                        {{--<p>Field--}}
+                                                                            {{--<strong>{{$audit_obj[$i]->field}}</strong>--}}
+                                                                            {{--From--}}
+                                                                            {{--<strong>{{$audit_obj[$i]->before_value}}</strong>--}}
+                                                                            {{--To--}}
+                                                                            {{--<strong>{{$audit_obj[$i]->after_value}}</strong>--}}
+                                                                        {{--</p>--}}
+                                                                        {{--<?php $i = $i + 2; ?>--}}
+                                                                    {{--@endwhile--}}
+                                                                {{--</div>--}}
 
-                                                            @endif
-                                                            @if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'add' and $audit_obj[$i]->change_key==$change_key)
-                                                                <div class="well well-sm display-inline">
-                                                                    @if($audit_obj[$i]->entity_type == 'geosegment')
-                                                                        Entrie(s):
-                                                                    @endif
-                                                                    @if($audit_obj[$i]->entity_type == 'bwlistentrie')
-                                                                        Domain Name(s):
-                                                                    @endif
-                                                                    @if($audit_obj[$i]->entity_type == 'offer_pixel_map')
-                                                                        Pixel(s) Added:
-                                                                    @endif
-                                                                    @if($audit_obj[$i]->entity_type == 'positive_offer_model')
-                                                                        Positive Offer(s) Added:
-                                                                    @endif
-                                                                    @if($audit_obj[$i]->entity_type == 'negative_offer_model')
-                                                                        Negative Offer(s) Added:
-                                                                    @endif
-                                                                    <?php $flg = 0; $count = 0; ?>
-                                                                    @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type == 'add')
-                                                                        @if($flg>=20)
-                                                                            <?php $count++ ?>
-                                                                        @endif
-                                                                        <p>
-                                                                            @if($audit_obj[$i]->entity_type == 'geosegmententrie' and $flg < 20)
-                                                                                name:
-                                                                                <strong>{{$audit_obj[$i+1][0]->name}}</strong>
-                                                                            @endif
-                                                                            @if($audit_obj[$i]->entity_type == 'offer_pixel_map' and $flg < 20)
-                                                                                name:
-                                                                                <strong>{{$audit_obj[$i+1][0]->name}}</strong>
-                                                                            @endif
-                                                                            @if($audit_obj[$i]->entity_type == 'positive_offer_model' and $flg < 20)
-                                                                                name:
-                                                                                <strong>{{$audit_obj[$i+1][0]->name}}</strong>
-                                                                            @endif
-                                                                            @if($audit_obj[$i]->entity_type == 'negative_offer_model' and $flg < 20)
-                                                                                name:
-                                                                                <strong>{{$audit_obj[$i+1][0]->name}}</strong>
-                                                                            @endif
-                                                                            @if($audit_obj[$i]->entity_type == 'bwlistentrie' and $flg < 2)
-                                                                                name:
-                                                                                <strong>{{$audit_obj[$i+1][0]->name}}</strong>
-                                                                            @endif
-                                                                        </p>
-                                                                        <?php $i = $i + 2; $flg++; ?>
-                                                                    @endwhile
-                                                                    @if($flg>20)
-                                                                        <p> and other <strong>{{$count}}</strong>
-                                                                            more...</p>
-                                                                    @endif
-                                                                </div>
+                                                            {{--@endif--}}
+                                                            {{--@if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'add' and $audit_obj[$i]->change_key==$change_key)--}}
+                                                                {{--<div class="well well-sm display-inline">--}}
+                                                                    {{--@if($audit_obj[$i]->entity_type == 'geosegment')--}}
+                                                                        {{--Entrie(s):--}}
+                                                                    {{--@endif--}}
+                                                                    {{--@if($audit_obj[$i]->entity_type == 'bwlistentrie')--}}
+                                                                        {{--Domain Name(s):--}}
+                                                                    {{--@endif--}}
+                                                                    {{--@if($audit_obj[$i]->entity_type == 'offer_pixel_map')--}}
+                                                                        {{--Pixel(s) Added:--}}
+                                                                    {{--@endif--}}
+                                                                    {{--@if($audit_obj[$i]->entity_type == 'positive_offer_model')--}}
+                                                                        {{--Positive Offer(s) Added:--}}
+                                                                    {{--@endif--}}
+                                                                    {{--@if($audit_obj[$i]->entity_type == 'negative_offer_model')--}}
+                                                                        {{--Negative Offer(s) Added:--}}
+                                                                    {{--@endif--}}
+                                                                    {{--<?php $flg = 0; $count = 0; ?>--}}
+                                                                    {{--@while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type == 'add')--}}
+                                                                        {{--@if($flg>=20)--}}
+                                                                            {{--<?php $count++ ?>--}}
+                                                                        {{--@endif--}}
+                                                                        {{--<p>--}}
+                                                                            {{--@if($audit_obj[$i]->entity_type == 'geosegmententrie' and $flg < 20)--}}
+                                                                                {{--name:--}}
+                                                                                {{--<strong>{{$audit_obj[$i+1][0]->name}}</strong>--}}
+                                                                            {{--@endif--}}
+                                                                            {{--@if($audit_obj[$i]->entity_type == 'offer_pixel_map' and $flg < 20)--}}
+                                                                                {{--name:--}}
+                                                                                {{--<strong>{{$audit_obj[$i+1][0]->name}}</strong>--}}
+                                                                            {{--@endif--}}
+                                                                            {{--@if($audit_obj[$i]->entity_type == 'positive_offer_model' and $flg < 20)--}}
+                                                                                {{--name:--}}
+                                                                                {{--<strong>{{$audit_obj[$i+1][0]->name}}</strong>--}}
+                                                                            {{--@endif--}}
+                                                                            {{--@if($audit_obj[$i]->entity_type == 'negative_offer_model' and $flg < 20)--}}
+                                                                                {{--name:--}}
+                                                                                {{--<strong>{{$audit_obj[$i+1][0]->name}}</strong>--}}
+                                                                            {{--@endif--}}
+                                                                            {{--@if($audit_obj[$i]->entity_type == 'bwlistentrie' and $flg < 2)--}}
+                                                                                {{--name:--}}
+                                                                                {{--<strong>{{$audit_obj[$i+1][0]->name}}</strong>--}}
+                                                                            {{--@endif--}}
+                                                                        {{--</p>--}}
+                                                                        {{--<?php $i = $i + 2; $flg++; ?>--}}
+                                                                    {{--@endwhile--}}
+                                                                    {{--@if($flg>20)--}}
+                                                                        {{--<p> and other <strong>{{$count}}</strong>--}}
+                                                                            {{--more...</p>--}}
+                                                                    {{--@endif--}}
+                                                                {{--</div>--}}
 
-                                                            @endif
+                                                            {{--@endif--}}
 
-                                                            @if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'del' and $audit_obj[$i]->change_key==$change_key)
-                                                                <div class="well well-sm display-inline">
-                                                                    @if($audit_obj[$i]->entity_type == 'geosegment')
-                                                                        Entrie(s):
-                                                                    @endif
-                                                                    @if($audit_obj[$i]->entity_type == 'offer_pixel_map')
-                                                                        Pixel(s) Removed:
-                                                                    @endif
-                                                                    @if($audit_obj[$i]->entity_type == 'positive_offer_model')
-                                                                        Positive Offer(s) Removed:
-                                                                    @endif
-                                                                    @if($audit_obj[$i]->entity_type == 'negative_offer_model')
-                                                                        Negative Offer(s) Removed:
-                                                                    @endif
-                                                                    @if($audit_obj[$i]->entity_type == 'bwlistentrie')
-                                                                        Domain(s):
-                                                                    @endif
+                                                            {{--@if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'del' and $audit_obj[$i]->change_key==$change_key)--}}
+                                                                {{--<div class="well well-sm display-inline">--}}
+                                                                    {{--@if($audit_obj[$i]->entity_type == 'geosegment')--}}
+                                                                        {{--Entrie(s):--}}
+                                                                    {{--@endif--}}
+                                                                    {{--@if($audit_obj[$i]->entity_type == 'offer_pixel_map')--}}
+                                                                        {{--Pixel(s) Removed:--}}
+                                                                    {{--@endif--}}
+                                                                    {{--@if($audit_obj[$i]->entity_type == 'positive_offer_model')--}}
+                                                                        {{--Positive Offer(s) Removed:--}}
+                                                                    {{--@endif--}}
+                                                                    {{--@if($audit_obj[$i]->entity_type == 'negative_offer_model')--}}
+                                                                        {{--Negative Offer(s) Removed:--}}
+                                                                    {{--@endif--}}
+                                                                    {{--@if($audit_obj[$i]->entity_type == 'bwlistentrie')--}}
+                                                                        {{--Domain(s):--}}
+                                                                    {{--@endif--}}
 
-                                                                    <?php $flg = 0; $count = 0; ?>
-                                                                    @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type == 'del')
-                                                                        @if($flg>=20)
-                                                                            <?php $count++ ?>
-                                                                        @endif
-                                                                        <p>
-                                                                            @if($audit_obj[$i]->entity_type == 'geosegmententrie' and $flg < 2)
-                                                                                name:
-                                                                                <strong>{{$audit_obj[$i]->before_value}}</strong>
-                                                                            @endif
-                                                                            @if($audit_obj[$i]->entity_type == 'offer_pixel_map' and $flg < 20)
-                                                                                name:
-                                                                                <strong>{{$audit_obj[$i+1][0]->name}}</strong>
-                                                                            @endif
-                                                                            @if($audit_obj[$i]->entity_type == 'positive_offer_model' and $flg < 20)
-                                                                                name:
-                                                                                <strong>{{$audit_obj[$i+1][0]->name}}</strong>
-                                                                            @endif
-                                                                            @if($audit_obj[$i]->entity_type == 'negative_offer_model' and $flg < 20)
-                                                                                name:
-                                                                                <strong>{{$audit_obj[$i+1][0]->name}}</strong>
-                                                                            @endif
-                                                                            @if($audit_obj[$i]->entity_type == 'bwlistentrie' and $flg < 2)
-                                                                                name:
-                                                                                <strong>{{$audit_obj[$i]->before_value}}</strong>
-                                                                            @endif
-                                                                        </p>
-                                                                        <?php $i = $i + 2; $flg++; ?>
-                                                                    @endwhile
-                                                                    <p>
-                                                                        @if($flg>20)
-                                                                            and other <strong>{{$count}}</strong>
-                                                                            more...</p>
-                                                                    @endif
-                                                                </div>
-                                                            @endif
-                                                            @endwhile
-                                                        </div>
-                                                    </li>
-                                                @endfor
-                                                <li>
-                                                    <div class="smart-timeline-icon">
-                                                        <i class="fa fa-file-text"></i>
-                                                    </div>
-                                                    <div class="smart-timeline-time">
-                                                        <small>1 min ago</small>
-                                                    </div>
-                                                    <div class="smart-timeline-content">
-                                                        <p>
-                                                            <strong>Meeting invite for "GENERAL GNU" [<a
-                                                                        href="javascript:void(0);"><i>Go to my
-                                                                        calendar</i></a>]</strong>
-                                                        </p>
+                                                                    {{--<?php $flg = 0; $count = 0; ?>--}}
+                                                                    {{--@while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type == 'del')--}}
+                                                                        {{--@if($flg>=20)--}}
+                                                                            {{--<?php $count++ ?>--}}
+                                                                        {{--@endif--}}
+                                                                        {{--<p>--}}
+                                                                            {{--@if($audit_obj[$i]->entity_type == 'geosegmententrie' and $flg < 2)--}}
+                                                                                {{--name:--}}
+                                                                                {{--<strong>{{$audit_obj[$i]->before_value}}</strong>--}}
+                                                                            {{--@endif--}}
+                                                                            {{--@if($audit_obj[$i]->entity_type == 'offer_pixel_map' and $flg < 20)--}}
+                                                                                {{--name:--}}
+                                                                                {{--<strong>{{$audit_obj[$i+1][0]->name}}</strong>--}}
+                                                                            {{--@endif--}}
+                                                                            {{--@if($audit_obj[$i]->entity_type == 'positive_offer_model' and $flg < 20)--}}
+                                                                                {{--name:--}}
+                                                                                {{--<strong>{{$audit_obj[$i+1][0]->name}}</strong>--}}
+                                                                            {{--@endif--}}
+                                                                            {{--@if($audit_obj[$i]->entity_type == 'negative_offer_model' and $flg < 20)--}}
+                                                                                {{--name:--}}
+                                                                                {{--<strong>{{$audit_obj[$i+1][0]->name}}</strong>--}}
+                                                                            {{--@endif--}}
+                                                                            {{--@if($audit_obj[$i]->entity_type == 'bwlistentrie' and $flg < 2)--}}
+                                                                                {{--name:--}}
+                                                                                {{--<strong>{{$audit_obj[$i]->before_value}}</strong>--}}
+                                                                            {{--@endif--}}
+                                                                        {{--</p>--}}
+                                                                        {{--<?php $i = $i + 2; $flg++; ?>--}}
+                                                                    {{--@endwhile--}}
+                                                                    {{--<p>--}}
+                                                                        {{--@if($flg>20)--}}
+                                                                            {{--and other <strong>{{$count}}</strong>--}}
+                                                                            {{--more...</p>--}}
+                                                                    {{--@endif--}}
+                                                                {{--</div>--}}
+                                                            {{--@endif--}}
+                                                            {{--@endwhile--}}
+                                                        {{--</div>--}}
+                                                    {{--</li>--}}
+                                                {{--@endfor--}}
+                                                {{--<li>--}}
+                                                    {{--<div class="smart-timeline-icon">--}}
+                                                        {{--<i class="fa fa-file-text"></i>--}}
+                                                    {{--</div>--}}
+                                                    {{--<div class="smart-timeline-time">--}}
+                                                        {{--<small>1 min ago</small>--}}
+                                                    {{--</div>--}}
+                                                    {{--<div class="smart-timeline-content">--}}
+                                                        {{--<p>--}}
+                                                            {{--<strong>Meeting invite for "GENERAL GNU" [<a--}}
+                                                                        {{--href="javascript:void(0);"><i>Go to my--}}
+                                                                        {{--calendar</i></a>]</strong>--}}
+                                                        {{--</p>--}}
 
-                                                        <div class="well well-sm display-inline">
-                                                            <p>Will you be able to attend the meeting - <strong> 10:00
-                                                                    am</strong> tomorrow?</p>
-                                                        </div>
+                                                        {{--<div class="well well-sm display-inline">--}}
+                                                            {{--<p>Will you be able to attend the meeting - <strong> 10:00--}}
+                                                                    {{--am</strong> tomorrow?</p>--}}
+                                                        {{--</div>--}}
 
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="smart-timeline-icon bg-color-greenDark">
-                                                        <i class="fa fa-bar-chart-o"></i>
-                                                    </div>
-                                                    <div class="smart-timeline-time">
-                                                        <small>5 hrs ago</small>
-                                                    </div>
-                                                    <div class="smart-timeline-content">
-                                                        <p>
-                                                            <strong class="txt-color-greenDark">24hrs User Feed</strong>
-                                                        </p>
+                                                    {{--</div>--}}
+                                                {{--</li>--}}
+                                                {{--<li>--}}
+                                                    {{--<div class="smart-timeline-icon bg-color-greenDark">--}}
+                                                        {{--<i class="fa fa-bar-chart-o"></i>--}}
+                                                    {{--</div>--}}
+                                                    {{--<div class="smart-timeline-time">--}}
+                                                        {{--<small>5 hrs ago</small>--}}
+                                                    {{--</div>--}}
+                                                    {{--<div class="smart-timeline-content">--}}
+                                                        {{--<p>--}}
+                                                            {{--<strong class="txt-color-greenDark">24hrs User Feed</strong>--}}
+                                                        {{--</p>--}}
 
-                                                        <div class="sparkline"
-                                                             data-sparkline-type="compositeline"
-                                                             data-sparkline-spotradius-top="5"
-                                                             data-sparkline-color-top="#3a6965"
-                                                             data-sparkline-line-width-top="3"
-                                                             data-sparkline-color-bottom="#2b5c59"
-                                                             data-sparkline-spot-color="#2b5c59"
-                                                             data-sparkline-minspot-color-top="#97bfbf"
-                                                             data-sparkline-maxspot-color-top="#c2cccc"
-                                                             data-sparkline-highlightline-color-top="#cce8e4"
-                                                             data-sparkline-highlightspot-color-top="#9dbdb9"
-                                                             data-sparkline-width="170px"
-                                                             data-sparkline-height="40px"
-                                                             data-sparkline-line-val="[6,4,7,8,4,3,2,2,5,6,7,4,1,5,7,9,9,8,7,6]"
-                                                             data-sparkline-bar-val="[4,1,5,7,9,9,8,7,6,6,4,7,8,4,3,2,2,5,6,7]"></div>
+                                                        {{--<div class="sparkline"--}}
+                                                             {{--data-sparkline-type="compositeline"--}}
+                                                             {{--data-sparkline-spotradius-top="5"--}}
+                                                             {{--data-sparkline-color-top="#3a6965"--}}
+                                                             {{--data-sparkline-line-width-top="3"--}}
+                                                             {{--data-sparkline-color-bottom="#2b5c59"--}}
+                                                             {{--data-sparkline-spot-color="#2b5c59"--}}
+                                                             {{--data-sparkline-minspot-color-top="#97bfbf"--}}
+                                                             {{--data-sparkline-maxspot-color-top="#c2cccc"--}}
+                                                             {{--data-sparkline-highlightline-color-top="#cce8e4"--}}
+                                                             {{--data-sparkline-highlightspot-color-top="#9dbdb9"--}}
+                                                             {{--data-sparkline-width="170px"--}}
+                                                             {{--data-sparkline-height="40px"--}}
+                                                             {{--data-sparkline-line-val="[6,4,7,8,4,3,2,2,5,6,7,4,1,5,7,9,9,8,7,6]"--}}
+                                                             {{--data-sparkline-bar-val="[4,1,5,7,9,9,8,7,6,6,4,7,8,4,3,2,2,5,6,7]"></div>--}}
 
-                                                        <br>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="smart-timeline-icon">
-                                                        <i class="fa fa-user"></i>
-                                                    </div>
-                                                    <div class="smart-timeline-time">
-                                                        <small>yesterday</small>
-                                                    </div>
-                                                    <div class="smart-timeline-content">
-                                                        <p>
-                                                            <a href="javascript:void(0);"><strong>Update user
-                                                                    information</strong></a>
-                                                        </p>
+                                                        {{--<br>--}}
+                                                    {{--</div>--}}
+                                                {{--</li>--}}
+                                                {{--<li>--}}
+                                                    {{--<div class="smart-timeline-icon">--}}
+                                                        {{--<i class="fa fa-user"></i>--}}
+                                                    {{--</div>--}}
+                                                    {{--<div class="smart-timeline-time">--}}
+                                                        {{--<small>yesterday</small>--}}
+                                                    {{--</div>--}}
+                                                    {{--<div class="smart-timeline-content">--}}
+                                                        {{--<p>--}}
+                                                            {{--<a href="javascript:void(0);"><strong>Update user--}}
+                                                                    {{--information</strong></a>--}}
+                                                        {{--</p>--}}
 
-                                                        <p>
-                                                            Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam
-                                                            rhoncus. Maecenas tempus, tellus eget condimentum rhoncus,
-                                                            sem quam semper libero, sit amet adipiscing sem neque sed
-                                                            ipsum. Nam quam nunc, blandit vel, luctus pulvinar,
-                                                            hendrerit id, lorem. Maecenas nec odio et ante tincidunt
-                                                            tempus. Donec vitae sapien ut libero venenatis faucibus.
-                                                        </p>
+                                                        {{--<p>--}}
+                                                            {{--Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam--}}
+                                                            {{--rhoncus. Maecenas tempus, tellus eget condimentum rhoncus,--}}
+                                                            {{--sem quam semper libero, sit amet adipiscing sem neque sed--}}
+                                                            {{--ipsum. Nam quam nunc, blandit vel, luctus pulvinar,--}}
+                                                            {{--hendrerit id, lorem. Maecenas nec odio et ante tincidunt--}}
+                                                            {{--tempus. Donec vitae sapien ut libero venenatis faucibus.--}}
+                                                        {{--</p>--}}
 
-                                                        Tellus eget condimentum rhoncus, sem quam semper libero, sit
-                                                        amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit
+                                                        {{--Tellus eget condimentum rhoncus, sem quam semper libero, sit--}}
+                                                        {{--amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit--}}
 
-                                                        <ul class="list-inline">
-                                                            <li>
-                                                                <img src="img/superbox/superbox-thumb-6.jpg" alt="img"
-                                                                     width="50">
-                                                            </li>
-                                                            <li>
-                                                                <img src="img/superbox/superbox-thumb-5.jpg" alt="img"
-                                                                     width="50">
-                                                            </li>
-                                                            <li>
-                                                                <img src="img/superbox/superbox-thumb-7.jpg" alt="img"
-                                                                     width="50">
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="smart-timeline-icon">
-                                                        <i class="fa fa-pencil"></i>
-                                                    </div>
-                                                    <div class="smart-timeline-time">
-                                                        <small>12 Mar, 2013</small>
-                                                    </div>
-                                                    <div class="smart-timeline-content">
-                                                        <p>
-                                                            <a href="javascript:void(0);"><strong>Nabi Resource
-                                                                    Report</strong></a>
-                                                        </p>
+                                                        {{--<ul class="list-inline">--}}
+                                                            {{--<li>--}}
+                                                                {{--<img src="img/superbox/superbox-thumb-6.jpg" alt="img"--}}
+                                                                     {{--width="50">--}}
+                                                            {{--</li>--}}
+                                                            {{--<li>--}}
+                                                                {{--<img src="img/superbox/superbox-thumb-5.jpg" alt="img"--}}
+                                                                     {{--width="50">--}}
+                                                            {{--</li>--}}
+                                                            {{--<li>--}}
+                                                                {{--<img src="img/superbox/superbox-thumb-7.jpg" alt="img"--}}
+                                                                     {{--width="50">--}}
+                                                            {{--</li>--}}
+                                                        {{--</ul>--}}
+                                                    {{--</div>--}}
+                                                {{--</li>--}}
+                                                {{--<li>--}}
+                                                    {{--<div class="smart-timeline-icon">--}}
+                                                        {{--<i class="fa fa-pencil"></i>--}}
+                                                    {{--</div>--}}
+                                                    {{--<div class="smart-timeline-time">--}}
+                                                        {{--<small>12 Mar, 2013</small>--}}
+                                                    {{--</div>--}}
+                                                    {{--<div class="smart-timeline-content">--}}
+                                                        {{--<p>--}}
+                                                            {{--<a href="javascript:void(0);"><strong>Nabi Resource--}}
+                                                                    {{--Report</strong></a>--}}
+                                                        {{--</p>--}}
 
-                                                        <p>
-                                                            Ean vulputate eleifend tellus. Aenean leo ligula, porttitor
-                                                            eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
-                                                            dapibus in, viverra quis.
-                                                        </p>
-                                                        <a href="javascript:void(0);" class="btn btn-xs btn-default">Read
-                                                            more</a>
-                                                    </div>
-                                                </li>
-                                                <li class="text-center">
-                                                    <a href="javascript:void(0)" class="btn btn-sm btn-default"><i
-                                                                class="fa fa-arrow-down text-muted"></i> LOAD MORE</a>
-                                                </li>
-                                            </ul>
+                                                        {{--<p>--}}
+                                                            {{--Ean vulputate eleifend tellus. Aenean leo ligula, porttitor--}}
+                                                            {{--eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,--}}
+                                                            {{--dapibus in, viverra quis.--}}
+                                                        {{--</p>--}}
+                                                        {{--<a href="javascript:void(0);" class="btn btn-xs btn-default">Read--}}
+                                                            {{--more</a>--}}
+                                                    {{--</div>--}}
+                                                {{--</li>--}}
+                                                {{--<li class="text-center">--}}
+                                                    {{--<a href="javascript:void(0)" class="btn btn-sm btn-default"><i--}}
+                                                                {{--class="fa fa-arrow-down text-muted"></i> LOAD MORE</a>--}}
+                                                {{--</li>--}}
+                                            {{--</ul>--}}
                                         </div>
                                         <!-- END Timeline Content -->
 

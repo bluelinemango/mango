@@ -1351,14 +1351,7 @@
             $.ajax({
                 url: "{{url('/get_iab_sub_category')}}" + '/' + id
             }).success(function (response) {
-                var cb = '';
-                var data = jQuery.parseJSON(response);
-                var len = data.length;
-                cb = '<option value="0" disabled>select one</option>';
-                for (var i = 0; i < len; i++) {
-                    cb += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
-                }
-                $('#iab_sub_category').html(cb);
+                $('#iab_sub_category').html(response);
             });
         }
         function setReview() {

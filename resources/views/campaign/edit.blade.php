@@ -17,7 +17,11 @@
                     <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->advertiser_id.'/edit')}}">Advertiser:
                         adv{{$campaign_obj->advertiser_id}}</a>
                 </li>
-                <li>Campaign: cmp{{$campaign_obj->id}}</li>
+                @if($clone==1)
+                    <li>Add Campaign</li>
+                @else
+                    <li>Campaign: cmp{{$campaign_obj->id}}</li>
+                @endif
             </ol>
             <!-- end breadcrumb -->
 
@@ -48,7 +52,11 @@
                             <!-- Widget ID (each widget will need unique ID)-->
                             <div class="well">
                                 <header>
-                                    <h2><strong>Edit Campaign: {{$campaign_obj->name}} </strong></h2>
+                                    @if($clone==1)
+                                        <h2><strong>Add Campaign </strong></h2>
+                                    @else
+                                        <h2><strong>Edit Campaign: {{$campaign_obj->name}} </strong></h2>
+                                    @endif
                                 </header>
 
                                 <!-- widget div-->
@@ -56,11 +64,18 @@
                                     <!-- widget content -->
                                     <div class="col-md-9">
 
-                                        <form id="order-form" class="smart-form"
-                                              action="{{URL::route('campaign_update')}}" method="post"
+                                        @if($clone==1)
+                                            <form id="order-form" class="smart-form"
+                                              action="{{URL::route('campaign_creative')}}" method="post"
                                               novalidate="novalidate">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        @else
+                                            <form id="order-form" class="smart-form"
+                                                  action="{{URL::route('campaign_update')}}" method="post"
+                                                  novalidate="novalidate">
+                                        @endif
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">                                       @if($clone==0)
                                             <input type="hidden" name="_method" value="PUT"/>
+                                            @endif
                                             <input type="hidden" name="campaign_id" value="{{$campaign_obj->id}}"/>
 
                                             <header>

@@ -114,7 +114,7 @@ class CampaignController extends Controller
         return Redirect::to(url('/user/login'));
     }
 
-    public function CampaignEditView($clid, $advid, $cmpid)
+    public function CampaignEditView($clid, $advid, $cmpid,$clone)
     {
         if (!is_null($cmpid)) {
             if (Auth::check()) {
@@ -140,6 +140,7 @@ class CampaignController extends Controller
 
                     return view('campaign.edit')
                         ->with('real_time', $real_time)
+                        ->with('clone', $clone)
                         ->with('campaign_obj', $campaign_obj);
                 }
                 return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);

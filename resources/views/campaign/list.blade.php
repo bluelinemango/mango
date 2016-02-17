@@ -236,7 +236,7 @@
                         "status": '<a id="campaign{{$index->id}}" href="javascript: ChangeStatus(`campaign`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
                         @endif
                         "date_modify": '{{$index->updated_at}}',
-                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /> </a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) +' <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/targetgroup/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /> </a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) +' | <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/targetgroup/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a> | <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/clone/1')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
 
                     },
                     @endforeach
@@ -265,7 +265,7 @@
                         {name: "daily_max_budget", title: "Daily Budget", type: "text", width: 80, align: "center"},
                         {name: "status", title: "Status", width: 50, align: "center"},
                         {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
-                        {name: "action", title: "Edit / +TG", sorting: false, width: 70, align: "center"},
+                        {name: "action", title: "Edit | +Camp | Clone", sorting: false, width: 110, align: "center"},
                         {type: "control"}
                     ]
 

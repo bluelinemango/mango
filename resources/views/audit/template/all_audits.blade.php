@@ -1,7 +1,7 @@
 <div class="streamline b-l b-accent m-b">
     @for($i=0;$i<count($audit_obj);)
         {{--                                                @foreach($audit_obj as $index)--}}
-        <?php $change_key = $audit_obj[$i]->change_key; ?>
+        <?php $change_key = $audit_obj[$i]->change_key; $save='' ?>
         <div class="sl-item">
             <div class="sl-content">
                 <div class="text-muted-dk">{{$audit_obj[$i]->created_at}}</div>
@@ -16,6 +16,8 @@
                             created a new {{$audit_obj[$i]->entity_type}}:
                         @endif
 
+                    @elseif($audit_obj[$i]->audit_type == 'bulk_edit')
+                        Bulk Edit {{$audit_obj[$i]->entity_type}}:
                     @elseif($audit_obj[$i]->audit_type == 'edit')
                         changed {{$audit_obj[$i]->entity_type}}:
                     @elseif($audit_obj[$i]->audit_type == 'del')
@@ -29,8 +31,19 @@
                         <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->id.'/edit')}}">adv{{$audit_obj[$i+1][0]->id}}</a>
                         </strong>
                     @endif
+                    @if($audit_obj[$i]->entity_type == 'creative' and $audit_obj[$i]->audit_type =='bulk_edit')
+                        @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='bulk_edit')
+                            @if($save != $audit_obj[$i+1][0]->id)
+                            <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/creative/crt'.$audit_obj[$i+1][0]->id.'/edit')}}">crt{{$audit_obj[$i+1][0]->id}}</a> ,
+                            </strong>
+                            @endif
+                            <?php $save = $audit_obj[$i+1][0]->id ?>
+                            <?php $i = $i + 2; ?>
+                        @endwhile
+
+                    @endif
                     @if($audit_obj[$i]->entity_type == 'creative')
-                        <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/creative/crt'.$audit_obj[$i+1][0]->id.'/edit')}}">crt{{$audit_obj[$i+1][0]->id}}</a>
+                        <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/creative/crt'.$audit_obj[$i+1][0]->id.'/edit')}}">crt{{$audit_obj[$i+1][0]->id}}</a> ,
                         </strong>
                     @endif
                     @if($audit_obj[$i]->entity_type == 'offer')
@@ -48,6 +61,16 @@
                     @if($audit_obj[$i]->entity_type == 'geosegment')
                         <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/geosegment/gsm'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a>
                         </strong>
+                    @endif
+                    @if($audit_obj[$i]->entity_type == 'campaign' and $audit_obj[$i]->audit_type =='bulk_edit')
+                        @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='bulk_edit')
+                            @if($save != $audit_obj[$i+1][0]->id)
+                        <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/campaign/cmp'.$audit_obj[$i+1][0]->id.'/edit')}}">cmp{{$audit_obj[$i+1][0]->id}}</a>
+                        </strong>
+                            @endif
+                            <?php $save = $audit_obj[$i+1][0]->id ?>
+                            <?php $i = $i + 2; ?>
+                        @endwhile
                     @endif
                     @if($audit_obj[$i]->entity_type == 'campaign')
                         <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/campaign/cmp'.$audit_obj[$i+1][0]->id.'/edit')}}">cmp{{$audit_obj[$i+1][0]->id}}</a>
@@ -95,6 +118,19 @@
 
                 @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key)
 
+                    @if($audit_obj[$i]->audit_type == 'bulk_edit')
+                        <div class="well well-sm display-inline">
+                            @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='bulk_edit')
+                                <p>
+                                    <strong>{{$audit_obj[$i]->field}}</strong>
+                                    to
+                                    <strong>{{$audit_obj[$i]->after_value}}</strong>
+                                </p>
+                                <?php $i = $i + 2; ?>
+                            @endwhile
+                        </div>
+
+                    @endif
                     @if($audit_obj[$i]->audit_type == 'edit')
                         <div class="well well-sm display-inline">
                             @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='edit')
@@ -218,6 +254,7 @@
                             @endif
                         </div>
                     @endif
+
                 @endwhile
             </div>
             @endfor

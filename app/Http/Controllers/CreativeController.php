@@ -112,8 +112,7 @@ class CreativeController extends Controller
         return Redirect::to(url('/user/login'));
     }
 
-
-    public function CreativeEditView($clid,$advid,$crtid){
+    public function CreativeEditView($clid,$advid,$crtid,$clone=0){
         if(!is_null($crtid)){
             if(Auth::check()){
                 if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
@@ -134,6 +133,7 @@ class CreativeController extends Controller
                     }
                     return view('creative.edit')
                         ->with('api_select', json_decode($creative_obj->api))
+                        ->with('clone', $clone)
                         ->with('creative_obj', $creative_obj);
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
@@ -170,7 +170,7 @@ class CreativeController extends Controller
                             array_push($data, 'Status');
                             array_push($data, $creative->status);
                             array_push($data, $active);
-                            $creative->name = $active;
+                            $creative->status = $active;
                         }
                         if($creative->ad_type!=$request->input('ad_type')){
                             array_push($data,'Ad Type');

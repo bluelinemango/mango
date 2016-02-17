@@ -18,7 +18,11 @@
             <ol class="breadcrumb">
                 <li><a href="{{url('/client/cl'.$creative_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client : cl{{$creative_obj->getAdvertiser->GetClientID->id}}</a></li>
                 <li><a href="{{url('/client/cl'.$creative_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$creative_obj->advertiser_id.'/edit/')}}">Advertiser : adv{{$creative_obj->getAdvertiser->id}}</a></li>
-                <li>Edit Creative: {{$creative_obj->name}} </li>
+                @if($clone==1)
+                    <li>Add Creative </li>
+                @else
+                    <li>Edit Creative: {{$creative_obj->name}} </li>
+                @endif
             </ol>
             <!-- end breadcrumb -->
 
@@ -41,7 +45,11 @@
                             <!-- Widget ID (each widget will need unique ID)-->
                             <div class="well">
                                 <header>
-                                    <h2>Edit Creative: {{$creative_obj->name}} </h2>
+                                    @if($clone==1)
+                                        <h2>Add Creative </h2>
+                                    @else
+                                        <h2>Edit Creative: {{$creative_obj->name}} </h2>
+                                    @endif
                                 </header>
 
                                 <!-- widget div-->
@@ -49,9 +57,15 @@
                                     <!-- widget content -->
                                     <div class="col-md-9">
 
+                                        @if($clone==1)
+                                        <form id="order-form" class="smart-form" action="{{URL::route('creative_create')}}" method="post" novalidate="novalidate" >
+                                        @else
                                         <form id="order-form" class="smart-form" action="{{URL::route('creative_update')}}" method="post" novalidate="novalidate" >
+                                        @endif
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            @if($clone==0)
                                             <input type="hidden" name="_method" value="PUT"/>
+                                            @endif
                                             <input type="hidden" name="creative_id" value="{{$creative_obj->id}}"/>
 
                                             <header>
@@ -170,7 +184,7 @@
 
 
                                                     <section class="col col-4">
-                                                        <label class="label">Multiple select</label>
+                                                        <label class="label">API</label>
                                                         <label class="select select-multiple">
                                                             <select name="api[]" multiple class="custom-scroll">
                                                                 <option value="VPAID_1.0" @if(in_array('VPAID_1.0',$api_select)) selected @endif>VPAID 1.0</option>
@@ -210,6 +224,7 @@
                                             </footer>
                                         </form>
                                     </div>
+                                    @if($clone==0)
                                     <div class="col-md-3">
                                         <div class="card">
                                             <div class="card-heading">
@@ -230,7 +245,7 @@
                                         <!-- WIDGET END -->
 
                                     </div>
-
+                                    @endif
                                     <!-- end widget content -->
                                 </div>
                                 <!-- end widget div -->
