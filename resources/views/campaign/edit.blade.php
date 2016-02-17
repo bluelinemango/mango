@@ -66,7 +66,7 @@
 
                                         @if($clone==1)
                                             <form id="order-form" class="smart-form"
-                                              action="{{URL::route('campaign_creative')}}" method="post"
+                                              action="{{URL::route('campaign_create')}}" method="post"
                                               novalidate="novalidate">
                                         @else
                                             <form id="order-form" class="smart-form"

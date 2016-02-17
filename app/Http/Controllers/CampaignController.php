@@ -114,7 +114,7 @@ class CampaignController extends Controller
         return Redirect::to(url('/user/login'));
     }
 
-    public function CampaignEditView($clid, $advid, $cmpid,$clone)
+    public function CampaignEditView($clid, $advid, $cmpid,$clone=0)
     {
         if (!is_null($cmpid)) {
             if (Auth::check()) {
