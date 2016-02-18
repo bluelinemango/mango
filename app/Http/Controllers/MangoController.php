@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Models\Advertiser;
 use App\Models\Campaign;
+use App\Models\Client;
 use App\Models\Creative;
 use App\Models\Geolocation;
 use App\Models\Iab_Category;
@@ -31,6 +32,7 @@ class MangoController extends Controller
                     $campaign = Campaign::with(['getAdvertiser' => function ($q) {
                         $q->with('GetClientID');
                     }])->get();
+                    $client_obj=Client::get();
                 } else {
                     $usr_company = $this->user_company();
                     $campaign = Campaign::whereHas('getAdvertiser', function ($q) use ($usr_company) {
@@ -38,16 +40,18 @@ class MangoController extends Controller
                             $p->whereIn('user_id', $usr_company);
                         });
                     })->get();
+                    $client_obj=Client::whereIn('user_id', $usr_company)->get();
                     if (!$campaign) {
                         return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
                 }
                 return view('bulk.campaign')
+                    ->with('client_obj', $client_obj)
                     ->with('campaign_obj', $campaign);
             }
             return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
         }
-    }
+    }   //Get Campaign view
 
     public function getCreative()
     {
@@ -57,6 +61,7 @@ class MangoController extends Controller
                     $creative = Creative::with(['getAdvertiser' => function ($q) {
                         $q->with('GetClientID');
                     }])->get();
+                    $client_obj=Client::get();
                 } else {
                     $usr_company = $this->user_company();
                     $creative = Creative::whereHas('getAdvertiser', function ($q) use ($usr_company) {
@@ -64,20 +69,59 @@ class MangoController extends Controller
                             $p->whereIn('user_id', $usr_company);
                         });
                     })->get();
+                    $client_obj=Client::whereIn('user_id', $usr_company)->get();
                     if (!$creative) {
                         return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
                 }
                 return view('bulk.creative')
+                    ->with('client_obj', $client_obj)
                     ->with('creative_obj', $creative);
             }
             return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
         }
-    }
+    }  //Get Creative view
+
+    public function getTargetgroup()
+    {
+        if (Auth::check()) {
+            if (in_array('ADD_EDIT_TARGETGROUP', $this->permission)) {
+                $adver_obj='';
+                if (User::isSuperAdmin()) {
+                    $targetgroup = Targetgroup::with(['getCampaign' => function ($q) {
+                        $q->with(['getAdvertiser' => function ($p) {
+                            $p->with('GetClientID');
+                        }]);
+                    }])->get();
+                    $client_obj=Client::get();
+                } else {
+                    $usr_company = $this->user_company();
+                    $targetgroup = Targetgroup::whereHas('getCampaign', function ($p) use ($usr_company) {
+                        $p->whereHas('getAdvertiser', function ($q) use ($usr_company) {
+                            $q->whereHas('GetClientID', function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        });
+                    })->get();
+                    $client_obj=Client::whereIn('user_id', $usr_company)->get();
+                    if (!$targetgroup) {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                    }
+                }
+                $iab_category_obj = Iab_Category::get();
+                return view('bulk.targetgroup')
+                    ->with('client_obj', $client_obj)
+                    ->with('iab_category_obj', $iab_category_obj)
+                    ->with('targetgroup_obj', $targetgroup);
+            }
+            return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
+        }
+    }   //Get TargetGroup view
+
     public function getCampaignList($adv_id)
     {
         if (Auth::check()) {
-            if (in_array('VIEW_ADVERTISER', $this->permission)) {
+            if (in_array('VIEW_CAMPAIGN', $this->permission)) {
                 if (User::isSuperAdmin()) {
                     $campaign= Campaign::where('advertiser_id',$adv_id)->get();
                 } else {
@@ -91,12 +135,112 @@ class MangoController extends Controller
                         return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
                 }
-                return view('bulk.campaignList')
+                return view('bulk.ajaxTask')
+                    ->with('taskAjax', 'showCampaignList')
                     ->with('campaign_obj', $campaign);
             }
             return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
         }
     }
+
+    public function getCreativeList($adv_id)
+    {
+        if (Auth::check()) {
+            if (in_array('VIEW_CREATIVE', $this->permission)) {
+                if (User::isSuperAdmin()) {
+                    $creative= Creative::where('advertiser_id',$adv_id)->get();
+                } else {
+                    $usr_company = $this->user_company();
+                    $creative= Creative::whereHas('getAdvertiser', function ($q) use ($usr_company) {
+                        $q->whereHas('GetClientID', function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        });
+                    })->where('advertiser_id',$adv_id)->get();
+                    if (!$creative) {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                    }
+                }
+                return view('bulk.ajaxTask')
+                    ->with('taskAjax', 'showCreativeList')
+                    ->with('creative_obj', $creative);
+            }
+            return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
+        }
+    }
+
+    public function getTargetgroupList($cmp_id)
+    {
+        if (Auth::check()) {
+            if (in_array('VIEW_TARGETGROUP', $this->permission)) {
+                if (User::isSuperAdmin()) {
+                    $targetgroup= Targetgroup::where('campaign_id',$cmp_id)->get();
+                } else {
+                    $usr_company = $this->user_company();
+                    $targetgroup= Targetgroup::whereHas('getCampaign' ,function ($p) use ($usr_company) {
+                        $p->whereHas('getAdvertiser' , function ($q) use ($usr_company) {
+                            $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        });
+                    })->where('campaign_id',$cmp_id)->get();
+                    if (!$targetgroup) {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                    }
+                }
+                return view('bulk.ajaxTask')
+                    ->with('taskAjax', 'showTargetgroupList')
+                    ->with('targetgroup_obj', $targetgroup);
+            }
+            return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
+        }
+    }
+
+    public function getAdvertiserSelect($cln_id)
+    {
+        if (Auth::check()) {
+            if (in_array('VIEW_ADVERTISER', $this->permission)) {
+                if (User::isSuperAdmin()) {
+                    $next_child = Advertiser::where('client_id', $cln_id)->get();
+                } else {
+                    $usr_company = $this->user_company();
+                    $next_child= Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
+                        $p->whereIn('user_id', $usr_company);
+                    })->where('client_id', $cln_id)->get();
+                    if (!$next_child) {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                    }
+                }
+                return view('bulk.ajaxTask')
+                    ->with('taskAjax', 'showAdvertiserSelect')
+                    ->with('next_child', $next_child);
+            }
+            return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
+        }
+    }
+
+    public function getCampaignSelect($adv_id)
+    {
+        if (Auth::check()) {
+            if (in_array('VIEW_CAMPAIGN', $this->permission)) {
+                if (User::isSuperAdmin()) {
+                    $next_child = Campaign::where('advertiser_id', $adv_id)->get();
+                } else {
+                    $usr_company = $this->user_company();
+                    $next_child= Campaign::whereHas('GetClientID', function ($p) use ($usr_company) {
+                        $p->whereIn('user_id', $usr_company);
+                    })->where('advertiser_id', $adv_id)->get();
+                    if (!$next_child) {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                    }
+                }
+                return view('bulk.ajaxTask')
+                    ->with('taskAjax', 'showTargetgroupSelect')
+                    ->with('next_child', $next_child);
+            }
+            return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
+        }
+    }
+
     public function getAssign($cmp_id)
     {
         if (Auth::check()) {
@@ -126,44 +270,6 @@ class MangoController extends Controller
         }
     }
 
-    public function getTargetgroup()
-    {
-        if (Auth::check()) {
-            if (in_array('ADD_EDIT_TARGETGROUP', $this->permission)) {
-                $adver_obj='';
-                if (User::isSuperAdmin()) {
-                    $targetgroup = Targetgroup::with(['getCampaign' => function ($q) {
-                        $q->with(['getAdvertiser' => function ($p) {
-                            $p->with('GetClientID');
-                        }]);
-                    }])->get();
-                    $adver_obj = Advertiser::get();
-                } else {
-                    $usr_company = $this->user_company();
-                    $targetgroup = Targetgroup::whereHas('getCampaign', function ($p) use ($usr_company) {
-                        $p->whereHas('getAdvertiser', function ($q) use ($usr_company) {
-                            $q->whereHas('GetClientID', function ($p) use ($usr_company) {
-                                $p->whereIn('user_id', $usr_company);
-                            });
-                        });
-                    })->get();
-                    $adver_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
-                        $p->whereIn('user_id', $usr_company);
-                    })->get();
-                    if (!$targetgroup) {
-                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                    }
-                }
-                $iab_category_obj = Iab_Category::get();
-                return view('bulk.targetgroup')
-                    ->with('adver_obj', $adver_obj)
-                    ->with('iab_category_obj', $iab_category_obj)
-                    ->with('targetgroup_obj', $targetgroup);
-            }
-            return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
-        }
-    }
-
     public function campaign_bulk(Request $request)
     {
 //        return dd($request->all());
@@ -171,9 +277,10 @@ class MangoController extends Controller
             if (in_array('ADD_EDIT_CAMPAIGN', $this->permission)) {
                 $validate = \Validator::make($request->all(), ['name' => '']);
                 if ($validate->passes()) {
+                    $campaign_list=explode(',',$request->input('campaign_list'));
                     $audit = new AuditsController();
                     $audit_key = $audit->generateRandomString();
-                    foreach ($request->input('campaign') as $index) {
+                    foreach ($campaign_list as $index) {
                         $data = array();
                         $campaign_id = $index;
                         if (User::isSuperAdmin()) {
@@ -281,7 +388,8 @@ class MangoController extends Controller
                 if ($validate->passes()) {
                     $audit = new AuditsController();
                     $audit_key = $audit->generateRandomString();
-                    foreach ($request->input('creative') as $index) {
+                    $creative_list=explode(',',$request->input('creative_list'));
+                    foreach ($creative_list as $index) {
                         $data = array();
                         $creative_id = $index;
                         if (User::isSuperAdmin()) {

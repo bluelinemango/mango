@@ -156,7 +156,7 @@ class ClientController extends Controller
                             $client->name = $request->input('name');
                             $client->user_id = Auth::user()->id;
                             $client->save();
-                            $client_obj = Client::where('id', $client->id)->get();
+                            $client_obj = Client::find($client->id);
                             return json_encode($client_obj);
                         break;
                         case 'edit':

@@ -295,9 +295,9 @@ class BWListController extends Controller
                             }
                         }
                         if($flg==0) {
-                            $active='Active';
+                            $active='Inactive';
                             if($request->input('active')=='on'){
-                                $active='Inactive';
+                                $active='Active';
                             }
                             $key= new AuditsController();
                             $key=$key->generateRandomString();
@@ -402,7 +402,6 @@ class BWListController extends Controller
         return Redirect::to(url('user/login'));
     }
 
-
     public function ChangeStatus($id){
         if(Auth::check()){
             if (in_array('ADD_EDIT_BWLIST', $this->permission)) {
@@ -428,7 +427,7 @@ class BWListController extends Controller
                         array_push($data,'Inactive');
                         $entity->status='Inactive';
                         $msg='disable';
-                    }elseif($entity->status=='Disable'){
+                    }elseif($entity->status=='Inactive'){
                         array_push($data,'status');
                         array_push($data,$entity->status);
                         array_push($data,'Active');

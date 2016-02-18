@@ -138,16 +138,25 @@
                                 </fieldset>
                             </div>
                             <div class="well col-md-12">
-                                @foreach($campaign_obj as $index)
-                                    <div class="col-md-2">
-                                        <section>
-                                            <label class="checkbox">
-                                                <input type="checkbox" name="campaign[]" value="{{$index->id}}">
-                                                <i></i> {{$index->name}}
-                                            </label>
-                                        </section>
-                                    </div>
-                                @endforeach
+                                <div class="col-md-3">
+                                    <label class="label" for="">Select Client</label>
+                                     <select name="client_id">
+                                        <option value="all">All Client</option>
+                                        @foreach($client_obj as $index)
+                                            <option value="{{$index->id}}">{{$index->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="label" for="">Select Advertiser</label>
+                                    <select name="advertiser_id">
+                                        <option value="0">All Advertiser</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <input type="hidden" name="campaign_list" id="campaign_list">
+                            <div class="well col-md-12" id="showCapmaignList">
+                                <div id="campaign_grid"></div>
                             </div>
                             <footer>
                                 <div class="row">
@@ -171,3 +180,150 @@
     </div>
     <!-- END ROW -->
 </section>
+
+<script>
+    $("select[name='client_id']").change(function () {
+        $('input[name="campaign_list"]').val('');
+        $('#showCapmaignList').html('');
+        var ad_id = $(this).val();
+        if (ad_id != 'all') {
+            $.ajax({
+                url: "{{url('ajax/getAdvertiserSelect')}}" + '/' + ad_id
+            }).success(function (response) {
+                $('select[name="advertiser_id"]').html(response);
+            });
+        } else {
+            $('select[name="advertiser_id"]').html("");
+        }
+    });
+    $("select[name='advertiser_id']").change(function () {
+        $('input[name="campaign_list"]').val('');
+        $('#showCapmaignList').html('');
+        var ad_id = $(this).val();
+        if (ad_id != 'all') {
+            $.ajax({
+                url: "{{url('ajax/getCampaignList')}}" + '/' + ad_id
+            }).success(function (response) {
+                $('#showCapmaignList').html(response);
+
+            });
+        } else {
+            $('#showCapmaignList').html("");
+        }
+    });
+
+</script>
+<script>
+    var campaing_list=[];
+    $(function () {
+
+        var db = {
+
+            loadData: function (filter) {
+                return $.grep(this.campaign, function (campaign) {
+                    return (!filter.name || campaign.name.indexOf(filter.name) > -1)
+                            && (!filter.daily_max_imp || campaign.daily_max_imp.indexOf(filter.daily_max_imp) > -1)
+                            && (!filter.cpm || campaign.cpm.indexOf(filter.cpm) > -1)
+                            && (!filter.id || campaign.id.indexOf(filter.id) > -1)
+                            && (!filter.daily_max_budget || campaign.daily_max_budget.indexOf(filter.daily_max_budget) > -1);
+                });
+            },
+
+            updateItem: function (updatingCampaign) {
+                updatingCampaign['oper'] = 'edit';
+                console.log(updatingCampaign);
+                $.ajax({
+                    type: "PUT",
+                    url: "{{url('/ajax/jqgrid/campaign')}}",
+                    data: updatingCampaign,
+                    dataType: "json"
+                }).done(function (response) {
+                    console.log(response);
+                    if(response.success==true){
+                        var title= "Success";
+                        var color="#739E73";
+                        var icon="fa fa-check";
+                    }else if(response.success==false) {
+                        var title= "Warning";
+                        var color="#C46A69";
+                        var icon="fa fa-bell";
+                    };
+
+                    $.smallBox({
+                        title: title,
+                        content: response.msg,
+                        color: color,
+                        icon: icon,
+                        timeout: 8000
+                    });
+                });
+            }
+
+        };
+
+        window.db = db;
+
+        db.campaign = [
+            @foreach($campaign_obj as $index)
+            {
+                "id": '{{$index->id}}',
+                "name": '{{$index->name}}',
+                "daily_max_imp":'{{$index->daily_max_impression}}',
+                "cpm":'{{$index->cpm}}',
+                "daily_max_budget":'{{$index->daily_max_budget}}',
+                @if($index->status == 'Active')
+                "status": '<span class="label label-success">Active</span>',
+                @elseif($index->status == 'Inactive')
+                "status": '<span class="label label-danger">Inactive</span> ',
+                @endif
+                "date_modify": '{{$index->updated_at}}'
+
+            },
+            @endforeach
+        ];
+
+        $("#campaign_grid").jsGrid({
+            width: "100%",
+
+            filtering: true,
+            editing: false,
+            sorting: true,
+            paging: true,
+            autoload: true,
+
+            pageSize: 15,
+            pageButtonCount: 5,
+
+            deleteConfirm: "Do you really want to delete the client?",
+
+            controller: db,
+            fields: [
+                {
+                    headerTemplate: function() {
+                        return 'Check';
+                    },
+                    itemTemplate: function(_, item) {
+                        return $("<input>").attr("type", "checkbox")
+                                .on("change", function () {
+                                    console.log(item.id);
+                                    $(this).is(":checked") ? campaing_list.push(item.id) : campaing_list.splice(item.id, 1);
+                                    $('#campaign_list').val(campaing_list);
+                                });
+                    },
+                    align: "center",
+                    width: 50
+                },
+                {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
+                {name: "name", title: "Name", type: "text", width: 70},
+                {name: "daily_max_imp", title: "Daily Imps", type: "text", width: 70, align: "center"},
+                {name: "cpm", title: "CPM", type: "text", width: 60, align: "center"},
+                {name: "daily_max_budget", title: "Daily Budget", type: "text", width: 80, align: "center"},
+                {name: "status", title: "Status", width: 50, align: "center"},
+                {name: "date_modify", title: "Last Modified", width: 70, align: "center"}
+            ]
+
+        });
+
+    });
+
+</script>

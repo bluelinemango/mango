@@ -14,6 +14,30 @@
                         <form id="order-form" class="smart-form" action="{{URL::route('campaign_bulk_update')}}"
                               method="post" novalidate="novalidate">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <div class="well col-md-12">
+                                <div class="col-md-3">
+                                    <label class="label" for="">Select Client</label>
+                                    <select name="client_id">
+                                        <option value="all">All Client</option>
+                                        @foreach($client_obj as $index)
+                                            <option value="{{$index->id}}">{{$index->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="label" for="">Select Advertiser</label>
+                                    <select name="advertiser_id">
+                                        <option value="all">All Advertiser</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="label" for="">Select Campaign</label>
+                                    <select name="campaign_id">
+                                        <option value="all">All Campaign</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <header>
                                 General Information
                             </header>
@@ -193,20 +217,7 @@
                                 </fieldset>
                             </div>
                             <header>
-                                <span class="pull-left  margin-right-5">Manage Assign</span>
-                                <div class="pull-left  margin-right-5">
-                                <select name="advertiser_id" id="advertiser_change">
-                                    <option value="0">Select Advertiser</option>
-                                    @foreach($adver_obj as $index)
-                                    <option value="{{$index->id}}">{{$index->name}}</option>
-                                    @endforeach
-                                </select>
-                                </div>
-                                <div class="pull-left margin-right-5">
-                                <select name="campaign_id" id="show_campaignList">
-                                    <option value="0">Select Advertiser First</option>
-                                </select>
-                                </div>
+                                Manage Assign
                             </header>
                             <div class="well col-md-12" id="show_assign">
                             </div>
@@ -299,17 +310,10 @@
                                 </div>
 
                             </div>
-                            <div class="well col-md-12">
-                                @foreach($targetgroup_obj as $index)
-                                    <div class="col-md-2">
-                                        <section>
-                                            <label class="checkbox">
-                                                <input type="checkbox" name="targetgroup[]" value="{{$index->id}}">
-                                                <i></i> {{$index->name}}
-                                            </label>
-                                        </section>
-                                    </div>
-                                @endforeach
+                            <input type="hidden" name="tg_list" id="tg_list">
+                            <div class="well col-md-12" id="showTargetgroupList">
+                                <div id="targetgroup_grid"></div>
+
                             </div>
                             <footer>
                                 <div class="row">
@@ -333,3 +337,156 @@
     </div>
     <!-- END ROW -->
 </section>
+<script>
+    var tg_list=[];
+    $(function () {
+
+        var db = {
+
+            loadData: function (filter) {
+                return $.grep(this.targetgroup, function (targetgroup) {
+                    return (!filter.name || targetgroup.name.indexOf(filter.name) > -1)
+                            && (!filter.campaign_name || targetgroup.campaign_name.indexOf(filter.campaign_name) > -1)
+                            && (!filter.id || targetgroup.id.indexOf(filter.id) > -1);
+                });
+            },
+
+            updateItem: function (updatingTargetgroup) {
+                updatingTargetgroup['oper'] = 'edit';
+                console.log(updatingTargetgroup);
+                $.ajax({
+                    type: "PUT",
+                    url: "{{url('/ajax/jqgrid/targetgroup')}}",
+                    data: updatingTargetgroup,
+                    dataType: "json"
+                }).done(function (response) {
+                    console.log(response);
+                    if(response.success==true){
+                        var title= "Success";
+                        var color="#739E73";
+                        var icon="fa fa-check";
+                    }else if(response.success==false) {
+                        var title= "Warning";
+                        var color="#C46A69";
+                        var icon="fa fa-bell";
+                    };
+
+                    $.smallBox({
+                        title: title,
+                        content: response.msg,
+                        color: color,
+                        icon: icon,
+                        timeout: 8000
+                    });
+                });
+            }
+
+        };
+
+        window.db = db;
+
+        db.targetgroup = [
+            @foreach($targetgroup_obj as $index)
+            {
+                "id": '{{$index->id}}',
+                "name": '{{$index->name}}',
+                "campaign_name":'<a href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/edit')}}">{{$index->getCampaign->name}}</a>',
+                @if($index->status == 'Active')
+                "status": '<span class="label label-success">Active</span>',
+                @elseif($index->status == 'Inactive')
+                "status": '<span class="label label-danger">Inactive</span> ',
+                @endif
+                "date_modify": '{{$index->updated_at}}'
+
+            },
+            @endforeach
+        ];
+
+        $("#targetgroup_grid").jsGrid({
+            width: "100%",
+
+            filtering: true,
+            editing: false,
+            sorting: true,
+            paging: true,
+            autoload: true,
+
+            pageSize: 15,
+            pageButtonCount: 5,
+
+            deleteConfirm: "Do you really want to delete the client?",
+
+            controller: db,
+            fields: [
+                {
+                    headerTemplate: function() {
+                        return 'Check';
+                    },
+                    itemTemplate: function(_, item) {
+                        return $("<input>").attr("type", "checkbox")
+                                .on("change", function () {
+                                    console.log(item.id);
+                                    $(this).is(":checked") ? tg_list.push(item.id) : tg_list.splice(item.id, 1);
+                                    $('#tg_list').val(tg_list);
+                                });
+                    },
+                    align: "center",
+                    width: 50
+                },
+                {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
+                {name: "name", title: "Name", type: "text", width: 70},
+                {name: "campaign_name", title: "Campaign", type: "text", width: 70, align: "center",editing:false},
+                {name: "status", title: "Status", width: 50, align: "center"},
+                {name: "date_modify", title: "Last Modified", width: 70, align: "center"}
+            ]
+
+        });
+
+    });
+
+    $("select[name='client_id']").change(function () {
+        $('input[name="targetgroup_list"]').val('');
+        $('#showTargetgroupList').html('');
+        var ad_id = $(this).val();
+        if (ad_id != 'all') {
+            $.ajax({
+                url: "{{url('ajax/getAdvertiserSelect')}}" + '/' + ad_id
+            }).success(function (response) {
+                $('select[name="advertiser_id"]').html(response);
+            });
+        } else {
+            $('select[name="advertiser_id"]').html("");
+        }
+    });
+    $("select[name='advertiser_id']").change(function () {
+        $('input[name="targetgroup_list"]').val('');
+        $('#showTargetgroupList').html('');
+        var ad_id = $(this).val();
+        if (ad_id != 'all') {
+            $.ajax({
+                url: "{{url('ajax/getCampaignSelect')}}" + '/' + ad_id
+            }).success(function (response) {
+                $('select[name="campaign_id"]').html(response);
+
+            });
+        } else {
+            $('select[name="campaign_id"]').html("");
+        }
+    });
+    $("select[name='campaign_id']").change(function () {
+        $('input[name="targetgroup_list"]').val('');
+        $('#showTargetgroupList').html('');
+        var ad_id = $(this).val();
+        if (ad_id != 'all') {
+            $.ajax({
+                url: "{{url('ajax/getTargetgroupList')}}" + '/' + ad_id
+            }).success(function (response) {
+                $('#showTargetgroupList').html(response);
+
+            });
+        } else {
+            $('#showTargetgroupList').html("");
+        }
+    });
+
+</script>

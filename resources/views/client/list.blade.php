@@ -243,8 +243,7 @@
                             var title= "Warning";
                             var color="#C46A69";
                             var icon="fa fa-bell";
-                        };
-
+                        }
                         $.smallBox({
                             title: title,
                             content: response.msg,
@@ -391,136 +390,136 @@
             });
 
             {{--var jqgrid_data = [--}}
-                {{--@foreach($clients as $index)--}}
-                {{--{--}}
-                    {{--id : '{{$index->id}}',--}}
-                    {{--name : '{{$index->name}}',--}}
-                    {{--@if(count($index->getAdvertiser)>0)--}}
-                    {{--advertiser: '{{$index->getAdvertiser[0]->client_count}}',--}}
-                    {{--@else--}}
-                    {{--advertiser: '0',--}}
-                    {{--@endif--}}
-                    {{--@if(in_array('ADD_EDIT_ADVERTISER',$permission))--}}
-                    {{--add_advertiser: '<a class="btn bg-color-magenta txt-color-white" href="{{url('client/cl'.$index->id.'/advertiser/add')}}">Add Advertiser </a>',--}}
-                    {{--@endif--}}
-                    {{--date_modify : '{{$index->updated_at}}',--}}
-                    {{--action: '<a class="btn btn-info" href="{{url('/client/cl'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>'--}}
+            {{--@foreach($clients as $index)--}}
+            {{--{--}}
+            {{--id : '{{$index->id}}',--}}
+            {{--name : '{{$index->name}}',--}}
+            {{--@if(count($index->getAdvertiser)>0)--}}
+            {{--advertiser: '{{$index->getAdvertiser[0]->client_count}}',--}}
+            {{--@else--}}
+            {{--advertiser: '0',--}}
+            {{--@endif--}}
+            {{--@if(in_array('ADD_EDIT_ADVERTISER',$permission))--}}
+            {{--add_advertiser: '<a class="btn bg-color-magenta txt-color-white" href="{{url('client/cl'.$index->id.'/advertiser/add')}}">Add Advertiser </a>',--}}
+            {{--@endif--}}
+            {{--date_modify : '{{$index->updated_at}}',--}}
+            {{--action: '<a class="btn btn-info" href="{{url('/client/cl'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>'--}}
 
-                {{--},--}}
-                {{--@endforeach--}}
+            {{--},--}}
+            {{--@endforeach--}}
             {{--];--}}
 
             {{--jQuery("#jqgrid").jqGrid({--}}
-                {{--data : jqgrid_data,--}}
-                {{--datatype : "local",--}}
-                {{--height : 'auto',--}}
-                {{--colNames : ['Actions', 'ID', 'Name','# of Advertiser',@if(in_array('ADD_EDIT_ADVERTISER',$permission))'Add Advertiser',@endif 'Modify Date','Action'],--}}
-                {{--colModel : [{--}}
-                    {{--name : 'act',--}}
-                    {{--index : 'act',--}}
-                    {{--width :'100%',--}}
-                    {{--sortable : false--}}
-                {{--}, {--}}
-                    {{--name : 'id',--}}
-                    {{--index : 'id',--}}
-                    {{--width :'30%'--}}
-                {{--}, {--}}
-                    {{--name : 'name',--}}
-                    {{--index : 'name',--}}
-                    {{--width :'99%',--}}
-                    {{--editable : true--}}
-                {{--}, {--}}
-                    {{--name : 'advertiser',--}}
-                    {{--index : 'advertiser',--}}
-                    {{--width :'100%',--}}
-                    {{--editable : false--}}
-                {{--}@if(in_array('ADD_EDIT_ADVERTISER',$permission)), {--}}
-                    {{--name : 'add_advertiser',--}}
-                    {{--index : 'add_advertiser',--}}
-                    {{--width :'100%',--}}
-                    {{--editable : false--}}
-                {{--}@endif, {--}}
-                    {{--name : 'date_modify',--}}
-                    {{--index : 'date_modify',--}}
-                    {{--width :'100%',--}}
-                    {{--editable : false--}}
-                {{--}, {--}}
-                    {{--name : 'action',--}}
-                    {{--index : 'action',--}}
-                    {{--width :'50%',--}}
-                    {{--editable : false--}}
-                {{--}],--}}
-                {{--rowNum : 10,--}}
-                {{--rowList : [10, 20, 30],--}}
-                {{--pager : '#pjqgrid',--}}
-                {{--sortname : 'advertiser',--}}
-                {{--ajaxRowOptions: { async: true },--}}
-                {{--toolbarfilter : true,--}}
-                {{--viewrecords : true,--}}
-                {{--sortorder : "desc",--}}
-                {{--gridComplete : function() {--}}
-                    {{--var ids = jQuery("#jqgrid").jqGrid('getDataIDs');--}}
-                    {{--for (var i = 0; i < ids.length; i++) {--}}
-                        {{--var cl = ids[i];--}}
-                        {{--be = "<button class='btn btn-xs btn-default' data-original-title='Edit Row' onclick=\"jQuery('#jqgrid').editRow('" + cl + "');\"><i class='fa fa-pencil'></i></button>";--}}
-                        {{--se = "<button class='btn btn-xs btn-default' data-original-title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('" + cl + "');\"><i class='fa fa-save'></i></button>";--}}
-                        {{--ca = "<button class='btn btn-xs btn-default' data-original-title='Cancel' onclick=\"jQuery('#jqgrid').restoreRow('" + cl + "');\"><i class='fa fa-times'></i></button>";--}}
-                        {{--jQuery("#jqgrid").jqGrid('setRowData', ids[i], {--}}
-                            {{--act : be + se + ca--}}
-                        {{--});--}}
-                    {{--}--}}
-                {{--},--}}
-                {{--editurl : "{{url('/ajax/jqgrid/client')}}",--}}
-                {{--caption : "Clients List",--}}
-                {{--multiselect : true,--}}
-                {{--autowidth : true--}}
+            {{--data : jqgrid_data,--}}
+            {{--datatype : "local",--}}
+            {{--height : 'auto',--}}
+            {{--colNames : ['Actions', 'ID', 'Name','# of Advertiser',@if(in_array('ADD_EDIT_ADVERTISER',$permission))'Add Advertiser',@endif 'Modify Date','Action'],--}}
+            {{--colModel : [{--}}
+            {{--name : 'act',--}}
+            {{--index : 'act',--}}
+            {{--width :'100%',--}}
+            {{--sortable : false--}}
+            {{--}, {--}}
+            {{--name : 'id',--}}
+            {{--index : 'id',--}}
+            {{--width :'30%'--}}
+            {{--}, {--}}
+            {{--name : 'name',--}}
+            {{--index : 'name',--}}
+            {{--width :'99%',--}}
+            {{--editable : true--}}
+            {{--}, {--}}
+            {{--name : 'advertiser',--}}
+            {{--index : 'advertiser',--}}
+            {{--width :'100%',--}}
+            {{--editable : false--}}
+            {{--}@if(in_array('ADD_EDIT_ADVERTISER',$permission)), {--}}
+            {{--name : 'add_advertiser',--}}
+            {{--index : 'add_advertiser',--}}
+            {{--width :'100%',--}}
+            {{--editable : false--}}
+            {{--}@endif, {--}}
+            {{--name : 'date_modify',--}}
+            {{--index : 'date_modify',--}}
+            {{--width :'100%',--}}
+            {{--editable : false--}}
+            {{--}, {--}}
+            {{--name : 'action',--}}
+            {{--index : 'action',--}}
+            {{--width :'50%',--}}
+            {{--editable : false--}}
+            {{--}],--}}
+            {{--rowNum : 10,--}}
+            {{--rowList : [10, 20, 30],--}}
+            {{--pager : '#pjqgrid',--}}
+            {{--sortname : 'advertiser',--}}
+            {{--ajaxRowOptions: { async: true },--}}
+            {{--toolbarfilter : true,--}}
+            {{--viewrecords : true,--}}
+            {{--sortorder : "desc",--}}
+            {{--gridComplete : function() {--}}
+            {{--var ids = jQuery("#jqgrid").jqGrid('getDataIDs');--}}
+            {{--for (var i = 0; i < ids.length; i++) {--}}
+            {{--var cl = ids[i];--}}
+            {{--be = "<button class='btn btn-xs btn-default' data-original-title='Edit Row' onclick=\"jQuery('#jqgrid').editRow('" + cl + "');\"><i class='fa fa-pencil'></i></button>";--}}
+            {{--se = "<button class='btn btn-xs btn-default' data-original-title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('" + cl + "');\"><i class='fa fa-save'></i></button>";--}}
+            {{--ca = "<button class='btn btn-xs btn-default' data-original-title='Cancel' onclick=\"jQuery('#jqgrid').restoreRow('" + cl + "');\"><i class='fa fa-times'></i></button>";--}}
+            {{--jQuery("#jqgrid").jqGrid('setRowData', ids[i], {--}}
+            {{--act : be + se + ca--}}
+            {{--});--}}
+            {{--}--}}
+            {{--},--}}
+            {{--editurl : "{{url('/ajax/jqgrid/client')}}",--}}
+            {{--caption : "Clients List",--}}
+            {{--multiselect : true,--}}
+            {{--autowidth : true--}}
 
             {{--});--}}
 
             {{--jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {--}}
-                {{--edit : false,--}}
-                {{--add : true,--}}
-                {{--del : true--}}
+            {{--edit : false,--}}
+            {{--add : true,--}}
+            {{--del : true--}}
             {{--},{--}}
-                {{--afterSubmit:function(response)--}}
-                {{--{--}}
-                {{--},--}}
-                {{--closeAfterAdd: true,--}}
-                {{--closeAfterEdit: true,--}}
-                {{--reloadAfterSubmit:true--}}
+            {{--afterSubmit:function(response)--}}
+            {{--{--}}
+            {{--},--}}
+            {{--closeAfterAdd: true,--}}
+            {{--closeAfterEdit: true,--}}
+            {{--reloadAfterSubmit:true--}}
             {{--},{--}}
-                {{--afterSubmit:function(response)--}}
-                {{--{--}}
-                    {{--var data = JSON.parse(response['responseText']);--}}
-                    {{--var id = data[0].id;--}}
-                    {{--var name=String(data[0].name);--}}
-                    {{--$("#jqgrid").addRowData(id,{ id: + id ,name:name ,add_advertiser:'<a href="client/cl' + id + '/advertiser/add">Add Advertiser </a>',date_modify:data[0].updated_at,advertiser:'0' }, 'first');--}}
-                    {{--$("#jqgrid").trigger("reloadGrid");--}}
-                {{--},--}}
-                {{--closeAfterAdd: true,--}}
-                {{--closeAfterEdit: true,--}}
-                {{--reloadAfterSubmit:true--}}
+            {{--afterSubmit:function(response)--}}
+            {{--{--}}
+            {{--var data = JSON.parse(response['responseText']);--}}
+            {{--var id = data[0].id;--}}
+            {{--var name=String(data[0].name);--}}
+            {{--$("#jqgrid").addRowData(id,{ id: + id ,name:name ,add_advertiser:'<a href="client/cl' + id + '/advertiser/add">Add Advertiser </a>',date_modify:data[0].updated_at,advertiser:'0' }, 'first');--}}
+            {{--$("#jqgrid").trigger("reloadGrid");--}}
+            {{--},--}}
+            {{--closeAfterAdd: true,--}}
+            {{--closeAfterEdit: true,--}}
+            {{--reloadAfterSubmit:true--}}
             {{--},{--}}
-                {{--closeAfterAdd: true,--}}
-                {{--closeAfterEdit: true,--}}
-                {{--reloadAfterSubmit:true--}}
+            {{--closeAfterAdd: true,--}}
+            {{--closeAfterEdit: true,--}}
+            {{--reloadAfterSubmit:true--}}
             {{--});--}}
             {{--jQuery("#jqgrid").jqGrid('inlineNav', "#pjqgrid");--}}
             {{--$('.navtable .ui-pg-button').tooltip({--}}
-                {{--container : 'body'--}}
+            {{--container : 'body'--}}
             {{--});--}}
 
             {{--jQuery("#m1").click(function() {--}}
-                {{--var s;--}}
-                {{--s = jQuery("#jqgrid").jqGrid('getGridParam', 'selarrrow');--}}
-                {{--alert(s);--}}
+            {{--var s;--}}
+            {{--s = jQuery("#jqgrid").jqGrid('getGridParam', 'selarrrow');--}}
+            {{--alert(s);--}}
             {{--});--}}
             {{--jQuery("#m1s").click(function() {--}}
-                {{--jQuery("#jqgrid").jqGrid('setSelection', "13");--}}
+            {{--jQuery("#jqgrid").jqGrid('setSelection', "13");--}}
             {{--});--}}
 
-        {{--})--}}
-
+            {{--})--}}
+        });
     </script>
 
 @endsection

@@ -139,6 +139,16 @@ Route::put('/bwlist/edit/update', ['uses'=>'BWListController@edit_bwlist','as'=>
 Route::post('/bwlist/upload', ['uses'=>'BWListController@UploadBwlist','as'=>'bwlist_upload']);
 /////////////////////////END BWLIST///////////////////////////////////////////
 
+
+/////////////////////////Bid Profile///////////////////////////////////////////
+Route::get('/bid-profile','BidProfileController@GetView');
+Route::get('/client/cl{clid?}/advertiser/adv{advid?}/bid-profile/add','BidProfileController@BidProfileAddView');
+Route::get('/client/cl{clid?}/advertiser/adv{advid?}/bid-profile/bpf{bpfid?}/edit','BidProfileController@BidProfileEditView');
+Route::post('/bid-profile/add/create', ['uses'=>'BidProfileController@add_bidProfile','as'=>'bidProfile_create']);
+Route::put('/bid-profile/edit/update', ['uses'=>'BidProfileController@edit_bidProfile','as'=>'bidProfile_update']);
+Route::post('/bid-profile/upload', ['uses'=>'BidProfileController@UploadBidProfile','as'=>'bidProfile_upload']);
+/////////////////////////END Bid Profile///////////////////////////////////////////
+
 /////////////////////////MODELS///////////////////////////////////////////
 Route::get('/model','ModelController@GetView');
 Route::get('/client/cl{clid?}/advertiser/adv{advid?}/model/add','ModelController@ModelAddView');
@@ -163,6 +173,10 @@ Route::group(['prefix' => 'ajax'], function()
     ////////////////////BULK EDITING////////////////////////
     Route::get('/getCampaign', 'MangoController@getCampaign');
     Route::get('/getCampaignList/{adv_id?}', 'MangoController@getCampaignList');
+    Route::get('/getCreativeList/{adv_id?}', 'MangoController@getCreativeList');
+    Route::get('/getTargetgroupList/{cmp_id?}', 'MangoController@getTargetgroupList');
+    Route::get('/getAdvertiserSelect/{cln_id?}', 'MangoController@getAdvertiserSelect');
+    Route::get('/getCampaignSelect/{adv_id?}', 'MangoController@getCampaignSelect');
     Route::get('/getAssignList/{cmp_id?}', 'MangoController@getAssign');
     Route::post('/bulk_campaign', ['uses'=>'MangoController@campaign_bulk','as'=>'campaign_bulk_update']);
     Route::post('/bulk_creative', ['uses'=>'MangoController@creative_bulk','as'=>'creative_bulk_update']);
@@ -182,6 +196,8 @@ Route::group(['prefix' => 'ajax'], function()
         Route::put('/targetgroup', 'TargetgroupController@jqgrid');
         Route::put('/model', 'ModelController@jqgrid');
         Route::put('/bwlist', 'BWListController@jqgridList');
+        Route::put('/bid-profile', 'BidProfileController@jqgridList');
+        Route::put('/bid-profile-entry', 'BidProfileController@jqgrid');
         Route::put('/geolist', 'GeoSegmentController@jqgridList');
     });
     Route::group(['prefix' => 'status'], function() {
@@ -190,6 +206,7 @@ Route::group(['prefix' => 'ajax'], function()
         Route::get('/creative/{id?}', 'CreativeController@ChangeStatus');
         Route::get('/geosegment/{id?}', 'GeoSegmentController@ChangeStatus');
         Route::get('/bwlist/{id?}', 'BWListController@ChangeStatus');
+        Route::get('/bid_profile/{id?}', 'BidProfileController@ChangeStatus');
         Route::get('/targetgroup/{id?}', 'TargetgroupController@ChangeStatus');
         Route::get('/offer/{id?}', 'OfferController@ChangeStatus');
         Route::get('/pixel/{id?}', 'PixelController@ChangeStatus');

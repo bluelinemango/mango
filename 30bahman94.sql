@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 16, 2016 at 05:39 PM
+-- Generation Time: Feb 18, 2016 at 11:05 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `advertiser` (
 
 INSERT INTO `advertiser` (`id`, `name`, `description`, `status`, `client_id`, `domain_name`, `created_at`, `updated_at`) VALUES
 (2, 'Active', 'adv_descript_21', 'Inactive', 4, 'asdasd.com', '0000-00-00 00:00:00', '2016-02-10 12:51:34'),
-(4, 'adv_1111', 'adv_descript_1', 'Inactive', 4, 'aaaa', '0000-00-00 00:00:00', '2016-01-31 12:31:44'),
+(4, 'adv4', 'adv_descript_1', 'Inactive', 4, 'aaaa', '0000-00-00 00:00:00', '2016-01-31 12:31:44'),
 (6, 'test1', 'aaaaa', 'Inactive', 1, '', '2015-11-07 12:58:57', '2016-02-01 11:27:49'),
 (8, 'adv change', '', 'Inactive', 3, 'ddd.com', '2015-11-17 09:26:12', '2016-02-13 12:53:59'),
 (9, 'asdasdas', '', 'Active', 2, 'adadas', '2015-11-17 12:37:45', '2016-01-26 13:11:59'),
@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `audits` (
   `date_change` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `audits`
@@ -214,7 +214,76 @@ INSERT INTO `audits` (`id`, `user_id`, `entity_type`, `entity_id`, `audit_type`,
 (135, 1, 'user', 1, 'edit', 'Name', 'Inactive', 'alireza', '$2y$10$BHNRYVxdaHZ7OKWRGxVqKOmFAqivmmN3pMOIGz4gOwSDNNnpoer2u', '2016-02-16 11:24:57', '2016-02-16 11:24:57', '2016-02-16 11:24:57'),
 (136, 1, 'user', 1, 'edit', 'Status', 'Active', 'Inactive', '$2y$10$BHNRYVxdaHZ7OKWRGxVqKOmFAqivmmN3pMOIGz4gOwSDNNnpoer2u', '2016-02-16 11:24:57', '2016-02-16 11:24:57', '2016-02-16 11:24:57'),
 (137, 1, 'advertiser', 2, 'edit', 'status', 'Active', 'Inactive', '$2y$10$yzVzqOuJ36VZIXgpAHvbd.ygAiMeZ1NQ5mNEbjF8wtyz228qjg8Zq', '2016-02-16 11:30:29', '2016-02-16 11:30:29', '2016-02-16 11:30:29'),
-(138, 1, 'advertiser', 3, 'edit', 'status', 'Active', 'Inactive', '$2y$10$.ekXi2zRoZt7WpmFoa5o5eM8qlitb.FcPn4DwESVSJ8MyFx8N6gda', '2016-02-16 11:30:41', '2016-02-16 11:30:41', '2016-02-16 11:30:41');
+(138, 1, 'advertiser', 3, 'edit', 'status', 'Active', 'Inactive', '$2y$10$.ekXi2zRoZt7WpmFoa5o5eM8qlitb.FcPn4DwESVSJ8MyFx8N6gda', '2016-02-16 11:30:41', '2016-02-16 11:30:41', '2016-02-16 11:30:41'),
+(155, 1, 'campaign', 3, 'bulk_edit', 'Name', '', 'aaas', '$2y$10$GQlwYtfQSkcAzoMz6Fn4aeqiRh3z3.pb5b.xVr8SHJZiddC5gGQpW', '2016-02-17 09:38:50', '2016-02-17 09:38:50', '2016-02-17 09:38:50'),
+(156, 1, 'campaign', 3, 'bulk_edit', 'Domain Name', '', 'asd.com', '$2y$10$GQlwYtfQSkcAzoMz6Fn4aeqiRh3z3.pb5b.xVr8SHJZiddC5gGQpW', '2016-02-17 09:38:50', '2016-02-17 09:38:50', '2016-02-17 09:38:50'),
+(157, 1, 'campaign', 4, 'bulk_edit', 'Name', '', 'aaas', '$2y$10$GQlwYtfQSkcAzoMz6Fn4aeqiRh3z3.pb5b.xVr8SHJZiddC5gGQpW', '2016-02-17 09:38:50', '2016-02-17 09:38:50', '2016-02-17 09:38:50'),
+(158, 1, 'campaign', 4, 'bulk_edit', 'Domain Name', '', 'asd.com', '$2y$10$GQlwYtfQSkcAzoMz6Fn4aeqiRh3z3.pb5b.xVr8SHJZiddC5gGQpW', '2016-02-17 09:38:50', '2016-02-17 09:38:50', '2016-02-17 09:38:50'),
+(159, 1, 'campaign', 5, 'bulk_edit', 'Name', '', 'aaas', '$2y$10$GQlwYtfQSkcAzoMz6Fn4aeqiRh3z3.pb5b.xVr8SHJZiddC5gGQpW', '2016-02-17 09:38:50', '2016-02-17 09:38:50', '2016-02-17 09:38:50'),
+(160, 1, 'campaign', 5, 'bulk_edit', 'Domain Name', '', 'asd.com', '$2y$10$GQlwYtfQSkcAzoMz6Fn4aeqiRh3z3.pb5b.xVr8SHJZiddC5gGQpW', '2016-02-17 09:38:50', '2016-02-17 09:38:50', '2016-02-17 09:38:50'),
+(161, 1, 'creative', 2, 'bulk_edit', 'Name', '', 'asd', '$2y$10$YbeB/Jwac909wzABzbRT7uNtQmyQ1nHKkAey3xbEPEWl7gPRVS8v6', '2016-02-17 10:15:18', '2016-02-17 10:15:18', '2016-02-17 10:15:18'),
+(162, 1, 'creative', 2, 'bulk_edit', 'AD Tag', '', 'asdd', '$2y$10$YbeB/Jwac909wzABzbRT7uNtQmyQ1nHKkAey3xbEPEWl7gPRVS8v6', '2016-02-17 10:15:18', '2016-02-17 10:15:18', '2016-02-17 10:15:18'),
+(163, 1, 'creative', 5, 'bulk_edit', 'Name', '', 'asd', '$2y$10$YbeB/Jwac909wzABzbRT7uNtQmyQ1nHKkAey3xbEPEWl7gPRVS8v6', '2016-02-17 10:15:18', '2016-02-17 10:15:18', '2016-02-17 10:15:18'),
+(164, 1, 'creative', 5, 'bulk_edit', 'AD Tag', '', 'asdd', '$2y$10$YbeB/Jwac909wzABzbRT7uNtQmyQ1nHKkAey3xbEPEWl7gPRVS8v6', '2016-02-17 10:15:18', '2016-02-17 10:15:18', '2016-02-17 10:15:18'),
+(165, 1, 'bid_profile', 2, 'add', '', '', '', '$2y$10$QXoYRlYt58EJ3TkwekEAr.UzhA04fW8yl9DS8kOsOadkG3dfXIEri', '2016-02-18 09:29:56', '2016-02-18 09:29:56', '2016-02-18 09:29:56'),
+(166, 1, 'bid_profile', 3, 'add', '', '', '', '$2y$10$E540ycMqUMQr7SUbJ5s0feNqaTpxU7cno6yee7sfb7lCyTtA7h39m', '2016-02-18 09:35:31', '2016-02-18 09:35:31', '2016-02-18 09:35:31'),
+(169, 1, 'bid_profile', 2, 'edit', 'Name', 'sdaasd', 'sdaasd1', '$2y$10$NqAOzMU3Nz3eOodSQe00E.Jm56oB8mVDWiEjESiAHA.Y0BCQa.3JC', '2016-02-18 09:42:18', '2016-02-18 09:42:18', '2016-02-18 09:42:18'),
+(170, 1, 'bid_profile', 1, 'edit', 'status', 'Active', 'Inactive', '$2y$10$WuAY1GZge0OP4cmfrCOYAeaAl64QqdQ7mx2Y6AHImFSYJVub9YBae', '2016-02-18 10:08:17', '2016-02-18 10:08:17', '2016-02-18 10:08:17'),
+(171, 1, 'bid_profile', 1, 'edit', 'status', 'Inactive', 'Active', '$2y$10$EL7SFeVm.PYYif62fyb62OQgYsaf4KsWB.8JQ.IYz802ShUGhIOrq', '2016-02-18 10:09:18', '2016-02-18 10:09:18', '2016-02-18 10:09:18'),
+(181, 1, 'bid_profile_entry', 3, 'add', '', '', '1', '$2y$10$sP/TmCAfaXd93bWnARR3uOj9hA/0NsZsmE9RzIiQmuPzZgY2EEev.', '2016-02-18 18:16:57', '2016-02-18 18:16:57', '2016-02-18 18:16:57'),
+(182, 1, 'bid_profile_entry', 0, 'edit', 'Bid Strategy', 'Percentage', 'NaN', '$2y$10$vgEcpHOFk138AhZcB8etHeM0LllUwXarr131jlgrS0jpUktRvVD5q', '2016-02-18 18:22:01', '2016-02-18 18:22:01', '2016-02-18 18:22:01'),
+(183, 1, 'bid_profile_entry', 0, 'edit', 'Bid Strategy', 'NaN', '1', '$2y$10$7WfxddZSPtF2b98/mEHCbux.fLpLvCylZURD9Y2U9.9s8z1gnybMy', '2016-02-18 18:27:51', '2016-02-18 18:27:52', '2016-02-18 18:27:52'),
+(184, 1, 'bid_profile_entry', 0, 'edit', 'Bid Strategy', '1', 'Percentage', '$2y$10$CfH6DUUE1ZAAshYW7htpbOUY8eU.kJdRJ6U.kmlPSNahq9nN1qydG', '2016-02-18 18:32:13', '2016-02-18 18:32:13', '2016-02-18 18:32:13'),
+(185, 1, 'bid_profile_entry', 0, 'edit', 'Bid Strategy', 'Percentage', 'Absolute', '$2y$10$7XmF7M3PkG6vQ3qH57u04OcF50726RUgjq249x9Dl0Ykh1lyKpHze', '2016-02-18 18:35:04', '2016-02-18 18:35:04', '2016-02-18 18:35:04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bid_profile`
+--
+
+CREATE TABLE IF NOT EXISTS `bid_profile` (
+  `id` int(10) unsigned NOT NULL,
+  `name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `advertiser_id` int(10) unsigned NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `bid_profile`
+--
+
+INSERT INTO `bid_profile` (`id`, `name`, `advertiser_id`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'test 1 from sql', 4, 'Active', '0000-00-00 00:00:00', '2016-02-18 10:09:18'),
+(2, 'sdaasd1', 2, 'Active', '2016-02-18 09:29:56', '2016-02-18 09:42:18'),
+(3, 'ewrtwerwe', 2, 'Inactive', '2016-02-18 09:35:31', '2016-02-18 09:35:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bid_profile_entry`
+--
+
+CREATE TABLE IF NOT EXISTS `bid_profile_entry` (
+  `id` int(10) unsigned NOT NULL,
+  `domain` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `bid_strategy` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `bid_value` decimal(8,2) NOT NULL,
+  `status` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `bid_profile_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `bid_profile_entry`
+--
+
+INSERT INTO `bid_profile_entry` (`id`, `domain`, `bid_strategy`, `bid_value`, `status`, `bid_profile_id`, `created_at`, `updated_at`) VALUES
+(1, 'asdasd.com', 'Absolute', '5.00', '', 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(3, 'sdds.com', 'Absolute', '3.00', '', 1, '2016-02-18 18:16:57', '2016-02-18 18:35:04');
 
 -- --------------------------------------------------------
 
@@ -336,7 +405,7 @@ CREATE TABLE IF NOT EXISTS `bwlist` (
 INSERT INTO `bwlist` (`id`, `name`, `status`, `list_type`, `advertiser_id`, `created_at`, `updated_at`) VALUES
 (1, 'qweqwe', 'Inactive', 'black', 4, '2015-11-20 12:37:03', '2016-02-10 13:21:52'),
 (2, 'sdafasdf', 'Inactive', 'black', 4, '2015-11-20 12:38:15', '2016-02-13 12:15:37'),
-(3, 'sdafasdf', 'Inactive', 'white', 4, '2015-11-20 12:43:21', '2016-02-13 12:55:15'),
+(3, 'ewrtwerwe', 'Active', '', 4, '2015-11-20 12:43:21', '2016-02-18 09:36:46'),
 (5, 'aa', 'Inactive', 'black', 8, '2015-11-20 12:54:09', '2016-02-13 12:55:30'),
 (6, 'aa', 'Active', 'black', 8, '2015-11-20 12:54:17', '2015-11-20 12:54:17'),
 (7, 'aa', 'Active', 'white', 8, '2015-11-20 12:56:12', '2015-11-20 12:56:12'),
@@ -380,9 +449,9 @@ CREATE TABLE IF NOT EXISTS `campaign` (
 --
 
 INSERT INTO `campaign` (`id`, `name`, `advertiser_id`, `description`, `status`, `max_impression`, `daily_max_impression`, `max_budget`, `daily_max_budget`, `cpm`, `advertiser_domain`, `start_date`, `end_date`, `advertiser_domain_name`, `created_at`, `updated_at`) VALUES
-(3, 'Inactive', 4, 'asdass', 'Active', 131231, 23421, 342311, 42341, 2341, '', '2016-02-17 13:11:21', '2016-02-18 13:11:21', '2341.com', '2015-10-14 11:38:02', '2016-02-10 13:11:21'),
-(4, 'asdasd', 4, 'asd asd a', 'Inactive', 2332, 2323, 2222, 2222, 222, '', '2016-01-06 08:14:25', '2016-01-14 08:14:25', '222', '2015-10-23 10:07:43', '2016-01-27 13:56:42'),
-(5, '111111112', 6, 'asdasd3', 'Active', 2223123, 2223123, 2223123, 223123, 22332, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'asdas1', '2015-11-07 13:02:52', '2016-02-16 11:24:05'),
+(3, 'camp3', 4, 'asdass', 'Active', 131231, 23421, 342311, 42341, 2341, '', '2016-02-17 13:11:21', '2016-02-18 13:11:21', 'asd.com', '2015-10-14 11:38:02', '2016-02-17 09:38:50'),
+(4, 'aaas', 4, 'asd asd a', 'Inactive', 2332, 2323, 2222, 2222, 222, '', '2016-01-06 08:14:25', '2016-01-14 08:14:25', 'asd.com', '2015-10-23 10:07:43', '2016-02-17 09:38:50'),
+(5, 'aaas', 6, 'asdasd3', 'Active', 2223123, 2223123, 2223123, 223123, 22332, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'asd.com', '2015-11-07 13:02:52', '2016-02-17 09:38:50'),
 (6, 'aaaaaaaa', 4, '', 'Active', 2147483647, 2147483647, 2234123, 2123, 2147483647, '', '2016-01-18 12:32:38', '2016-01-30 12:32:38', 'aaaaaaa', '2015-11-17 07:42:08', '2016-02-02 08:59:22'),
 (7, 'asd', 8, '', 'Active', 123, 123, 123, 123, 123, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '123', '2015-11-17 09:31:34', '2015-11-17 09:31:34'),
 (9, 'asd asd', 9, '', 'Active', 0, 0, 0, 0, 0, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'as das ', '2015-11-17 12:38:53', '2015-11-17 12:38:53'),
@@ -428,7 +497,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   `company` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `client`
@@ -438,16 +507,11 @@ INSERT INTO `client` (`id`, `user_id`, `name`, `company`, `created_at`, `updated
 (1, 1, 'pepsiasd12351', 'pepsi company', '0000-00-00 00:00:00', '2016-02-10 12:50:34'),
 (2, 1, 'cocacola', 'cocacola company', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (3, 7, 'alireza_pepsi', 'aaa', '2015-10-08 11:47:15', '2015-10-08 11:47:15'),
-(4, 3, 'ali1', 'ssss', '2015-10-08 11:50:08', '2016-02-02 08:57:38'),
+(4, 3, 'cln4', 'ssss', '2015-10-08 11:50:08', '2016-02-02 08:57:38'),
 (19, 8, 'client_bing', '', '2016-02-02 10:54:33', '2016-02-02 10:54:33'),
-(20, 1, 'asdasd', '', '2016-02-02 12:29:05', '2016-02-02 12:29:05'),
-(21, 1, 'sadasd1234', '', '2016-02-02 12:29:13', '2016-02-02 12:29:13'),
-(22, 1, 'asdasd34', '', '2016-02-02 12:29:17', '2016-02-02 12:29:17'),
-(23, 1, 'asdas', '', '2016-02-02 12:29:20', '2016-02-02 12:29:20'),
-(24, 1, 'fdsfsd', '', '2016-02-02 12:29:27', '2016-02-02 12:29:27'),
-(25, 1, 'erwrw', '', '2016-02-02 12:29:30', '2016-02-02 12:29:30'),
-(26, 1, 'asdasr', '', '2016-02-02 12:29:32', '2016-02-02 12:29:32'),
-(27, 10, 'clientTestAmir2016JanuaryTest', '', '2016-02-04 09:54:10', '2016-02-04 09:54:10');
+(27, 10, 'clientTestAmir2016JanuaryTest', '', '2016-02-04 09:54:10', '2016-02-04 09:54:10'),
+(47, 1, 'sadas', '', '2016-02-18 12:03:22', '2016-02-18 12:03:22'),
+(48, 1, 'sdas', '', '2016-02-18 12:07:31', '2016-02-18 12:07:31');
 
 -- --------------------------------------------------------
 
@@ -502,9 +566,9 @@ CREATE TABLE IF NOT EXISTS `creative` (
 --
 
 INSERT INTO `creative` (`id`, `name`, `advertiser_id`, `description`, `status`, `ad_tag`, `api`, `ad_type`, `landing_page_url`, `preview_url`, `size`, `is_secure`, `attributes`, `advertiser_domain_name`, `created_at`, `updated_at`) VALUES
-(2, 'aaa1sss31', 8, 'asdas', 'Active', '                                                                                                                                                                                                                                                                asd', '["MRAID-1","ORMMA"]', 'XHTML_BANNER_AD', 'ads11', 'adsa1', '231x2321', 0, 'asd1s', 'aaaa1s.com', '2015-11-17 10:07:22', '2016-02-15 13:19:16'),
-(5, 'as32423d1سیبسی', 4, '12311', 'Active', '2131324', '', '', '1231234', '1231234', '1231x231', 0, '1231234', '1231', '2015-10-23 06:15:09', '2016-02-06 11:10:53'),
-(7, 'creative 1 Bing', 12, 'as da', '', 'asdsad', '', '', 'sad asd', ' asd as asd', '23x23', 0, 'asdasd', 'bingCrt.com', '2016-02-02 12:03:42', '2016-02-02 12:03:42'),
+(2, 'sadasd', 8, 'asdas', 'Active', 'asdasd', '["MRAID-1","ORMMA"]', 'XHTML_BANNER_AD', 'dasda', 'adsa1', '231x2321', 0, 'asd1s', 'aaaa1s.com', '2015-11-17 10:07:22', '2016-02-18 17:12:23'),
+(5, 'sadasd', 4, '12311', 'Active', 'asdasd', '', '', 'dasda', '1231234', '1231x231', 0, '1231234', '1231', '2015-10-23 06:15:09', '2016-02-18 17:12:23'),
+(7, 'sadasd', 12, 'as da', '', 'asdasd', '', '', 'dasda', ' asd as asd', '23x23', 0, 'asdasd', 'bingCrt.com', '2016-02-02 12:03:42', '2016-02-18 17:12:23'),
 (8, 'crt 1 abc1', 13, '', 'Inactive', 'jdfg aksjgsjasjkasjasklj  f f f f', '', '', 'sdfas dfs1', 'dsfsd9', '2399x239', 0, 'zsdf9', 'crtab1.com', '2016-02-04 10:24:09', '2016-02-04 10:27:17');
 
 -- --------------------------------------------------------
@@ -849,7 +913,9 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 ('2016_02_08_143515_create-segment-table', 26),
 ('2016_02_08_143530_create-targetgroup_segment_map', 26),
 ('2016_02_08_143547_create-targetgroup_realtime_info', 26),
-('2016_02_08_143557_create-campaign_realtime_info', 26);
+('2016_02_08_143557_create-campaign_realtime_info', 26),
+('2016_02_18_121425_create-bid_profile-table', 27),
+('2016_02_18_121441_create-bid_profile_entry-table', 27);
 
 -- --------------------------------------------------------
 
@@ -975,7 +1041,7 @@ CREATE TABLE IF NOT EXISTS `permission` (
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `permission`
@@ -1004,7 +1070,9 @@ INSERT INTO `permission` (`id`, `name`, `description`, `created_at`, `updated_at
 (28, 'VIEW_PIXEL', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (29, 'VIEW_SEGMENT', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (30, 'ADD_EDIT_USER', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(31, 'VIEW_USER', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(31, 'VIEW_USER', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(32, 'VIEW_BIDPROFILE', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(33, 'ADD_EDIT_BIDPROFILE', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1076,7 +1144,7 @@ CREATE TABLE IF NOT EXISTS `role_permission_mapping` (
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=572 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=597 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `role_permission_mapping`
@@ -1105,29 +1173,31 @@ INSERT INTO `role_permission_mapping` (`id`, `permission_id`, `role_id`, `descri
 (525, 26, 2, '', '2016-02-02 10:57:10', '2016-02-02 10:57:10'),
 (526, 27, 2, '', '2016-02-02 10:57:10', '2016-02-02 10:57:10'),
 (527, 28, 2, '', '2016-02-02 10:57:10', '2016-02-02 10:57:10'),
-(549, 1, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(550, 3, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(551, 4, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(552, 6, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(553, 7, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(554, 9, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(555, 10, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(556, 12, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(557, 13, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(558, 15, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(559, 16, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(560, 18, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(561, 19, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(562, 21, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(563, 22, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(564, 24, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(565, 25, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(566, 26, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(567, 27, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(568, 28, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(569, 29, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(570, 30, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31'),
-(571, 31, 1, '', '2016-02-16 11:26:31', '2016-02-16 11:26:31');
+(572, 1, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(573, 3, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(574, 4, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(575, 6, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(576, 7, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(577, 9, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(578, 10, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(579, 12, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(580, 13, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(581, 15, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(582, 16, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(583, 18, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(584, 19, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(585, 21, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(586, 22, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(587, 24, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(588, 25, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(589, 26, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(590, 27, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(591, 28, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(592, 29, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(593, 30, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(594, 31, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(595, 32, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32'),
+(596, 33, 1, '', '2016-02-18 09:03:32', '2016-02-18 09:03:32');
 
 -- --------------------------------------------------------
 
@@ -1411,7 +1481,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `company_id`, `company`, `name`, `email`, `password`, `status`, `remember_token`, `last_login_time`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 'aaa11', 'alireza', '09364991494@yahoo.com', '$2y$10$l1LHp.ElBmNxeK5F6IzLke1qDQqUGHXWV.7mUeK1M.OfMFBvMWV1.', 'Inactive', 'E2OV0kScjAfkXLCNz0T1Qi5dROg57MxPhEzyW3T4WjdI9Jlbp56nimIjvyJf', '2016-02-03 23:27:04', '0000-00-00 00:00:00', '2016-02-16 11:24:57'),
+(1, 1, 2, 'aaa11', 'alireza', '09364991494@yahoo.com', '$2y$10$l1LHp.ElBmNxeK5F6IzLke1qDQqUGHXWV.7mUeK1M.OfMFBvMWV1.', 'Inactive', '96m8EQaK4FPV1tArUxVMKk2s1uGPVBCMT1mKZ9HBjUABEo8VgmIh8APaPkzH', '2016-02-18 03:00:31', '0000-00-00 00:00:00', '2016-02-18 15:00:31'),
 (2, 2, 2, '', 'alireza11111', 'a@b.com', '$2y$10$7nej63o0f9G.YpQsDqLzgOD78qiXyfXysoR07HN78WrbNFboj1FHe', 'Inactive', 'escgKZLuQi66aB6EvHtgXCw0fiuW1U2ksa2gPmh0KXU2HPVDYn6VMGPTx4cy', '2016-02-01 22:46:05', '0000-00-00 00:00:00', '2016-02-16 11:30:29'),
 (3, 2, 1, '', 'asdasd1', 'a@yahoo.com', '$2y$10$7nej63o0f9G.YpQsDqLzgOD78qiXyfXysoR07HN78WrbNFboj1FHe', 'Inactive', 'Ba6wjWdQ9efNaILSuDtLxQLTt7CibJf6Ajw00wMzjqTg9C8lQXFf3IDb39F6', '2016-02-01 22:44:27', '2015-12-06 08:35:25', '2016-02-16 11:30:41'),
 (4, 2, 1, '', 'asdasdas222', 'b@yahoo.com', '$2y$10$7nej63o0f9G.YpQsDqLzgOD78qiXyfXysoR07HN78WrbNFboj1FHe', 'Active', '1NGp5eILuC7ZyxXAn5ZyVTvAX8HKoYftF5HQfvDywy8o0vg1nPpGrXWnVm7n', '0000-00-00 00:00:00', '2015-12-06 08:38:53', '2015-12-08 05:53:18'),
@@ -1468,6 +1538,19 @@ ALTER TABLE `advertiser_publisher`
 ALTER TABLE `audits`
   ADD PRIMARY KEY (`id`),
   ADD KEY `audits_user_id_foreign` (`user_id`);
+
+--
+-- Indexes for table `bid_profile`
+--
+ALTER TABLE `bid_profile`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `bid_profile_entry`
+--
+ALTER TABLE `bid_profile_entry`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `bid_profile_entry_bid_profile_id_foreign` (`bid_profile_id`);
 
 --
 -- Indexes for table `bwentries`
@@ -1740,7 +1823,17 @@ ALTER TABLE `advertiser_publisher`
 -- AUTO_INCREMENT for table `audits`
 --
 ALTER TABLE `audits`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=139;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=186;
+--
+-- AUTO_INCREMENT for table `bid_profile`
+--
+ALTER TABLE `bid_profile`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `bid_profile_entry`
+--
+ALTER TABLE `bid_profile_entry`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `bwentries`
 --
@@ -1765,7 +1858,7 @@ ALTER TABLE `campaign_realtime_info`
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=49;
 --
 -- AUTO_INCREMENT for table `company`
 --
@@ -1830,7 +1923,7 @@ ALTER TABLE `offer_pixel_map`
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=34;
 --
 -- AUTO_INCREMENT for table `pixel`
 --
@@ -1845,7 +1938,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `role_permission_mapping`
 --
 ALTER TABLE `role_permission_mapping`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=572;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=597;
 --
 -- AUTO_INCREMENT for table `segment`
 --
@@ -1934,6 +2027,12 @@ ALTER TABLE `advertiser_publisher`
 --
 ALTER TABLE `audits`
   ADD CONSTRAINT `audits_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `bid_profile_entry`
+--
+ALTER TABLE `bid_profile_entry`
+  ADD CONSTRAINT `bid_profile_entry_bid_profile_id_foreign` FOREIGN KEY (`bid_profile_id`) REFERENCES `bid_profile` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `bwentries`
