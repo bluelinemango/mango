@@ -13,6 +13,8 @@
     {{--<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>--}}
     <!-- Basic Styles -->
     <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/bootstrap.min.css')}}">
+{{--    <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/material/bootstrap-material-design.min.css')}}">--}}
+{{--    <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/material/ripples.min.css')}}">--}}
     <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/font-awesome.min.css')}}">
 
     <!-- SmartAdmin Styles : Caution! DO NOT change the order -->

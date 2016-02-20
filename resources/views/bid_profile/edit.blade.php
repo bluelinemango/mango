@@ -171,6 +171,7 @@
             <div class="details-form-field">
                 <label for="bid_value">Bid Value:</label>
                 <input id="bid_value" name="bid_value" type="text" />
+                <input id="bid_value1" name="bid_value1" type="text" style="display: none" />
 
             </div>
             <div class="details-form-field">
@@ -234,10 +235,10 @@
                         });
                     },
 
-                    insertItem: function(insertingBidProfile) {
+                    insertItem: function (insertingBidProfile) {
                         console.log(insertingBidProfile);
-                        insertingBidProfile['oper']='add';
-                        insertingBidProfile['parent_id']='{{$bid_profile_obj->id}}';
+                        insertingBidProfile['oper'] = 'add';
+                        insertingBidProfile['parent_id'] = '{{$bid_profile_obj->id}}';
                         $.ajax({
                             type: "PUT",
                             url: "{{url('/ajax/jqgrid/bid-profile-entry')}}",
@@ -245,14 +246,14 @@
                             dataType: "json"
                         }).done(function (response) {
                             console.log(response);
-                            if(response.success==true){
-                                var title= "Success";
-                                var color="#739E73";
-                                var icon="fa fa-check";
-                            }else if(response.success==false) {
-                                var title= "Warning";
-                                var color="#C46A69";
-                                var icon="fa fa-bell";
+                            if (response.success == true) {
+                                var title = "Success";
+                                var color = "#739E73";
+                                var icon = "fa fa-check";
+                            } else if (response.success == false) {
+                                var title = "Warning";
+                                var color = "#C46A69";
+                                var icon = "fa fa-bell";
                             }
                             $.smallBox({
                                 title: title,
@@ -273,15 +274,16 @@
                             data: updatingBidProfile,
                             dataType: "json"
                         }).done(function (response) {
-                            if(response.success==true){
-                                var title= "Success";
-                                var color="#739E73";
-                                var icon="fa fa-check";
-                            }else if(response.success==false) {
-                                var title= "Warning";
-                                var color="#C46A69";
-                                var icon="fa fa-bell";
-                            };
+                            if (response.success == true) {
+                                var title = "Success";
+                                var color = "#739E73";
+                                var icon = "fa fa-check";
+                            } else if (response.success == false) {
+                                var title = "Warning";
+                                var color = "#C46A69";
+                                var icon = "fa fa-bell";
+                            }
+                            ;
 
                             $.smallBox({
                                 title: title,
@@ -297,21 +299,20 @@
 
                 window.db = db;
                 db.strategy = [
-                    { Name: "", Id: 0 },
-                    { Name: "Absolute", Id: 1 },
-                    { Name: "Percentage", Id: 2 }
+                    {Name: "", Id: 0},
+                    {Name: "Absolute", Id: 1},
+                    {Name: "Percentage", Id: 2}
                 ];
                 db.bid_profile = [
 
                     @foreach($bid_profile_obj->getEntries as $index)
                     {
                         "id": 'bpe{{$index->id}}',
-                        "parent_id": '{{$bid_profile_obj->id}}',
                         "domain": '{{$index->domain}}',
                         "bid_strategy": {{($index->bid_strategy=='Absolute')? 1 : 2}},
                         "bid_value": '{{$index->bid_value}}',
-                        "domain": '{{$index->domain}}',
-                        "date_modify": '{{$index->updated_at}}'
+                        "date_modify": '{{$index->updated_at}}',
+                        "parent_id": '{{$bid_profile_obj->id}}'
                     },
                     @endforeach
                 ];
@@ -332,17 +333,34 @@
 
                     controller: db,
                     fields: [
-                        {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
-                        {name: "parent_id", title: "Bid ID", type: "text", width: 40, align: "center",editing:false,visible: false},
+                        {name: "id", title: "ID", type: "text", width: 40, align: "center", editing: false},
                         {name: "domain", title: "Domain", type: "text", width: 70},
-                        {name: "bid_strategy", title: "Bid Strategy", type: "select", items: db.strategy , valueField: "Id", textField: "Name",width: 60, align: "center"},
+                        {
+                            name: "bid_strategy",
+                            title: "Bid Strategy",
+                            type: "select",
+                            items: db.strategy,
+                            valueField: "Id",
+                            textField: "Name",
+                            width: 60,
+                            align: "center"
+                        },
                         {name: "bid_value", title: "Bid Value", type: "text", width: 40, align: "center"},
                         {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
+                        {
+                            name: "parent_id",
+                            title: "Bid ID",
+                            type: "text",
+                            width: 40,
+                            align: "center",
+                            editing: false,
+                            visible: false
+                        },
                         {
                             type: "control",
                             modeSwitchButton: false,
                             editButton: false,
-                            headerTemplate: function() {
+                            headerTemplate: function () {
                                 return $("<button>").attr("type", "button").text("Add")
                                         .on("click", function () {
                                             showDetailsDialog("Add", {});
@@ -355,21 +373,42 @@
                 $("#detailsDialog").dialog({
                     autoOpen: false,
                     width: 400,
-                    close: function() {
+                    close: function () {
                         $("#detailsForm").validate().resetForm();
                         $("#detailsForm").find(".error").removeClass("error");
                     }
                 });
-
                 $("#detailsForm").validate({
-                    rules: {
-                        domain: "required"
+                    rules:{
+                        domain: {
+                            required: true,
+                            domain: true
+                        }, bid_value: {
+                            required: true,
+                            min: 0,
+                            max: 10
+                        }, bid_value1: {
+                            required: true,
+                            min: 0,
+                            max: 100
+                        }
                     },
                     messages: {
-                        domain: "Please enter name"
+                        domain: "Please enter Domain name"
                     },
                     submitHandler: function() {
                         formSubmitHandler();
+                    }
+                });
+                $('#bid_strategy').change(function () {
+                    if($(this).val()=='Absolute'){
+                        $('#bid_value').show();
+                        $('#bid_value1').hide();
+                        $('.invalid').hide();
+                    }else{
+                        $('#bid_value').hide();
+                        $('#bid_value1').show();
+                        $('.invalid').hide();
                     }
                 });
 
@@ -389,7 +428,8 @@
                     $.extend(bid_profile_entry, {
                         domain: $("#domain").val(),
                         bid_strategy: $("#bid_strategy").val(),
-                        bid_value: $("#bid_value").val()
+                        bid_value: $("#bid_value").val(),
+                        bid_value1: $("#bid_value1").val()
                     });
 
                     $("#bid_profile_entry_grid").jsGrid(isNew ? "insertItem" : "updateItem", bid_profile_entry);

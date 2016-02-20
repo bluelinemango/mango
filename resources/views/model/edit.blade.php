@@ -139,6 +139,68 @@
                                                 <div class="clearfix"></div>
                                             </div>
                                             <div class="clearfix"></div>
+                                            <div class="well col-md-12">
+                                                <fieldset>
+                                                    <section class="col col-3">
+                                                        <label class="label" for="">#Negative Device Used</label>
+                                                        <label class="input">
+                                                            <h6>{{$model_obj->num_neg_devices_used}}</h6>
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label class="label" for="">#Positive Device Used</label>
+                                                        <label class="input">
+                                                            <h6>{{$model_obj->num_pos_devices_used}}</h6>
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label class="label" for="">Process Result</label>
+                                                        <label class="input">
+                                                            <h6>{{$model_obj->process_result}}</h6>
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label class="label" for="">Negative Feature used</label>
+                                                        <label class="input">
+                                                            <h6>{{$model_obj->negative_feature_used}}</h6>
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-3">
+                                                        <label class="label" for="">Positive Feature used</label>
+                                                        <label class="input">
+                                                            <h6>{{$model_obj->positive_feature_used}}</h6>
+                                                        </label>
+                                                    </section>
+
+                                                </fieldset>
+                                            </div>
+                                            <div class="well col-md-12">
+                                                <div class="col-md-6">
+                                                    <h5>Feature Score Map</h5>
+                                                    <table class="table table-bordered">
+                                                        @foreach(json_decode($model_obj->feature_score_map) as $key => $value)
+                                                            <tr>
+                                                                <td>{{$key}}</td>
+                                                                <td>{{$value}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </table>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5>Top Feature Score Map</h5>
+
+                                                    <table class="table table-bordered">
+                                                    @foreach(json_decode($model_obj->top_feature_score_map) as $key => $value)
+                                                    <tr>
+                                                        <td>{{$key}}</td>
+                                                        <td>{{$value}}</td>
+                                                    </tr>
+                                                    @endforeach
+                                                </table>
+                                                </div>
+
+                                            </div>
+                                            <div class="clearfix"></div>
                                             @if($model_obj->model_type=='seed_model')
                                             <div class="well col-md-12" id="seed_model_div">
                                                 <fieldset>

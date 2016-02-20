@@ -146,7 +146,8 @@ Route::get('/client/cl{clid?}/advertiser/adv{advid?}/bid-profile/add','BidProfil
 Route::get('/client/cl{clid?}/advertiser/adv{advid?}/bid-profile/bpf{bpfid?}/edit','BidProfileController@BidProfileEditView');
 Route::post('/bid-profile/add/create', ['uses'=>'BidProfileController@add_bidProfile','as'=>'bidProfile_create']);
 Route::put('/bid-profile/edit/update', ['uses'=>'BidProfileController@edit_bidProfile','as'=>'bidProfile_update']);
-Route::post('/bid-profile/upload', ['uses'=>'BidProfileController@UploadBidProfile','as'=>'bidProfile_upload']);
+Route::post('/bid-profile/upload', ['uses'=>'BidProfileController@UploadBidProfile','as'=>'bid_profile_upload']);
+
 /////////////////////////END Bid Profile///////////////////////////////////////////
 
 /////////////////////////MODELS///////////////////////////////////////////

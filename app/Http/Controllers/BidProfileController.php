@@ -13,10 +13,15 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\File;
+
 
 class BidProfileController extends Controller
 {
+    private $pattern= '/(((http|ftp|https):\/{2})?+(([0-9a-z_-]+\.)+(aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|cz|de|dj|dk|dm|do|dz|ec|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mn|mn|mo|mp|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|nom|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ra|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw|arpa)(:[0-9]+)?((\/([~0-9a-zA-Z\#\+\%@\.\/_-]+))?(\?[0-9a-zA-Z\+\%@\/&\[\];=_-]+)?)?))\b/imuS
+';
     public function GetView(){
         if(Auth::check()){
             if(in_array('VIEW_BIDPROFILE',$this->permission)) {
@@ -329,12 +334,11 @@ class BidProfileController extends Controller
                                             return Redirect::back()->withErrors(['success'=>false,'msg'=>'this name already existed !!!'])->withInput();
                                         }
                                     }
-
                                     $bid_profile_entry = new Bid_Profile_Entry();
                                     $bid_profile_entry->domain = $request->input('domain');
                                     $bid_profile_entry->bid_strategy = $request->input('bid_strategy');
                                     $bid_profile_entry->bid_profile_id = $request->input('parent_id');
-                                    $bid_profile_entry->bid_value = $request->input('bid_value');
+                                    $bid_profile_entry->bid_value = ($request->has('bid_value'))?$request->input('bid_value'):$request->input('bid_value1');
                                     $bid_profile_entry->save();
                                     $audit->store('bid_profile_entry',$bid_profile_entry->id,$request->input('parent_id'),'add');
                                     return 'ok';
@@ -402,5 +406,87 @@ class BidProfileController extends Controller
             return Redirect::to('/user/login');
         }
     }
+
+    public function UploadBidProfile(Request $request)
+    {
+//        return dd($request->all());
+        if (Auth::check()) {
+            if(in_array('ADD_EDIT_BIDPROFILE',$this->permission)) {
+                $validate=\Validator::make($request->all(),['name' => 'required']);
+                if ($request->hasFile('upload_bid_profile') and $validate->passes()) {
+                    if (User::isSuperAdmin()) {
+                        $advertiser_obj = Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
+                    } else {
+                        $usr_company = $this->user_company();
+                        $advertiser_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        })->find($request->input('advertiser_id'));
+                        if (!$advertiser_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
+                    }
+                    if ($advertiser_obj) {
+                        $destpath = public_path();
+                        $extension = $request->file('upload_bid_profile')->getClientOriginalExtension(); // getting image extension
+                        $fileName = str_random(32) . '.' . $extension;
+                        $request->file('upload_bid_profile')->move($destpath . '/cdn/test/', $fileName);
+                        $upload = Excel::load('public/cdn/test/' . $fileName, function ($reader) {
+                        })->get();
+//                        return dd($upload);
+                        $t = array();
+                        foreach ($upload[0] as $key => $value) {
+                            array_push($t, $key);
+                        }
+                        if ($t[0] != 'domain' or $t[1] != 'bid_strategy' or $t[2] != 'bid_value') {
+                            File::delete($destpath . '/cdn/test/' . $fileName);
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please be sure that file is correct'])->withInput();
+                        }
+                        $chk = Bid_Profile::where('advertiser_id', $request->input('advertiser_id'))->get();
+                        foreach ($chk as $index) {
+                            if ($index->name == $request->input('name')) {
+                                File::delete($destpath . '/cdn/test/' . $fileName);
+                                return Redirect::back()->withErrors(['success' => false, 'msg' => 'this name already existed !!!'])->withInput();
+
+                            }
+                        }
+                        $bid_profile = new Bid_Profile();
+                        $bid_profile->name = $request->input('name');
+                        $bid_profile->advertiser_id = $request->input('advertiser_id');
+                        $bid_profile->status = 'Active';
+                        $bid_profile->save();
+                        foreach ($upload as $test) {
+                            $flg=0;
+                            if($test['bid_strategy']=='Absolute'){
+                                if($test['bid_value']<0 and $test['bid_value']>10){
+                                    $flg=1;
+                                }
+                            }elseif($test['bid_strategy']=='Percentage'){
+                                if($test['bid_value']<0 and $test['bid_value']>100){
+                                    $flg=1;
+                                }
+                            }elseif(!preg_match($this->pattern,$test['domain'])){
+                                $flg=1;
+                            }
+                            if($flg==0) {
+                                $bid_profile_entry = new Bid_Profile_Entry();
+                                $bid_profile_entry->domain = $test['domain'];
+                                $bid_profile_entry->bid_strategy = $test['bid_strategy'];
+                                $bid_profile_entry->bid_value = $test['bid_value'];
+                                $bid_profile_entry->bid_profile_id = $bid_profile->id;
+                                $bid_profile_entry->save();
+                            }
+                        }
+                        $msg = "Bid Profile added successfully";
+                        return Redirect::back()->withErrors(['success' => true, 'msg' => $msg]);
+                    }
+                    return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                }
+                return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select a file or fill name '])->withInput();
+            }
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
+        }
+        return Redirect::to(url('/user/login'));
+    }
+
 
 }

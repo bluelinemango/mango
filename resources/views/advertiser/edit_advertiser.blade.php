@@ -216,6 +216,7 @@
                                         <button id="show_bwlist" class="btn btn-primary btn-block">B W List </button>
                                         <button id="show_geosegment" class="btn btn-primary btn-block">Geo Segment </button>
                                         <button id="show_model" class="btn btn-primary btn-block">Model </button>
+                                        <button id="show_bid_profile" class="btn btn-primary btn-block">Bid Profile </button>
                                         @if(\Illuminate\Support\Facades\Auth::user()->role_id==1)
                                             <button id="show_segment" class="btn btn-primary btn-block">Segment </button>
                                         @endif
@@ -403,6 +404,38 @@
                         </article>
                         <!-- WIDGET END -->
                     </div>
+
+                    <div class="row" id="bid_profile_list" style="display: none">
+
+                        <!-- NEW WIDGET START -->
+                        <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <div class="well" >
+                                <header>
+                                    <h2 class="font-md pull-left"><strong>List Of Bid Profile </strong></h2>
+                                    @if(in_array('ADD_EDIT_BIDPROFILE',$permission))
+                                        <h2 class="pull-right">
+                                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/bid-profile/add')}}"
+                                               class=" btn btn-primary pull-left">
+                                                Add Bid Profile
+                                            </a>
+                                        </h2>
+                                        <h2 class="pull-right">
+                                            <button type="reset" class="btn btn-primary btn-lg" data-toggle="modal"
+                                                    data-target="#myModal_bid_profile">
+                                                Upload Bid Profile
+                                            </button>
+                                        </h2>
+                                    @endif
+
+                                </header>
+                                <div id="bid_profile_grid"></div>
+                            </div>
+                            <!-- end widget -->
+                        </article>
+                        <!-- WIDGET END -->
+                    </div>
                     <!-- end row -->
                     <!-- end row -->
                 </section>
@@ -523,6 +556,62 @@
         <!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
+    <div class="modal fade" id="myModal_bid_profile" tabindex="-6" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Upload Bid Profile Excel File</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="well well-sm well-primary">
+                                <form id="order-form" class="smart-form" role="form"
+                                      action="{{URL::route('bid_profile_upload')}}" method="post" novalidate="novalidate"
+                                      enctype="multipart/form-data">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="advertiser_id" value="{{$adver_obj->id}}"/>
+                                    {{--<form class="form form-inline " role="form" method="post" action="">--}}
+
+                                    <section>
+                                        <label class="input"> <i class="icon-append fa fa-user"></i>
+                                            <input type="text" name="name" placeholder="Name">
+                                        </label>
+                                    </section>
+                                    <section>
+                                        <label class="label">File input</label>
+
+                                        <div class="input input-file">
+                                            <span class="button"><input type="file" id="file" name="upload_bid_profile"
+                                                                        onchange="this.parentNode.nextSibling.value = this.value">Browse</span><input
+                                                    type="text" placeholder="Include some files" readonly="">
+                                        </div>
+                                    </section>
+
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <span class="glyphicon glyphicon-floppy-disk"></span> Upload
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 
 @endsection
 @section('FooterScripts')
@@ -593,6 +682,17 @@
             $('#active_show').val('geosegment_list');
             $('#'+active_Show).hide();
             $('#geosegment_list').fadeIn("slow");
+            $('html, body').animate({
+                        scrollTop: $(document).height()-$(window).height()},
+                    1400,
+                    "easeOutQuint"
+            );
+        });
+        $('#show_bid_profile').click(function () {
+            var active_Show= $('#active_show').val();
+            $('#active_show').val('bid_profile_list');
+            $('#'+active_Show).hide();
+            $('#bid_profile_list').fadeIn("slow");
             $('html, body').animate({
                         scrollTop: $(document).height()-$(window).height()},
                     1400,
@@ -1256,6 +1356,107 @@
             });
 
             //END Model //
+
+            // Bid Profile//
+            $(function () {
+
+                var db = {
+
+                    loadData: function (filter) {
+                        return $.grep(this.bid_profile, function (bid_profile) {
+                            return (!filter.name || bid_profile.name.indexOf(filter.name) > -1)
+                                    && (!filter.id || bid_profile.id.indexOf(filter.id) > -1);
+                        });
+                    },
+
+                    updateItem: function (updatingBidProfile) {
+                        updatingBidProfile['oper'] = 'edit';
+                        console.log(updatingBidProfile);
+                        $.ajax({
+                            type: "PUT",
+                            url: "{{url('/ajax/jqgrid/bid_profile')}}",
+                            data: updatingBidProfile,
+                            dataType: "json"
+                        }).done(function (response) {
+                            if(response.success==true){
+                                var title= "Success";
+                                var color="#739E73";
+                                var icon="fa fa-check";
+                            }else if(response.success==false) {
+                                var title= "Warning";
+                                var color="#C46A69";
+                                var icon="fa fa-bell";
+                            };
+
+                            $.smallBox({
+                                title: title,
+                                content: response.msg,
+                                color: color,
+                                icon: icon,
+                                timeout: 8000
+                            });
+                        });
+                    }
+
+                };
+
+                window.db = db;
+
+                db.bid_profile = [
+
+                    @foreach($adver_obj->BidProfile as $index)
+                    {
+                        "id": 'bpf{{$index->id}}',
+                        "name": '{{$index->name}}',
+                        "advertiser_name" : '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
+                        @if(count($index->getEntries)>0)
+                        "entry": '{{$index->getEntries[0]->bid_profile_count}}',
+                        @else
+                        "entry" : '0',
+                        @endif
+                        @if($index->status == 'Active')
+                        "status": '<a id="bid_profile{{$index->id}}" href="javascript: ChangeStatus(`bid_profile`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                        @elseif($index->status == 'Inactive')
+                        "status": '<a id="bid_profile{{$index->id}}" href="javascript: ChangeStatus(`bid_profile`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
+                        @endif
+                        "date_modify": '{{$index->updated_at}}',
+                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bid-profile/bpf'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) +'| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bid-profile/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+
+                    },
+                    @endforeach
+                ];
+
+                $("#bid_profile_grid").jsGrid({
+                    width: "100%",
+
+                    filtering: true,
+                    editing: true,
+                    sorting: true,
+                    paging: true,
+                    autoload: true,
+
+                    pageSize: 10,
+                    pageButtonCount: 5,
+
+                    deleteConfirm: "Do you really want to delete the client?",
+
+                    controller: db,
+                    fields: [
+                        {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
+                        {name: "name", title: "Name", type: "text", width: 70},
+                        {name: "advertiser_name", title: "Advertiser", type: "text", width: 60, align: "center",editing:false},
+                        {name: "entry", title: "#Entery", type: "text", width: 40, align: "center",editing:false},
+                        {name: "status", title: "Status", width: 50, align: "center"},
+                        {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
+                        {name: "action", title: "Edit | + B/W", sorting: false, width: 60, align: "center"},
+                        {type: "control"}
+                    ]
+
+                });
+
+            });
+
+            //End Bid Profile//
         });
         /* END BASIC */
 

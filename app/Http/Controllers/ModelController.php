@@ -162,7 +162,6 @@ class ModelController extends Controller
                             return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                         }
                     }
-
                     $positive_offer_id=array();
                     $negative_offer_id=array();
                     if(!is_null($model_obj->positive_offer_id))

@@ -33,8 +33,11 @@
     <link rel="shortcut icon" href="{{cdn('newTheme/globals/img/icons/favicon.ico')}}">
     <link rel="apple-touch-icon" href="{{cdn('newTheme/globals/img/icons/apple-touch-icon.png')}}">
     <!-- END SHORTCUT AND TOUCH ICONS -->
-
-    <script src="{{cdn('newTheme/globals/plugins/modernizr/modernizr.min.js')}}"></script>
+    <style>
+        .form-control{
+            color: #fff !important;
+        }
+    </style>
 </head>
 <body class="bg-login printable">
 
@@ -55,7 +58,7 @@
             <div class="form-group">
                 <div class="inputer">
                     <div class="input-wrapper">
-                        <input type="password" name="password" class="form-control" placeholder="Enter your password">
+                        <input type="password" name="password" autocomplete="new-password" class="form-control" placeholder="Enter your password">
                     </div>
                 </div>
             </div><!--.form-group-->
@@ -99,7 +102,7 @@
             <div class="form-group">
                 <div class="inputer">
                     <div class="input-wrapper">
-                        <input type="email" class="form-control" placeholder="Enter your email address">
+                        <input type="email" class="form-control" placeholder="Enter your email address" >
                     </div>
                 </div>
             </div><!--.form-group-->
@@ -160,8 +163,9 @@
     $(document).ready(function () {
         Pleasure.init();
         Layout.init();
-        UserPages.login();
+//        UserPages.login();
     });
+
 </script>
 <!-- END INITIALIZATION-->
 

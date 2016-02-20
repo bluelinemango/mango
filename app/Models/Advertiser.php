@@ -24,6 +24,9 @@ class Advertiser extends Model
     public function GeoSegment(){
         return $this->hasMany('App\Models\GeoSegmentList','advertiser_id');
     }
+    public function BidProfile(){
+        return $this->hasMany('App\Models\Bid_Profile','advertiser_id');
+    }
     public function BWList(){
         return $this->hasMany('App\Models\BWList','advertiser_id');
     }

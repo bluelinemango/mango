@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
@@ -163,7 +164,7 @@ class AdvertiserController extends Controller
             if (Auth::check()) {
                 if (in_array('ADD_EDIT_ADVERTISER', $this->permission)) {
                     if (User::isSuperAdmin()) {
-                        $adver = Advertiser::with('Campaign','Model','GeoSegment','BWList','Creative','GetClientID','Segment')->find($advid);
+                        $adver = Advertiser::with('Campaign','Model','GeoSegment','BWList','Creative','GetClientID','Segment','BidProfile')->find($advid);
                         $model_obj = ModelTable::where('advertiser_id',$advid)->with(['getAdvertiser' => function ($q) {
                             $q->with('GetClientID');
                         }])->get();
@@ -176,7 +177,7 @@ class AdvertiserController extends Controller
                         })->get();
                         $adver = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
-                        })->with('Campaign','Model','GeoSegment','BWList','Creative','GetClientID','Segment')->find($advid);
+                        })->with('Campaign','Model','GeoSegment','BWList','Creative','GetClientID','Segment','BidProfile')->find($advid);
 
                         if (!$adver) {
                             return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();

@@ -58,84 +58,6 @@
         <!-- MAIN CONTENT -->
         <div id="content">
 
-            {{--REAL TIME INFO--}}
-            @if(isset($real_time[0]))
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="real-time-box">
-                    <span class="real-time-icon" style="background-color: #00c0ef " >
-                        <i class="fa fa-eye" ></i>
-                    </span>
-                    <div class="real-time-content">
-                        Imps to Now:
-                        <br/>
-                        <strong>{{$real_time[0]->impressions_shown_today_until_now}}</strong>
-                    </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="real-time-box">
-                    <span class="real-time-icon" style="background-color: #dd4b39 " >
-                        <i class="fa fa-eye" ></i>
-                    </span>
-                    <div class="real-time-content">
-                        Total Imps:
-                        <br/>
-                        <strong>{{$real_time[0]->total_impression_show_until_now}}</strong>
-                    </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="real-time-box">
-                    <span class="real-time-icon" style="background-color: #00a65a " >
-                        <i class="fa fa-dollar" ></i>
-                    </span>
-                    <div class="real-time-content">
-                        Budget to Now:
-                        <br/>
-                        <strong>{{$real_time[0]->daily_budget_spent_today_until_now}}</strong>
-                    </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="real-time-box">
-                    <span class="real-time-icon" style="background-color: #f39c12 " >
-                        <i class="fa fa-dollar" ></i>
-                    </span>
-                    <div class="real-time-content">
-                        Total Budget:
-                        <br/>
-                        <strong>{{$real_time[0]->total_budget_spent_until_now}}</strong>
-                    </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="real-time-box">
-                    <span class="real-time-icon" style="background-color: #f39c12 " >
-                        <i class="fa fa-gear" ></i>
-                    </span>
-                    <div class="real-time-content">
-                        Pacing Status:
-                        <br/>
-                        <strong>{{$real_time[0]->target_group_pacing_status}}</strong>
-                    </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="real-time-box">
-                    <span class="real-time-icon" style="background-color: #f39c12 " >
-                        <i class="fa fa-gear" ></i>
-                    </span>
-                    <div class="real-time-content">
-                        Last Shown:
-                        <br/>
-                        <strong>{{$real_time[0]->last_time_ad_shown}}</strong>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            @endif
-            {{--END REAL TIME INFO--}}
 
             <!-- widget grid -->
             <section id="widget-grid" class="">
@@ -155,12 +77,92 @@
                                 <div class="">
 
                                     <div class="row">
+                                        {{--REAL TIME INFO--}}
+                                        @if(isset($real_time[0]))
+                                            <div class="col-md-12">
+                                                <div class="col-md-2">
+                                                    <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #00c0ef " >
+                        <i class="fa fa-eye" ></i>
+                    </span>
+                                                        <div class="real-time-content">
+                                                            Imps to Now:
+                                                            <br/>
+                                                            <strong>{{$real_time[0]->impressions_shown_today_until_now}}</strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #dd4b39 " >
+                        <i class="fa fa-eye" ></i>
+                    </span>
+                                                        <div class="real-time-content">
+                                                            Total Imps:
+                                                            <br/>
+                                                            <strong>{{$real_time[0]->total_impression_show_until_now}}</strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #00a65a " >
+                        <i class="fa fa-dollar" ></i>
+                    </span>
+                                                        <div class="real-time-content">
+                                                            Budget to Now:
+                                                            <br/>
+                                                            <strong>{{$real_time[0]->daily_budget_spent_today_until_now}}</strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #f39c12 " >
+                        <i class="fa fa-dollar" ></i>
+                    </span>
+                                                        <div class="real-time-content">
+                                                            Total Budget:
+                                                            <br/>
+                                                            <strong>{{$real_time[0]->total_budget_spent_until_now}}</strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #f39c12 " >
+                        <i class="fa fa-gear" ></i>
+                    </span>
+                                                        <div class="real-time-content">
+                                                            Pacing Status:
+                                                            <br/>
+                                                            <strong>{{$real_time[0]->target_group_pacing_status}}</strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="real-time-box">
+                    <span class="real-time-icon" style="background-color: #f39c12 " >
+                        <i class="fa fa-gear" ></i>
+                    </span>
+                                                        <div class="real-time-content">
+                                                            Last Shown:
+                                                            <br/>
+                                                            <strong>{{$real_time[0]->last_time_ad_shown}}</strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                        {{--END REAL TIME INFO--}}
+
                                         <form id="wizard-1" novalidate="novalidate"
                                               action="{{URL::route('targetgroup_update')}}" method="post"
                                               class="smart-form">
                                             <input type="hidden" name="_method" value="PUT"/>
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="hidden" name="targetgroup_id" value="{{$targetgroup_obj->id}}">
+
 
                                             <div id="bootstrap-wizard-1" class="col-sm-12">
                                                 <div class="form-bootstrapWizard">
@@ -857,95 +859,10 @@
                                                                     <!-- widget content -->
                                                                     <div class="">
 
-                                                                        <hr class="simple">
-                                                                        <ul id="myTab2" class="nav nav-tabs bordered">
-                                                                            <li class="active">
-                                                                                <a href="#u1" data-toggle="tab">Bid by
-                                                                                    publisher</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#u2" data-toggle="tab"><i
-                                                                                            class="fa fa-fw fa-lg fa-gear"></i>
-                                                                                    Hours</a>
-                                                                            </li>
-
-
-                                                                        </ul>
-
                                                                         <div id="myTabContent3"
                                                                              class="tab-content">
-                                                                            <div class="tab-pane fade in active"
-                                                                                 id="u1">
-                                                                                <div class="row"
-                                                                                     id="advertiser_publisher">
-                                                                                    <div class="col-sm-3">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-md"
-                                                                                                       placeholder="Publisher Name"
-                                                                                                       type="text"
-                                                                                                       name="publisher_name0"
-                                                                                                       id="publisher_name">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-2">
-                                                                                        <div class="form-group">
-                                                                                            <div class="input-group">
-                                                                                                <span class="input-group-addon"><i
-                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
-                                                                                                <input class="form-control input-md"
-                                                                                                       placeholder="Bid"
-                                                                                                       type="text"
-                                                                                                       name="bid0"
-                                                                                                       id="bid">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-6">
-                                                                                        <input class="btn btn-primary" type="button"
-                                                                                               value="send"
-                                                                                               onclick="submitForm() "/>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-3">
-{{--                                                                                        {{dd($targetgroup_obj->getBidAdvPublisher)}}--}}
-                                                                                        <table class="table table-striped table-bordered ">
-                                                                                            <thead>
-                                                                                            <tr>
-                                                                                                <th>id</th>
-                                                                                                <th>Publisher name</th>
-                                                                                                <th>Bid :</th>
-                                                                                            </tr>
-                                                                                            </thead>
-                                                                                            <tbody id="show_bid">
-                                                                                            @foreach($targetgroup_obj->getBidAdvPublisher as $index)
-                                                                                                <tr>
-                                                                                                    <td>{{$index->getPublisher->id}}</td>
-                                                                                                    <td>
-                                                                                                        {{$index->getPublisher->name}}
-                                                                                                    </td>
-                                                                                                    <td>
-                                                                                                        <input type="text" name="{{$index->getPublisher->id}}-bid" class="form-control" value="{{$index->bid_price}}"/>
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                            @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-
-                                                                                    </div>
-                                                                                </div>
-
-                                                                            </div>
-                                                                            <div class="tab-pane fade" id="u2">
-
+                                                                            <div class=""
+                                                                                 >
                                                                                 <div class="well">
                                                                                     <div class="row">
                                                                                         <div class="col-md-12">
@@ -1031,78 +948,77 @@
                                                                                     </div>
 
                                                                                 </div>
+                                                                                <hr class="simple">
 
+                                                                                <div class="row"
+                                                                                     id="advertiser_publisher">
+                                                                                    <div class="col-sm-3">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                                <input class="form-control input-md"
+                                                                                                       placeholder="Publisher Name"
+                                                                                                       type="text"
+                                                                                                       name="publisher_name0"
+                                                                                                       id="publisher_name">
 
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-sm-2">
+                                                                                        <div class="form-group">
+                                                                                            <div class="input-group">
+                                                                                                <span class="input-group-addon"><i
+                                                                                                            class="fa fa-user fa-lg fa-fw"></i></span>
+                                                                                                <input class="form-control input-md"
+                                                                                                       placeholder="Bid"
+                                                                                                       type="text"
+                                                                                                       name="bid0"
+                                                                                                       id="bid">
 
-
-
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                                 <div class="row">
-                                                                                    <div class="col-md-12">
-                                                                                        <table class="table table-hover">
+                                                                                    <div class="col-sm-6">
+                                                                                        <input class="btn btn-primary" type="button"
+                                                                                               value="send"
+                                                                                               onclick="submitForm() "/>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-3">
+{{--                                                                                        {{dd($targetgroup_obj->getBidAdvPublisher)}}--}}
+                                                                                        <table class="table table-striped table-bordered ">
                                                                                             <thead>
                                                                                             <tr>
-                                                                                                <th>Hours</th>
-                                                                                                <th>1:00</th>
-                                                                                                <th>2:00</th>
-                                                                                                <th>3:00</th>
-                                                                                                <th>4:00</th>
-                                                                                                <th>5:00</th>
-                                                                                                <th>6:00</th>
-                                                                                                <th>7:00</th>
-                                                                                                <th>8:00</th>
-                                                                                                <th>9:00</th>
-                                                                                                <th>10:00</th>
-                                                                                                <th>11:00</th>
-                                                                                                <th>12:00</th>
+                                                                                                <th>id</th>
+                                                                                                <th>Publisher name</th>
+                                                                                                <th>Bid :</th>
                                                                                             </tr>
                                                                                             </thead>
-                                                                                            <tbody>
-                                                                                            @for($i=0;$i<7;$i++)
+                                                                                            <tbody id="show_bid">
+                                                                                            @foreach($targetgroup_obj->getBidAdvPublisher as $index)
                                                                                                 <tr>
-                                                                                                    <td style="width: 10%;">
-                                                                                                        <div class="row">
-                                                                                                            <div class="col-md-6" style="margin-top: 25px;">
-                                                                                                    @if($i==0)
-                                                                                                        Monday @elseif($i==1)
-                                                                                                        Tuesday @elseif($i==2)                                                                                                                Wednesday @elseif($i==3)
-                                                                                                        Thursday @elseif($i==4)
-                                                                                                        Friday @elseif($i==5)
-                                                                                                        Satarday @elseif($i==6)
-                                                                                                        Sunday
-                                                                                                    @endif
-                                                                                                            </div>                                                                                                                                <div class="col-md-4">
-                                                                                                            <table>
-                                                                                                                <tr style="line-height: 35px">
-                                                                                                                    <td>AM</td>
-                                                                                                                </tr>
-                                                                                                                <tr style="line-height: 35px">
-                                                                                                                    <td>PM</td>
-                                                                                                                </tr>
-                                                                                                            </table>
-                                                                                                            </div>
-                                                                                                        </div>
+                                                                                                    <td>{{$index->getPublisher->id}}</td>
+                                                                                                    <td>
+                                                                                                        {{$index->getPublisher->name}}
                                                                                                     </td>
-                                                                                                    @for($j=0;$j<12;$j++)
-                                                                                                        <td>
-                                                                                                            <input type="checkbox"
-                                                                                                                   class="form-control"
-                                                                                                                   name="{{$i}}-{{$j}}-am" @if($hours[$i][$j]==1) checked @endif>
-                                                                                                            <input type="checkbox"
-                                                                                                                   class="form-control"
-                                                                                                                   name="{{$i}}-{{$j}}-pm" @if($hours[$i][$j+12]==1) checked @endif>
-                                                                                                        </td>
-                                                                                                    @endfor
+                                                                                                    <td>
+                                                                                                        <input type="text" name="{{$index->getPublisher->id}}-bid" class="form-control" value="{{$index->bid_price}}"/>
+                                                                                                    </td>
                                                                                                 </tr>
-                                                                                            @endfor
-
+                                                                                            @endforeach
                                                                                             </tbody>
                                                                                         </table>
 
-
                                                                                     </div>
-
                                                                                 </div>
+
                                                                             </div>
+
 
                                                                         </div>
 
@@ -1214,6 +1130,99 @@
                                                                     </tr>
                                                                 </table>
                                                             </div>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+
+                                                        <div class="jarviswidget" id="wid-id-16" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-fullscreenbutton="false" data-widget-custombutton="false" data-widget-sortable="false" data-widget-collapsed="true">
+                                                            <!-- widget options:
+                                                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                                                            data-widget-colorbutton="false"
+                                                            data-widget-editbutton="false"
+                                                            data-widget-togglebutton="false"
+                                                            data-widget-deletebutton="false"
+                                                            data-widget-fullscreenbutton="false"
+                                                            data-widget-custombutton="false"
+                                                            data-widget-collapsed="true"
+                                                            data-widget-sortable="false"
+
+                                                            -->
+                                                            <header>
+                                                                <h2>Bid Hours </h2>
+
+                                                            </header>
+
+                                                            <!-- widget div-->
+                                                            <div>
+
+
+                                                                <!-- widget content -->
+                                                                <div class="widget-body">
+                                                                    <div class="col-md-12">
+                                                                        <table class="table table-hover time-table">
+                                                                            <thead>
+                                                                            <tr>
+                                                                                <th>Hours</th>
+                                                                                <th>12am</th>
+                                                                                <th>1</th>
+                                                                                <th>2</th>
+                                                                                <th>3</th>
+                                                                                <th>4</th>
+                                                                                <th>5</th>
+                                                                                <th>6</th>
+                                                                                <th>7</th>
+                                                                                <th>8</th>
+                                                                                <th>9</th>
+                                                                                <th>10</th>
+                                                                                <th>11</th>
+                                                                                <th>12pm</th>
+                                                                                <th>1</th>
+                                                                                <th>2</th>
+                                                                                <th>3</th>
+                                                                                <th>4</th>
+                                                                                <th>5</th>
+                                                                                <th>6</th>
+                                                                                <th>7</th>
+                                                                                <th>8</th>
+                                                                                <th>9</th>
+                                                                                <th>10</th>
+                                                                                <th>11</th>
+
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            @for($i=0;$i<7;$i++)
+                                                                                <tr>
+                                                                                    <td>@if($i==0)
+                                                                                            Monday @elseif($i==1)
+                                                                                            Tusday @elseif($i==2)
+                                                                                            Wendsday @elseif($i==3)
+                                                                                            Tursday @elseif($i==4)
+                                                                                            Friday @elseif($i==5)
+                                                                                            Satarday @elseif($i==6)
+                                                                                            Sunday @endif</td>
+                                                                                    @for($j=0;$j<24;$j++)
+                                                                                        <td style="padding: 1px!important;">
+                                                                                            <div id="{{$i}}-{{$j}}-time-review" @if($hours[$i][$j]==1) class="time-table-div-select" @else class="time_table_unselect" @endif ></div>
+
+                                                                                        </td>
+                                                                                    @endfor
+                                                                                </tr>
+                                                                            @endfor
+
+                                                                            </tbody>
+                                                                        </table>
+
+
+                                                                    </div>
+
+
+                                                                </div>
+                                                                <!-- end widget content -->
+
+                                                            </div>
+                                                            <!-- end widget div -->
+
                                                         </div>
                                                         <hr/>
                                                         <input class="btn btn-success" type="submit" value="SUBMIT"/>
@@ -1410,22 +1419,7 @@
         }
     </script>
     <script>
-        for(var i=0; i<7; i++){
-            for(var j=0;j<24;j++){
-                $('#'+i+'-'+j+'-time').toggle(function () {
-//                    var id =$(this).attr('id');
-//                    $('#'+id+'-checkbox').prop('checked', true);
-//                    $(this).removeClass();
-//                    $(this).addClass('time-table-div-select');
-                }, function() {
-//                    var id =$(this).attr('id');
-//                    $('#'+id+'-checkbox').prop('checked', false);
-//                    $(this).removeClass();
-//                    $(this).addClass('time_table_unselect');
 
-                });
-            }
-        }
         $('#clear_all').click(function () {
             for(var i=0; i<7; i++){
                 for(var j=0;j<24;j++){
@@ -1436,7 +1430,7 @@
                 }
             }
 
-        })
+        });
         $('#suggested').change(function () {
             if($(this).val()=='business-hours'){
                 $('#clear_all').click();
@@ -1473,8 +1467,27 @@
 
     <script>
         $(document).ready(function () {
+            for(var i=0; i<7; i++){
+                for(var j=0;j<24;j++){
+                    $('#'+i+'-'+j+'-time').click(function () {
+                        var id =$(this).attr('id');
+                        if($(this).hasClass('time_table_unselect')){
+                            $('#'+id+'-checkbox').prop('checked', true);
+                            $('#'+id+'-review').removeClass();
+                            $('#'+id+'-review').addClass('time-table-div-select');
+                            $(this).removeClass();
+                            $(this).addClass('time-table-div-select');
+                        }else{
+                            $('#'+id+'-checkbox').prop('checked', false);
+                            $('#'+id+'-review').removeClass();
+                            $('#'+id+'-review').addClass('time_table_unselect');
+                            $(this).removeClass();
+                            $(this).addClass('time_table_unselect');
 
-
+                        }
+                    });
+                }
+            }
             pageSetUp();
             $('#assign_geolocation').multiselect({
                 search: {
@@ -1482,6 +1495,7 @@
                     right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
                 }
             });
+
             $('#assign_creative').multiselect({
                 search: {
                     left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',

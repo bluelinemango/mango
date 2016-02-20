@@ -15,6 +15,8 @@
 
 <!-- BOOTSTRAP JS -->
 <script src="{{cdn('js/bootstrap/bootstrap.min.js')}}"></script>
+{{--<script src="{{cdn('js/material/material.min.js')}}"></script>--}}
+{{--<script src="{{cdn('js/material/ripples.min.js')}}"></script>--}}
 
 <!-- CUSTOM NOTIFICATION -->
 <script src="{{cdn('js/notification/SmartNotification.min.js')}}"></script>
