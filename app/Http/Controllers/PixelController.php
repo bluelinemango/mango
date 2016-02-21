@@ -114,7 +114,6 @@ public function GetView(){
         return Redirect::to(url('/user/login'));
     }
 
-
     public function PixelEditView($clid,$advid,$pxlid){
         if(!is_null($pxlid)){
             if(Auth::check()){
@@ -148,7 +147,19 @@ public function GetView(){
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $pixel_id = $request->input('pixel_id');
-                    $pixel=Pixel::find($pixel_id);
+                    if (User::isSuperAdmin()) {
+                        $pixel=Pixel::find($pixel_id);
+                    } else {
+                        $usr_company = $this->user_company();
+                        $pixel = Pixel::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->find($pixel_id);
+                        if (!$pixel) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
+                    }
                     if($pixel){
                         $active='Inactive';
                         if($request->input('active')=='on'){

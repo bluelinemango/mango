@@ -49,6 +49,7 @@ class OfferController extends Controller
         }
         return Redirect::to(url('/user/login'));
     }
+
     public function OfferAddView($clid,$advid){
         if(!is_null($advid)) {
             if (Auth::check()) {
@@ -78,8 +79,18 @@ class OfferController extends Controller
             if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
-                    $chkUser=Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
-                    if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                    if (User::isSuperAdmin()) {
+                        $advertiser_obj = Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
+                    } else {
+                        $usr_company = $this->user_company();
+                        $advertiser_obj = Advertiser::whereHas('GetClientID' , function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        })->find($request->input('advertiser_id'));
+                        if(!$advertiser_obj){
+                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                        }
+                    }
+                    if ($advertiser_obj) {
                         $active='Inactive';
                         if($request->input('active')=='on'){
                             $active='Active';
@@ -91,7 +102,7 @@ class OfferController extends Controller
                         $offer->save();
                         $audit= new AuditsController();
                         $audit->store('offer',$offer->id,null,'add');
-                        return Redirect::to(url('/client/cl'.$chkUser->GetClientID->id.'/advertiser/adv'.$request->input('advertiser_id').'/offer/ofr'.$offer->id.'/edit'))->withErrors(['success' => true, 'msg' => "Offer added successfully"]);
+                        return Redirect::to(url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$request->input('advertiser_id').'/offer/ofr'.$offer->id.'/edit'))->withErrors(['success' => true, 'msg' => "Offer added successfully"]);
                     }
                     return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                 }
@@ -101,7 +112,6 @@ class OfferController extends Controller
         }
         return Redirect::to(url('/user/login'));
     }
-
 
     public function OfferEditView($clid,$advid,$ofrid){
         if(!is_null($ofrid)){
@@ -156,7 +166,20 @@ class OfferController extends Controller
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $offer_id = $request->input('offer_id');
-                    $offer=Offer::find($offer_id);
+                    if (User::isSuperAdmin()) {
+                        $offer=Offer::find($offer_id);
+                    } else {
+                        $usr_company = $this->user_company();
+                        $offer = Offer::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->find($offer_id);
+
+                        if (!$offer) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
+                    }
                     if($offer){
                         $key_audit= new AuditsController();
                         $key_audit=$key_audit->generateRandomString();

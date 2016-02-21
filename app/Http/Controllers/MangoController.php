@@ -241,32 +241,28 @@ class MangoController extends Controller
         }
     }
 
-    public function getAssign($cmp_id)
+    public function getAssign($adv_id)
     {
         if (Auth::check()) {
 
-                if (User::isSuperAdmin()) {
-                    $campaign_obj = Campaign::with(['getAdvertiser' => function ($q) {
-                        $q->with('Creative', 'GeoSegment', 'BWList');
-                    }])->find($cmp_id);
-                } else {
-                    $usr_company = $this->user_company();
-                    $campaign_obj = Campaign::whereHas('getAdvertiser', function ($q) use ($usr_company) {
-                        $q->whereHas('GetClientID', function ($p) use ($usr_company) {
-                            $p->whereIn('user_id', $usr_company);
-                        });
-                    })->with('Creative', 'GeoSegment', 'BWList')->find($cmp_id);
-
-                    if (!$campaign_obj) {
-                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                    }
+            if (User::isSuperAdmin()) {
+                $adver_obj = Advertiser::with('Creative', 'GeoSegment', 'BWList')
+                ->find($adv_id);
+            } else {
+                $usr_company = $this->user_company();
+                $adver_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
+                    $p->whereIn('user_id', $usr_company);
+                })->with('Creative', 'GeoSegment', 'BWList')->find($adv_id);
+                if (!$adver_obj) {
+                    return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                 }
+            }
+            if($adver_obj) {
                 $geolocation_obj = Geolocation::get();
                 return view('bulk.assign')
                     ->with('geolocation_obj', $geolocation_obj)
-                    ->with('campaign_obj', $campaign_obj);
-
-            return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
+                    ->with('adver_obj', $adver_obj);
+            }
         }
     }
 

@@ -12,6 +12,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class CreativeController extends Controller
 {
@@ -20,6 +22,7 @@ class CreativeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function GetView(){
         if(Auth::check()){
             if (in_array('VIEW_CREATIVE', $this->permission)) {
@@ -50,6 +53,7 @@ class CreativeController extends Controller
         }
         return Redirect::to(url('/user/login'));
     }
+
     public function CreativeAddView($clid,$advid){
         if(!is_null($advid)) {
             if (Auth::check()) {
@@ -78,8 +82,18 @@ class CreativeController extends Controller
             if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
-                    $chkUser=Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
-                    if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                    if (User::isSuperAdmin()) {
+                        $advertiser_obj = Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
+                    } else {
+                        $usr_company = $this->user_company();
+                        $advertiser_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        })->find($request->input('advertiser_id'));
+                        if (!$advertiser_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
+                    }
+                    if($advertiser_obj) {
                         $active='Inactive';
                         if($request->input('active')=='on'){
                             $active='Active';
@@ -101,7 +115,7 @@ class CreativeController extends Controller
                         $creative->save();
                         $audit= new AuditsController();
                         $audit->store('creative',$creative->id,null,'add');
-                        return Redirect::to(url('/client/cl'.$chkUser->GetClientID->id.'/advertiser/adv'.$request->input('advertiser_id').'/creative/crt'.$creative->id.'/edit'))->withErrors(['success' => true, 'msg' => "Creative added successfully"]);
+                        return Redirect::to(url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$request->input('advertiser_id').'/creative/crt'.$creative->id.'/edit'))->withErrors(['success' => true, 'msg' => "Creative added successfully"]);
                     }
                     return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                 }
@@ -131,8 +145,12 @@ class CreativeController extends Controller
                             return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                         }
                     }
+                    $api_select=array();
+                    if(!is_null(json_decode($creative_obj->api))){
+                        $api_select = json_decode($creative_obj->api);
+                    }
                     return view('creative.edit')
-                        ->with('api_select', json_decode($creative_obj->api))
+                        ->with('api_select', $api_select)
                         ->with('clone', $clone)
                         ->with('creative_obj', $creative_obj);
                 }
@@ -150,14 +168,25 @@ class CreativeController extends Controller
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $creative_id = $request->input('creative_id');
-                    $creative=Creative::find($creative_id);
+                    if (User::isSuperAdmin()) {
+                        $creative=Creative::find($creative_id);
+                    } else {
+                        $usr_company = $this->user_company();
+                        $creative = Creative::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->find($creative_id);
+                        if (!$creative) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
+                    }
                     if($creative){
                         $size = $request->input('size_width').'x'.$request->input('size_height');
                         $active='Inactive';
                         if($request->input('active')=='on'){
                             $active='Active';
                         }
-
                         $data=array();
                         $audit= new AuditsController();
                         if($creative->name != $request->input('name')){
@@ -320,6 +349,92 @@ class CreativeController extends Controller
             return "You don't have permission";
         }
         return Redirect::to(url('user/login'));
+    }
+
+    public function UploadBwlist(Request $request){
+
+        if(Auth::check()){
+            if(in_array('ADD_EDIT_CREATIVE',$this->permission)) {
+                if($request->hasFile('upload')) {
+                    if (User::isSuperAdmin()) {
+                        $advertiser_obj = Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
+                    } else {
+                        $usr_company = $this->user_company();
+                        $advertiser_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        })->find($request->input('advertiser_id'));
+                        if (!$advertiser_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
+                    }
+                    if($advertiser_obj) {
+                        $destpath=public_path();
+                        $extension = $request->file('upload')->getClientOriginalExtension(); // getting image extension
+                        $fileName = str_random(32).'.'.$extension;
+                        $request->file('upload')->move($destpath.'/cdn/test/', $fileName);
+                        $upload = Excel::load('public/cdn/test/'.$fileName,function($reader){
+                            return $reader->all();
+                        });
+                        $a = array();
+                        $flg=0;
+                        foreach($upload->parsed as $test) {
+                            foreach ($test as $key => $value) {
+                                if($flg==0){
+                                    array_push($a,$key);
+                                }
+                                array_push($a, $value);
+                                $flg++;
+                            }
+                        }
+                        $first_array=array_slice($a,0,2);
+                        $second_array=array_slice($a,2);
+
+                        if((count($first_array) == 2) and ($first_array[1]=='black' or $first_array[1] =='white')) {
+                            $flg = 0;
+                            $chk = BWList::where('advertiser_id', $request->input('advertiser_id'))->get();
+
+                            foreach ($chk as $index) {
+                                if ($index->name == $first_array[0] and $index->list_type == $first_array[1]) {
+                                    $flg = 1;
+                                }
+                            }
+                            if ($flg == 0) {
+                                $lost= array();
+                                $bwlist = new BWList();
+                                $bwlist->name = $first_array[0];
+                                $bwlist->list_type = $first_array[1];
+                                $bwlist->advertiser_id = $request->input('advertiser_id');
+                                $bwlist->save();
+                                foreach ($second_array as $index) {
+                                    if(preg_match($pattern,$index)){
+                                        $bwlistentries = new BWEntries();
+                                        $bwlistentries->domain_name = $index;
+                                        $bwlistentries->bwlist_id = $bwlist->id;
+                                        $bwlistentries->save();
+                                    }else{
+                                        array_push($lost,$index);
+                                    }
+                                }
+                                $msg = "B/W List added successfully";
+                                if(count($lost)>0){
+                                    $msg.=" exept: ";
+                                    foreach($lost as $index){
+                                        $msg .=$index.',';
+                                    }
+                                }
+                                return Redirect::back()->withErrors(['success' => false, 'msg' => $msg]);
+                            }
+                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'this name already existed !!!'])->withInput();
+                        }
+                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'make sure that youe Upload file is correct'])->withInput();
+                    }
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                }
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select a file'])->withInput();
+            }
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
+        }
+        return Redirect::to(url('/user/login'));
     }
 
 }

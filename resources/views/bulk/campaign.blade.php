@@ -22,25 +22,25 @@
                                 <fieldset>
                                     <div class="row">
                                         <section class="col col-2">
-                                            <label class="label" for="">Name</label>
+                                            <label class="label" for="name">Name</label>
                                             <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                <input type="text" name="name" placeholder="Name" readonly>
+                                                <input id="name" type="text" name="name" placeholder="Name" disabled>
                                             </label>
                                         </section>
                                     </div>
 
                                     <div class="row">
                                         <section class="col col-2">
-                                            <label class="label" for="">Domain Name</label>
+                                            <label class="label" for="domain_name">Domain Name</label>
                                             <label class="input"> <i class="icon-append fa fa-briefcase"></i>
                                                 <input type="text" name="advertiser_domain_name" id="domain_name"
-                                                       placeholder="Domain Name" readonly="readonly">
+                                                       placeholder="Domain Name" disabled>
                                             </label>
                                         </section>
                                         <section class="col col-2">
-                                            <label for="" class="label">Status</label>
+                                            <label for="active" class="label">Status</label>
                                             <label class="checkbox">
-                                                <input type="checkbox" name="active" readonly="readonly">
+                                                <input id="active" type="checkbox" name="active"  disabled>
                                                 <i></i>
                                             </label>
                                         </section>
@@ -56,16 +56,16 @@
                             <div class="well col-md-6 ">
                                 <fieldset>
                                     <section class="col col-3">
-                                        <label class="label" for="">Max Impression</label>
+                                        <label class="label" for="max_impression">Max Impression</label>
                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                            <input type="text" name="max_impression" placeholder="Max Impression" readonly>
+                                            <input type="text" name="max_impression" placeholder="Max Impression" id="max_impression" disabled>
                                         </label>
                                     </section>
                                     <section class="col col-3">
-                                        <label class="label" for="">Daily Max Impression</label>
+                                        <label class="label" for="daily_max_impression">Daily Max Impression</label>
                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
                                             <input type="text" name="daily_max_impression"
-                                                   placeholder="Daily Max Impression" readonly>
+                                                   placeholder="Daily Max Impression" id="daily_max_impression" disabled>
                                         </label>
                                     </section>
                                 </fieldset>
@@ -74,15 +74,15 @@
 
                                 <fieldset>
                                     <section class="col col-3">
-                                        <label class="label" for="">Max Budget</label>
+                                        <label class="label" for="max_budget">Max Budget</label>
                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                            <input type="text" name="max_budget" placeholder="Max Budget" readonly="readonly">
+                                            <input type="text" name="max_budget" placeholder="Max Budget" id="max_budget" disabled>
                                         </label>
                                     </section>
                                     <section class="col col-3">
-                                        <label class="label" for="">Daily Max Budget</label>
+                                        <label class="label" for="daily_max_budget">Daily Max Budget</label>
                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                            <input type="text" name="daily_max_budget" placeholder="Daily Max Budget" readonly="readonly">
+                                            <input type="text" name="daily_max_budget" placeholder="Daily Max Budget" id="daily_max_budget" disabled>
                                         </label>
                                     </section>
                                 </fieldset>
@@ -92,9 +92,9 @@
 
                                 <fieldset>
                                     <section class="col col-3">
-                                        <label class="label" for="">CPM</label>
+                                        <label class="label" for="cpm">CPM</label>
                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                            <input type="text" name="cpm" placeholder="CPM" readonly="readonly">
+                                            <input type="text" name="cpm" placeholder="CPM" id="cpm" disabled>
                                         </label>
                                     </section>
                                 </fieldset>
@@ -108,17 +108,17 @@
                                 <fieldset>
                                     <div class="row">
                                         <section class="col col-4">
-                                            <label class="label" for="">Start Date</label>
+                                            <label class="label" for="startdate">Start Date</label>
                                             <label class="input"> <i class="icon-append fa fa-calendar"></i>
                                                 <input type="text" name="start_date" id="startdate"
-                                                       placeholder="Expected start date" readonly="readonly">
+                                                       placeholder="Expected start date" disabled>
                                             </label>
                                         </section>
                                         <section class="col col-4">
-                                            <label class="label" for="">End Date</label>
+                                            <label class="label" for="finishdate">End Date</label>
                                             <label class="input"> <i class="icon-append fa fa-calendar"></i>
                                                 <input type="text" name="end_date" id="finishdate"
-                                                       placeholder="Expected finish date" readonly="readonly">
+                                                       placeholder="Expected finish date" disabled>
                                             </label>
                                         </section>
                                     </div>
@@ -129,10 +129,10 @@
 
                                 <fieldset>
                                     <section class="col col-4">
-                                        <label class="label" for="">Description</label>
+                                        <label class="label" for="description">Description</label>
                                         <label class="textarea"> <i class="icon-append fa fa-comment"></i>
                                             <textarea rows="5" name="description"
-                                                      placeholder="Tell us about your Campaign"></textarea>
+                                                      placeholder="Tell us about your Campaign" disabled id="description"></textarea>
                                         </label>
                                     </section>
                                 </fieldset>
@@ -182,6 +182,79 @@
 </section>
 
 <script>
+    var $orderForm = $("#order-form").validate({
+        // Rules for form validation
+        rules: {
+            name: {
+                required: true
+            },
+            advertiser_domain_name: {
+                required: true,
+                domain: true
+            },
+            advertiser_id: {
+                required: true
+            },
+            max_impression: {
+                required: true,
+                min: 0,
+                number: 'Enter number Plz'
+
+            },
+            daily_max_impression: {
+                required: true,
+                min: 0,
+                number: 'Enter number Plz'
+            },
+            max_budget: {
+                required: true,
+                min: 0,
+                number: 'Enter number Plz'
+            },
+            daily_max_budget: {
+                required: true,
+                min: 0,
+                number: 'Enter number Plz'
+            },
+            cpm: {
+                required: true,
+                min: 0,
+                number: 'Enter number Plz'
+            },
+            start_date: {
+                required: true
+            },
+            end_date: {
+                required: true
+            }
+        },
+
+        // Messages for form validation
+        messages: {
+            name: {
+                required: 'Please enter your name'
+            },
+            email: {
+                required: 'Please enter your email address',
+                email: 'Please enter a VALID email address'
+            },
+            phone: {
+                required: 'Please enter your phone number'
+            },
+            interested: {
+                required: 'Please select interested service'
+            },
+            budget: {
+                required: 'Please select your budget'
+            }
+        },
+
+        // Do not change code below
+        errorPlacement: function (error, element) {
+            error.insertAfter(element.parent());
+        }
+    });
+
     $("select[name='client_id']").change(function () {
         $('input[name="campaign_list"]').val('');
         $('#showCapmaignList').html('');

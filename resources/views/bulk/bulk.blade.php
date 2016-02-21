@@ -21,8 +21,11 @@
             background-color: yellow !important;
         }
 
-        input:read-only {
+        select:disabled, textarea:disabled ,input:disabled , input:disabled + i {
             background-color: yellow !important;
+        }
+        .label{
+            cursor: pointer;
         }
     </style>
 @endsection
@@ -69,7 +72,7 @@
                                     <div class="smart-form">
                                         <fieldset>
                                             <section class="col col-3">
-                                                <label for="" class="label">Select Entity</label>
+                                                <label for="show_entity" class="label">Select Entity</label>
                                                 <label class="select"><i></i>
                                                     <select name="role_group" id="show_entity">
                                                         <option value="0">Select One</option>
@@ -173,59 +176,6 @@
                     url: "{{url('ajax/getTargetgroup')}}"
                 }).success(function (response) {
                     $('#show_fields').html(response);
-                    for (var i = 0; i < 7; i++) {
-                        for (var j = 0; j < 24; j++) {
-                            $('#' + i + '-' + j + '-time').click(function () {
-                                var id = $(this).attr('id');
-                                $('#' + id + '-checkbox').prop('checked', true);
-                                $(this).removeClass();
-                                $(this).addClass('time-table-div-select');
-                            });
-                        }
-                    }
-                    $('#clear_all').click(function () {
-                        for (var i = 0; i < 7; i++) {
-                            for (var j = 0; j < 24; j++) {
-                                var id = $('#' + i + '-' + j + '-time').attr('id');
-                                $('#' + id + '-checkbox').prop('checked', false);
-                                $('#' + i + '-' + j + '-time').removeClass();
-                                $('#' + i + '-' + j + '-time').addClass('time_table_unselect');
-                            }
-                        }
-
-                    })
-                    $('#suggested').change(function () {
-                        if ($(this).val() == 'business-hours') {
-                            $('#clear_all').click();
-                            for (var i = 0; i < 5; i++) {
-                                for (var j = 9; j < 17; j++) {
-                                    var id = $('#' + i + '-' + j + '-time').attr('id');
-                                    $('#' + id + '-checkbox').prop('checked', true);
-                                    $('#' + i + '-' + j + '-time').removeClass();
-                                    $('#' + i + '-' + j + '-time').addClass('time-table-div-select');
-                                }
-                            }
-                        }
-                        if ($(this).val() == 'happy-hours') {
-                            $('#clear_all').click();
-                            for (var i = 0; i < 5; i++) {
-                                for (var j = 17; j < 24; j++) {
-                                    var id = $('#' + i + '-' + j + '-time').attr('id');
-                                    $('#' + id + '-checkbox').prop('checked', true);
-                                    $('#' + i + '-' + j + '-time').removeClass();
-                                    $('#' + i + '-' + j + '-time').addClass('time-table-div-select');
-                                }
-                            }
-                            for (var i = 5; i < 7; i++) {
-                                for (var j = 0; j < 24; j++) {
-                                    var id = $('#' + i + '-' + j + '-time').attr('id');
-                                    $('#' + id + '-checkbox').prop('checked', true);
-                                    $('#' + i + '-' + j + '-time').removeClass();
-                                    $('#' + i + '-' + j + '-time').addClass('time-table-div-select');
-                                }
-                            }
-                        }
-                    })
 
                 });
             } else if ($(this).val() == 'creative') {
@@ -252,54 +202,15 @@
                 });
             }
         });
-        $("#show_fields").on("click", "input[readonly]", function () {
-            $(this).removeAttr('readonly');
+        $("#show_fields").on("click", ".label", function () {
+            var id = $(this).attr('for');
+            if(!$('#'+id).prop('disabled')){
+                $('#'+id).prop('disabled', true)
+            }else {
+                $('#' + id).removeAttr('disabled');
+            }
         });
 
-        $("#show_fields").on("change", "#show_campaignList", function () {
-
-            var cmpid = $(this).val();
-            $.ajax({
-                url: "{{url('ajax/getAssignList')}}" + '/' + cmpid
-            }).success(function (response) {
-                $('#show_assign').html(response);
-                $('#show_geoLocation').click(function (e) {
-                    e.preventDefault();
-                    var active_Show = $('#active_show').val();
-                    $('#active_show').val('geoLocation');
-                    $('#' + active_Show).hide();
-                    $('#geoLocation').fadeIn("slow");
-                });
-                $('#show_creative').click(function (e) {
-                    e.preventDefault();
-                    var active_Show = $('#active_show').val();
-                    $('#active_show').val('creative');
-                    $('#' + active_Show).hide();
-                    $('#creative').fadeIn("slow");
-                });
-                $('#show_geoSegment').click(function (e) {
-                    e.preventDefault();
-                    var active_Show = $('#active_show').val();
-                    $('#active_show').val('geoSegment');
-                    $('#' + active_Show).hide();
-                    $('#geoSegment').fadeIn("slow");
-                });
-                $('#show_segment').click(function (e) {
-                    e.preventDefault();
-                    var active_Show = $('#active_show').val();
-                    $('#active_show').val('segment');
-                    $('#' + active_Show).hide();
-                    $('#segment').fadeIn("slow");
-                });
-                $('#show_bwList').click(function (e) {
-                    e.preventDefault();
-                    var active_Show = $('#active_show').val();
-                    $('#active_show').val('bwList');
-                    $('#' + active_Show).hide();
-                    $('#bwList').fadeIn("slow");
-                });
-            });
-        });
         /////////////Target Group/////////////////
         function ShowSubCategory(id) {
             $.ajax({

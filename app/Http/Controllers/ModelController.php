@@ -72,12 +72,20 @@ class ModelController extends Controller
 //        return dd($request->all());
         if(Auth::check()){
             if (in_array('ADD_EDIT_MODEL', $this->permission)) {
-                $validate=\Validator::make($request->all(),['name' => 'required']);
-                if($validate->passes()) {
-                    $chkUser=Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
-                    if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
-//                        $date_of_request = \DateTime::createFromFormat('m/d/Y', $request->input('date_of_request'));
-
+                $validate = \Validator::make($request->all(), ['name' => 'required']);
+                if ($validate->passes()) {
+                    if (User::isSuperAdmin()) {
+                    $advertiser_obj = Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
+                } else {
+                    $usr_company = $this->user_company();
+                    $advertiser_obj = Advertiser::whereHas('GetClientID' , function ($p) use ($usr_company) {
+                        $p->whereIn('user_id', $usr_company);
+                    })->find($request->input('advertiser_id'));
+                    if(!$advertiser_obj){
+                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    }
+                }
+                if ($advertiser_obj) {
                         $audit=new AuditsController();
                         $audit_key=$audit->generateRandomString();
                         if($request->has('positive_offer_id'))
@@ -86,7 +94,6 @@ class ModelController extends Controller
                         if($request->has('negative_offer_id'))
                             $negative_offer_id=implode(',',$request->input('negative_offer_id'));
 //                        return dd('['.$positive_offer_id.']');
-
                         $modelTable = new ModelTable();
                         $modelTable->name = $request->input('name');
                         $modelTable->advertiser_id = $request->input('advertiser_id');
@@ -126,7 +133,7 @@ class ModelController extends Controller
                         }
 //                        return dd($request->all());
                         $audit->store('modelTable',$modelTable->id,null,'add',$audit_key);
-                        return Redirect::to(url('/client/cl'.$chkUser->GetClientID->id.'/advertiser/adv'.$request->input('advertiser_id').'/model/mdl'.$modelTable->id.'/edit'))->withErrors(['success' => true, 'msg' => "Model added successfully"]);
+                        return Redirect::to(url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$request->input('advertiser_id').'/model/mdl'.$modelTable->id.'/edit'))->withErrors(['success' => true, 'msg' => "Model added successfully"]);
                     }
                     return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                 }
@@ -179,6 +186,7 @@ class ModelController extends Controller
             return Redirect::to(url('/user/login'));
         }
     }
+
     public function edit_model(Request $request){
 //        $start_date = \DateTime::createFromFormat('d.m.Y', $request->input('start_date'));
         if(Auth::check()){
@@ -186,7 +194,20 @@ class ModelController extends Controller
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $model_id = $request->input('model_id');
-                    $modelTable=ModelTable::find($model_id);
+                    if (User::isSuperAdmin()) {
+                        $modelTable=ModelTable::find($model_id);
+                    } else {
+                        $usr_company = $this->user_company();
+                        $modelTable = ModelTable::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->find($model_id);
+
+                        if (!$modelTable) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
+                    }
                     if($modelTable){
                         $data=array();
                         $audit=new AuditsController();

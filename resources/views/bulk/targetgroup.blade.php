@@ -14,29 +14,6 @@
                         <form id="order-form" class="smart-form" action="{{URL::route('campaign_bulk_update')}}"
                               method="post" novalidate="novalidate">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <div class="well col-md-12">
-                                <div class="col-md-3">
-                                    <label class="label" for="">Select Client</label>
-                                    <select name="client_id">
-                                        <option value="all">All Client</option>
-                                        @foreach($client_obj as $index)
-                                            <option value="{{$index->id}}">{{$index->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="label" for="">Select Advertiser</label>
-                                    <select name="advertiser_id">
-                                        <option value="all">All Advertiser</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="label" for="">Select Campaign</label>
-                                    <select name="campaign_id">
-                                        <option value="all">All Campaign</option>
-                                    </select>
-                                </div>
-                            </div>
 
                             <header>
                                 General Information
@@ -46,16 +23,16 @@
                                 <fieldset>
                                     <div class="row">
                                         <section class="col col-2">
-                                            <label class="label" for="">Name</label>
+                                            <label class="label" for="name">Name</label>
                                             <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                <input type="text" name="name" placeholder="Name" readonly="readonly">
+                                                <input type="text" name="name" placeholder="Name" id="name" disabled>
                                             </label>
                                         </section>
                                     </div>
 
                                     <div class="row">
                                         <section class="col col-2">
-                                            <label class="label" for="">IAB
+                                            <label class="label" for="iab_category">IAB
                                                 Category</label>
 
                                             <label class="input"> <i
@@ -64,7 +41,7 @@
                                                 <div class="form-group">
                                                     <select name="iab_category"
                                                             class="form-control "
-                                                            id=""
+                                                            id="iab_category" disabled
                                                             onchange="ShowSubCategory(this.value)">
                                                         <option value="0"
                                                                 disabled>
@@ -78,7 +55,7 @@
                                             </label>
                                         </section>
                                         <section class="col col-2">
-                                            <label class="label" for="">IAB Sub
+                                            <label class="label" for="iab_sub_category">IAB Sub
                                                 Category</label>
 
                                             <label class="input"> <i
@@ -86,7 +63,7 @@
 
                                                 <div class="form-group">
                                                     <select name="iab_sub_category"
-                                                            class="form-control "
+                                                            class="form-control " disabled
                                                             id="iab_sub_category">
                                                         <option value="0"
                                                                 disabled>
@@ -99,16 +76,16 @@
                                             </label>
                                         </section>
                                         <section class="col col-2">
-                                            <label class="label" for="">Domain Name</label>
+                                            <label class="label" for="domain_name">Domain Name</label>
                                             <label class="input"> <i class="icon-append fa fa-briefcase"></i>
                                                 <input type="text" name="advertiser_domain_name" id="domain_name"
-                                                       placeholder="Domain Name" readonly="readonly">
+                                                       placeholder="Domain Name" disabled>
                                             </label>
                                         </section>
                                         <section class="col col-2">
-                                            <label for="" class="label">Status</label>
+                                            <label for="active" class="label">Status</label>
                                             <label class="checkbox">
-                                                <input type="checkbox" name="active">
+                                                <input type="checkbox" name="active" id="active" disabled>
                                                 <i></i>
                                             </label>
                                         </section>
@@ -124,15 +101,15 @@
                             <div class="well col-md-6 ">
                                 <fieldset>
                                     <section class="col col-3">
-                                        <label class="label" for="">Max Impression</label>
+                                        <label class="label" for="max_impression">Max Impression</label>
                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                            <input type="text" name="max_impression" placeholder="Max Impression">
+                                            <input type="text" name="max_impression" id="max_impression" disabled placeholder="Max Impression">
                                         </label>
                                     </section>
                                     <section class="col col-3">
-                                        <label class="label" for="">Daily Max Impression</label>
+                                        <label class="label" for="daily_max_impression">Daily Max Impression</label>
                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                            <input type="text" name="daily_max_impression"
+                                            <input type="text" name="daily_max_impression" id="daily_max_impression" disabled
                                                    placeholder="Daily Max Impression">
                                         </label>
                                     </section>
@@ -142,15 +119,15 @@
 
                                 <fieldset>
                                     <section class="col col-3">
-                                        <label class="label" for="">Max Budget</label>
+                                        <label class="label" for="max_budget">Max Budget</label>
                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                            <input type="text" name="max_budget" placeholder="Max Budget">
+                                            <input type="text" name="max_budget" id="max_budget" disabled placeholder="Max Budget">
                                         </label>
                                     </section>
                                     <section class="col col-3">
-                                        <label class="label" for="">Daily Max Budget</label>
+                                        <label class="label" for="daily_max_budget">Daily Max Budget</label>
                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                            <input type="text" name="daily_max_budget" placeholder="Daily Max Budget">
+                                            <input type="text" name="daily_max_budget" id="daily_max_budget" disabled placeholder="Daily Max Budget">
                                         </label>
                                     </section>
                                 </fieldset>
@@ -160,21 +137,21 @@
 
                                 <fieldset>
                                     <section class="col col-2">
-                                        <label class="label" for="">Frequency In Sec </label>
+                                        <label class="label" for="frequency_in_sec">Frequency In Sec </label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input placeholder="Frequency per sec" type="text" name="frequency_in_sec" id="frequency_in_sec">
+                                            <input placeholder="Frequency per sec" type="text" name="frequency_in_sec" id="frequency_in_sec" disabled>
                                         </label>
                                     </section>
                                     <section class="col col-2">
-                                        <label class="label" for="">Pacing Plan</label>
+                                        <label class="label" for="pacing_plan">Pacing Plan</label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input placeholder="Pacing Plan" type="text" name="pacing_plan" id="pacing_plan">
+                                            <input placeholder="Pacing Plan" type="text" name="pacing_plan" id="pacing_plan" disabled>
                                         </label>
                                     </section>
                                     <section class="col col-3">
-                                        <label class="label" for="">CPM</label>
+                                        <label class="label" for="cpm">CPM</label>
                                         <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                            <input type="text" name="cpm" placeholder="CPM">
+                                            <input type="text" id="cpm" disabled name="cpm" placeholder="CPM">
                                         </label>
                                     </section>
                                 </fieldset>
@@ -188,16 +165,16 @@
                                 <fieldset>
                                     <div class="row">
                                         <section class="col col-4">
-                                            <label class="label" for="">Start Date</label>
+                                            <label class="label" for="startdate">Start Date</label>
                                             <label class="input"> <i class="icon-append fa fa-calendar"></i>
                                                 <input type="text" name="startdate" id="startdate"
-                                                       placeholder="Expected start date">
+                                                       placeholder="Expected start date" disabled>
                                             </label>
                                         </section>
                                         <section class="col col-4">
-                                            <label class="label" for="">End Date</label>
+                                            <label class="label" for="finishdate">End Date</label>
                                             <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                                                <input type="text" name="finishdate" id="finishdate"
+                                                <input type="text" name="finishdate" id="finishdate" disabled
                                                        placeholder="Expected finish date">
                                             </label>
                                         </section>
@@ -208,18 +185,13 @@
                             <div class="well col-md-12">
                                 <fieldset>
                                     <section class="col col-4">
-                                        <label class="label" for="">Description</label>
+                                        <label class="label" for="description">Description</label>
                                         <label class="textarea"> <i class="icon-append fa fa-comment"></i>
-                                            <textarea rows="5" name="description"
+                                            <textarea rows="5" name="description" id="description" disabled
                                                       placeholder="Tell us about your Campaign"></textarea>
                                         </label>
                                     </section>
                                 </fieldset>
-                            </div>
-                            <header>
-                                Manage Assign
-                            </header>
-                            <div class="well col-md-12" id="show_assign">
                             </div>
                             <div class="well col-md-12">
                                 <div class="">
@@ -310,6 +282,36 @@
                                 </div>
 
                             </div>
+
+                            <header>
+                                Manage Assign
+                            </header>
+                            <div class="well col-md-12" id="show_assign">
+                            </div>
+                            <div class="well col-md-12">
+                                <div class="col-md-3">
+                                    <label class="label" for="">Select Client</label>
+                                    <select name="client_id">
+                                        <option value="all">All Client</option>
+                                        @foreach($client_obj as $index)
+                                            <option value="{{$index->id}}">{{$index->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="label" for="">Select Advertiser</label>
+                                    <select name="advertiser_id">
+                                        <option value="all">All Advertiser</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="label" for="">Select Campaign</label>
+                                    <select name="campaign_id">
+                                        <option value="all">All Campaign</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <input type="hidden" name="tg_list" id="tg_list">
                             <div class="well col-md-12" id="showTargetgroupList">
                                 <div id="targetgroup_grid"></div>
@@ -338,53 +340,83 @@
     <!-- END ROW -->
 </section>
 <script>
+    for(var i=0; i<7; i++){
+        for(var j=0;j<24;j++){
+            $('#'+i+'-'+j+'-time').click(function () {
+                var id =$(this).attr('id');
+                if($(this).hasClass('time_table_unselect')){
+                    $('#'+id+'-checkbox').prop('checked', true);
+                    $('#'+id+'-review').removeClass();
+                    $('#'+id+'-review').addClass('time-table-div-select');
+                    $(this).removeClass();
+                    $(this).addClass('time-table-div-select');
+                }else{
+                    $('#'+id+'-checkbox').prop('checked', false);
+                    $('#'+id+'-review').removeClass();
+                    $('#'+id+'-review').addClass('time_table_unselect');
+                    $(this).removeClass();
+                    $(this).addClass('time_table_unselect');
+
+                }
+            });
+        }
+    }
+    $('#clear_all').click(function () {
+        for (var i = 0; i < 7; i++) {
+            for (var j = 0; j < 24; j++) {
+                var id = $('#' + i + '-' + j + '-time').attr('id');
+                $('#' + id + '-checkbox').prop('checked', false);
+                $('#' + i + '-' + j + '-time').removeClass();
+                $('#' + i + '-' + j + '-time').addClass('time_table_unselect');
+            }
+        }
+
+    });
+    $('#suggested').change(function () {
+        if ($(this).val() == 'business-hours') {
+            $('#clear_all').click();
+            for (var i = 0; i < 5; i++) {
+                for (var j = 9; j < 17; j++) {
+                    var id = $('#' + i + '-' + j + '-time').attr('id');
+                    $('#' + id + '-checkbox').prop('checked', true);
+                    $('#' + i + '-' + j + '-time').removeClass();
+                    $('#' + i + '-' + j + '-time').addClass('time-table-div-select');
+                }
+            }
+        }
+        if ($(this).val() == 'happy-hours') {
+            $('#clear_all').click();
+            for (var i = 0; i < 5; i++) {
+                for (var j = 17; j < 24; j++) {
+                    var id = $('#' + i + '-' + j + '-time').attr('id');
+                    $('#' + id + '-checkbox').prop('checked', true);
+                    $('#' + i + '-' + j + '-time').removeClass();
+                    $('#' + i + '-' + j + '-time').addClass('time-table-div-select');
+                }
+            }
+            for (var i = 5; i < 7; i++) {
+                for (var j = 0; j < 24; j++) {
+                    var id = $('#' + i + '-' + j + '-time').attr('id');
+                    $('#' + id + '-checkbox').prop('checked', true);
+                    $('#' + i + '-' + j + '-time').removeClass();
+                    $('#' + i + '-' + j + '-time').addClass('time-table-div-select');
+                }
+            }
+        }
+    });
     var tg_list=[];
     $(function () {
-
         var db = {
-
             loadData: function (filter) {
                 return $.grep(this.targetgroup, function (targetgroup) {
                     return (!filter.name || targetgroup.name.indexOf(filter.name) > -1)
                             && (!filter.campaign_name || targetgroup.campaign_name.indexOf(filter.campaign_name) > -1)
                             && (!filter.id || targetgroup.id.indexOf(filter.id) > -1);
                 });
-            },
-
-            updateItem: function (updatingTargetgroup) {
-                updatingTargetgroup['oper'] = 'edit';
-                console.log(updatingTargetgroup);
-                $.ajax({
-                    type: "PUT",
-                    url: "{{url('/ajax/jqgrid/targetgroup')}}",
-                    data: updatingTargetgroup,
-                    dataType: "json"
-                }).done(function (response) {
-                    console.log(response);
-                    if(response.success==true){
-                        var title= "Success";
-                        var color="#739E73";
-                        var icon="fa fa-check";
-                    }else if(response.success==false) {
-                        var title= "Warning";
-                        var color="#C46A69";
-                        var icon="fa fa-bell";
-                    };
-
-                    $.smallBox({
-                        title: title,
-                        content: response.msg,
-                        color: color,
-                        icon: icon,
-                        timeout: 8000
-                    });
-                });
             }
 
         };
-
         window.db = db;
-
         db.targetgroup = [
             @foreach($targetgroup_obj as $index)
             {
@@ -469,8 +501,14 @@
                 $('select[name="campaign_id"]').html(response);
 
             });
+            $.ajax({
+                url: "{{url('ajax/getAssignList')}}" + '/' + ad_id
+            }).success(function (response) {
+                $('#show_assign').html(response);
+            });
         } else {
             $('select[name="campaign_id"]').html("");
+            $('#show_assign').html("");
         }
     });
     $("select[name='campaign_id']").change(function () {

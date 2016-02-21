@@ -79,8 +79,18 @@ class CampaignController extends Controller
             if (in_array('ADD_EDIT_CAMPAIGN', $this->permission)) {
                 $validate = \Validator::make($request->all(), ['name' => 'required']);
                 if ($validate->passes()) {
-                    $chkUser = Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
-                    if (!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                    if (User::isSuperAdmin()) {
+                        $advertiser_obj = Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
+                    } else {
+                        $usr_company = $this->user_company();
+                        $advertiser_obj = Advertiser::whereHas('GetClientID' , function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        })->find($request->input('advertiser_id'));
+                        if(!$advertiser_obj){
+                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                        }
+                    }
+                    if ($advertiser_obj) {
                         $active='Inactive';
                         if($request->input('active')=='on'){
                             $active='Active';
@@ -103,7 +113,7 @@ class CampaignController extends Controller
                         $campaign->save();
                         $audit= new AuditsController();
                         $audit->store('campaign',$campaign->id,null,'add');
-                        return Redirect::to(url('/client/cl' . $chkUser->GetClientID->id . '/advertiser/adv' . $request->input('advertiser_id') . '/campaign/cmp' . $campaign->id . '/edit'))->withErrors(['success' => true, 'msg' => "Campaign added successfully"]);
+                        return Redirect::to(url('/client/cl' . $advertiser_obj->GetClientID->id . '/advertiser/adv' . $request->input('advertiser_id') . '/campaign/cmp' . $campaign->id . '/edit'))->withErrors(['success' => true, 'msg' => "Campaign added successfully"]);
                     }
                     return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                 }
@@ -158,7 +168,22 @@ class CampaignController extends Controller
                 $validate = \Validator::make($request->all(), ['name' => 'required']);
                 if ($validate->passes()) {
                     $campaign_id = $request->input('campaign_id');
-                    $campaign = Campaign::find($campaign_id);
+
+                    if (User::isSuperAdmin()) {
+                        $campaign = Campaign::find($campaign_id);
+                    } else {
+                        $usr_company = $this->user_company();
+
+                        $campaign = Campaign::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->with('Targetgroup')->find($campaign_id);
+//                        return dd($campaign_obj);
+                        if(!$campaign) {
+                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                        }
+                    }
                     if ($campaign) {
                         $active='Inactive';
                         if($request->input('active')=='on'){

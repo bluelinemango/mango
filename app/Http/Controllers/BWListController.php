@@ -284,8 +284,18 @@ class BWListController extends Controller
             if(in_array('ADD_EDIT_BWLIST',$this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
-                    $chkUser=Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
-                    if(!is_null($chkUser) and Auth::user()->id == $chkUser->GetClientID->user_id) {
+                    if (User::isSuperAdmin()) {
+                        $advertiser_obj = Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
+                    } else {
+                        $usr_company = $this->user_company();
+                        $advertiser_obj = Advertiser::whereHas('GetClientID' , function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        })->find($request->input('advertiser_id'));
+                        if(!$advertiser_obj){
+                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                        }
+                    }
+                    if ($advertiser_obj) {
                         $chk=BWList::where('advertiser_id',$request->input('advertiser_id'))->get();
 //                        return dd($chk);
                         $flg=0;
@@ -317,7 +327,7 @@ class BWListController extends Controller
                                 $bwlistentries->save();
                                 $audit->store('bwlistentrie',$bwlistentries->id,null,'add',$key);
                             }
-                            return Redirect::to(url('/client/cl' . $chkUser->GetClientID->id . '/advertiser/adv' . $request->input('advertiser_id') . '/bwlist/bwl' . $bwlist->id . '/edit'))->withErrors(['success' => true, 'msg' => "B/W List added successfully"]);
+                            return Redirect::to(url('/client/cl' . $advertiser_obj->GetClientID->id . '/advertiser/adv' . $request->input('advertiser_id') . '/bwlist/bwl' . $bwlist->id . '/edit'))->withErrors(['success' => true, 'msg' => "B/W List added successfully"]);
                         }
                         return Redirect::back()->withErrors(['success'=>false,'msg'=>'this name already existed !!!'])->withInput();
                     }

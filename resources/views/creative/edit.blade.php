@@ -65,8 +65,10 @@
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             @if($clone==0)
                                             <input type="hidden" name="_method" value="PUT"/>
-                                            @endif
                                             <input type="hidden" name="creative_id" value="{{$creative_obj->id}}"/>
+                                            @else
+                                                <input type="hidden" name="advertiser_id" value="{{$creative_obj->getAdvertiser->id}}"/>
+                                            @endif
 
                                             <header>
                                                 General Information
@@ -308,8 +310,6 @@
                         required : true
                     }
                 },
-
-
                 // Messages for form validation
                 messages : {
                     name : {

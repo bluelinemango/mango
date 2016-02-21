@@ -51,6 +51,7 @@ class ClientController extends Controller
         }
         return Redirect::to('/user/login');
     }
+
     public function AddClientView(){
         if(Auth::check()){
             if(in_array('ADD_EDIT_CLIENT',$this->permission)) {
@@ -60,6 +61,7 @@ class ClientController extends Controller
             }
         return Redirect::to(url('user/login'));
     }
+
     public function add_client(Request $request){
         if(Auth::check()){
             if(in_array('ADD_EDIT_CLIENT',$this->permission)) {
@@ -86,7 +88,6 @@ class ClientController extends Controller
         return Redirect::to(url('user/login'));
 
     }
-
 
     public function ClientEditView($id){
         if(!is_null($id)){
@@ -116,7 +117,15 @@ class ClientController extends Controller
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $client_id = $request->input('client_id');
-                    $client=Client::find($client_id);
+                    if (User::isSuperAdmin()) {
+                        $client=Client::find($client_id);
+                    } else {
+                        $usr_company=$this->user_company();
+                        $client = Client::whereIn('user_id', $usr_company)->find($client_id);
+                        if(!$client) {
+                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                        }
+                    }
                     if($client){
                         $data=array();
                         $audit= new AuditsController();

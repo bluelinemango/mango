@@ -1,5 +1,5 @@
 @if($taskAjax=='showCampaignSelect')
-<option value="0">select one</option>
+<option value="all">All Campaign</option>
 @foreach($campaign_obj as $index)
     <option value="{{$index->id}}">
         {{$index->name}}
@@ -345,7 +345,7 @@
         });
     </script>
 @elseif($taskAjax=='showAdvertiserSelect')
-    <option value="0">select one</option>
+    <option value="all">All Advertiser</option>
     @foreach($next_child as $index)
         <option value="{{$index->id}}">
             {{$index->name}}

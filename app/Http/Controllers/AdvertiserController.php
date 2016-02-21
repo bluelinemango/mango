@@ -77,8 +77,16 @@ class AdvertiserController extends Controller
             if (in_array('ADD_EDIT_ADVERTISER', $this->permission)) {
                 $validate = \Validator::make($request->all(), ['name' => 'required']);
                 if ($validate->passes()) {
-                    $chkUser = Client::find($request->input('client_id'));
-                    if (count($chkUser) > 0 and Auth::user()->id == $chkUser->user_id) {
+                    if (User::isSuperAdmin()) {
+                        $client_obj = Client::find($request->input('client_id'));
+                    } else {
+                        $usr_company = $this->user_company();
+                        $client_obj = Client::whereIn('user_id', $usr_company)->find($request->input('client_id'));
+                        if (!$client_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
+                    }
+                    if ($client_obj) {
                         $active='Inactive';
                         if($request->input('active')=='on'){
                             $active='Active';
@@ -210,7 +218,18 @@ class AdvertiserController extends Controller
                 $validate = \Validator::make($request->all(), ['name' => 'required']);
                 if ($validate->passes()) {
                     $adver_id = $request->input('adver_id');
-                    $adver = Advertiser::find($adver_id);
+                    if (User::isSuperAdmin()) {
+                        $adver = Advertiser::find($adver_id);
+
+                    } else {
+                        $usr_company = $this->user_company();
+                        $adver = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        })->find($adver_id);
+                        if (!$adver) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
+                    }
                     if ($adver) {
                         $active='Inactive';
                         if($request->input('active')=='on'){

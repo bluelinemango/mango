@@ -910,9 +910,9 @@
                                                                                                                 Sunday @endif</td>
                                                                                                         @for($j=0;$j<24;$j++)
                                                                                                             <td style="padding: 1px!important;">
-                                                                                                                <div id="{{$i}}-{{$j}}-time" @if($hours[$i][$j]==1) class="time-table-div-select" @else class="time_table_unselect" @endif  ></div>
+                                                                                                                <div id="{{$i}}-{{$j}}-time" @if(isset($hours[$i][$j]) and $hours[$i][$j]==1) class="time-table-div-select" @else class="time_table_unselect" @endif  ></div>
 
-                                                                                                                <input type="checkbox" name="{{$i}}-{{$j}}-hour" id="{{$i}}-{{$j}}-time-checkbox" @if($hours[$i][$j]==1) checked @endif style="display: none"/>
+                                                                                                                <input type="checkbox" name="{{$i}}-{{$j}}-hour" id="{{$i}}-{{$j}}-time-checkbox" @if(isset($hours[$i][$j]) and $hours[$i][$j]==1) checked @endif style="display: none"/>
                                                                                                             </td>
                                                                                                         @endfor
                                                                                                     </tr>
@@ -1203,7 +1203,7 @@
                                                                                             Sunday @endif</td>
                                                                                     @for($j=0;$j<24;$j++)
                                                                                         <td style="padding: 1px!important;">
-                                                                                            <div id="{{$i}}-{{$j}}-time-review" @if($hours[$i][$j]==1) class="time-table-div-select" @else class="time_table_unselect" @endif ></div>
+                                                                                            <div id="{{$i}}-{{$j}}-time-review" @if(isset($hours[$i][$j]) and $hours[$i][$j]==1) class="time-table-div-select" @else class="time_table_unselect" @endif ></div>
 
                                                                                         </td>
                                                                                     @endfor

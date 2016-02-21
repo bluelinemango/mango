@@ -21,29 +21,29 @@
                             <fieldset>
                                 <div class="row">
                                     <section class="col col-2">
-                                        <label class="label" for=""> Name</label>
+                                        <label class="label" for="name"> Name</label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="name" placeholder="Name" readonly>
+                                            <input type="text" name="name" placeholder="Name" id="name" disabled>
                                         </label>
                                     </section>
                                     <section class="col col-2">
-                                        <label class="label" for="">Domain Name</label>
+                                        <label class="label" for="advertiser_domain_name">Domain Name</label>
                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                            <input type="text" name="advertiser_domain_name" placeholder="Domain Name" readonly>
+                                            <input type="text" name="advertiser_domain_name" placeholder="Domain Name" id="advertiser_domain_name" disabled>
                                         </label>
                                     </section>
                                     <section class="col col-2">
-                                        <label for="" class="label">Status</label>
+                                        <label for="active" class="label">Status</label>
                                         <label class="checkbox">
-                                            <input type="checkbox" name="active">
+                                            <input type="checkbox" name="active" disabled id="active">
                                             <i></i>
                                         </label>
                                     </section>
 
                                     <section class="col col-2">
-                                        <label for="" class="label">Ad Type</label>
+                                        <label for="ad_type" class="label">Ad Type</label>
                                         <label class="select"><i></i>
-                                            <select name="ad_type">
+                                            <select name="ad_type" disabled id="ad_type">
                                                 <option value="0">Select One</option>
                                                 <option value="IFRAME">IFrame</option>
                                                 <option value="JAVASCRIPT">Javascript</option>
@@ -63,47 +63,47 @@
                             <fieldset>
                                 <div class="row">
                                     <section class="col col-3">
-                                        <label class="label" for="">Ad Tag</label>
+                                        <label class="label" for="ad_tag">Ad Tag</label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="ad_tag" placeholder="Ad Tag" readonly>
+                                            <input type="text" name="ad_tag" placeholder="Ad Tag" disabled id="ad_tag">
                                         </label>
                                     </section>
                                     <section class="col col-3">
-                                        <label class="label" for="">Landign Page URL</label>
+                                        <label class="label" for="landing_page_url">Landign Page URL</label>
                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                            <input type="text" name="landing_page_url" placeholder="Landign Page URL" readonly>
+                                            <input type="text" name="landing_page_url" placeholder="Landign Page URL" disabled id="landing_page_url">
                                         </label>
                                     </section>
                                     <section class="col col-3">
-                                        <label class="label" for="">Width</label>
+                                        <label class="label" for="size_width">Width</label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="size_width" placeholder="Width" readonly>
+                                            <input type="text" name="size_width" placeholder="Width" disabled id="size_width">
                                         </label>
                                     </section>
                                     <section class="col col-3">
-                                        <label class="label" for="">Height</label>
+                                        <label class="label" for="size_height">Height</label>
                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                            <input type="text" name="size_height" placeholder="Height" readonly>
+                                            <input type="text" name="size_height" placeholder="Height" disabled id="size_height">
                                         </label>
                                     </section>
                                 </div>
                                 <div class="row">
                                     <section class="col col-3">
-                                        <label class="label" for="">Attributes</label>
+                                        <label class="label" for="attributes">Attributes</label>
                                         <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="attributes" placeholder="Attributes" readonly>
+                                            <input type="text" name="attributes" placeholder="Attributes" disabled id="attributes">
                                         </label>
                                     </section>
                                     <section class="col col-3">
-                                        <label class="label" for="">Preview URL</label>
+                                        <label class="label" for="preview_url">Preview URL</label>
                                         <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                            <input type="text" name="preview_url" placeholder="Preview URL" readonly>
+                                            <input type="text" name="preview_url" placeholder="Preview URL" disabled id="preview_url">
                                         </label>
                                     </section>
                                     <section class="col col-3">
-                                        <label class="label">API</label>
+                                        <label class="label" for="api">API</label>
                                         <label class="select select-multiple">
-                                            <select name="api[]" multiple class="custom-scroll">
+                                            <select name="api[]" multiple class="custom-scroll" disabled id="api">
                                                 <option value="VPAID_1.0">VPAID 1.0</option>
                                                 <option value="VPAID_2.0">VPAID 2.0</option>
                                                 <option value="MRAID-1"> MRAID-1</option>
@@ -119,9 +119,9 @@
 
                                 </div>
                                 <section>
-                                    <label class="label" for="">Description</label>
+                                    <label class="label" for="description">Description</label>
                                     <label class="textarea"> <i class="icon-append fa fa-comment"></i>
-                                        <textarea rows="5" name="description"
+                                        <textarea rows="5" disabled id="description" name="description"
                                                   placeholder="Tell us about your Creative"></textarea>
                                     </label>
                                 </section>
@@ -152,8 +152,8 @@
                                 <div class="row">
                                     <div class="col-md-5 col-md-offset-3">
                                         <button type="submit"
-                                                class=" button button--antiman button--round-l button--text-medium">
-                                            Submit
+                                                class=" button button--ujarak button--border-thick button--text-upper button--size-s button--inverted button--text-thick">
+                                            Save
                                         </button>
                                     </div>
                                 </div>
@@ -310,5 +310,70 @@
         });
 
     });
+
+
+    var $orderForm = $("#order-form").validate({
+        // Rules for form validation
+        rules : {
+            name : {
+                required : true
+            },
+            advertiser_id : {
+                required : true
+            },
+            advertiser_domain_name : {
+                required : true,
+                domain: true
+            },
+            ad_tag : {
+                required : true
+            },
+            landing_page_url : {
+                required : true
+            },
+            size_width : {
+                required : true,
+                min: 0,
+                number: 'Enter number Plz'
+            },
+            size_height : {
+                required : true,
+                min: 0,
+                number: 'Enter number Plz'
+            },
+            attributes : {
+                required : true
+            },
+            preview_url : {
+                required : true
+            }
+        },
+        // Messages for form validation
+        messages : {
+            name : {
+                required : 'Please enter your name'
+            },
+            email : {
+                required : 'Please enter your email address',
+                email : 'Please enter a VALID email address'
+            },
+            phone : {
+                required : 'Please enter your phone number'
+            },
+            interested : {
+                required : 'Please select interested service'
+            },
+            budget : {
+                required : 'Please select your budget'
+            }
+        },
+
+        // Do not change code below
+        errorPlacement : function(error, element) {
+            error.insertAfter(element.parent());
+        }
+    });
+
+
 
 </script>

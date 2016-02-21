@@ -45,7 +45,7 @@
     <div style="margin: 20px 0;">
         <div class="col-xs-5">
             <select name="from_creative[]" id="assign_creative" class="form-control" size="8" multiple="multiple">
-                @foreach($campaign_obj->getAdvertiser->Creative as $index)
+                @foreach($adver_obj->Creative as $index)
                 <option value="{{$index->id}}">{{$index->name}}</option>
                 @endforeach
             </select>
@@ -95,7 +95,7 @@
                     <div style="margin: 20px 0;">
                         <div class="col-xs-5">
                             <select name="from_blacklist[]" id="assign_blacklist" class="form-control" size="8" multiple="multiple">
-                                @foreach($campaign_obj->getAdvertiser->BWList as $index)
+                                @foreach($adver_obj->BWList as $index)
                                 @if($index->list_type == 'black')
                                 <option value="{{$index->id}}">{{$index->name}}</option>
                                 @endif
@@ -144,7 +144,7 @@
                     <div style="margin: 20px 0;">
                         <div class="col-xs-5">
                             <select name="from_whitelist[]" id="assign_whitelist" class="form-control" size="8" multiple="multiple">
-                                @foreach($campaign_obj->getAdvertiser->BWList as $index)
+                                @foreach($adver_obj->BWList as $index)
                                 @if($index->list_type == 'white')
                                 <option value="{{$index->id}}">{{$index->name}}</option>
                                 @endif
@@ -181,7 +181,7 @@
     <div style="margin: 20px 0;">
         <div class="col-xs-5">
             <select name="from_geosegment[]" id="assign_geosegment" class="form-control" size="8" multiple="multiple">
-                @foreach($campaign_obj->getAdvertiser->GeoSegment as $index)
+                @foreach($adver_obj->GeoSegment as $index)
                 <option value="{{$index->id}}">{{$index->name}}</option>
                 @endforeach
             </select>
@@ -234,3 +234,42 @@
     <!-- end widget content -->
 
 </div>
+
+<script>
+    $('#show_geoLocation').click(function (e) {
+        e.preventDefault();
+        var active_Show = $('#active_show').val();
+        $('#active_show').val('geoLocation');
+        $('#' + active_Show).hide();
+        $('#geoLocation').fadeIn("slow");
+    });
+    $('#show_creative').click(function (e) {
+        e.preventDefault();
+        var active_Show = $('#active_show').val();
+        $('#active_show').val('creative');
+        $('#' + active_Show).hide();
+        $('#creative').fadeIn("slow");
+    });
+    $('#show_geoSegment').click(function (e) {
+        e.preventDefault();
+        var active_Show = $('#active_show').val();
+        $('#active_show').val('geoSegment');
+        $('#' + active_Show).hide();
+        $('#geoSegment').fadeIn("slow");
+    });
+    $('#show_segment').click(function (e) {
+        e.preventDefault();
+        var active_Show = $('#active_show').val();
+        $('#active_show').val('segment');
+        $('#' + active_Show).hide();
+        $('#segment').fadeIn("slow");
+    });
+    $('#show_bwList').click(function (e) {
+        e.preventDefault();
+        var active_Show = $('#active_show').val();
+        $('#active_show').val('bwList');
+        $('#' + active_Show).hide();
+        $('#bwList').fadeIn("slow");
+    });
+
+</script>
