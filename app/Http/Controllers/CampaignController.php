@@ -11,7 +11,11 @@ use App\Models\Creative;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Redirect;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\File;
+
 
 class CampaignController extends Controller
 {
@@ -377,6 +381,93 @@ class CampaignController extends Controller
             return "You don't have permission";
         }
         return Redirect::to(url('user/login'));
+    }
+
+    public function UploadCampaign(Request $request){
+
+        if(Auth::check()){
+            if(in_array('ADD_EDIT_CAMPAIGN',$this->permission)) {
+                if($request->hasFile('upload')) {
+                    if (User::isSuperAdmin()) {
+                        $advertiser_obj = Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
+                    } else {
+                        $usr_company = $this->user_company();
+                        $advertiser_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
+                            $p->whereIn('user_id', $usr_company);
+                        })->find($request->input('advertiser_id'));
+                        if (!$advertiser_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
+                    }
+                    if($advertiser_obj) {
+                        $destpath=public_path();
+                        $extension = $request->file('upload')->getClientOriginalExtension(); // getting image extension
+                        $fileName = str_random(32).'.'.$extension;
+                        $request->file('upload')->move($destpath.'/cdn/test/', $fileName);
+                        Config::set('excel.import.startRow',12);
+                        $upload = Excel::load('public/cdn/test/' . $fileName, function ($reader) {
+                        })->get();
+                        $t = array();
+                        foreach ($upload[0] as $key => $value) {
+                            array_push($t, $key);
+                        }
+
+                        if ($t[1] != 'name' or $t[2] != 'max_impression' or $t[3] != 'daily_max_impression'or $t[4] != 'max_budget' or $t[5] != 'daily_max_budget' or $t[6] != 'cpm' or $t[7] != 'advertiser_domain_name' or $t[8] != 'status' or $t[9] != 'start_date' or $t[10] != 'end_date') {
+                            File::delete($destpath . '/cdn/test/' . $fileName);
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please be sure that file is correct'])->withInput();
+                        }
+                        $bad_input=array();
+                        $count=0;
+//                        return dd();
+                        foreach ($upload as $test) {
+                            $flg=0;
+                            $campaign = new Campaign();
+                            if($test['name']=='' or $test['max_impression']=='' or  $test['daily_max_impression']=='' or $test['max_budget']=='' or $test['daily_max_budget']=='' or $test['cpm']=='' or $test['advertiser_domain_name']=='' or $test['status']=='' or $test['status']=='' or $test['end_date']=='' ) {
+                                array_push($bad_input, $test['name']);
+                                continue;
+                            }
+                            if(!is_numeric($test['max_impression']) or !is_numeric($test['daily_max_impression']) or !is_numeric($test['max_budget']) or !is_numeric($test['daily_max_budget']) or !is_numeric($test['cpm'])){
+                                array_push($bad_input,$test['name']);
+                                continue;
+                            }
+                            if(strcasecmp($test['status'], 'active')!=0 and strcasecmp($test['status'], 'inactive')!=0){
+                                array_push($bad_input,$test['name']);
+                                continue;
+                            }
+
+                            $campaign->name = $test['name'];
+                            $campaign->max_impression = $test['max_impression'];
+                            $campaign->daily_max_impression = $test['daily_max_impression'];
+                            $campaign->max_budget = $test['max_budget'];
+                            $campaign->daily_max_budget = $test['daily_max_budget'];
+                            $campaign->cpm = $test['cpm'];
+                            $campaign->start_date = $test['start_date'];
+                            $campaign->end_date = $test['end_date'];
+                            $campaign->advertiser_domain_name = $test['advertiser_domain_name'];
+                            $campaign->status = ucwords(strtolower($test['status']));
+                            $campaign->advertiser_id = $request->input('advertiser_id');
+//                            return dd('dd1');
+                            $count++;
+                            $campaign->save();
+                        }
+                        $audit=new AuditsController();
+                        $audit->store('campaign',0,$count,'bulk_add');
+                        $msg = "Campaigns added successfully";
+                        if(count($bad_input)>0){
+                            $msg.=" exept: ";
+                            foreach($bad_input as $index){
+                                $msg .=$index.',';
+                            }
+                        }
+                        return Redirect::back()->withErrors(['success' => true, 'msg' => $msg]);
+                    }
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select Advertiser First'])->withInput();
+                }
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select a file'])->withInput();
+            }
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
+        }
+        return Redirect::to(url('/user/login'));
     }
 
 }

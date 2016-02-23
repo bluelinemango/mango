@@ -322,15 +322,6 @@
                                                             Save
                                                         </button>
                                                     </div>
-                                                    <div class="col-md-3 pull-right ">
-                                                        @if(in_array('ADD_EDIT_TARGETGROUP',$permission))
-                                                            <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/campaign/cmp'.$campaign_obj->id.'/targetgroup/add')}}"
-                                                               class=" btn btn-primary pull-right">
-                                                                Add Target Group
-                                                            </a>
-                                                        @endif
-
-                                                    </div>
                                                 </div>
                                             </footer>
                                         </form>
@@ -384,8 +375,32 @@
                             <!-- Widget ID (each widget will need unique ID)-->
                             <div class="well">
                                 <header>
-                                    <h2>List of Target Group </h2>
+                                    <h2 class="font-md pull-left">List of Target Group </h2>
+                                    @if(in_array('ADD_EDIT_TARGETGROUP',$permission))
+                                        <h2 class="pull-right">
+                                            <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/campaign/cmp'.$campaign_obj->id.'/targetgroup/add')}}"
+                                               class=" btn btn-primary pull-left">
+                                                Add Target Group
+                                            </a>
+                                        </h2>
+                                        <h2 class="pull-right">
+                                            <button type="reset" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#myModal_targetgroup">
+                                                Upload Target Group
+                                            </button>
+                                        </h2>
+                                        <h2 class="pull-right">
+                                            <a href="{{cdn('/excel_template/targetgroup.xls')}}" type="reset" class="btn btn-primary " >
+                                                Download Target Group Excel Template
+                                            </a>
+
+                                        </h2>
+
+                                    @endif
+
                                 </header>
+
+
                                 <div id="targetgroup_grid"></div>
                             </div>
                             <!-- end widget -->
@@ -416,6 +431,56 @@
 
 
 
+    <!-- Modal -->
+    <div class="modal fade" id="myModal_targetgroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Upload Target Group Excel File</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="well well-sm well-primary">
+                                <form id="order-form" class="smart-form" role="form"
+                                      action="{{URL::route('targetgroup_upload')}}" method="post" novalidate="novalidate"
+                                      enctype="multipart/form-data">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="campaign_id" value="{{$campaign_obj->id}}"/>
+                                    {{--<form class="form form-inline " role="form" method="post" action="">--}}
+                                    <section>
+                                        <label class="label">File input</label>
+
+                                        <div class="input input-file">
+                                            <span class="button"><input type="file" id="file" name="upload"
+                                                                        onchange="this.parentNode.nextSibling.value = this.value">Browse</span><input
+                                                    type="text" placeholder="Include some files" readonly="">
+                                        </div>
+                                    </section>
+
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <span class="glyphicon glyphicon-floppy-disk"></span> Upload
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 
 
 @endsection
@@ -427,7 +492,6 @@
     <script>
         $(document).ready(function () {
 
-            $.material.init();
             pageSetUp();
 
             $(function () {

@@ -462,13 +462,13 @@
                                                                                         <label class="label">Ad Position</label>
                                                                                         <label class="select select-multiple">
                                                                                             <select name="ad_position[]" multiple class="custom-scroll">
-                                                                                                <option value="Any" @if(in_array('Any',$ad_select)) selected @endif>Any</option>
-                                                                                                <option value="Above_the_Fold" @if(in_array('Above_the_Fold',$ad_select)) selected @endif>Above the Fold</option>
-                                                                                                <option value="Below_the_Fold" @if(in_array('Below_the_Fold',$ad_select)) selected @endif>Below the Fold</option>
-                                                                                                <option value="Header" @if(in_array('Header',$ad_select)) selected @endif>Header</option>
-                                                                                                <option value="Footer" @if(in_array('Footer',$ad_select)) selected @endif>Footer</option>
-                                                                                                <option value="Sidebar" @if(in_array('Sidebar',$ad_select)) selected @endif>Sidebar</option>
-                                                                                                <option value="Full_Screen" @if(in_array('Full_Screen',$ad_select)) selected @endif>Full Screen</option>
+                                                                                                <option value="ANY" @if(in_array('ANY',$ad_select)) selected @endif>Any</option>
+                                                                                                <option value="ABOVE_THE_FOLD" @if(in_array('ABOVE_THE_FOLD',$ad_select)) selected @endif>Above the Fold</option>
+                                                                                                <option value="BELOW_THE_FOLD" @if(in_array('BELOW_THE_FOLD',$ad_select)) selected @endif>Below the Fold</option>
+                                                                                                <option value="HEADER" @if(in_array('HEADER',$ad_select)) selected @endif>Header</option>
+                                                                                                <option value="FOOTER" @if(in_array('FOOTER',$ad_select)) selected @endif>Footer</option>
+                                                                                                <option value="SIDEBAR" @if(in_array('SIDEBAR',$ad_select)) selected @endif>Sidebar</option>
+                                                                                                <option value="FULL_SCREEN" @if(in_array('FULL_SCREEN',$ad_select)) selected @endif>Full Screen</option>
 
 
                                                                                             </select> </label>
@@ -558,6 +558,7 @@
                                                                                         <button id="show_geoSegment" class="btn btn-primary btn-block">Assign Geo Segment</button>
                                                                                         <button id="show_bwList" class="btn btn-primary btn-block">Assign B/W List</button>
                                                                                         <button id="show_segment" class="btn btn-primary btn-block">Assign Segment </button>
+                                                                                        <button id="show_bid_profile" class="btn btn-primary btn-block">Assign Bid Profile </button>
 
                                                                                     </div>
 
@@ -629,6 +630,11 @@
                                                                                                 </select>
                                                                                             </div>
                                                                                             <div class="clearfix"></div>
+                                                                                            <br/>
+                                                                                            <div class="col-md-12" id="creativeTable">
+
+                                                                                            </div>
+
                                                                                         </div>
 
                                                                                         <!-- end widget content -->
@@ -786,11 +792,14 @@
                                                                                                 </select>
                                                                                             </div>
                                                                                             <div class="clearfix"></div>
+                                                                                            <br/>
+                                                                                            <div class="col-md-12" id="geoSegmentTable">
+
+                                                                                            </div>
                                                                                         </div>
                                                                                         <!-- end widget content -->
 
                                                                                     </div>
-
                                                                                 <div class="well col-md-9" id="segment" style="display: none">
                                                                                         <h4>Assign Segment</h4>
                                                                                         <!-- widget content -->
@@ -822,6 +831,46 @@
                                                                                                 </select>
                                                                                             </div>
                                                                                             <div class="clearfix"></div>
+                                                                                        </div>
+                                                                                        <!-- end widget content -->
+
+                                                                                    </div>
+
+                                                                                <div class="well col-md-9" id="bid_profile" style="display: none">
+                                                                                        <h4>Assign Bid Profile</h4>
+                                                                                        <!-- widget content -->
+
+                                                                                        <div style="margin: 20px 0;">
+                                                                                            <div class="col-xs-5">
+                                                                                                <select name="from_bid_profile[]" id="assign_bid_profile" class="form-control" size="8" multiple="multiple">
+                                                                                                    @foreach($campaign_obj->getAdvertiser->BidProfile as $index)
+                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                    @endforeach
+                                                                                                </select>
+                                                                                            </div>
+
+                                                                                            <div class="col-xs-2">
+                                                                                                <button type="button" id="assign_bid_profile_rightAll" class="btn btn-block" onclick="bid_profile_table()"><i class="glyphicon glyphicon-forward"></i></button>
+                                                                                                <button type="button" id="assign_bid_profile_rightSelected" class="btn btn-block" onclick="bid_profile_table()"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                                                                <button type="button" id="assign_bid_profile_leftSelected" class="btn btn-block" onclick="bid_profile_table()"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                                                                <button type="button" id="assign_bid_profile_leftAll" class="btn btn-block" onclick="bid_profile_table()"><i class="glyphicon glyphicon-backward"></i></button>
+                                                                                            </div>
+
+                                                                                            <div class="col-xs-5">
+                                                                                                <select name="to_bid_profile[]" id="assign_bid_profile_to" class="form-control" size="8" multiple="multiple">
+                                                                                                    @foreach($campaign_obj->getAdvertiser->Segment as $index)
+                                                                                                        @if(in_array($index->id,$targetgroupSegment))
+                                                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                                                                        @endif
+                                                                                                    @endforeach
+
+                                                                                                </select>
+                                                                                            </div>
+                                                                                            <div class="clearfix"></div>
+                                                                                            <br/>
+                                                                                            <div class="col-md-12" id="bidProfileTable">
+
+                                                                                            </div>
                                                                                         </div>
                                                                                         <!-- end widget content -->
 
@@ -1285,6 +1334,7 @@
     <!-- END MAIN PANEL -->
 @endsection
 @section('FooterScripts')
+    <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
 
     <script src="{{cdn('js/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js')}}"></script>
     <script src="{{cdn('js/plugin/fuelux/wizard/wizard.min.js')}}"></script>
@@ -1323,6 +1373,13 @@
             $('#active_show').val('segment');
             $('#'+active_Show).hide();
             $('#segment').fadeIn("slow");
+        });
+        $('#show_bid_profile').click(function (e) {
+            e.preventDefault();
+            var active_Show= $('#active_show').val();
+            $('#active_show').val('bid_profile');
+            $('#'+active_Show).hide();
+            $('#bid_profile').fadeIn("slow");
         });
         $('#show_bwList').click(function (e) {
             e.preventDefault();
@@ -1419,7 +1476,7 @@
         }
     </script>
     <script>
-
+        /////////////////////////Bid By Hour////////////////////////
         $('#clear_all').click(function () {
             for(var i=0; i<7; i++){
                 for(var j=0;j<24;j++){
@@ -1427,6 +1484,9 @@
                     $('#'+id+'-checkbox').prop('checked', false);
                     $('#'+i+'-'+j+'-time').removeClass();
                     $('#'+i+'-'+j+'-time').addClass('time_table_unselect');
+                    $('#'+id+'-review').removeClass();
+                    $('#'+id+'-review').addClass('time_table_unselect');
+
                 }
             }
 
@@ -1440,6 +1500,9 @@
                         $('#'+id+'-checkbox').prop('checked', true);
                         $('#'+i+'-'+j+'-time').removeClass();
                         $('#'+i+'-'+j+'-time').addClass('time-table-div-select');
+                        $('#'+id+'-review').removeClass();
+                        $('#'+id+'-review').addClass('time-table-div-select');
+
                     }
                 }
             }
@@ -1451,6 +1514,9 @@
                         $('#'+id+'-checkbox').prop('checked', true);
                         $('#'+i+'-'+j+'-time').removeClass();
                         $('#'+i+'-'+j+'-time').addClass('time-table-div-select');
+                        $('#'+id+'-review').removeClass();
+                        $('#'+id+'-review').addClass('time-table-div-select');
+
                     }
                 }
                 for(var i=5; i<7; i++){
@@ -1459,12 +1525,14 @@
                         $('#'+id+'-checkbox').prop('checked', true);
                         $('#'+i+'-'+j+'-time').removeClass();
                         $('#'+i+'-'+j+'-time').addClass('time-table-div-select');
+                        $('#'+id+'-review').removeClass();
+                        $('#'+id+'-review').addClass('time-table-div-select');
+
                     }
                 }
             }
         })
     </script>
-
     <script>
         $(document).ready(function () {
             for(var i=0; i<7; i++){
@@ -1500,6 +1568,33 @@
                 search: {
                     left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
                     right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                },
+                afterMoveToRight: function($left, $right, $options) {
+                    var data=[];
+                    $('#assign_creative_to').find('option').each(function() {
+                        data.push($(this).val());
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "{{url('/getTableGridTG')}}",
+                        data: {data:data,entity_type:'creative'}
+                    }).success(function (response) {
+                        $('#creativeTable').html(response);
+                    });
+
+                },
+                afterMoveToLeft: function($left, $right, $options) {
+                    var data=[];
+                    $('#assign_creative_to').find('option').each(function() {
+                        data.push($(this).val());
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "{{url('/getTableGridTG')}}",
+                        data: {data:data,entity_type:'creative'}
+                    }).success(function (response) {
+                        $('#creativeTable').html(response);
+                    });
                 }
             });
 
@@ -1507,6 +1602,33 @@
                 search: {
                     left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
                     right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                },
+                afterMoveToRight: function($left, $right, $options) {
+                    var data=[];
+                    $('#assign_geosegment_to').find('option').each(function() {
+                        data.push($(this).val());
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "{{url('/getTableGridTG')}}",
+                        data: {data:data,entity_type:'geosegment'}
+                    }).success(function (response) {
+                        $('#geoSegmentTable').html(response);
+                    });
+
+                },
+                afterMoveToLeft: function($left, $right, $options) {
+                    var data=[];
+                    $('#assign_geosegment_to').find('option').each(function() {
+                        data.push($(this).val());
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "{{url('/getTableGridTG')}}",
+                        data: {data:data,entity_type:'geosegment'}
+                    }).success(function (response) {
+                        $('#geoSegmentTable').html(response);
+                    });
                 }
             });
 
@@ -1514,6 +1636,40 @@
                 search: {
                     left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
                     right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                }
+            });
+
+            $('#assign_bid_profile').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                },
+                afterMoveToRight: function($left, $right, $options) {
+                    var data=[];
+                    $('#assign_bid_profile_to').find('option').each(function() {
+                        data.push($(this).val());
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "{{url('/getTableGridTG')}}",
+                        data: {data:data,entity_type:'bid_profile'}
+                    }).success(function (response) {
+                        $('#bidProfileTable').html(response);
+                    });
+
+                },
+                afterMoveToLeft: function($left, $right, $options) {
+                    var data=[];
+                    $('#assign_bid_profile_to').find('option').each(function() {
+                        data.push($(this).val());
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "{{url('/getTableGridTG')}}",
+                        data: {data:data,entity_type:'bid_profile'}
+                    }).success(function (response) {
+                        $('#bidProfileTable').html(response);
+                    });
                 }
             });
 
@@ -1650,4 +1806,9 @@
         })
 
     </script>
+    <script>
+        function bid_profile_table(){
+        }
+    </script>
+
 @endsection

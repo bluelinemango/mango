@@ -183,6 +183,17 @@ class AuditsController extends Controller
             $audit->date_change = $date_change;
             $audit->save();
         }
+        if($audit_type=='bulk_add') {
+            $audit = new Audits();
+            $audit->user_id = Auth::user()->id;
+            $audit->entity_type = $entity_type;
+            $audit->entity_id = $entity_id;
+            $audit->after_value = $data;
+            $audit->audit_type = 'bulk_add';
+            $audit->change_key = $key;
+            $audit->date_change = $date_change;
+            $audit->save();
+        }
         if($audit_type=='del') {
             $audit = new Audits();
             $audit->user_id = Auth::user()->id;

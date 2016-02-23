@@ -17,12 +17,6 @@ use Illuminate\Support\Facades\Redirect;
 class UsersController extends Controller
 {
       //TODO: chek if not super admin cant edit super admin user name
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function GetView(){
         if(Auth::check()) {
             if (User::isSuperAdmin()) {
@@ -35,6 +29,7 @@ class UsersController extends Controller
         }
         return Redirect::to(url('user/login'));
     }
+
     public function GetRolePermissionView(){
         if(Auth::user()->role_id==1){
             $role_obj = Role::all();
@@ -46,6 +41,7 @@ class UsersController extends Controller
         }
 //        return dd($user_obj);
     }
+
     public function RegisterView()
     {
         if(Auth::user()->role_id==1) {
@@ -69,6 +65,7 @@ class UsersController extends Controller
         }
         return Redirect::to(url('user/login'));
     }
+
     public function AssignPermissionEditView($id)
     {
         if(!is_null($id)) {
@@ -279,6 +276,7 @@ class UsersController extends Controller
         }
         return Redirect::to(url('user/login'));
     }
+
     public function ChangeStatus($id)
     {
         if (Auth::check()) {
@@ -341,6 +339,7 @@ class UsersController extends Controller
             return Redirect::to(url('user/login'));
         }
     }
+
     public function GetDashboardView(){
         if(Auth::check()) {
             if(User::isSuperAdmin()){
@@ -360,4 +359,43 @@ class UsersController extends Controller
         }
         return Redirect::to(url('user/login'));
     }
+
+    public function jqgrid(Request $request){
+        //return dd($request->all());
+        if(Auth::check()){
+            if (in_array('ADD_EDIT_USER', $this->permission)) {
+                $validate=\Validator::make($request->all(),['name' => 'required']);
+                if($validate->passes()) {
+                    $user_id=substr($request->input('id'),3);
+                    if (User::isSuperAdmin()) {
+                        $user=User::find($user_id);
+                    }else{
+                        $usr_company = $this->user_company();
+                        $user=User::where('company_id', Auth::user()->company_id)->find($user_id);
+                        if (!$user) {
+                            return $msg=(['success' => false, 'msg' => "Some things went wrong"]);
+                        }
+                    }
+                    if ($user) {
+                        $data = array();
+                        $audit = new AuditsController();
+                        if ($user->name != $request->input('name')) {
+                            array_push($data, 'Name');
+                            array_push($data, $user->name);
+                            array_push($data, $request->input('name'));
+                            $user->name = $request->input('name');
+                        }
+                        $audit->store('user', $user_id, $data, 'edit');
+                        $user->save();
+                        return $msg=(['success' => true, 'msg' => "your User Saved successfully"]);
+                    }
+                    return $msg=(['success' => false, 'msg' => "Please Select a User First"]);
+                }
+                return $msg=(['success' => false, 'msg' => "Please Check your field"]);
+            }
+            return $msg=(['success' => false, 'msg' => "You don't have permission"]);
+        }
+        return Redirect::to(url('/user/login'));
+    }
+
 }

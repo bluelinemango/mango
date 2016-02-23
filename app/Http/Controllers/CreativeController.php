@@ -10,9 +10,13 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\File;
+
 
 
 class CreativeController extends Controller
@@ -351,7 +355,7 @@ class CreativeController extends Controller
         return Redirect::to(url('user/login'));
     }
 
-    public function UploadBwlist(Request $request){
+    public function UploadCreative(Request $request){
 
         if(Auth::check()){
             if(in_array('ADD_EDIT_CREATIVE',$this->permission)) {
@@ -372,63 +376,84 @@ class CreativeController extends Controller
                         $extension = $request->file('upload')->getClientOriginalExtension(); // getting image extension
                         $fileName = str_random(32).'.'.$extension;
                         $request->file('upload')->move($destpath.'/cdn/test/', $fileName);
-                        $upload = Excel::load('public/cdn/test/'.$fileName,function($reader){
-                            return $reader->all();
-                        });
-                        $a = array();
-                        $flg=0;
-                        foreach($upload->parsed as $test) {
-                            foreach ($test as $key => $value) {
-                                if($flg==0){
-                                    array_push($a,$key);
-                                }
-                                array_push($a, $value);
-                                $flg++;
-                            }
+                        Config::set('excel.import.startRow',12);
+                        $upload = Excel::load('public/cdn/test/' . $fileName, function ($reader) {
+                        })->get();
+                        $t = array();
+                        foreach ($upload[0] as $key => $value) {
+                            array_push($t, $key);
                         }
-                        $first_array=array_slice($a,0,2);
-                        $second_array=array_slice($a,2);
 
-                        if((count($first_array) == 2) and ($first_array[1]=='black' or $first_array[1] =='white')) {
-                            $flg = 0;
-                            $chk = BWList::where('advertiser_id', $request->input('advertiser_id'))->get();
-
-                            foreach ($chk as $index) {
-                                if ($index->name == $first_array[0] and $index->list_type == $first_array[1]) {
-                                    $flg = 1;
-                                }
+                        if ($t[1] != 'name' or $t[2] != 'ad_tag' or $t[3] != 'landing_page_url'or $t[4] != 'preview_url' or $t[5] != 'size' or $t[6] != 'attributes' or $t[7] != 'advertiser_domain_name' or $t[8] != 'status' or $t[9] != 'api' or $t[10] != 'ad_type') {
+                            File::delete($destpath . '/cdn/test/' . $fileName);
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please be sure that file is correct'])->withInput();
+                        }
+                        $bad_input=array();
+                        $count=0;
+                        foreach ($upload as $test) {
+                            $flg=0;
+                            $creative = new Creative();
+                            if($test['name']=='' or $test['ad_tag']=='' or  $test['landing_page_url']=='' or $test['preview_url']=='' or $test['size']=='' or $test['attributes']=='' or $test['advertiser_domain_name']=='' or $test['status']=='' or $test['api']=='' or $test['ad_type']=='' ) {
+                                array_push($bad_input, $test['name']);
+                                continue;
                             }
-                            if ($flg == 0) {
-                                $lost= array();
-                                $bwlist = new BWList();
-                                $bwlist->name = $first_array[0];
-                                $bwlist->list_type = $first_array[1];
-                                $bwlist->advertiser_id = $request->input('advertiser_id');
-                                $bwlist->save();
-                                foreach ($second_array as $index) {
-                                    if(preg_match($pattern,$index)){
-                                        $bwlistentries = new BWEntries();
-                                        $bwlistentries->domain_name = $index;
-                                        $bwlistentries->bwlist_id = $bwlist->id;
-                                        $bwlistentries->save();
-                                    }else{
-                                        array_push($lost,$index);
+                            if(strcasecmp($test['status'], 'active')!=0 and strcasecmp($test['status'], 'inactive')!=0){
+                                array_push($bad_input,$test['name']);
+                                continue;
+                            }
+                            $api=explode(',',$test['api']);
+
+                            if(is_array($api)) {
+                                foreach ($api as $index) {
+                                    if (strcasecmp($index, 'VPAID_1.0') != 0 and strcasecmp($index, 'VPAID_2.0') != 0 and strcasecmp($index, 'MRAID-1') != 0 and strcasecmp($index, 'ORMMA') != 0 and strcasecmp($index, 'MRAID-2') != 0) {
+                                        array_push($bad_input,$test['name']);
+                                        $flg=1;
                                     }
                                 }
-                                $msg = "B/W List added successfully";
-                                if(count($lost)>0){
-                                    $msg.=" exept: ";
-                                    foreach($lost as $index){
-                                        $msg .=$index.',';
-                                    }
+                                if($flg==1){
+                                    $flg=0;
+                                    continue;
                                 }
-                                return Redirect::back()->withErrors(['success' => false, 'msg' => $msg]);
+                            }else{
+                                array_push($bad_input,$test['name']);
+                                continue;
                             }
-                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'this name already existed !!!'])->withInput();
+                            if(strcasecmp($test['ad_type'], 'IFRAME')!=0 and strcasecmp($test['ad_type'], 'JAVASCRIPT')!=0 and strcasecmp($test['ad_type'], 'XHTML_BANNER_AD')!=0 and strcasecmp($test['ad_type'], 'XHTML_TEXT_AD')!=0){
+                                array_push($bad_input,$test['name']);
+                                return dd('ss2');
+                                continue;
+                            }
+                            $size=explode('x',$test['size']);
+                            if(!is_array($size) or count($size)<>2 or (is_array($size) and count($size)==2 and !is_numeric($size[0])) or (is_array($size) and count($size)==2 and !is_numeric($size[1]))){
+                                array_push($bad_input,$test['name']);
+                                continue;
+                            }
+                            $creative->name = $test['name'];
+                            $creative->ad_tag = $test['ad_tag'];
+                            $creative->landing_page_url = $test['landing_page_url'];
+                            $creative->preview_url = $test['preview_url'];
+                            $creative->size = $size[0].'x'.$size[1];
+                            $creative->attributes = $test['attributes'];
+                            $creative->advertiser_domain_name = $test['advertiser_domain_name'];
+                            $creative->status = ucwords(strtolower($test['status']));
+                            $creative->api = '['.strtoupper(implode(',',$api)).']';
+                            $creative->ad_type = strtoupper($test['ad_type']);
+                            $creative->advertiser_id = $request->input('advertiser_id');
+                            $creative->save();
+                            $count++;
                         }
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'make sure that youe Upload file is correct'])->withInput();
+                        $audit=new AuditsController();
+                        $audit->store('creative',0,$count,'bulk_add');
+                        $msg = "Creatives added successfully";
+                        if(count($bad_input)>0){
+                            $msg.=" exept: ";
+                            foreach($bad_input as $index){
+                                $msg .=$index.',';
+                            }
+                        }
+                        return Redirect::back()->withErrors(['success' => true, 'msg' => $msg]);
                     }
-                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select Advertiser First'])->withInput();
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select a file'])->withInput();
             }

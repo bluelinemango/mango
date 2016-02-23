@@ -5,8 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Models\Advertiser;
 use App\Models\Advertiser_Publisher;
+use App\Models\Bid_Profile;
+use App\Models\Bid_Profile_Entry;
+use App\Models\BWEntries;
+use App\Models\BWList;
 use App\Models\Campaign;
+use App\Models\Creative;
 use App\Models\Geolocation;
+use App\Models\GeoSegment;
+use App\Models\GeoSegmentList;
 use App\Models\Iab_Category;
 use App\Models\Iab_Sub_Category;
 use App\Models\Targetgroup;
@@ -21,7 +28,11 @@ use App\Models\Targetgroup_Segment_Map;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\File;
 
 class TargetgroupController extends Controller
 {
@@ -154,6 +165,7 @@ class TargetgroupController extends Controller
                         $target_bid_hour->save();
                         $audit = new AuditsController();
                         $audit->store('targetgroup', $targetgroup->id, null, 'add', $key_audit);
+
                         if (count($request->input('to_geosegment')) > 0) {
                             $chk = array();
                             foreach ($request->input('to_geosegment') as $index) {
@@ -167,6 +179,7 @@ class TargetgroupController extends Controller
                                 }
                             }
                         }
+
                         if (count($request->input('to_creative')) > 0) {
                             $chk = array();
                             foreach ($request->input('to_creative') as $index) {
@@ -180,6 +193,7 @@ class TargetgroupController extends Controller
                                 }
                             }
                         }
+
                         if (count($request->input('to_geolocation')) > 0) {
                             $chk = array();
                             foreach ($request->input('to_geolocation') as $index) {
@@ -193,6 +207,7 @@ class TargetgroupController extends Controller
                                 }
                             }
                         }
+
                         if (count($request->input('to_blacklist')) > 0 and count($request->input('to_whitelist')) == 0) {
                             $chk = array();
                             foreach ($request->input('to_blacklist') as $index) {
@@ -248,7 +263,7 @@ class TargetgroupController extends Controller
                             }])
                             ->find($tgid);
                         $campaign_obj = Campaign::with(['getAdvertiser' => function ($q) {
-                            $q->with('Creative', 'GeoSegment', 'BWList','Segment');
+                            $q->with('Creative', 'GeoSegment', 'BWList','Segment','BidProfile');
                         }])->find($cmpid);
 //                        return dd($campaign_obj);
                     } else {
@@ -262,11 +277,11 @@ class TargetgroupController extends Controller
                         })
                             ->with('getCreative', 'getBWList', 'getGeoSegment','getSegment','getGeoLocation','getBidhour','getBidAdvPublisher')
                             ->find($tgid);
-                        $campaign_obj = Campaign::with(['getAdvertiser' => function ($q) use ($usr_company) {
-                            $q->with('Creative', 'GeoSegment', 'BWList','Segment')->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                        $campaign_obj = Campaign::whereHas('getAdvertiser' , function ($q) use ($usr_company) {
+                            $q->with('Creative', 'GeoSegment', 'BWList','Segment','BidProfile')->whereHas('GetClientID' , function ($p) use ($usr_company) {
                                 $p->whereIn('user_id', $usr_company);
                             });
-                        }])->find($cmpid);
+                        })->find($cmpid);
                         if (!$targetgroup_obj) {
                             return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                         }
@@ -673,11 +688,48 @@ class TargetgroupController extends Controller
         return Redirect::to(url('user/login'));
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function getTableGrid(Request $request){
+//        return dd($request->all());
+        if ($request->has('data') and $request->has('entity_type')) {
+            $entity_type=$request->input('entity_type');
+            $data=[];
+            foreach($request->input('data') as $index){
+                if (User::isSuperAdmin()) {
+                    if($entity_type=='geosegment') {
+                        $entity_obj = GeoSegment::with('getParent')->where('geosegmentlist_id',$index)->get();
+//                        return dd($entity_obj);
+                    }elseif($entity_type=='creative'){
+                        $entity_obj = Creative::find($index);
+                    }elseif($entity_type=='bwlist') {
+                        $entity_obj = BWEntries::with('getParent')->where('bwlist_id',$index)->get();
+                    }elseif($entity_type=='bid_profile') {
+                        $entity_obj = Bid_Profile_Entry::with('getParent')->where('bid_profile_id',$index)->get();
+                    }elseif($entity_type=='segment') {
+
+                    }
+                } else {
+                    $usr_company = $this->user_company();
+                    $entity_obj = GeoSegment::with(['getParent'=> function($q) use ($usr_company){
+                        $q->whereHas('getAdvertiser' , function ($q) use ($usr_company) {
+                            $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        });
+                    }])->find($index);
+                    if (!$entity_obj) {
+                        continue;
+                    }
+                }
+
+                array_push($data,$entity_obj);
+            }
+            return view('targetgroup.template.gridTable')
+                ->with('entity_obj',$data)
+                ->with('entity_type',$request->input('entity_type'));
+//            return json_encode($sub_category);
+        }
+    }
+
     public function Iab_Category($id)
     {
         if (is($id)) {
@@ -730,6 +782,7 @@ class TargetgroupController extends Controller
         }
         return Redirect::to(url('/user/login'));
     }
+
     public function ChangeStatus($id){
         if(Auth::check()){
             if (in_array('ADD_EDIT_TARGETGROUP', $this->permission)) {
@@ -774,5 +827,345 @@ class TargetgroupController extends Controller
         return Redirect::to(url('user/login'));
     }
 
+    public function UploadTargetgroup(Request $request){
+
+//        return dd($request->all());
+        if(Auth::check()){
+            if(in_array('ADD_EDIT_TARGETGROUP',$this->permission)) {
+                if($request->hasFile('upload')) {
+                    if (User::isSuperAdmin()) {
+                        $campaign_obj = Campaign::with(['getAdvertiser' => function ($q) {
+                            $q->with('Creative', 'GeoSegment', 'BWList');
+                        }])->find($request->input('campaign_id'));
+                    } else {
+                        $usr_company = $this->user_company();
+                        $campaign_obj = Campaign::whereHas('getAdvertiser' , function ($q) use ($usr_company) {
+                            $q->with('Creative', 'GeoSegment', 'BWList')->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->find($request->input('campaign_id'));
+//                    return dd($campaign_obj);
+                        if (!$campaign_obj) {
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                        }
+
+                    }
+                    if($campaign_obj) {
+                        $destpath=public_path();
+                        $extension = $request->file('upload')->getClientOriginalExtension(); // getting image extension
+                        $fileName = str_random(32).'.'.$extension;
+                        $request->file('upload')->move($destpath.'/cdn/test/', $fileName);
+                        Config::set('excel.import.startRow',12);
+                        $upload = Excel::load('public/cdn/test/' . $fileName, function ($reader) {
+                        })->get();
+//                        return dd($upload);
+                        $t = array();
+                        foreach ($upload[0] as $key => $value) {
+                            array_push($t, $key);
+                        }
+                        if ($t[1] != 'name'
+                            or $t[2] != 'max_impression'
+                            or $t[3] != 'daily_max_impression'
+                            or $t[4] != 'max_budget'
+                            or $t[5] != 'daily_max_budget'
+                            or $t[6] != 'cpm'
+                            or $t[7] != 'advertiser_domain_name'
+                            or $t[8] != 'status'
+                            or $t[9] != 'start_date'
+                            or $t[10] != 'end_date'
+                            or $t[11] != 'iab_category'
+                            or $t[12] != 'iab_sub_category'
+                            or $t[13] != 'pacing_plan'
+                            or $t[14] != 'ad_position'
+                            or $t[15] != 'frequency_in_sec'
+                            or $t[16] != 'creative_assign'
+                            or $t[17] != 'bwlist_assign'
+                            or $t[18] != 'geo_segment_assign'
+                            or $t[19] != 'geo_location_assign'
+                            or $t[20] != 'bid_profile_assign') {
+                            File::delete($destpath . '/cdn/test/' . $fileName);
+                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please be sure that file is correct'])->withInput();
+                        }
+
+                        $bad_input=array();
+                        $count=0;
+                        foreach ($upload as $test) {
+                            $flg=0;
+                            $targetgroup = new Targetgroup();
+                            if($test['name']==''
+                                or $test['max_impression']==''
+                                or $test['daily_max_impression']==''
+                                or $test['max_budget']==''
+                                or $test['daily_max_budget']==''
+                                or $test['cpm']==''
+                                or $test['advertiser_domain_name']==''
+                                or $test['status']==''
+                                or $test['start_date']==''
+                                or $test['end_date']==''
+                                or $test['pacing_plan']==''
+                                or $test['ad_position']==''
+                                or $test['frequency_in_sec']==''
+                                ) {
+                                array_push($bad_input, $test['name']);
+                                continue;
+                            }
+                            if(strcasecmp($test['status'], 'active')!=0 and strcasecmp($test['status'], 'inactive')!=0){
+                                array_push($bad_input,$test['name']);
+                                continue;
+                            }
+                            $ad_position=explode(',',$test['ad_position']);
+                            if(is_array($ad_position)) {
+                                foreach ($ad_position as $index) {
+                                    if (strcasecmp($index, 'ANY') != 0 and strcasecmp($index, 'ABOVE_THE_FOLD') != 0 and strcasecmp($index, 'BELOW_THE_FOLD') != 0 and strcasecmp($index, 'HEADER') != 0 and strcasecmp($index, 'FOOTER') != 0 and strcasecmp($index, 'SIDEBAR') != 0 and strcasecmp($index, 'FULL_SCREEN') != 0) {
+                                        array_push($bad_input,$test['name']);
+                                        $flg=1;
+                                    }
+                                }
+                                if($flg==1){
+                                    $flg=0;
+                                    continue;
+                                }
+                            }else{
+                                array_push($bad_input,$test['name']);
+                                continue;
+                            }
+//                            $start_date = \DateTime::createFromFormat('d/m/Y', $test['start_date']);
+//                            $end_date = \DateTime::createFromFormat('d/m/Y', $test['end_date']);
+//                            if(!$start_date or !$end_date){
+//                                array_push($bad_input,$test['name']);
+//                                return dd('331');
+//                                continue;
+//                            }
+
+                            ///////////////ASSIGN VALIDATION//////////////////
+                            $creative=explode(',',$test['creative_assign']);
+                            $geosegment=explode(',',$test['geo_segment_assign']);
+                            $bwlist=explode(',',$test['bwlist_assign']);
+                            $geolocation=explode(',',$test['geo_location_assign']);
+                            $bid_profile=explode(',',$test['bid_profile_assign']);
+                            if(!is_null($test['creative_assign'])) {
+                                if (is_array($creative)) {
+                                    foreach ($creative as $index) {
+                                        $creative_id = substr($index, 3);
+                                        $creative_obj = Creative::find($creative_id);
+                                        if (isset($creative_obj->advertiser_id) and $creative_obj->advertiser_id != $campaign_obj->advertiser_id) {
+                                            array_push($bad_input, $test['name']);
+                                            $flg = 1;
+                                            break;
+                                        } elseif(!isset($creative_obj->advertiser_id)) {
+                                            array_push($bad_input, $test['name']);
+                                            $flg = 1;
+                                            break;
+                                        }
+                                    }
+                                    if ($flg == 1) {
+                                        $flg = 0;
+                                        continue;
+                                    }
+                                } else {
+                                    array_push($bad_input, $test['name']);
+                                    continue;
+                                }
+                            }
+//                            return dd('ss');
+                            if(!is_null($test['geo_segment_assign'])) {
+                                if (is_array($geosegment)) {
+                                    foreach ($geosegment as $index) {
+                                        $geosegment_id = substr($index, 3);
+                                        $geosegment_obj = GeoSegmentList::find($geosegment_id);
+                                        if (isset($geosegment_obj->advertiser_id) and $geosegment_obj->advertiser_id != $campaign_obj->advertiser_id) {
+                                            array_push($bad_input, $test['name']);
+                                            $flg = 1;
+                                            break;
+                                        }elseif(!isset($geosegment_obj->advertiser_id)) {
+                                            array_push($bad_input, $test['name']);
+                                            $flg = 1;
+                                            break;
+                                        }
+                                    }
+                                    if ($flg == 1) {
+                                        $flg = 0;
+                                        continue;
+                                    }
+                                } else {
+                                    array_push($bad_input, $test['name']);
+                                    continue;
+                                }
+                            }
+                            if(!is_null($test['bid_profile_assign'])) {
+
+                                if (is_array($bid_profile)) {
+                                    foreach ($bid_profile as $index) {
+                                        $bid_profile_id = substr($index, 3);
+                                        $bid_profile_obj = Bid_Profile::find($bid_profile_id);
+                                        if (isset($bid_profile_obj->advertiser_id) and $bid_profile_obj->advertiser_id != $campaign_obj->advertiser_id) {
+                                            array_push($bad_input, $test['name']);
+                                            $flg = 1;
+                                            break;
+                                        }elseif(!isset($bid_profile_obj->advertiser_id)) {
+                                            array_push($bad_input, $test['name']);
+                                            $flg = 1;
+                                            break;
+                                        }
+                                    }
+                                    if ($flg == 1) {
+                                        $flg = 0;
+                                        continue;
+                                    }
+                                } else {
+                                    array_push($bad_input, $test['name']);
+                                    continue;
+                                }
+                            }
+                            if(!is_null($test['bwlist_assign'])) {
+
+                                if (is_array($bwlist)) {
+                                    $bwlist_type = BWList::find(substr($bwlist[0], 2));
+                                    $bwlist_type = $bwlist_type->list_type;
+                                    foreach ($bwlist as $index) {
+                                        $bwlist_id = substr($index, 2);
+                                        $bwlist_obj = BWList::find($bwlist_id);
+                                        if (isset($bwlist_obj->advertiser_id) and $bwlist_obj->advertiser_id != $campaign_obj->advertiser_id or $bwlist_type != $bwlist_obj->list_type) {
+                                            array_push($bad_input, $test['name']);
+                                            $flg = 1;
+                                            break;
+                                        }elseif(!isset($bwlist_obj->advertiser_id)) {
+                                            array_push($bad_input, $test['name']);
+                                            $flg = 1;
+                                            break;
+                                        }
+                                    }
+                                    if ($flg == 1) {
+                                        $flg = 0;
+                                        continue;
+                                    }
+                                } else {
+                                    array_push($bad_input, $test['name']);
+                                    continue;
+                                }
+                            }
+                            if(!is_null($test['geo_location_assign'])) {
+                                if (is_array($geolocation)) {
+                                    foreach ($geolocation as $index) {
+                                        $geolocation = Geolocation::find($index);
+                                        if (!$geolocation) {
+                                            array_push($bad_input, $test['name']);
+                                            $flg = 1;
+                                            break;
+                                        }
+                                    }
+                                    if ($flg == 1) {
+                                        $flg = 0;
+                                        continue;
+                                    }
+                                } else {
+                                    array_push($bad_input, $test['name']);
+                                    continue;
+                                }
+                            }
+                            ///////////////END ASSIGN VALIDATION//////////////////
+                            if(!is_numeric($test['max_impression']) or !is_numeric($test['daily_max_impression']) or !is_numeric($test['max_budget']) or !is_numeric($test['daily_max_budget']) or !is_numeric($test['cpm']) or !is_numeric($test['pacing_plan']) or !is_numeric($test['frequency_in_sec'])){
+                                array_push($bad_input,$test['name']);
+                                continue;
+                            }
+                            $targetgroup->name = $test['name'];
+                            $targetgroup->max_impression = $test['max_impression'];
+                            $targetgroup->daily_max_impression = $test['daily_max_impression'];
+                            $targetgroup->max_budget = $test['max_budget'];
+                            $targetgroup->daily_max_budget = $test['daily_max_budget'];
+                            $targetgroup->cpm = $test['cpm'];
+                            $targetgroup->pacing_plan = $test['pacing_plan'];
+                            $targetgroup->frequency_in_sec = $test['frequency_in_sec'];
+                            $targetgroup->advertiser_domain_name = $test['advertiser_domain_name'];
+                            $targetgroup->status = ucwords(strtolower($test['status']));
+                            $targetgroup->start_date = $test['start_date'];
+                            $targetgroup->end_date = $test['end_date'];
+                            $targetgroup->ad_position = '['.strtoupper(implode(',',$ad_position)).']';
+                            $targetgroup->campaign_id = $request->input('campaign_id');
+//                            return dd('before save');
+                            $targetgroup->save();
+                            $count++;
+                            if(!is_null($test['geo_segment_assign'])) {
+                                $chk = array();
+                                foreach ($geosegment as $index) {
+                                    if (!in_array($index, $chk)) {
+                                        $geosegment_assign = new Targetgroup_Geosegmentlist_Map();
+                                        $geosegment_assign->targetgroup_id = $targetgroup->id;
+                                        $geosegment_assign->geosegmentlist_id = substr($index,3);
+                                        $geosegment_assign->save();
+                                        array_push($chk, $index);
+                                    }
+                                }
+                            }
+                            if(!is_null($test['creative_assign'])) {
+                                $chk = array();
+                                foreach ($creative as $index) {
+                                    if (!in_array($index, $chk)) {
+                                        $creative_assign = new Targetgroup_Creative_Map();
+                                        $creative_assign->targetgroup_id = $targetgroup->id;
+                                        $creative_assign->creative_id = substr($index,3);
+                                        $creative_assign->save();
+                                        array_push($chk, $index);
+                                    }
+                                }
+                            }
+                            if(!is_null($test['geo_location_assign'])) {
+                                $chk = array();
+                                foreach ($geolocation as $index) {
+                                    if (!in_array($index, $chk)) {
+                                        $geolocation_assign = new Targetgroup_Geolocation_Map();
+                                        $geolocation_assign->targetgroup_id = $targetgroup->id;
+                                        $geolocation_assign->geolocation_id = $index;
+                                        $geolocation_assign->save();
+                                        array_push($chk, $index);
+                                    }
+                                }
+                            }
+                            if(!is_null($test['bwlist_assign'])) {
+                                $chk = array();
+                                foreach ($bwlist as $index) {
+                                    if (!in_array($index, $chk)) {
+                                        $blacklist_assign = new Targetgroup_Bwlist_Map();
+                                        $blacklist_assign->targetgroup_id = $targetgroup->id;
+                                        $blacklist_assign->bwlist_id = substr($index,3);
+                                        $blacklist_assign->save();
+                                        array_push($chk, $index);
+                                    }
+                                }
+                            }
+
+//                            if (count($bid_profile) > 0 ) {
+//                                $chk = array();
+//                                foreach ($bid_profile as $index) {
+//                                    if (!in_array($index, $chk)) {
+//                                        $bid_profile_assign = new Targetgroup_Bwlist_Map();
+//                                        $bid_profile_assign->targetgroup_id = $targetgroup->id;
+//                                        $bid_profile_assign->bwlist_id = $index;
+//                                        $bid_profile_assign->save();
+//                                        array_push($chk, $index);
+//                                    }
+//                                }
+//                            }
+
+                        }
+                        $audit=new AuditsController();
+                        $audit->store('targetgroup',0,$count,'bulk_add');
+                        $msg = "Target Groups added successfully";
+                        if(count($bad_input)>0){
+                            $msg.=" exept: ";
+                            foreach($bad_input as $index){
+                                $msg .=$index.',';
+                            }
+                        }
+                        return Redirect::back()->withErrors(['success' => true, 'msg' => $msg]);
+                    }
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select Advertiser First'])->withInput();
+                }
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select a file'])->withInput();
+            }
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
+        }
+        return Redirect::to(url('/user/login'));
+    }
 
 }

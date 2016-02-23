@@ -532,8 +532,8 @@
             <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
+    </div>
+    <!-- /.modal -->
     <!-- Modal -->
     <div class="modal fade" id="myModal_creative" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -542,7 +542,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                         &times;
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">Upload Black/White List Excel File</h4>
+                    <h4 class="modal-title" id="myModalLabel">Upload Creative Excel File</h4>
                 </div>
                 <div class="modal-body">
 
@@ -582,8 +582,58 @@
             <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    </div>
+    <!-- /.modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal_campaign" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Upload Campaign Excel File</h4>
+                </div>
+                <div class="modal-body">
 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="well well-sm well-primary">
+                                <form id="order-form" class="smart-form" role="form"
+                                      action="{{URL::route('campaign_upload')}}" method="post" novalidate="novalidate"
+                                      enctype="multipart/form-data">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="advertiser_id" value="{{$adver_obj->id}}"/>
+                                    {{--<form class="form form-inline " role="form" method="post" action="">--}}
+                                    <section>
+                                        <label class="label">File input</label>
+
+                                        <div class="input input-file">
+                                            <span class="button"><input type="file" id="file" name="upload"
+                                                                        onchange="this.parentNode.nextSibling.value = this.value">Browse</span><input
+                                                    type="text" placeholder="Include some files" readonly="">
+                                        </div>
+                                    </section>
+
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <span class="glyphicon glyphicon-floppy-disk"></span> Upload
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
     <!-- Modal -->
     <div class="modal fade" id="myModal_geo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
@@ -639,8 +689,9 @@
             <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
+    </div>
+    <!-- /.modal -->
+    <!-- Modal -->
     <div class="modal fade" id="myModal_bid_profile" tabindex="-6" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -695,7 +746,8 @@
             <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    </div>
+    <!-- /.modal -->
 
 
 @endsection

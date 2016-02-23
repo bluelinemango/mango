@@ -177,28 +177,12 @@
                                             <div class="well col-md-12">
                                                 <div class="col-md-6">
                                                     <h5>Feature Score Map</h5>
-                                                    <table class="table table-bordered">
-                                                        @foreach(json_decode($model_obj->feature_score_map) as $key => $value)
-                                                            <tr>
-                                                                <td>{{$key}}</td>
-                                                                <td>{{$value}}</td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </table>
+                                                    <div id="feature_score_map_grid"></div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <h5>Top Feature Score Map</h5>
-
-                                                    <table class="table table-bordered">
-                                                    @foreach(json_decode($model_obj->top_feature_score_map) as $key => $value)
-                                                    <tr>
-                                                        <td>{{$key}}</td>
-                                                        <td>{{$value}}</td>
-                                                    </tr>
-                                                    @endforeach
-                                                </table>
+                                                    <div id="top_feature_score_map_grid"></div>
                                                 </div>
-
                                             </div>
                                             <div class="clearfix"></div>
                                             @if($model_obj->model_type=='seed_model')
@@ -419,6 +403,7 @@
     <!-- PAGE RELATED PLUGIN(S) -->
     <script src="{{cdn('js/plugin/bootstrap-tags/bootstrap-tagsinput.min.js')}}"></script>
     <script src="{{cdn('js/multi_select/multiselect.min.js')}}"></script>
+    <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
 
     <script type="text/javascript">
 
@@ -452,6 +437,100 @@
                     });
                 }
             });
+
+
+
+
+            @if(!is_null(json_decode($model_obj->feature_score_map)))
+            $(function () {
+
+                var db = {
+
+                    loadData: function (filter) {
+                        return $.grep(this.feature_score_map, function (feature_score_map) {
+                            return (!filter.name || feature_score_map.name.indexOf(filter.name) > -1)
+                                    && (!filter.score || feature_score_map.score.indexOf(filter.score) > -1);
+                        });
+                    }
+
+                };
+
+                window.db = db;
+
+                db.feature_score_map = [
+                    @foreach(json_decode($model_obj->feature_score_map) as $key => $value)
+                    {
+                        "name": '{{$key}}',
+                        "score":'{{$value}}'
+                    },
+                    @endforeach
+                ];
+
+                $("#feature_score_map_grid").jsGrid({
+                    width: "100%",
+                    filtering: true,
+                    editing: false,
+                    sorting: true,
+                    paging: true,
+                    autoload: true,
+                    pageSize: 10,
+                    pageButtonCount: 5,
+                    controller: db,
+                    fields: [
+                        {name: "name", title: "Name", type: "text", width: 70},
+                        {name: "score", title: "Score", type: "text", width: 50, align: "center",editing:false}
+                    ]
+
+                });
+
+            });
+            @endif
+            @if(!is_null(json_decode($model_obj->top_feature_score_map)))
+            $(function () {
+
+                var db1 = {
+
+                    loadData: function (filter) {
+                        return $.grep(this.top_feature_score_map, function (top_feature_score_map) {
+                            return (!filter.name || top_feature_score_map.name.indexOf(filter.name) > -1)
+                                    && (!filter.score || top_feature_score_map.score.indexOf(filter.score) > -1);
+                        });
+                    }
+
+                };
+
+                window.db = db1;
+
+                db1.top_feature_score_map = [
+                    @foreach(json_decode($model_obj->top_feature_score_map) as $key => $value)
+                    {
+                        "name": '{{$key}}',
+                        "score":'{{$value}}'
+                    },
+                    @endforeach
+                ];
+
+                $("#top_feature_score_map_grid").jsGrid({
+                    width: "100%",
+                    filtering: true,
+                    editing: false,
+                    sorting: true,
+                    paging: true,
+                    autoload: true,
+                    pageSize: 10,
+                    pageButtonCount: 5,
+                    controller: db1,
+                    fields: [
+                        {name: "name", title: "Name", type: "text", width: 70},
+                        {name: "score", title: "Score", type: "text", width: 50, align: "center",editing:false}
+                    ]
+
+                });
+
+            });
+
+            @endif
+
 
 
 

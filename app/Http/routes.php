@@ -76,6 +76,8 @@ Route::get('/client/cl{clid?}/advertiser/adv{advid?}/campaign/cmp{cmpid?}/clone/
 Route::get('/campaign/delete/{id?}','CampaignController@DeleteCampaign');
 Route::post('/campaign/add/create', ['uses'=>'CampaignController@add_campaign','as'=>'campaign_create']);
 Route::put('/campaign/edit/update', ['uses'=>'CampaignController@edit_campaign','as'=>'campaign_update']);
+Route::post('/campaign/upload', ['uses'=>'CampaignController@UploadCampaign','as'=>'campaign_upload']);
+
 /////////////////////////END CAMPAIGN///////////////////////////////////////////
 
 
@@ -91,6 +93,8 @@ Route::get('/client/cl{clid?}/advertiser/adv{advid?}/campaign/cmp{cmpid?}/target
 //Route::get('/targetgroup/delete/{id?}','TargetgroupController@DeleteTargetgroup');
 Route::post('/targetgroup/add/create', ['uses'=>'TargetgroupController@add_targetgroup','as'=>'targetgroup_create']);
 Route::put('/targetgroup/edit/update', ['uses'=>'TargetgroupController@edit_targetgroup','as'=>'targetgroup_update']);
+Route::post('/targetgroup/upload', ['uses'=>'TargetgroupController@UploadTargetgroup','as'=>'targetgroup_upload']);
+
 /////////////////////////END TARGET GROUP///////////////////////////////////////////
 
 
@@ -170,6 +174,8 @@ Route::post('/bwlist_entries_edit', 'BWListController@jqgrid');
 Route::post('/geosegment_edit', 'GeoSegmentController@jqgrid');
 Route::get('/get_iab_sub_category/{id?}', ['uses'=>'TargetgroupController@Iab_Category','as'=>'get_iab_sub_category']);
 
+Route::post('/getTableGridTG', 'TargetgroupController@getTableGrid');
+
 
 Route::group(['prefix' => 'ajax'], function()
 {
@@ -198,6 +204,7 @@ Route::group(['prefix' => 'ajax'], function()
         Route::put('/pixel', 'PixelController@jqgrid');
         Route::put('/targetgroup', 'TargetgroupController@jqgrid');
         Route::put('/model', 'ModelController@jqgrid');
+        Route::put('/user', 'UsersController@jqgrid');
         Route::put('/bwlist', 'BWListController@jqgridList');
         Route::put('/bid-profile', 'BidProfileController@jqgridList');
         Route::put('/bid-profile-entry', 'BidProfileController@jqgrid');

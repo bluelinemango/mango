@@ -33,9 +33,9 @@
                     @endif
                     @if($audit_obj[$i]->entity_type == 'creative' and $audit_obj[$i]->audit_type =='bulk_edit')
                         <?php $flg_content=0; ?>
+                            <?php $body.="<p><strong>".$audit_obj[$i]->field."</strong> to <strong>".$audit_obj[$i]->after_value."</strong></p>"?>
                         @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='bulk_edit')
                             @if(isset($audit_obj[$i+2]) and $audit_obj[$i]->entity_id == $audit_obj[$i+2]->entity_id and $flg_content == 0)
-                                <?php $body.="<p><strong>".$audit_obj[$i]->field."</strong> to <strong>".$audit_obj[$i]->after_value."</strong></p>"?>
                                 <?php $body.="<p><strong>".$audit_obj[$i+2]->field."</strong> to <strong>".$audit_obj[$i+2]->after_value."</strong></p>"?>
                             @else
                                 <?php $flg_content=1; ?>
@@ -48,7 +48,7 @@
                             <?php $i = $i + 2; ?>
                         @endwhile
                     @elseif($audit_obj[$i]->entity_type == 'creative')
-                        <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/creative/crt'.$audit_obj[$i+1][0]->id.'/edit')}}">crt{{$audit_obj[$i+1][0]->id}}</a> ,
+                        <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/creative/crt'.$audit_obj[$i+1][0]->id.'/edit')}}">crt{{$audit_obj[$i+1][0]->id}}</a>
                         </strong>
                     @endif
                     @if($audit_obj[$i]->entity_type == 'offer')
@@ -69,15 +69,17 @@
                     @endif
                     @if($audit_obj[$i]->entity_type == 'campaign' and $audit_obj[$i]->audit_type =='bulk_edit')
                         <?php $flg_content=0; ?>
+                            <?php $body.="<p><strong>".$audit_obj[$i]->field."</strong> to <strong>".$audit_obj[$i]->after_value."</strong></p>"?>
                         @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='bulk_edit')
+
                             @if(isset($audit_obj[$i+2]) and $audit_obj[$i]->entity_id == $audit_obj[$i+2]->entity_id and $flg_content == 0)
-                                <?php $body.="<p><strong>".$audit_obj[$i]->field."</strong> to <strong>".$audit_obj[$i]->after_value."</strong></p>"?>
+
                                 <?php $body.="<p><strong>".$audit_obj[$i+2]->field."</strong> to <strong>".$audit_obj[$i+2]->after_value."</strong></p>"?>
                             @else
                                 <?php $flg_content=1; ?>
                             @endif
                             @if($save != $audit_obj[$i+1][0]->id)
-                        <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/campaign/cmp'.$audit_obj[$i+1][0]->id.'/edit')}}">cmp{{$audit_obj[$i+1][0]->id}}</a>
+                        <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/campaign/cmp'.$audit_obj[$i+1][0]->id.'/edit')}}">cmp{{$audit_obj[$i+1][0]->id}}</a>,
                         </strong>
                             @endif
                             <?php $save = $audit_obj[$i+1][0]->id ?>
@@ -126,12 +128,14 @@
                         @endif
                     @endif
                 </p>
+
                 @if(isset($audit_obj[$i-2]) and $audit_obj[$i-2]->audit_type == 'bulk_edit' and $audit_obj[$i-2]->change_key==$change_key)
                     <div class="well well-sm display-inline">
                         <?php echo $body ?>
                     </div>
 
                 @endif
+
 
                 @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key)
 
