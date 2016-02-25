@@ -697,25 +697,48 @@ class TargetgroupController extends Controller
                 if (User::isSuperAdmin()) {
                     if($entity_type=='geosegment') {
                         $entity_obj = GeoSegment::with('getParent')->where('geosegmentlist_id',$index)->get();
-//                        return dd($entity_obj);
                     }elseif($entity_type=='creative'){
                         $entity_obj = Creative::find($index);
                     }elseif($entity_type=='bwlist') {
                         $entity_obj = BWEntries::with('getParent')->where('bwlist_id',$index)->get();
                     }elseif($entity_type=='bid_profile') {
                         $entity_obj = Bid_Profile_Entry::with('getParent')->where('bid_profile_id',$index)->get();
-                    }elseif($entity_type=='segment') {
-
                     }
                 } else {
                     $usr_company = $this->user_company();
-                    $entity_obj = GeoSegment::with(['getParent'=> function($q) use ($usr_company){
-                        $q->whereHas('getAdvertiser' , function ($q) use ($usr_company) {
+                    if($entity_type=='geosegment') {
+                        $entity_obj = GeoSegment::with(['getParent'=> function($q) use ($usr_company){
+                            $q->whereHas('getAdvertiser' , function ($q) use ($usr_company) {
+                                $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                                    $p->whereIn('user_id', $usr_company);
+                                });
+                            });
+                        }])->where('geosegmentlist_id',$index)->get();
+                    }elseif($entity_type=='creative'){
+                        $entity_obj = Creative::whereHas('getAdvertiser' , function ($q) use ($usr_company) {
                             $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
                                 $p->whereIn('user_id', $usr_company);
                             });
-                        });
-                    }])->find($index);
+                        })->find($index);
+                    }elseif($entity_type=='bwlist') {
+                        $entity_obj = BWEntries::with(['getParent'=> function($q) use ($usr_company){
+                            $q->whereHas('getAdvertiser' , function ($q) use ($usr_company) {
+                                $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                                    $p->whereIn('user_id', $usr_company);
+                                });
+                            });
+                        }])->where('bwlist_id',$index)->get();
+                    }elseif($entity_type=='bid_profile') {
+                        $entity_obj = Bid_Profile_Entry::with(['getParent'=> function($q) use ($usr_company){
+                            $q->whereHas('getAdvertiser' , function ($q) use ($usr_company) {
+                                $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                                    $p->whereIn('user_id', $usr_company);
+                                });
+                            });
+                        }])->where('bid_profile_id',$index)->get();
+                    }
+
+
                     if (!$entity_obj) {
                         continue;
                     }

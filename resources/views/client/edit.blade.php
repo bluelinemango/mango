@@ -165,23 +165,8 @@
                                     <!-- widget content -->
                                     <div class="">
 
-                                        <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
-                                            <thead>
-                                            <tr>
-                                                <th data-hide="phone">ID</th>
-                                                <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Name</th>
+                                        <div id="advertiser_grid"></div>
 
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($client_obj->getAdvertiser as $index_trg)
-                                                <tr>
-                                                    <td>trg{{$index_trg->id}}</td>
-                                                    <td><a href="{{url('/client/cl'.$client_obj->id.'/advertiser/adv'.$index_trg->id.'/edit/')}}">{{$index_trg->name}}</a></td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
 
                                     </div>
                                     <!-- end widget content -->
@@ -217,11 +202,7 @@
 @endsection
 @section('FooterScripts')
     <!-- PAGE RELATED PLUGIN(S) -->
-    <script src="{{cdn('js/plugin/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatables/dataTables.colVis.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatables/dataTables.tableTools.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatables/dataTables.bootstrap.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatable-responsive/datatables.responsive.min.js')}}"></script>
+    <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
 
     <script>
         $(document).ready(function () {
@@ -255,6 +236,101 @@
                     });
                 }
             });
+
+            $(function () {
+
+                var db = {
+
+                    loadData: function (filter) {
+                        return $.grep(this.advertiser, function (advertiser) {
+                            return (!filter.name || advertiser.name.indexOf(filter.name) > -1);
+                        });
+                    },
+
+                    updateItem: function (updatingAdvertiser) {
+                        updatingAdvertiser['oper'] = 'edit';
+                        console.log(updatingAdvertiser);
+                        $.ajax({
+                            type: "PUT",
+                            url: "{{url('/ajax/jqgrid/advertiser')}}",
+                            data: updatingAdvertiser,
+                            dataType: "json"
+                        }).done(function (response) {
+                            console.log(response);
+                            if(response.success==true){
+                                var title= "Success";
+                                var color="#739E73";
+                                var icon="fa fa-check";
+                            }else if(response.success==false) {
+                                var title= "Warning";
+                                var color="#C46A69";
+                                var icon="fa fa-bell";
+                            };
+
+                            $.smallBox({
+                                title: title,
+                                content: response.msg,
+                                color: color,
+                                icon: icon,
+                                timeout: 8000
+                            });
+                        });
+                    }
+
+                };
+
+                window.db = db;
+
+                db.advertiser = [
+
+                    @foreach($client_obj->getAdvertiser as $index)
+                    {
+                        "id": 'adv{{$index->id}}',
+                        "name": '{{$index->name}}',
+                        @if($index->status == 'Active')
+                        "status": '<a id="advertiser{{$index->id}}" href="javascript: ChangeStatus(`advertiser`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                        @elseif($index->status == 'Inactive')
+                        "status": '<a id="advertiser{{$index->id}}" href="javascript: ChangeStatus(`advertiser`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
+                        @endif
+                        "date_modify": '{{$index->updated_at}}',
+                        "action": '<a class="btn " href="{{url('/client/cl'.$index->GetClientID->id.'/advertiser/adv'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /> </a>'
+
+                    },
+                    @endforeach
+                ];
+
+                $("#advertiser_grid").jsGrid({
+                    width: "100%",
+
+                    filtering: true,
+                    editing: true,
+                    sorting: true,
+                    paging: true,
+                    autoload: true,
+
+                    pageSize: 15,
+                    pageButtonCount: 5,
+
+                    deleteConfirm: "Do you really want to delete the client?",
+
+                    controller: db,
+                    fields: [
+                        {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
+                        {name: "name", title: "Name",autosearch: true, type: "text", width: 70},
+                        {name: "status", title: "Status", width: 50, align: "center"},
+                        {name: "date_modify", title: "Last Modified", align: "center"},
+                        {name: "action", title: "Edit", sorting: false, width: 50, align: "center"},
+                        {type: "control"}
+                    ]
+
+                });
+
+            });
+
+
+
+
+
 
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
@@ -302,51 +378,6 @@
                     error.insertAfter(element.parent());
                 }
             });
-
-            // fuelux wizard
-            var wizard = $('.wizard').wizard();
-
-            wizard.on('finished', function (e, data) {
-                //$("#fuelux-wizard").submit();
-                //console.log("submitted!");
-                $.smallBox({
-                    title: "Congratulations! Your form was submitted",
-                    content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-                    color: "#5F895F",
-                    iconSmall: "fa fa-check bounce animated",
-                    timeout: 4000
-                });
-
-            });
-        });
-        /* BASIC ;*/
-        var responsiveHelper_dt_basic = undefined;
-        var responsiveHelper_datatable_fixed_column = undefined;
-        var responsiveHelper_datatable_col_reorder = undefined;
-        var responsiveHelper_datatable_tabletools = undefined;
-
-        var breakpointDefinition = {
-            tablet: 1024,
-            phone: 480
-        };
-
-        $('#dt_basic').dataTable({
-            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
-            "t" +
-            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-            "autoWidth": true,
-            "preDrawCallback": function () {
-                // Initialize the responsive datatables helper once.
-                if (!responsiveHelper_dt_basic) {
-                    responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
-                }
-            },
-            "rowCallback": function (nRow) {
-                responsiveHelper_dt_basic.createExpandIcon(nRow);
-            },
-            "drawCallback": function (oSettings) {
-                responsiveHelper_dt_basic.respond();
-            }
         });
         /* END BASIC */
 

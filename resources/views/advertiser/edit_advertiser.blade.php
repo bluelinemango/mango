@@ -971,7 +971,7 @@
                         "start_date": '{{$index->start_date}}',
                         "end_date": '{{$index->end_date}}',
                         "date_modify" : '{{$index->updated_at}}',
-                        "action": '<a class="btn btn-info" href={{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/cmp'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>'
+                        "action": '<a class="btn " href={{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/cmp'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>'
 
                     },
                     @endforeach

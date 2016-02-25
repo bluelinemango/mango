@@ -226,6 +226,12 @@ class OfferController extends Controller
                                     $audit->store('offer_pixel_map', $index->pixel_id, $offer_id, 'remove', $audit_key);
                                 }
                             }
+                        }else{
+                            foreach ($offer_pixel_map as $index) {
+                                Offer_Pixel_Map::where('offer_id',$offer_id)->where('pixel_id',$index->pixel_id)->delete();
+                                $audit->store('offer_pixel_map', $index->pixel_id, $offer_id, 'remove', $audit_key);
+                            }
+
                         }
 
                         $audit->store('offer',$offer_id,$data,'edit');

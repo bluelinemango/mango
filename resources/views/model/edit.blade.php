@@ -106,8 +106,8 @@
                                                                     <option value="0" selected="" disabled="">Select ALGO
                                                                         ...
                                                                     </option>
-                                                                    <option value="lakers">laker</option>
-                                                                    <option value="heat">heat</option>
+                                                                    <option value="lakers" @if($model_obj->algo=='lakers') selected @endif>lakers</option>
+                                                                    <option value="heat" @if($model_obj->algo=='heat') selected @endif>heat</option>
                                                                 </select> <i></i>
                                                             </label>
 

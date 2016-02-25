@@ -71,7 +71,7 @@
                                         @else
                                             <form id="order-form" class="smart-form"
                                                   action="{{URL::route('campaign_update')}}" method="post"
-                                                  novalidate="novalidate">
+                                                  novalidate="novalidate" >
                                         @endif
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">                                       @if($clone==0)
                                             <input type="hidden" name="_method" value="PUT"/>
@@ -160,15 +160,6 @@
                                                 General Information
                                             </header>
                                             <div class="well col-md-12">
-
-                                                <div class="col-md-3 form-group label-floating is-empty">
-                                                    <label for="i5" class="control-label">Name</label>
-                                                    <input type="text" name="name"
-                                                           value="{{$campaign_obj->name}}" class="form-control">
-                                                    <span class="help-block">Name of Campaign</span>
-                                                    <span class="material-input"></span>
-                                                </div>
-
                                                 <fieldset>
                                                     <section class="col col-4">
                                                         <label class="label" for="">Name (required)</label>

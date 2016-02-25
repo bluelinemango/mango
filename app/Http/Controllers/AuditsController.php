@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Audits;
+use App\Models\Bid_Profile;
+use App\Models\Bid_Profile_Entry;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -66,6 +68,7 @@ class AuditsController extends Controller
         }
         return 'check ur login';
     }
+
     public function getAudit($id,$entity_id=null){
         if(Auth::check()){
             $query = '1';
@@ -79,9 +82,9 @@ class AuditsController extends Controller
                     break;
                 case 'advertiser':
                     if(!is_null($entity_id)) {
-                        $query .= " and (entity_type = 'advertiser' and entity_id = '".$entity_id."')";
+                        $query .= " and ((entity_type = 'advertiser' and entity_id = '".$entity_id."') or (entity_type = 'advertiser_model_map' and after_value = '".$entity_id."')) ";
                     }else{
-                        $query .= " and (entity_type = 'advertiser')";
+                        $query .= " and (entity_type = 'advertiser' or entity_type = 'advertiser_model_map')";
                     }
                     break;
                 case 'campaign':
@@ -100,7 +103,7 @@ class AuditsController extends Controller
                     break;
                 case 'offer':
                     if(!is_null($entity_id)) {
-                        $query .= " and (entity_type = 'offer' or entity_type = 'offer_pixel_map') and entity_id = '".$entity_id."'";
+                        $query .= " and ((entity_type = 'offer' and entity_id = '".$entity_id."') or (entity_type = 'offer_pixel_map' and after_value = '".$entity_id."')) ";
                     }else{
                         $query .= " and (entity_type = 'offer' or entity_type = 'offer_pixel_map')";
                     }
@@ -128,14 +131,21 @@ class AuditsController extends Controller
                     break;
                 case 'bwlist':
                     if(!is_null($entity_id)) {
-                        $query .= " and (entity_type = 'bwlist' or entity_type = 'bwlistentrie') and entity_id = '".$entity_id."'";
+                        $query .= " and ((entity_type = 'bwlist' and entity_id = '".$entity_id."') or (entity_type = 'bwlistentrie' and after_value = '".$entity_id."')) ";
                     }else{
                         $query .= " and (entity_type = 'bwlist' or entity_type = 'bwlistentrie')";
                     }
                     break;
+                case 'bid_profile':
+                    if(!is_null($entity_id)) {
+                        $query .= " and ((entity_type = 'bid_profile' and entity_id = '".$entity_id."') or (entity_type = 'bid_profile_entry' and after_value = '".$entity_id."')) ";
+                    }else{
+                        $query .= " and (entity_type = 'bid_profile' or entity_type = 'bid_profile_entry')";
+                    }
+                    break;
                 case 'model':
                     if(!is_null($entity_id)) {
-                        $query .= " and (entity_type = 'modelTable' or entity_type = 'negative_offer_model' or entity_type = 'positive_offer_model') and entity_id = '".$entity_id."'";
+                        $query .= " and ((entity_type = 'modelTable' and entity_id = '".$entity_id."') or (entity_type = 'negative_offer_model' and after_value = '".$entity_id."') or (entity_type = 'positive_offer_model' and after_value = '".$entity_id."')) ";
                     }else{
                         $query .= " and (entity_type = 'modelTable' or entity_type = 'negative_offer_model' or entity_type = 'positive_offer_model')";
                     }
@@ -147,7 +157,6 @@ class AuditsController extends Controller
 
             }
             if(User::isSuperAdmin()){
-
                 $audit= Audits::with('getUser')->whereRaw($query)->orderBy('created_at','DESC')->get();
             }else {
                 $usr_comp = $this->user_company();
@@ -272,7 +281,6 @@ class AuditsController extends Controller
                             $q->with('GetClientID');
                         }])
                             ->where('id', $index->entity_id)->get();
-//                                return dd($entity_obj);
                     }
                     break;
                 case 'campaign':
@@ -319,6 +327,14 @@ class AuditsController extends Controller
                         }
                     }
                     break;
+                case 'bwlist':
+                    if(in_array('VIEW_BWLIST',$this->permission)) {
+                        $entity_obj = BWList::with(['getAdvertiser'=>function($q){
+                            $q->with('GetClientID');
+                        }])
+                            ->where('id', $index->entity_id)->get();
+                    }
+                    break;
                 case 'bwlistentrie':
                     if(in_array('VIEW_BWLIST',$this->permission)) {
                         if($index->audit_type=='del') {
@@ -326,6 +342,24 @@ class AuditsController extends Controller
 
                         }else {
                             $entity_obj = BWList::where('id', $index->after_value)->get();
+                        }
+                    }
+                    break;
+                case 'bid_profile':
+                    if(in_array('VIEW_BIDPROFILE',$this->permission)) {
+                        $entity_obj = Bid_Profile::with(['getAdvertiser'=>function($q){
+                            $q->with('GetClientID');
+                        }])
+                            ->where('id', $index->entity_id)->get();
+                    }
+                    break;
+                case 'bid_profile_entry':
+                    if(in_array('VIEW_BIDPROFILE',$this->permission)) {
+                        if($index->audit_type=='del') {
+                            $entity_obj = Bid_Profile::where('id', $index->after_value)->get();
+
+                        }else {
+                            $entity_obj = Bid_Profile_Entry::with('getParent')->where('id', $index->entity_id)->get();
                         }
                     }
                     break;
@@ -341,16 +375,23 @@ class AuditsController extends Controller
                         }
                     }
                     break;
-                case 'positive_offer_model':
-                    if(in_array('VIEW_MODEL',$this->permission)) {
-                        $entity_obj = Offer::with(['getAdvertiser'=>function($q){
+                case 'offer_pixel_map':
+                    if(in_array('VIEW_OFFER',$this->permission)) {
+                        $entity_obj = Pixel::with(['getAdvertiser'=>function($q){
                             $q->with('GetClientID');
                         }])->where('id', $index->entity_id)->get();
                     }
                     break;
-                case 'offer_pixel_map':
-                    if(in_array('VIEW_OFFER',$this->permission)) {
-                        $entity_obj = Pixel::with(['getAdvertiser'=>function($q){
+                case 'advertiser_model_map':
+                    if(in_array('VIEW_ADVERTISER',$this->permission)) {
+                        $entity_obj = ModelTable::with(['getAdvertiser'=>function($q){
+                            $q->with('GetClientID');
+                        }])->where('id', $index->entity_id)->get();
+                    }
+                    break;
+                case 'positive_offer_model':
+                    if(in_array('VIEW_MODEL',$this->permission)) {
+                        $entity_obj = Offer::with(['getAdvertiser'=>function($q){
                             $q->with('GetClientID');
                         }])->where('id', $index->entity_id)->get();
                     }
@@ -360,14 +401,6 @@ class AuditsController extends Controller
                         $entity_obj = Offer::with(['getAdvertiser'=>function($q){
                             $q->with('GetClientID');
                         }])->where('id', $index->entity_id)->get();
-                    }
-                    break;
-                case 'bwlist':
-                    if(in_array('VIEW_BWLIST',$this->permission)) {
-                        $entity_obj = BWList::with(['getAdvertiser'=>function($q){
-                            $q->with('GetClientID');
-                        }])
-                            ->where('id', $index->entity_id)->get();
                     }
                     break;
             }

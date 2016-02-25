@@ -12,10 +12,11 @@
                             changed Model:
                         @elseif($audit_obj[$i]->entity_type == 'offer_pixel_map')
                             changed Offer:
+                        @elseif($audit_obj[$i]->entity_type == 'advertiser_model_map')
+                            changed Advertiser:
                         @else
                             created a new {{$audit_obj[$i]->entity_type}}:
                         @endif
-
                     @elseif($audit_obj[$i]->audit_type == 'bulk_edit')
                         Bulk Edit {{$audit_obj[$i]->entity_type}}:
                     @elseif($audit_obj[$i]->audit_type == 'edit')
@@ -97,6 +98,10 @@
                         <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/model/mdl'.$audit_obj[$i]->after_value.'/edit')}}">mdl{{$audit_obj[$i]->after_value}}</a>
                         </strong>
                     @endif
+                    @if($audit_obj[$i]->entity_type == 'advertiser_model_map')
+                        <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/edit')}}">adv{{$audit_obj[$i]->after_value}}</a>
+                        </strong>
+                    @endif
                     @if($audit_obj[$i]->entity_type == 'offer_pixel_map')
                         <strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/offer/ofr'.$audit_obj[$i]->after_value.'/edit')}}">ofr{{$audit_obj[$i]->after_value}}</a>
                         </strong>
@@ -127,6 +132,17 @@
                             <strong>BWL{{$audit_obj[$i+1][0]->id}}</strong>
                         @endif
                     @endif
+                    @if($audit_obj[$i]->entity_type == 'bid_profile_entry')
+                        @if($audit_obj[$i]->audit_type == 'del')
+                            <strong>BPE{{$audit_obj[$i]->before_vale}}</strong>
+                            from
+                            <strong>BPF{{$audit_obj[$i]->after_value}}</strong>
+                        @else
+                            <strong>BPE{{$audit_obj[$i]->entity_id}} </strong>
+                            for
+                            <strong>BPF{{$audit_obj[$i]->after_value}}</strong>
+                        @endif
+                    @endif
                 </p>
 
                 @if(isset($audit_obj[$i-2]) and $audit_obj[$i-2]->audit_type == 'bulk_edit' and $audit_obj[$i-2]->change_key==$change_key)
@@ -135,10 +151,7 @@
                     </div>
 
                 @endif
-
-
                 @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key)
-
                     @if($audit_obj[$i]->audit_type == 'edit')
                         <div class="well well-sm display-inline">
                             @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='edit')
@@ -162,6 +175,12 @@
                             @if($audit_obj[$i]->entity_type == 'bwlistentrie')
                                 Domain Name(s):
                             @endif
+                            @if($audit_obj[$i]->entity_type == 'bid_profile_entry')
+                                Entry(s) added:
+                            @endif
+                            @if($audit_obj[$i]->entity_type == 'advertiser_model_map')
+                                Model(s) Added:
+                            @endif
                             @if($audit_obj[$i]->entity_type == 'offer_pixel_map')
                                 Pixel(s) Added:
                             @endif
@@ -181,6 +200,10 @@
                                         name:
                                         <strong>{{$audit_obj[$i+1][0]->name}}</strong>
                                     @endif
+                                    @if($audit_obj[$i]->entity_type == 'advertiser_model_map' and $flg < 20)
+                                        name:
+                                        <strong>{{$audit_obj[$i+1][0]->name}}</strong>
+                                    @endif
                                     @if($audit_obj[$i]->entity_type == 'offer_pixel_map' and $flg < 20)
                                         name:
                                         <strong>{{$audit_obj[$i+1][0]->name}}</strong>
@@ -197,6 +220,16 @@
                                         name:
                                         <strong>{{$audit_obj[$i+1][0]->name}}</strong>
                                     @endif
+                                    @if($audit_obj[$i]->entity_type == 'bid_profile_entry' and $flg < 2)
+                                        Domain:
+                                        <strong>{{$audit_obj[$i+1][0]->domain}}</strong>
+                                            <br/>
+                                        Strategy:
+                                        <strong>{{$audit_obj[$i+1][0]->bid_strategy}}</strong>
+                                            <br/>
+                                        Value:
+                                        <strong>{{$audit_obj[$i+1][0]->bid_value}}</strong>
+                                    @endif
                                 </p>
                                 <?php $i = $i + 2; $flg++; ?>
                             @endwhile
@@ -212,6 +245,9 @@
                         <div class="well well-sm display-inline">
                             @if($audit_obj[$i]->entity_type == 'geosegment')
                                 Entrie(s):
+                            @endif
+                            @if($audit_obj[$i]->entity_type == 'advertiser_model_map')
+                                Model(s) Removed:
                             @endif
                             @if($audit_obj[$i]->entity_type == 'offer_pixel_map')
                                 Pixel(s) Removed:
@@ -235,6 +271,10 @@
                                     @if($audit_obj[$i]->entity_type == 'geosegmententrie' and $flg < 2)
                                         name:
                                         <strong>{{$audit_obj[$i]->before_value}}</strong>
+                                    @endif
+                                    @if($audit_obj[$i]->entity_type == 'advertiser_model_map' and $flg < 20)
+                                        name:
+                                        <strong>{{$audit_obj[$i+1][0]->name}}</strong>
                                     @endif
                                     @if($audit_obj[$i]->entity_type == 'offer_pixel_map' and $flg < 20)
                                         name:

@@ -193,12 +193,11 @@ class AdvertiserController extends Controller
                     }
 
                     $push_arr = array();
-                    $adv_mdl_map = Advertiser_Model_Map::where('advertiser_id', $adver->id)->get(['id']);
+                    $adv_mdl_map = Advertiser_Model_Map::where('advertiser_id', $adver->id)->get(['model_id']);
                     if ($adv_mdl_map)
                         foreach ($adv_mdl_map as $index) {
-                            array_push($push_arr, $index->id);
+                            array_push($push_arr, $index->model_id);
                         }
-
                     return view('advertiser.edit_advertiser')
                         ->with('adv_mdl_map', $push_arr)
                         ->with('model_obj', $model_obj)
@@ -237,6 +236,8 @@ class AdvertiserController extends Controller
                         }
                         $data = array();
                         $audit = new AuditsController();
+                        $audit_key=$audit->generateRandomString();
+
                         if ($adver->name != $request->input('name')) {
                             array_push($data, 'Name');
                             array_push($data, $adver->name);
@@ -261,6 +262,36 @@ class AdvertiserController extends Controller
                             array_push($data, $request->input('description'));
                             $adver->description = $request->input('description');
                         }
+
+                        $adver_model_map=Advertiser_Model_Map::where('advertiser_id', $adver_id)->get();
+                        $adverModelArr=array();
+                        foreach($adver_model_map as $index){
+                            array_push($adverModelArr,$index->model_id);
+                        }
+
+                        if ($request->has('to_model')) {
+                            foreach ($request->input('to_model') as $index) {
+                                if (!in_array($index, $adverModelArr)) {
+                                    $model_assign = new Advertiser_Model_Map();
+                                    $model_assign->advertiser_id = $adver_id;
+                                    $model_assign->model_id = $index;
+                                    $model_assign->save();
+                                    $audit->store('advertiser_model_map', $index, $adver_id, 'add', $audit_key);
+                                }
+                            }
+                        }
+                        foreach ($adver_model_map as $index) {
+                            if ($request->has('to_model') and !in_array($index->pixel_id, $request->input('to_model'))) {
+                                Advertiser_Model_Map::where('advertiser_id',$adver_id)->where('model_id',$index->model_id)->delete();
+                               $audit->store('advertiser_model_map', $index->model_id, $adver_id, 'remove', $audit_key);
+                            }elseif (!$request->has('to_model')){
+                                Advertiser_Model_Map::where('advertiser_id',$adver_id)->where('model_id',$index->model_id)->delete();
+                                $audit->store('advertiser_model_map', $index->model_id, $adver_id, 'remove', $audit_key);
+                            }
+
+                        }
+
+
                         $audit->store('advertiser', $adver_id, $data, 'edit');
                         $adver->save();
                         return Redirect::back()->withErrors(['success' => true, 'msg' => 'Advertiser Edited Successfully']);

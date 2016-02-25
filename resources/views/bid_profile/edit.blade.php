@@ -195,11 +195,11 @@
             pageSetUp();
 
 
-//            $.ajax({
-                {{--url: "{{url('ajax/getAudit/bid_profile/'.$bid_profile_obj->id)}}"--}}
-//            }).success(function (response) {
-//                $('#show_audit').html(response);
-//            });
+            $.ajax({
+                url: "{{url('ajax/getAudit/bid_profile/'.$bid_profile_obj->id)}}"
+            }).success(function (response) {
+                $('#show_audit').html(response);
+            });
 
             $('#audit_status').change(function () {
                 if($(this).val()=='all'){

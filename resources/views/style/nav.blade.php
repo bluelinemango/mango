@@ -100,6 +100,11 @@
                 <a href="{{url('reporting')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Reporting</span></a>
             </li>
             @endif
+            @if(!in_array('VIEW_BID_PROFILE',$permission))
+            <li>
+                <a href="{{url('bid-profile')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Bid Profile</span></a>
+            </li>
+            @endif
 
             <li>
                 <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">Administration</span></a>
