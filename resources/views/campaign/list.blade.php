@@ -1,10 +1,6 @@
 @extends('Layout1')
 @section('siteTitle')List Of Campaign for {{\Illuminate\Support\Facades\Auth::user()->name}}
 @endsection
-@section('headerCss')
-    <link rel="stylesheet" type="text/css" href="{{cdn('css/jsgrid/jsgrid.css')}}" />
-    <link rel="stylesheet" type="text/css" href="{{cdn('css/jsgrid/theme.css')}}" />
-@endsection
 
 @section('content')
     <div class="content">
@@ -26,7 +22,7 @@
 
         <!-- content -->
         <div class="col-md-9">
-            <div class="panel red">
+            <div class="panel light-blue">
                 <div class="panel-heading">
                     <div class="panel-title"><h4>Campaign List</h4></div>
                 </div><!--.panel-heading-->

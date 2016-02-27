@@ -41,7 +41,7 @@
 
         <!-- content -->
         <div class="col-md-9">
-            <div class="panel red">
+            <div class="panel light-blue">
                 <div class="panel-heading">
                     <div class="panel-title">
                         @if($clone==1)
@@ -129,9 +129,9 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="real-time-box">
-            <span class="real-time-icon" style="background-color: #f39c12 ">
-                <i class="fa fa-gear"></i>
-            </span>
+                                                <span class="real-time-icon" style="background-color: #f39c12 ">
+                                                    <i class="fa fa-gear"></i>
+                                                </span>
 
                                                     <div class="real-time-content">
                                                         Last Shown:
@@ -145,30 +145,32 @@
                                         </div>
                                         <div class="note note-primary note-top-striped">
                                             <h4>General Informaition</h4>
+
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label class="control-label">Full name</label>
+                                                    <label class="control-label">Name</label>
 
                                                     <div class="inputer">
                                                         <div class="input-wrapper">
-                                                            <input type="text" name="name" placeholder="Name" class="form-control" value="{{$campaign_obj->name}}">
+                                                            <input type="text" name="name" placeholder="Name"
+                                                                   class="form-control" value="{{$campaign_obj->name}}">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="control-label" for="">Advertiser Name</label>
-                                                    <h5>{{$campaign_obj->getAdvertiser->name}}</h5>
+                                                <h5>{{$campaign_obj->getAdvertiser->name}}</h5>
 
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="control-label" for="">Client Name</label>
-                                                    <h5>{{$campaign_obj->getAdvertiser->GetClientID->name}}</h5>
+                                                <h5>{{$campaign_obj->getAdvertiser->GetClientID->name}}</h5>
 
                                             </div>
                                             <div class="col-md-3">
                                                 <label class="control-label" for="">Last Modified</label>
-                                                    <h5>{{$campaign_obj->updated_at}}</h5>
+                                                <h5>{{$campaign_obj->updated_at}}</h5>
 
                                             </div>
                                             <div class="clearfix"></div>
@@ -178,21 +180,21 @@
 
                                                     <div class="inputer">
                                                         <div class="input-wrapper">
-                                                            <input type="text" name="advertiser_domain_name" class="form-control" placeholder="Domain Name"                       value="{{$campaign_obj->advertiser_domain_name}}" >
+                                                            <input type="text" name="advertiser_domain_name"
+                                                                   class="form-control" placeholder="Domain Name"
+                                                                   value="{{$campaign_obj->advertiser_domain_name}}">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-1">
                                                 <div class="form-group">
-                                                    <label class="control-label">status</label>
-
-                                                    <div class="inputer">
-                                                        <div class="input-wrapper">
-                                                            <input type="checkbox"
-                                                                   name="active" @if($campaign_obj->status=='Active')
-                                                                   checked @endif>
-                                                        </div>
+                                                    <label class="control-label">Status</label>
+                                                    <div class="checkboxer">
+                                                        <input type="checkbox" id="check1"name="active" @if($campaign_obj->status=='Active')
+                                                               checked @endif
+                                                               data-parsley-mincheck="2">
+                                                        <label for="check1">Active</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -202,6 +204,7 @@
 
                                         <div class="note note-primary note-top-striped">
                                             <h4>Budget Informaition</h4>
+
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label class="control-label">Max Impression</label>
@@ -210,7 +213,8 @@
                                                         <div class="input-wrapper">
                                                             <input type="text" name="max_impression"
                                                                    placeholder="Max Impression"
-                                                                   value="{{$campaign_obj->max_impression}}" class="form-control">
+                                                                   value="{{$campaign_obj->max_impression}}"
+                                                                   class="form-control">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -224,7 +228,8 @@
                                                         <div class="input-wrapper">
                                                             <input type="text" name="daily_max_impression"
                                                                    placeholder="Daily Max Impression"
-                                                                   value="{{$campaign_obj->daily_max_impression}}" class="form-control">
+                                                                   value="{{$campaign_obj->daily_max_impression}}"
+                                                                   class="form-control">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -263,239 +268,68 @@
 
                                                     <div class="inputer">
                                                         <div class="input-wrapper">
-                                                            <input type="text" name="cpm" placeholder="CPM" class="form-control"
-                                                                   value="{{$campaign_obj->cpm}}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="well col-md-6">
-
-                                                <fieldset>
-                                                    <section class="col col-4">
-                                                        <label class="label" for="">cpm</label>
-                                                        <label class="input"> <i
-                                                                    class="icon-append fa fa-dollar"></i>
                                                             <input type="text" name="cpm" placeholder="CPM"
+                                                                   class="form-control"
                                                                    value="{{$campaign_obj->cpm}}">
-                                                        </label>
-                                                    </section>
-                                                </fieldset>
-                                            </div>
-
-
-
-
-
-
-
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Full name</label>
-
-                                                    <div class="inputer">
-                                                        <div class="input-wrapper">
-                                                            <input type="text" name="name" placeholder="Name" class="form-control" value="{{$campaign_obj->name}}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label class="control-label" for="">Advertiser Name</label>
-                                                    <h5>{{$campaign_obj->getAdvertiser->name}}</h5>
-
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label class="control-label" for="">Client Name</label>
-                                                    <h5>{{$campaign_obj->getAdvertiser->GetClientID->name}}</h5>
-
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label class="control-label" for="">Last Modified</label>
-                                                    <h5>{{$campaign_obj->updated_at}}</h5>
-
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Domain Name</label>
-
-                                                    <div class="inputer">
-                                                        <div class="input-wrapper">
-                                                            <input type="text" name="advertiser_domain_name" class="form-control" placeholder="Domain Name"                       value="{{$campaign_obj->advertiser_domain_name}}" >
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-1">
-                                                <div class="form-group">
-                                                    <label class="control-label">status</label>
-
-                                                    <div class="inputer">
-                                                        <div class="input-wrapper">
-                                                            <input type="checkbox"
-                                                                   name="active" @if($campaign_obj->status=='Active')
-                                                                   checked @endif>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="clearfix"></div>
-                                            <!--.form-group-->
                                         </div>
 
+                                        <div class="note note-primary note-top-striped">
+                                            <h4>Date Range</h4>
 
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3">Email field</label>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Start Date</label>
 
-                                            <div class="col-md-5">
-                                                <div class="inputer">
-                                                    <div class="input-wrapper">
-                                                        <input type="email" name="basic-email" class="form-control"
-                                                               placeholder="someone@exmail.org" required>
+                                                    <div class="inputer">
+                                                        <div class="input-wrapper">
+                                                            <input type="text" name="start_date"
+                                                                   id="startdate"
+                                                                   placeholder="Expected start date"
+                                                                   class="form-control"
+                                                                   value="{{$campaign_obj->start_date}}">
+
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <!--.form-group-->
+                                            <div class="col-md-3 ">
 
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3">Password field</label>
+                                                <div class="form-group">
+                                                    <label class="control-label">End Date</label>
 
-                                            <div class="col-md-5">
-                                                <div class="inputer">
-                                                    <div class="input-wrapper">
-                                                        <input type="password" name="password" class="form-control"
-                                                               placeholder="password" required>
-                                                    </div>
-                                                </div>
-                                                <div class="inputer">
-                                                    <div class="input-wrapper">
-                                                        <input type="password" name="confirmPassword"
-                                                               class="form-control" placeholder="confirm password"
-                                                               required>
+                                                    <div class="inputer">
+                                                        <div class="input-wrapper">
+                                                            <input type="text" name="end_date" class="form-control"
+                                                                   id="finishdate"
+                                                                   placeholder="Expected finish date"
+                                                                   value="{{$campaign_obj->end_date}}">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="clearfix"></div>
                                         </div>
-                                        <!--.form-group-->
 
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3">Integer field</label>
+                                        <div class="note note-primary note-top-striped">
 
-                                            <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label class="control-label">Description</label>
+
                                                 <div class="inputer">
                                                     <div class="input-wrapper">
-                                                        <input type="number" name="basic-digits" class="form-control"
-                                                               placeholder="ex: 1,2,3" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--.form-group-->
-
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3">Url field</label>
-
-                                            <div class="col-md-5">
-                                                <div class="inputer">
-                                                    <div class="input-wrapper">
-                                                        <input type="url" name="basic-url" class="form-control"
-                                                               placeholder="http://www.themeforest.com" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--.form-group-->
-
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3">Age limit</label>
-
-                                            <div class="col-md-5">
-                                                <div class="inputer">
-                                                    <div class="input-wrapper">
-                                                        <input type="text" name="minmax-limit" class="form-control"
-                                                               placeholder="age should be between 10 and 100" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--.form-group-->
-
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3">Checkboxes</label>
-
-                                            <div class="col-md-5">
-                                                <div class="checkboxer">
-                                                    <input type="checkbox" id="check1" name="checkboxes1" value=""
-                                                           data-parsley-mincheck="2">
-                                                    <label for="check1">Option one</label>
-                                                </div>
-                                                <div class="checkboxer">
-                                                    <input type="checkbox" id="check2" name="checkboxes1" value="">
-                                                    <label for="check2">Option two</label>
-                                                </div>
-                                                <div class="checkboxer">
-                                                    <input type="checkbox" id="check3" name="checkboxes1" value="">
-                                                    <label for="check3">Option three</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--.form-group-->
-
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3">Radios</label>
-
-                                            <div class="col-md-5">
-
-                                                <div class="radioer">
-                                                    <input type="radio" name="radio1" id="radio1" value="option1">
-                                                    <label for="radio1">Option one</label>
-                                                </div>
-                                                <div class="radioer">
-                                                    <input type="radio" name="radio1" id="radio2" value="option2">
-                                                    <label for="radio2">Option two</label>
-                                                </div>
-                                                <div class="radioer">
-                                                    <input type="radio" name="radio1" id="radio3" value="option3"
-                                                           required>
-                                                    <label for="radio3">Option three</label>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <!--.form-group-->
-
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3">Selectbox</label>
-
-                                            <div class="col-md-5">
-                                                <select name="basic-selectbox" class="selecter" required="required">
-                                                    <option value="">Text</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <!--.form-group-->
-
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3">Textarea</label>
-
-                                            <div class="col-md-5">
-                                                <div class="inputer">
-                                                    <div class="input-wrapper">
-                                                        <textarea name="basic-textarea" class="form-control" rows="3"
+                                                        <textarea name="description" class="form-control" rows="3"
                                                                   placeholder="type minimum 5 characters"
-                                                                  required></textarea>
+                                                                  required>{{$campaign_obj->description}}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="clearfix"></div>
                                         </div>
-                                        <!--.form-group-->
-
                                     </div>
                                     <div class="form-actions">
                                         <div class="row">
@@ -518,12 +352,13 @@
                 <div class="panel-heading">
                     <div class="panel-title">
                         <h4 class="pull-left">Activities</h4>
-                        <select id="audit_status" class="pull-right">
-                            <option value="entity">This Entity</option>
-                            <option value="all">All</option>
-                            <option value="user">User</option>
-                        </select>
-
+                        <div class="pull-right audit-select">
+                            <select id="audit_status" class="selecter col-md-12" >
+                                <option value="entity">This Entity</option>
+                                <option value="all">All</option>
+                                <option value="user">User</option>
+                            </select>
+                        </div>
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -538,12 +373,46 @@
             <!--.panel-->
         </div>
         <!--.col-->
-        <!-- content -->
+        <div class="clearfix"></div>
+
+
+
+
+        <div class="col-md-12">
+            <div class="panel gray">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="pull-left">List of Target Group </h4>
+                    @if(in_array('ADD_EDIT_TARGETGROUP',$permission))
+                        <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/campaign/cmp'.$campaign_obj->id.'/targetgroup/add')}}" type="button" class="btn btn-default bv-reset pull-right"> Add Target Group</a>
+
+                        <button type="button" class="btn btn-default bv-reset pull-right" data-toggle="modal"
+                                data-target="#myModal_targetgroup">
+                            Upload Target Group
+                        </button>
+                        <h2 class="pull-right">
+                            <a href="{{cdn('/excel_template/targetgroup.xls')}}" type="button" class="btn btn-default bv-reset pull-right">
+                                Download Target Group Excel Template
+                            </a>
+
+                        </h2>
+
+                    @endif
+
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body">
+                <div id="targetgroup_grid"></div>
+            </div>
+        </div>
+        </div>
+            <!-- content -->
 
         <div class="footer-links margin-top-40">
             <div class="row no-gutters">
                 <div class="col-xs-6 bg-indigo">
-                    <a href="pages-timeline.html">
+                    <a href="#">
                         <span class="state">Pages</span>
                         <span>Timeline</span>
                         <span class="icon"><i class="ion-android-arrow-back"></i></span>
@@ -551,7 +420,7 @@
                 </div>
                 <!--.col-->
                 <div class="col-xs-6 bg-cyan">
-                    <a href="components-offline-detector.html">
+                    <a href="#">
                         <span class="state">Components</span>
                         <span>Offline Detector</span>
                         <span class="icon"><i class="ion-android-arrow-forward"></i></span>
@@ -564,191 +433,6 @@
         <!--.footer-links-->
 
     </div><!--.content-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                    <header>
-                                                        General Information
-                                                    </header>
-                                                    <div class="well col-md-6">
-                                                        <fieldset>
-                                                            <div class="row">
-                                                                <section class="col col-6">
-                                                                    <label class="label" for="">Start Date</label>
-                                                                    <label class="input"> <i
-                                                                                class="icon-append fa fa-calendar"></i>
-                                                                        <input type="text" name="start_date"
-                                                                               id="startdate"
-                                                                               placeholder="Expected start date"
-                                                                               value="{{$campaign_obj->start_date}}">
-                                                                    </label>
-                                                                </section>
-                                                                <section class="col col-6">
-                                                                    <label class="label" for="">End Date</label>
-                                                                    <label class="input"> <i
-                                                                                class="icon-append fa fa-calendar"></i>
-                                                                        <input type="text" name="end_date"
-                                                                               id="finishdate"
-                                                                               placeholder="Expected finish date"
-                                                                               value="{{$campaign_obj->end_date}}">
-                                                                    </label>
-                                                                </section>
-                                                            </div>
-
-                                                        </fieldset>
-                                                    </div>
-                                                    <div class="clearfix"></div>
-                                                    <div class="well col-md-12">
-                                                        <fieldset>
-                                                            <section class="col col-8">
-                                                                <label class="label" for="">Description</label>
-                                                                <label class="textarea"> <i
-                                                                            class="icon-append fa fa-comment"></i>
-                                                        <textarea rows="3" name="description"
-                                                                  placeholder="Tell us about your Campaign">{{$campaign_obj->description}}</textarea>
-                                                                </label>
-                                                            </section>
-                                                        </fieldset>
-                                                    </div>
-                                                    <div class="clearfix"></div>
-                                                    <footer>
-                                                        <div class="row">
-                                                            <div class="col-md-5 col-md-offset-3">
-                                                                <button type="submit"
-                                                                        class=" button button--ujarak button--border-thick button--text-upper button--size-s button--inverted button--text-thick">
-                                                                    Save
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </footer>
-                                                </form>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="card">
-                                        <div class="card-heading">
-                                            <h2 class="pull-left">Activities</h2>
-                                            <select id="audit_status" class="pull-right">
-                                                <option value="entity">This Entity</option>
-                                                <option value="entity">This Entity</option>
-                                                <option value="all">All</option>
-                                                <option value="user">User</option>
-                                            </select>
-
-                                            <div class="clearfix"></div>
-                                            <small>All Activities for this Entity</small>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="streamline b-l b-accent m-b" id="show_audit">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- WIDGET END -->
-
-                                </div>
-
-                                <!-- end widget content -->
-                            </div>
-                            <!-- end widget div -->
-                        </div>
-                        <!-- end widget -->
-
-
-                    </article>
-                    <!-- END COL -->
-                </div>
-                <!-- END ROW -->
-            </section>
-            <!-- end widget grid -->
-
-            <!-- widget grid -->
-            <section id="widget-grid" class="">
-
-                <!-- row -->
-                <div class="row">
-
-                    <!-- NEW WIDGET START -->
-                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-                        <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="well">
-                            <header>
-                                <h2 class="font-md pull-left">List of Target Group </h2>
-                                @if(in_array('ADD_EDIT_TARGETGROUP',$permission))
-                                    <h2 class="pull-right">
-                                        <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->getAdvertiser->id.'/campaign/cmp'.$campaign_obj->id.'/targetgroup/add')}}"
-                                           class=" btn btn-primary pull-left">
-                                            Add Target Group
-                                        </a>
-                                    </h2>
-                                    <h2 class="pull-right">
-                                        <button type="reset" class="btn btn-primary" data-toggle="modal"
-                                                data-target="#myModal_targetgroup">
-                                            Upload Target Group
-                                        </button>
-                                    </h2>
-                                    <h2 class="pull-right">
-                                        <a href="{{cdn('/excel_template/targetgroup.xls')}}" type="reset"
-                                           class="btn btn-primary ">
-                                            Download Target Group Excel Template
-                                        </a>
-
-                                    </h2>
-
-                                @endif
-
-                            </header>
-
-
-                            <div id="targetgroup_grid"></div>
-                        </div>
-                        <!-- end widget -->
-
-
-                    </article>
-                    <!-- WIDGET END -->
-
-
-                </div>
-
-                <!-- end row -->
-
-                <!-- end row -->
-
-            </section>
-            <!-- end widget grid -->
-
-        </div>
-        <!-- END MAIN CONTENT -->
-    </div>
-    <!-- END MAIN PANEL -->
-
-
-
-
-
-
-
 
     <!-- Modal -->
     <div class="modal fade" id="myModal_targetgroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -821,7 +505,7 @@
         $(document).ready(function () {
             Pleasure.init();
             Layout.init();
-            FormsValidationsParsley.init();
+//            FormsValidationsParsley.init();
         });
     </script>
     <!-- END INITIALIZATION-->
@@ -830,9 +514,6 @@
 
     <script>
         $(document).ready(function () {
-
-            pageSetUp();
-
             $(function () {
 
                 var db = {
@@ -896,6 +577,7 @@
 
 
 
+
                     },
                     @endforeach
                 ];
@@ -936,98 +618,78 @@
 
             });
 
-            var $orderForm = $("#order-form").validate({
-                // Rules for form validation
-                rules: {
-                    name: {
-                        required: true
-                    },
-                    advertiser_domain_name: {
-                        required: true,
-                        domain: true
-                    },
-                    advertiser_id: {
-                        required: true
-                    },
-                    max_impression: {
-                        required: true,
-                        min: 0,
-                        number: 'Enter number Plz'
-
-                    },
-                    daily_max_impression: {
-                        required: true,
-                        min: 0,
-                        number: 'Enter number Plz'
-                    },
-                    max_budget: {
-                        required: true,
-                        min: 0,
-                        number: 'Enter number Plz'
-                    },
-                    daily_max_budget: {
-                        required: true,
-                        min: 0,
-                        number: 'Enter number Plz'
-                    },
-                    cpm: {
-                        required: true,
-                        min: 0,
-                        number: 'Enter number Plz'
-                    },
-                    start_date: {
-                        required: true
-                    },
-                    end_date: {
-                        required: true
-                    }
-                },
-
-                // Messages for form validation
-                messages: {
-                    name: {
-                        required: 'Please enter your name'
-                    },
-                    email: {
-                        required: 'Please enter your email address',
-                        email: 'Please enter a VALID email address'
-                    },
-                    phone: {
-                        required: 'Please enter your phone number'
-                    },
-                    interested: {
-                        required: 'Please select interested service'
-                    },
-                    budget: {
-                        required: 'Please select your budget'
-                    }
-                },
-
-                // Do not change code below
-                errorPlacement: function (error, element) {
-                    error.insertAfter(element.parent());
-                }
-            });
-
-            // START AND FINISH DATE
-            $('#startdate').datepicker({
-                dateFormat: 'dd.mm.yy',
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                onSelect: function (selectedDate) {
-                    $('#finishdate').datepicker('option', 'minDate', selectedDate);
-                }
-            });
-
-            $('#finishdate').datepicker({
-                dateFormat: 'dd.mm.yy',
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                onSelect: function (selectedDate) {
-                    $('#startdate').datepicker('option', 'maxDate', selectedDate);
-                }
-            });
-
+//            var $orderForm = $("#order-form").validate({
+//                // Rules for form validation
+//                rules: {
+//                    name: {
+//                        required: true
+//                    },
+//                    advertiser_domain_name: {
+//                        required: true,
+//                        domain: true
+//                    },
+//                    advertiser_id: {
+//                        required: true
+//                    },
+//                    max_impression: {
+//                        required: true,
+//                        min: 0,
+//                        number: 'Enter number Plz'
+//
+//                    },
+//                    daily_max_impression: {
+//                        required: true,
+//                        min: 0,
+//                        number: 'Enter number Plz'
+//                    },
+//                    max_budget: {
+//                        required: true,
+//                        min: 0,
+//                        number: 'Enter number Plz'
+//                    },
+//                    daily_max_budget: {
+//                        required: true,
+//                        min: 0,
+//                        number: 'Enter number Plz'
+//                    },
+//                    cpm: {
+//                        required: true,
+//                        min: 0,
+//                        number: 'Enter number Plz'
+//                    },
+//                    start_date: {
+//                        required: true
+//                    },
+//                    end_date: {
+//                        required: true
+//                    }
+//                },
+//
+//                // Messages for form validation
+//                messages: {
+//                    name: {
+//                        required: 'Please enter your name'
+//                    },
+//                    email: {
+//                        required: 'Please enter your email address',
+//                        email: 'Please enter a VALID email address'
+//                    },
+//                    phone: {
+//                        required: 'Please enter your phone number'
+//                    },
+//                    interested: {
+//                        required: 'Please select interested service'
+//                    },
+//                    budget: {
+//                        required: 'Please select your budget'
+//                    }
+//                },
+//
+//                // Do not change code below
+//                errorPlacement: function (error, element) {
+//                    error.insertAfter(element.parent());
+//                }
+//            });
 
             $.ajax({
                 url: "{{url('ajax/getAudit/campaign/'.$campaign_obj->id)}}"

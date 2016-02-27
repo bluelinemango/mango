@@ -3003,7 +3003,7 @@ select[multiple].form-group-lg .form-control {
   border: 1px solid transparent;
   white-space: nowrap;
   padding: 5px 9px;
-  font-size: 18px;
+  font-size: 12px;
   line-height: 1.618;
   border-radius: 2px;
   -webkit-user-select: none;
@@ -3437,7 +3437,7 @@ tbody.collapse.in {
   padding: 5px 0;
   margin: 2px 0 0;
   list-style: none;
-  font-size: 18px;
+  font-size: 14px;
   text-align: left;
   background-color: #ffffff;
   border: 1px solid #cccccc;
@@ -3446,6 +3446,7 @@ tbody.collapse.in {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   background-clip: padding-box;
 }
+
 .dropdown-menu.pull-right {
   right: 0;
   left: auto;
@@ -3462,7 +3463,7 @@ tbody.collapse.in {
   clear: both;
   font-weight: normal;
   line-height: 1.618;
-  color: #333333;
+  color: #333333 !important;
   white-space: nowrap;
 }
 .dropdown-menu > li > a:hover,

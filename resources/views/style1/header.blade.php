@@ -25,6 +25,9 @@
 
     <link rel="stylesheet" href="{{cdn('newTheme/globals/css/plugins.css')}}">
 
+    <link rel="stylesheet" type="text/css" href="{{cdn('css/jsgrid/jsgrid.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{cdn('css/jsgrid/theme.css')}}" />
+
     @yield('headerCss')
     <link rel="stylesheet" href="{{cdn('newTheme/admin1/css/custom.css')}}">
 

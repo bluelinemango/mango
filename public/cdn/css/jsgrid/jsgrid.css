@@ -1,7 +1,7 @@
 ﻿.jsgrid {
     position: relative;
     overflow: hidden;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .jsgrid, .jsgrid *, .jsgrid *:before, .jsgrid *:after {
