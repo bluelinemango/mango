@@ -5997,12 +5997,12 @@ select[data-style="btn-blue-grey"] + .bootstrap-select li.selected a {
   border-bottom: 1px solid #f0f0f0;
 }
 .panel > .panel-heading .panel-title {
-  padding: 13px 20px 13px 20px;
+  padding: 5px 20px 5px 20px;
   font-size: 18px;
 }
 .panel > .panel-heading .panel-title h4 {
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 500;
   display: inline-block;
   margin: 0;
 }
@@ -12688,8 +12688,8 @@ ul.action li i {
 */
 .footer-links {
   padding: 0;
-  margin-left: -40px;
-  margin-right: -40px;
+  margin-left: -10px;
+  margin-right: -10px;
 }
 .footer-links a {
   padding: 20px;
@@ -14497,7 +14497,9 @@ pre .hljs {
   clear: both;
   line-height: inherit;
   text-align: right;
-  margin-top: 15px;
+}
+.timeline .frame:hover {
+    background-color: #E7EAFD;
 }
 .timeline .frame .timeline-badge {
   position: absolute;
@@ -14527,9 +14529,19 @@ pre .hljs {
 }
 .timeline .frame .timeline-content {
   position: relative;
-  font-size: 16px;
+  font-size: 14px;
   padding: 10px 0;
-  margin-right: 30px;
+  margin-right: 0;
+}
+.time-line-title{
+    margin-left: 35px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px;
+}
+.timeline{
+    max-height: 500px;
+    overflow: auto;
 }
 .timeline .frame .timeline-bubble {
   position: relative;
@@ -14601,7 +14613,7 @@ pre .hljs {
   margin-left: 0;
 }
 .timeline.single .frame .timeline-content {
-  margin-left: 50px;
+  margin-left: 35px;
 }
 .timeline.single .frame .timeline-date {
   margin: 10px 50px 0 50px;

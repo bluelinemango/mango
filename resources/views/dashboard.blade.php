@@ -1,1964 +1,468 @@
-@extends('Layout')
-@section('siteTitle')List Of Target Group for {{\Illuminate\Support\Facades\Auth::user()->name}} @endsection
+@extends('Layout1')
+@section('siteTitle')Welcome to Nomadini @endsection
+@section('headerCss')
+    <!-- BEGIN PLUGINS CSS -->
+    <link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/rickshaw/rickshaw.min.css')}}">
+    <link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/bxslider/jquery.bxslider.css')}}">
+    <!-- END PLUGINS CSS -->
+@endsection
 
 @section('content')
-    <!-- MAIN PANEL -->
-    <div id="main" role="main">
+    <div class="content">
 
-        <!-- RIBBON -->
-        <div id="ribbon">
-
-				<span class="ribbon-button-alignment">
-					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"
-                          rel="tooltip" data-placement="bottom"
-                          data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings."
-                          data-html="true">
-						<i class="fa fa-refresh"></i>
-					</span>
-				</span>
-
-            <!-- breadcrumb -->
-            <ol class="breadcrumb">
-                <li>Home</li>
-                <li>Dashboard</li>
-            </ol>
-            <!-- end breadcrumb -->
-
-            <!-- You can also add more buttons to the
-            ribbon for further usability
-
-            Example below:
-
-            <span class="ribbon-button-alignment pull-right">
-            <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-            <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-            <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-            </span> -->
-
-        </div>
-        <!-- END RIBBON -->
-
-        <!-- MAIN CONTENT -->
-        <div id="content">
-            @if(isset($errors))
-                @foreach($errors->get('msg') as $error)
-                    <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
-                        <a class="close" data-dismiss="alert" href="#">×</a>
-                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> System MSG!</h4>
-
-                        <p>
-                            {{$error}}
-                        </p>
-                    </div>
-                @endforeach
-            @endif
-            @if(Session::has('CaptchaError'))
-                <ul>
-                    <li>{{Session::get('CaptchaError')}}</li>
-                </ul>
-            @endif
-
+        <div class="page-header full-content">
             <div class="row">
-                <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-                    <h1 class="page-title txt-color-blueDark"><i class="fa-fw fa fa-home"></i> Hi <span> {{$user_obj->name}}
-                            ({{$user_obj->getRole->name}})</span></h1>
-                </div>
-                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-                    <ul id="sparks" class="">
-                        <li class="sparks-info">
-                            <h5> My Income <span class="txt-color-blue">$47,171</span></h5>
+                <div class="col-sm-6">
+                    <h1>Dashboard <small>Activity Summary</small></h1>
+                </div><!--.col-->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li><a href="#" class="active"><i class="ion-home"></i> Homepage</a></li>
+                    </ol>
+                </div><!--.col-->
+            </div><!--.row-->
+        </div><!--.page-header-->
 
-                            <div class="sparkline txt-color-blue hidden-mobile hidden-md hidden-sm">
-                                1300, 1877, 2500, 2577, 2000, 2100, 3000, 2700, 3631, 2471, 2700, 3631, 2471
-                            </div>
-                        </li>
-                        <li class="sparks-info">
-                            <h5> Site Traffic <span class="txt-color-purple"><i class="fa fa-arrow-circle-up"></i>&nbsp;45%</span>
-                            </h5>
+        <div class="display-animation">
 
-                            <div class="sparkline txt-color-purple hidden-mobile hidden-md hidden-sm">
-                                110,150,300,130,400,240,220,310,220,300, 270, 210
-                            </div>
-                        </li>
-                        <li class="sparks-info">
-                            <h5> Site Orders <span class="txt-color-greenDark"><i class="fa fa-shopping-cart"></i>&nbsp;2447</span>
-                            </h5>
+            <div class="row image-row">
 
-                            <div class="sparkline txt-color-greenDark hidden-mobile hidden-md hidden-sm">
-                                110,150,300,130,400,240,220,310,220,300, 270, 210
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!-- widget grid -->
-            <section id="widget-grid" class="">
+                <div class="col-md-8">
 
-                <!-- row -->
-                <div class="row">
-                    <article class="col-sm-12">
-                        <!-- new widget -->
-                        <div class="jarviswidget" id="wid-id-0" data-widget-togglebutton="false"
-                             data-widget-editbutton="false" data-widget-fullscreenbutton="false"
-                             data-widget-colorbutton="false" data-widget-deletebutton="false">
-                            <!-- widget options:
-                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                    <div class="row image-row">
+                        <div class="col-sm-8">
 
-                            data-widget-colorbutton="false"
-                            data-widget-editbutton="false"
-                            data-widget-togglebutton="false"
-                            data-widget-deletebutton="false"
-                            data-widget-fullscreenbutton="false"
-                            data-widget-custombutton="false"
-                            data-widget-collapsed="true"
-                            data-widget-sortable="false"
-
-                            -->
-                            <header>
-                                <span class="widget-icon"> <i
-                                            class="glyphicon glyphicon-stats txt-color-darken"></i> </span>
-
-                                <h2>Live Feeds </h2>
-
-                                <ul class="nav nav-tabs pull-right in" id="myTab">
-                                    <li class="active">
-                                        <a data-toggle="tab" href="#s1"><i class="fa fa-clock-o"></i> <span
-                                                    class="hidden-mobile hidden-tablet">Live Stats</span></a>
-                                    </li>
-
-                                    <li>
-                                        <a data-toggle="tab" href="#s2"><i class="fa fa-facebook"></i> <span
-                                                    class="hidden-mobile hidden-tablet">Social Network</span></a>
-                                    </li>
-
-                                    <li>
-                                        <a data-toggle="tab" href="#s3"><i class="fa fa-dollar"></i> <span
-                                                    class="hidden-mobile hidden-tablet">Revenue</span></a>
-                                    </li>
-                                </ul>
-
-                            </header>
-
-                            <!-- widget div-->
-                            <div class="no-padding">
-                                <!-- widget edit box -->
-                                <div class="jarviswidget-editbox">
-
-                                    test
-                                </div>
-                                <!-- end widget edit box -->
-
-                                <div class="widget-body">
-                                    <!-- content -->
-                                    <div id="myTabContent" class="tab-content">
-                                        <div class="tab-pane fade active in padding-10 no-padding-bottom" id="s1">
-                                            <div class="row no-space">
-                                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-														<span class="demo-liveupdate-1"> <span
-                                                                    class="onoffswitch-title">Live switch</span> <span
-                                                                    class="onoffswitch">
-																<input type="checkbox" name="start_interval"
-                                                                       class="onoffswitch-checkbox" id="start_interval">
-																<label class="onoffswitch-label" for="start_interval">
-                                                                    <span class="onoffswitch-inner"
-                                                                          data-swchon-text="ON"
-                                                                          data-swchoff-text="OFF"></span>
-                                                                    <span class="onoffswitch-switch"></span>
-                                                                </label> </span> </span>
-
-                                                    <div id="updating-chart" class="chart-large txt-color-blue"></div>
-
-                                                </div>
-                                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 show-stats">
-
-                                                    <div class="row">
-                                                        <div class="col-xs-6 col-sm-6 col-md-12 col-lg-12"><span
-                                                                    class="text"> My Tasks <span class="pull-right">130/200</span> </span>
-
-                                                            <div class="progress">
-                                                                <div class="progress-bar bg-color-blueDark"
-                                                                     style="width: 65%;"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-6 col-sm-6 col-md-12 col-lg-12"><span
-                                                                    class="text"> Transfered <span class="pull-right">440 GB</span> </span>
-
-                                                            <div class="progress">
-                                                                <div class="progress-bar bg-color-blue"
-                                                                     style="width: 34%;"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-6 col-sm-6 col-md-12 col-lg-12"><span
-                                                                    class="text"> Bugs Squashed<span class="pull-right">77%</span> </span>
-
-                                                            <div class="progress">
-                                                                <div class="progress-bar bg-color-blue"
-                                                                     style="width: 77%;"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-6 col-sm-6 col-md-12 col-lg-12"><span
-                                                                    class="text"> User Testing <span class="pull-right">7 Days</span> </span>
-
-                                                            <div class="progress">
-                                                                <div class="progress-bar bg-color-greenLight"
-                                                                     style="width: 84%;"></div>
-                                                            </div>
-                                                        </div>
-
-                                                        <span class="show-stat-buttons"> <span
-                                                                    class="col-xs-12 col-sm-6 col-md-6 col-lg-6"> <a
-                                                                        href="javascript:void(0);"
-                                                                        class="btn btn-default btn-block hidden-xs">Generate
-                                                                    PDF</a> </span> <span
-                                                                    class="col-xs-12 col-sm-6 col-md-6 col-lg-6"> <a
-                                                                        href="javascript:void(0);"
-                                                                        class="btn btn-default btn-block hidden-xs">Report
-                                                                    a bug</a> </span> </span>
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                            <div class="show-stat-microcharts">
-                                                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-
-                                                    <div class="easy-pie-chart txt-color-orangeDark" data-percent="33"
-                                                         data-pie-size="50">
-                                                        <span class="percent percent-sign">35</span>
-                                                    </div>
-                                                    <span class="easy-pie-title"> Server Load <i
-                                                                class="fa fa-caret-up icon-color-bad"></i> </span>
-                                                    <ul class="smaller-stat hidden-sm pull-right">
-                                                        <li>
-                                                            <span class="label bg-color-greenLight"><i
-                                                                        class="fa fa-caret-up"></i> 97%</span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="label bg-color-blueLight"><i
-                                                                        class="fa fa-caret-down"></i> 44%</span>
-                                                        </li>
-                                                    </ul>
-                                                    <div class="sparkline txt-color-greenLight hidden-sm hidden-md pull-right"
-                                                         data-sparkline-type="line" data-sparkline-height="33px"
-                                                         data-sparkline-width="70px" data-fill-color="transparent">
-                                                        130, 187, 250, 257, 200, 210, 300, 270, 363, 247, 270, 363, 247
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                                                    <div class="easy-pie-chart txt-color-greenLight" data-percent="78.9"
-                                                         data-pie-size="50">
-                                                        <span class="percent percent-sign">78.9 </span>
-                                                    </div>
-                                                    <span class="easy-pie-title"> Disk Space <i
-                                                                class="fa fa-caret-down icon-color-good"></i></span>
-                                                    <ul class="smaller-stat hidden-sm pull-right">
-                                                        <li>
-                                                            <span class="label bg-color-blueDark"><i
-                                                                        class="fa fa-caret-up"></i> 76%</span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="label bg-color-blue"><i
-                                                                        class="fa fa-caret-down"></i> 3%</span>
-                                                        </li>
-                                                    </ul>
-                                                    <div class="sparkline txt-color-blue hidden-sm hidden-md pull-right"
-                                                         data-sparkline-type="line" data-sparkline-height="33px"
-                                                         data-sparkline-width="70px" data-fill-color="transparent">
-                                                        257, 200, 210, 300, 270, 363, 130, 187, 250, 247, 270, 363, 247
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                                                    <div class="easy-pie-chart txt-color-blue" data-percent="23"
-                                                         data-pie-size="50">
-                                                        <span class="percent percent-sign">23 </span>
-                                                    </div>
-                                                    <span class="easy-pie-title"> Transfered <i
-                                                                class="fa fa-caret-up icon-color-good"></i></span>
-                                                    <ul class="smaller-stat hidden-sm pull-right">
-                                                        <li>
-                                                            <span class="label bg-color-darken">10GB</span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="label bg-color-blueDark"><i
-                                                                        class="fa fa-caret-up"></i> 10%</span>
-                                                        </li>
-                                                    </ul>
-                                                    <div class="sparkline txt-color-darken hidden-sm hidden-md pull-right"
-                                                         data-sparkline-type="line" data-sparkline-height="33px"
-                                                         data-sparkline-width="70px" data-fill-color="transparent">
-                                                        200, 210, 363, 247, 300, 270, 130, 187, 250, 257, 363, 247, 270
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                                                    <div class="easy-pie-chart txt-color-darken" data-percent="36"
-                                                         data-pie-size="50">
-                                                        <span class="percent degree-sign">36 <i
-                                                                    class="fa fa-caret-up"></i></span>
-                                                    </div>
-                                                    <span class="easy-pie-title"> Temperature <i
-                                                                class="fa fa-caret-down icon-color-good"></i></span>
-                                                    <ul class="smaller-stat hidden-sm pull-right">
-                                                        <li>
-                                                            <span class="label bg-color-red"><i
-                                                                        class="fa fa-caret-up"></i> 124</span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="label bg-color-blue"><i
-                                                                        class="fa fa-caret-down"></i> 40 F</span>
-                                                        </li>
-                                                    </ul>
-                                                    <div class="sparkline txt-color-red hidden-sm hidden-md pull-right"
-                                                         data-sparkline-type="line" data-sparkline-height="33px"
-                                                         data-sparkline-width="70px" data-fill-color="transparent">
-                                                        2700, 3631, 2471, 2700, 3631, 2471, 1300, 1877, 2500, 2577,
-                                                        2000, 2100, 3000
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <!-- end s1 tab pane -->
-
-                                        <div class="tab-pane fade" id="s2">
-                                            <div class="widget-body-toolbar bg-color-white">
-
-                                                <form class="form-inline" role="form">
-
-                                                    <div class="form-group">
-                                                        <label class="sr-only" for="s123">Show From</label>
-                                                        <input type="email" class="form-control input-sm" id="s123"
-                                                               placeholder="Show From">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input type="email" class="form-control input-sm" id="s124"
-                                                               placeholder="To">
-                                                    </div>
-
-                                                    <div class="btn-group hidden-phone pull-right">
-                                                        <a class="btn dropdown-toggle btn-xs btn-default"
-                                                           data-toggle="dropdown"><i class="fa fa-cog"></i> More <span
-                                                                    class="caret"> </span> </a>
-                                                        <ul class="dropdown-menu pull-right">
-                                                            <li>
-                                                                <a href="javascript:void(0);"><i
-                                                                            class="fa fa-file-text-alt"></i> Export to
-                                                                    PDF</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="javascript:void(0);"><i
-                                                                            class="fa fa-question-sign"></i> Help</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-
-                                                </form>
-
-                                            </div>
-                                            <div class="padding-10">
-                                                <div id="statsChart" class="chart-large has-legend-unique"></div>
-                                            </div>
-
-                                        </div>
-                                        <!-- end s2 tab pane -->
-
-                                        <div class="tab-pane fade" id="s3">
-
-                                            <div class="widget-body-toolbar bg-color-white smart-form" id="rev-toggles">
-
-                                                <div class="inline-group">
-
-                                                    <label for="gra-0" class="checkbox">
-                                                        <input type="checkbox" name="gra-0" id="gra-0"
-                                                               checked="checked">
-                                                        <i></i> Target </label>
-                                                    <label for="gra-1" class="checkbox">
-                                                        <input type="checkbox" name="gra-1" id="gra-1"
-                                                               checked="checked">
-                                                        <i></i> Actual </label>
-                                                    <label for="gra-2" class="checkbox">
-                                                        <input type="checkbox" name="gra-2" id="gra-2"
-                                                               checked="checked">
-                                                        <i></i> Signups </label>
-                                                </div>
-
-                                                <div class="btn-group hidden-phone pull-right">
-                                                    <a class="btn dropdown-toggle btn-xs btn-default"
-                                                       data-toggle="dropdown"><i class="fa fa-cog"></i> More <span
-                                                                class="caret"> </span> </a>
-                                                    <ul class="dropdown-menu pull-right">
-                                                        <li>
-                                                            <a href="javascript:void(0);"><i
-                                                                        class="fa fa-file-text-alt"></i> Export to
-                                                                PDF</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);"><i
-                                                                        class="fa fa-question-sign"></i> Help</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="padding-10">
-                                                <div id="flotcontainer" class="chart-large has-legend-unique"></div>
-                                            </div>
-                                        </div>
-                                        <!-- end s3 tab pane -->
+                            <div class="card tile card-green card-weather bg-image sample-bg-image15 material-animate">
+                                <div class="card-heading">
+                                    <div class="card-action">
+                                        <a href="javascript:;" data-toggle="fake-reload"></a>
+                                    </div><!--.card-action-->
+                                </div><!--.card-heading-->
+                                <div class="card-body">
+                                    <div class="forecast-container">
+                                        <span class="temparature">19 <i class="wi wi-celsius"></i></span>
+                                        <span class="place">Barcelona, Spain</span>
+                                        <span class="forecast">Clear until tomorrow morning.</span>
                                     </div>
+                                </div><!--.card-body-->
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div class="col-xs-3 col-sm-2 animate-item">
+                                            <ul>
+                                                <li>MON</li>
+                                                <li><i class="wi wi-day-sleet-storm"></i></li>
+                                                <li>18 <i class="wi wi-celsius"></i></li>
+                                            </ul>
+                                        </div><!--.col-->
+                                        <div class="col-xs-3 col-sm-2 animate-item">
+                                            <ul>
+                                                <li>TUE</li>
+                                                <li><i class="wi wi-day-sunny-overcast"></i></li>
+                                                <li>22 <i class="wi wi-celsius"></i></li>
+                                            </ul>
+                                        </div><!--.col-->
+                                        <div class="col-xs-3 col-sm-2 animate-item">
+                                            <ul>
+                                                <li>WED</li>
+                                                <li><i class="wi wi-rain"></i></li>
+                                                <li>14 <i class="wi wi-celsius"></i></li>
+                                            </ul>
+                                        </div><!--.col-->
+                                        <div class="col-xs-3 col-sm-2 animate-item">
+                                            <ul>
+                                                <li>THU</li>
+                                                <li><i class="wi wi-day-rain"></i></li>
+                                                <li>15 <i class="wi wi-celsius"></i></li>
+                                            </ul>
+                                        </div><!--.col-->
+                                        <div class="col-sm-2 hidden-xs animate-item">
+                                            <ul>
+                                                <li>FRI</li>
+                                                <li><i class="wi wi-showers"></i></li>
+                                                <li>10 <i class="wi wi-celsius"></i></li>
+                                            </ul>
+                                        </div><!--.col-->
+                                        <div class="col-sm-2 hidden-xs animate-item">
+                                            <ul>
+                                                <li>SAT</li>
+                                                <li><i class="wi wi-storm-showers"></i></li>
+                                                <li>5 <i class="wi wi-celsius"></i></li>
+                                            </ul>
+                                        </div><!--.col-->
+                                    </div><!--.row-->
+                                </div><!--.card-footer-->
+                            </div><!--.card-->
 
-                                    <!-- end content -->
-                                </div>
+                        </div><!--.col-->
+                        <div class="col-sm-4">
 
-                            </div>
-                            <!-- end widget div -->
-                        </div>
-                        <!-- end widget -->
+                            <div class="card tile card-dashboard-graph material-animate">
+                                <div class="contextual">
+                                    <h5>Daily Sales</h5>
+                                    <p>Collaboratively administrate empowered markets</p>
+                                </div><!--.contextual-->
+                                <div class="chart without-time chart-sales"></div>
+                                <div class="chart-legend chart-sales-legend"></div>
+                            </div><!--.card-->
 
-                    </article>
-                </div>
+                            <div class="card tile card-dashboard-graph material-animate margin-top-4">
+                                <div class="contextual">
+                                    <h5>Balance Statement</h5>
+                                    <p>Dynamically procrastinate B2C user markets</p>
+                                </div><!--.contextual-->
+                                <div class="chart without-time chart-balance"></div>
+                            </div><!--.card-->
 
-                <!-- end row -->
+                        </div><!--.col-->
+                    </div><!--.row-->
 
-                <!-- row -->
+                    <div class="row image-row">
 
+                        <div class="col-sm-4">
+                            <ul class="bxslider width-percent-100" data-bx-slider-pager="false" data-bx-slider-controls="false" data-bx-slider-auto="true" data-bx-slider-mode="vertical">
+                                <li>
+                                    <div class="card tile card-indigo card-social material-animate">
+                                        <div class="card-body">
+                                            <p>Collaboratively administrate empowered markets via networks.</p>
+                                        </div><!--.card-body-->
+                                        <div class="card-footer">
+                                            <ul class="inline-list">
+                                                <li><i class="fa fa-thumbs-o-up"></i> 393</li>
+                                                <li><i class="fa fa-share"></i> 105</li>
+                                            </ul>
+                                        </div><!--.card-footer-->
+                                        <div class="card-icon"><i class="fa fa-facebook"></i></div>
+                                    </div><!--.card-->
+                                </li>
+
+                                <li>
+                                    <div class="card tile card-light-blue card-social material-animate">
+                                        <div class="card-body">
+                                            <p>Dynamically procrastinate B2C users after installed base benefits.</p>
+                                        </div><!--.card-body-->
+                                        <div class="card-footer">
+                                            <ul class="inline-list">
+                                                <li><i class="fa fa-star-o"></i> 594</li>
+                                                <li><i class="fa fa-retweet"></i> 256</li>
+                                            </ul>
+                                        </div><!--.card-footer-->
+                                        <div class="card-icon"><i class="fa fa-twitter"></i></div>
+                                    </div><!--.card-->
+                                </li>
+                            </ul>
+                        </div><!--.col-->
+
+                        <div class="col-sm-4">
+                            <div class="card card-music card-music-single card-music-centered tile card-black card-player-indigo bg-image bg-opaque8 sample-bg-image14 material-animate">
+                                <audio src="http://teamfox.co/audionautix/5CentsBack.mp3" preload="none" class="audiojs-single"></audio>
+                                <div class="card-heading">
+                                    <div class="song-container">
+                                        <p class="artist">Jason Shaw</p>
+                                        <p class="song">Audio Cards</p>
+                                    </div><!--.song-container-->
+                                </div><!--.card-heading-->
+                            </div><!--.card-->
+                        </div><!--.col-->
+
+                        <div class="col-sm-4">
+                            <div class="card tile card-dashboard-graph material-animate">
+                                <div class="contextual">
+                                    <h5>Social Followers</h5>
+                                    <p>Dramatically maintain clicks-and-mortar</p>
+                                </div><!--.contextual-->
+                                <div class="chart without-time chart-followers"></div>
+                                <div class="chart-legend chart-followers-legend"></div>
+                            </div><!--.card-->
+                        </div><!--.col-->
+
+                    </div><!--.row-->
+
+                </div><!--.col-->
+
+                <div class="col-md-4">
+
+                    <div class="row image-row">
+                        <div class="col-md-12">
+                            <div class="card tile card-lime card-image material-animate">
+                                <input id="pac-input" type="text" placeholder="Search Place">
+                                <div id="gmaps-dashboard" class="example-map"></div>
+                            </div><!--.card-->
+                        </div><!--.col-->
+                    </div><!--.row-->
+
+                    <div class="row image-row">
+                        <div class="col-md-12">
+                            <div class="card tile card-white card-stocks material-animate">
+                                <div class="card-heading">
+                                    <div class="card-action">
+                                        <a href="javascript:;" data-toggle="fake-reload"></a>
+                                    </div><!--.card-action-->
+                                    <span class="name">Apple Inc</span>
+                                    <span class="price"><i class="ion-arrow-up-b"></i> 0.30%</span>
+                                    <div class="chart chart-stocks"></div>
+                                </div><!--.card-heading-->
+                                <div class="card-body">
+                                    <ul>
+                                        <li class="animate-item btn-ripple">
+                                            <span class="name">Apple Inc</span>
+                                            <span class="price text-green"><i class="ion-arrow-up-b"></i> $119.56</span>
+                                        </li>
+                                        <li class="animate-item btn-ripple">
+                                            <span class="name">Nokia Corporation</span>
+                                            <span class="price text-red"><i class="ion-arrow-down-b"></i> $10.69</span>
+                                        </li>
+                                        <li class="animate-item btn-ripple">
+                                            <span class="name">Canon Inc</span>
+                                            <span class="price text-green"><i class="ion-arrow-up-b"></i> $31.48</span>
+                                        </li>
+                                        <li class="animate-item btn-ripple">
+                                            <span class="name">Motorola Solutions</span>
+                                            <span class="price text-red"><i class="ion-arrow-down-b"></i> $63.94</span>
+                                        </li>
+                                        <li class="animate-item btn-ripple">
+                                            <span class="name">Sony Corp</span>
+                                            <span class="price text-green"><i class="ion-arrow-up-b"></i> $25.94</span>
+                                        </li>
+                                    </ul>
+                                </div><!--.card-body-->
+                            </div><!--.card-->
+                        </div><!--.col-->
+                    </div><!--.row-->
+
+                </div><!--.col-->
+
+            </div><!--.row-->
+
+        </div><!--.display-animation-->
+
+        <div class="display-animation">
+            <div class="full-content margin-top-40 margin-bottom-40 bg-white">
                 <div class="row">
 
-                    <article class="col-sm-12 col-md-12 col-lg-6">
+                    <div class="col-md-4 material-animate padding-right-40">
+                        <h4>Sales in 2014</h4>
+                        <p class="text-grey">Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.</p>
+                    </div><!--.col-->
 
-                        <!-- new widget -->
-                        <div class="well">
-                            <header>
-                                <h2> Audit Time Line </h2>
-                            </header>
+                    <div class="col-md-8 material-animate">
+                        <div class="chart chart-sales-by-year without-time"></div>
+                    </div><!--.col-->
 
-                            <!-- widget div-->
-                            <!-- row -->
-                            <div class="row">
 
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                </div><!--.row-->
+            </div><!--.full-content-->
+        </div><!--.display-animation-->
 
-                                    <div class="well well-sm">
-                                        <!-- Timeline Content -->
-                                        {{--                                        {{dd($audit_obj)}}--}}
-                                        <div class="smart-timeline">
-                                            {{--<ul class="smart-timeline-list">--}}
-                                                {{--@for($i=0;$i<count($audit_obj);)--}}
-                                                    {{--                                                @foreach($audit_obj as $index)--}}
-                                                    {{--<?php $change_key = $audit_obj[$i]->change_key; ?>--}}
-                                                    {{--<li>--}}
-                                                        {{--<div class="smart-timeline-icon">--}}
-                                                            {{--@if($audit_obj[$i]->audit_type == 'add')--}}
-                                                                {{--<i class="fa fa-plus"></i>--}}
-                                                            {{--@else--}}
-                                                                {{--<i class="fa fa-file-text"></i>--}}
-                                                            {{--@endif--}}
-                                                        {{--</div>--}}
-                                                        {{--<div class="smart-timeline-time">--}}
-                                                            {{--<small>{{$audit_obj[$i]->created_at}}</small>--}}
-                                                        {{--</div>--}}
-                                                        {{--<div class="smart-timeline-content">--}}
-
-                                                            {{--<p>--}}
-                                                                {{--<a href="{{url('user/usr'.$audit_obj[$i]->user_id.'/edit')}}">{{$audit_obj[$i]->getUser->name}}</a>--}}
-                                                                {{--@if($audit_obj[$i]->audit_type == 'add')--}}
-                                                                    {{--@if($audit_obj[$i]->entity_type == 'positive_offer_model' or $audit_obj[$i]->entity_type == 'negative_offer_model')--}}
-                                                                        {{--changed Model:--}}
-                                                                    {{--@elseif($audit_obj[$i]->entity_type == 'offer_pixel_map')--}}
-                                                                        {{--changed Offer:--}}
-                                                                    {{--@else--}}
-                                                                        {{--created a new {{$audit_obj[$i]->entity_type}}:--}}
-                                                                    {{--@endif--}}
-                                                                {{--@elseif($audit_obj[$i]->audit_type == 'edit')--}}
-                                                                    {{--changed {{$audit_obj[$i]->entity_type}}:--}}
-                                                                {{--@elseif($audit_obj[$i]->audit_type == 'del')--}}
-                                                                    {{--deleted {{$audit_obj[$i]->entity_type}}:--}}
-                                                                {{--@endif--}}
-                                                                {{--@if($audit_obj[$i]->entity_type == 'client')--}}
-                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">cl{{$audit_obj[$i+1][0]->id}}</a>--}}
-                                                                    {{--</strong>--}}
-                                                                {{--@endif--}}
-                                                                {{--@if($audit_obj[$i]->entity_type == 'advertiser')--}}
-                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->id.'/edit')}}">adv{{$audit_obj[$i+1][0]->id}}</a>--}}
-                                                                    {{--</strong>--}}
-                                                                {{--@endif--}}
-                                                                {{--@if($audit_obj[$i]->entity_type == 'creative')--}}
-                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/creative/crt'.$audit_obj[$i+1][0]->id.'/edit')}}">crt{{$audit_obj[$i+1][0]->id}}</a>--}}
-                                                                    {{--</strong>--}}
-                                                                {{--@endif--}}
-                                                                {{--@if($audit_obj[$i]->entity_type == 'offer')--}}
-                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/offer/ofr'.$audit_obj[$i+1][0]->id.'/edit')}}">ofr{{$audit_obj[$i+1][0]->id}}</a>--}}
-                                                                    {{--</strong>--}}
-                                                                {{--@endif--}}
-                                                                {{--@if($audit_obj[$i]->entity_type == 'pixel')--}}
-                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/pixel/pxl'.$audit_obj[$i+1][0]->id.'/edit')}}">pxl{{$audit_obj[$i+1][0]->id}}</a>--}}
-                                                                    {{--</strong>--}}
-                                                                {{--@endif--}}
-                                                                {{--@if($audit_obj[$i]->entity_type == 'bwlist')--}}
-                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/bwlist/bwl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a>--}}
-                                                                    {{--</strong>--}}
-                                                                {{--@endif--}}
-                                                                {{--@if($audit_obj[$i]->entity_type == 'geosegment')--}}
-                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/geosegment/gsm'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a>--}}
-                                                                    {{--</strong>--}}
-                                                                {{--@endif--}}
-                                                                {{--@if($audit_obj[$i]->entity_type == 'campaign')--}}
-                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/campaign/cmp'.$audit_obj[$i+1][0]->id.'/edit')}}">cmp{{$audit_obj[$i+1][0]->id}}</a>--}}
-                                                                    {{--</strong>--}}
-                                                                {{--@endif--}}
-                                                                {{--@if($audit_obj[$i]->entity_type == 'modelTable')--}}
-                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/model/mdl'.$audit_obj[$i+1][0]->id.'/edit')}}">mdl{{$audit_obj[$i+1][0]->id}}</a>--}}
-                                                                    {{--</strong>--}}
-                                                                {{--@endif--}}
-                                                                {{--@if($audit_obj[$i]->entity_type == 'positive_offer_model' or $audit_obj[$i]->entity_type == 'negative_offer_model')--}}
-                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/model/mdl'.$audit_obj[$i]->after_value.'/edit')}}">mdl{{$audit_obj[$i]->after_value}}</a>--}}
-                                                                    {{--</strong>--}}
-                                                                {{--@endif--}}
-                                                                {{--@if($audit_obj[$i]->entity_type == 'offer_pixel_map')--}}
-                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1][0]->getAdvertiser->id.'/offer/ofr'.$audit_obj[$i]->after_value.'/edit')}}">ofr{{$audit_obj[$i]->after_value}}</a>--}}
-                                                                    {{--</strong>--}}
-                                                                {{--@endif--}}
-                                                                {{--@if($audit_obj[$i]->entity_type == 'targetgroup')--}}
-                                                                    {{--<strong><a href="{{url('client/cl'.$audit_obj[$i+1][0]->id.'/edit')}}">{{$audit_obj[$i+1][0]->name}}</a>--}}
-                                                                    {{--</strong>--}}
-                                                                {{--@endif--}}
-                                                                {{--@if($audit_obj[$i]->entity_type == 'geosegmententrie')--}}
-                                                                    {{--@if($audit_obj[$i]->audit_type == 'del')--}}
-                                                                        {{--<strong>{{$audit_obj[$i]->before_vale}}</strong>--}}
-                                                                        {{--from--}}
-                                                                        {{--<strong>GSL{{$audit_obj[$i+1][0]->id}}</strong>--}}
-                                                                    {{--@else--}}
-                                                                        {{--<strong>GS{{$audit_obj[$i]->entity_id}} </strong>--}}
-                                                                        {{--for--}}
-                                                                        {{--<strong>GSL{{$audit_obj[$i+1][0]->id}}</strong>--}}
-                                                                    {{--@endif--}}
-                                                                {{--@endif--}}
-                                                                {{--@if($audit_obj[$i]->entity_type == 'bwlistentrie')--}}
-                                                                    {{--@if($audit_obj[$i]->audit_type == 'del')--}}
-                                                                        {{--<strong>{{$audit_obj[$i]->before_vale}}</strong>--}}
-                                                                        {{--from--}}
-                                                                        {{--<strong>BWL{{$audit_obj[$i+1][0]->id}}</strong>--}}
-                                                                    {{--@else--}}
-                                                                        {{--<strong>BWE{{$audit_obj[$i]->entity_id}} </strong>--}}
-                                                                        {{--for--}}
-                                                                        {{--<strong>BWL{{$audit_obj[$i+1][0]->id}}</strong>--}}
-                                                                    {{--@endif--}}
-                                                                {{--@endif--}}
-                                                            {{--</p>--}}
-
-                                                            {{--@while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key)--}}
-
-                                                            {{--@if($audit_obj[$i]->audit_type == 'edit')--}}
-                                                                {{--<div class="well well-sm display-inline">--}}
-                                                                    {{--@while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='edit')--}}
-                                                                        {{--<p>Field--}}
-                                                                            {{--<strong>{{$audit_obj[$i]->field}}</strong>--}}
-                                                                            {{--From--}}
-                                                                            {{--<strong>{{$audit_obj[$i]->before_value}}</strong>--}}
-                                                                            {{--To--}}
-                                                                            {{--<strong>{{$audit_obj[$i]->after_value}}</strong>--}}
-                                                                        {{--</p>--}}
-                                                                        {{--<?php $i = $i + 2; ?>--}}
-                                                                    {{--@endwhile--}}
-                                                                {{--</div>--}}
-
-                                                            {{--@endif--}}
-                                                            {{--@if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'add' and $audit_obj[$i]->change_key==$change_key)--}}
-                                                                {{--<div class="well well-sm display-inline">--}}
-                                                                    {{--@if($audit_obj[$i]->entity_type == 'geosegment')--}}
-                                                                        {{--Entrie(s):--}}
-                                                                    {{--@endif--}}
-                                                                    {{--@if($audit_obj[$i]->entity_type == 'bwlistentrie')--}}
-                                                                        {{--Domain Name(s):--}}
-                                                                    {{--@endif--}}
-                                                                    {{--@if($audit_obj[$i]->entity_type == 'offer_pixel_map')--}}
-                                                                        {{--Pixel(s) Added:--}}
-                                                                    {{--@endif--}}
-                                                                    {{--@if($audit_obj[$i]->entity_type == 'positive_offer_model')--}}
-                                                                        {{--Positive Offer(s) Added:--}}
-                                                                    {{--@endif--}}
-                                                                    {{--@if($audit_obj[$i]->entity_type == 'negative_offer_model')--}}
-                                                                        {{--Negative Offer(s) Added:--}}
-                                                                    {{--@endif--}}
-                                                                    {{--<?php $flg = 0; $count = 0; ?>--}}
-                                                                    {{--@while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type == 'add')--}}
-                                                                        {{--@if($flg>=20)--}}
-                                                                            {{--<?php $count++ ?>--}}
-                                                                        {{--@endif--}}
-                                                                        {{--<p>--}}
-                                                                            {{--@if($audit_obj[$i]->entity_type == 'geosegmententrie' and $flg < 20)--}}
-                                                                                {{--name:--}}
-                                                                                {{--<strong>{{$audit_obj[$i+1][0]->name}}</strong>--}}
-                                                                            {{--@endif--}}
-                                                                            {{--@if($audit_obj[$i]->entity_type == 'offer_pixel_map' and $flg < 20)--}}
-                                                                                {{--name:--}}
-                                                                                {{--<strong>{{$audit_obj[$i+1][0]->name}}</strong>--}}
-                                                                            {{--@endif--}}
-                                                                            {{--@if($audit_obj[$i]->entity_type == 'positive_offer_model' and $flg < 20)--}}
-                                                                                {{--name:--}}
-                                                                                {{--<strong>{{$audit_obj[$i+1][0]->name}}</strong>--}}
-                                                                            {{--@endif--}}
-                                                                            {{--@if($audit_obj[$i]->entity_type == 'negative_offer_model' and $flg < 20)--}}
-                                                                                {{--name:--}}
-                                                                                {{--<strong>{{$audit_obj[$i+1][0]->name}}</strong>--}}
-                                                                            {{--@endif--}}
-                                                                            {{--@if($audit_obj[$i]->entity_type == 'bwlistentrie' and $flg < 2)--}}
-                                                                                {{--name:--}}
-                                                                                {{--<strong>{{$audit_obj[$i+1][0]->name}}</strong>--}}
-                                                                            {{--@endif--}}
-                                                                        {{--</p>--}}
-                                                                        {{--<?php $i = $i + 2; $flg++; ?>--}}
-                                                                    {{--@endwhile--}}
-                                                                    {{--@if($flg>20)--}}
-                                                                        {{--<p> and other <strong>{{$count}}</strong>--}}
-                                                                            {{--more...</p>--}}
-                                                                    {{--@endif--}}
-                                                                {{--</div>--}}
-
-                                                            {{--@endif--}}
-
-                                                            {{--@if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'del' and $audit_obj[$i]->change_key==$change_key)--}}
-                                                                {{--<div class="well well-sm display-inline">--}}
-                                                                    {{--@if($audit_obj[$i]->entity_type == 'geosegment')--}}
-                                                                        {{--Entrie(s):--}}
-                                                                    {{--@endif--}}
-                                                                    {{--@if($audit_obj[$i]->entity_type == 'offer_pixel_map')--}}
-                                                                        {{--Pixel(s) Removed:--}}
-                                                                    {{--@endif--}}
-                                                                    {{--@if($audit_obj[$i]->entity_type == 'positive_offer_model')--}}
-                                                                        {{--Positive Offer(s) Removed:--}}
-                                                                    {{--@endif--}}
-                                                                    {{--@if($audit_obj[$i]->entity_type == 'negative_offer_model')--}}
-                                                                        {{--Negative Offer(s) Removed:--}}
-                                                                    {{--@endif--}}
-                                                                    {{--@if($audit_obj[$i]->entity_type == 'bwlistentrie')--}}
-                                                                        {{--Domain(s):--}}
-                                                                    {{--@endif--}}
-
-                                                                    {{--<?php $flg = 0; $count = 0; ?>--}}
-                                                                    {{--@while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type == 'del')--}}
-                                                                        {{--@if($flg>=20)--}}
-                                                                            {{--<?php $count++ ?>--}}
-                                                                        {{--@endif--}}
-                                                                        {{--<p>--}}
-                                                                            {{--@if($audit_obj[$i]->entity_type == 'geosegmententrie' and $flg < 2)--}}
-                                                                                {{--name:--}}
-                                                                                {{--<strong>{{$audit_obj[$i]->before_value}}</strong>--}}
-                                                                            {{--@endif--}}
-                                                                            {{--@if($audit_obj[$i]->entity_type == 'offer_pixel_map' and $flg < 20)--}}
-                                                                                {{--name:--}}
-                                                                                {{--<strong>{{$audit_obj[$i+1][0]->name}}</strong>--}}
-                                                                            {{--@endif--}}
-                                                                            {{--@if($audit_obj[$i]->entity_type == 'positive_offer_model' and $flg < 20)--}}
-                                                                                {{--name:--}}
-                                                                                {{--<strong>{{$audit_obj[$i+1][0]->name}}</strong>--}}
-                                                                            {{--@endif--}}
-                                                                            {{--@if($audit_obj[$i]->entity_type == 'negative_offer_model' and $flg < 20)--}}
-                                                                                {{--name:--}}
-                                                                                {{--<strong>{{$audit_obj[$i+1][0]->name}}</strong>--}}
-                                                                            {{--@endif--}}
-                                                                            {{--@if($audit_obj[$i]->entity_type == 'bwlistentrie' and $flg < 2)--}}
-                                                                                {{--name:--}}
-                                                                                {{--<strong>{{$audit_obj[$i]->before_value}}</strong>--}}
-                                                                            {{--@endif--}}
-                                                                        {{--</p>--}}
-                                                                        {{--<?php $i = $i + 2; $flg++; ?>--}}
-                                                                    {{--@endwhile--}}
-                                                                    {{--<p>--}}
-                                                                        {{--@if($flg>20)--}}
-                                                                            {{--and other <strong>{{$count}}</strong>--}}
-                                                                            {{--more...</p>--}}
-                                                                    {{--@endif--}}
-                                                                {{--</div>--}}
-                                                            {{--@endif--}}
-                                                            {{--@endwhile--}}
-                                                        {{--</div>--}}
-                                                    {{--</li>--}}
-                                                {{--@endfor--}}
-                                                {{--<li>--}}
-                                                    {{--<div class="smart-timeline-icon">--}}
-                                                        {{--<i class="fa fa-file-text"></i>--}}
-                                                    {{--</div>--}}
-                                                    {{--<div class="smart-timeline-time">--}}
-                                                        {{--<small>1 min ago</small>--}}
-                                                    {{--</div>--}}
-                                                    {{--<div class="smart-timeline-content">--}}
-                                                        {{--<p>--}}
-                                                            {{--<strong>Meeting invite for "GENERAL GNU" [<a--}}
-                                                                        {{--href="javascript:void(0);"><i>Go to my--}}
-                                                                        {{--calendar</i></a>]</strong>--}}
-                                                        {{--</p>--}}
-
-                                                        {{--<div class="well well-sm display-inline">--}}
-                                                            {{--<p>Will you be able to attend the meeting - <strong> 10:00--}}
-                                                                    {{--am</strong> tomorrow?</p>--}}
-                                                        {{--</div>--}}
-
-                                                    {{--</div>--}}
-                                                {{--</li>--}}
-                                                {{--<li>--}}
-                                                    {{--<div class="smart-timeline-icon bg-color-greenDark">--}}
-                                                        {{--<i class="fa fa-bar-chart-o"></i>--}}
-                                                    {{--</div>--}}
-                                                    {{--<div class="smart-timeline-time">--}}
-                                                        {{--<small>5 hrs ago</small>--}}
-                                                    {{--</div>--}}
-                                                    {{--<div class="smart-timeline-content">--}}
-                                                        {{--<p>--}}
-                                                            {{--<strong class="txt-color-greenDark">24hrs User Feed</strong>--}}
-                                                        {{--</p>--}}
-
-                                                        {{--<div class="sparkline"--}}
-                                                             {{--data-sparkline-type="compositeline"--}}
-                                                             {{--data-sparkline-spotradius-top="5"--}}
-                                                             {{--data-sparkline-color-top="#3a6965"--}}
-                                                             {{--data-sparkline-line-width-top="3"--}}
-                                                             {{--data-sparkline-color-bottom="#2b5c59"--}}
-                                                             {{--data-sparkline-spot-color="#2b5c59"--}}
-                                                             {{--data-sparkline-minspot-color-top="#97bfbf"--}}
-                                                             {{--data-sparkline-maxspot-color-top="#c2cccc"--}}
-                                                             {{--data-sparkline-highlightline-color-top="#cce8e4"--}}
-                                                             {{--data-sparkline-highlightspot-color-top="#9dbdb9"--}}
-                                                             {{--data-sparkline-width="170px"--}}
-                                                             {{--data-sparkline-height="40px"--}}
-                                                             {{--data-sparkline-line-val="[6,4,7,8,4,3,2,2,5,6,7,4,1,5,7,9,9,8,7,6]"--}}
-                                                             {{--data-sparkline-bar-val="[4,1,5,7,9,9,8,7,6,6,4,7,8,4,3,2,2,5,6,7]"></div>--}}
-
-                                                        {{--<br>--}}
-                                                    {{--</div>--}}
-                                                {{--</li>--}}
-                                                {{--<li>--}}
-                                                    {{--<div class="smart-timeline-icon">--}}
-                                                        {{--<i class="fa fa-user"></i>--}}
-                                                    {{--</div>--}}
-                                                    {{--<div class="smart-timeline-time">--}}
-                                                        {{--<small>yesterday</small>--}}
-                                                    {{--</div>--}}
-                                                    {{--<div class="smart-timeline-content">--}}
-                                                        {{--<p>--}}
-                                                            {{--<a href="javascript:void(0);"><strong>Update user--}}
-                                                                    {{--information</strong></a>--}}
-                                                        {{--</p>--}}
-
-                                                        {{--<p>--}}
-                                                            {{--Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam--}}
-                                                            {{--rhoncus. Maecenas tempus, tellus eget condimentum rhoncus,--}}
-                                                            {{--sem quam semper libero, sit amet adipiscing sem neque sed--}}
-                                                            {{--ipsum. Nam quam nunc, blandit vel, luctus pulvinar,--}}
-                                                            {{--hendrerit id, lorem. Maecenas nec odio et ante tincidunt--}}
-                                                            {{--tempus. Donec vitae sapien ut libero venenatis faucibus.--}}
-                                                        {{--</p>--}}
-
-                                                        {{--Tellus eget condimentum rhoncus, sem quam semper libero, sit--}}
-                                                        {{--amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit--}}
-
-                                                        {{--<ul class="list-inline">--}}
-                                                            {{--<li>--}}
-                                                                {{--<img src="img/superbox/superbox-thumb-6.jpg" alt="img"--}}
-                                                                     {{--width="50">--}}
-                                                            {{--</li>--}}
-                                                            {{--<li>--}}
-                                                                {{--<img src="img/superbox/superbox-thumb-5.jpg" alt="img"--}}
-                                                                     {{--width="50">--}}
-                                                            {{--</li>--}}
-                                                            {{--<li>--}}
-                                                                {{--<img src="img/superbox/superbox-thumb-7.jpg" alt="img"--}}
-                                                                     {{--width="50">--}}
-                                                            {{--</li>--}}
-                                                        {{--</ul>--}}
-                                                    {{--</div>--}}
-                                                {{--</li>--}}
-                                                {{--<li>--}}
-                                                    {{--<div class="smart-timeline-icon">--}}
-                                                        {{--<i class="fa fa-pencil"></i>--}}
-                                                    {{--</div>--}}
-                                                    {{--<div class="smart-timeline-time">--}}
-                                                        {{--<small>12 Mar, 2013</small>--}}
-                                                    {{--</div>--}}
-                                                    {{--<div class="smart-timeline-content">--}}
-                                                        {{--<p>--}}
-                                                            {{--<a href="javascript:void(0);"><strong>Nabi Resource--}}
-                                                                    {{--Report</strong></a>--}}
-                                                        {{--</p>--}}
-
-                                                        {{--<p>--}}
-                                                            {{--Ean vulputate eleifend tellus. Aenean leo ligula, porttitor--}}
-                                                            {{--eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,--}}
-                                                            {{--dapibus in, viverra quis.--}}
-                                                        {{--</p>--}}
-                                                        {{--<a href="javascript:void(0);" class="btn btn-xs btn-default">Read--}}
-                                                            {{--more</a>--}}
-                                                    {{--</div>--}}
-                                                {{--</li>--}}
-                                                {{--<li class="text-center">--}}
-                                                    {{--<a href="javascript:void(0)" class="btn btn-sm btn-default"><i--}}
-                                                                {{--class="fa fa-arrow-down text-muted"></i> LOAD MORE</a>--}}
-                                                {{--</li>--}}
-                                            {{--</ul>--}}
-                                        </div>
-                                        <!-- END Timeline Content -->
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <!-- end row -->
-                            <!-- end widget div -->
+        <div class="display-animation">
+            <div class="row image-row margin-bottom-40">
+                <div class="col-md-4">
+                    <div class="card tile card-dashboard-info card-teal material-animate">
+                        <div class="card-body">
+                            <div class="card-icon"><i class="fa fa-usd"></i></div><!--.card-icon-->
+                            <h4>Revenue</h4>
+                            <p class="result">$10,786</p>
+                            <small><i class="fa fa-caret-up"></i> Total balance is $23,591</small>
                         </div>
-                        <!-- end widget -->
+                    </div><!--.card-->
 
-                        <!-- new widget -->
-                        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-3"
-                             data-widget-colorbutton="false">
-
-                            <!-- widget options:
-                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                            data-widget-colorbutton="false"
-                            data-widget-editbutton="false"
-                            data-widget-togglebutton="false"
-                            data-widget-deletebutton="false"
-                            data-widget-fullscreenbutton="false"
-                            data-widget-custombutton="false"
-                            data-widget-collapsed="true"
-                            data-widget-sortable="false"
-
-                            -->
-                            <header>
-                                <span class="widget-icon"> <i class="fa fa-calendar"></i> </span>
-
-                                <h2> My Events </h2>
-
-                                <div class="widget-toolbar">
-                                    <!-- add: non-hidden - to disable auto hide -->
-                                    <div class="btn-group">
-                                        <button class="btn dropdown-toggle btn-xs btn-default" data-toggle="dropdown">
-                                            Showing <i class="fa fa-caret-down"></i>
-                                        </button>
-                                        <ul class="dropdown-menu js-status-update pull-right">
-                                            <li>
-                                                <a href="javascript:void(0);" id="mt">Month</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);" id="ag">Agenda</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);" id="td">Today</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </header>
-
-                            <!-- widget div-->
-                            <div>
-                                <!-- widget edit box -->
-                                <div class="jarviswidget-editbox">
-
-                                    <input class="form-control" type="text">
-
-                                </div>
-                                <!-- end widget edit box -->
-
-                                <div class="widget-body no-padding">
-                                    <!-- content goes here -->
-                                    <div class="widget-body-toolbar">
-
-                                        <div id="calendar-buttons">
-
-                                            <div class="btn-group">
-                                                <a href="javascript:void(0)" class="btn btn-default btn-xs"
-                                                   id="btn-prev"><i class="fa fa-chevron-left"></i></a>
-                                                <a href="javascript:void(0)" class="btn btn-default btn-xs"
-                                                   id="btn-next"><i class="fa fa-chevron-right"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="calendar"></div>
-
-                                    <!-- end content -->
-                                </div>
-
-                            </div>
-                            <!-- end widget div -->
+                    <div class="card tile card-dashboard-info card-light-blue material-animate">
+                        <div class="card-body">
+                            <div class="card-icon"><i class="fa fa-calculator"></i></div><!--.card-icon-->
+                            <h4>Open Invoices</h4>
+                            <p class="result">26</p>
+                            <small>Waiting to send</small>
                         </div>
-                        <!-- end widget -->
+                    </div><!--.card-->
 
-                    </article>
-
-                    <article class="col-sm-12 col-md-12 col-lg-6">
-
-                        <!-- new widget -->
-                        <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false"
-                             data-widget-editbutton="false">
-
-                            <!-- widget options:
-                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                            data-widget-colorbutton="false"
-                            data-widget-editbutton="false"
-                            data-widget-togglebutton="false"
-                            data-widget-deletebutton="false"
-                            data-widget-fullscreenbutton="false"
-                            data-widget-custombutton="false"
-                            data-widget-collapsed="true"
-                            data-widget-sortable="false"
-
-                            -->
-
-                            <header>
-                                <span class="widget-icon"> <i class="fa fa-map-marker"></i> </span>
-
-                                <h2>Birds Eye</h2>
-
-                                <div class="widget-toolbar hidden-mobile">
-                                    <span class="onoffswitch-title"><i class="fa fa-location-arrow"></i> Realtime</span>
-                                            <span class="onoffswitch">
-                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"
-                                                       checked="checked" id="myonoffswitch">
-                                                <label class="onoffswitch-label" for="myonoffswitch"> <span
-                                                            class="onoffswitch-inner" data-swchon-text="YES"
-                                                            data-swchoff-text="NO"></span> <span
-                                                            class="onoffswitch-switch"></span> </label> </span>
-                                </div>
-                            </header>
-
-                            <!-- widget div-->
-                            <div>
-                                <!-- widget edit box -->
-                                <div class="jarviswidget-editbox">
-                                    <div>
-                                        <label>Title:</label>
-                                        <input type="text"/>
-                                    </div>
-                                </div>
-                                <!-- end widget edit box -->
-
-                                <div class="widget-body no-padding">
-                                    <!-- content goes here -->
-
-                                    <div id="vector-map" class="vector-map"></div>
-                                    <div id="heat-fill">
-                                        <span class="fill-a">0</span>
-
-                                        <span class="fill-b">5,000</span>
-                                    </div>
-
-                                    <table class="table table-striped table-hover table-condensed">
-                                        <thead>
-                                        <tr>
-                                            <th>Country</th>
-                                            <th>Visits</th>
-                                            <th class="text-align-center">User Activity</th>
-                                            <th class="text-align-center hidden-xs">Online</th>
-                                            <th class="text-align-center">Demographic</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td><a href="javascript:void(0);">USA</a></td>
-                                            <td>4,977</td>
-                                            <td class="text-align-center">
-                                                <div class="sparkline txt-color-blue text-align-center"
-                                                     data-sparkline-height="22px" data-sparkline-width="90px"
-                                                     data-sparkline-barwidth="2">
-                                                    2700, 3631, 2471, 1300, 1877, 2500, 2577, 2700, 3631, 2471, 2000,
-                                                    2100, 3000
-                                                </div>
-                                            </td>
-                                            <td class="text-align-center hidden-xs">143</td>
-                                            <td class="text-align-center">
-                                                <div class="sparkline display-inline" data-sparkline-type='pie'
-                                                     data-sparkline-piecolor='["#E979BB", "#57889C"]'
-                                                     data-sparkline-offset="90" data-sparkline-piesize="23px">
-                                                    17,83
-                                                </div>
-                                                <div class="btn-group display-inline pull-right text-align-left hidden-tablet">
-                                                    <button class="btn btn-xs btn-default dropdown-toggle"
-                                                            data-toggle="dropdown">
-                                                        <i class="fa fa-cog fa-lg"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-xs pull-right">
-                                                        <li>
-                                                            <a href="javascript:void(0);"><i
-                                                                        class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i>
-                                                                <u>P</u>DF</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);"><i
-                                                                        class="fa fa-times fa-lg fa-fw txt-color-red"></i>
-                                                                <u>D</u>elete</a>
-                                                        </li>
-                                                        <li class="divider"></li>
-                                                        <li class="text-align-center">
-                                                            <a href="javascript:void(0);">Cancel</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="javascript:void(0);">Australia</a></td>
-                                            <td>4,873</td>
-                                            <td class="text-align-center">
-                                                <div class="sparkline txt-color-blue text-align-center"
-                                                     data-sparkline-height="22px" data-sparkline-width="90px"
-                                                     data-sparkline-barwidth="2">
-                                                    1000, 1100, 3030, 1300, -1877, -2500, -2577, -2700, 3631, 2471,
-                                                    4700, 1631, 2471
-                                                </div>
-                                            </td>
-                                            <td class="text-align-center hidden-xs">247</td>
-                                            <td class="text-align-center">
-                                                <div class="sparkline display-inline" data-sparkline-type='pie'
-                                                     data-sparkline-piecolor='["#E979BB", "#57889C"]'
-                                                     data-sparkline-offset="90" data-sparkline-piesize="23px">
-                                                    22,88
-                                                </div>
-                                                <div class="btn-group display-inline pull-right text-align-left hidden-tablet">
-                                                    <button class="btn btn-xs btn-default dropdown-toggle"
-                                                            data-toggle="dropdown">
-                                                        <i class="fa fa-cog fa-lg"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-xs pull-right">
-                                                        <li>
-                                                            <a href="javascript:void(0);"><i
-                                                                        class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i>
-                                                                <u>P</u>DF</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);"><i
-                                                                        class="fa fa-times fa-lg fa-fw txt-color-red"></i>
-                                                                <u>D</u>elete</a>
-                                                        </li>
-                                                        <li class="divider"></li>
-                                                        <li class="text-align-center">
-                                                            <a href="javascript:void(0);">Cancel</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="javascript:void(0);">India</a></td>
-                                            <td>3,671</td>
-                                            <td class="text-align-center">
-                                                <div class="sparkline txt-color-blue text-align-center"
-                                                     data-sparkline-height="22px" data-sparkline-width="90px"
-                                                     data-sparkline-barwidth="2">
-                                                    3631, 1471, 2400, 3631, 471, 1300, 1177, 2500, 2577, 3000, 4100,
-                                                    3000, 7700
-                                                </div>
-                                            </td>
-                                            <td class="text-align-center hidden-xs">373</td>
-                                            <td class="text-align-center">
-                                                <div class="sparkline display-inline" data-sparkline-type='pie'
-                                                     data-sparkline-piecolor='["#E979BB", "#57889C"]'
-                                                     data-sparkline-offset="90" data-sparkline-piesize="23px">
-                                                    10,90
-                                                </div>
-                                                <div class="btn-group display-inline pull-right text-align-left hidden-tablet">
-                                                    <button class="btn btn-xs btn-default dropdown-toggle"
-                                                            data-toggle="dropdown">
-                                                        <i class="fa fa-cog fa-lg"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-xs pull-right">
-                                                        <li>
-                                                            <a href="javascript:void(0);"><i
-                                                                        class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i>
-                                                                <u>P</u>DF</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);"><i
-                                                                        class="fa fa-times fa-lg fa-fw txt-color-red"></i>
-                                                                <u>D</u>elete</a>
-                                                        </li>
-                                                        <li class="divider"></li>
-                                                        <li class="text-align-center">
-                                                            <a href="javascript:void(0);">Cancel</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="javascript:void(0);">Brazil</a></td>
-                                            <td>2,476</td>
-                                            <td class="text-align-center">
-                                                <div class="sparkline txt-color-blue text-align-center"
-                                                     data-sparkline-height="22px" data-sparkline-width="90px"
-                                                     data-sparkline-barwidth="2">
-                                                    2700, 1877, 2500, 2577, 2000, 3631, 2471, -2700, -3631, 2471, 1300,
-                                                    2100, 3000,
-                                                </div>
-                                            </td>
-                                            <td class="text-align-center hidden-xs ">741</td>
-                                            <td class="text-align-center">
-                                                <div class="sparkline display-inline" data-sparkline-type='pie'
-                                                     data-sparkline-piecolor='["#E979BB", "#57889C"]'
-                                                     data-sparkline-offset="90" data-sparkline-piesize="23px">
-                                                    34,66
-                                                </div>
-                                                <div class="btn-group display-inline pull-right text-align-left hidden-tablet">
-                                                    <button class="btn btn-xs btn-default dropdown-toggle"
-                                                            data-toggle="dropdown">
-                                                        <i class="fa fa-cog fa-lg"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-xs pull-right">
-                                                        <li>
-                                                            <a href="javascript:void(0);"><i
-                                                                        class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i>
-                                                                <u>P</u>DF</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);"><i
-                                                                        class="fa fa-times fa-lg fa-fw txt-color-red"></i>
-                                                                <u>D</u>elete</a>
-                                                        </li>
-                                                        <li class="divider"></li>
-                                                        <li class="text-align-center">
-                                                            <a href="javascript:void(0);">Cancel</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="javascript:void(0);">Turkey</a></td>
-                                            <td>1,476</td>
-                                            <td class="text-align-center">
-                                                <div class="sparkline txt-color-blue text-align-center"
-                                                     data-sparkline-height="22px" data-sparkline-width="90px"
-                                                     data-sparkline-barwidth="2">
-                                                    1300, 1877, 2500, 2577, 2000, 2100, 3000, -2471, -2700, -3631,
-                                                    -2471, 2700, 3631
-                                                </div>
-                                            </td>
-                                            <td class="text-align-center hidden-xs">123</td>
-                                            <td class="text-align-center">
-                                                <div class="sparkline display-inline" data-sparkline-type='pie'
-                                                     data-sparkline-piecolor='["#E979BB", "#57889C"]'
-                                                     data-sparkline-offset="90" data-sparkline-piesize="23px">
-                                                    75,25
-                                                </div>
-                                                <div class="btn-group display-inline pull-right text-align-left hidden-tablet">
-                                                    <button class="btn btn-xs btn-default dropdown-toggle"
-                                                            data-toggle="dropdown">
-                                                        <i class="fa fa-cog fa-lg"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-xs pull-right">
-                                                        <li>
-                                                            <a href="javascript:void(0);"><i
-                                                                        class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i>
-                                                                <u>P</u>DF</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);"><i
-                                                                        class="fa fa-times fa-lg fa-fw txt-color-red"></i>
-                                                                <u>D</u>elete</a>
-                                                        </li>
-                                                        <li class="divider"></li>
-                                                        <li class="text-align-center">
-                                                            <a href="javascript:void(0);">Cancel</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="javascript:void(0);">Canada</a></td>
-                                            <td>146</td>
-                                            <td class="text-align-center">
-                                                <div class="sparkline txt-color-orange text-align-center"
-                                                     data-sparkline-height="22px" data-sparkline-width="90px"
-                                                     data-sparkline-barwidth="2">
-                                                    5, 34, 10, 1, 4, 6, -9, -1, 0, 0, 5, 6, 7
-                                                </div>
-                                            </td>
-                                            <td class="text-align-center hidden-xs">23</td>
-                                            <td class="text-align-center">
-                                                <div class="sparkline display-inline" data-sparkline-type='pie'
-                                                     data-sparkline-piecolor='["#E979BB", "#57889C"]'
-                                                     data-sparkline-offset="90" data-sparkline-piesize="23px">
-                                                    50,50
-                                                </div>
-                                                <div class="btn-group display-inline pull-right text-align-left hidden-tablet">
-                                                    <button class="btn btn-xs btn-default dropdown-toggle"
-                                                            data-toggle="dropdown">
-                                                        <i class="fa fa-cog fa-lg"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-xs pull-right">
-                                                        <li>
-                                                            <a href="javascript:void(0);"><i
-                                                                        class="fa fa-file fa-lg fa-fw txt-color-greenLight"></i>
-                                                                <u>P</u>DF</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);"><i
-                                                                        class="fa fa-times fa-lg fa-fw txt-color-red"></i>
-                                                                <u>D</u>elete</a>
-                                                        </li>
-                                                        <li class="divider"></li>
-                                                        <li class="text-align-center">
-                                                            <a href="javascript:void(0);">Cancel</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                        <tfoot>
-                                        <tr>
-                                            <td colspan=5>
-                                                <ul class="pagination pagination-xs no-margin">
-                                                    <li class="prev disabled">
-                                                        <a href="javascript:void(0);">Previous</a>
-                                                    </li>
-                                                    <li class="active">
-                                                        <a href="javascript:void(0);">1</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="javascript:void(0);">2</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="javascript:void(0);">3</a>
-                                                    </li>
-                                                    <li class="next">
-                                                        <a href="javascript:void(0);">Next</a>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                        </tfoot>
-                                    </table>
-
-                                    <!-- end content -->
-
-                                </div>
-
-                            </div>
-                            <!-- end widget div -->
+                    <div class="card tile card-dashboard-info card-blue-grey material-animate">
+                        <div class="card-body">
+                            <div class="card-icon"><i class="fa fa-thumbs-o-up"></i></div><!--.card-icon-->
+                            <h4>New Subscribers</h4>
+                            <p class="result">183</p>
+                            <small><i class="fa fa-caret-up"></i> 9814 subscribers totally</small>
                         </div>
-                        <!-- end widget -->
+                    </div><!--.card-->
 
-                        <!-- new widget -->
-                        <div class="jarviswidget jarviswidget-color-blue" id="wid-id-4" data-widget-editbutton="false"
-                             data-widget-colorbutton="false">
+                </div><!--.col-->
 
-                            <!-- widget options:
-                            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                            data-widget-colorbutton="false"
-                            data-widget-editbutton="false"
-                            data-widget-togglebutton="false"
-                            data-widget-deletebutton="false"
-                            data-widget-fullscreenbutton="false"
-                            data-widget-custombutton="false"
-                            data-widget-collapsed="true"
-                            data-widget-sortable="false"
-
-                            -->
-
-                            <header>
-                                <span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
-
-                                <h2> ToDo's </h2>
-                                <!-- <div class="widget-toolbar">
-                                add: non-hidden - to disable auto hide
-
-                                </div>-->
-                            </header>
-
-                            <!-- widget div-->
-                            <div>
-                                <!-- widget edit box -->
-                                <div class="jarviswidget-editbox">
-                                    <div>
-                                        <label>Title:</label>
-                                        <input type="text"/>
-                                    </div>
-                                </div>
-                                <!-- end widget edit box -->
-
-                                <div class="widget-body no-padding smart-form">
-                                    <!-- content goes here -->
-                                    <h5 class="todo-group-title"><i class="fa fa-warning"></i> Critical Tasks (
-                                        <small class="num-of-tasks">1</small>
-                                        )
-                                    </h5>
-                                    <ul id="sortable1" class="todo">
-                                        <li>
-                                                    <span class="handle"> <label class="checkbox">
-                                                            <input type="checkbox" name="checkbox-inline">
-                                                            <i></i> </label> </span>
-
-                                            <p>
-                                                <strong>Ticket #17643</strong> - Hotfix for WebApp interface issue [<a
-                                                        href="javascript:void(0);" class="font-xs">More Details</a>]
-                                                <span class="text-muted">Sea deep blessed bearing under darkness from God air living isn't. </span>
-                                                <span class="date">Jan 1, 2014</span>
-                                            </p>
-                                        </li>
-                                    </ul>
-                                    <h5 class="todo-group-title"><i class="fa fa-exclamation"></i> Important Tasks (
-                                        <small class="num-of-tasks">3</small>
-                                        )
-                                    </h5>
-                                    <ul id="sortable2" class="todo">
-                                        <li>
-                                                    <span class="handle"> <label class="checkbox">
-                                                            <input type="checkbox" name="checkbox-inline">
-                                                            <i></i> </label> </span>
-
-                                            <p>
-                                                <strong>Ticket #1347</strong> - Inbox email is being sent twice
-                                                <small>(bug fix)</small>
-                                                [<a href="javascript:void(0);" class="font-xs">More Details</a>] <span
-                                                        class="date">Nov 22, 2013</span>
-                                            </p>
-                                        </li>
-                                        <li>
-                                                    <span class="handle"> <label class="checkbox">
-                                                            <input type="checkbox" name="checkbox-inline">
-                                                            <i></i> </label> </span>
-
-                                            <p>
-                                                <strong>Ticket #1314</strong> - Call customer support re: Issue <a
-                                                        href="javascript:void(0);" class="font-xs">#6134</a>
-                                                <small>(code review)</small>
-                                                <span class="date">Nov 22, 2013</span>
-                                            </p>
-                                        </li>
-                                        <li>
-                                                    <span class="handle"> <label class="checkbox">
-                                                            <input type="checkbox" name="checkbox-inline">
-                                                            <i></i> </label> </span>
-
-                                            <p>
-                                                <strong>Ticket #17643</strong> - Hotfix for WebApp interface issue [<a
-                                                        href="javascript:void(0);" class="font-xs">More Details</a>]
-                                                <span class="text-muted">Sea deep blessed bearing under darkness from God air living isn't. </span>
-                                                <span class="date">Jan 1, 2014</span>
-                                            </p>
-                                        </li>
-                                    </ul>
-
-                                    <h5 class="todo-group-title"><i class="fa fa-check"></i> Completed Tasks (
-                                        <small class="num-of-tasks">1</small>
-                                        )
-                                    </h5>
-                                    <ul id="sortable3" class="todo">
-                                        <li class="complete">
-                                                    <span class="handle" style="display:none"> <label
-                                                                class="checkbox state-disabled">
-                                                            <input type="checkbox" name="checkbox-inline"
-                                                                   checked="checked" disabled="disabled">
-                                                            <i></i> </label> </span>
-
-                                            <p>
-                                                <strong>Ticket #17643</strong> - Hotfix for WebApp interface issue [<a
-                                                        href="javascript:void(0);" class="font-xs">More Details</a>]
-                                                <span class="text-muted">Sea deep blessed bearing under darkness from God air living isn't. </span>
-                                                <span class="date">Jan 1, 2014</span>
-                                            </p>
-                                        </li>
-                                    </ul>
-
-                                    <!-- end content -->
-                                </div>
-
+                <div class="col-md-4">
+                    <div class="card tile card-news-more material-animate">
+                        <div class="card-heading bg-image bg-opaque5 sample-bg-image29">
+                            <div class="heading-content">
+                                <span class="badge">NEWS</span>
+                                <span class="headline">Quickly maximize timely deliverables</span>
+                                <button class="btn btn-floating btn-pink toggle-card-news-more"><i class="ion-android-create"></i></button>
                             </div>
-                            <!-- end widget div -->
-                        </div>
-                        <!-- end widget -->
+                        </div><!--.card-heading-->
+                        <div class="card-body">
+                            <p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.</p>
+                            <p>Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. Dramatically maintain clicks-and-mortar solutions without functional solutions.</p>
+                            <p>Completely synergize resource sucking relationships via premier niche markets. Professionally cultivate one-to-one customer service with robust ideas. Dynamically innovate resource-leveling customer service for state of the art customer service.</p>
+                        </div><!--.card-body-->
+                    </div><!--.card-->
+                </div><!--.col-->
 
-                    </article>
+                <div class="col-md-4">
+                    <div class="card tile card-friend material-animate">
+                        <a href="user-profile.html"><img src="../../assets/globals/img/faces/1.jpg" class="user-photo" alt=""></a>
+                        <div class="friend-content">
+                            <p class="title">Nicholas Murray</p>
+                            <p><a href="user-profile.html">180 friends</a></p>
+                            <a class="btn btn-flat btn-primary btn-xs">Add as a Friend</a>
+                        </div><!--.friend-content-->
+                    </div><!--.card-->
 
-                </div>
+                    <div class="card tile card-friend material-animate">
+                        <a href="user-profile.html"><img src="../../assets/globals/img/faces/2.jpg" class="user-photo" alt=""></a>
+                        <div class="friend-content">
+                            <p class="title">Jason Herrera</p>
+                            <p><a href="user-profile.html">423 friends</a></p>
+                            <a class="btn btn-flat btn-primary btn-xs">Add as a Friend</a>
+                        </div><!--.friend-content-->
+                    </div><!--.card-->
 
-                <!-- end row -->
+                    <div class="card tile card-friend material-animate">
+                        <a href="user-profile.html"><img src="../../assets/globals/img/faces/3.jpg" class="user-photo" alt=""></a>
+                        <div class="friend-content">
+                            <p class="title">Michael Bell</p>
+                            <p><a href="user-profile.html">490 friends</a></p>
+                            <a class="btn btn-flat btn-primary btn-xs">Add as a Friend</a>
+                        </div><!--.friend-content-->
+                    </div><!--.card-->
 
-            </section>
-            <!-- end widget grid -->
+                    <div class="card tile card-friend material-animate">
+                        <a href="user-profile.html"><img src="../../assets/globals/img/faces/5.jpg" class="user-photo" alt=""></a>
+                        <div class="friend-content">
+                            <p class="title">Henry Allen</p>
+                            <p><a href="user-profile.html">859 friends</a></p>
+                            <a class="btn btn-flat btn-primary btn-xs">Add as a Friend</a>
+                        </div><!--.friend-content-->
+                    </div><!--.card-->
+                </div><!--.col-->
 
-        </div>
-        <!-- END MAIN CONTENT -->
+            </div><!--.row-->
+        </div><!--.display-animation-->
 
-    </div>
-    <!-- END MAIN PANEL -->
+        <div class="display-animation">
+            <div class="row image-row">
+                <div class="col-sm-6 col-md-3">
 
+                    <div class="panel helper-dashboard-height">
+                        <div class="panel-heading">
+                            <div class="panel-title"><h4>VISITORS</h4></div>
+                        </div><!--.panel-heading-->
+                        <div class="panel-body vertical-padding">
+                            <div class="gauge-chart">
+                                <canvas id="gauge" class="gauge-canvas"></canvas>
+                                <div id="preview-textfield"></div>
+                                <div class="chart-desc">
+                                    Collaboratively administrate.
+                                </div>
+                            </div>
+                        </div><!--.panel-body-->
+                    </div><!--.panel-->
+
+                </div><!--.col-->
+
+                <div class="col-sm-6 col-md-3">
+
+                    <div class="panel helper-dashboard-height">
+                        <div class="panel-heading">
+                            <div class="panel-title"><h4>OPEN TICKETS</h4></div>
+                        </div><!--.panel-heading-->
+                        <div class="panel-body">
+                            <div class="knob-container margin-top-10">
+                                <input class="knob" data-angleOffset="-125" data-fgColor="deep_purple" data-angleArc="250" data-readOnly="true" value="35">
+                            </div><!--.knob-container-->
+                            <div class="chart-desc">
+                                Collaboratively administrate empowered markets.
+                            </div>
+                        </div><!--.panel-body-->
+                    </div><!--.panel-->
+
+                </div><!--.col-->
+
+                <div class="col-sm-12 col-md-6">
+
+                    <div class="panel helper-dashboard-height">
+                        <div class="panel-heading">
+                            <div class="panel-title"><h4>TIMELINE</h4></div>
+                        </div><!--.panel-heading-->
+                        <div class="panel-body horizontal-padding">
+
+                            <div class="timeline single helper-timeline">
+                                <div class="frame">
+                                    <div class="timeline-badge">
+                                        <i class="fa fa-headphones"></i>
+                                    </div><!--.timeline-badge-->
+                                    <span class="timeline-date">17 August 1999</span>
+                                    <div class="timeline-content">
+                                        The 1999 Kocaeli earthquake occurred with a moment magnitude of 7.4 that struck northwestern Turkey struck northwestern Turkey
+                                    </div><!--.timeline-content-->
+                                </div><!--.frame-->
+                                <div class="frame">
+                                    <div class="timeline-badge">
+                                        <i class="fa fa-tree"></i>
+                                    </div><!--.timeline-badge-->
+                                    <span class="timeline-date">18 April 1906</span>
+                                    <div class="timeline-content">
+                                        The San Francisco earthquake of 1906 struck San Francisco on Wednesday, April 18, 1906.
+                                    </div><!--.timeline-content-->
+                                </div><!--.frame-->
+                            </div><!--.timeline-->
+
+                        </div><!--.panel-body-->
+                    </div><!--.panel-->
+
+                </div><!--.col-->
+
+            </div><!--.row-->
+        </div><!--.display-animation-->
+
+        <div class="footer-links margin-top-40">
+            <div class="row no-gutters bg-blue">
+                <div class="col-xs-6"></div><!--.col-->
+                <div class="col-xs-6">
+                    <a href="cards-image.html">
+                        <span class="state">Cards</span>
+                        <span>Image Cards</span>
+                        <span class="icon"><i class="ion-android-arrow-forward"></i></span>
+                    </a>
+                </div><!--.col-->
+            </div><!--.row-->
+        </div><!--.footer-links-->
+
+    </div><!--.content-->
 @endsection
 @section('FooterScripts')
-
-    <!-- Flot Chart Plugin: Flot Engine, Flot Resizer, Flot Tooltip -->
-    <script src="{{cdn('js/plugin/flot/jquery.flot.cust.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/flot/jquery.flot.resize.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/flot/jquery.flot.time.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/flot/jquery.flot.tooltip.min.js')}}"></script>
-
-    <!-- Vector Maps Plugin: Vectormap engine, Vectormap language -->
-    <script src="{{cdn('js/plugin/vectormap/jquery-jvectormap-1.2.2.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/vectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
-
-    <!-- Full Calendar -->
-    <script src="{{cdn('js/plugin/moment/moment.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/fullcalendar/jquery.fullcalendar.min.js')}}"></script>
-
+    <!-- BEGIN PLUGINS AREA -->
+    <script src="{{cdn('newTheme/admin1/js/googleMap.js')}}"></script>
+    <script src="{{cdn('newTheme/globals/plugins/gmaps/gmaps.js')}}"></script>
+    <script src="{{cdn('newTheme/globals/plugins/bxslider/jquery.bxslider.min.js')}}"></script>
+    <script src="{{cdn('newTheme/globals/plugins/audiojs/audiojs/audio.min.js')}}"></script>
+    <script src="{{cdn('newTheme/globals/plugins/d3/d3.min.js')}}"></script>
+    <script src="{{cdn('newTheme/globals/plugins/rickshaw/rickshaw.min.js')}}"></script>
+    <script src="{{cdn('newTheme/globals/plugins/jquery-knob/excanvas.js')}}"></script>
+    <script src="{{cdn('newTheme/globals/plugins/jquery-knob/dist/jquery.knob.min.js')}}"></script>
+    <script src="{{cdn('newTheme/globals/plugins/gauge/gauge.min.js')}}"></script>
+    <!-- END PLUGINS AREA -->
+    <script src="{{cdn('newTheme/globals/scripts/sliders.js')}}"></script>
+    <script src="{{cdn('newTheme/globals/scripts/maps-google.js')}}"></script>
+    <script src="{{cdn('newTheme/globals/scripts/widget-audio.js')}}"></script>
+    <script src="{{cdn('newTheme/globals/scripts/charts-knob.js')}}"></script>
+    <script src="{{cdn('newTheme/globals/scripts/index.js')}}"></script>
+    <!-- BEGIN INITIALIZATION-->
     <script>
         $(document).ready(function () {
-
-            // DO NOT REMOVE : GLOBAL FUNCTIONS!
-            pageSetUp();
-
-            /*
-             * PAGE RELATED SCRIPTS
-             */
-
-            $(".js-status-update a").click(function () {
-                var selText = $(this).text();
-                var $this = $(this);
-                $this.parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
-                $this.parents('.dropdown-menu').find('li').removeClass('active');
-                $this.parent().addClass('active');
-            });
-
-            /*
-             * TODO: add a way to add more todo's to list
-             */
-
-            // initialize sortable
-            $(function () {
-                $("#sortable1, #sortable2").sortable({
-                    handle: '.handle',
-                    connectWith: ".todo",
-                    update: countTasks
-                }).disableSelection();
-            });
-
-            // check and uncheck
-            $('.todo .checkbox > input[type="checkbox"]').click(function () {
-                var $this = $(this).parent().parent().parent();
-
-                if ($(this).prop('checked')) {
-                    $this.addClass("complete");
-
-                    // remove this if you want to undo a check list once checked
-                    //$(this).attr("disabled", true);
-                    $(this).parent().hide();
-
-                    // once clicked - add class, copy to memory then remove and add to sortable3
-                    $this.slideUp(500, function () {
-                        $this.clone().prependTo("#sortable3").effect("highlight", {}, 800);
-                        $this.remove();
-                        countTasks();
-                    });
-                } else {
-                    // insert undo code here...
-                }
-
-            })
-            // count tasks
-            function countTasks() {
-
-                $('.todo-group-title').each(function () {
-                    var $this = $(this);
-                    $this.find(".num-of-tasks").text($this.next().find("li").size());
-                });
-
-            }
-
-            /*
-             * RUN PAGE GRAPHS
-             */
-
-            /* TAB 1: UPDATING CHART */
-            // For the demo we use generated data, but normally it would be coming from the server
-
-            var data = [], totalPoints = 200, $UpdatingChartColors = $("#updating-chart").css('color');
-
-            function getRandomData() {
-                if (data.length > 0)
-                    data = data.slice(1);
-
-                // do a random walk
-                while (data.length < totalPoints) {
-                    var prev = data.length > 0 ? data[data.length - 1] : 50;
-                    var y = prev + Math.random() * 10 - 5;
-                    if (y < 0)
-                        y = 0;
-                    if (y > 100)
-                        y = 100;
-                    data.push(y);
-                }
-
-                // zip the generated y values with the x values
-                var res = [];
-                for (var i = 0; i < data.length; ++i)
-                    res.push([i, data[i]])
-                return res;
-            }
-
-            // setup control widget
-            var updateInterval = 1500;
-            $("#updating-chart").val(updateInterval).change(function () {
-
-                var v = $(this).val();
-                if (v && !isNaN(+v)) {
-                    updateInterval = +v;
-                    $(this).val("" + updateInterval);
-                }
-
-            });
-
-            // setup plot
-            var options = {
-                yaxis: {
-                    min: 0,
-                    max: 100
-                },
-                xaxis: {
-                    min: 0,
-                    max: 100
-                },
-                colors: [$UpdatingChartColors],
-                series: {
-                    lines: {
-                        lineWidth: 1,
-                        fill: true,
-                        fillColor: {
-                            colors: [{
-                                opacity: 0.4
-                            }, {
-                                opacity: 0
-                            }]
-                        },
-                        steps: false
-
-                    }
-                }
-            };
-
-            var plot = $.plot($("#updating-chart"), [getRandomData()], options);
-
-            /* live switch */
-            $('input[type="checkbox"]#start_interval').click(function () {
-                if ($(this).prop('checked')) {
-                    $on = true;
-                    updateInterval = 1500;
-                    update();
-                } else {
-                    clearInterval(updateInterval);
-                    $on = false;
-                }
-            });
-
-            function update() {
-                if ($on == true) {
-                    plot.setData([getRandomData()]);
-                    plot.draw();
-                    setTimeout(update, updateInterval);
-
-                } else {
-                    clearInterval(updateInterval)
-                }
-
-            }
-
-            var $on = false;
-
-            /*end updating chart*/
-
-            /* TAB 2: Social Network  */
-
-            $(function () {
-                // jQuery Flot Chart
-                var twitter = [[1, 27], [2, 34], [3, 51], [4, 48], [5, 55], [6, 65], [7, 61], [8, 70], [9, 65], [10, 75], [11, 57], [12, 59], [13, 62]], facebook = [[1, 25], [2, 31], [3, 45], [4, 37], [5, 38], [6, 40], [7, 47], [8, 55], [9, 43], [10, 50], [11, 47], [12, 39], [13, 47]], data = [{
-                    label: "Twitter",
-                    data: twitter,
-                    lines: {
-                        show: true,
-                        lineWidth: 1,
-                        fill: true,
-                        fillColor: {
-                            colors: [{
-                                opacity: 0.1
-                            }, {
-                                opacity: 0.13
-                            }]
-                        }
-                    },
-                    points: {
-                        show: true
-                    }
-                }, {
-                    label: "Facebook",
-                    data: facebook,
-                    lines: {
-                        show: true,
-                        lineWidth: 1,
-                        fill: true,
-                        fillColor: {
-                            colors: [{
-                                opacity: 0.1
-                            }, {
-                                opacity: 0.13
-                            }]
-                        }
-                    },
-                    points: {
-                        show: true
-                    }
-                }];
-
-                var options = {
-                    grid: {
-                        hoverable: true
-                    },
-                    colors: ["#568A89", "#3276B1"],
-                    tooltip: true,
-                    tooltipOpts: {
-                        //content : "Value <b>$x</b> Value <span>$y</span>",
-                        defaultTheme: false
-                    },
-                    xaxis: {
-                        ticks: [[1, "JAN"], [2, "FEB"], [3, "MAR"], [4, "APR"], [5, "MAY"], [6, "JUN"], [7, "JUL"], [8, "AUG"], [9, "SEP"], [10, "OCT"], [11, "NOV"], [12, "DEC"], [13, "JAN+1"]]
-                    },
-                    yaxes: {}
-                };
-
-                var plot3 = $.plot($("#statsChart"), data, options);
-            });
-
-            // END TAB 2
-
-            // TAB THREE GRAPH //
-            /* TAB 3: Revenew  */
-
-            $(function () {
-
-                var trgt = [[1354586000000, 153], [1364587000000, 658], [1374588000000, 198], [1384589000000, 663], [1394590000000, 801], [1404591000000, 1080], [1414592000000, 353], [1424593000000, 749], [1434594000000, 523], [1444595000000, 258], [1454596000000, 688], [1464597000000, 364]], prft = [[1354586000000, 53], [1364587000000, 65], [1374588000000, 98], [1384589000000, 83], [1394590000000, 980], [1404591000000, 808], [1414592000000, 720], [1424593000000, 674], [1434594000000, 23], [1444595000000, 79], [1454596000000, 88], [1464597000000, 36]], sgnups = [[1354586000000, 647], [1364587000000, 435], [1374588000000, 784], [1384589000000, 346], [1394590000000, 487], [1404591000000, 463], [1414592000000, 479], [1424593000000, 236], [1434594000000, 843], [1444595000000, 657], [1454596000000, 241], [1464597000000, 341]], toggles = $("#rev-toggles"), target = $("#flotcontainer");
-
-                var data = [{
-                    label: "Target Profit",
-                    data: trgt,
-                    bars: {
-                        show: true,
-                        align: "center",
-                        barWidth: 30 * 30 * 60 * 1000 * 80
-                    }
-                }, {
-                    label: "Actual Profit",
-                    data: prft,
-                    color: '#3276B1',
-                    lines: {
-                        show: true,
-                        lineWidth: 3
-                    },
-                    points: {
-                        show: true
-                    }
-                }, {
-                    label: "Actual Signups",
-                    data: sgnups,
-                    color: '#71843F',
-                    lines: {
-                        show: true,
-                        lineWidth: 1
-                    },
-                    points: {
-                        show: true
-                    }
-                }]
-
-                var options = {
-                    grid: {
-                        hoverable: true
-                    },
-                    tooltip: true,
-                    tooltipOpts: {
-                        //content: '%x - %y',
-                        //dateFormat: '%b %y',
-                        defaultTheme: false
-                    },
-                    xaxis: {
-                        mode: "time"
-                    },
-                    yaxes: {
-                        tickFormatter: function (val, axis) {
-                            return "$" + val;
-                        },
-                        max: 1200
-                    }
-
-                };
-
-                plot2 = null;
-
-                function plotNow() {
-                    var d = [];
-                    toggles.find(':checkbox').each(function () {
-                        if ($(this).is(':checked')) {
-                            d.push(data[$(this).attr("name").substr(4, 1)]);
-                        }
-                    });
-                    if (d.length > 0) {
-                        if (plot2) {
-                            plot2.setData(d);
-                            plot2.draw();
-                        } else {
-                            plot2 = $.plot(target, d, options);
-                        }
-                    }
-
-                };
-
-                toggles.find(':checkbox').on('change', function () {
-                    plotNow();
-                });
-                plotNow()
-
-            });
-
-            /*
-             * VECTOR MAP
-             */
-
-            data_array = {
-                "US": 4977,
-                "AU": 4873,
-                "IN": 3671,
-                "BR": 2476,
-                "TR": 1476,
-                "CN": 146,
-                "CA": 134,
-                "BD": 100
-            };
-
-            $('#vector-map').vectorMap({
-                map: 'world_mill_en',
-                backgroundColor: '#fff',
-                regionStyle: {
-                    initial: {
-                        fill: '#c4c4c4'
-                    },
-                    hover: {
-                        "fill-opacity": 1
-                    }
-                },
-                series: {
-                    regions: [{
-                        values: data_array,
-                        scale: ['#85a8b6', '#4d7686'],
-                        normalizeFunction: 'polynomial'
-                    }]
-                },
-                onRegionLabelShow: function (e, el, code) {
-                    if (typeof data_array[code] == 'undefined') {
-                        e.preventDefault();
-                    } else {
-                        var countrylbl = data_array[code];
-                        el.html(el.html() + ': ' + countrylbl + ' visits');
-                    }
-                }
-            });
-
-            /*
-             * FULL CALENDAR JS
-             */
-
-            if ($("#calendar").length) {
-                var date = new Date();
-                var d = date.getDate();
-                var m = date.getMonth();
-                var y = date.getFullYear();
-
-                var calendar = $('#calendar').fullCalendar({
-
-                    editable: true,
-                    draggable: true,
-                    selectable: false,
-                    selectHelper: true,
-                    unselectAuto: false,
-                    disableResizing: false,
-
-                    header: {
-                        left: 'title', //,today
-                        center: 'prev, next, today',
-                        right: 'month, agendaWeek, agenDay' //month, agendaDay,
-                    },
-
-                    select: function (start, end, allDay) {
-                        var title = prompt('Event Title:');
-                        if (title) {
-                            calendar.fullCalendar('renderEvent', {
-                                        title: title,
-                                        start: start,
-                                        end: end,
-                                        allDay: allDay
-                                    }, true // make the event "stick"
-                            );
-                        }
-                        calendar.fullCalendar('unselect');
-                    },
-
-                    events: [{
-                        title: 'All Day Event',
-                        start: new Date(y, m, 1),
-                        description: 'long description',
-                        className: ["event", "bg-color-greenLight"],
-                        icon: 'fa-check'
-                    }, {
-                        title: 'Long Event',
-                        start: new Date(y, m, d - 5),
-                        end: new Date(y, m, d - 2),
-                        className: ["event", "bg-color-red"],
-                        icon: 'fa-lock'
-                    }, {
-                        id: 999,
-                        title: 'Repeating Event',
-                        start: new Date(y, m, d - 3, 16, 0),
-                        allDay: false,
-                        className: ["event", "bg-color-blue"],
-                        icon: 'fa-clock-o'
-                    }, {
-                        id: 999,
-                        title: 'Repeating Event',
-                        start: new Date(y, m, d + 4, 16, 0),
-                        allDay: false,
-                        className: ["event", "bg-color-blue"],
-                        icon: 'fa-clock-o'
-                    }, {
-                        title: 'Meeting',
-                        start: new Date(y, m, d, 10, 30),
-                        allDay: false,
-                        className: ["event", "bg-color-darken"]
-                    }, {
-                        title: 'Lunch',
-                        start: new Date(y, m, d, 12, 0),
-                        end: new Date(y, m, d, 14, 0),
-                        allDay: false,
-                        className: ["event", "bg-color-darken"]
-                    }, {
-                        title: 'Birthday Party',
-                        start: new Date(y, m, d + 1, 19, 0),
-                        end: new Date(y, m, d + 1, 22, 30),
-                        allDay: false,
-                        className: ["event", "bg-color-darken"]
-                    }, {
-                        title: 'Smartadmin Open Day',
-                        start: new Date(y, m, 28),
-                        end: new Date(y, m, 29),
-                        className: ["event", "bg-color-darken"]
-                    }],
-
-                    eventRender: function (event, element, icon) {
-                        if (!event.description == "") {
-                            element.find('.fc-event-title').append("<br/><span class='ultra-light'>" + event.description + "</span>");
-                        }
-                        if (!event.icon == "") {
-                            element.find('.fc-event-title').append("<i class='air air-top-right fa " + event.icon + " '></i>");
-                        }
-                    }
-                });
-
-            }
-            ;
-
-            /* hide default buttons */
-            $('.fc-header-right, .fc-header-center').hide();
-
-            // calendar prev
-            $('#calendar-buttons #btn-prev').click(function () {
-                $('.fc-button-prev').click();
-                return false;
-            });
-
-            // calendar next
-            $('#calendar-buttons #btn-next').click(function () {
-                $('.fc-button-next').click();
-                return false;
-            });
-
-            // calendar today
-            $('#calendar-buttons #btn-today').click(function () {
-                $('.fc-button-today').click();
-                return false;
-            });
-
-            // calendar month
-            $('#mt').click(function () {
-                $('#calendar').fullCalendar('changeView', 'month');
-            });
-
-            // calendar agenda week
-            $('#ag').click(function () {
-                $('#calendar').fullCalendar('changeView', 'agendaWeek');
-            });
-
-            // calendar agenda day
-            $('#td').click(function () {
-                $('#calendar').fullCalendar('changeView', 'agendaDay');
-            });
-
-            /*
-             * CHAT
-             */
-
-            $.filter_input = $('#filter-chat-list');
-            $.chat_users_container = $('#chat-container > .chat-list-body')
-            $.chat_users = $('#chat-users')
-            $.chat_list_btn = $('#chat-container > .chat-list-open-close');
-            $.chat_body = $('#chat-body');
-
-            /*
-             * LIST FILTER (CHAT)
-             */
-
-            // custom css expression for a case-insensitive contains()
-            jQuery.expr[':'].Contains = function (a, i, m) {
-                return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
-            };
-
-            function listFilter(list) {// header is any element, list is an unordered list
-                // create and add the filter form to the header
-
-                $.filter_input.change(function () {
-                    var filter = $(this).val();
-                    if (filter) {
-                        // this finds all links in a list that contain the input,
-                        // and hide the ones not containing the input while showing the ones that do
-                        $.chat_users.find("a:not(:Contains(" + filter + "))").parent().slideUp();
-                        $.chat_users.find("a:Contains(" + filter + ")").parent().slideDown();
-                    } else {
-                        $.chat_users.find("li").slideDown();
-                    }
-                    return false;
-                }).keyup(function () {
-                    // fire the above change event after every letter
-                    $(this).change();
-
-                });
-
-            }
-
-            // on dom ready
-            listFilter($.chat_users);
-
-            // open chat list
-            $.chat_list_btn.click(function () {
-                $(this).parent('#chat-container').toggleClass('open');
-            })
-
-            $.chat_body.animate({
-                scrollTop: $.chat_body[0].scrollHeight
-            }, 500);
+            Pleasure.init();
+            Layout.init();
+
+            Index.init();
+            WidgetAudio.single();
+            ChartsKnob.init();
 
         });
-
     </script>
-
+    <!-- END INITIALIZATION-->
 
 @endsection

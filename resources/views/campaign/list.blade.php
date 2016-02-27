@@ -1,148 +1,100 @@
-@extends('Layout')
-@section('siteTitle')List Of Campaign for {{\Illuminate\Support\Facades\Auth::user()->name}} @endsection
+@extends('Layout1')
+@section('siteTitle')List Of Campaign for {{\Illuminate\Support\Facades\Auth::user()->name}}
+@endsection
+@section('headerCss')
+    <link rel="stylesheet" type="text/css" href="{{cdn('css/jsgrid/jsgrid.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{cdn('css/jsgrid/theme.css')}}" />
+@endsection
 
 @section('content')
-    <!-- MAIN PANEL -->
-    <div id="main" role="main">
+    <div class="content">
 
-        <!-- RIBBON -->
-        <div id="ribbon">
+        <div class="page-header full-content">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h1>NOMADINI <small>Diffrent Ads</small></h1>
+                </div><!--.col-->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="ion-home"></i></a></li>
+                        <li><a href="#">Campaign</a></li>
+                        <li><a href="#" class="active">List</a></li>
+                    </ol>
+                </div><!--.col-->
+            </div><!--.row-->
+        </div><!--.page-header-->
 
-				<span class="ribbon-button-alignment"> 
-					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
-						<i class="fa fa-refresh"></i>
-					</span> 
-				</span>
+        <!-- content -->
+        <div class="col-md-9">
+            <div class="panel red">
+                <div class="panel-heading">
+                    <div class="panel-title"><h4>Campaign List</h4></div>
+                </div><!--.panel-heading-->
+                <div class="panel-body">
+                    <div id="campaign_grid"></div>
+                </div><!--.panel-body-->
+            </div><!--.panel-->
+        </div><!--.col-->
+        <div class="col-md-3">
+            <div class="panel indigo">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h4 class="pull-left">Activities</h4>
+                        <select id="audit_status" class="pull-right">
+                            <option value="entity">This Entity</option>
+                            <option value="all">All</option>
+                            <option value="user">User</option>
+                        </select>
+                        <div class="clearfix"></div>
+                    </div>
+                </div><!--.panel-heading-->
+                <div class="panel-body" style="padding: 0px 0 0 10px;">
+                    <div class="timeline single" id="show_audit">
+                    </div><!--.timeline-->
+                </div><!--.panel-body-->
+            </div><!--.panel-->
+        </div><!--.col-->
+        <!-- content -->
 
-            <!-- breadcrumb -->
-            <ol class="breadcrumb">
-                <li>Campaign List</li>
-            </ol>
-            <!-- end breadcrumb -->
+        <div class="footer-links margin-top-40">
+            <div class="row no-gutters">
+                <div class="col-xs-6 bg-indigo">
+                    <a href="pages-timeline.html">
+                        <span class="state">Pages</span>
+                        <span>Timeline</span>
+                        <span class="icon"><i class="ion-android-arrow-back"></i></span>
+                    </a>
+                </div><!--.col-->
+                <div class="col-xs-6 bg-cyan">
+                    <a href="components-offline-detector.html">
+                        <span class="state">Components</span>
+                        <span>Offline Detector</span>
+                        <span class="icon"><i class="ion-android-arrow-forward"></i></span>
+                    </a>
+                </div><!--.col-->
+            </div><!--.row-->
+        </div><!--.footer-links-->
 
-            <!-- You can also add more buttons to the
-				ribbon for further usability
+    </div><!--.content-->
 
-				Example below:
-
-				<span class="ribbon-button-alignment pull-right">
-				<span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-				<span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-				<span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-				</span> -->
-
-        </div>
-        <!-- END RIBBON -->
-
-        <!-- MAIN CONTENT -->
-        <div id="content">
-            <!-- widget grid -->
-            <section id="widget-grid" class="">
-
-                <!-- row -->
-                <div class="row">
-                                    <!-- NEW WIDGET START -->
-                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-                        <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="well" >
-                            <header>
-                                <h2>Campaign List</h2>
-
-                            </header>
-
-                            <!-- widget div-->
-                            <div>
-                                <!-- widget content -->
-                                <div class=" ">
-
-
-                                    <!-- widget grid -->
-                                    <section id="widget-grid" class="">
-
-                                        <!-- row -->
-                                        <div class="row">
-
-                                            <!-- NEW WIDGET START -->
-                                            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-
-                                                <div id="campaign_grid"></div>
-                                                {{--<table id="jqgrid"></table>--}}
-                                                {{--<div id="pjqgrid"></div>--}}
-
-                                            </div>
-                                            <!-- WIDGET END -->
-                                            <div class="col-md-3">
-                                                <div class="card">
-                                                    <div class="card-heading">
-                                                        <h2 class="pull-left">Activities</h2>
-                                                        <select id="audit_status" class="pull-right">
-                                                            <option value="entity">This Entity</option>
-                                                            <option value="all">All</option>
-                                                            <option value="user">User</option>
-                                                        </select>
-                                                        <div class="clearfix"></div>
-                                                        <small>All Activities for this Entity </small>
-                                                    </div>
-                                                    <div class="card-body" >
-                                                        <div class="streamline b-l b-accent m-b" id="show_audit">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- WIDGET END -->
-
-                                            </div>
-
-                                        </div>
-
-                                        <!-- end row -->
-
-                                    </section>
-                                    <!-- end widget grid -->
-
-
-                                </div>
-                                <!-- end widget content -->
-
-                            </div>
-                            <!-- end widget div -->
-
-                        </div>
-                        <!-- end widget -->
-
-                    </article>
-                    <!-- WIDGET END -->
-
-                </div>
-
-                <!-- end row -->
-
-                <!-- end row -->
-
-            </section>
-            <!-- end widget grid -->
-
-        </div>
-        <!-- END MAIN CONTENT -->
-
-    </div>
-    <!-- END MAIN PANEL -->
 @endsection
 
 @section('FooterScripts')
-    <!-- PAGE RELATED PLUGIN(S) -->
-{{--    <script src="{{cdn('js/plugin/jqgrid/jquery.jqGrid.min.js')}}"></script>--}}
-{{--    <script src="{{cdn('js/plugin/jqgrid/grid.locale-en.min.js')}}"></script>--}}
+    <!-- BEGIN INITIALIZATION-->
+    <script>
+        $(document).ready(function () {
+            Pleasure.init();
+            Layout.init();
+        });
+    </script>
+    <!-- END INITIALIZATION-->
     <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
-
-
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         $('#audit_status').change(function () {
             if($(this).val()=='all'){
                 $.ajax({
@@ -166,7 +118,6 @@
         });
 
         $(document).ready(function() {
-            pageSetUp();
 
             $.ajax({
                 url: "{{url('ajax/getAudit/campaign')}}"
@@ -251,7 +202,7 @@
                     paging: true,
                     autoload: true,
 
-                    pageSize: 15,
+                    pageSize: 10,
                     pageButtonCount: 5,
 
                     deleteConfirm: "Do you really want to delete the client?",
@@ -272,139 +223,6 @@
                 });
 
             });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            {{--var jqgrid_data = [--}}
-                {{--@foreach($campaign_obj as $index)--}}
-                {{--@if(!is_null($index->getAdvertiser->GetClientID))--}}
-                {{--{--}}
-                    {{--id : 'cmp{{$index->id}}',--}}
-                    {{--name : '{{$index->name}}',--}}
-                    {{--max_imp:'{{$index->max_impression}}',--}}
-                    {{--daily_max_imp:'{{$index->daily_max_impression}}',--}}
-                    {{--max_budget:'{{$index->max_budget}}',--}}
-                    {{--daily_max_budget:'{{$index->daily_max_budget}}',--}}
-                    {{--@if($index->status == 'Active')--}}
-                    {{--status: '<a id="campaign{{$index->id}}" href="javascript: ChangeStatus(`campaign`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',--}}
-                    {{--@elseif($index->status == 'Inactive')--}}
-                    {{--status: '<a id="campaign{{$index->id}}" href="javascript: ChangeStatus(`campaign`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',--}}
-                    {{--@endif--}}
-                    {{--date_modify : '{{$index->updated_at}}',--}}
-                    {{--full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) +'| <a class="btn bg-color-magenta txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/targetgroup/add')}}">+ Target Group</a>'@endif--}}
-                {{--},--}}
-                {{--@endif--}}
-                {{--@endforeach--}}
-            {{--];--}}
-
-            {{--jQuery("#jqgrid").jqGrid({--}}
-                {{--data : jqgrid_data,--}}
-                {{--datatype : "local",--}}
-                {{--height : 'auto',--}}
-                {{--colNames : ['Actions', 'ID', 'Name','Impression','Budget','Status','Modify Date','Full Actions'],--}}
-                {{--colModel : [{--}}
-                    {{--name : 'act',--}}
-                    {{--index : 'act',--}}
-                    {{--width: '100%',--}}
-                    {{--sortable : false--}}
-                {{--}, {--}}
-                    {{--name : 'id',--}}
-                    {{--width: '50%',--}}
-                    {{--index : 'id'--}}
-                {{--}, {--}}
-                    {{--name : 'name',--}}
-                    {{--index : 'name',--}}
-                    {{--width: '100%',--}}
-                    {{--editable : true--}}
-                {{--}, {--}}
-                    {{--name : 'max_imp',--}}
-                    {{--index : 'max_imp',--}}
-                    {{--width: '60%',--}}
-                    {{--editable : true--}}
-                {{--}, {--}}
-                    {{--name : 'max_budget',--}}
-                    {{--index : 'max_budget',--}}
-                    {{--width: '60%',--}}
-                    {{--editable : true--}}
-                {{--}, {--}}
-                    {{--name : 'status',--}}
-                    {{--index : 'status',--}}
-                    {{--width: '60%',--}}
-                    {{--editable : false--}}
-                {{--}, {--}}
-                    {{--name : 'date_modify',--}}
-                    {{--index : 'date_modify',--}}
-                    {{--editable : false--}}
-                {{--}, {--}}
-                    {{--name : 'full_edit',--}}
-                    {{--index : 'full_edit',--}}
-                    {{--editable : false--}}
-                {{--}],--}}
-                {{--rowNum : 10,--}}
-                {{--rowList : [10, 20, 30],--}}
-                {{--pager : '#pjqgrid',--}}
-                {{--sortname : 'campaign',--}}
-                {{--ajaxRowOptions: { async: true },--}}
-                {{--toolbarfilter : true,--}}
-                {{--viewrecords : true,--}}
-                {{--sortorder : "desc",--}}
-                {{--gridComplete : function() {--}}
-                    {{--var ids = jQuery("#jqgrid").jqGrid('getDataIDs');--}}
-                    {{--for (var i = 0; i < ids.length; i++) {--}}
-                        {{--var cl = ids[i];--}}
-                        {{--be = "<button class='btn btn-xs btn-default' data-original-title='Edit Row' onclick=\"jQuery('#jqgrid').editRow('" + cl + "');\"><i class='fa fa-pencil'></i></button>";--}}
-                        {{--se = "<button class='btn btn-xs btn-default' data-original-title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('" + cl + "');\"><i class='fa fa-save'></i></button>";--}}
-                        {{--ca = "<button class='btn btn-xs btn-default' data-original-title='Cancel' onclick=\"jQuery('#jqgrid').restoreRow('" + cl + "');\"><i class='fa fa-times'></i></button>";--}}
-{{--//                        ce = "<button class='btn btn-xs btn-default' onclick=\"jQuery('#jqgrid').restoreRow('"+cl+"');\"><i class='fa fa-times'></i></button>";--}}
-{{--//                        jQuery("#jqgrid").jqGrid('setRowData',ids[i],{act:be+se+ce});--}}
-                        {{--jQuery("#jqgrid").jqGrid('setRowData', ids[i], {--}}
-                            {{--act : be + se + ca--}}
-                        {{--});--}}
-                    {{--}--}}
-                {{--},--}}
-                {{--editurl : "{{url('/ajax/jqgrid/campaign')}}",--}}
-                {{--caption : "Campaign List",--}}
-                {{--multiselect : true,--}}
-                {{--autowidth : true--}}
-
-            {{--});--}}
-
-
-            {{--jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {--}}
-                {{--edit : false,--}}
-                {{--add : false,--}}
-                {{--del : false--}}
-            {{--});--}}
-            {{--jQuery("#jqgrid").jqGrid('inlineNav', "#pjqgrid");--}}
-            {{--$('.navtable .ui-pg-button').tooltip({--}}
-                {{--container : 'body'--}}
-            {{--});--}}
-
-            {{--jQuery("#m1").click(function() {--}}
-                {{--var s;--}}
-                {{--s = jQuery("#jqgrid").jqGrid('getGridParam', 'selarrrow');--}}
-                {{--alert(s);--}}
-            {{--});--}}
-            {{--jQuery("#m1s").click(function() {--}}
-                {{--jQuery("#jqgrid").jqGrid('setSelection', "13");--}}
-            {{--});--}}
-
         });
 
     </script>
