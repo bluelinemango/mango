@@ -9,6 +9,14 @@
 <!-- ADMIN 1 -->
 <script src="{{cdn('newTheme/admin1/js/layout.js')}}"></script>
 
+<!-- BEGIN INITIALIZATION-->
+<script>
+    $(document).ready(function () {
+        Pleasure.init();
+        Layout.init();
+    });
+</script>
+<!-- END INITIALIZATION-->
 
 <!-- BEGIN Google Analytics -->
 <script>
@@ -22,7 +30,12 @@
 </script>
 <!-- END Google Analytics -->
 
+
+
+
+
 <script>
+
     function ChangeStatus(entity,entity_id){ //CHANGE STATUS OF ALL ENTITY IN LIST VIEW
         {{--$.ajax({--}}
             {{--url: "{{url('/ajax/status')}}" + '/' + entity  +'/'+entity_id--}}

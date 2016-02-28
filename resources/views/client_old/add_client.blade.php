@@ -1,4 +1,4 @@
-@extends('Layout1')
+@extends('Layout')
 @section('siteTitle')Add Client @endsection
 @section('content')
     <!-- MAIN PANEL -->

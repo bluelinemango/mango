@@ -1,5 +1,8 @@
-@extends('Layout1')
-@section('siteTitle')Add Pixel @endsection
+@extends('Layout')
+@section('siteTitle')Add b/w list @endsection
+@section('header_extra')
+    <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/your_style.css')}}">
+@endsection
 @section('content')
     <!-- MAIN PANEL -->
     <div id="main" role="main">
@@ -17,7 +20,7 @@
             <ol class="breadcrumb">
                 <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/edit')}}">Client: cl{{$advertiser_obj->GetClientID->id}}</a></li>
                 <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$advertiser_obj->id.'/edit')}}">Advertiser: adv{{$advertiser_obj->id}}</a></li>
-                <li>Add Pixel </li>
+                <li>Black White List Registration</li>
             </ol>
             <!-- end breadcrumb -->
 
@@ -37,6 +40,17 @@
         <!-- END RIBBON -->
         <!-- MAIN CONTENT -->
         <div id="content">
+            @if(isset($errors))
+                @foreach($errors->get('msg') as $error)
+                    <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
+                        <a class="close" data-dismiss="alert" href="#">×</a>
+                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
+                        <p>
+                            {{$error}}
+                        </p>
+                    </div>
+                @endforeach
+            @endif
             @if(Session::has('CaptchaError'))
                 <ul>
                     <li>{{Session::get('CaptchaError')}}</li>
@@ -50,18 +64,20 @@
                         <article class="col-sm-12 col-md-12 col-lg-12">
 
                             <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well" >
+                            <div class="well">
                                 <header>
-                                    <h4>Add Pixel </h4>
+                                    <h2>Black White List Registration </h2>
 
                                 </header>
 
                                 <!-- widget div-->
                                 <div>
-                                    <!-- widget content -->
-                                    <div class="no-padding">
 
-                                        <form id="order-form" class="smart-form" action="{{URL::route('pixel_create')}}" method="post" novalidate="novalidate" >
+
+                                    <!-- widget content -->
+                                    <div class="">
+
+                                        <form id="order-form" class="smart-form" action="{{URL::route('bwlist_create')}}" method="post" novalidate="novalidate" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="hidden" name="advertiser_id" value="{{$advertiser_obj->id}}">
                                             <header>
@@ -70,35 +86,41 @@
 
                                             <fieldset>
                                                 <div class="row">
-                                                    <section class="col col-2">
-                                                        <label class="label" for=""> Name</label>
+                                                    <section class="col col-3">
+                                                        <label class="label" for="">Name</label>
                                                         <label class="input"> <i class="icon-append fa fa-user"></i>
                                                             <input type="text" name="name" placeholder="Name">
                                                         </label>
                                                     </section>
-                                                    <section class="col col-2">
-                                                        <label for="" class="label">Status</label>
-                                                        <label class="checkbox">
-                                                            <input type="checkbox" name="active">
-                                                            <i></i>
+                                                    <section class="col col-3">
+                                                        <label class="label" for="">List Type</label>
+                                                        <label class="select">
+                                                            <select name="list_type">
+                                                                <option value="black">Black List</option>
+                                                                <option value="white">White List</option>
+                                                            </select> <i></i>
                                                         </label>
-                                                    </section>
 
-                                                    <section class="col col-2">
+                                                    </section>
+                                                    <section class="col col-3">
                                                         <label class="label" for="">Advertiser Name</label>
-                                                        <label class="input">
-                                                            <h6>{{$advertiser_obj->name}}</h6>
+                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
+                                                            <input type="text" value="{{$advertiser_obj->name}}" disabled>
                                                         </label>
                                                     </section>
-                                                    <section class="col col-2">
+                                                    <section class="col col-3">
                                                         <label class="label" for="">Client Name</label>
-                                                        <label class="input">
-                                                            <h6>{{$advertiser_obj->GetClientID->name}}</h6>
+                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
+                                                            <input type="text" value="{{$advertiser_obj->GetClientID->name}}" disabled>
                                                         </label>
                                                     </section>
-
-
                                                 </div>
+                                            </fieldset>
+                                            <fieldset>
+                                                <section>
+                                                    <label class="label">Domain Name </label>
+                                                    <input name="domain_name" class="tagsinput" value="" data-role="tagsinput" style="min-height: 50px;"  placeholder="Enter website then click Enter">
+                                                </section>
                                             </fieldset>
                                             <footer>
                                                 <div class="row">
@@ -127,15 +149,15 @@
         <!-- END MAIN CONTENT -->
     </div>
     <!-- END MAIN PANEL -->
-
-
 @endsection
 @section('FooterScripts')
-    <script>
-        $(document).ready(function () {
+    <!-- PAGE RELATED PLUGIN(S) -->
+    <script src="{{cdn('js/plugin/bootstrap-tags/bootstrap-tagsinput.min.js')}}"></script>
 
+    <script type="text/javascript">
+
+        $(document).ready(function() {
             pageSetUp();
-
 
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
@@ -146,25 +168,28 @@
                     advertiser_id : {
                         required : true
                     },
-                    advertiser_domain_name : {
+                    max_impression : {
                         required : true
                     },
-                    ad_tag : {
+                    daily_max_impression : {
                         required : true
                     },
-                    landing_page_url : {
+                    max_budget : {
                         required : true
                     },
-                    size_width : {
+                    daily_max_budget : {
                         required : true
                     },
-                    size_height : {
+                    cpm : {
                         required : true
                     },
-                    attributes : {
+                    start_date : {
                         required : true
                     },
-                    preview_url : {
+                    end_date : {
+                        required : true
+                    },
+                    cpm : {
                         required : true
                     }
                 },
@@ -194,121 +219,7 @@
                     error.insertAfter(element.parent());
                 }
             });
-
-            // START AND FINISH DATE
-            $('#startdate').datepicker({
-                dateFormat: 'dd.mm.yy',
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                onSelect: function (selectedDate) {
-                    $('#finishdate').datepicker('option', 'minDate', selectedDate);
-                }
-            });
-
-            $('#finishdate').datepicker({
-                dateFormat: 'dd.mm.yy',
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                onSelect: function (selectedDate) {
-                    $('#startdate').datepicker('option', 'maxDate', selectedDate);
-                }
-            });
-
-            var $validator = $("#wizard-1").validate({
-
-                rules: {
-                    email: {
-                        required: true,
-                        email: "Your email address must be in the format of name@domain.com"
-                    },
-                    fname: {
-                        required: true
-                    },
-                    lname: {
-                        required: true
-                    },
-                    country: {
-                        required: true
-                    },
-                    city: {
-                        required: true
-                    },
-                    postal: {
-                        required: true,
-                        minlength: 4
-                    },
-                    wphone: {
-                        required: true,
-                        minlength: 10
-                    },
-                    hphone: {
-                        required: true,
-                        minlength: 10
-                    }
-                },
-
-                messages: {
-                    fname: "Please specify your First name",
-                    lname: "Please specify your Last name",
-                    email: {
-                        required: "We need your email address to contact you",
-                        email: "Your email address must be in the format of name@domain.com"
-                    }
-                },
-
-                highlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-                },
-                unhighlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-                },
-                errorElement: 'span',
-                errorClass: 'help-block',
-                errorPlacement: function (error, element) {
-                    if (element.parent('.input-group').length) {
-                        error.insertAfter(element.parent());
-                    } else {
-                        error.insertAfter(element);
-                    }
-                }
-            });
-
-            $('#bootstrap-wizard-1').bootstrapWizard({
-                'tabClass': 'form-wizard',
-                'onNext': function (tab, navigation, index) {
-                    var $valid = $("#wizard-1").valid();
-                    if (!$valid) {
-                        $validator.focusInvalid();
-                        return false;
-                    } else {
-                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).addClass(
-                                'complete');
-                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).find('.step')
-                                .html('<i class="fa fa-check"></i>');
-                    }
-                }
-            });
-
-
-            // fuelux wizard
-            var wizard = $('.wizard').wizard();
-
-            wizard.on('finished', function (e, data) {
-                //$("#fuelux-wizard").submit();
-                //console.log("submitted!");
-                $.smallBox({
-                    title: "Congratulations! Your form was submitted",
-                    content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-                    color: "#5F895F",
-                    iconSmall: "fa fa-check bounce animated",
-                    timeout: 4000
-                });
-
-            });
-
-
         })
 
     </script>
-
 @endsection

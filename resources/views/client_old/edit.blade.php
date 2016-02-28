@@ -1,4 +1,4 @@
-@extends('Layout1')
+@extends('Layout')
 @section('siteTitle')Edit Client: {{$client_obj->name}} @endsection
 @section('content')
     <!-- MAIN PANEL -->

@@ -1,4 +1,4 @@
-@extends('Layout1')
+@extends('Layout')
 @section('siteTitle')Edit Creative: {{$creative_obj->name}} @endsection
 @section('content')
 

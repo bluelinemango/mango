@@ -1,5 +1,5 @@
-@extends('Layout1')
-@section('siteTitle')Add Creative @endsection
+@extends('Layout')
+@section('siteTitle')Add Pixel @endsection
 @section('content')
     <!-- MAIN PANEL -->
     <div id="main" role="main">
@@ -17,7 +17,7 @@
             <ol class="breadcrumb">
                 <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/edit')}}">Client: cl{{$advertiser_obj->GetClientID->id}}</a></li>
                 <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$advertiser_obj->id.'/edit')}}">Advertiser: adv{{$advertiser_obj->id}}</a></li>
-                <li>Creative Registration</li>
+                <li>Add Pixel </li>
             </ol>
             <!-- end breadcrumb -->
 
@@ -52,17 +52,16 @@
                             <!-- Widget ID (each widget will need unique ID)-->
                             <div class="well" >
                                 <header>
-                                    <h2>Creative Registration </h2>
+                                    <h4>Add Pixel </h4>
 
                                 </header>
 
                                 <!-- widget div-->
                                 <div>
-
                                     <!-- widget content -->
-                                    <div class="">
+                                    <div class="no-padding">
 
-                                        <form id="order-form" class="smart-form" action="{{URL::route('creative_create')}}" method="post" novalidate="novalidate" >
+                                        <form id="order-form" class="smart-form" action="{{URL::route('pixel_create')}}" method="post" novalidate="novalidate" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="hidden" name="advertiser_id" value="{{$advertiser_obj->id}}">
                                             <header>
@@ -78,12 +77,6 @@
                                                         </label>
                                                     </section>
                                                     <section class="col col-2">
-                                                        <label class="label" for="">Domain Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="advertiser_domain_name" placeholder="Domain Name">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-2">
                                                         <label for="" class="label">Status</label>
                                                         <label class="checkbox">
                                                             <input type="checkbox" name="active">
@@ -93,105 +86,26 @@
 
                                                     <section class="col col-2">
                                                         <label class="label" for="">Advertiser Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" value="{{$advertiser_obj->name}}" disabled>
+                                                        <label class="input">
+                                                            <h6>{{$advertiser_obj->name}}</h6>
                                                         </label>
                                                     </section>
                                                     <section class="col col-2">
                                                         <label class="label" for="">Client Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" value="{{$advertiser_obj->GetClientID->name}}" disabled>
+                                                        <label class="input">
+                                                            <h6>{{$advertiser_obj->GetClientID->name}}</h6>
                                                         </label>
                                                     </section>
-                                                    <section class="col col-2">
-                                                        <label for="" class="label">Ad Type</label>
-                                                        <label class="select"><i></i>
-                                                            <select name="ad_type">
-                                                                <option value="0">Select One</option>
-                                                                <option value="IFRAME">IFrame</option>
-                                                                <option value="JAVASCRIPT" >Javascript</option>
-                                                                <option value="XHTML_BANNER_AD" >XHTML Banner Ad</option>
-                                                                <option value="XHTML_TEXT_AD" >XHTML Text Ad</option>
 
-                                                            </select>
-                                                        </label>
-                                                    </section>
 
                                                 </div>
-                                            </fieldset>
-                                            <header>
-                                                URL infromation
-                                            </header>
-
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Ad Tag</label>
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="ad_tag" placeholder="Ad Tag">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Landign Page URL</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="landing_page_url" placeholder="Landign Page URL">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Width</label>
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="size_width" placeholder="Width">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Height</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="size_height" placeholder="Height">
-                                                        </label>
-                                                    </section>
-                                                </div>
-                                                <div class="row">
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Attributes</label>
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="attributes" placeholder="Attributes">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Preview URL</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="preview_url" placeholder="Preview URL">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="label">API</label>
-                                                        <label class="select select-multiple">
-                                                            <select name="api[]" multiple class="custom-scroll">
-                                                                <option value="VPAID_1.0" >VPAID 1.0</option>
-                                                                <option value="VPAID_2.0" >VPAID 2.0</option>
-                                                                <option value="MRAID-1" > MRAID-1</option>
-                                                                <option value="ORMMA" >ORMMA</option>
-                                                                <option value="MRAID-2" >MRAID-2</option>
-                                                            </select> </label>
-                                                        <div class="note">
-                                                            <strong>Note:</strong> hold down the ctrl/cmd button to select multiple options.
-                                                        </div>
-                                                    </section>
-
-                                                </div>
-                                                <section>
-                                                    <label class="label" for="">Description</label>
-                                                    <label class="textarea"> <i class="icon-append fa fa-comment"></i>
-                                                        <textarea rows="5" name="description" placeholder="Tell us about your Creative"></textarea>
-                                                    </label>
-                                                </section>
                                             </fieldset>
                                             <footer>
                                                 <div class="row">
                                                     <div class="col-md-5 col-md-offset-3">
                                                         <button type="submit"
-                                                                class=" button button--antiman button--round-l button--text-medium">
-                                                            Submit
+                                                                class=" button button--ujarak button--border-thick button--text-upper button--size-s button--inverted button--text-thick">
+                                                            Save
                                                         </button>
                                                     </div>
                                                 </div>
@@ -233,8 +147,7 @@
                         required : true
                     },
                     advertiser_domain_name : {
-                        required: true,
-                        domain: true
+                        required : true
                     },
                     ad_tag : {
                         required : true
@@ -243,14 +156,10 @@
                         required : true
                     },
                     size_width : {
-                        required : true,
-                        min: 0,
-                        number: 'Enter number Plz'
+                        required : true
                     },
                     size_height : {
-                        required : true,
-                        min: 0,
-                        number: 'Enter number Plz'
+                        required : true
                     },
                     attributes : {
                         required : true
@@ -302,6 +211,81 @@
                 nextText: '<i class="fa fa-chevron-right"></i>',
                 onSelect: function (selectedDate) {
                     $('#startdate').datepicker('option', 'maxDate', selectedDate);
+                }
+            });
+
+            var $validator = $("#wizard-1").validate({
+
+                rules: {
+                    email: {
+                        required: true,
+                        email: "Your email address must be in the format of name@domain.com"
+                    },
+                    fname: {
+                        required: true
+                    },
+                    lname: {
+                        required: true
+                    },
+                    country: {
+                        required: true
+                    },
+                    city: {
+                        required: true
+                    },
+                    postal: {
+                        required: true,
+                        minlength: 4
+                    },
+                    wphone: {
+                        required: true,
+                        minlength: 10
+                    },
+                    hphone: {
+                        required: true,
+                        minlength: 10
+                    }
+                },
+
+                messages: {
+                    fname: "Please specify your First name",
+                    lname: "Please specify your Last name",
+                    email: {
+                        required: "We need your email address to contact you",
+                        email: "Your email address must be in the format of name@domain.com"
+                    }
+                },
+
+                highlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                },
+                unhighlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                },
+                errorElement: 'span',
+                errorClass: 'help-block',
+                errorPlacement: function (error, element) {
+                    if (element.parent('.input-group').length) {
+                        error.insertAfter(element.parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+
+            $('#bootstrap-wizard-1').bootstrapWizard({
+                'tabClass': 'form-wizard',
+                'onNext': function (tab, navigation, index) {
+                    var $valid = $("#wizard-1").valid();
+                    if (!$valid) {
+                        $validator.focusInvalid();
+                        return false;
+                    } else {
+                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).addClass(
+                                'complete');
+                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).find('.step')
+                                .html('<i class="fa fa-check"></i>');
+                    }
                 }
             });
 

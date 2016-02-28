@@ -1,4 +1,4 @@
-@extends('Layout1')
+@extends('Layout')
 @section('siteTitle')Edit Pixel: {{$pixel_obj->name}} @endsection
 @section('content')
     <!-- MAIN PANEL -->

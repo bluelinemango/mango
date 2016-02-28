@@ -1,23 +1,16 @@
-@extends('Layout1')
-@section('siteTitle')Add Pixel @endsection
+@extends('Layout')
+@section('siteTitle')Add Advertiser @endsection
 @section('content')
+
     <!-- MAIN PANEL -->
     <div id="main" role="main">
 
         <!-- RIBBON -->
         <div id="ribbon">
-
-				<span class="ribbon-button-alignment">
-					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
-						<i class="fa fa-refresh"></i>
-					</span>
-				</span>
-
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/edit')}}">Client: cl{{$advertiser_obj->GetClientID->id}}</a></li>
-                <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$advertiser_obj->id.'/edit')}}">Advertiser: adv{{$advertiser_obj->id}}</a></li>
-                <li>Add Pixel </li>
+                <li>Client: <a href="{{url('/client/cl'.$client_obj->id.'/edit')}}">cl{{$client_obj->id}}</a></li>
+                <li>Advertiser Registration</li>
             </ol>
             <!-- end breadcrumb -->
 
@@ -31,17 +24,28 @@
             <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
             </span>
 
-    -->
+ -->
 
         </div>
         <!-- END RIBBON -->
         <!-- MAIN CONTENT -->
         <div id="content">
+            @if(isset($errors))
+                @foreach($errors->get('msg') as $error)
+                    <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
+                        <a class="close" data-dismiss="alert" href="#">×</a>
+                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
+                        <p>
+                            {{$error}}
+                        </p>
+                    </div>
+                @endforeach
+            @endif
             @if(Session::has('CaptchaError'))
                 <ul>
                     <li>{{Session::get('CaptchaError')}}</li>
                 </ul>
-                @endif
+            @endif
                         <!-- widget grid -->
                 <section id="widget-grid" class="">
                     <!-- START ROW -->
@@ -52,18 +56,18 @@
                             <!-- Widget ID (each widget will need unique ID)-->
                             <div class="well" >
                                 <header>
-                                    <h4>Add Pixel </h4>
+                                    <h2>Add Advertiser </h2>
 
                                 </header>
 
                                 <!-- widget div-->
                                 <div>
                                     <!-- widget content -->
-                                    <div class="no-padding">
+                                    <div class="">
 
-                                        <form id="order-form" class="smart-form" action="{{URL::route('pixel_create')}}" method="post" novalidate="novalidate" >
+                                        <form id="order-form" class="smart-form" action="{{URL::route('advertiser_create')}}" method="post" novalidate="novalidate" >
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="advertiser_id" value="{{$advertiser_obj->id}}">
+                                            <input type="hidden" name="client_id" value="{{$client_obj->id}}">
                                             <header>
                                                 General Information
                                             </header>
@@ -77,6 +81,12 @@
                                                         </label>
                                                     </section>
                                                     <section class="col col-2">
+                                                        <label class="label" for=""> Domain Name</label>
+                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
+                                                            <input type="text" name="domain_name" placeholder="Domain Name">
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-2">
                                                         <label for="" class="label">Status</label>
                                                         <label class="checkbox">
                                                             <input type="checkbox" name="active">
@@ -84,21 +94,28 @@
                                                         </label>
                                                     </section>
 
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Advertiser Name</label>
-                                                        <label class="input">
-                                                            <h6>{{$advertiser_obj->name}}</h6>
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Client Name</label>
-                                                        <label class="input">
-                                                            <h6>{{$advertiser_obj->GetClientID->name}}</h6>
+                                                </div>
+
+
+                                            </fieldset>
+
+                                            <fieldset>
+                                                <div class="row">
+                                                    <section class="col col-3">
+                                                        <label for="" class="label">Client Name</label>
+                                                        <label class="input"><i class="icon-append fa fa-briefcase"></i>
+                                                            <input type="text" name="client_name" value="{{$client_obj->name}}" disabled>
                                                         </label>
                                                     </section>
 
 
                                                 </div>
+
+                                                <section>
+                                                    <label class="textarea"> <i class="icon-append fa fa-comment"></i>
+                                                        <textarea rows="5" name="description" placeholder="Tell us about your advertiser"></textarea>
+                                                    </label>
+                                                </section>
                                             </fieldset>
                                             <footer>
                                                 <div class="row">
@@ -127,15 +144,20 @@
         <!-- END MAIN CONTENT -->
     </div>
     <!-- END MAIN PANEL -->
-
-
 @endsection
 @section('FooterScripts')
+    <script src="{{cdn('js/multi_select/multiselect.min.js')}}"></script>
     <script>
         $(document).ready(function () {
 
             pageSetUp();
 
+            $('#assign_model').multiselect({
+                search: {
+                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
+                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                }
+            });
 
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
@@ -143,28 +165,11 @@
                     name : {
                         required : true
                     },
-                    advertiser_id : {
-                        required : true
+                    domain_name: {
+                        required: true,
+                        domain: true
                     },
-                    advertiser_domain_name : {
-                        required : true
-                    },
-                    ad_tag : {
-                        required : true
-                    },
-                    landing_page_url : {
-                        required : true
-                    },
-                    size_width : {
-                        required : true
-                    },
-                    size_height : {
-                        required : true
-                    },
-                    attributes : {
-                        required : true
-                    },
-                    preview_url : {
+                    client_id : {
                         required : true
                     }
                 },
@@ -181,8 +186,8 @@
                     phone : {
                         required : 'Please enter your phone number'
                     },
-                    interested : {
-                        required : 'Please select interested service'
+                    client_id : {
+                        required : 'Please select Client Name'
                     },
                     budget : {
                         required : 'Please select your budget'
@@ -214,80 +219,6 @@
                 }
             });
 
-            var $validator = $("#wizard-1").validate({
-
-                rules: {
-                    email: {
-                        required: true,
-                        email: "Your email address must be in the format of name@domain.com"
-                    },
-                    fname: {
-                        required: true
-                    },
-                    lname: {
-                        required: true
-                    },
-                    country: {
-                        required: true
-                    },
-                    city: {
-                        required: true
-                    },
-                    postal: {
-                        required: true,
-                        minlength: 4
-                    },
-                    wphone: {
-                        required: true,
-                        minlength: 10
-                    },
-                    hphone: {
-                        required: true,
-                        minlength: 10
-                    }
-                },
-
-                messages: {
-                    fname: "Please specify your First name",
-                    lname: "Please specify your Last name",
-                    email: {
-                        required: "We need your email address to contact you",
-                        email: "Your email address must be in the format of name@domain.com"
-                    }
-                },
-
-                highlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-                },
-                unhighlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-                },
-                errorElement: 'span',
-                errorClass: 'help-block',
-                errorPlacement: function (error, element) {
-                    if (element.parent('.input-group').length) {
-                        error.insertAfter(element.parent());
-                    } else {
-                        error.insertAfter(element);
-                    }
-                }
-            });
-
-            $('#bootstrap-wizard-1').bootstrapWizard({
-                'tabClass': 'form-wizard',
-                'onNext': function (tab, navigation, index) {
-                    var $valid = $("#wizard-1").valid();
-                    if (!$valid) {
-                        $validator.focusInvalid();
-                        return false;
-                    } else {
-                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).addClass(
-                                'complete');
-                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).find('.step')
-                                .html('<i class="fa fa-check"></i>');
-                    }
-                }
-            });
 
 
             // fuelux wizard

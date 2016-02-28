@@ -1,4 +1,4 @@
-@extends('Layout1')
+@extends('Layout')
 @section('siteTitle')Add Creative @endsection
 @section('content')
     <!-- MAIN PANEL -->
