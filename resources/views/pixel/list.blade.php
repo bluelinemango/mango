@@ -1,132 +1,87 @@
-@extends('Layout')
+@extends('Layout1')
 @section('siteTitle')List Of Pixel for {{\Illuminate\Support\Facades\Auth::user()->name}} @endsection
 
 @section('content')
-    <!-- MAIN PANEL -->
-    <div id="main" role="main">
+    <div class="content">
 
-        <!-- RIBBON -->
-        <div id="ribbon">
+        <div class="page-header full-content">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h1>NOMADINI <small>Diffrent Ads</small></h1>
+                </div><!--.col-->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="ion-home"></i></a></li>
+                        <li><a href="#">Pixel</a></li>
+                        <li><a href="#" class="active">List</a></li>
+                    </ol>
+                </div><!--.col-->
+            </div><!--.row-->
+        </div><!--.page-header-->
 
-				<span class="ribbon-button-alignment">
-					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
-						<i class="fa fa-refresh"></i>
-					</span>
-				</span>
-
-            <!-- breadcrumb -->
-            <ol class="breadcrumb">
-               <li>Pixel List</li>
-            </ol>
-            <!-- end breadcrumb -->
-
-            <!-- You can also add more buttons to the
-				ribbon for further usability
-
-				Example below:
-
-				<span class="ribbon-button-alignment pull-right">
-				<span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-				<span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-				<span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-				</span> -->
-
-        </div>
-        <!-- END RIBBON -->
-
-        <!-- MAIN CONTENT -->
-        <div id="content">
-            <!-- widget grid -->
-            <section id="widget-grid" class="">
-
-                <!-- row -->
-                <div class="row">
-                                    <!-- NEW WIDGET START -->
-                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-                        <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="well">
-                            <header>
-                                <h2>Pixel List</h2>
-                            </header>
-                            <!-- widget div-->
-                            <div>
-                                <div class="">
-
-                                    <!-- widget grid -->
-                                    <section id="widget-grid" class="">
-
-                                        <!-- row -->
-                                        <div class="row">
-
-                                            <!-- NEW WIDGET START -->
-                                            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-
-                                                <div id="pixel_grid"></div>
-                                                {{--<table id="jqgrid"></table>--}}
-                                                {{--<div id="pjqgrid"></div>--}}
-
-                                            </div>
-                                            <!-- WIDGET END -->
-                                            <div class="col-md-3">
-                                                <div class="card">
-                                                    <div class="card-heading">
-                                                        <h2 class="pull-left">Activities</h2>
-                                                        <select id="audit_status" class="pull-right">
-                                                            <option value="entity">This Entity</option>
-                                                            <option value="all">All</option>
-                                                            <option value="user">User</option>
-                                                        </select>
-                                                        <div class="clearfix"></div>
-                                                        <small>All Activities for this Entity </small>
-                                                    </div>
-                                                    <div class="card-body" >
-                                                        <div class="streamline b-l b-accent m-b" id="show_audit">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- WIDGET END -->
-
-                                            </div>
-                                        </div>
-
-                                        <!-- end row -->
-
-                                    </section>
-                                    <!-- end widget grid -->
-
-                                </div>
-                                <!-- end widget content -->
-
-                            </div>
-                            <!-- end widget div -->
-
+        <!-- content -->
+        <div class="col-md-9">
+            <div class="panel light-blue">
+                <div class="panel-heading">
+                    <div class="panel-title"><h4>Pixel List</h4></div>
+                </div><!--.panel-heading-->
+                <div class="panel-body">
+                    <div id="pixel_grid"></div>
+                </div><!--.panel-body-->
+            </div><!--.panel-->
+        </div><!--.col-->
+        <div class="col-md-3">
+            <div class="panel indigo">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h4 class="pull-left">Activities</h4>
+                        <div class="pull-right audit-select">
+                            <select id="audit_status" class="selecter col-md-12" >
+                                <option value="entity">This Entity</option>
+                                <option value="all">All</option>
+                                <option value="user">User</option>
+                            </select>
                         </div>
-                        <!-- end widget -->
-
-                    </article>
-                    <!-- WIDGET END -->
-
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
-
-                <!-- end row -->
-
-                <!-- end row -->
-
-            </section>
-            <!-- end widget grid -->
-
+                <!--.panel-heading-->
+                <div class="panel-body" style="padding: 0px 0 0 10px;">
+                    <div class="timeline single" id="show_audit">
+                    </div>
+                    <!--.timeline-->
+                </div>
+                <!--.panel-body-->
+            </div>
+            <!--.panel-->
         </div>
-        <!-- END MAIN CONTENT -->
+        <!--.col-->
+        <!-- content -->
 
-    </div>
-    <!-- END MAIN PANEL -->
+        <div class="footer-links margin-top-40">
+            <div class="row no-gutters">
+                <div class="col-xs-6 bg-indigo">
+                    <a href="#">
+                        <span class="state">Pages</span>
+                        <span>Timeline</span>
+                        <span class="icon"><i class="ion-android-arrow-back"></i></span>
+                    </a>
+                </div><!--.col-->
+                <div class="col-xs-6 bg-cyan">
+                    <a href="#">
+                        <span class="state">Components</span>
+                        <span>Offline Detector</span>
+                        <span class="icon"><i class="ion-android-arrow-forward"></i></span>
+                    </a>
+                </div><!--.col-->
+            </div><!--.row-->
+        </div><!--.footer-links-->
+
+    </div><!--.content-->
+
 @endsection
 
 @section('FooterScripts')
-    <!-- PAGE RELATED PLUGIN(S) -->
-    {{--<script src="{{cdn('js/plugin/jqgrid/jquery.jqGrid.min.js')}}"></script>--}}
-    {{--<script src="{{cdn('js/plugin/jqgrid/grid.locale-en.min.js')}}"></script>--}}
     <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
 
 
@@ -160,7 +115,6 @@
         });
 
         $(document).ready(function() {
-            pageSetUp();
 
             $.ajax({
                 url: "{{url('ajax/getAudit/pixel')}}"
@@ -257,126 +211,6 @@
                 });
 
             });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            {{--var jqgrid_data = [--}}
-                {{--@foreach($pixel_obj as $index)--}}
-                {{--@if(!is_null($index->getAdvertiser->GetClientID))--}}
-                {{--{--}}
-                    {{--id   : 'pxl{{$index->id}}',--}}
-                    {{--name : '{{$index->name}}',--}}
-                    {{--@if($index->status == 'Active')--}}
-                    {{--status: '<a id="pixel{{$index->id}}" href="javascript: ChangeStatus(`pixel`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',--}}
-                    {{--@elseif($index->status == 'Inactive')--}}
-                    {{--status: '<a id="pixel{{$index->id}}" href="javascript: ChangeStatus(`pixel`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',--}}
-                    {{--@endif--}}
-                    {{--date_modify : '{{$index->updated_at}}',--}}
-                    {{--full_edit: '<a class="btn btn-info" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/pixel/pxl'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>' @if(in_array('ADD_EDIT_PIXEL',$permission)) +'| <a class="btn bg-color-magenta txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/pixel/add')}}">+ Pixel</a>'@endif--}}
-                {{--},--}}
-                {{--@endif--}}
-                {{--@endforeach--}}
-            {{--];--}}
-
-            {{--jQuery("#jqgrid").jqGrid({--}}
-                {{--data : jqgrid_data,--}}
-                {{--datatype : "local",--}}
-                {{--height : 'auto',--}}
-                {{--colNames : ['Actions', 'ID', 'Name','Status','Modify Date','Full Actions'],--}}
-                {{--colModel : [{--}}
-                    {{--name : 'act',--}}
-                    {{--index : 'act',--}}
-                    {{--width: '100%',--}}
-                    {{--sortable : false--}}
-                {{--}, {--}}
-                    {{--name : 'id',--}}
-                    {{--width: '50%',--}}
-                    {{--index : 'id'--}}
-                {{--}, {--}}
-                    {{--name : 'name',--}}
-                    {{--index : 'name',--}}
-                    {{--width: '100%',--}}
-                    {{--editable : true--}}
-                {{--}, {--}}
-                    {{--name : 'status',--}}
-                    {{--index : 'status',--}}
-                    {{--width: '60%',--}}
-                    {{--editable : false--}}
-                {{--}, {--}}
-                    {{--name : 'date_modify',--}}
-                    {{--index : 'date_modify',--}}
-                    {{--editable : false--}}
-                {{--}, {--}}
-                    {{--name : 'full_edit',--}}
-                    {{--index : 'full_edit',--}}
-                    {{--width: '100%',--}}
-                    {{--editable : false--}}
-                {{--}],--}}
-                {{--rowNum : 10,--}}
-                {{--rowList : [10, 20, 30],--}}
-                {{--pager : '#pjqgrid',--}}
-                {{--sortname : 'campaign',--}}
-                {{--ajaxRowOptions: { async: true },--}}
-                {{--toolbarfilter : true,--}}
-                {{--viewrecords : true,--}}
-                {{--sortorder : "desc",--}}
-                {{--gridComplete : function() {--}}
-                    {{--var ids = jQuery("#jqgrid").jqGrid('getDataIDs');--}}
-                    {{--for (var i = 0; i < ids.length; i++) {--}}
-                        {{--var cl = ids[i];--}}
-                        {{--be = "<button class='btn btn-xs btn-default' data-original-title='Edit Row' onclick=\"jQuery('#jqgrid').editRow('" + cl + "');\"><i class='fa fa-pencil'></i></button>";--}}
-                        {{--se = "<button class='btn btn-xs btn-default' data-original-title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('" + cl + "');\"><i class='fa fa-save'></i></button>";--}}
-                        {{--ca = "<button class='btn btn-xs btn-default' data-original-title='Cancel' onclick=\"jQuery('#jqgrid').restoreRow('" + cl + "');\"><i class='fa fa-times'></i></button>";--}}
-                        {{--jQuery("#jqgrid").jqGrid('setRowData', ids[i], {--}}
-                            {{--act : be + se + ca--}}
-                        {{--});--}}
-                    {{--}--}}
-                {{--},--}}
-                {{--editurl : "{{url('/ajax/jqgrid/pixel')}}",--}}
-                {{--caption : "Pixel List",--}}
-                {{--multiselect : true,--}}
-                {{--autowidth : true--}}
-
-            {{--});--}}
-
-            {{--jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {--}}
-                {{--edit : false,--}}
-                {{--add : false,--}}
-                {{--del : false--}}
-            {{--});--}}
-            {{--jQuery("#jqgrid").jqGrid('inlineNav', "#pjqgrid");--}}
-            {{--$('.navtable .ui-pg-button').tooltip({--}}
-                {{--container : 'body'--}}
-            {{--});--}}
-
-            {{--jQuery("#m1").click(function() {--}}
-                {{--var s;--}}
-                {{--s = jQuery("#jqgrid").jqGrid('getGridParam', 'selarrrow');--}}
-                {{--alert(s);--}}
-            {{--});--}}
-            {{--jQuery("#m1s").click(function() {--}}
-                {{--jQuery("#jqgrid").jqGrid('setSelection', "13");--}}
-            {{--});--}}
-
-
-
         })
 
     </script>

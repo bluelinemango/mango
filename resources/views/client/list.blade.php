@@ -1,164 +1,83 @@
-@extends('Layout')
+@extends('Layout1')
 @section('siteTitle')List Of {{\Illuminate\Support\Facades\Auth::user()->name}} Clients @endsection
-@section('header_extra')
-    <style>
-        .ui-widget *, .ui-widget input, .ui-widget select, .ui-widget button  {
-            font-family: inherit;
-            font-size: 14px;
-            font-weight: 300 !important;
-        }
-
-        .details-form-field input,
-        .details-form-field select {
-            width: 250px;
-            float: right;
-        }
-
-        .details-form-field {
-            margin: 30px 0;
-        }
-
-        .details-form-field:first-child {
-            margin-top: 10px;
-        }
-
-        .details-form-field:last-child {
-            margin-bottom: 10px;
-        }
-
-        .details-form-field button {
-            display: block;
-            width: 100px;
-            margin: 0 auto;
-        }
-
-        input.error, select.error {
-            border: 1px solid #ff9999;
-            background: #ffeeee;
-        }
-
-        label.error {
-            float: right;
-            margin-left: 100px;
-            font-size: .8em;
-            color: #ff6666;
-        }
-    </style>
-@endsection
 @section('content')
-    <!-- MAIN PANEL -->
-    <div id="main" role="main">
+    <div class="content">
 
-        <!-- RIBBON -->
-        <div id="ribbon">
+        <div class="page-header full-content">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h1>NOMADINI <small>Diffrent Ads</small></h1>
+                </div><!--.col-->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="ion-home"></i></a></li>
+                        <li><a href="#">Client</a></li>
+                        <li><a href="#" class="active">List</a></li>
+                    </ol>
+                </div><!--.col-->
+            </div><!--.row-->
+        </div><!--.page-header-->
 
-				<span class="ribbon-button-alignment">
-					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
-						<i class="fa fa-refresh"></i>
-					</span>
-				</span>
-
-            <!-- breadcrumb -->
-            <ol class="breadcrumb">
-                <li>Client List</li>
-            </ol>
-
-        </div>
-        <!-- END RIBBON -->
-
-        <!-- MAIN CONTENT -->
-        <div id="content">
-
-
-            <!-- widget grid -->
-            <section id="widget-grid" class="">
-
-                <!-- row -->
-                <div class="row">
-
-                    <!-- NEW WIDGET START -->
-                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-                        <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="well" >
-                            <header>
-                                <h2>Client List</h2>
-                            </header>
-
-                            <!-- widget div-->
-                            <div>
-
-                                <!-- widget content -->
-                                <div class="">
-
-                                    <!-- widget grid -->
-                                    <section id="widget-grid" class="">
-
-                                        <!-- row -->
-                                        <div class="row">
-
-                                            <!-- NEW WIDGET START -->
-                                            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-
-                                                <div id="jsGrid"></div>
-                                                {{--<table id="jqgrid"></table>--}}
-                                                {{--<div id="pjqgrid"></div>--}}
-
-                                            </div>
-
-                                            <div class="col-md-3">
-                                                <div class="card">
-                                                    <div class="card-heading">
-                                                        <h2 class="pull-left">Activities</h2>
-                                                        <select id="audit_status" class="pull-right">
-                                                            <option value="entity">This Entity</option>
-                                                            <option value="all">All</option>
-                                                            <option value="user">User</option>
-                                                        </select>
-                                                        <div class="clearfix"></div>
-                                                        <small>All Activities for this Entity </small>
-                                                    </div>
-                                                    <div class="card-body" >
-                                                        <div class="streamline b-l b-accent m-b" id="show_audit">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- WIDGET END -->
-
-                                        </div>
-
-                                        <!-- end row -->
-
-                                    </section>
-                                    <!-- end widget grid -->
-
-                                </div>
-                                <!-- end widget content -->
-
-                            </div>
-                            <!-- end widget div -->
-
+        <!-- content -->
+        <div class="col-md-9">
+            <div class="panel light-blue">
+                <div class="panel-heading">
+                    <div class="panel-title"><h4>Client List</h4></div>
+                </div><!--.panel-heading-->
+                <div class="panel-body">
+                    <div id="client_grid"></div>
+                </div><!--.panel-body-->
+            </div><!--.panel-->
+        </div><!--.col-->
+        <div class="col-md-3">
+            <div class="panel indigo">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h4 class="pull-left">Activities</h4>
+                        <div class="pull-right audit-select">
+                            <select id="audit_status" class="selecter col-md-12" >
+                                <option value="entity">This Entity</option>
+                                <option value="all">All</option>
+                                <option value="user">User</option>
+                            </select>
                         </div>
-                        <!-- end widget -->
-
-                    </article>
-                    <!-- WIDGET END -->
-
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
-
-                <!-- end row -->
-
-                <!-- end row -->
-
-            </section>
-            <!-- end widget grid -->
-
+                <!--.panel-heading-->
+                <div class="panel-body" style="padding: 0px 0 0 10px;">
+                    <div class="timeline single" id="show_audit">
+                    </div>
+                    <!--.timeline-->
+                </div>
+                <!--.panel-body-->
+            </div>
+            <!--.panel-->
         </div>
-        <!-- END MAIN CONTENT -->
+        <!--.col-->
+        <!-- content -->
 
-    </div>
-    <!-- END MAIN PANEL -->
+        <div class="footer-links margin-top-40">
+            <div class="row no-gutters">
+                <div class="col-xs-6 bg-indigo">
+                    <a href="#">
+                        <span class="state">Pages</span>
+                        <span>Timeline</span>
+                        <span class="icon"><i class="ion-android-arrow-back"></i></span>
+                    </a>
+                </div><!--.col-->
+                <div class="col-xs-6 bg-cyan">
+                    <a href="#">
+                        <span class="state">Components</span>
+                        <span>Offline Detector</span>
+                        <span class="icon"><i class="ion-android-arrow-forward"></i></span>
+                    </a>
+                </div><!--.col-->
+            </div><!--.row-->
+        </div><!--.footer-links-->
+
+    </div><!--.content-->
+
 
 
     <div id="detailsDialog">
@@ -178,10 +97,7 @@
     </div>
 @endsection
 @section('FooterScripts')
-    {{--<script src="{{cdn('js/plugin/jqgrid/jquery.jqGrid.min.js')}}"></script>--}}
-{{--    <script src="{{cdn('js/plugin/jqgrid/grid.locale-en.min.js')}}"></script>--}}
-    {{--////////////////////////////////////////////////////////////////////////--}}
-<script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
+    <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
 
     <script>
         $.ajaxSetup({
@@ -292,7 +208,7 @@
                 @endforeach
             ];
 
-            $("#jsGrid").jsGrid({
+            $("#client_grid").jsGrid({
                 width: "100%",
 
                 filtering: true,
@@ -338,17 +254,17 @@
                 }
             });
 
-            $("#detailsForm").validate({
-                rules: {
-                    name: "required"
-                },
-                messages: {
-                    name: "Please enter name"
-                },
-                submitHandler: function() {
-                    formSubmitHandler();
-                }
-            });
+//            $("#detailsForm").validate({
+//                rules: {
+//                    name: "required"
+//                },
+//                messages: {
+//                    name: "Please enter name"
+//                },
+//                submitHandler: function() {
+//                    formSubmitHandler();
+//                }
+//            });
 
             var formSubmitHandler = $.noop;
 
@@ -382,143 +298,12 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            pageSetUp();
             $.ajax({
                 url: "{{url('ajax/getAudit/client')}}"
             }).success(function (response) {
                 $('#show_audit').html(response);
             });
 
-            {{--var jqgrid_data = [--}}
-            {{--@foreach($clients as $index)--}}
-            {{--{--}}
-            {{--id : '{{$index->id}}',--}}
-            {{--name : '{{$index->name}}',--}}
-            {{--@if(count($index->getAdvertiser)>0)--}}
-            {{--advertiser: '{{$index->getAdvertiser[0]->client_count}}',--}}
-            {{--@else--}}
-            {{--advertiser: '0',--}}
-            {{--@endif--}}
-            {{--@if(in_array('ADD_EDIT_ADVERTISER',$permission))--}}
-            {{--add_advertiser: '<a class="btn bg-color-magenta txt-color-white" href="{{url('client/cl'.$index->id.'/advertiser/add')}}">Add Advertiser </a>',--}}
-            {{--@endif--}}
-            {{--date_modify : '{{$index->updated_at}}',--}}
-            {{--action: '<a class="btn btn-info" href="{{url('/client/cl'.$index->id.'/edit')}}"><i class="fa fa-edit "></i></a>'--}}
-
-            {{--},--}}
-            {{--@endforeach--}}
-            {{--];--}}
-
-            {{--jQuery("#jqgrid").jqGrid({--}}
-            {{--data : jqgrid_data,--}}
-            {{--datatype : "local",--}}
-            {{--height : 'auto',--}}
-            {{--colNames : ['Actions', 'ID', 'Name','# of Advertiser',@if(in_array('ADD_EDIT_ADVERTISER',$permission))'Add Advertiser',@endif 'Modify Date','Action'],--}}
-            {{--colModel : [{--}}
-            {{--name : 'act',--}}
-            {{--index : 'act',--}}
-            {{--width :'100%',--}}
-            {{--sortable : false--}}
-            {{--}, {--}}
-            {{--name : 'id',--}}
-            {{--index : 'id',--}}
-            {{--width :'30%'--}}
-            {{--}, {--}}
-            {{--name : 'name',--}}
-            {{--index : 'name',--}}
-            {{--width :'99%',--}}
-            {{--editable : true--}}
-            {{--}, {--}}
-            {{--name : 'advertiser',--}}
-            {{--index : 'advertiser',--}}
-            {{--width :'100%',--}}
-            {{--editable : false--}}
-            {{--}@if(in_array('ADD_EDIT_ADVERTISER',$permission)), {--}}
-            {{--name : 'add_advertiser',--}}
-            {{--index : 'add_advertiser',--}}
-            {{--width :'100%',--}}
-            {{--editable : false--}}
-            {{--}@endif, {--}}
-            {{--name : 'date_modify',--}}
-            {{--index : 'date_modify',--}}
-            {{--width :'100%',--}}
-            {{--editable : false--}}
-            {{--}, {--}}
-            {{--name : 'action',--}}
-            {{--index : 'action',--}}
-            {{--width :'50%',--}}
-            {{--editable : false--}}
-            {{--}],--}}
-            {{--rowNum : 10,--}}
-            {{--rowList : [10, 20, 30],--}}
-            {{--pager : '#pjqgrid',--}}
-            {{--sortname : 'advertiser',--}}
-            {{--ajaxRowOptions: { async: true },--}}
-            {{--toolbarfilter : true,--}}
-            {{--viewrecords : true,--}}
-            {{--sortorder : "desc",--}}
-            {{--gridComplete : function() {--}}
-            {{--var ids = jQuery("#jqgrid").jqGrid('getDataIDs');--}}
-            {{--for (var i = 0; i < ids.length; i++) {--}}
-            {{--var cl = ids[i];--}}
-            {{--be = "<button class='btn btn-xs btn-default' data-original-title='Edit Row' onclick=\"jQuery('#jqgrid').editRow('" + cl + "');\"><i class='fa fa-pencil'></i></button>";--}}
-            {{--se = "<button class='btn btn-xs btn-default' data-original-title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('" + cl + "');\"><i class='fa fa-save'></i></button>";--}}
-            {{--ca = "<button class='btn btn-xs btn-default' data-original-title='Cancel' onclick=\"jQuery('#jqgrid').restoreRow('" + cl + "');\"><i class='fa fa-times'></i></button>";--}}
-            {{--jQuery("#jqgrid").jqGrid('setRowData', ids[i], {--}}
-            {{--act : be + se + ca--}}
-            {{--});--}}
-            {{--}--}}
-            {{--},--}}
-            {{--editurl : "{{url('/ajax/jqgrid/client')}}",--}}
-            {{--caption : "Clients List",--}}
-            {{--multiselect : true,--}}
-            {{--autowidth : true--}}
-
-            {{--});--}}
-
-            {{--jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {--}}
-            {{--edit : false,--}}
-            {{--add : true,--}}
-            {{--del : true--}}
-            {{--},{--}}
-            {{--afterSubmit:function(response)--}}
-            {{--{--}}
-            {{--},--}}
-            {{--closeAfterAdd: true,--}}
-            {{--closeAfterEdit: true,--}}
-            {{--reloadAfterSubmit:true--}}
-            {{--},{--}}
-            {{--afterSubmit:function(response)--}}
-            {{--{--}}
-            {{--var data = JSON.parse(response['responseText']);--}}
-            {{--var id = data[0].id;--}}
-            {{--var name=String(data[0].name);--}}
-            {{--$("#jqgrid").addRowData(id,{ id: + id ,name:name ,add_advertiser:'<a href="client/cl' + id + '/advertiser/add">Add Advertiser </a>',date_modify:data[0].updated_at,advertiser:'0' }, 'first');--}}
-            {{--$("#jqgrid").trigger("reloadGrid");--}}
-            {{--},--}}
-            {{--closeAfterAdd: true,--}}
-            {{--closeAfterEdit: true,--}}
-            {{--reloadAfterSubmit:true--}}
-            {{--},{--}}
-            {{--closeAfterAdd: true,--}}
-            {{--closeAfterEdit: true,--}}
-            {{--reloadAfterSubmit:true--}}
-            {{--});--}}
-            {{--jQuery("#jqgrid").jqGrid('inlineNav', "#pjqgrid");--}}
-            {{--$('.navtable .ui-pg-button').tooltip({--}}
-            {{--container : 'body'--}}
-            {{--});--}}
-
-            {{--jQuery("#m1").click(function() {--}}
-            {{--var s;--}}
-            {{--s = jQuery("#jqgrid").jqGrid('getGridParam', 'selarrrow');--}}
-            {{--alert(s);--}}
-            {{--});--}}
-            {{--jQuery("#m1s").click(function() {--}}
-            {{--jQuery("#jqgrid").jqGrid('setSelection', "13");--}}
-            {{--});--}}
-
-            {{--})--}}
         });
     </script>
 

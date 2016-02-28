@@ -36,20 +36,27 @@
                 <div class="panel-heading">
                     <div class="panel-title">
                         <h4 class="pull-left">Activities</h4>
-                        <select id="audit_status" class="pull-right">
-                            <option value="entity">This Entity</option>
-                            <option value="all">All</option>
-                            <option value="user">User</option>
-                        </select>
+                        <div class="pull-right audit-select">
+                            <select id="audit_status" class="selecter col-md-12" >
+                                <option value="entity">This Entity</option>
+                                <option value="all">All</option>
+                                <option value="user">User</option>
+                            </select>
+                        </div>
                         <div class="clearfix"></div>
                     </div>
-                </div><!--.panel-heading-->
+                </div>
+                <!--.panel-heading-->
                 <div class="panel-body" style="padding: 0px 0 0 10px;">
                     <div class="timeline single" id="show_audit">
-                    </div><!--.timeline-->
-                </div><!--.panel-body-->
-            </div><!--.panel-->
-        </div><!--.col-->
+                    </div>
+                    <!--.timeline-->
+                </div>
+                <!--.panel-body-->
+            </div>
+            <!--.panel-->
+        </div>
+        <!--.col-->
         <!-- content -->
 
         <div class="footer-links margin-top-40">

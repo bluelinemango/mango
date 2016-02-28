@@ -1,84 +1,145 @@
-@extends('Layout1')
+@extends('Layout')
 @section('siteTitle')List Of Inventory @endsection
 @section('header_extra')
+    <style>
+        .ui-widget *, .ui-widget input, .ui-widget select, .ui-widget button  {
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 300 !important;
+        }
+
+        .details-form-field input,
+        .details-form-field select {
+            width: 250px;
+            float: right;
+        }
+
+        .details-form-field {
+            margin: 30px 0;
+        }
+
+        .details-form-field:first-child {
+            margin-top: 10px;
+        }
+
+        .details-form-field:last-child {
+            margin-bottom: 10px;
+        }
+
+        .details-form-field button {
+            display: block;
+            width: 100px;
+            margin: 0 auto;
+        }
+
+        input.error, select.error {
+            border: 1px solid #ff9999;
+            background: #ffeeee;
+        }
+
+        label.error {
+            float: right;
+            margin-left: 100px;
+            font-size: .8em;
+            color: #ff6666;
+        }
+    </style>
 @endsection
 @section('content')
+    <!-- MAIN PANEL -->
+    <div id="main" role="main">
 
-    <div class="content">
+        <!-- RIBBON -->
+        <div id="ribbon">
 
-        <div class="page-header full-content">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h1>NOMADINI <small>Diffrent Ads</small></h1>
-                </div><!--.col-->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb">
-                        <li><a href="#"><i class="ion-home"></i></a></li>
-                        <li><a href="#">Inventory</a></li>
-                        <li><a href="#" class="active">List</a></li>
-                    </ol>
-                </div><!--.col-->
-            </div><!--.row-->
-        </div><!--.page-header-->
+				<span class="ribbon-button-alignment">
+					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+						<i class="fa fa-refresh"></i>
+					</span>
+				</span>
 
-        <!-- content -->
-        <div class="col-md-9">
-            <div class="panel light-blue">
-                <div class="panel-heading">
-                    <div class="panel-title"><h4>Inventory List</h4></div>
-                </div><!--.panel-heading-->
-                <div class="panel-body">
-                    <div id="inventory_grid"></div>
-                </div><!--.panel-body-->
-            </div><!--.panel-->
-        </div><!--.col-->
-        <div class="col-md-3">
-            <div class="panel indigo">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        <h4 class="pull-left">Activities</h4>
-                        <div class="pull-right audit-select">
-                            <select id="audit_status" class="selecter col-md-12" >
-                                <option value="all">All</option>
-                                <option value="user">User</option>
-                            </select>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <!--.panel-heading-->
-                <div class="panel-body" style="padding: 0px 0 0 10px;">
-                    <div class="timeline single" id="show_audit">
-                    </div>
-                    <!--.timeline-->
-                </div>
-                <!--.panel-body-->
-            </div>
-            <!--.panel-->
+            <!-- breadcrumb -->
+            <ol class="breadcrumb">
+                <li>Inventory List</li>
+            </ol>
+
         </div>
-        <!--.col-->
-        <!-- content -->
+        <!-- END RIBBON -->
 
-        <div class="footer-links margin-top-40">
-            <div class="row no-gutters">
-                <div class="col-xs-6 bg-indigo">
-                    <a href="#">
-                        <span class="state">Pages</span>
-                        <span>Timeline</span>
-                        <span class="icon"><i class="ion-android-arrow-back"></i></span>
-                    </a>
-                </div><!--.col-->
-                <div class="col-xs-6 bg-cyan">
-                    <a href="#">
-                        <span class="state">Components</span>
-                        <span>Offline Detector</span>
-                        <span class="icon"><i class="ion-android-arrow-forward"></i></span>
-                    </a>
-                </div><!--.col-->
-            </div><!--.row-->
-        </div><!--.footer-links-->
+        <!-- MAIN CONTENT -->
+        <div id="content">
 
-    </div><!--.content-->
+
+            <!-- widget grid -->
+            <section id="widget-grid" class="">
+
+                <!-- row -->
+                <div class="row">
+
+                    <!-- NEW WIDGET START -->
+                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                        <!-- Widget ID (each widget will need unique ID)-->
+                        <div class="well" id="wid-id-3" >
+                            <header>
+                                <h2>Inventory List</h2>
+                            </header>
+
+                            <!-- widget div-->
+                            <div>
+
+                                <!-- widget content -->
+                                <div class="">
+
+                                    <!-- widget grid -->
+                                    <section id="widget-grid" class="">
+
+                                        <!-- row -->
+                                        <div class="row">
+
+                                            <!-- NEW WIDGET START -->
+                                            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+
+                                                <div id="jsGrid"></div>
+                                                {{--<table id="jqgrid"></table>--}}
+                                                {{--<div id="pjqgrid"></div>--}}
+
+                                            </div>
+                                            <!-- WIDGET END -->
+
+                                        </div>
+
+                                        <!-- end row -->
+
+                                    </section>
+                                    <!-- end widget grid -->
+
+                                </div>
+                                <!-- end widget content -->
+
+                            </div>
+                            <!-- end widget div -->
+
+                        </div>
+                        <!-- end widget -->
+
+                    </article>
+                    <!-- WIDGET END -->
+
+                </div>
+
+                <!-- end row -->
+
+                <!-- end row -->
+
+            </section>
+            <!-- end widget grid -->
+
+        </div>
+        <!-- END MAIN CONTENT -->
+
+    </div>
+    <!-- END MAIN PANEL -->
 
 
     <div id="detailsDialog">
@@ -118,29 +179,8 @@
     </script>
 
     <script type="text/javascript">
-
-        $('#audit_status').change(function () {
-            if($(this).val()=='all'){
-                $.ajax({
-                    url: "{{url('ajax/getAllAudits')}}"
-                }).success(function (response) {
-                    $('#show_audit').html(response);
-                });
-            }else if($(this).val()=='user') {
-                $.ajax({
-                    url: "{{url('ajax/getAudit/user')}}"
-                }).success(function (response) {
-                    $('#show_audit').html(response);
-                });
-            }
-        });
-
         $(document).ready(function() {
-            $.ajax({
-                url: "{{url('ajax/getAllAudits')}}"
-            }).success(function (response) {
-                $('#show_audit').html(response);
-            });
+            pageSetUp();
 
             $(function() {
 
@@ -196,7 +236,7 @@
                     @endforeach
                 ];
 
-                $("#inventory_grid").jsGrid({
+                $("#jsGrid").jsGrid({
                     width: "100%",
 
                     filtering: true,
@@ -205,7 +245,7 @@
                     paging: true,
                     autoload: true,
 
-                    pageSize: 10,
+                    pageSize: 15,
                     pageButtonCount: 5,
 
                     deleteConfirm: "Do you really want to delete the inventory?",
@@ -243,17 +283,17 @@
                     }
                 });
 
-//                $("#detailsForm").validate({
-//                    rules: {
-//                        name: "required"
-//                    },
-//                    messages: {
-//                        name: "Please enter name"
-//                    },
-//                    submitHandler: function() {
-//                        formSubmitHandler();
-//                    }
-//                });
+                $("#detailsForm").validate({
+                    rules: {
+                        name: "required"
+                    },
+                    messages: {
+                        name: "Please enter name"
+                    },
+                    submitHandler: function() {
+                        formSubmitHandler();
+                    }
+                });
 
                 var formSubmitHandler = $.noop;
 

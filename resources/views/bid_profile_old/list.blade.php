@@ -1,97 +1,129 @@
-@extends('Layout1')
+@extends('Layout')
 @section('siteTitle')List Of Bid Profile for {{\Illuminate\Support\Facades\Auth::user()->name}} @endsection
 
 @section('content')
-    <div class="content">
+    <!-- MAIN PANEL -->
+    <div id="main" role="main">
 
-        <div class="page-header full-content">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h1>NOMADINI <small>Diffrent Ads</small></h1>
-                </div><!--.col-->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb">
-                        <li><a href="#"><i class="ion-home"></i></a></li>
-                        <li><a href="#">Bid Profile</a></li>
-                        <li><a href="#" class="active">List</a></li>
-                    </ol>
-                </div><!--.col-->
-            </div><!--.row-->
-        </div><!--.page-header-->
+        <!-- RIBBON -->
+        <div id="ribbon">
+            <!-- breadcrumb -->
+            <ol class="breadcrumb">
+                <li>Bid Profile List</li>
+            </ol>
+            <!-- end breadcrumb -->
 
-        <!-- content -->
-        <div class="col-md-9">
-            <div class="panel light-blue">
-                <div class="panel-heading">
-                    <div class="panel-title"><h4>Bid Profile List</h4></div>
-                </div><!--.panel-heading-->
-                <div class="panel-body">
-                    <div id="bid_profile_grid"></div>
-                </div><!--.panel-body-->
-            </div><!--.panel-->
-        </div><!--.col-->
-        <div class="col-md-3">
-            <div class="panel indigo">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        <h4 class="pull-left">Activities</h4>
-                        <div class="pull-right audit-select">
-                            <select id="audit_status" class="selecter col-md-12" >
-                                <option value="entity">This Entity</option>
-                                <option value="all">All</option>
-                                <option value="user">User</option>
-                            </select>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <!--.panel-heading-->
-                <div class="panel-body" style="padding: 0px 0 0 10px;">
-                    <div class="timeline single" id="show_audit">
-                    </div>
-                    <!--.timeline-->
-                </div>
-                <!--.panel-body-->
-            </div>
-            <!--.panel-->
         </div>
-        <!--.col-->
-        <!-- content -->
+        <!-- END RIBBON -->
 
-        <div class="footer-links margin-top-40">
-            <div class="row no-gutters">
-                <div class="col-xs-6 bg-indigo">
-                    <a href="#">
-                        <span class="state">Pages</span>
-                        <span>Timeline</span>
-                        <span class="icon"><i class="ion-android-arrow-back"></i></span>
-                    </a>
-                </div><!--.col-->
-                <div class="col-xs-6 bg-cyan">
-                    <a href="#">
-                        <span class="state">Components</span>
-                        <span>Offline Detector</span>
-                        <span class="icon"><i class="ion-android-arrow-forward"></i></span>
-                    </a>
-                </div><!--.col-->
-            </div><!--.row-->
-        </div><!--.footer-links-->
+        <!-- MAIN CONTENT -->
+        <div id="content">
+            <!-- widget grid -->
+            <section id="widget-grid" class="">
 
-    </div><!--.content-->
+                <!-- row -->
+                <div class="row">
+                    <!-- NEW WIDGET START -->
+                            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
+                                <!-- Widget ID (each widget will need unique ID)-->
+                                <div class="well">
+                                    <header>
+                                        <h2>Bid Profile List</h2>
+                                    </header>
+                                    <!-- widget div-->
+                                    <div>
+                                        <!-- widget content -->
+                                        <div class=" ">
+
+
+                                            <!-- widget grid -->
+                                            <section id="widget-grid" class="">
+
+                                                <!-- row -->
+                                                <div class="row">
+
+                                                    <!-- NEW WIDGET START -->
+                                                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+
+                                                        <div id="bid_profile_grid"></div>
+                                                        {{--<table id="jqgrid"></table>--}}
+                                                        {{--<div id="pjqgrid"></div>--}}
+
+                                                    </div>
+                                                    <!-- WIDGET END -->
+                                                    <div class="col-md-3">
+                                                        <div class="card">
+                                                            <div class="card-heading">
+                                                                <h2 class="pull-left">Activities</h2>
+                                                                <select id="audit_status" class="pull-right">
+                                                                    <option value="entity">This Entity</option>
+                                                                    <option value="all">All</option>
+                                                                    <option value="user">User</option>
+                                                                </select>
+                                                                <div class="clearfix"></div>
+                                                                <small>All Activities for this Entity </small>
+                                                            </div>
+                                                            <div class="card-body" >
+                                                                <div class="streamline b-l b-accent m-b" id="show_audit">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- WIDGET END -->
+
+                                                    </div>
+
+                                                </div>
+                                                <!-- end row -->
+                                            </section>
+                                            <!-- end widget grid -->
+
+
+                                        </div>
+                                        <!-- end widget content -->
+
+                                    </div>
+                                    <!-- end widget div -->
+
+                                </div>
+                                <!-- end widget -->
+
+                            </article>
+                    <!-- WIDGET END -->
+
+                </div>
+
+                <!-- end row -->
+
+                <!-- end row -->
+
+            </section>
+            <!-- end widget grid -->
+
+        </div>
+        <!-- END MAIN CONTENT -->
+
+    </div>
+    <!-- END MAIN PANEL -->
 @endsection
 
 
 @section('FooterScripts')
+    <!-- PAGE RELATED PLUGIN(S) -->
+    {{--<script src="{{cdn('js/plugin/jqgrid/jquery.jqGrid.min.js')}}"></script>--}}
+    {{--<script src="{{cdn('js/plugin/jqgrid/grid.locale-en.min.js')}}"></script>--}}
     <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
 
+
     <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         $(document).ready(function() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+            pageSetUp();
+
             $.ajax({
                 url: "{{url('ajax/getAudit/bid_profile')}}"
             }).success(function (response) {
