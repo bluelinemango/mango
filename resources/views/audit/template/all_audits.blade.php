@@ -6,7 +6,7 @@
         <!--.timeline-badge-->
         {{--                                                @foreach($audit_obj as $index)--}}
         <?php $change_key = $audit_obj[$i]->change_key; $save = ''; $body = '' ?>
-        <span class="timeline-date">{{$audit_obj[$i]->created_at}}</span>
+        <span class="timeline-date">{{\Carbon\Carbon::now()->subSeconds(time()-$audit_obj[$i]->created_at->getTimestamp())->diffForHumans()}}</span>
 
         <div class="time-line-title">
             <a href="{{url('user/usr'.$audit_obj[$i]->user_id.'/edit')}}">{{$audit_obj[$i]->getUser->name}}</a>

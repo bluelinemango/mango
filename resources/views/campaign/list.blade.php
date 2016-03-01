@@ -3,94 +3,45 @@
 @endsection
 
 @section('content')
-    <div class="content">
-
-        <div class="page-header full-content">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h1>NOMADINI <small>Diffrent Ads</small></h1>
-                </div><!--.col-->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb">
-                        <li><a href="#"><i class="ion-home"></i></a></li>
-                        <li><a href="#">Campaign</a></li>
-                        <li><a href="#" class="active">List</a></li>
-                    </ol>
-                </div><!--.col-->
-            </div><!--.row-->
-        </div><!--.page-header-->
-
-        <!-- content -->
-        <div class="col-md-9">
-            <div class="panel light-blue">
-                <div class="panel-heading">
-                    <div class="panel-title"><h4>Campaign List</h4></div>
-                </div><!--.panel-heading-->
-                <div class="panel-body">
-                    <div id="campaign_grid"></div>
-                </div><!--.panel-body-->
-            </div><!--.panel-->
-        </div><!--.col-->
-        <div class="col-md-3">
-            <div class="panel indigo">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        <h4 class="pull-left">Activities</h4>
-                        <div class="pull-right audit-select">
-                            <select id="audit_status" class="selecter col-md-12" >
-                                <option value="entity">This Entity</option>
-                                <option value="all">All</option>
-                                <option value="user">User</option>
-                            </select>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
+<div class="col-md-9">
+    <div class="panel light-blue">
+        <div class="panel-heading">
+            <div class="panel-title"><h4>Campaign List</h4></div>
+        </div><!--.panel-heading-->
+        <div class="panel-body">
+            <div id="campaign_grid"></div>
+        </div><!--.panel-body-->
+    </div><!--.panel-->
+</div><!--.col-->
+<div class="col-md-3">
+    <div class="panel indigo">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <h4 class="pull-left">Activities</h4>
+                <div class="pull-right audit-select">
+                    <select id="audit_status" class="selecter col-md-12" >
+                        <option value="entity">This Entity</option>
+                        <option value="all">All</option>
+                        <option value="user">User</option>
+                    </select>
                 </div>
-                <!--.panel-heading-->
-                <div class="panel-body" style="padding: 0px 0 0 10px;">
-                    <div class="timeline single" id="show_audit">
-                    </div>
-                    <!--.timeline-->
-                </div>
-                <!--.panel-body-->
+                <div class="clearfix"></div>
             </div>
-            <!--.panel-->
         </div>
-        <!--.col-->
-        <!-- content -->
-
-        <div class="footer-links margin-top-40">
-            <div class="row no-gutters">
-                <div class="col-xs-6 bg-indigo">
-                    <a href="pages-timeline.html">
-                        <span class="state">Pages</span>
-                        <span>Timeline</span>
-                        <span class="icon"><i class="ion-android-arrow-back"></i></span>
-                    </a>
-                </div><!--.col-->
-                <div class="col-xs-6 bg-cyan">
-                    <a href="components-offline-detector.html">
-                        <span class="state">Components</span>
-                        <span>Offline Detector</span>
-                        <span class="icon"><i class="ion-android-arrow-forward"></i></span>
-                    </a>
-                </div><!--.col-->
-            </div><!--.row-->
-        </div><!--.footer-links-->
-
-    </div><!--.content-->
-
+        <!--.panel-heading-->
+        <div class="panel-body" style="padding: 0px 0 0 10px;">
+            <div class="timeline single" id="show_audit">
+            </div>
+            <!--.timeline-->
+        </div>
+        <!--.panel-body-->
+    </div>
+    <!--.panel-->
+</div>
+<!--.col-->
 @endsection
 
 @section('FooterScripts')
-    <!-- BEGIN INITIALIZATION-->
-    <script>
-        $(document).ready(function () {
-            Pleasure.init();
-            Layout.init();
-        });
-    </script>
-    <!-- END INITIALIZATION-->
     <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
     <script type="text/javascript">
         $.ajaxSetup({

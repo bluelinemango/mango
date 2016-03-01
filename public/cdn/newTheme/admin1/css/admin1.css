@@ -12430,6 +12430,8 @@ h6 {
   display: block;
   position: relative;
   background: #3e50b4;
+  background-image: url('../img/header_bg.jpg');
+  background-repeat: repeat-x;
   width: auto;
   height: auto;
   min-height: 50px;

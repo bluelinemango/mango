@@ -2,6 +2,12 @@
 <!-- BEGIN GLOBAL AND THEME VENDORS -->
 <script src="{{cdn('newTheme/globals/js/global-vendors.js')}}"></script>
 <!-- END GLOBAL AND THEME VENDORS -->
+<script src="{{cdn('newTheme/globals/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js')}}"></script>
+<script src="{{cdn('newTheme/globals/plugins/switchery/dist/switchery.min.js')}}"></script>
+<script src="{{cdn('newTheme/globals/scripts/forms-switch.js')}}"></script>
+<script src="{{cdn('newTheme/globals/scripts/forms-switchery.js')}}"></script>
+
+<script src="{{cdn('js/plugin/jquery-validate/jquery.validate.min.js')}}"></script>
 
 
 <!-- PLEASURE -->
@@ -12,6 +18,12 @@
 <!-- BEGIN INITIALIZATION-->
 <script>
     $(document).ready(function () {
+        ///////////////Domain Validation Rule//////////////////
+        jQuery.validator.addMethod("domain", function(value, element) {
+            return /^([a-zA-Z0-9])+\.([a-zA-Z0-9]{2,4})+$/.test(value);
+        }, "Please specify the correct Domain Name like: yourdomain.com");
+        ///////////////End Domain Validation Rule//////////////////
+
         Pleasure.init();
         Layout.init();
     });
@@ -37,6 +49,8 @@
 <script>
 
     function ChangeStatus(entity,entity_id){ //CHANGE STATUS OF ALL ENTITY IN LIST VIEW
+        console.log('ss');
+        $("#"+entity+"_grid").jsGrid("cancelEdit");
         {{--$.ajax({--}}
             {{--url: "{{url('/ajax/status')}}" + '/' + entity  +'/'+entity_id--}}
         {{--}).success(function (response) {--}}
@@ -58,9 +72,6 @@
     }
     $(document).ready(function() {
 
-//        jQuery.validator.addMethod("domain", function(value, element) {
-//            return /^([a-zA-Z0-9])+\.([a-zA-Z0-9]{2,4})+$/.test(value);
-//        }, "Please specify the correct Domain Name like: yourdomain.com");
         //////////////////////////////SYSTEM MSG//////////////////////////////////////
         @if(isset($errors))
         @foreach($errors->get('msg') as $error)

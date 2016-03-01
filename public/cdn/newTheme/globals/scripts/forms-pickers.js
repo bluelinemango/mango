@@ -109,9 +109,9 @@ var FormsPickers = {
 
 
 	init: function () {
-		this.colorPicker();
-		this.colorPickerRgba();
-		this.colorPickerWheel();
+		//this.colorPicker();
+		//this.colorPickerRgba();
+		//this.colorPickerWheel();
 
 		this.dateRangePicker();
 		this.dateRangePickerRange();
@@ -119,9 +119,9 @@ var FormsPickers = {
 		this.dateRangePickerBootstrap();
 		this.dateRangePickerSpecific();
 
-		this.clockface();
-		this.clockfaceButton();
-		this.clockfaceInline();
+		//this.clockface();
+		//this.clockfaceButton();
+		//this.clockfaceInline();
 	}
 }
 

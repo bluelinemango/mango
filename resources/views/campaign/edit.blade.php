@@ -1,47 +1,144 @@
 @extends('Layout1')
 @section('siteTitle')Edit Campaign: {{$campaign_obj->name}} @endsection
 @section('headerCss')
-    <link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/components-summernote/dist/summernote.css')}}">
+    <link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css')}}">
+
 
 @endsection
+@section('breadcrumb')
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="ion-home"></i></a></li>
+        <li>
+            <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client:
+                cl{{$campaign_obj->getAdvertiser->GetClientID->id}}</a>
+        </li>
+        <li>
+            <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->advertiser_id.'/edit')}}">Advertiser:
+                adv{{$campaign_obj->advertiser_id}}</a>
+        </li>
+        @if($clone==1)
+            <li><a href="#" class="active">Add Campaign</a></li>
+        @else
+            <li><a href="#" class="active">Campaign: cmp{{$campaign_obj->id}}</a></li>
+        @endif
+    </ol>
+@endsection
 @section('content')
-    <div class="content">
 
-        <div class="page-header full-content">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h1>NOMADINI
-                        <small>Diffrent Ads</small>
-                    </h1>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-3" style="width: 20% !important;">
+                    <div class="real-time-box">
+                        <div class="hexagon pull-left hexagon-bg1">
+                            <i class="fa fa-eye"></i>
+                        </div>
+
+                        <div class="real-time-content real-color1">
+                            Imps to Now
+                            <br/>
+                            <br/>
+                            <strong>{{(isset($real_time[0])) ? $real_time[0]->impressions_shown_today_until_now : '0'}}</strong>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="col-md-4 btn-border-real-box-left1">
+                        </div>
+                        <div class="col-md-8 btn-border-real-box-right1">
+                        </div>
+
+                    </div>
                 </div>
-                <!--.col-->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb">
-                        <li><a href="#"><i class="ion-home"></i></a></li>
-                        <li>
-                            <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client:
-                                cl{{$campaign_obj->getAdvertiser->GetClientID->id}}</a>
-                        </li>
-                        <li>
-                            <a href="{{url('/client/cl'.$campaign_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$campaign_obj->advertiser_id.'/edit')}}">Advertiser:
-                                adv{{$campaign_obj->advertiser_id}}</a>
-                        </li>
-                        @if($clone==1)
-                            <li><a href="#" class="active">Add Campaign</a></li>
-                        @else
-                            <li><a href="#" class="active">Campaign: cmp{{$campaign_obj->id}}</a></li>
-                        @endif
-                    </ol>
+                <div class="col-md-3" style="width: 20% !important;">
+                    <div class="real-time-box">
+                        <div class="hexagon pull-left hexagon-bg2">
+                            <i class="fa fa-eye"></i>
+                        </div>
+
+                        <div class="real-time-content real-color2">
+                            Total Imps
+                            <br/>
+                            <br/>
+                            <strong>{{(isset($real_time[0])) ? $real_time[0]->total_impression_show_until_now : '0'}}</strong>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="col-md-4 btn-border-real-box-left2">
+                        </div>
+                        <div class="col-md-8 btn-border-real-box-right2 ">
+                        </div>
+
+                    </div>
                 </div>
-                <!--.col-->
+                <div class="col-md-3" style="width: 20% !important;">
+                    <div class="real-time-box">
+                        <div class="hexagon pull-left hexagon-bg3">
+                            <i class="fa fa-dollar"></i>
+                        </div>
+
+                        <div class="real-time-content real-color3">
+                            Budget to Now
+                            <br/>
+                            <br/>
+                            <strong>{{(isset($real_time[0])) ? $real_time[0]->daily_budget_spent_today_until_now : '0'}}</strong>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="col-md-4 btn-border-real-box-left3">
+                        </div>
+                        <div class="col-md-8 btn-border-real-box-right3">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-3" style="width: 20% !important;">
+                    <div class="real-time-box">
+                        <div class="hexagon pull-left hexagon-bg4">
+                            <i class="fa fa-dollar"></i>
+                        </div>
+
+                        <div class="real-time-content real-color4">
+                            Total Budget
+                            <br/>
+                            <br/>
+                            <strong>{{(isset($real_time[0])) ? $real_time[0]->total_budget_spent_until_now : '0'}}</strong>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="col-md-4 btn-border-real-box-left4">
+                        </div>
+                        <div class="col-md-8 btn-border-real-box-right4">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-3" style="width: 20% !important;">
+                    <div class="real-time-box">
+                        <div class="hexagon pull-left hexagon-bg5">
+                            <i class="fa fa-eye"></i>
+                        </div>
+
+                        <div class="real-time-content real-color5">
+                            Last Shown
+                            <br/>
+                            <br/>
+                            <span style="font-size: 12px">
+                                {{(isset($real_time[0])) ? $real_time[0]->last_time_ad_shown : '0'}}
+                            </span>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="col-md-4 btn-border-real-box-left5">
+                        </div>
+                        <div class="col-md-8 btn-border-real-box-right5">
+                        </div>
+
+                    </div>
+                </div>
             </div>
-            <!--.row-->
         </div>
-        <!--.page-header-->
-
         <!-- content -->
         <div class="col-md-9">
-            <div class="panel light-blue">
+            <div class="panel gray">
                 <div class="panel-heading">
                     <div class="panel-title">
                         @if($clone==1)
@@ -52,7 +149,7 @@
                     </div>
                 </div>
                 <!--.panel-heading-->
-                <div class="panel-body">
+                <div class="panel-body" style="padding: 0">
 
                     @if($clone==1)
                         <form id="order-form" class="form-horizontal parsley-validate"
@@ -72,78 +169,7 @@
                                                value="{{$campaign_obj->getAdvertiser->id}}"/>
                                     @endif
                                     <div class="form-body">
-                                        <div class="note note-primary note-top-striped">
-                                            <h4>Real Time Information</h4>
-
-                                            <div class="col-md-3">
-                                                <div class="real-time-box">
-            <span class="real-time-icon" style="background-color: #00c0ef ">
-                <i class="fa fa-eye"></i>
-            </span>
-
-                                                    <div class="real-time-content">
-                                                        Imps to Now:
-                                                        <br/>
-                                                        <strong>{{(isset($real_time[0])) ? $real_time[0]->impressions_shown_today_until_now : '0'}}</strong>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="real-time-box">
-            <span class="real-time-icon" style="background-color: #dd4b39 ">
-                <i class="fa fa-eye"></i>
-            </span>
-
-                                                    <div class="real-time-content">
-                                                        Total Imps:
-                                                        <br/>
-                                                        <strong>{{(isset($real_time[0])) ? $real_time[0]->total_impression_show_until_now : '0'}}</strong>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="real-time-box">
-            <span class="real-time-icon" style="background-color: #00a65a ">
-                <i class="fa fa-dollar"></i>
-            </span>
-
-                                                    <div class="real-time-content">
-                                                        Budget to Now:
-                                                        <br/>
-                                                        <strong>{{(isset($real_time[0])) ? $real_time[0]->daily_budget_spent_today_until_now : '0'}}</strong>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="real-time-box">
-            <span class="real-time-icon" style="background-color: #f39c12 ">
-                <i class="fa fa-dollar"></i>
-            </span>
-
-                                                    <div class="real-time-content">
-                                                        Total Budget:
-                                                        <br/>
-                                                        <strong>{{(isset($real_time[0])) ? $real_time[0]->total_budget_spent_until_now : '0'}}</strong>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="real-time-box">
-                                                <span class="real-time-icon" style="background-color: #f39c12 ">
-                                                    <i class="fa fa-gear"></i>
-                                                </span>
-
-                                                    <div class="real-time-content">
-                                                        Last Shown:
-                                                        <br/>
-                                                        {{(isset($real_time[0])) ? $real_time[0]->last_time_ad_shown : '0'}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <!--.form-group-->
-                                        </div>
-                                        <div class="note note-primary note-top-striped">
+                                        <div class="note note-primary note-bottom-striped">
                                             <h4>General Informaition</h4>
 
                                             <div class="col-md-3">
@@ -152,7 +178,7 @@
 
                                                     <div class="inputer">
                                                         <div class="input-wrapper">
-                                                            <input type="text" name="name" placeholder="Name"
+                                                            <input type="text" id="name" name="name" placeholder="Name"
                                                                    class="form-control" value="{{$campaign_obj->name}}">
                                                         </div>
                                                     </div>
@@ -181,7 +207,7 @@
                                                     <div class="inputer">
                                                         <div class="input-wrapper">
                                                             <input type="text" name="advertiser_domain_name"
-                                                                   class="form-control" placeholder="Domain Name"
+                                                                   class="form-control" placeholder="Domain Name" id="advertiser_domain_name"
                                                                    value="{{$campaign_obj->advertiser_domain_name}}">
                                                         </div>
                                                     </div>
@@ -191,9 +217,8 @@
                                                 <div class="form-group">
                                                     <label class="control-label">Status</label>
                                                     <div class="checkboxer">
-                                                        <input type="checkbox" id="check1"name="active" @if($campaign_obj->status=='Active')
-                                                               checked @endif
-                                                               data-parsley-mincheck="2">
+                                                        <input type="checkbox" name="active" class="switchery-teal" @if($campaign_obj->status=='Active')
+                                                               checked @endif>
                                                         <label for="check1">Active</label>
                                                     </div>
                                                 </div>
@@ -202,7 +227,7 @@
                                             <!--.form-group-->
                                         </div>
 
-                                        <div class="note note-primary note-top-striped">
+                                        <div class="note note-info note-bottom-striped">
                                             <h4>Budget Informaition</h4>
 
                                             <div class="col-md-3">
@@ -213,7 +238,7 @@
                                                         <div class="input-wrapper">
                                                             <input type="text" name="max_impression"
                                                                    placeholder="Max Impression"
-                                                                   value="{{$campaign_obj->max_impression}}"
+                                                                   value="{{$campaign_obj->max_impression}}" id="max_impression"
                                                                    class="form-control">
                                                         </div>
                                                     </div>
@@ -228,7 +253,7 @@
                                                         <div class="input-wrapper">
                                                             <input type="text" name="daily_max_impression"
                                                                    placeholder="Daily Max Impression"
-                                                                   value="{{$campaign_obj->daily_max_impression}}"
+                                                                   value="{{$campaign_obj->daily_max_impression}}" id="daily_max_impression"
                                                                    class="form-control">
                                                         </div>
                                                     </div>
@@ -242,7 +267,7 @@
                                                         <div class="input-wrapper">
 
                                                             <input type="text" name="max_budget"
-                                                                   placeholder="Max Budget" class="form-control"
+                                                                   placeholder="Max Budget" class="form-control" id="max_budget"
                                                                    value="{{$campaign_obj->max_budget}}">
                                                         </div>
                                                     </div>
@@ -255,7 +280,7 @@
                                                     <div class="inputer">
                                                         <div class="input-wrapper">
                                                             <input type="text" name="daily_max_budget"
-                                                                   placeholder="Daily Max Budget" class="form-control"
+                                                                   placeholder="Daily Max Budget" class="form-control" id="daily_max_budget"
                                                                    value="{{$campaign_obj->daily_max_budget}}">
                                                         </div>
                                                     </div>
@@ -268,7 +293,7 @@
 
                                                     <div class="inputer">
                                                         <div class="input-wrapper">
-                                                            <input type="text" name="cpm" placeholder="CPM"
+                                                            <input type="text" name="cpm" placeholder="CPM" id="cpm"
                                                                    class="form-control"
                                                                    value="{{$campaign_obj->cpm}}">
                                                         </div>
@@ -278,44 +303,24 @@
                                             <div class="clearfix"></div>
                                         </div>
 
-                                        <div class="note note-primary note-top-striped">
+                                        <div class="note note-warning note-bottom-striped">
                                             <h4>Date Range</h4>
 
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label class="control-label">Start Date</label>
-
-                                                    <div class="inputer">
-                                                        <div class="input-wrapper">
-                                                            <input type="text" name="start_date"
-                                                                   id="startdate"
-                                                                   placeholder="Expected start date"
-                                                                   class="form-control"
-                                                                   value="{{$campaign_obj->start_date}}">
-
+                                            <div class="control-group">
+                                                <div class="controls">
+                                                    <div class="input-group">
+                                                        <span class="add-on input-group-addon"><i class="ion-android-calendar"></i></span>
+                                                        <div class="inputer">
+                                                            <div class="input-wrapper">
+                                                                <input type="text" style="width: 200px" name="date_range" class="form-control bootstrap-daterangepicker-basic-range" value="{{\Carbon\Carbon::parse($campaign_obj->start_date)->format('d/m/Y')}} - {{\Carbon\Carbon::parse($campaign_obj->end_date)->format('d/m/Y')}}" />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3 ">
-
-                                                <div class="form-group">
-                                                    <label class="control-label">End Date</label>
-
-                                                    <div class="inputer">
-                                                        <div class="input-wrapper">
-                                                            <input type="text" name="end_date" class="form-control"
-                                                                   id="finishdate"
-                                                                   placeholder="Expected finish date"
-                                                                   value="{{$campaign_obj->end_date}}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
                                         </div>
 
-                                        <div class="note note-primary note-top-striped">
+                                        <div style="padding: 15px">
 
                                             <div class="form-group">
                                                 <label class="control-label">Description</label>
@@ -333,9 +338,8 @@
                                     </div>
                                     <div class="form-actions">
                                         <div class="row">
-                                            <div class="col-md-offset-3 col-md-9">
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                                <button type="button" class="btn btn-default bv-reset">Cancel</button>
+                                            <div class="col-md-offset-5 col-md-9" style="padding: 25px 0">
+                                                <button type="submit" class="btn btn-success" style="width:20%">Submit</button>
                                             </div>
                                         </div>
                                     </div>
@@ -409,30 +413,8 @@
         </div>
             <!-- content -->
 
-        <div class="footer-links margin-top-40">
-            <div class="row no-gutters">
-                <div class="col-xs-6 bg-indigo">
-                    <a href="#">
-                        <span class="state">Pages</span>
-                        <span>Timeline</span>
-                        <span class="icon"><i class="ion-android-arrow-back"></i></span>
-                    </a>
-                </div>
-                <!--.col-->
-                <div class="col-xs-6 bg-cyan">
-                    <a href="#">
-                        <span class="state">Components</span>
-                        <span>Offline Detector</span>
-                        <span class="icon"><i class="ion-android-arrow-forward"></i></span>
-                    </a>
-                </div>
-                <!--.col-->
-            </div>
-            <!--.row-->
-        </div>
         <!--.footer-links-->
 
-    </div><!--.content-->
 
     <!-- Modal -->
     <div class="modal fade" id="myModal_targetgroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -491,205 +473,193 @@
 @endsection
 @section('FooterScripts')
     <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
-    <!-- BEGIN PLUGINS AREA -->
-    <script src="{{cdn('newTheme/globals/plugins/components-summernote/dist/summernote.min.js')}}"></script>
-    <script src="{{cdn('newTheme/globals/plugins/parsleyjs/dist/parsley.min.js')}}"></script>
-    <!-- END PLUGINS AREA -->
 
-    <!-- PLUGINS INITIALIZATION AND SETTINGS -->
-    <script src="{{cdn('newTheme/globals/scripts/forms-validations-parsley.js')}}"></script>
-    <!-- END PLUGINS INITIALIZATION AND SETTINGS -->
+    <script src="{{cdn('newTheme/globals/plugins/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+    <script src="{{cdn('newTheme/globals/scripts/forms-pickers.js')}}"></script>
+
 
     <!-- BEGIN INITIALIZATION-->
     <script>
         $(document).ready(function () {
-            Pleasure.init();
-            Layout.init();
-//            FormsValidationsParsley.init();
+            FormsPickers.init();
         });
     </script>
     <!-- END INITIALIZATION-->
 
-
-
     <script>
-        $(document).ready(function () {
-            $(function () {
+        $(function () {
 
-                var db = {
+            var db = {
 
-                    loadData: function (filter) {
-                        return $.grep(this.targetgroup, function (targetgroup) {
-                            return (!filter.name || targetgroup.name.indexOf(filter.name) > -1)
-                                    && (!filter.campaign_name || targetgroup.campaign_name.indexOf(filter.campaign_name) > -1)
-                                    && (!filter.id || targetgroup.id.indexOf(filter.id) > -1);
+                loadData: function (filter) {
+                    return $.grep(this.targetgroup, function (targetgroup) {
+                        return (!filter.name || targetgroup.name.indexOf(filter.name) > -1)
+                                && (!filter.campaign_name || targetgroup.campaign_name.indexOf(filter.campaign_name) > -1)
+                                && (!filter.id || targetgroup.id.indexOf(filter.id) > -1);
+                    });
+                },
+
+                updateItem: function (updatingTargetgroup) {
+                    updatingTargetgroup['oper'] = 'edit';
+                    console.log(updatingTargetgroup);
+                    $.ajax({
+                        type: "PUT",
+                        url: "{{url('/ajax/jqgrid/targetgroup')}}",
+                        data: updatingTargetgroup,
+                        dataType: "json"
+                    }).done(function (response) {
+                        console.log(response);
+                        if (response.success == true) {
+                            var title = "Success";
+                            var color = "#739E73";
+                            var icon = "fa fa-check";
+                        } else if (response.success == false) {
+                            var title = "Warning";
+                            var color = "#C46A69";
+                            var icon = "fa fa-bell";
+                        }
+                        ;
+
+                        $.smallBox({
+                            title: title,
+                            content: response.msg,
+                            color: color,
+                            icon: icon,
+                            timeout: 8000
                         });
+                    });
+                }
+
+            };
+
+            window.db = db;
+
+            db.targetgroup = [
+                @foreach($campaign_obj->Targetgroup as $index)
+                {
+                    "id": 'tg{{$index->id}}',
+                    "name": '{{$index->name}}',
+                    "campaign_name": '<a href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/edit')}}">{{$index->getCampaign->name}}</a>',
+                    @if($index->status == 'Active')
+                    "status": '<input id="targetgroup{{$index->id}}" onchange="ChangeStatus(`targetgroup`,`{{$index->id}}`)" type="checkbox" class="switchery-teal" checked>',
+                    @elseif($index->status == 'Inactive')
+                    "status": '<input id="targetgroup{{$index->id}}" onchange="ChangeStatus(`targetgroup`,`{{$index->id}}`)" type="checkbox" class="switchery-teal" >',
+                    @endif
+                    "date_modify": '{{$index->updated_at}}',
+                    "action": '<a class="btn" href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/tg'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) + ' <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+
+
+
+
                     },
+                @endforeach
+            ];
 
-                    updateItem: function (updatingTargetgroup) {
-                        updatingTargetgroup['oper'] = 'edit';
-                        console.log(updatingTargetgroup);
-                        $.ajax({
-                            type: "PUT",
-                            url: "{{url('/ajax/jqgrid/targetgroup')}}",
-                            data: updatingTargetgroup,
-                            dataType: "json"
-                        }).done(function (response) {
-                            console.log(response);
-                            if (response.success == true) {
-                                var title = "Success";
-                                var color = "#739E73";
-                                var icon = "fa fa-check";
-                            } else if (response.success == false) {
-                                var title = "Warning";
-                                var color = "#C46A69";
-                                var icon = "fa fa-bell";
-                            }
-                            ;
+            $("#targetgroup_grid").jsGrid({
+                width: "100%",
 
-                            $.smallBox({
-                                title: title,
-                                content: response.msg,
-                                color: color,
-                                icon: icon,
-                                timeout: 8000
-                            });
-                        });
-                    }
+                filtering: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                autoload: true,
 
-                };
+                pageSize: 15,
+                pageButtonCount: 5,
 
-                window.db = db;
+                deleteConfirm: "Do you really want to delete the client?",
 
-                db.targetgroup = [
-                    @foreach($campaign_obj->Targetgroup as $index)
+                controller: db,
+                fields: [
+                    {name: "id", title: "ID", type: "text", width: 40, align: "center", editing: false},
+                    {name: "name", title: "Name", type: "text", width: 70},
                     {
-                        "id": 'tg{{$index->id}}',
-                        "name": '{{$index->name}}',
-                        "campaign_name": '<a href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/edit')}}">{{$index->getCampaign->name}}</a>',
-                        @if($index->status == 'Active')
-                        "status": '<a id="targetgroup{{$index->id}}" href="javascript: ChangeStatus(`targetgroup`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
-                        @elseif($index->status == 'Inactive')
-                        "status": '<a id="targetgroup{{$index->id}}" href="javascript: ChangeStatus(`targetgroup`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
-                        @endif
-                        "date_modify": '{{$index->updated_at}}',
-                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/tg'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) + ' <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
-
-
-
-
+                        name: "campaign_name",
+                        title: "Campaign",
+                        type: "text",
+                        width: 70,
+                        align: "center",
+                        editing: false
                     },
-                    @endforeach
-                ];
-
-                $("#targetgroup_grid").jsGrid({
-                    width: "100%",
-
-                    filtering: true,
-                    editing: true,
-                    sorting: true,
-                    paging: true,
-                    autoload: true,
-
-                    pageSize: 15,
-                    pageButtonCount: 5,
-
-                    deleteConfirm: "Do you really want to delete the client?",
-
-                    controller: db,
-                    fields: [
-                        {name: "id", title: "ID", type: "text", width: 40, align: "center", editing: false},
-                        {name: "name", title: "Name", type: "text", width: 70},
-                        {
-                            name: "campaign_name",
-                            title: "Campaign",
-                            type: "text",
-                            width: 70,
-                            align: "center",
-                            editing: false
-                        },
-                        {name: "status", title: "Status", width: 50, align: "center"},
-                        {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
-                        {name: "action", title: "Edit / +TG", sorting: false, width: 70, align: "center"},
-                        {type: "control"}
-                    ]
-
-                });
+                    {name: "status", title: "Status", width: 50, align: "center", editing: false},
+                    {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
+                    {name: "action", title: "Edit / +TG", sorting: false, width: 70, align: "center"},
+                    {type: "control"}
+                ]
 
             });
 
-//            var $orderForm = $("#order-form").validate({
-//                // Rules for form validation
-//                rules: {
-//                    name: {
-//                        required: true
-//                    },
-//                    advertiser_domain_name: {
-//                        required: true,
-//                        domain: true
-//                    },
-//                    advertiser_id: {
-//                        required: true
-//                    },
-//                    max_impression: {
-//                        required: true,
-//                        min: 0,
-//                        number: 'Enter number Plz'
-//
-//                    },
-//                    daily_max_impression: {
-//                        required: true,
-//                        min: 0,
-//                        number: 'Enter number Plz'
-//                    },
-//                    max_budget: {
-//                        required: true,
-//                        min: 0,
-//                        number: 'Enter number Plz'
-//                    },
-//                    daily_max_budget: {
-//                        required: true,
-//                        min: 0,
-//                        number: 'Enter number Plz'
-//                    },
-//                    cpm: {
-//                        required: true,
-//                        min: 0,
-//                        number: 'Enter number Plz'
-//                    },
-//                    start_date: {
-//                        required: true
-//                    },
-//                    end_date: {
-//                        required: true
-//                    }
-//                },
-//
-//                // Messages for form validation
-//                messages: {
-//                    name: {
-//                        required: 'Please enter your name'
-//                    },
-//                    email: {
-//                        required: 'Please enter your email address',
-//                        email: 'Please enter a VALID email address'
-//                    },
-//                    phone: {
-//                        required: 'Please enter your phone number'
-//                    },
-//                    interested: {
-//                        required: 'Please select interested service'
-//                    },
-//                    budget: {
-//                        required: 'Please select your budget'
-//                    }
-//                },
-//
-//                // Do not change code below
-//                errorPlacement: function (error, element) {
-//                    error.insertAfter(element.parent());
-//                }
-//            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            FormsSwitch.init();
+            FormsSwitchery.init();
+
+            var $orderForm = $("#order-form").validate({
+                rules: {
+                    name: {
+                        required: true
+                    },
+                    advertiser_domain_name: {
+                        required: true,
+                        domain: true
+                    },
+                    max_impression: {
+                        required: true,
+                        min: 0,
+                        number: 'Enter number Plz'
+
+                    },
+                    daily_max_impression: {
+                        required: true,
+                        min: 0,
+                        number: 'Enter number Plz'
+                    },
+                    max_budget: {
+                        required: true,
+                        min: 0,
+                        number: 'Enter number Plz'
+                    },
+                    daily_max_budget: {
+                        required: true,
+                        min: 0,
+                        number: 'Enter number Plz'
+                    },
+                    cpm: {
+                        required: true,
+                        min: 0,
+                        number: 'Enter number Plz'
+                    }
+                },
+
+                // Messages for form validation
+                messages: {
+                    name: {
+                        required: 'Please enter your name'
+                    },
+                    email: {
+                        required: 'Please enter your email address',
+                        email: 'Please enter a VALID email address'
+                    },
+                    phone: {
+                        required: 'Please enter your phone number'
+                    },
+                    interested: {
+                        required: 'Please select interested service'
+                    },
+                    budget: {
+                        required: 'Please select your budget'
+                    }
+                },
+
+                // Do not change code below
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
+
 
             $.ajax({
                 url: "{{url('ajax/getAudit/campaign/'.$campaign_obj->id)}}"
@@ -697,30 +667,30 @@
                 $('#show_audit').html(response);
             });
 
-            $('#audit_status').change(function () {
-                if ($(this).val() == 'all') {
-                    $.ajax({
-                        url: "{{url('ajax/getAllAudits')}}"
-                    }).success(function (response) {
-                        $('#show_audit').html(response);
-                    });
-                } else if ($(this).val() == 'entity') {
-                    $.ajax({
-                        url: "{{url('ajax/getAudit/campaign/'.$campaign_obj->id)}}"
-                    }).success(function (response) {
-                        $('#show_audit').html(response);
-                    });
-                } else if ($(this).val() == 'user') {
-                    $.ajax({
-                        url: "{{url('ajax/getAudit/user')}}"
-                    }).success(function (response) {
-                        $('#show_audit').html(response);
-                    });
-                }
-            });
 
 
         })
+        $('#audit_status').change(function () {
+            if ($(this).val() == 'all') {
+                $.ajax({
+                    url: "{{url('ajax/getAllAudits')}}"
+                }).success(function (response) {
+                    $('#show_audit').html(response);
+                });
+            } else if ($(this).val() == 'entity') {
+                $.ajax({
+                    url: "{{url('ajax/getAudit/campaign/'.$campaign_obj->id)}}"
+                }).success(function (response) {
+                    $('#show_audit').html(response);
+                });
+            } else if ($(this).val() == 'user') {
+                $.ajax({
+                    url: "{{url('ajax/getAudit/user')}}"
+                }).success(function (response) {
+                    $('#show_audit').html(response);
+                });
+            }
+        });
 
 
     </script>

@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="{{cdn('newTheme/admin1/css/admin1.css')}}">
     <link rel="stylesheet" href="{{cdn('newTheme/globals/css/elements.css')}}">
     <!-- END CORE CSS -->
+    <link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css')}}">
+    <link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/switchery/dist/switchery.min.css')}}">
 
     <link rel="stylesheet" href="{{cdn('newTheme/globals/css/plugins.css')}}">
 

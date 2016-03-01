@@ -575,8 +575,8 @@ fieldset[disabled] .btn-info.active {
 }
 .btn-success {
   color: #ffffff;
-  background-color: #5cb85c;
-  border-color: #5cb85c;
+  background-color: #1e828f;
+  border-color: #1e828f;
 }
 .btn-success:hover,
 .btn-success:focus,
@@ -611,11 +611,11 @@ fieldset[disabled] .btn-success:active,
 .btn-success.disabled.active,
 .btn-success[disabled].active,
 fieldset[disabled] .btn-success.active {
-  background-color: #5cb85c;
-  border-color: #5cb85c;
+  background-color: #1e828f;
+  border-color: #1e828f;
 }
 .btn-success .badge {
-  color: #5cb85c;
+  color: #1e828f;
   background-color: #ffffff;
 }
 .btn-success:hover,
@@ -625,8 +625,8 @@ fieldset[disabled] .btn-success.active {
 .btn-success.active,
 .open > .dropdown-toggle.btn-success {
   color: #ffffff;
-  background-color: #5cb85c;
-  border-color: #5cb85c;
+  background-color: #1e828f;
+  border-color: #1e828f;
 }
 .btn-success:active,
 .btn-success.active,
@@ -651,11 +651,11 @@ fieldset[disabled] .btn-success:active,
 .btn-success.disabled.active,
 .btn-success[disabled].active,
 fieldset[disabled] .btn-success.active {
-  background-color: #5cb85c;
-  border-color: #5cb85c;
+  background-color: #1e828f;
+  border-color: #1e828f;
 }
 .btn-success .badge {
-  color: #5cb85c;
+  color: #1e828f;
   background-color: #ffffff;
 }
 .btn-warning {
@@ -5997,8 +5997,9 @@ select[data-style="btn-blue-grey"] + .bootstrap-select li.selected a {
   border-bottom: 1px solid #f0f0f0;
 }
 .panel > .panel-heading .panel-title {
-  padding: 5px 20px 5px 20px;
-  font-size: 18px;
+  /*padding: 5px 20px 5px 20px;*/
+    padding: 13px 20px 13px 20px;
+    font-size: 18px;
 }
 .panel > .panel-heading .panel-title h4 {
   font-size: 16px;

@@ -1,217 +1,217 @@
-@extends('Layout')
+@extends('Layout1')
 @section('siteTitle')Edit Advertiser: {{$adver_obj->name}} @endsection
+@section('breadcrumb')
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="ion-home"></i></a></li>
+        <li>
+            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/edit')}}">client:
+                cl{{$adver_obj->GetClientID->id}}</a>
+        </li>
+        <li><a href="#" class="active">Advertiser: adv{{$adver_obj->id}} </a></li>
+    </ol>
+@endsection
 @section('content')
-    <!-- MAIN PANEL -->
-    <div id="main" role="main">
+    <div class="col-md-9">
+        <div class="panel gray">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4>Edit Advertiser: {{$adver_obj->name}} </h4>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0">
 
-        <!-- RIBBON -->
-        <div id="ribbon">
+                            <form id="order-form" class="form-horizontal parsley-validate"
+                                  action="{{URL::route('advertiser_update')}}" method="post"
+                                  novalidate="novalidate">
+                                <input type="hidden" name="_token"
+                                    <input type="hidden" name="_method" value="PUT"/>
+                                    <input type="hidden" name="advertiser_id" value="{{$adver_obj->id}}"/>
+                                <div class="form-body">
+                                    <div class="note note-primary note-bottom-striped">
+                                        <h4>General Informaition</h4>
 
-            <span class="ribbon-button-alignment">
-                <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh" rel="tooltip"
-                      data-placement="bottom"
-                      data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings."
-                      data-html="true">
-                    <i class="fa fa-refresh"></i>
-                </span>
-            </span>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Name</label>
 
-            <!-- breadcrumb -->
-            <ol class="breadcrumb">
-                <li><a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/edit')}}">client:
-                        cl{{$adver_obj->GetClientID->id}}</a></li>
-                <li>Advertiser: adv{{$adver_obj->id}} </li>
-            </ol>
-
-        </div>
-        <!-- END RIBBON -->
-        <!-- MAIN CONTENT -->
-        <div id="content">
-            @if(Session::has('CaptchaError'))
-                <ul>
-                    <li>{{Session::get('CaptchaError')}}</li>
-                </ul>
-                @endif
-
-
-                        <!-- widget grid -->
-                <section id="widget-grid" class="">
-                    <!-- START ROW -->
-                    <div class="row">
-                        <!-- NEW COL START -->
-                        <article class="col-sm-12 col-md-9 col-lg-9">
-
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well">
-                                <header>
-                                    <h2>Edit Advertiser: {{$adver_obj->name}} </h2>
-                                </header>
-
-                                <!-- widget div-->
-                                <div class="row">
-                                    <!-- widget content -->
-                                    <div class="col-md-9">
-
-                                        <form id="order-form" class="smart-form"
-                                              action="{{URL::route('advertiser_update')}}" method="post"
-                                              novalidate="novalidate">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="_method" value="PUT"/>
-                                            <input type="hidden" name="adver_id" value="{{$adver_obj->id}}"/>
-                                            <input type="hidden" id="active_show"/>
-                                            <header>
-                                                General Information
-                                            </header>
-
-                                            <div class="well col-md-12">
-                                                <fieldset>
-                                                    <div class="row">
-                                                        <section class="col col-3">
-                                                            <label class="label" for=""> Name</label>
-                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                                <input type="text" name="name" placeholder="Name"
-                                                                       value="{{$adver_obj->name}}">
-                                                            </label>
-                                                        </section>
-                                                        <section class="col col-3">
-                                                            <label class="label" for="">Domain Name</label>
-                                                            <label class="input"> <i
-                                                                        class="icon-append fa fa-briefcase"></i>
-                                                                <input type="text" name="domain_name"
-                                                                       placeholder="Domain Name"
-                                                                       value="{{$adver_obj->domain_name}}">
-                                                            </label>
-                                                        </section>
-                                                        <section class="col col-3">
-                                                            <label for="" class="label">Status</label>
-                                                            <label class="checkbox">
-                                                                <input type="checkbox" name="active" @if($adver_obj->status=='Active') checked @endif>
-                                                                <i></i>
-                                                            </label>
-                                                        </section>
-
-                                                        <section class="col col-3">
-                                                            <label class="label" for="">Client Name</label>
-                                                            <label class="input">
-                                                                <h6>{{$adver_obj->GetClientID->name}}</h6>
-                                                            </label>
-                                                        </section>
+                                                <div class="inputer">
+                                                    <div class="input-wrapper">
+                                                        <input type="text" id="name" name="name" placeholder="Name"
+                                                               class="form-control" value="{{$adver_obj->name}}">
                                                     </div>
-                                                </fieldset>
-
-                                                <fieldset>
-
-                                                    <section class="col -col4">
-                                                        <label class="label" for="">Description</label>
-                                                        <label class="textarea"> <i
-                                                                    class="icon-append fa fa-comment"></i>
-                                                            <textarea rows="5" name="description"
-                                                                      placeholder="Tell us about your advertiser">{{$adver_obj->description}}</textarea>
-                                                        </label>
-                                                    </section>
-                                                </fieldset>
-
-                                                <fieldset>
-                                                    <div style="margin: 20px 0;">
-                                                        <h5>Assign Models</h5>
-
-                                                        <div class="col-xs-5">
-                                                            <select name="from_model[]" id="assign_model"
-                                                                    class="form-control" size="4" multiple="multiple">
-                                                                @foreach($model_obj as $index)
-                                                                    <option value="{{$index->id}}">{{$index->name}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col-xs-2">
-                                                            <button type="button" id="assign_model_rightAll"
-                                                                    class="btn btn-block"><i
-                                                                        class="glyphicon glyphicon-forward"></i>
-                                                            </button>
-                                                            <button type="button" id="assign_model_rightSelected"
-                                                                    class="btn btn-block"><i
-                                                                        class="glyphicon glyphicon-chevron-right"></i>
-                                                            </button>
-                                                            <button type="button" id="assign_model_leftSelected"
-                                                                    class="btn btn-block"><i
-                                                                        class="glyphicon glyphicon-chevron-left"></i>
-                                                            </button>
-                                                            <button type="button" id="assign_model_leftAll"
-                                                                    class="btn btn-block"><i
-                                                                        class="glyphicon glyphicon-backward"></i>
-                                                            </button>
-                                                        </div>
-
-                                                        <div class="col-xs-5">
-                                                            <select name="to_model[]" id="assign_model_to"
-                                                                    class="form-control" size="4" multiple="multiple">
-                                                                @foreach($model_obj as $index)
-                                                                    @if(in_array($index->id,$adv_mdl_map))
-                                                                        <option value="{{$index->id}}">{{$index->name}}</option>
-                                                                    @endif
-                                                                @endforeach
-
-                                                            </select>
-                                                        </div>
-                                                        <div class="clearfix"></div>
-                                                    </div>
-
-                                                </fieldset>
-
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <footer>
-                                                <div class="row">
-                                                    <div class="col-md-5 col-md-offset-3">
-                                                        <button type="submit"
-                                                                class=" button button--ujarak button--border-thick button--text-upper button--size-s button--inverted button--text-thick">
-                                                            Save
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </footer>
-                                        </form>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="card" >
-                                            <div class="card-heading">
-                                                <h2 class="pull-left">Activities</h2>
-                                                <select id="audit_status" class="pull-right">
-                                                    <option value="entity">This Entity</option>
-                                                    <option value="all">All</option>
-                                                    <option value="user">User</option>
-                                                </select>
-                                                <div class="clearfix"></div>
-                                                <small>All Activities for this Entity </small>
-                                            </div>
-                                            <div class="card-body" >
-                                                <div class="streamline b-l b-accent m-b" id="show_audit">
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- WIDGET END -->
+                                        <div class="col-md-2">
+                                            <label class="control-label" for="">Client Name</label>
+                                            <h5>{{$adver_obj->GetClientID->name}}</h5>
+
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Domain Name</label>
+
+                                                <div class="inputer">
+                                                    <div class="input-wrapper">
+                                                        <input type="text" name="domain_name"
+                                                               class="form-control" placeholder="Domain Name"
+                                                               id="domain_name"
+                                                               value="{{$adver_obj->domain_name}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label class="control-label">Status</label>
+
+                                                <div class="checkboxer">
+                                                    <input type="checkbox" name="active"
+                                                           class="switchery-teal" @if($adver_obj->status=='Active')
+                                                           checked @endif>
+                                                    <label for="check1">Active</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="">Last Modified</label>
+                                            <h5>{{$adver_obj->updated_at}}</h5>
+
+                                        </div>
+
+                                        <div class="clearfix"></div>
+                                        <!--.form-group-->
+                                    </div>
+
+                                    <div class="note note-info note-bottom-striped">
+                                        <h4>Assign Models</h4>
+                                        <div class="col-xs-5">
+                                            <select name="from_model[]" id="assign_model"
+                                                    class="form-control" size="4" multiple="multiple">
+                                                @foreach($model_obj as $index)
+                                                    <option value="{{$index->id}}">{{$index->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-xs-2">
+                                            <button type="button" id="assign_model_rightAll"
+                                                    class="btn btn-block"><i
+                                                        class="glyphicon glyphicon-forward"></i>
+                                            </button>
+                                            <button type="button" id="assign_model_rightSelected"
+                                                    class="btn btn-block"><i
+                                                        class="glyphicon glyphicon-chevron-right"></i>
+                                            </button>
+                                            <button type="button" id="assign_model_leftSelected"
+                                                    class="btn btn-block"><i
+                                                        class="glyphicon glyphicon-chevron-left"></i>
+                                            </button>
+                                            <button type="button" id="assign_model_leftAll"
+                                                    class="btn btn-block"><i
+                                                        class="glyphicon glyphicon-backward"></i>
+                                            </button>
+                                        </div>
+
+                                        <div class="col-xs-5">
+                                            <select name="to_model[]" id="assign_model_to"
+                                                    class="form-control" size="4" multiple="multiple">
+                                                @foreach($model_obj as $index)
+                                                    @if(in_array($index->id,$adv_mdl_map))
+                                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                                    @endif
+                                                @endforeach
+
+                                            </select>
+                                        </div>
+                                        <div class="clearfix"></div>
 
                                     </div>
 
-                                    <!-- end widget content -->
+
+                                    <div style="padding: 15px">
+
+                                        <div class="form-group">
+                                            <label class="control-label">Description</label>
+
+                                            <div class="inputer">
+                                                <div class="input-wrapper">
+                                                    <textarea name="description" class="form-control" rows="3"
+                                                              placeholder="type minimum 5 characters"
+                                                              required>{{$adver_obj->description}}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
                                 </div>
-                                <!-- end widget div -->
-                            </div>
-                            <!-- end widget -->
+                                <div class="form-actions">
+                                    <div class="row">
+                                        <div class="col-md-offset-5 col-md-9" style="padding: 25px 0">
+                                            <button type="submit" class="btn btn-success" style="width:20%">Submit
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
 
-                        </article>
-                        <!-- END COL -->
-                        <!-- NEW COL START -->
-                        <article class="col-sm-3 col-md-3 col-lg-3">
+            </div>
+            <!--.panel-body-->
+        </div>
+        <!--.panel-->
+    </div>
+    <!--.col-->
 
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well"  style="position: fixed; width: 18%">
+        <div class="col-md-3">
+            <div class="panel indigo">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h4 class="pull-left">Activities</h4>
+
+                        <div class="pull-right audit-select">
+                            <select id="audit_status" class="selecter col-md-12">
+                                <option value="entity">This Entity</option>
+                                <option value="all">All</option>
+                                <option value="user">User</option>
+                            </select>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <!--.panel-heading-->
+                <div class="panel-body" style="padding: 0px 0 0 10px;">
+                    <div class="timeline single" id="show_audit">
+                    </div>
+                    <!--.timeline-->
+                </div>
+                <!--.panel-body-->
+            </div>
+            <!--.panel-->
+        </div>
+                <!--.col-->
+        <div class="clearfix"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="well"  style="position: fixed; width: 18%">
                                 <!-- widget div-->
                                 <div>
                                     <!-- widget content -->
                                     <div class="">
-                                        <button id="show_creative" class="btn btn-primary btn-block">Crearive </button>
+                                        <button id="show_advertiser" class="btn btn-primary btn-block">Crearive </button>
                                         <button id="show_campaign" class="btn btn-primary btn-block">Campaign </button>
                                         <button id="show_bwlist" class="btn btn-primary btn-block">B W List </button>
                                         <button id="show_geosegment" class="btn btn-primary btn-block">Geo Segment </button>
@@ -237,250 +237,192 @@
                                 </div>
                                 <!-- end widget div -->
                             </div>
-                            <!-- end widget -->
-                        </article>
-                        <!-- END COL -->
-                    </div>
-                    <!-- END ROW -->
 
-                    <!-- row -->
-                    <div class="row" id="campaign_list" style="display: none">
-                        <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well">
-                                <header>
-                                    <h2 class="font-md pull-left"><strong>List Of Campaign</strong></h2>
-                                    @if(in_array('ADD_EDIT_CAMPAIGN',$permission))
-                                        <h2 class=" pull-right">                                        <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/add')}}"
-                                                                                       class=" btn btn-primary">
-                                                ADD Campaign
-                                            </a>
-                                        </h2>
-                                    @endif
-                                </header>
-                                <div id="campaign_grid"></div>
-                            </div>
-                            <!-- end widget -->
-                        </article>
-                        <!-- WIDGET END -->
 
-                    </div>
+    <div class="col-md-9">
+        <div class="panel gray" id="campaign_list" style="display: none">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class=" pull-left">List Of Campaign</h4>
+                    @if(in_array('ADD_EDIT_CAMPAIGN',$permission))
+                        <h4 class=" pull-right">                                        <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/add')}}"
+                                                                                           class=" btn btn-primary">
+                                ADD Campaign
+                            </a>
+                        </h4>
+                    @endif
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" >
+                <div id="campaign_grid"></div>
 
-                    <div class="row" id="segment_list" style="display: none">
-                        <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well">
-                                <header>
-                                    <h2 class="font-md pull-left"><strong>List Of Segment</strong></h2>
-                                </header>
-                                <div id="segment_grid"></div>
-                            </div>
-                            <!-- end widget -->
-                        </article>
-                        <!-- WIDGET END -->
-
-                    </div>
-
-                    <div class="row" id="creative_list" style="display: none">
-
-                        <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well" >
-                                <header>
-                                    <h2 class="font-md pull-left"><strong>List Of Creative</strong></h2>
-
-                                    @if(in_array('ADD_EDIT_CREATIVE',$permission))
-                                        <h2 class="pull-right">
-                                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/creative/add')}}"
-                                               class=" btn btn-primary pull-left">
-                                                Add Creative
-                                            </a>
-
-                                        </h2>
-                                        <h2 class="pull-right">
-                                            <button type="reset" class="btn btn-primary " data-toggle="modal"
-                                                    data-target="#myModal_creative">
-                                                Upload Creatives
-                                            </button>
-
-                                        </h2>
-                                        <h2 class="pull-right">
-                                            <a href="{{cdn('/excel_template/creative.xls')}}" type="reset" class="btn btn-primary " >
-                                                Download Creative Excel Template
-                                            </a>
-
-                                        </h2>
-
-                                    @endif
-
-                                </header>
-                                <div id="creative_grid"></div>
-                            </div>
-                            <!-- end widget -->
-                        </article>
-                        <!-- WIDGET END -->
-                    </div>
-
-                    <div class="row" id="model_list" style="display: none">
-
-                        <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well" >
-                                <header>
-                                    <h2 class="font-md pull-left"><strong>List Of Models</strong></h2>
-                                    @if(in_array('ADD_EDIT_MODEL',$permission))
-                                        <h2 class="pull-right">
-                                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/model/add')}}"
-                                               class=" btn btn-primary pull-left">
-                                                Add Model
-                                            </a>
-
-                                        </h2>
-                                    @endif
-
-                                </header>
-                                <div id="model_grid"></div>
-                            </div>
-                            <!-- end widget -->
-                        </article>
-                        <!-- WIDGET END -->
-                    </div>
-
-                    <div class="row" id="bwlist_list" style="display: none">
-
-                        <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well" >
-                                <header>
-                                    <h2 class="font-md pull-left"><strong>List Of Black White List </strong></h2>
-                                    @if(in_array('ADD_EDIT_BWLIST',$permission))
-                                        <h2 class="pull-right">
-                                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/bwlist/add')}}"
-                                               class=" btn btn-primary pull-left">
-                                                Add B/W List
-                                            </a>
-                                        </h2>
-                                        <h2 class="pull-right">
-                                            <button type="reset" class="btn btn-primary" data-toggle="modal"
-                                                    data-target="#myModal">
-                                                Upload BW list
-                                            </button>
-
-                                        </h2>
-                                        <h2 class="pull-right">
-                                            <a href="{{cdn('/excel_template/bwlist.xls')}}" type="reset" class="btn btn-primary " >
-                                                Download BW List Excel Template
-                                            </a>
-
-                                        </h2>
-
-                                    @endif
-
-                                </header>
-                                <div id="bwlist_grid"></div>
-                            </div>
-                            <!-- end widget -->
-                        </article>
-                        <!-- WIDGET END -->
-
-                    </div>
-
-                    <div class="row" id="geosegment_list" style="display: none">
-
-                        <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well" >
-                                <header>
-                                    <h2 class="font-md pull-left"><strong>List Of Geo Segment List </strong></h2>
-                                    @if(in_array('ADD_EDIT_GEOSEGMENTLIST',$permission))
-                                        <h2 class="pull-right">
-                                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/geosegment/add')}}"
-                                               class=" btn btn-primary pull-left">
-                                                Add Geo Segment List
-                                            </a>
-                                        </h2>
-                                        <h2 class="pull-right">
-                                            <button type="reset" class="btn btn-primary" data-toggle="modal"
-                                                    data-target="#myModal_geo">
-                                                Upload Geo list
-                                            </button>
-                                        </h2>
-                                        <h2 class="pull-right">
-                                            <a href="{{cdn('/excel_template/geosegment.xls')}}" type="reset" class="btn btn-primary " >
-                                                Download Geo Segment Excel Template
-                                            </a>
-
-                                        </h2>
-
-                                    @endif
-
-                                </header>
-                                <div id="geosegment_grid"></div>
-                            </div>
-                            <!-- end widget -->
-                        </article>
-                        <!-- WIDGET END -->
-                    </div>
-
-                    <div class="row" id="bid_profile_list" style="display: none">
-
-                        <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well" >
-                                <header>
-                                    <h2 class="font-md pull-left"><strong>List Of Bid Profile </strong></h2>
-                                    @if(in_array('ADD_EDIT_BIDPROFILE',$permission))
-                                        <h2 class="pull-right">
-                                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/bid-profile/add')}}"
-                                               class=" btn btn-primary pull-left">
-                                                Add Bid Profile
-                                            </a>
-                                        </h2>
-                                        <h2 class="pull-right">
-                                            <button type="reset" class="btn btn-primary btn-lg" data-toggle="modal"
-                                                    data-target="#myModal_bid_profile">
-                                                Upload Bid Profile
-                                            </button>
-                                        </h2>
-                                        <h2 class="pull-right">
-                                            <a href="{{cdn('/excel_template/bid_profile.xls')}}" type="reset" class="btn btn-primary " >
-                                                Download Bid Profile Excel Template
-                                            </a>
-
-                                        </h2>
-
-                                    @endif
-
-                                </header>
-                                <div id="bid_profile_grid"></div>
-                            </div>
-                            <!-- end widget -->
-                        </article>
-                        <!-- WIDGET END -->
-                    </div>
-                    <!-- end row -->
-                    <!-- end row -->
-                </section>
-                <!-- end widget grid -->
-
+            </div>
         </div>
-        <!-- END MAIN CONTENT -->
-    </div>
-    <!-- END MAIN PANEL -->
+        <div class="panel gray" id="segment_list" style="display: none">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4>List Of Segment</h4>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" >
+                <div id="segment_grid"></div>
+            </div>
+        </div>
 
+        <div class="panel gray" id="creative_list" style="display: none">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class=" pull-left">List Of Creative</h4>
+                    @if(in_array('ADD_EDIT_CREATIVE',$permission))
+                        <h4 class="pull-right">
+                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/creative/add')}}"
+                               class=" btn btn-primary pull-left">
+                                Add Creative
+                            </a>
+
+                        </h4>
+                        <h4 class="pull-right">
+                            <button type="reset" class="btn btn-primary " data-toggle="modal"
+                                    data-target="#myModal_creative">
+                                Upload Creatives
+                            </button>
+
+                        </h4>
+                        <h4 class="pull-right">
+                            <a href="{{cdn('/excel_template/creative.xls')}}" type="reset" class="btn btn-primary " >
+                                Download Creative Excel Template
+                            </a>
+
+                        </h4>
+
+                    @endif
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" >
+                <div id="creative_grid"></div>
+            </div>
+        </div>
+        <div class="panel gray" id="model_list" style="display: none">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class=" pull-left">List Of Models</h4>
+                    @if(in_array('ADD_EDIT_MODEL',$permission))
+                        <h4 class="pull-right">
+                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/model/add')}}"
+                               class=" btn btn-primary pull-left">
+                                Add Model
+                            </a>
+
+                        </h4>
+                    @endif
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" >
+                <div id="model_grid"></div>
+            </div>
+        </div>
+        <div class="panel gray" id="bwlist_list" style="display: none">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class=" pull-left">List Of Black White List </h4>
+                    @if(in_array('ADD_EDIT_BWLIST',$permission))
+                        <h4 class="pull-right">
+                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/bwlist/add')}}"
+                               class=" btn btn-primary pull-left">
+                                Add B/W List
+                            </a>
+                        </h4>
+                        <h4 class="pull-right">
+                            <button type="reset" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#myModal">
+                                Upload BW list
+                            </button>
+
+                        </h4>
+                        <h4 class="pull-right">
+                            <a href="{{cdn('/excel_template/bwlist.xls')}}" type="reset" class="btn btn-primary " >
+                                Download BW List Excel Template
+                            </a>
+
+                        </h4>
+                    @endif
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" >
+                <div id="bwlist_grid"></div>
+            </div>
+        </div>
+        <div class="panel gray" id="geosegment_list" style="display: none">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class=" pull-left">List Of Geo Segment List </h4>
+                    @if(in_array('ADD_EDIT_GEOSEGMENTLIST',$permission))
+                        <h4 class="pull-right">
+                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/geosegment/add')}}"
+                               class=" btn btn-primary pull-left">
+                                Add Geo Segment List
+                            </a>
+                        </h4>
+                        <h4 class="pull-right">
+                            <button type="reset" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#myModal_geo">
+                                Upload Geo list
+                            </button>
+                        </h4>
+                        <h4 class="pull-right">
+                            <a href="{{cdn('/excel_template/geosegment.xls')}}" type="reset" class="btn btn-primary " >
+                                Download Geo Segment Excel Template
+                            </a>
+
+                        </h4>
+
+                    @endif
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" >
+                <div id="geosegment_grid"></div>
+            </div>
+        </div>
+        <div class="panel gray" id="bid_profile_list" style="display: none">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class=" pull-left">List Of Bid Profile </h4>
+                    @if(in_array('ADD_EDIT_BIDPROFILE',$permission))
+                        <h4 class="pull-right">
+                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/bid-profile/add')}}"
+                               class=" btn btn-primary pull-left">
+                                Add Bid Profile
+                            </a>
+                        </h4>
+                        <h4 class="pull-right">
+                            <button type="reset" class="btn btn-primary btn-lg" data-toggle="modal"
+                                    data-target="#myModal_bid_profile">
+                                Upload Bid Profile
+                            </button>
+                        </h4>
+                        <h4 class="pull-right">
+                            <a href="{{cdn('/excel_template/bid_profile.xls')}}" type="reset" class="btn btn-primary " >
+                                Download Bid Profile Excel Template
+                            </a>
+
+                        </h4>
+
+                    @endif
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" >
+                <div id="bid_profile_grid"></div>
+            </div>
+        </div>
+
+    </div>
 
 
 
@@ -781,11 +723,11 @@
             );
 
         });
-        $('#show_creative').click(function () {
+        $('#show_advertiser').click(function () {
             var active_Show= $('#active_show').val();
-            $('#active_show').val('creative_list');
+            $('#active_show').val('advertiser_list');
             $('#'+active_Show).hide();
-            $('#creative_list').fadeIn("slow");
+            $('#advertiser_list').fadeIn("slow");
             $('html, body').animate({
                         scrollTop: $(document).height()-$(window).height()},
                     1400,
@@ -839,7 +781,6 @@
     </script>
     <script>
         $(document).ready(function () {
-            pageSetUp();
 
 
             $.ajax({
@@ -879,9 +820,6 @@
                     domain_name: {
                         required: true,
                         domain: true
-                    },
-                    client_id : {
-                        required : true
                     }
                 },
 
@@ -1594,9 +1532,11 @@
             });
 
             //End Bid Profile//
+
+            FormsSwitch.init();
+            FormsSwitchery.init();
+
         });
         /* END BASIC */
-
-
     </script>
 @endsection
