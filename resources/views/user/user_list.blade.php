@@ -1,96 +1,48 @@
-@extends('Layout')
+@extends('Layout1')
 @section('siteTitle')List Of Users @endsection
 
 @section('content')
-    <!-- MAIN PANEL -->
-    <div id="main" role="main">
-
-        <!-- RIBBON -->
-        <div id="ribbon">
-
-            <!-- breadcrumb -->
-            <ol class="breadcrumb">
-                <li>List Of Users</li>
-            </ol>
-            <!-- end breadcrumb -->
-
-
-        </div>
-        <!-- END RIBBON -->
-
-        <!-- MAIN CONTENT -->
-        <div id="content">
-            <!-- widget grid -->
-            <section id="widget-grid" class="">
-
-                <!-- row -->
-                <div class="row">
-
-                    <!-- NEW WIDGET START -->
-                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-                        <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="well" >
-                            <header>
-                                <h2>Users List</h2>
-
-                            </header>
-
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <div id="user_grid"></div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="card">
-                                        <div class="card-heading">
-                                            <h2 class="pull-left">Activities</h2>
-                                            <select id="audit_status" class="pull-right">
-                                                <option value="entity">This Entity</option>
-                                                <option value="all">All</option>
-                                                <option value="user">User</option>
-                                            </select>
-                                            <div class="clearfix"></div>
-                                            <small>All Activities for this Entity </small>
-                                        </div>
-                                        <div class="card-body" >
-                                            <div class="streamline b-l b-accent m-b" id="show_audit">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- WIDGET END -->
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <!-- end widget -->
-
-                    </article>
-                    <!-- WIDGET END -->
-
+    <div class="col-md-9">
+        <div class="panel light-blue">
+            <div class="panel-heading">
+                <div class="panel-title"><h4>List Of Users</h4></div>
+            </div><!--.panel-heading-->
+            <div class="panel-body">
+                <div id="user_grid"></div>
+            </div><!--.panel-body-->
+        </div><!--.panel-->
+    </div><!--.col-->
+    <div class="col-md-3">
+        <div class="panel indigo">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="pull-left">Activities</h4>
+                    <div class="pull-right audit-select">
+                        <select id="audit_status" class="selecter col-md-12" >
+                            <option value="entity">This Entity</option>
+                            <option value="all">All</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
-
-                <!-- end row -->
-
-                <!-- end row -->
-
-            </section>
-            <!-- end widget grid -->
-
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0px 0 0 10px;">
+                <div class="timeline single" id="show_audit">
+                </div>
+                <!--.timeline-->
+            </div>
+            <!--.panel-body-->
         </div>
-        <!-- END MAIN CONTENT -->
-
+        <!--.panel-->
     </div>
-    <!-- END MAIN PANEL -->
+    <!--.col-->
+
 
 @endsection
 @section('FooterScripts')
-
-    <!-- PAGE RELATED PLUGIN(S) -->
     <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
-
-
     <script>
         $(document).ready(function() {
             $.ajaxSetup({
@@ -99,7 +51,6 @@
                 }
             });
 
-            pageSetUp();
             $.ajax({
                 url: "{{url('ajax/getAudit/user')}}"
             }).success(function (response) {
@@ -183,7 +134,7 @@
                         "status": '<a id="user{{$index->id}}" href="javascript: ChangeStatus(`user`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
                         @endif
                         "date_modify": '{{$index->updated_at}}',
-                        "action": '<a href="{{url('user/usr'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_PIXEL',$permission)) +' | <a class="btn txt-color-white" href="{{url('/user/register')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+                        "action": '<a href="{{url('user/usr'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>'
 
                     },
                     @endforeach

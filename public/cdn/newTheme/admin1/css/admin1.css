@@ -37,7 +37,7 @@ TABLE OF CONTENTS:
 */
 /* 1.1 - Bootstrap */
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
-@import url("http://fonts.googleapis.com/css?family=RobotoDraft:300,400,500");
+/*@import url("http://fonts.googleapis.com/css?family=RobotoDraft:300,400,500");*/
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -13535,7 +13535,7 @@ button.toast-close-button {
   width: auto !important;
 }
 .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
-  width: 220px;
+  width: 180px;
 }
 .bootstrap-select .dropdown-toggle:focus {
   outline: thin dotted #333333 !important;

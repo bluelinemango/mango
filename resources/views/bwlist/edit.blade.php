@@ -1,196 +1,366 @@
-@extends('Layout')
+@extends('Layout1')
 @section('siteTitle')Edit B/W List: {{$bwlist_obj->name}} @endsection
-@section('header_extra')
-    <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/your_style.css')}}">
+@section('breadcrumb')
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="ion-home"></i></a></li>
+        <li>
+            <a href="{{url('/client/cl'.$bwlist_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client :
+                cl{{$bwlist_obj->getAdvertiser->GetClientID->id}}</a>
+        </li>
+        <li>
+            <a href="{{url('/client/cl'.$bwlist_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$bwlist_obj->advertiser_id.'/edit/')}}">Advertiser
+                : adv{{$bwlist_obj->getAdvertiser->id}}</a>
+        </li>
+        <li><a href="#" class="active">B/W List Editing : bwl{{$bwlist_obj->id}}</a></li>
+    </ol>
 @endsection
 
 @section('content')
-    <!-- MAIN PANEL -->
-    <div id="main" role="main">
 
-        <!-- RIBBON -->
-        <div id="ribbon">
+    <div class="col-md-9">
+        <div class="panel gray">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4>Edit Black / White : {{$bwlist_obj->name}} </h4>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0">
+                <form id="order-form" class="form-horizontal parsley-validate"
+                      action="{{URL::route('bwlist_update')}}" method="post"
+                      novalidate="novalidate">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="_method" value="PUT"/>
+                    <input type="hidden" name="bwlist_id" value="{{$bwlist_obj->id}}"/>
 
-				<span class="ribbon-button-alignment">
-					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
-						<i class="fa fa-refresh"></i>
-					</span>
-				</span>
+                    <div class="form-body">
+                        <div class="note note-primary note-bottom-striped">
+                            <h4>General Informaition</h4>
 
-            <!-- breadcrumb -->
-            <ol class="breadcrumb">
-                <li><a href="{{url('/client/cl'.$bwlist_obj->getAdvertiser->GetClientID->id.'/edit')}}">Client : cl{{$bwlist_obj->getAdvertiser->GetClientID->id}}</a></li>
-                <li><a href="{{url('/client/cl'.$bwlist_obj->getAdvertiser->GetClientID->id.'/advertiser/adv'.$bwlist_obj->advertiser_id.'/edit/')}}">Advertiser : adv{{$bwlist_obj->getAdvertiser->id}}</a></li>
-                <li>B/W List Editing : bwl{{$bwlist_obj->id}}</li>
-            </ol>
-            <!-- end breadcrumb -->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Name</label>
 
-            <!-- You can also add more buttons to the
-            ribbon for further usability
-
-            Example below:
-                        <span class="ribbon-button-alignment pull-right">
-            <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-            <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-            <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-            </span>
-
-    -->
-
-        </div>
-        <!-- END RIBBON -->
-        <!-- MAIN CONTENT -->
-        <div id="content">
-            @if(Session::has('CaptchaError'))
-                <ul>
-                    <li>{{Session::get('CaptchaError')}}</li>
-                </ul>
-                @endif
-                        <!-- widget grid -->
-                <section id="widget-grid" class="">
-                    <!-- START ROW -->
-                    <div class="row">
-                        <!-- NEW COL START -->
-                        <article class="col-sm-12 col-md-12 col-lg-12">
-
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well" >
-                                <header>
-                                    <h2>b/w list edit: {{$bwlist_obj->name}} </h2>
-
-                                </header>
-
-                                <!-- widget div-->
-                                <div class="row">
-                                    <!-- widget content -->
-                                    <div class="col-md-9">
-
-                                        <form id="order-form" class="smart-form" action="{{URL::route('bwlist_update')}}" method="post" novalidate="novalidate" >
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="_method" value="PUT"/>
-                                            <input type="hidden" name="bwlist_id" value="{{$bwlist_obj->id}}"/>
-                                            <header>
-                                                General Information
-                                            </header>
-
-                                            <div class="well col-md-12">
-                                            <fieldset>
-                                                <section class="col col-3">
-                                                    <label class="label" for=""> Name</label>
-                                                    <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                        <input type="text" name="name" placeholder="Name" value="{{$bwlist_obj->name}}">
-                                                    </label>
-                                                </section>
-                                                <section class="col col-3">
-                                                    <label class="label" for=""> Black / White Type</label>
-                                                    <label class="select">
-                                                        <select name="list_type">
-                                                            <option value="black" @if($bwlist_obj->list_type == 'black') selected @endif>Black List</option>
-                                                            <option value="white" @if($bwlist_obj->list_type == 'white') selected @endif>White List</option>
-                                                        </select> <i></i>
-                                                    </label>
-
-                                                </section>
-                                                <section class="col col-3">
-                                                    <label for="" class="label">status</label>
-                                                    <label class="checkbox">
-                                                        <input type="checkbox" name="active" @if($bwlist_obj->status=='Active') checked @endif>
-                                                        <i></i>
-                                                    </label>
-                                                </section>
-                                                <div class="clearfix"></div>
-                                                <section class="col col-3">
-                                                    <label class="label" for=""> Advertiser Name</label>
-                                                    <label class="input">
-                                                        <h6>{{$bwlist_obj->getAdvertiser->name}}</h6>
-                                                    </label>
-                                                </section>
-                                                <section class="col col-3">
-                                                    <label class="label" for=""> Client Name</label>
-                                                    <label class="input">
-                                                        <h6>{{$bwlist_obj->getAdvertiser->GetClientID->name}}</h6>
-                                                    </label>
-                                                </section>
-
-                                            </fieldset>
-                                            </div>
-                                            <footer>
-                                                <div class="row">
-                                                    <div class="col-md-5 col-md-offset-3">
-                                                        <button type="submit"
-                                                                class=" button button--ujarak button--border-thick button--text-upper button--size-s button--inverted button--text-thick">
-                                                            Save
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </footer>
-                                        </form>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="card">
-                                            <div class="card-heading">
-                                                <h2 class="pull-left">Activities</h2>
-                                                <select id="audit_status" class="pull-right">
-                                                    <option value="entity">This Entity</option>
-                                                    <option value="all">All</option>
-                                                    <option value="user">User</option>
-                                                </select>
-                                                <div class="clearfix"></div>
-                                                <small>All Activities for this Entity </small>
-                                            </div>
-                                            <div class="card-body" >
-                                                <div class="streamline b-l b-accent m-b" id="show_audit">
-                                                </div>
-                                            </div>
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" id="name" name="name" placeholder="Name"
+                                                   class="form-control" value="{{$bwlist_obj->name}}">
                                         </div>
-                                        <!-- WIDGET END -->
-
                                     </div>
-
-                                    <!-- end widget content -->
                                 </div>
-                                <!-- end widget div -->
                             </div>
-                            <!-- end widget -->
+                            <div class="col-md-2">
+                                <label class="control-label" for="">Advertiser Name</label>
+                                <h5>{{$bwlist_obj->getAdvertiser->name}}</h5>
 
-                        </article>
-                        <!-- END COL -->
+                            </div>
+                            <div class="col-md-2">
+                                <label class="control-label" for="">Client Name</label>
+                                <h5>{{$bwlist_obj->getAdvertiser->GetClientID->name}}</h5>
+
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label" for="">Last Modified</label>
+                                <h5>{{$bwlist_obj->updated_at}}</h5>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label"> Black / White Type</label>
+
+                                    <select name="list_type" class="selecter">
+                                        <option value="black" @if($bwlist_obj->list_type == 'black') selected @endif>
+                                            Black List
+                                        </option>
+                                        <option value="white" @if($bwlist_obj->list_type == 'white') selected @endif>
+                                            White List
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label class="control-label">Status</label>
+
+                                    <div class="checkboxer">
+                                        <input type="checkbox" name="active"
+                                               class="switchery-teal" @if($bwlist_obj->status=='Active')
+                                               checked @endif>
+                                        <label for="check1">Active</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <!--.form-group-->
+                        </div>
+
                     </div>
-                    <!-- END ROW -->
-                </section>
-                <!-- end widget grid -->
-                <!-- widget grid -->
-                <section id="widget-grid" class="">
-
-                    <!-- row -->
-                    <div class="row">
-
-                        <!-- NEW WIDGET START -->
-                        <article class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-
-                            <table id="jqgrid"></table>
-                            <div id="pjqgrid"></div>
-                        </article>
-                        <!-- WIDGET END -->
-
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-5 col-md-9" style="padding: 25px 0">
+                                <button type="submit" class="btn btn-success" style="width:20%">Submit</button>
+                            </div>
+                        </div>
                     </div>
+                </form>
 
-                    <!-- end row -->
-
-                </section>
-                <!-- end widget grid -->
-
+            </div>
+            <!--.panel-body-->
         </div>
-        <!-- END MAIN CONTENT -->
+        <!--.panel-->
     </div>
-    <!-- END MAIN PANEL -->
+    <!--.col-->
+    <div class="col-md-3">
+        <div class="panel indigo">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="pull-left">Activities</h4>
 
+                    <div class="pull-right audit-select">
+                        <select id="audit_status" class="selecter col-md-12">
+                            <option value="entity">This Entity</option>
+                            <option value="all">All</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0px 0 0 10px;">
+                <div class="timeline single" id="show_audit">
+                </div>
+                <!--.timeline-->
+            </div>
+            <!--.panel-body-->
+        </div>
+        <!--.panel-->
+    </div>
+    <!--.col-->
+    <div class="clearfix"></div>
+
+
+    <div class="col-md-6">
+        <div class="panel gray">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4>Black / White list Entry </h4>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body">
+                <div id="bwlist_entry_grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div id="detailsDialog">
+        <form id="detailsForm">
+            <div class="details-form-field">
+                <label for="domain">Domain:</label>
+                <input id="domain" name="domain" type="text"/>
+            </div>
+            <div class="details-form-field">
+                <button type="submit" id="save">Save</button>
+            </div>
+        </form>
+    </div>
 
 @endsection
 @section('FooterScripts')
-    <!-- PAGE RELATED PLUGIN(S) -->
-    <script src="{{cdn('js/plugin/jqgrid/jquery.jqGrid.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/jqgrid/grid.locale-en.min.js')}}"></script>
+    <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
+
+    <script>
+        $(function () {
+
+            var db = {
+
+                loadData: function (filter) {
+                    return $.grep(this.bwlist_entry, function (bwlist_entry) {
+                        return (!filter.domain_name || bwlist_entry.domain_name.indexOf(filter.domain_name) > -1)
+                                && (!filter.id || bwlist_entry.id.indexOf(filter.id) > -1);
+                    });
+                },
+
+                insertItem: function (insertingbwlist_entry) {
+                    console.log(insertingbwlist_entry);
+                    insertingbwlist_entry['oper'] = 'add';
+                    insertingbwlist_entry['parent_id'] = '{{$bwlist_obj->id}}';
+                    $.ajax({
+                        type: "PUT",
+                        url: "{{url('/ajax/jqgrid/bwlist-entry')}}",
+                        data: insertingbwlist_entry,
+                        dataType: "json"
+                    }).done(function (response) {
+                        console.log(response);
+                        if (response.success == true) {
+                            var title = "Success";
+                            var color = "#739E73";
+                            var icon = "fa fa-check";
+                        } else if (response.success == false) {
+                            var title = "Warning";
+                            var color = "#C46A69";
+                            var icon = "fa fa-bell";
+                        }
+                        $.smallBox({
+                            title: title,
+                            content: response.msg,
+                            color: color,
+                            icon: icon,
+                            timeout: 8000
+                        });
+                    });
+
+                },
+
+                updateItem: function (updatingBWlistEntry) {
+                    updatingBWlistEntry['oper'] = 'edit';
+                    $.ajax({
+                        type: "PUT",
+                        url: "{{url('/ajax/jqgrid/bwlist-entry')}}",
+                        data: updatingBWlistEntry,
+                        dataType: "json"
+                    }).done(function (response) {
+                        if (response.success == true) {
+                            var title = "Success";
+                            var color = "#739E73";
+                            var icon = "fa fa-check";
+                        } else if (response.success == false) {
+                            var title = "Warning";
+                            var color = "#C46A69";
+                            var icon = "fa fa-bell";
+                        }
+                        ;
+                        $.smallBox({
+                            title: title,
+                            content: response.msg,
+                            color: color,
+                            icon: icon,
+                            timeout: 8000
+                        });
+                    });
+                }
+
+            };
+
+            window.db = db;
+            db.bwlist_entry = [
+
+                @foreach($bwlist_obj->getEntries as $index)
+                {
+                    "id": 'bwe{{$index->id}}',
+                    "domain_name": '{{$index->domain_name}}',
+                    "date_modify": '{{$index->updated_at}}',
+                    "parent_id": '{{$bwlist_obj->id}}'
+                },
+                @endforeach
+            ];
+
+            $("#bwlist_entry_grid").jsGrid({
+                width: "100%",
+
+                filtering: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                autoload: true,
+
+                pageSize: 10,
+                pageButtonCount: 5,
+                deleteConfirm: "Do you really want to delete the client?",
+                controller: db,
+                fields: [
+                    {name: "id", title: "ID", type: "text", width: 40, align: "center", editing: false},
+                    {name: "domain_name", title: "Domain", type: "text", width: 70},
+                    {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
+                    {
+                        name: "parent_id",
+                        title: "Bid ID",
+                        type: "text",
+                        width: 40,
+                        align: "center",
+                        editing: false,
+                        visible: false
+                    },
+                    {
+                        type: "control",
+                        modeSwitchButton: false,
+                        editButton: false,
+                        headerTemplate: function () {
+                            return $("<button>").attr("type", "button").text("Add")
+                                    .on("click", function () {
+                                        showDetailsDialog("Add", {});
+                                    });
+                        }
+                    }
+                ]
+
+            });
+            $("#detailsDialog").dialog({
+                autoOpen: false,
+                width: 400,
+                close: function () {
+                    $("#detailsForm").validate().resetForm();
+                    $("#detailsForm").find(".error").removeClass("error");
+                }
+            });
+            $("#detailsForm").validate({
+                rules: {
+                    domain: {
+                        required: true,
+                        domain: true
+                    }
+                },
+                messages: {
+                    domain: "Please enter Domain name"
+                },
+                submitHandler: function () {
+                    formSubmitHandler();
+                }
+            });
+            $('#bid_strategy').change(function () {
+                if ($(this).val() == 'Absolute') {
+                    $('#bid_value').show();
+                    $('#bid_value1').hide();
+                    $('.invalid').hide();
+                } else {
+                    $('#bid_value').hide();
+                    $('#bid_value1').show();
+                    $('.invalid').hide();
+                }
+            });
+
+            var formSubmitHandler = $.noop;
+
+            var showDetailsDialog = function (dialogType, bid_profile_entry) {
+
+                formSubmitHandler = function () {
+                    saveClient(bid_profile_entry, dialogType === "Add");
+                };
+
+                $("#detailsDialog").dialog("option", "title", dialogType + " Bid Profile Entry")
+                        .dialog("open");
+            };
+
+            var saveClient = function (bid_profile_entry, isNew) {
+                $.extend(bid_profile_entry, {
+                    domain: $("#domain").val(),
+                    bid_strategy: $("#bid_strategy").val(),
+                    bid_value: $("#bid_value").val(),
+                    bid_value1: $("#bid_value1").val()
+                });
+
+                $("#bid_profile_entry_grid").jsGrid(isNew ? "insertItem" : "updateItem", bid_profile_entry);
+
+                $("#detailsDialog").dialog("close");
+            };
+
+        });
+    </script>
 
 
     <script type="text/javascript">
@@ -199,9 +369,10 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        $(document).ready(function() {
-            pageSetUp();
+        $(document).ready(function () {
 
+            FormsSwitch.init();
+            FormsSwitchery.init();
 
             $.ajax({
                 url: "{{url('ajax/getAudit/bwlist/'.$bwlist_obj->id)}}"
@@ -210,19 +381,19 @@
             });
 
             $('#audit_status').change(function () {
-                if($(this).val()=='all'){
+                if ($(this).val() == 'all') {
                     $.ajax({
                         url: "{{url('ajax/getAllAudits')}}"
                     }).success(function (response) {
                         $('#show_audit').html(response);
                     });
-                }else if($(this).val()=='entity') {
+                } else if ($(this).val() == 'entity') {
                     $.ajax({
                         url: "{{url('ajax/getAudit/bwlist/'.$bwlist_obj->id)}}"
                     }).success(function (response) {
                         $('#show_audit').html(response);
                     });
-                }else if($(this).val()=='user') {
+                } else if ($(this).val() == 'user') {
                     $.ajax({
                         url: "{{url('ajax/getAudit/user')}}"
                     }).success(function (response) {
@@ -231,235 +402,39 @@
                 }
             });
 
-
-            var jqgrid_data = [
-                @foreach($bwlist_obj->getEntries as $index)
-                {
-                    id : '{{$index->id}}',
-                    domain_name : '{{$index->domain_name}}',
-                    bwlist_id : '{{$bwlist_obj->id}}',
-                    created_at : '{{$index->created_at}}',
-                    updated_at : '{{$index->updated_at}}'
-                },
-                @endforeach
-            ];
-
-            jQuery("#jqgrid").jqGrid({
-                data : jqgrid_data,
-                datatype : "local",
-                height : 'auto',
-                colNames : ['Actions', 'ID', 'Domain name','BWList','created_at','updated_at'],
-                colModel : [{
-                    name : 'act',
-                    index : 'act',
-                    sortable : false
-                }, {
-                    name : 'id',
-                    index : 'id',
-                    hidden: true
-                }, {
-                    name : 'domain_name',
-                    index : 'domain_name',
-                    editable : true
-                }, {
-                    name : 'bwlist_id',
-                    index : 'bwlist_id',
-                    editable : true ,
-                    editoptions: { defaultValue: '{{$bwlist_obj->id}}'},
-                    hidden:true
-                }, {
-                    name : 'created_at',
-                    index : 'created_at',
-                    hidden: true,
-                    editable : false
-                }, {
-                    name : 'updated_at',
-                    index : 'updated_at',
-                    hidden: true,
-                    editable : false
-                }],
-                rowNum : 10,
-                rowList : [10, 20, 30],
-                pager : '#pjqgrid',
-                sortname : 'updated_at',
-                ajaxRowOptions: { async: true },
-                toolbarfilter : true,
-                viewrecords : true,
-                sortorder : "desc",
-                gridComplete : function() {
-                    var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
-                    for (var i = 0; i < ids.length; i++) {
-                        var cl = ids[i];
-                        be = "<button class='btn btn-xs btn-default' data-original-title='Edit Row' onclick=\"jQuery('#jqgrid').editRow('" + cl + "');\"><i class='fa fa-pencil'></i></button>";
-                        se = "<button class='btn btn-xs btn-default' data-original-title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('" + cl + "');\"><i class='fa fa-save'></i></button>";
-                        ca = "<button class='btn btn-xs btn-default' data-original-title='Cancel' onclick=\"jQuery('#jqgrid').restoreRow('" + cl + "');\"><i class='fa fa-times'></i></button>";
-//                        ce = "<button class='btn btn-xs btn-default' onclick=\"jQuery('#jqgrid').restoreRow('"+cl+"');\"><i class='fa fa-times'></i></button>";
-//                        jQuery("#jqgrid").jqGrid('setRowData',ids[i],{act:be+se+ce});
-                        jQuery("#jqgrid").jqGrid('setRowData', ids[i], {
-                            act : be + se + ca
-                        });
-                    }
-                },
-                editurl : "{{url('/bwlist_entries_edit')}}",
-                caption : "Black/White List Entries",
-                multiselect : true,
-                autowidth : true
-
-            });
-//            jQuery('#jqgrid').jqGrid('clearGridData');
-//            jQuery('#jqgrid').jqGrid('setGridParam', {data: [{id:2,name:"sss"},{id:3,name:"ddd"}]});
-//            jQuery('#jqgrid').trigger('reloadGrid');
-
-
-            jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {
-                edit : false,
-                add : true,
-                del : true
-            },{
-                afterSubmit:function(response)
-                {
-                    jQuery('#jqgrid').jqGrid('clearGridData');
-                    jQuery('#jqgrid').jqGrid('setGridParam', {data: [{id:2,name:"sss"},{id:3,name:"ddd"}]});
-                    jQuery('#jqgrid').trigger('reloadGrid');
-                    alert('dd');
-                    console.log(response);
-                },
-                closeAfterAdd: true,
-                closeAfterEdit: true,
-                reloadAfterSubmit:true
-            },{
-                afterSubmit:function(response)
-                {
-                    var data = JSON.parse(response['responseText']);
-                    var id = data[0].id;
-                    var domain_name=String(data[0].domain_name);
-                    $("#jqgrid").addRowData(id,{ id: + id ,domain_name:domain_name ,bwlist_id: +data[0].bwlist_id,created_at:data[0].created_at,updated_at:data[0].updated_at }, 'first');
-                    $("#jqgrid").trigger("reloadGrid");
-                    $.smallBox({
-                        title : domain_name+" Added Successfully",
-                        content : "<i class='fa fa-clock-o'></i> <i>Moments ago...</i>",
-                        color : "#0e846f",
-                        iconSmall : "fa fa-thumbs-up bounce animated",
-                        timeout : 4000
-                    });
-
-                },
-                closeAfterAdd: true,
-                closeAfterEdit: true,
-                reloadAfterSubmit:true
-            },{
-                closeAfterAdd: true,
-                closeAfterEdit: true,
-                reloadAfterSubmit:true
-            });
-            jQuery("#jqgrid").jqGrid('inlineNav', "#pjqgrid");
-            /* Add tooltips */
-            $('.navtable .ui-pg-button').tooltip({
-                container : 'body'
-            });
-
-            jQuery("#m1").click(function() {
-                var s;
-                s = jQuery("#jqgrid").jqGrid('getGridParam', 'selarrrow');
-                alert(s);
-            });
-            jQuery("#m1s").click(function() {
-                jQuery("#jqgrid").jqGrid('setSelection', "13");
-            });
-
-            // remove classes
-            $(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
-            $(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
-            $(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
-            $(".ui-jqgrid-pager").removeClass("ui-state-default");
-            $(".ui-jqgrid").removeClass("ui-widget-content");
-
-            // add classes
-            $(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
-            $(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
-
-            $(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
-            $(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
-            $(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
-            $(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
-            $(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
-            $(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
-            $(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
-            $(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
-
-            $(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
-            $(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
-
-            $(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
-            $(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
-
-            $(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
-            $(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
-
-            $(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
-            $(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
-
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
-                rules : {
-                    name : {
-                        required : true
-                    },
-                    advertiser_id : {
-                        required : true
-                    },
-                    max_impression : {
-                        required : true
-                    },
-                    daily_max_impression : {
-                        required : true
-                    },
-                    max_budget : {
-                        required : true
-                    },
-                    daily_max_budget : {
-                        required : true
-                    },
-                    cpm : {
-                        required : true
-                    },
-                    start_date : {
-                        required : true
-                    },
-                    end_date : {
-                        required : true
-                    },
-                    cpm : {
-                        required : true
+                rules: {
+                    name: {
+                        required: true
                     }
                 },
 
                 // Messages for form validation
-                messages : {
-                    name : {
-                        required : 'Please enter your name'
+                messages: {
+                    name: {
+                        required: 'Please enter your name'
                     },
-                    email : {
-                        required : 'Please enter your email address',
-                        email : 'Please enter a VALID email address'
+                    email: {
+                        required: 'Please enter your email address',
+                        email: 'Please enter a VALID email address'
                     },
-                    phone : {
-                        required : 'Please enter your phone number'
+                    phone: {
+                        required: 'Please enter your phone number'
                     },
-                    interested : {
-                        required : 'Please select interested service'
+                    interested: {
+                        required: 'Please select interested service'
                     },
-                    budget : {
-                        required : 'Please select your budget'
+                    budget: {
+                        required: 'Please select your budget'
                     }
                 },
 
                 // Do not change code below
-                errorPlacement : function(error, element) {
+                errorPlacement: function (error, element) {
                     error.insertAfter(element.parent());
                 }
             });
-
 
 
         })

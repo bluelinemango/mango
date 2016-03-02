@@ -142,7 +142,7 @@
                     @if(\Illuminate\Support\Facades\Auth::user()->role_id==1)
                         <li>
                             <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">Role Permission</span></a>
-                            <ul>
+                            <ul class="child-menu">
                                 <li>
                                     <a href="{{url('user/role-permission')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Role Permission List</span></a>
                                 </li>
@@ -166,7 +166,7 @@
                     @endif
                     <li>
                         <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">User</span></a>
-                        <ul>
+                        <ul class="child-menu">
                             <li>
                                 <a href="{{url('user/register')}}">Add User <span class="badge pull-right inbox-badge bg-color-yellow">new</span></a>
                             </li>

@@ -1,145 +1,43 @@
-@extends('Layout')
+@extends('Layout1')
 @section('siteTitle')List Of Company @endsection
-@section('header_extra')
-    <style>
-        .ui-widget *, .ui-widget input, .ui-widget select, .ui-widget button  {
-            font-family: inherit;
-            font-size: 14px;
-            font-weight: 300 !important;
-        }
-
-        .details-form-field input,
-        .details-form-field select {
-            width: 250px;
-            float: right;
-        }
-
-        .details-form-field {
-            margin: 30px 0;
-        }
-
-        .details-form-field:first-child {
-            margin-top: 10px;
-        }
-
-        .details-form-field:last-child {
-            margin-bottom: 10px;
-        }
-
-        .details-form-field button {
-            display: block;
-            width: 100px;
-            margin: 0 auto;
-        }
-
-        input.error, select.error {
-            border: 1px solid #ff9999;
-            background: #ffeeee;
-        }
-
-        label.error {
-            float: right;
-            margin-left: 100px;
-            font-size: .8em;
-            color: #ff6666;
-        }
-    </style>
-@endsection
 @section('content')
-    <!-- MAIN PANEL -->
-    <div id="main" role="main">
-
-        <!-- RIBBON -->
-        <div id="ribbon">
-
-				<span class="ribbon-button-alignment">
-					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
-						<i class="fa fa-refresh"></i>
-					</span>
-				</span>
-
-            <!-- breadcrumb -->
-            <ol class="breadcrumb">
-                <li>Company List</li>
-            </ol>
-
-        </div>
-        <!-- END RIBBON -->
-
-        <!-- MAIN CONTENT -->
-        <div id="content">
-
-
-            <!-- widget grid -->
-            <section id="widget-grid" class="">
-
-                <!-- row -->
-                <div class="row">
-
-                    <!-- NEW WIDGET START -->
-                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-                        <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="well" id="wid-id-3" >
-                            <header>
-                                <h2>Company List</h2>
-                            </header>
-
-                            <!-- widget div-->
-                            <div>
-
-                                <!-- widget content -->
-                                <div class="">
-
-                                    <!-- widget grid -->
-                                    <section id="widget-grid" class="">
-
-                                        <!-- row -->
-                                        <div class="row">
-
-                                            <!-- NEW WIDGET START -->
-                                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-
-                                                <div id="jsGrid"></div>
-                                                {{--<table id="jqgrid"></table>--}}
-                                                {{--<div id="pjqgrid"></div>--}}
-
-                                            </div>
-                                            <!-- WIDGET END -->
-
-                                        </div>
-
-                                        <!-- end row -->
-
-                                    </section>
-                                    <!-- end widget grid -->
-
-                                </div>
-                                <!-- end widget content -->
-
-                            </div>
-                            <!-- end widget div -->
-
-                        </div>
-                        <!-- end widget -->
-
-                    </article>
-                    <!-- WIDGET END -->
-
+    <div class="col-md-9">
+        <div class="panel light-blue">
+            <div class="panel-heading">
+                <div class="panel-title"><h4>Company List</h4></div>
+            </div><!--.panel-heading-->
+            <div class="panel-body">
+                <div id="jsGrid"></div>
+            </div><!--.panel-body-->
+        </div><!--.panel-->
+    </div><!--.col-->
+    <div class="col-md-3">
+        <div class="panel indigo">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="pull-left">Activities</h4>
+                    <div class="pull-right audit-select">
+                        <select id="audit_status" class="selecter col-md-12" >
+                            <option value="entity">This Entity</option>
+                            <option value="all">All</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
-
-                <!-- end row -->
-
-                <!-- end row -->
-
-            </section>
-            <!-- end widget grid -->
-
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0px 0 0 10px;">
+                <div class="timeline single" id="show_audit">
+                </div>
+                <!--.timeline-->
+            </div>
+            <!--.panel-body-->
         </div>
-        <!-- END MAIN CONTENT -->
-
+        <!--.panel-->
     </div>
-    <!-- END MAIN PANEL -->
+    <!--.col-->
+
 
 
     <div id="detailsDialog">
@@ -168,12 +66,8 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            pageSetUp();
-
             $(function() {
-
                 var db = {
-
                     loadData: function(filter) {
                         return $.grep(this.company, function(company) {
                             return (!filter.Name || company.Name.indexOf(filter.Name) > -1);
@@ -321,7 +215,6 @@
                     $("#detailsDialog").dialog("close");
                 };
             });
-
         });
     </script>
 

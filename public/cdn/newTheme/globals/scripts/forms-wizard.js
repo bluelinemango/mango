@@ -7,6 +7,7 @@ var FormsWizard = {
 		if(countSteps === currentStep) {
 			tab.parents('.panel:first').find('.bs-wizard-next').hide();
 			tab.parents('.panel:first').find('.bs-wizard-submit').show();
+            setReview();
 		} else {
 			tab.parents('.panel:first').find('.bs-wizard-next').show();
 			tab.parents('.panel:first').find('.bs-wizard-submit').hide();
