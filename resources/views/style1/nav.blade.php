@@ -2,7 +2,7 @@
 
     <!-- BEGIN ICONS -->
     <div class="nav-menu">
-        <div class="hamburger">
+        <div id="hamburgerIcon" class="hamburger">
             <span class="patty"></span>
             <span class="patty"></span>
             <span class="patty"></span>
@@ -53,47 +53,47 @@
             </li>
             @if(in_array('VIEW_CLIENT',$permission))
                 <li>
-                    <a href="{{url('client')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Clients</span></a>
+                    <a id="topClientsLink" href="{{url('client')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span id="topClientsMenuItem" class="menu-item-parent">Top Clients</span></a>
                 </li>
             @endif
             @if(in_array('VIEW_ADVERTISER',$permission))
                 <li>
-                    <a href="{{url('advertiser')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Advertiser</span></a>
+                    <a id="topAdvertisersLink" href="{{url('advertiser')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span id="topAdvertisersMenuItem" class="menu-item-parent">Top Advertiser</span></a>
                 </li>
             @endif
             @if(in_array('VIEW_CAMPAIGN',$permission))
                 <li>
-                    <a href="{{url('campaign')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Campaign</span></a>
+                    <a id="topCampaignsLink" href="{{url('campaign')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span id="topCampaignsMenuItem" class="menu-item-parent">Top Campaign</span></a>
                 </li>
             @endif
             @if(in_array('VIEW_CREATIVE',$permission))
                 <li>
-                    <a href="{{url('creative')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Creative</span></a>
+                    <a id="topCreativesLink" href="{{url('creative')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span id="topCreativesMenuItem" class="menu-item-parent">Top Creative</span></a>
                 </li>
             @endif
 
             <li>
-                <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">Target Group</span></a>
+                <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span id="targetGroupMenuItem" class="menu-item-parent">Target Group</span></a>
                 <ul class="child-menu">
                     @if(in_array('VIEW_TARGETGROUP',$permission))
                         <li>
-                            <a href="{{url('targetgroup')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Target Group</span></a>
+                            <a href="{{url('targetgroup')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span id="topTargetGroupsMenuItem" class="menu-item-parent">Top Target Group</span></a>
                         </li>
                     @endif
                     @if(in_array('VIEW_BWLIST',$permission))
                         <li>
-                            <a href="{{url('/bwlist')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Black & white list</span></a>
+                            <a id="topBwListLink" href="{{url('/bwlist')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span id="topBlackListWhiteListMenuItem" class="menu-item-parent">Top Black & white list</span></a>
                         </li>
                     @endif
                     @if(in_array('VIEW_GEOSEGMENTLIST',$permission))
                         <li>
-                            <a href="{{url('geosegment')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Geo Segment</span></a>
+                            <a id="topGeoSegmentsLink" href="{{url('geosegment')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span id="topGeoSegmentMenuItem" class="menu-item-parent">Top Geo Segment</span></a>
                         </li>
 
                     @endif
                     @if(\Illuminate\Support\Facades\Auth::user()->role_id==1)
                         <li>
-                            <a href="{{url('segment')}}"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">Segment</span></a>
+                            <a id="segmentsLink" href="{{url('segment')}}"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span id="topSegmentItem" class="menu-item-parent">Segment</span></a>
 
                         </li>
                     @endif
@@ -106,17 +106,17 @@
                 <ul class="child-menu">
                     @if(in_array('VIEW_MODEL',$permission))
                         <li>
-                            <a href="{{url('model')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Model</span></a>
+                            <a href="{{url('model')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span id="topModelsMenuItem" class="menu-item-parent">Top Model</span></a>
                         </li>
                     @endif
                     @if(in_array('VIEW_OFFER',$permission))
                         <li>
-                            <a href="{{url('offer')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Offer</span></a>
+                            <a href="{{url('offer')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span id="topOffersMenuItem" class="menu-item-parent">Top Offer</span></a>
                         </li>
                     @endif
                     @if(in_array('VIEW_PIXEL',$permission))
                         <li>
-                            <a href="{{url('pixel')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Top Pixel</span></a>
+                            <a href="{{url('pixel')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span id="topPixelsMenuItem" class="menu-item-parent">Top Pixel</span></a>
                         </li>
                     @endif
 
@@ -124,16 +124,16 @@
             </li>
 
             <li>
-                <a href="{{url('bulk-editing')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Bulk Editing</span></a>
+                <a href="{{url('bulk-editing')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span id="BulkEditingMenuItem" class="menu-item-parent">Bulk Editing</span></a>
             </li>
             @if(!in_array('VIEW_REPORT',$permission))
                 <li>
-                    <a href="{{url('reporting')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Reporting</span></a>
+                    <a href="{{url('reporting')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span id="ReportingMenuItem" class="menu-item-parent">Reporting</span></a>
                 </li>
             @endif
             @if(!in_array('VIEW_BID_PROFILE',$permission))
                 <li>
-                    <a href="{{url('bid-profile')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span class="menu-item-parent">Bid Profile</span></a>
+                    <a href="{{url('bid-profile')}}"><i class="fa fa-lg fa-fw fa-list-alt"></i> <span id="bidProfileMenuItem" class="menu-item-parent">Bid Profile</span></a>
                 </li>
             @endif
             <li>

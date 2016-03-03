@@ -198,7 +198,9 @@
                         modeSwitchButton: false,
                         editButton: false,
                         headerTemplate: function () {
-                            return $("<button>").attr("type", "button").text("Add")
+                            return $("<button>").attr("type", "button")
+                                                .attr("id", "AddClientButtonInTopClient")
+                                                .text("Add")
                                     .on("click", function () {
                                         showDetailsDialog("Add", {});
                                     });

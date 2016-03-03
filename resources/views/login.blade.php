@@ -51,20 +51,20 @@
             <div class="form-group">
                 <div class="inputer">
                     <div class="input-wrapper">
-                        <input type="email" name="email" class="form-control" placeholder="Enter your email address">
+                        <input id="emailInput" type="email" name="email" class="form-control" placeholder="Enter your email address">
                     </div>
                 </div>
             </div><!--.form-group-->
             <div class="form-group">
                 <div class="inputer">
                     <div class="input-wrapper">
-                        <input type="password" name="password" autocomplete="new-password" class="form-control" placeholder="Enter your password">
+                        <input id="passwordInput" type="password" name="password" autocomplete="new-password" class="form-control" placeholder="Enter your password">
                     </div>
                 </div>
             </div><!--.form-group-->
             <div class="form-buttons clearfix">
                 <label class="pull-left"><input type="checkbox" name="remember" value="1"> Remember me</label>
-                <button type="submit" class="btn btn-success pull-right">Login</button>
+                <button id="loginButton" type="submit" class="btn btn-success pull-right">Login</button>
             </div><!--.form-buttons-->
 
 
