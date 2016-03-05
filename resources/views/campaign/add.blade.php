@@ -1,236 +1,217 @@
-@extends('Layout')
+@extends('Layout1')
 @section('siteTitle')Add Campaign @endsection
+@section('headerCss')
+    <link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css')}}">
+@endsection
+@section('breadcrumb')
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="ion-home"></i></a></li>
+        <li>
+            <a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/edit')}}">Client: cl{{$advertiser_obj->GetClientID->id}}</a>
+        </li>
+        <li>
+            <a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$advertiser_obj->id.'/edit')}}">Advertiser: adv{{$advertiser_obj->id}}</a>
+        </li>
+        <li><a href="#" class="active">Campaign Registration</a></li>
+    </ol>
+@endsection
 @section('content')
-    <!-- MAIN PANEL -->
-    <div id="main" role="main">
+    <div class="col-md-9">
+        <div class="panel gray">
+            <div class="panel-heading with-gap">
+                <div class="panel-title">
+                    <h4>Campaign Registration  </h4>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0">
 
-        <!-- RIBBON -->
-        <div id="ribbon">
+                <form id="order-form" class="form-horizontal parsley-validate" action="{{URL::route('campaign_create')}}" method="post"
+                      novalidate="novalidate">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="advertiser_id" value="{{$advertiser_obj->id}}"/>
+                    <div class="form-body">
+                        <div class="note note-primary note-bottom-striped">
+                            <h4>General Informaition</h4>
 
-				<span class="ribbon-button-alignment">
-					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
-						<i class="fa fa-refresh"></i>
-					</span>
-				</span>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Name</label>
 
-            <!-- breadcrumb -->
-            <ol class="breadcrumb">
-                <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/edit')}}">Client: cl{{$advertiser_obj->GetClientID->id}}</a></li>
-                <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$advertiser_obj->id.'/edit')}}">Advertiser: adv{{$advertiser_obj->id}}</a></li>
-                <li>Campaign Registration</li>
-            </ol>
-            <!-- end breadcrumb -->
-
-            <!-- You can also add more buttons to the
-            ribbon for further usability
-
-            Example below:
-                        <span class="ribbon-button-alignment pull-right">
-            <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-            <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-            <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-            </span>
-
-    -->
-
-        </div>
-        <!-- END RIBBON -->
-        <!-- MAIN CONTENT -->
-        <div id="content">
-            @if(Session::has('CaptchaError'))
-                <ul>
-                    <li>{{Session::get('CaptchaError')}}</li>
-                </ul>
-                @endif
-                        <!-- widget grid -->
-                <section id="widget-grid" class="">
-                    <!-- START ROW -->
-                    <div class="row">
-                        <!-- NEW COL START -->
-                        <article class="col-sm-12 col-md-12 col-lg-12">
-
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well" >
-                                <header>
-                                    <h2>Campaign Registration </h2>
-                                </header>
-
-                                <!-- widget div-->
-                                <div>
-                                    <!-- widget content -->
-                                    <div class=>
-
-                                        <form id="order-form" class="smart-form" action="{{URL::route('campaign_create')}}" method="post" novalidate="novalidate" >
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="advertiser_id" value="{{$advertiser_obj->id}}">
-                                            <header>
-                                                General Information
-                                            </header>
-
-                                            <div class="well col-md-12">
-                                                <fieldset>
-                                                    <div class="row">
-                                                        <section class="col col-2">
-                                                            <label class="label" for="">Name</label>
-                                                            <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                                <input type="text" name="name" placeholder="Name">
-                                                            </label>
-                                                        </section>
-                                                        <section class="col col-2">
-                                                            <label class="label" for="">Advertiser Name</label>
-                                                            <label class="input">
-                                                                <h6>{{$advertiser_obj->name}}</h6>
-                                                            </label>
-                                                        </section>
-                                                        <section class="col col-2">
-                                                            <label class="label" for="">Client Name</label>
-                                                            <label class="input">
-                                                                <h6>{{$advertiser_obj->GetClientID->name}}</h6>
-                                                            </label>
-                                                        </section>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <section class="col col-2">
-                                                            <label class="label" for="">Domain Name</label>
-                                                            <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                                <input type="text" name="advertiser_domain_name" id="domain_name" placeholder="Domain Name">
-                                                            </label>
-                                                        </section>
-                                                        <section class="col col-2">
-                                                            <label for="" class="label">Status</label>
-                                                            <label class="checkbox">
-                                                                <input type="checkbox" name="active">
-                                                                <i></i>
-                                                            </label>
-                                                        </section>
-
-
-                                                    </div>
-                                                </fieldset>
-
-                                            </div>
-                                            <header>
-                                                Budget Information
-                                            </header>
-                                            <div class="well col-md-6 ">
-                                                <fieldset>
-                                                    <div class="row">
-                                                        <section class="col col-3">
-                                                            <label class="label" for="">Max Impression</label>
-                                                            <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                                <input type="text" name="max_impression" placeholder="Max Impression">
-                                                            </label>
-                                                        </section>
-                                                        <section class="col col-3">
-                                                            <label class="label" for="">Daily Max Impression</label>
-                                                            <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                                <input type="text" name="daily_max_impression" placeholder="Daily Max Impression">
-                                                            </label>
-                                                        </section>
-                                                </fieldset>
-                                            </div>
-                                            <div class="well col-md-6 ">
-
-                                                <fieldset>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Max Budget</label>
-                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                            <input type="text" name="max_budget" placeholder="Max Budget">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Daily Max Budget</label>
-                                                        <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                            <input type="text" name="daily_max_budget" placeholder="Daily Max Budget">
-                                                        </label>
-                                                    </section>
-                                                </fieldset>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <div class="well col-md-6">
-
-                                            <fieldset>
-                                                <section class="col col-3" >
-                                                    <label class="label" for="">CPM</label>
-                                                    <label class="input"> <i class="icon-append fa fa-dollar"></i>
-                                                        <input type="text" name="cpm" placeholder="CPM">
-                                                    </label>
-                                                </section>
-                                            </fieldset>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <header>
-                                                Time Information
-                                            </header>
-                                            <div class="well col-md-6">
-
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col col-4">
-                                                        <label class="label" for="">Start Date</label>
-                                                        <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                                                            <input type="text" name="start_date" id="startdate" placeholder="Expected start date">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-4">
-                                                        <label class="label" for="">End Date</label>
-                                                        <label class="input"> <i class="icon-append fa fa-calendar"></i>
-                                                            <input type="text" name="end_date" id="finishdate" placeholder="Expected finish date">
-                                                        </label>
-                                                    </section>
-                                                </div>
-                                            </fieldset>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <div class="well col-md-12">
-
-                                            <fieldset>
-                                                <section class="col col-4">
-                                                    <label class="label" for="">Description</label>
-                                                    <label class="textarea"> <i class="icon-append fa fa-comment"></i>
-                                                        <textarea rows="5" name="description" placeholder="Tell us about your Campaign"></textarea>
-                                                    </label>
-                                                </section>
-                                            </fieldset>
-                                            </div>
-                                            <footer>
-                                                <div class="row">
-                                                    <div class="col-md-5 col-md-offset-3">
-                                                        <button type="submit"
-                                                                class=" button button--ujarak button--border-thick button--text-upper button--size-s button--inverted button--text-thick">
-                                                            Save
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </footer>
-                                        </form>
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" id="name" name="name" placeholder="Name"
+                                                   class="form-control">
+                                        </div>
                                     </div>
-                                    <!-- end widget content -->
                                 </div>
-                                <!-- end widget div -->
                             </div>
-                            <!-- end widget -->
-                        </article>
-                        <!-- END COL -->
+                            <div class="col-md-2">
+                                <label class="control-label" for="">Advertiser Name</label>
+                                <h5>{{$advertiser_obj->name}}</h5>
+
+                            </div>
+                            <div class="col-md-2">
+                                <label class="control-label" for="">Client Name</label>
+                                <h5>{{$advertiser_obj->GetClientID->name}}</h5>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Domain Name</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" name="advertiser_domain_name"
+                                                   class="form-control" placeholder="Domain Name" id="advertiser_domain_name"
+                                                   >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label class="control-label">Status</label>
+                                    <div class="checkboxer">
+                                        <input type="checkbox" name="active" class="switchery-teal" >
+                                        <label for="check1">Active</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <!--.form-group-->
+                        </div>
+                        <hr/>
+                        <div class="note note-info note-bottom-striped">
+                            <h4>Budget Informaition</h4>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Max Impression</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" name="max_impression"
+                                                   placeholder="Max Impression"
+                                                   id="max_impression"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 ">
+
+                                <div class="form-group">
+                                    <label class="control-label">Daily Max Impression</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" name="daily_max_impression"
+                                                   placeholder="Daily Max Impression"
+                                                   id="daily_max_impression"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 ">
+                                <div class="form-group">
+                                    <label class="control-label">Max Budget</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+
+                                            <input type="text" name="max_budget"
+                                                   placeholder="Max Budget" class="form-control" id="max_budget">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 ">
+                                <div class="form-group">
+                                    <label class="control-label">Daily Max Budget</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" name="daily_max_budget"
+                                                   placeholder="Daily Max Budget" class="form-control" id="daily_max_budget">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-3 ">
+                                <div class="form-group">
+                                    <label class="control-label">cpm</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" name="cpm" placeholder="CPM" id="cpm"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <hr/>
+                        <div class="note note-warning note-bottom-striped">
+                            <h4>Date Range</h4>
+
+                            <div class="control-group">
+                                <div class="controls">
+                                    <div class="input-group">
+                                        <span class="add-on input-group-addon"><i class="ion-android-calendar"></i></span>
+                                        <div class="inputer">
+                                            <div class="input-wrapper">
+                                                <input type="text" style="width: 200px" name="date_range" class="form-control bootstrap-daterangepicker-basic-range" value="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div style="padding: 15px">
+
+                            <div class="form-group">
+                                <label class="control-label">Description</label>
+
+                                <div class="inputer">
+                                    <div class="input-wrapper">
+                                            <textarea name="description" class="form-control" rows="3"
+                                                      placeholder="type minimum 5 characters"
+                                                      required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
                     </div>
-                    <!-- END ROW -->
-                </section>
-                <!-- end widget grid -->
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-5 col-md-9" style="padding: 25px 0">
+                                <button type="submit" class="btn btn-success" style="width:20%">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <!--.panel-body-->
         </div>
-        <!-- END MAIN CONTENT -->
+        <!--.panel-->
     </div>
-    <!-- END MAIN PANEL -->
 @endsection
 @section('FooterScripts')
+    <script src="{{cdn('newTheme/globals/plugins/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+    <script src="{{cdn('newTheme/globals/scripts/forms-pickers.js')}}"></script>
     <script>
         $(document).ready(function () {
-
-            pageSetUp();
-
-
+            FormsPickers.init();
+            FormsSwitchery.init();
             var $orderForm = $("#order-form").validate({
-                // Rules for form validation
                 rules : {
                     name : {
                         required : true
@@ -300,44 +281,6 @@
                     error.insertAfter(element.parent());
                 }
             });
-
-            // START AND FINISH DATE
-            $('#startdate').datepicker({
-                dateFormat: 'dd.mm.yy',
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                onSelect: function (selectedDate) {
-                    $('#finishdate').datepicker('option', 'minDate', selectedDate);
-                }
-            });
-
-            $('#finishdate').datepicker({
-                dateFormat: 'dd.mm.yy',
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                onSelect: function (selectedDate) {
-                    $('#startdate').datepicker('option', 'maxDate', selectedDate);
-                }
-            });
-
-
-            // fuelux wizard
-            var wizard = $('.wizard').wizard();
-
-            wizard.on('finished', function (e, data) {
-                //$("#fuelux-wizard").submit();
-                //console.log("submitted!");
-                $.smallBox({
-                    title: "Congratulations! Your form was submitted",
-                    content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-                    color: "#5F895F",
-                    iconSmall: "fa fa-check bounce animated",
-                    timeout: 4000
-                });
-
-            });
-
-
         })
 
     </script>

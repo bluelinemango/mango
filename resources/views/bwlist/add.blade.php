@@ -1,221 +1,141 @@
-@extends('Layout')
+@extends('Layout1')
 @section('siteTitle')Add b/w list @endsection
-@section('header_extra')
-    <link rel="stylesheet" type="text/css" media="screen" href="{{cdn('css/your_style.css')}}">
+@section('breadcrumb')
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="ion-home"></i></a></li>
+        <li>
+            <a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/edit')}}">Client: cl{{$advertiser_obj->GetClientID->id}}</a>
+        </li>
+        <li>
+            <a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$advertiser_obj->id.'/edit')}}">Advertiser: adv{{$advertiser_obj->id}}</a>
+        </li>
+        <li><a href="#" class="active">Black White List Registration</a></li>
+    </ol>
 @endsection
 @section('content')
-    <!-- MAIN PANEL -->
-    <div id="main" role="main">
+    <div class="col-md-9">
+        <div class="panel gray">
+            <div class="panel-heading with-gap">
+                <div class="panel-title">
+                    <h4>Black White List Registration  </h4>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0">
+                <form id="order-form" class="form-horizontal parsley-validate"
+                      action="{{URL::route('bwlist_create')}}" method="post"
+                      novalidate="novalidate">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="_method" value="PUT"/>
+                    <input type="hidden" name="advertiser_id" value="{{$advertiser_obj->id}}">
 
-        <!-- RIBBON -->
-        <div id="ribbon">
+                    <div class="form-body">
+                        <div class="note note-primary note-bottom-striped">
+                            <h4>General Informaition</h4>
 
-				<span class="ribbon-button-alignment">
-					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
-						<i class="fa fa-refresh"></i>
-					</span>
-				</span>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Name</label>
 
-            <!-- breadcrumb -->
-            <ol class="breadcrumb">
-                <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/edit')}}">Client: cl{{$advertiser_obj->GetClientID->id}}</a></li>
-                <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$advertiser_obj->id.'/edit')}}">Advertiser: adv{{$advertiser_obj->id}}</a></li>
-                <li>Black White List Registration</li>
-            </ol>
-            <!-- end breadcrumb -->
-
-            <!-- You can also add more buttons to the
-            ribbon for further usability
-
-            Example below:
-                        <span class="ribbon-button-alignment pull-right">
-            <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-            <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-            <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-            </span>
-
-    -->
-
-        </div>
-        <!-- END RIBBON -->
-        <!-- MAIN CONTENT -->
-        <div id="content">
-            @if(isset($errors))
-                @foreach($errors->get('msg') as $error)
-                    <div class="alert alert-block alert-{{($errors->get('success')[0] == true)?'success':'danger'}}">
-                        <a class="close" data-dismiss="alert" href="#">×</a>
-                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
-                        <p>
-                            {{$error}}
-                        </p>
-                    </div>
-                @endforeach
-            @endif
-            @if(Session::has('CaptchaError'))
-                <ul>
-                    <li>{{Session::get('CaptchaError')}}</li>
-                </ul>
-                @endif
-                        <!-- widget grid -->
-                <section id="widget-grid" class="">
-                    <!-- START ROW -->
-                    <div class="row">
-                        <!-- NEW COL START -->
-                        <article class="col-sm-12 col-md-12 col-lg-12">
-
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well">
-                                <header>
-                                    <h2>Black White List Registration </h2>
-
-                                </header>
-
-                                <!-- widget div-->
-                                <div>
-
-
-                                    <!-- widget content -->
-                                    <div class="">
-
-                                        <form id="order-form" class="smart-form" action="{{URL::route('bwlist_create')}}" method="post" novalidate="novalidate" >
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="advertiser_id" value="{{$advertiser_obj->id}}">
-                                            <header>
-                                                General Information
-                                            </header>
-
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="name" placeholder="Name">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">List Type</label>
-                                                        <label class="select">
-                                                            <select name="list_type">
-                                                                <option value="black">Black List</option>
-                                                                <option value="white">White List</option>
-                                                            </select> <i></i>
-                                                        </label>
-
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Advertiser Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" value="{{$advertiser_obj->name}}" disabled>
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Client Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" value="{{$advertiser_obj->GetClientID->name}}" disabled>
-                                                        </label>
-                                                    </section>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <section>
-                                                    <label class="label">Domain Name </label>
-                                                    <input name="domain_name" class="tagsinput" value="" data-role="tagsinput" style="min-height: 50px;"  placeholder="Enter website then click Enter">
-                                                </section>
-                                            </fieldset>
-                                            <footer>
-                                                <div class="row">
-                                                    <div class="col-md-5 col-md-offset-3">
-                                                        <button type="submit"
-                                                                class=" button button--ujarak button--border-thick button--text-upper button--size-s button--inverted button--text-thick">
-                                                            Save
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </footer>
-                                        </form>
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" id="name" name="name" placeholder="Name"
+                                                   class="form-control">
+                                        </div>
                                     </div>
-                                    <!-- end widget content -->
                                 </div>
-                                <!-- end widget div -->
                             </div>
-                            <!-- end widget -->
-                        </article>
-                        <!-- END COL -->
+                            <div class="col-md-2">
+                                <label class="control-label" for="">Advertiser Name</label>
+                                <h5>{{$advertiser_obj->name}}</h5>
+
+                            </div>
+                            <div class="col-md-2">
+                                <label class="control-label" for="">Client Name</label>
+                                <h5>{{$advertiser_obj->GetClientID->name}}</h5>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label"> Black / White Type</label>
+
+                                    <select name="list_type" class="selecter">
+                                        <option value="black">
+                                            Black List
+                                        </option>
+                                        <option value="white">
+                                            White List
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label class="control-label">Status</label>
+
+                                    <div class="checkboxer">
+                                        <input type="checkbox" name="active"
+                                               class="switchery-teal">
+                                        <label for="check1">Active</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <!--.form-group-->
+                        </div>
+                        <hr/>
                     </div>
-                    <!-- END ROW -->
-                </section>
-                <!-- end widget grid -->
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-5 col-md-9" style="padding: 25px 0">
+                                <button type="submit" class="btn btn-success" style="width:20%">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <!--.panel-body-->
         </div>
-        <!-- END MAIN CONTENT -->
+        <!--.panel-->
     </div>
-    <!-- END MAIN PANEL -->
 @endsection
 @section('FooterScripts')
-    <!-- PAGE RELATED PLUGIN(S) -->
-    <script src="{{cdn('js/plugin/bootstrap-tags/bootstrap-tagsinput.min.js')}}"></script>
-
     <script type="text/javascript">
-
         $(document).ready(function() {
-            pageSetUp();
-
+            FormsSwitchery.init();
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
-                rules : {
-                    name : {
-                        required : true
-                    },
-                    advertiser_id : {
-                        required : true
-                    },
-                    max_impression : {
-                        required : true
-                    },
-                    daily_max_impression : {
-                        required : true
-                    },
-                    max_budget : {
-                        required : true
-                    },
-                    daily_max_budget : {
-                        required : true
-                    },
-                    cpm : {
-                        required : true
-                    },
-                    start_date : {
-                        required : true
-                    },
-                    end_date : {
-                        required : true
-                    },
-                    cpm : {
-                        required : true
+                rules: {
+                    name: {
+                        required: true
                     }
                 },
 
                 // Messages for form validation
-                messages : {
-                    name : {
-                        required : 'Please enter your name'
+                messages: {
+                    name: {
+                        required: 'Please enter your name'
                     },
-                    email : {
-                        required : 'Please enter your email address',
-                        email : 'Please enter a VALID email address'
+                    email: {
+                        required: 'Please enter your email address',
+                        email: 'Please enter a VALID email address'
                     },
-                    phone : {
-                        required : 'Please enter your phone number'
+                    phone: {
+                        required: 'Please enter your phone number'
                     },
-                    interested : {
-                        required : 'Please select interested service'
+                    interested: {
+                        required: 'Please select interested service'
                     },
-                    budget : {
-                        required : 'Please select your budget'
+                    budget: {
+                        required: 'Please select your budget'
                     }
                 },
 
                 // Do not change code below
-                errorPlacement : function(error, element) {
+                errorPlacement: function (error, element) {
                     error.insertAfter(element.parent());
                 }
             });

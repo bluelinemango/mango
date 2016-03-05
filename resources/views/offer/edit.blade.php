@@ -17,7 +17,7 @@
 @section('content')
     <div class="col-md-9">
         <div class="panel gray">
-            <div class="panel-heading">
+            <div class="panel-heading with-gap">
                 <div class="panel-title">
                     <h4>Edit Offer: {{$offer_obj->name}} </h4>
                 </div>
@@ -28,7 +28,7 @@
                 <form id="order-form" class="form-horizontal parsley-validate"
                       action="{{URL::route('offer_update')}}" method="post"
                       novalidate="novalidate">
-                    <input type="hidden" name="_token"
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="_method" value="PUT"/>
                     <input type="hidden" name="offer_id" value="{{$offer_obj->id}}"/>
 
@@ -79,7 +79,7 @@
                             <div class="clearfix"></div>
                             <!--.form-group-->
                         </div>
-
+                        <hr/>
                         <div class="note note-warning note-bottom-striped">
                             <h4>List Of Pixels</h4>
 
@@ -116,7 +116,7 @@
                             </div>
                             <div class="clearfix"></div>
                         </div>
-
+                        <hr/>
                         <div style="padding: 15px">
 
                             <div class="form-group">
@@ -185,7 +185,6 @@
 
     <script>
         $(document).ready(function () {
-            FormsSwitch.init();
             FormsSwitchery.init();
 
             $('#assign_pixel').multiselect({

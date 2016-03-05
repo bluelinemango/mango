@@ -1,175 +1,235 @@
-<section id="widget-grid" class="">
-    <!-- START ROW -->
-    <div class="row">
-        <!-- NEW COL START -->
-        <article class="col-sm-12 col-md-12 col-lg-12">
 
-            <!-- Widget ID (each widget will need unique ID)-->
-            <div class="well">
-                <!-- widget div-->
-                <div>
-                    <!-- widget content -->
-                    <div class="">
+<div class="">
 
-                        <form id="order-form" class="smart-form" action="{{URL::route('creative_bulk_update')}}"
-                              method="post" novalidate="novalidate">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <header>
-                                General Information
-                            </header>
+    <form id="order-form" class="smart-form" action="{{URL::route('creative_bulk_update')}}"
+          method="post" novalidate="novalidate">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <div class="form-body">
+            <div class="note note-primary note-bottom-striped">
+                <h4>General Informaition</h4>
 
-                            <fieldset>
-                                <div class="row">
-                                    <section class="col col-2">
-                                        <label class="label" for="name"> Name</label>
-                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="name" placeholder="Name" id="name" disabled>
-                                        </label>
-                                    </section>
-                                    <section class="col col-2">
-                                        <label class="label" for="advertiser_domain_name">Domain Name</label>
-                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                            <input type="text" name="advertiser_domain_name" placeholder="Domain Name" id="advertiser_domain_name" disabled>
-                                        </label>
-                                    </section>
-                                    <section class="col col-2">
-                                        <label for="active" class="label">Status</label>
-                                        <label class="checkbox">
-                                            <input type="checkbox" name="active" disabled id="active">
-                                            <i></i>
-                                        </label>
-                                    </section>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" for="name">Name</label>
 
-                                    <section class="col col-2">
-                                        <label for="ad_type" class="label">Ad Type</label>
-                                        <label class="select"><i></i>
-                                            <select name="ad_type" disabled id="ad_type">
-                                                <option value="0">Select One</option>
-                                                <option value="IFRAME">IFrame</option>
-                                                <option value="JAVASCRIPT">Javascript</option>
-                                                <option value="XHTML_BANNER_AD">XHTML Banner Ad</option>
-                                                <option value="XHTML_TEXT_AD">XHTML Text Ad</option>
-
-                                            </select>
-                                        </label>
-                                    </section>
-
-                                </div>
-                            </fieldset>
-                            <header>
-                                URL infromation
-                            </header>
-
-                            <fieldset>
-                                <div class="row">
-                                    <section class="col col-3">
-                                        <label class="label" for="ad_tag">Ad Tag</label>
-                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="ad_tag" placeholder="Ad Tag" disabled id="ad_tag">
-                                        </label>
-                                    </section>
-                                    <section class="col col-3">
-                                        <label class="label" for="landing_page_url">Landign Page URL</label>
-                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                            <input type="text" name="landing_page_url" placeholder="Landign Page URL" disabled id="landing_page_url">
-                                        </label>
-                                    </section>
-                                    <section class="col col-3">
-                                        <label class="label" for="size_width">Width</label>
-                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="size_width" placeholder="Width" disabled id="size_width">
-                                        </label>
-                                    </section>
-                                    <section class="col col-3">
-                                        <label class="label" for="size_height">Height</label>
-                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                            <input type="text" name="size_height" placeholder="Height" disabled id="size_height">
-                                        </label>
-                                    </section>
-                                </div>
-                                <div class="row">
-                                    <section class="col col-3">
-                                        <label class="label" for="attributes">Attributes</label>
-                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                            <input type="text" name="attributes" placeholder="Attributes" disabled id="attributes">
-                                        </label>
-                                    </section>
-                                    <section class="col col-3">
-                                        <label class="label" for="preview_url">Preview URL</label>
-                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                            <input type="text" name="preview_url" placeholder="Preview URL" disabled id="preview_url">
-                                        </label>
-                                    </section>
-                                    <section class="col col-3">
-                                        <label class="label" for="api">API</label>
-                                        <label class="select select-multiple">
-                                            <select name="api[]" multiple class="custom-scroll" disabled id="api">
-                                                <option value="VPAID_1.0">VPAID 1.0</option>
-                                                <option value="VPAID_2.0">VPAID 2.0</option>
-                                                <option value="MRAID-1"> MRAID-1</option>
-                                                <option value="ORMMA">ORMMA</option>
-                                                <option value="MRAID-2">MRAID-2</option>
-                                            </select> </label>
-
-                                        <div class="note">
-                                            <strong>Note:</strong> hold down the ctrl/cmd button to select multiple
-                                            options.
-                                        </div>
-                                    </section>
-
-                                </div>
-                                <section>
-                                    <label class="label" for="description">Description</label>
-                                    <label class="textarea"> <i class="icon-append fa fa-comment"></i>
-                                        <textarea rows="5" disabled id="description" name="description"
-                                                  placeholder="Tell us about your Creative"></textarea>
-                                    </label>
-                                </section>
-                            </fieldset>
-                            <div class="well col-md-12">
-                                <div class="col-md-3">
-                                    <label class="label" for="">Select Client</label>
-                                    <select name="client_id">
-                                        <option value="all">All Client</option>
-                                        @foreach($client_obj as $index)
-                                            <option value="{{$index->id}}">{{$index->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="label" for="">Select Advertiser</label>
-                                    <select name="advertiser_id">
-                                        <option value="0">All Advertiser</option>
-                                    </select>
-                                </div>
+                        <div class="inputer">
+                            <div class="input-wrapper">
+                                <input type="text" id="name" name="name" placeholder="Name"
+                                       class="form-control" disabled>
                             </div>
-                            <input type="hidden" name="creative_list" id="creative_list">
-                            <div class="well col-md-12" id="showCreativeList">
-                                <div id="creative_grid"></div>
-                            </div>
-
-                            <footer>
-                                <div class="row">
-                                    <div class="col-md-5 col-md-offset-3">
-                                        <button type="submit"
-                                                class=" button button--ujarak button--border-thick button--text-upper button--size-s button--inverted button--text-thick">
-                                            Save
-                                        </button>
-                                    </div>
-                                </div>
-                            </footer>
-                        </form>
+                        </div>
                     </div>
-                    <!-- end widget content -->
                 </div>
-                <!-- end widget div -->
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" for="advertiser_domain_name">Domain Name</label>
+
+                        <div class="inputer">
+                            <div class="input-wrapper">
+                                <input type="text" name="advertiser_domain_name"
+                                       class="form-control" placeholder="Domain Name"
+                                       id="advertiser_domain_name" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <label class="control-label" for="active">Status</label>
+
+                        <div class="checkboxer">
+                            <input type="checkbox" name="active" id="active"
+                                   class="switchery-teal" disabled>
+                            <label for="check1">Active</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" for="ad_type">Ad Type</label>
+
+                        <div class="">
+                            <select name="ad_type" class="selecter" id="ad_type" disabled>
+                                <option value="0">Select One</option>
+                                <option value="IFRAME">IFrame
+                                </option>
+                                <option value="JAVASCRIPT">Javascript
+                                </option>
+                                <option value="XHTML_BANNER_AD">XHTML Banner Ad
+                                </option>
+                                <option value="XHTML_TEXT_AD">XHTML Text Ad
+                                </option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <!--.form-group-->
             </div>
-            <!-- end widget -->
-        </article>
-        <!-- END COL -->
-    </div>
-    <!-- END ROW -->
-</section>
+            <hr/>
+
+            <div class="note note-info note-bottom-striped">
+                <h4>URL infromation</h4>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="landing_page_url" class="control-label">Landign Page
+                            URL</label>
+
+                        <div class="inputer">
+                            <div class="input-wrapper">
+                                <input type="text" name="landing_page_url"
+                                       placeholder="Landign Page URL" id="landing_page_url"
+                                       class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 ">
+                    <div class="form-group">
+                        <label class="control-label" for="attributes">Attributes</label>
+
+                        <div class="inputer">
+                            <div class="input-wrapper">
+                                <input type="text" name="attributes" placeholder="Attributes"
+                                       class="form-control" id="attributes" disabled>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 ">
+                    <div class="form-group">
+                        <label class="control-label" for="preview_url">Preview URL</label>
+
+                        <div class="inputer">
+                            <div class="input-wrapper">
+                                <input type="text" name="preview_url" placeholder="Preview URL"
+                                       class="form-control" id="preview_url" disabled>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-3 ">
+                    <div class="form-group">
+                        <label class="control-label" for="api">API</label>
+
+                        <select name="api[]" multiple class="selecter" id="api" disabled>
+                            <option value="VPAID_1.0">VPAID 1.0
+                            </option>
+                            <option value="VPAID_2.0">VPAID 2.0
+                            </option>
+                            <option value="MRAID-1"> MRAID-1
+                            </option>
+                            <option value="ORMMA">ORMMA
+                            </option>
+                            <option value="MRAID-2">MRAID-2
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-1 ">
+                    <div class="form-group">
+                        <label class="control-label" for="size_width">Width</label>
+
+                        <div class="inputer">
+                            <div class="input-wrapper">
+                                <input type="text" name="size_width" placeholder="Width"
+                                       class="form-control"
+                                       id="size_width" disabled>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1 ">
+                    <div class="form-group">
+                        <label class="control-label" for="size_height">Height</label>
+
+                        <div class="inputer">
+                            <div class="input-wrapper">
+                                <input type="text" name="size_height" placeholder="Height"
+                                       id="size_height"
+                                       class="form-control" disabled>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <hr/>
+
+            <div class="note note-warning note-bottom-striped">
+                <div class="form-group">
+                    <label class="control-label" for="ad_tag">Ad Tag</label>
+
+                    <div class="inputer">
+                        <div class="input-wrapper">
+                        <textarea name="ad_tag" class="form-control" rows="3"
+                                  placeholder="type minimum 5 characters" id="ad_tag" disabled></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="form-group">
+                <label class="control-label">Description</label>
+
+                <div class="inputer">
+                    <div class="input-wrapper">
+                    <textarea name="description" class="form-control" rows="3"
+                              placeholder="type minimum 5 characters"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-3 ">
+                    <div class="form-group">
+                        <label class="control-label" for="size_height">Select Client</label>
+
+                        <select name="client_id" class="selecter">
+                            <option value="all">All Client</option>
+                            @foreach($client_obj as $index)
+                                <option value="{{$index->id}}">{{$index->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 ">
+                    <div class="form-group">
+                        <label class="control-label" for="size_height">Select Advertiser</label>
+
+                        <select name="advertiser_id" class="selecter">
+                            <option value="0">All Advertiser</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <input type="hidden" name="creative_list" id="creative_list">
+            <div class="well col-md-12" id="showCreativeList">
+                <div id="creative_grid"></div>
+            </div>
+
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-offset-5 col-md-9" style="padding: 25px 0">
+                        <button type="submit" class="btn btn-success" style="width:20%">Submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
 
 <script>
     $("select[name='client_id']").change(function () {
@@ -374,6 +434,8 @@
         }
     });
 
+    $('select.selecter').selectpicker();
+//    Pleasure.init();
 
 
 </script>

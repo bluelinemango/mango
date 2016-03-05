@@ -139,7 +139,7 @@
         <!-- content -->
         <div class="col-md-9">
             <div class="panel gray">
-                <div class="panel-heading">
+                <div class="panel-heading with-gap">
                     <div class="panel-title">
                         @if($clone==1)
                             <h4>Add Campaign </h4>
@@ -226,7 +226,7 @@
                                             <div class="clearfix"></div>
                                             <!--.form-group-->
                                         </div>
-
+                                        <hr/>
                                         <div class="note note-info note-bottom-striped">
                                             <h4>Budget Informaition</h4>
 
@@ -302,7 +302,7 @@
                                             </div>
                                             <div class="clearfix"></div>
                                         </div>
-
+                                        <hr/>
                                         <div class="note note-warning note-bottom-striped">
                                             <h4>Date Range</h4>
 
@@ -319,7 +319,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                        <hr/>
                                         <div style="padding: 15px">
 
                                             <div class="form-group">
@@ -352,7 +352,7 @@
         </div>
         <!--.col-->
         <div class="col-md-3">
-            <div class="panel indigo">
+            <div class="panel gray">
                 <div class="panel-heading">
                     <div class="panel-title">
                         <h4 class="pull-left">Activities</h4>
@@ -384,7 +384,8 @@
 
         <div class="col-md-12">
             <div class="panel gray">
-            <div class="panel-heading">
+            <!--.panel-heading-->
+            <div class="panel-body hexagon-bg">
                 <div class="panel-title">
                     <h4 class="pull-left">List of Target Group </h4>
                     @if(in_array('ADD_EDIT_TARGETGROUP',$permission))
@@ -404,9 +405,6 @@
                     @endif
 
                 </div>
-            </div>
-            <!--.panel-heading-->
-            <div class="panel-body">
                 <div id="targetgroup_grid"></div>
             </div>
         </div>
@@ -594,7 +592,6 @@
 
     <script>
         $(document).ready(function () {
-            FormsSwitch.init();
             FormsSwitchery.init();
 
             var $orderForm = $("#order-form").validate({

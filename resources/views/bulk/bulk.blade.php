@@ -1,6 +1,12 @@
-@extends('Layout')
+@extends('Layout1')
 @section('siteTitle')Bulk Editing @endsection
-@section('header_extra')
+@section('breadcrumb')
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="ion-home"></i></a></li>
+        <li><a href="#" class="active">Bulk Editing</a></li>
+    </ol>
+@endsection
+@section('headerCss')
     <style>
         .time_table_unselect {
             background-color: rgba(19, 222, 230, 0.45);
@@ -24,119 +30,51 @@
         select:disabled, textarea:disabled ,input:disabled , input:disabled + i {
             background-color: yellow !important;
         }
-        .label{
+        .control-label{
             cursor: pointer;
         }
     </style>
 @endsection
 @section('content')
-    <!-- MAIN PANEL -->
-    <div id="main" role="main">
+    <div class="col-md-12">
+        <div class="panel gray">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4>Bulk Editing</h4>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0">
+                <div class="form-body">
+                    <div class="note note-primary note-bottom-striped">
+                        <h4>General Informaition</h4>
 
-        <!-- RIBBON -->
-        <div id="ribbon">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Entity</label>
 
-
-            <!-- breadcrumb -->
-            <ol class="breadcrumb">
-                <li>Bulk Editing</li>
-            </ol>
-
-        </div>
-        <!-- END RIBBON -->
-
-        <!-- MAIN CONTENT -->
-        <div id="content">
-
-
-            <!-- widget grid -->
-            <section id="widget-grid" class="">
-
-                <!-- row -->
-                <div class="row">
-
-                    <!-- NEW WIDGET START -->
-                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-                        <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="well" id="wid-id-3">
-                            <header>
-                                <h2>Bulk Editing</h2>
-                            </header>
-
-                            <!-- widget div-->
-                            <div class="row">
-
-                                <!-- widget content -->
-                                <div class="col-md-12">
-                                    <div class="smart-form">
-                                        <fieldset>
-                                            <section class="col col-3">
-                                                <label for="show_entity" class="label">Select Entity</label>
-                                                <label class="select"><i></i>
-                                                    <select name="role_group" id="show_entity">
-                                                        <option value="0">Select One</option>
-                                                        <option value="campaign">Campaign</option>
-                                                        <option value="targetgroup">Target Group</option>
-                                                        <option value="creative">Creative</option>
-                                                    </select>
-                                                </label>
-                                            </section>
-                                        </fieldset>
-                                        <div class="clearfix"></div>
-                                        <div id="show_fields"></div>
-
-                                    </div>
-                                </div>
-                                <!-- end widget content -->
-
+                                <select name="role_group" id="show_entity" class="selecter">
+                                    <option value="0">Select One</option>
+                                    <option value="campaign">Campaign</option>
+                                    <option value="targetgroup">Target Group</option>
+                                    <option value="creative">Creative</option>
+                                </select>
                             </div>
-                            <!-- end widget div -->
-
                         </div>
-                        <!-- end widget -->
+                        <div class="clearfix"></div>
 
-                    </article>
-                    <!-- WIDGET END -->
-
+                        <!--.form-group-->
+                    </div>
+                    <hr/>
                 </div>
 
-                <!-- end row -->
+                <div class="clearfix"></div>
+                <div id="show_fields"></div>
+            </div>
 
-                <!-- end row -->
-
-            </section>
-            <!-- end widget grid -->
-
+            <!--.panel-body-->
         </div>
-        <!-- END MAIN CONTENT -->
-
-    </div>
-    <!-- END MAIN PANEL -->
-
-
-    <div id="detailsDialog">
-        <form id="detailsForm">
-            <div class="details-form-field">
-                <label for="name">Name:</label>
-                <input id="name" name="name" type="text"/>
-            </div>
-            <div class="details-form-field">
-                <label for="category">Category:</label>
-                <input id="category" name="category" type="text"/>
-            </div>
-            <div class="details-form-field">
-                <label for="type">Type:</label>
-                <input id="type" name="type" type="text"/>
-            </div>
-            <div class="details-form-field">
-                <label for="daily_limit">Daily Limit:</label>
-                <input id="daily_limit" name="daily_limit" type="text"/>
-            </div>
-            <div class="details-form-field">
-                <button type="submit" id="save">Save</button>
-            </div>
-        </form>
+        <!--.panel-->
     </div>
 @endsection
 @section('FooterScripts')
@@ -202,8 +140,13 @@
                 });
             }
         });
-        $("#show_fields").on("click", ".label", function () {
+        $("#show_fields").on("click", ".control-label", function () {
             var id = $(this).attr('for');
+            if($('#'+id).is("select")){
+                $('#'+id).next().each(function(){
+                    $(this).find('.disabled').removeClass('disabled');
+                });
+            }
             if(!$('#'+id).prop('disabled')){
                 $('#'+id).prop('disabled', true)
             }else {
@@ -233,7 +176,6 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            pageSetUp();
         });
     </script>
 

@@ -2,12 +2,12 @@
 @section('siteTitle')List Of {{\Illuminate\Support\Facades\Auth::user()->name}} Clients @endsection
 @section('content')
     <div class="col-md-9">
-        <div class="panel light-blue">
+        <div class="panel gray">
             <div class="panel-heading">
-                <div class="panel-title"><h4>Client List</h4></div>
             </div>
             <!--.panel-heading-->
-            <div class="panel-body">
+            <div class="panel-body hexagon-bg">
+                <div class="panel-title"><h4>Client List</h4></div>
                 <div id="client_grid"></div>
             </div>
             <!--.panel-body-->
@@ -15,7 +15,7 @@
         <!--.panel-->
     </div><!--.col-->
     <div class="col-md-3">
-        <div class="panel indigo">
+        <div class="panel gray">
             <div class="panel-heading">
                 <div class="panel-title">
                     <h4 class="pull-left">Activities</h4>
@@ -192,7 +192,7 @@
                     {name: "name", title: "Name", type: "text", width: 150},
                     {name: "advertiser", title: "#Advertiser", width: 50, editing: false, align: "center"},
                     {name: "date_modify", title: "Last Modified", align: "center"},
-                    {name: "action", title: "Edit | +Client", sorting: false, width: 70, align: "center"},
+                    {name: "action", title: "Edit | +Advertiser", sorting: false, width: 70, align: "center"},
                     {
                         type: "control",
                         modeSwitchButton: false,

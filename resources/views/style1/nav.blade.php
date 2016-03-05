@@ -179,17 +179,6 @@
                 </ul>
             </li>
 
-
-
-            <li>
-                <a href="javascript:;">E-mail Templates</a>
-                <ul class="child-menu">
-                    <li><a href="email-basic.html" target="_blank">Basic Template</a></li>
-                    <li><a href="email-invoice.html" target="_blank">Invoice Template</a></li>
-                    <li><a href="email-list.html" target="_blank">List Template</a></li>
-                </ul>
-            </li>
-
         </ul>
     </div><!--.menu-layer-->
     <!-- END OF MENU LAYER -->

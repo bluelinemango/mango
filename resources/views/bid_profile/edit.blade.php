@@ -27,7 +27,7 @@
                             <form id="order-form" class="form-horizontal parsley-validate"
                                   action="{{URL::route('bidProfile_update')}}" method="post"
                                   novalidate="novalidate">
-                                <input type="hidden" name="_token"
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <input type="hidden" name="_method" value="PUT"/>
                                     <input type="hidden" name="bidProfile_id" value="{{$bid_profile_obj->id}}"/>
                                 <div class="form-body">
@@ -191,7 +191,6 @@
             }
         });
         $(document).ready(function() {
-            FormsSwitch.init();
             FormsSwitchery.init();
 
 

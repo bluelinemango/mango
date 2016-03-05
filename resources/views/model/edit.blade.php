@@ -16,7 +16,7 @@
 @section('content')
     <div class="col-md-9">
         <div class="panel gray">
-            <div class="panel-heading">
+            <div class="panel-heading with-gap">
                 <div class="panel-title">
                     <h4>Edit Model: {{$model_obj->name}} </h4>
                 </div>
@@ -24,10 +24,10 @@
             <!--.panel-heading-->
             <div class="panel-body" style="padding: 0">
 
-                            <form id="order-form" class="form-horizontal parsley-validate"
+                <form id="order-form" class="form-horizontal parsley-validate"
                                   action="{{URL::route('model_update')}}" method="post"
                                   novalidate="novalidate">
-                                <input type="hidden" name="_token"
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <input type="hidden" name="_method" value="PUT"/>
                                     <input type="hidden" name="model_id" value="{{$model_obj->id}}"/>
                                 <div class="form-body">
@@ -77,7 +77,7 @@
                                         <div class="clearfix"></div>
                                         <!--.form-group-->
                                     </div>
-
+                                    <hr/>
                                     <div class="note note-info note-bottom-striped">
                                         <h4>?????</h4>
 
@@ -134,6 +134,7 @@
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
+                                    <hr/>
                                     <div class="note note-warning note-bottom-striped">
                                         <div class="col-md-3">
                                             <label class="control-label" for="">#Negative Device Used</label>
@@ -163,6 +164,7 @@
                                         <div class="clearfix"></div>
 
                                     </div>
+                                    <hr/>
 
                                     <div class="col-md-6 note note-warning note-bottom-striped">
                                         <h4>Feature Score Map</h4>
@@ -174,6 +176,7 @@
                                         <div id="top_feature_score_map_grid"></div>
                                         <div class="clearfix"></div>
                                     </div>
+                                    <hr/>
                                     <div class="clearfix"></div>
                                     @if($model_obj->model_type=='seed_model')
                                     <div class="note note-warning note-bottom-striped" id="seed_model_div">
@@ -230,6 +233,8 @@
                                         <div class="clearfix"></div>
 
                                     </div>
+                                        <hr/>
+
                                     @elseif($model_obj->model_type=='pixel_model')
                                     <div class="note note-warning note-bottom-striped" id="pixel_model_div">
                                         <div class="col-md-3">
@@ -298,6 +303,8 @@
                                         <div class="clearfix"></div>
 
                                     </div>
+                                        <hr/>
+
                                     @endif
                                     <div class="note note-warning note-bottom-striped">
                                         <div class="col-md-3">
@@ -362,6 +369,7 @@
                                         <div class="clearfix"></div>
 
                                     </div>
+                                    <hr/>
                                     <div style="padding: 15px">
 
                                         <div class="form-group">
@@ -434,7 +442,6 @@
     <script type="text/javascript">
 
         $(document).ready(function() {
-            FormsSwitch.init();
             FormsSwitchery.init();
 
             $.ajax({
@@ -558,28 +565,6 @@
 
             @endif
 
-            $('#multiselect').multiselect();
-
-            $('[name="q"]').on('keyup', function(e) {
-                var search = this.value;
-                var $options = $(this).next('select').find('option');
-
-                $options.each(function(i, option) {
-                    if (option.text.indexOf(search) > -1) {
-                        $(option).show();
-                    } else {
-                        $(option).hide();
-                    }
-                });
-            });
-
-            $('#search').multiselect({
-                search: {
-                    left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
-                    right: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
-                }
-            });
-//
             $('#multi_d').multiselect({
                 search: {
                     left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',

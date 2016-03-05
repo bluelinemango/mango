@@ -1,197 +1,165 @@
-@extends('Layout')
+@extends('Layout1')
 @section('siteTitle')Edit User: {{$user_obj->name}} @endsection
+@section('breadcrumb')
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="ion-home"></i></a></li>
+        <li><a href="#" class="active">User Edit: usr{{$user_obj->id}}</a></li>
+    </ol>
+@endsection
 @section('content')
-    <!-- MAIN PANEL -->
-    <div id="main" role="main">
-        <!-- RIBBON -->
-        <div id="ribbon">
+    <div class="col-md-9">
+        <div class="panel gray">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4>Edit User: {{$user_obj->name}}  </h4>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0">
 
-				<span class="ribbon-button-alignment">
-					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
-						<i class="fa fa-refresh"></i>
-					</span>
-				</span>
+                <form id="order-form" class="form-horizontal parsley-validate"
+                      action="{{URL::route('user_update')}}" method="post"
+                      novalidate="novalidate">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="_method" value="PUT"/>
+                    <input type="hidden" name="user_id" value="{{$user_obj->id}}"/>
+                    <div class="form-body">
+                        <div class="note note-primary note-bottom-striped">
+                            <h4>General Informaition</h4>
 
-            <!-- breadcrumb -->
-            <ol class="breadcrumb">
-                <li>User Edit: usr{{$user_obj->id}}</li>
-            </ol>
-            <!-- end breadcrumb -->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Name</label>
 
-            <!-- You can also add more buttons to the
-            ribbon for further usability
-
-            Example below:
-                        <span class="ribbon-button-alignment pull-right">
-            <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-            <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-            <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-            </span>
-
- -->
-
-        </div>
-        <!-- END RIBBON -->
-        <!-- MAIN CONTENT -->
-        <div id="content">
-            @if(Session::has('CaptchaError'))
-                <ul>
-                    <li>{{Session::get('CaptchaError')}}</li>
-                </ul>
-                @endif
-                        <!-- widget grid -->
-                <section id="widget-grid" class="">
-                    <!-- START ROW -->
-                    <div class="row">
-                        <!-- NEW COL START -->
-                        <article class="col-sm-12 col-md-12 col-lg-12">
-
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well" >
-
-                                <header>
-                                    <h2>Edit User: {{$user_obj->name}} </h2>
-                                </header>
-
-                                <!-- widget div-->
-                                <div class="row">
-                                    <!-- widget content -->
-                                    <div class="col-md-9">
-
-                                        <form id="order-form" class="smart-form" action="{{URL::route('user_update')}}" method="post" novalidate="novalidate" >
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="_method" value="PUT"/>
-                                            <input type="hidden" name="user_id" value="{{$user_obj->id}}"/>
-                                            <header>
-                                                General Information
-                                            </header>
-                                            <div class="well">
-                                            <fieldset>
-                                                <section class="col col-3">
-                                                    <label for="" class="label">Name</label>
-                                                    <label class="input">
-                                                        <input type="text" name="name" placeholder="Name" value="{{$user_obj->name}}">
-                                                    </label>
-                                                </section>
-                                                <section class="col col-3">
-                                                    <label for="" class="label">Email Address</label>
-                                                    <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                        <input type="text" name="email" placeholder="Email Address" value="{{$user_obj->email}}">
-                                                    </label>
-                                                </section>
-                                                <section class="col col-3">
-                                                    <label for="" class="label">Password</label>
-                                                    <label class="input"><i class="icon-append fa fa-briefcase"></i>
-                                                        <input type="password" name="password">
-                                                    </label>
-                                                </section>
-                                                <div class="clearfix"></div>
-                                                <section class="col col-3">
-                                                    <label for="" class="label">Select Role</label>
-                                                    <label class="select"><i></i>
-                                                        <select name="role_group">
-                                                            <option value="0" disabled>Select One</option>
-                                                            @foreach($role_obj as $index)
-                                                                <option value="{{$index->id}}"@if($index->id==$user_obj->role_id) selected @endif>{{$index->name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </label>
-                                                </section>
-                                                @if(\Illuminate\Support\Facades\Auth::user()->role_id==1)
-                                                    <section class="col col-3">
-                                                        <label for="" class="label">Select Company</label>
-                                                        <label class="select"><i></i>
-                                                            <select name="company_group">
-                                                                <option value="0" disabled>Select One</option>
-                                                                @foreach($company_obj as $index)
-                                                                    <option value="{{$index->id}}"@if($index->id==$user_obj->company_id) selected @endif>{{$index->name}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </label>
-                                                    </section>
-                                                @else
-                                                    <section class="col col-3">
-                                                        <label for="" class="label">Comapny Name</label>
-                                                        <label class="input"><i></i>
-                                                            <input type="text" value="{{$company_obj->getCompany->name}}" disabled/>
-                                                        </label>
-                                                        <input type="hidden" name="company_group" value="{{$company_obj->getCompany->id}}"/>
-                                                    </section>
-
-                                                @endif
-                                                <section class="col col-3">
-                                                    <label for="" class="label">status</label>
-                                                    <label class="checkbox">
-                                                        <input type="checkbox" name="active" @if($user_obj->active==1) checked @endif>
-                                                        <i></i>
-                                                    </label>
-                                                </section>
-                                                <div class="clearfix"></div>
-                                                <section class="col col-6">
-                                                    <label class="textarea"> <i class="icon-append fa fa-comment"></i>
-                                                        <textarea rows="5" name="description" placeholder="Tell us about your advertiser"></textarea>
-                                                    </label>
-                                                </section>
-
-                                            </fieldset>
-                                            </div>
-                                            <fieldset>
-                                            </fieldset>
-                                            <footer>
-                                                <div class="row">
-                                                    <div class="col-md-5 col-md-offset-3">
-                                                        <button type="submit"
-                                                                class=" button button--antiman button--round-l button--text-medium">
-                                                            Submit
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </footer>
-                                        </form>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="card">
-                                            <div class="card-heading">
-                                                <h2 class="pull-left">Activities</h2>
-                                                <select id="audit_status" class="pull-right">
-                                                    <option value="entity">This Entity</option>
-                                                    <option value="all">All</option>
-                                                    <option value="user">User</option>
-                                                </select>
-                                                <div class="clearfix"></div>
-                                                <small>All Activities for this Entity </small>
-                                            </div>
-                                            <div class="card-body" >
-                                                <div class="streamline b-l b-accent m-b" id="show_audit">
-                                                </div>
-                                            </div>
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" id="name" name="name" placeholder="Name"
+                                                   class="form-control" value="{{$user_obj->name}}">
                                         </div>
-                                        <!-- WIDGET END -->
-
                                     </div>
-
-                                    <!-- end widget content -->
                                 </div>
-                                <!-- end widget div -->
                             </div>
-                            <!-- end widget -->
-                        </article>
-                        <!-- END COL -->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Email Address</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" id="email" name="email" placeholder="Email Address"
+                                                   class="form-control" value="{{$user_obj->email}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Password</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="password" id="password" name="password" placeholder="Password"
+                                                   class="form-control" autocomplete="new-password">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Select Role</label>
+
+                                    <select name="role_group" class="selecter">
+                                        <option value="0" disabled>Select One</option>
+                                        @foreach($role_obj as $index)
+                                            <option value="{{$index->id}}"@if($index->id==$user_obj->role_id) selected @endif>{{$index->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            @if(\Illuminate\Support\Facades\Auth::user()->role_id==1)
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Select Company</label>
+
+                                    <select name="company_group" class="selecter">
+                                        <option value="0" disabled>Select One</option>
+                                        @foreach($company_obj as $index)
+                                            <option value="{{$index->id}}"@if($index->id==$user_obj->company_id) selected @endif>{{$index->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            @else
+                                <div class="col-md-2">
+                                    <label class="control-label" for="">Comapny Name</label>
+                                    <h5>{{$company_obj->getCompany->name}}</h5>
+
+                                </div>
+                            @endif
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label class="control-label">Status</label>
+
+                                    <div class="checkboxer">
+                                        <input type="checkbox" name="active"
+                                               class="switchery-teal" @if($user_obj->status=="Active") checked @endif>
+                                        <label for="check1">Active</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <!--.form-group-->
+                        </div>
                     </div>
-                    <!-- END ROW -->
-                </section>
-                <!-- end widget grid -->
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-5 col-md-9" style="padding: 25px 0">
+                                <button type="submit" class="btn btn-success" style="width:20%">Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <!--.panel-body-->
         </div>
-        <!-- END MAIN CONTENT -->
+        <!--.panel-->
     </div>
-    <!-- END MAIN PANEL -->
+    <div class="col-md-3">
+        <div class="panel indigo">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="pull-left">Activities</h4>
+
+                    <div class="pull-right audit-select">
+                        <select id="audit_status" class="selecter col-md-12">
+                            <option value="entity">This Entity</option>
+                            <option value="all">All</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0px 0 0 10px;">
+                <div class="timeline single" id="show_audit">
+                </div>
+                <!--.timeline-->
+            </div>
+            <!--.panel-body-->
+        </div>
+        <!--.panel-->
+    </div>
+    <!--.col-->
+    <div class="clearfix"></div>
+
 @endsection
 @section('FooterScripts')
     <script>
         $(document).ready(function () {
-
-            pageSetUp();
-
+            FormsSwitchery.init();
             $.ajax({
                 url: "{{url('ajax/getAudit/user/'.$user_obj->id)}}"
             }).success(function (response) {
@@ -256,10 +224,6 @@
                     error.insertAfter(element.parent());
                 }
             });
-
-
         })
-
-
     </script>
 @endsection

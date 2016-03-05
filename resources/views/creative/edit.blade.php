@@ -23,7 +23,7 @@
 
 <div class="col-md-9">
     <div class="panel gray">
-        <div class="panel-heading">
+        <div class="panel-heading with-gap">
             <div class="panel-title">
                 @if($clone==1)
                     <h4>Add Creative </h4>
@@ -137,7 +137,7 @@
                                     <div class="clearfix"></div>
                                     <!--.form-group-->
                                 </div>
-
+                                <hr/>
                                 <div class="note note-info note-bottom-striped">
                                     <h4>URL infromation</h4>
 
@@ -240,7 +240,7 @@
 
                                     <div class="clearfix"></div>
                                 </div>
-
+                                <hr/>
                                 <div class="note note-warning note-bottom-striped">
                                     <div class="form-group">
                                         <label class="control-label">Ad Tag</label>
@@ -254,7 +254,7 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <hr/>
                                 <div style="padding: 15px">
 
                                     <div class="form-group">
@@ -323,7 +323,6 @@
 @section('FooterScripts')
     <script>
         $(document).ready(function () {
-            FormsSwitch.init();
             FormsSwitchery.init();
 
             var $orderForm = $("#order-form").validate({

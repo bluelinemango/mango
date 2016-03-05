@@ -1,330 +1,317 @@
 @extends('Layout1')
 @section('siteTitle')Add Creative @endsection
+@section('breadcrumb')
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="ion-home"></i></a></li>
+        <li>
+            <a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/edit')}}">Client:
+                cl{{$advertiser_obj->GetClientID->id}}</a>
+        </li>
+        <li>
+            <a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$advertiser_obj->id.'/edit')}}">Advertiser:
+                adv{{$advertiser_obj->id}}</a>
+        </li>
+        <li><a href="#" class="active">Creative Registration</a></li>
+    </ol>
+@endsection
 @section('content')
-    <!-- MAIN PANEL -->
-    <div id="main" role="main">
+    <div class="col-md-9">
+        <div class="panel gray">
+            <div class="panel-heading with-gap">
+                <div class="panel-title">
+                    <h4>Creative Registration</h4>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0">
 
-        <!-- RIBBON -->
-        <div id="ribbon">
+                <form id="order-form" class="form-horizontal parsley-validate"
+                      action="{{URL::route('creative_create')}}" method="post"
+                      novalidate="novalidate">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="advertiser_id"
+                           value="{{$advertiser_obj->id}}"/>
 
-				<span class="ribbon-button-alignment">
-					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
-						<i class="fa fa-refresh"></i>
-					</span>
-				</span>
+                    <div class="form-body">
+                        <div class="note note-primary note-bottom-striped">
+                            <h4>General Informaition</h4>
 
-            <!-- breadcrumb -->
-            <ol class="breadcrumb">
-                <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/edit')}}">Client: cl{{$advertiser_obj->GetClientID->id}}</a></li>
-                <li><a href="{{url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$advertiser_obj->id.'/edit')}}">Advertiser: adv{{$advertiser_obj->id}}</a></li>
-                <li>Creative Registration</li>
-            </ol>
-            <!-- end breadcrumb -->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Name</label>
 
-            <!-- You can also add more buttons to the
-            ribbon for further usability
-
-            Example below:
-                        <span class="ribbon-button-alignment pull-right">
-            <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-            <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-            <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-            </span>
-
-    -->
-
-        </div>
-        <!-- END RIBBON -->
-        <!-- MAIN CONTENT -->
-        <div id="content">
-            @if(Session::has('CaptchaError'))
-                <ul>
-                    <li>{{Session::get('CaptchaError')}}</li>
-                </ul>
-                @endif
-                        <!-- widget grid -->
-                <section id="widget-grid" class="">
-                    <!-- START ROW -->
-                    <div class="row">
-                        <!-- NEW COL START -->
-                        <article class="col-sm-12 col-md-12 col-lg-12">
-
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well" >
-                                <header>
-                                    <h2>Creative Registration </h2>
-
-                                </header>
-
-                                <!-- widget div-->
-                                <div>
-
-                                    <!-- widget content -->
-                                    <div class="">
-
-                                        <form id="order-form" class="smart-form" action="{{URL::route('creative_create')}}" method="post" novalidate="novalidate" >
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="advertiser_id" value="{{$advertiser_obj->id}}">
-                                            <header>
-                                                General Information
-                                            </header>
-
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col col-2">
-                                                        <label class="label" for=""> Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="name" placeholder="Name">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Domain Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="advertiser_domain_name" placeholder="Domain Name">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-2">
-                                                        <label for="" class="label">Status</label>
-                                                        <label class="checkbox">
-                                                            <input type="checkbox" name="active">
-                                                            <i></i>
-                                                        </label>
-                                                    </section>
-
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Advertiser Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" value="{{$advertiser_obj->name}}" disabled>
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Client Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" value="{{$advertiser_obj->GetClientID->name}}" disabled>
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-2">
-                                                        <label for="" class="label">Ad Type</label>
-                                                        <label class="select"><i></i>
-                                                            <select name="ad_type">
-                                                                <option value="0">Select One</option>
-                                                                <option value="IFRAME">IFrame</option>
-                                                                <option value="JAVASCRIPT" >Javascript</option>
-                                                                <option value="XHTML_BANNER_AD" >XHTML Banner Ad</option>
-                                                                <option value="XHTML_TEXT_AD" >XHTML Text Ad</option>
-
-                                                            </select>
-                                                        </label>
-                                                    </section>
-
-                                                </div>
-                                            </fieldset>
-                                            <header>
-                                                URL infromation
-                                            </header>
-
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Ad Tag</label>
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="ad_tag" placeholder="Ad Tag">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Landign Page URL</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="landing_page_url" placeholder="Landign Page URL">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Width</label>
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="size_width" placeholder="Width">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Height</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="size_height" placeholder="Height">
-                                                        </label>
-                                                    </section>
-                                                </div>
-                                                <div class="row">
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Attributes</label>
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="attributes" placeholder="Attributes">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="label" for="">Preview URL</label>
-                                                        <label class="input"> <i class="icon-append fa fa-briefcase"></i>
-                                                            <input type="text" name="preview_url" placeholder="Preview URL">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-3">
-                                                        <label class="label">API</label>
-                                                        <label class="select select-multiple">
-                                                            <select name="api[]" multiple class="custom-scroll">
-                                                                <option value="VPAID_1.0" >VPAID 1.0</option>
-                                                                <option value="VPAID_2.0" >VPAID 2.0</option>
-                                                                <option value="MRAID-1" > MRAID-1</option>
-                                                                <option value="ORMMA" >ORMMA</option>
-                                                                <option value="MRAID-2" >MRAID-2</option>
-                                                            </select> </label>
-                                                        <div class="note">
-                                                            <strong>Note:</strong> hold down the ctrl/cmd button to select multiple options.
-                                                        </div>
-                                                    </section>
-
-                                                </div>
-                                                <section>
-                                                    <label class="label" for="">Description</label>
-                                                    <label class="textarea"> <i class="icon-append fa fa-comment"></i>
-                                                        <textarea rows="5" name="description" placeholder="Tell us about your Creative"></textarea>
-                                                    </label>
-                                                </section>
-                                            </fieldset>
-                                            <footer>
-                                                <div class="row">
-                                                    <div class="col-md-5 col-md-offset-3">
-                                                        <button type="submit"
-                                                                class=" button button--antiman button--round-l button--text-medium">
-                                                            Submit
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </footer>
-                                        </form>
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" id="name" name="name" placeholder="Name"
+                                                   class="form-control">
+                                        </div>
                                     </div>
-                                    <!-- end widget content -->
                                 </div>
-                                <!-- end widget div -->
                             </div>
-                            <!-- end widget -->
-                        </article>
-                        <!-- END COL -->
+                            <div class="col-md-2">
+                                <label class="control-label" for="">Advertiser Name</label>
+                                <h5>{{$advertiser_obj->name}}</h5>
+
+                            </div>
+                            <div class="col-md-2">
+                                <label class="control-label" for="">Client Name</label>
+                                <h5>{{$advertiser_obj->GetClientID->name}}</h5>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Domain Name</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" name="advertiser_domain_name"
+                                                   class="form-control" placeholder="Domain Name"
+                                                   id="advertiser_domain_name">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label class="control-label">Status</label>
+
+                                    <div class="checkboxer">
+                                        <input type="checkbox" name="active"
+                                               class="switchery-teal">
+                                        <label for="check1">Active</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Ad Type</label>
+
+                                    <div class="">
+                                        <select name="ad_type" class="selecter">
+                                            <option value="0">Select One</option>
+                                            <option value="IFRAME">IFrame
+                                            </option>
+                                            <option value="JAVASCRIPT">Javascript
+                                            </option>
+                                            <option value="XHTML_BANNER_AD">XHTML Banner Ad
+                                            </option>
+                                            <option value="XHTML_TEXT_AD">XHTML Text Ad
+                                            </option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <!--.form-group-->
+                        </div>
+                        <hr/>
+                        <div class="note note-info note-bottom-striped">
+                            <h4>URL infromation</h4>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="landing_page_url" class="control-label">Landign Page
+                                        URL</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" name="landing_page_url"
+                                                   placeholder="Landign Page URL" id="landing_page_url"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 ">
+                                <div class="form-group">
+                                    <label class="control-label">Attributes</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" name="attributes" placeholder="Attributes"
+                                                   class="form-control" id="attributes">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 ">
+                                <div class="form-group">
+                                    <label class="control-label">Preview URL</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" name="preview_url" placeholder="Preview URL"
+                                                   class="form-control" id="preview_url">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-3 ">
+                                <div class="form-group">
+                                    <label class="control-label">API</label>
+
+                                    <select name="api[]" multiple class="selecter">
+                                        <option value="VPAID_1.0">VPAID 1.0
+                                        </option>
+                                        <option value="VPAID_2.0">VPAID 2.0
+                                        </option>
+                                        <option value="MRAID-1"> MRAID-1
+                                        </option>
+                                        <option value="ORMMA">ORMMA
+                                        </option>
+                                        <option value="MRAID-2">MRAID-2
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-1 ">
+                                <div class="form-group">
+                                    <label class="control-label">Width</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" name="size_width" placeholder="Width"
+                                                   class="form-control"
+                                                   id="size_width">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1 ">
+                                <div class="form-group">
+                                    <label class="control-label">Height</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" name="size_height" placeholder="Height"
+                                                   id="size_height"
+                                                   class="form-control">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </div>
+                        <hr/>
+                        <div class="note note-warning note-bottom-striped">
+                            <div class="form-group">
+                                <label class="control-label">Ad Tag</label>
+
+                                <div class="inputer">
+                                    <div class="input-wrapper">
+                                                    <textarea name="ad_tag" class="form-control" rows="3"
+                                                              placeholder="type minimum 5 characters" id="ad_tag"
+                                                            ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div style="padding: 15px">
+
+                            <div class="form-group">
+                                <label class="control-label">Description</label>
+
+                                <div class="inputer">
+                                    <div class="input-wrapper">
+                                                    <textarea name="description" class="form-control" rows="3"
+                                                              placeholder="type minimum 5 characters"
+                                                              id="description"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
                     </div>
-                    <!-- END ROW -->
-                </section>
-                <!-- end widget grid -->
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-5 col-md-9" style="padding: 25px 0">
+                                <button type="submit" class="btn btn-success" style="width:20%">Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <!--.panel-body-->
         </div>
-        <!-- END MAIN CONTENT -->
+        <!--.panel-->
     </div>
-    <!-- END MAIN PANEL -->
-
-
 @endsection
 @section('FooterScripts')
     <script>
         $(document).ready(function () {
-
-            pageSetUp();
-
-
+            FormsSwitchery.init();
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
-                rules : {
-                    name : {
-                        required : true
+                rules: {
+                    name: {
+                        required: true
                     },
-                    advertiser_id : {
-                        required : true
+                    advertiser_id: {
+                        required: true
                     },
-                    advertiser_domain_name : {
+                    advertiser_domain_name: {
                         required: true,
                         domain: true
                     },
-                    ad_tag : {
-                        required : true
+                    ad_tag: {
+                        required: true
                     },
-                    landing_page_url : {
-                        required : true
+                    landing_page_url: {
+                        required: true
                     },
-                    size_width : {
-                        required : true,
+                    size_width: {
+                        required: true,
                         min: 0,
                         number: 'Enter number Plz'
                     },
-                    size_height : {
-                        required : true,
+                    size_height: {
+                        required: true,
                         min: 0,
                         number: 'Enter number Plz'
                     },
-                    attributes : {
-                        required : true
+                    attributes: {
+                        required: true
                     },
-                    preview_url : {
-                        required : true
+                    preview_url: {
+                        required: true
                     }
                 },
-
                 // Messages for form validation
-                messages : {
-                    name : {
-                        required : 'Please enter your name'
+                messages: {
+                    name: {
+                        required: 'Please enter your name'
                     },
-                    email : {
-                        required : 'Please enter your email address',
-                        email : 'Please enter a VALID email address'
+                    email: {
+                        required: 'Please enter your email address',
+                        email: 'Please enter a VALID email address'
                     },
-                    phone : {
-                        required : 'Please enter your phone number'
+                    phone: {
+                        required: 'Please enter your phone number'
                     },
-                    interested : {
-                        required : 'Please select interested service'
+                    interested: {
+                        required: 'Please select interested service'
                     },
-                    budget : {
-                        required : 'Please select your budget'
+                    budget: {
+                        required: 'Please select your budget'
                     }
                 },
 
                 // Do not change code below
-                errorPlacement : function(error, element) {
+                errorPlacement: function (error, element) {
                     error.insertAfter(element.parent());
                 }
             });
-
-            // START AND FINISH DATE
-            $('#startdate').datepicker({
-                dateFormat: 'dd.mm.yy',
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                onSelect: function (selectedDate) {
-                    $('#finishdate').datepicker('option', 'minDate', selectedDate);
-                }
-            });
-
-            $('#finishdate').datepicker({
-                dateFormat: 'dd.mm.yy',
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                onSelect: function (selectedDate) {
-                    $('#startdate').datepicker('option', 'maxDate', selectedDate);
-                }
-            });
-
-
-            // fuelux wizard
-            var wizard = $('.wizard').wizard();
-
-            wizard.on('finished', function (e, data) {
-                //$("#fuelux-wizard").submit();
-                //console.log("submitted!");
-                $.smallBox({
-                    title: "Congratulations! Your form was submitted",
-                    content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-                    color: "#5F895F",
-                    iconSmall: "fa fa-check bounce animated",
-                    timeout: 4000
-                });
-
-            });
-
-
         })
-
     </script>
-
 @endsection

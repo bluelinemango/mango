@@ -1,155 +1,130 @@
-@extends('Layout')
+@extends('Layout1')
 @section('siteTitle')Add Inventory @endsection
+@section('breadcrumb')
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="ion-home"></i></a></li>
+        <li><a href="#" class="active">Add New Inventory</a></li>
+    </ol>
+@endsection
 @section('content')
-    <!-- MAIN PANEL -->
-    <div id="main" role="main">
-
-        <!-- RIBBON -->
-        <div id="ribbon">
-
-				<span class="ribbon-button-alignment">
-					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
-						<i class="fa fa-refresh"></i>
-					</span>
-				</span>
-
-            <!-- breadcrumb -->
-            <ol class="breadcrumb">
-                <li>Add New Inventory</li>
-            </ol>
-
-        </div>
-        <!-- END RIBBON -->
-        <!-- MAIN CONTENT -->
-        <div id="content">
-            @if(Session::has('CaptchaError'))
-                <ul>
-                    <li>{{Session::get('CaptchaError')}}</li>
-                </ul>
-            @endif
-            <!-- widget grid -->
-            <section id="widget-grid" class="">
-                <!-- START ROW -->
-                <div class="row">
-                    <!-- NEW COL START -->
-                    <article class="col-sm-12 col-md-12 col-lg-12">
-
-                        <!-- Widget ID (each widget will need unique ID)-->
-                        <div class="well" >
-                            <header>
-                                <h2>Inventory Registration </h2>
-
-                            </header>
-
-                            <!-- widget div-->
-                            <div>
-                                <!-- widget content -->
-                                <div class="">
-
-                                    <form id="order-form" class="smart-form" action="{{URL::route('inventory_create')}}" method="post" novalidate="novalidate" >
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <header>
-                                            General Information
-                                        </header>
-
-                                        <fieldset>
-                                            <div class="row">
-                                                <section class="col col-2">
-                                                    <label class="label" for="">Name</label>
-                                                    <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                        <input type="text" name="name" placeholder="Name">
-                                                    </label>
-                                                </section>
-                                                <section class="col col-2">
-                                                    <label class="label" for="">Type</label>
-                                                    <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                        <input type="text" name="type" placeholder="Type">
-                                                    </label>
-                                                </section>
-                                                <section class="col col-2">
-                                                    <label class="label" for="">Category</label>
-                                                    <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                        <input type="text" name="category" placeholder="Category">
-                                                    </label>
-                                                </section>
-                                                <section class="col col-2">
-                                                    <label class="label" for="">Daily Limit</label>
-                                                    <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                        <input type="text" name="daily_limit" placeholder="Daily Limit">
-                                                    </label>
-                                                </section>
-
-                                            </div>
-
-                                        </fieldset>
-
-                                        <footer>
-                                            <button type="submit"
-                                                    class=" button button--ujarak button--border-thick button--text-upper button--size-s button--inverted button--text-thick">
-                                                Save
-                                            </button>
-                                        </footer>
-                                    </form>
-                                </div>
-                                <!-- end widget content -->
-                            </div>
-                            <!-- end widget div -->
-                        </div>
-                        <!-- end widget -->
-                    </article>
-                    <!-- END COL -->
+    <div class="col-md-9">
+        <div class="panel gray">
+            <div class="panel-heading with-gap">
+                <div class="panel-title">
+                    <h4>Add New Inventory </h4>
                 </div>
-                <!-- END ROW -->
-            </section>
-            <!-- end widget grid -->
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0">
+                <form id="order-form" class="form-horizontal parsley-validate"
+                      action="{{URL::route('inventory_create')}}" method="post"
+                      novalidate="novalidate">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                    <div class="form-body">
+                        <div class="note note-primary note-bottom-striped">
+                            <h4>General Informaition</h4>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Name</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" id="name" name="name" placeholder="Name"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Type</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" id="type" name="type" placeholder="Type"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Category</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" id="category" name="category" placeholder="Category"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Daily Limit</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" id="daily_limit" name="daily_limit" placeholder="Daily Limit"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <!--.form-group-->
+                        </div>
+                        <hr/>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-5 col-md-9" style="padding: 25px 0">
+                                <button type="submit" class="btn btn-success" style="width:20%">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <!--.panel-body-->
         </div>
-        <!-- END MAIN CONTENT -->
+        <!--.panel-->
     </div>
-    <!-- END MAIN PANEL -->
 @endsection
 @section('FooterScripts')
     <script>
         $(document).ready(function () {
-
-            pageSetUp();
-
-
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
-                rules : {
-                    name : {
-                        required : true
+                rules: {
+                    name: {
+                        required: true
+                    },
+                    category: {
+                        required: true
+                    },
+                    type: {
+                        required: true
+                    },
+                    daily_limit: {
+                        required: true
                     }
                 },
 
                 // Messages for form validation
-                messages : {
-                    name : {
-                        required : 'Please enter your name'
-                    },
-                    email : {
-                        required : 'Please enter your email address',
-                        email : 'Please enter a VALID email address'
-                    },
-                    phone : {
-                        required : 'Please enter your phone number'
-                    },
-                    interested : {
-                        required : 'Please select interested service'
-                    },
-                    budget : {
-                        required : 'Please select your budget'
+                messages: {
+                    name: {
+                        required: 'Please enter your name'
                     }
                 },
 
                 // Do not change code below
-                errorPlacement : function(error, element) {
+                errorPlacement: function (error, element) {
                     error.insertAfter(element.parent());
                 }
             });
-
         })
-
     </script>
-
 @endsection

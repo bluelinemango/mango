@@ -12,7 +12,6 @@ var TablesDataTables = {
 			this.iterator( 'table', function ( context ) {
 					context.alphabetSearch = searchTerm;
 			} );
-
 			return this;
 		});
 

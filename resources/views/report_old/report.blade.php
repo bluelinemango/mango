@@ -1,9 +1,6 @@
-@extends('Layout1')
+@extends('Layout')
 @section('siteTitle') System Reporting @endsection
-@section('headerCss')
-    <link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/datatables/media/css/jquery.dataTables.min.css')}}">
-    <link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/datatables/themes/bootstrap/dataTables.bootstrap.css')}}">
-
+@section('header_extra')
     <style>
         .report-selected{
             font-weight: bolder;
@@ -38,9 +35,8 @@
         .jarviswidget{
             margin: 0 0 4px !important;
         }
-        h5{
-            font-size:12px;
-            font-weight: 500;
+        .jarviswidget>header{
+            height: 21px;
         }
         .jarviswidget>header h2 {
             font-size: 12px !important;
@@ -93,329 +89,432 @@
         #impression, #click , #conversion{
             height: 160px !important;
         }
-        .masonry .panel-body{
-            padding: 0 !important;
-            font-size:12px;
-        }
     </style>
 @endsection
-@section('breadcrumb')
-    <ol class="breadcrumb">
-        <li><a href="#"><i class="ion-home"></i></a></li>
-        <li><a href="#" class="active">system Reporting</a></li>
-    </ol>
-@endsection
 @section('content')
-    <div class="col-md-8">
-        <div class="panel gray">
-            <!--.panel-heading-->
-            <div class="panel-body" style="padding: 0">
-                <div class="well">
-                    <div class="col-md-12" style="min-height: 0 !important;">
-                        <input type="hidden" value="" name="client"/>
-                        <input type="hidden" value="" name="advertiser"/>
-                        <input type="hidden" value="" name="geosegment"/>
-                        <input type="hidden" value="" name="campaign"/>
-                        <input type="hidden" value="" name="targetgroup"/>
-                        <input type="hidden" value="" name="creative"/>
-                        <input type="hidden" value="" name="startdate"/>
-                        <input type="hidden" value="" name="enddate"/>
-                        <input type="hidden" value="today" name="report_type"/>
-                        <div class="row">
-                            <div class="col-md-7">
-                                <div class="col-md-12">
-                                    <div class="col-md-1 no-padding">
-                                        <span style="line-height: 22px; font-weight: bold">From</span>
+    <!-- MAIN PANEL -->
+    <div id="main" role="main">
+
+        <!-- RIBBON -->
+        <div id="ribbon">
+
+				<span class="ribbon-button-alignment">
+					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+						<i class="fa fa-refresh"></i>
+					</span>
+				</span>
+
+            <!-- breadcrumb -->
+            <ol class="breadcrumb">
+                <li>system Reporting</li>
+            </ol>
+            <!-- end breadcrumb -->
+
+            <!-- You can also add more buttons to the
+            ribbon for further usability
+
+            Example below:
+                        <span class="ribbon-button-alignment pull-right">
+            <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
+            <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
+            <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
+            </span>
+
+ -->
+
+        </div>
+        <!-- END RIBBON -->
+        <!-- MAIN CONTENT -->
+        <div id="content">
+            @if(Session::has('CaptchaError'))
+                <ul>
+                    <li>{{Session::get('CaptchaError')}}</li>
+                </ul>
+                @endif
+                        <!-- widget grid -->
+                <section id="widget-grid" class="">
+                    <!-- START ROW -->
+                    <div class="row">
+                        <!-- NEW COL START -->
+                        <article class="col-sm-8 col-md-8 col-lg-8">
+                                <!-- widget div-->
+                                <div class="well">
+
+                                    <!-- widget content -->
+                                    <div class="row" style="min-height: 0 !important;">
+                                        <input type="hidden" value="" name="client"/>
+                                        <input type="hidden" value="" name="advertiser"/>
+                                        <input type="hidden" value="" name="geosegment"/>
+                                        <input type="hidden" value="" name="campaign"/>
+                                        <input type="hidden" value="" name="targetgroup"/>
+                                        <input type="hidden" value="" name="creative"/>
+                                        <input type="hidden" value="" name="startdate"/>
+                                        <input type="hidden" value="" name="enddate"/>
+                                        <input type="hidden" value="today" name="report_type"/>
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-1 no-padding">
+                                                        <span style="line-height: 22px; font-weight: bold">From</span>
+                                                    </div>
+                                                    <div class="col-md-4 ">
+                                                        <input type="text" name="startdate" id="startdate" placeholder="start date">
+                                                    </div>
+                                                    <div class="col-md-1 no-padding">
+                                                        <span style="line-height: 22px; font-weight: bold">To</span>
+                                                    </div>
+                                                    <div class="col-md-4 ">
+                                                            <input type="text" name="finishdate" id="finishdate" placeholder="finish date">
+                                                    </div>
+                                                    <div class="col-md-2 no-padding">
+                                                        <a href="javascript:changeReport('rang','report_type');" class="btn btn-primary"><i class="fa fa-search"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div id="btn-report-type" class="col-md-12">
+                                                    <a id="10m" href="javascript: changeReport('10m','report_type');" class="btn btn-primary">10m</a>
+                                                    <a id="1h" href="javascript:changeReport('1h','report_type');" class="btn btn-primary">1h</a>
+                                                    <a id="3h" href="javascript:changeReport('3h','report_type');" class="btn btn-primary">3h</a>
+                                                    <a id="6h" href="javascript:changeReport('6h','report_type');" class="btn btn-primary">6h</a>
+                                                    <a id="1D" href="javascript:changeReport('1D','report_type');" class="btn btn-primary">1D</a>
+                                                    <a id="1M" href="javascript:changeReport('1M','report_type');" class="btn btn-primary">1M</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4 ">
-                                        <input type="text" name="startdate" id="startdate" placeholder="start date">
-                                    </div>
-                                    <div class="col-md-1 no-padding">
-                                        <span style="line-height: 22px; font-weight: bold">To</span>
-                                    </div>
-                                    <div class="col-md-4 ">
-                                        <input type="text" name="finishdate" id="finishdate" placeholder="finish date">
-                                    </div>
-                                    <div class="col-md-2 no-padding">
-                                        <a href="javascript:changeReport('rang','report_type');" class="btn btn-primary"><i class="fa fa-search"></i></a>
-                                    </div>
+                                    <!-- end widget content -->
                                 </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div id="btn-report-type" class="col-md-12">
-                                    <a id="10m" href="javascript: changeReport('10m','report_type');" class="btn btn-primary">10m</a>
-                                    <a id="1h" href="javascript:changeReport('1h','report_type');" class="btn btn-primary">1h</a>
-                                    <a id="3h" href="javascript:changeReport('3h','report_type');" class="btn btn-primary">3h</a>
-                                    <a id="6h" href="javascript:changeReport('6h','report_type');" class="btn btn-primary">6h</a>
-                                    <a id="1D" href="javascript:changeReport('1D','report_type');" class="btn btn-primary">1D</a>
-                                    <a id="1M" href="javascript:changeReport('1M','report_type');" class="btn btn-primary">1M</a>
+                                <!-- end widget div -->
+                        </article>
+                        <article class="col-sm-8 col-md-8 col-lg-8">
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <div class="well" >
+                                <!-- widget div-->
+                                <div>
+                                    <!-- widget content -->
+                                    <div class="widget-body">
+
+                                        <!-- this is what the user will see -->
+                                        <div id="impression" style="width:100%; height:300px;"></div>
+
+                                    </div>
+                                    <!-- end widget content -->
+
                                 </div>
+                                <!-- end widget div -->
 
                             </div>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div>
-                    <div id="impression" style="width:100%; height:300px;"></div>
-                </div>
-                <div>
-                    <div id="click" style="width:100%; height:300px;"></div>
-                </div>
-                <div>
-                    <div id="conversion" style="width:100%; height:300px;"></div>
-                </div>
+                            <!-- end widget -->
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <div class="well">
+                                <div>
+                                    <!-- widget content -->
+                                    <div class="widget-body">
+                                        <!-- this is what the user will see -->
+                                        <div id="click" style="width:100%; height:300px;"></div>
+                                    </div>
+                                    <!-- end widget content -->
+                                </div>
+                                <!-- end widget div -->
+                            </div>
+                            <!-- end widget -->
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <div class="well">
+                                <!-- widget div-->
+                                <div>
+                                    <!-- widget content -->
+                                    <div class="widget-body">
 
-            </div>
-            <!--.panel-body-->
+                                        <!-- this is what the user will see -->
+                                        <div id="conversion" style="width:100%; height:300px;"></div>
+
+                                    </div>
+                                    <!-- end widget content -->
+
+                                </div>
+                                <!-- end widget div -->
+
+                            </div>
+                            <!-- end widget -->
+
+
+                        </article>
+                        <article class="col-sm-4 col-md-4 col-lg-4 entity">
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <section id="widget-grid" class="">
+                                <!-- widget div-->
+                                <div class="row">
+                                    <!-- widget content -->
+                                    <article class="col-sm-12 col-md-12 col-lg-6 sortable-grid ui-sortable no-padding">
+                                        <div class="col-md-12 no-padding" id="client_box">
+                                            <!-- Widget ID (each widget will need unique ID)-->
+                                            <div class="well">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p class="pull-left">Client</p>
+                                                        <a href="javascript: changeReport('client','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
+                                                    </div>
+                                                </div>
+                                                <hr/>
+                                                <!-- widget content -->
+                                                <div class="no-padding">
+                                                    <table id="client_list" class="table table-striped table-hover" width="100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th data-class="expand"> Name</th>
+                                                            <th> imps</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($clients as $index_cln)
+                                                            <tr>
+                                                                <td>
+                                                                    <a id="cln{{$index_cln->client_id}}" href="javascript: changeReport('{{$index_cln->client_id}}','client')">{{$index_cln->name}}</a>
+
+                                                                </td>
+                                                                <td>{{$index_cln->imps}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- end widget content -->
+                                            </div>
+                                            <!-- end widget -->
+                                        </div>
+
+                                        <div class="col-md-12 no-padding" id="targetgroup_box">
+                                            <div class="well">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p class="pull-left">Target Group</p>
+                                                        <a href="javascript: changeReport('targetgroup','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
+                                                    </div>
+                                                </div>
+                                                <hr/>
+                                                <div class="no-padding">
+
+                                                    <table id="targetgroup_list" class="table table-striped table-bordered table-hover" width="100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th data-class="expand"> Name</th>
+                                                            <th> imps</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($targetgroup as $index_tgp)
+                                                            <tr>
+                                                                <td>
+                                                                    <a id="tgp{{$index_tgp->targetgroup_id}}" href="javascript: changeReport('{{$index_tgp->targetgroup_id}}','targetgroup')">{{$index_tgp->name}}</a>
+                                                                </td>
+                                                                <td>{{$index_tgp->imps}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-12 no-padding" id="geosegment_box">
+                                            <div class="well">
+                                                <!-- widget content -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p class="pull-left">Geo Segment</p>
+                                                        <a href="javascript: changeReport('geosegment','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
+                                                    </div>
+                                                </div>
+                                                <hr/>
+                                                <div class="no-padding">
+
+                                                    <table id="geosegment_list" class="table table-striped table-bordered table-hover" width="100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th data-class="expand"> Name</th>
+                                                            <th> imps</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($geosegment as $index_gsm)
+                                                            <tr>
+                                                                <td>
+                                                                    <a id="gsm{{$index_gsm->geosegment_id}}" href="javascript: changeReport('{{$index_gsm->geosegment_id}}','geosegment')">{{$index_gsm->name}}</a>
+                                                                </td>
+                                                                <td>{{$index_gsm->imps}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                                <!-- end widget content -->
+
+                                            </div>
+
+                                        </div>
+
+                                    </article>
+                                    <article class="col-sm-12 col-md-12 col-lg-6 sortable-grid ui-sortable no-padding">
+                                        <div class="col-md-12 no-padding" id="advertiser_box">
+                                            <div class="well">
+                                                <!-- widget content -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p class="pull-left">Advertiser</p>
+                                                        <a href="javascript: changeReport('advertiser','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
+                                                    </div>
+                                                </div>
+                                                <hr/>
+                                                <div class="no-padding">
+
+                                                    <table id="advertiser_list" class="table table-striped table-bordered table-hover" width="100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th data-class="expand"> Name</th>
+                                                            <th> imps</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($advertiser as $index_adv)
+                                                            <tr>
+                                                                <td>
+                                                                    <a id="adv{{$index_adv->advertiser_id}}" href="javascript: changeReport('{{$index_adv->advertiser_id}}','advertiser')">{{$index_adv->name}}</a>
+                                                                </td>
+                                                                <td>{{$index_adv->imps}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                                <!-- end widget content -->
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-12 no-padding" id="campaign_box">
+                                            <!-- Widget ID (each widget will need unique ID)-->
+                                            <div class="well">
+                                                <!-- widget content -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p class="pull-left">Campaign</p>
+                                                        <a href="javascript: changeReport('campaign','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
+                                                    </div>
+                                                </div>
+                                                <hr/>
+                                                <div class="no-padding">
+
+                                                    <table id="campaign_list" class="table table-striped table-hover" width="100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th data-class="expand"> Name</th>
+                                                            <th> Imps</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($campaign as $index_cmp)
+                                                            <tr>
+                                                                <td>
+                                                                    <a id="cmp{{$index_cmp->campaign_id}}" href="javascript: changeReport('{{$index_cmp->campaign_id}}','campaign')">{{$index_cmp->name}}</a>
+
+                                                                </td>
+                                                                <td>{{$index_cmp->imps}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                                <!-- end widget content -->
+
+                                            </div>
+                                            <!-- end widget div -->
+                                        </div>
+                                        <div class="col-md-12 no-padding" id="creative_box">
+                                            <!-- Widget ID (each widget will need unique ID)-->
+                                            <div class="well">
+                                                <!-- widget content -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p class="pull-left">Creative</p>
+                                                        <a href="javascript: changeReport('creative','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
+                                                    </div>
+                                                </div>
+                                                <hr/>
+                                                <div class="no-padding">
+
+                                                    <table id="creative_list" class="table table-striped table-hover" width="100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th data-class="expand"> Name</th>
+                                                            <th> Imps</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($creative as $index_crt)
+                                                            <tr>
+                                                                <td>
+                                                                    <a id="crt{{$index_crt->creative_id}}" href="javascript: changeReport('{{$index_crt->creative_id}}','creative')">{{$index_crt->name}}</a>
+
+                                                                </td>
+                                                                <td>{{$index_crt->imps}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                                <!-- end widget content -->
+
+                                            </div>
+                                            <!-- end widget div -->
+                                        </div>
+
+                                    </article>
+                                    <!-- end widget content -->
+
+                                </div>
+                                <!-- end widget div -->
+
+                            </section>
+                            <!-- end widget -->
+
+                        </article>
+                        <!-- END COL -->
+                    </div>
+                    <!-- END ROW -->
+                </section>
+                <!-- end widget grid -->
+
+                <div class="row">
+                    <div class="col-md-12 well" id="entity_box">
+
+                    </div>
+                </div>
         </div>
-        <!--.panel-->
+        <!-- END MAIN CONTENT -->
     </div>
-    <div class="col-md-4 entity masonry ">
-        <div class="col-md-6 " id="client_box">
-            <!-- Widget ID (each widget will need unique ID)-->
-            <div class="well">
-                <div class="row">
-                    <div class="col-md-12">
-                        <p class="pull-left">Client</p>
-                        <a href="javascript: changeReport('client','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
-                    </div>
-                </div>
-                <hr/>
-                <!-- widget content -->
-                <div class="no-padding">
-                    <table id="client_list" class="table table-striped table-hover" width="100%">
-                        <thead>
-                        <tr>
-                            <th data-class="expand"> Name</th>
-                            <th> imps</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($clients as $index_cln)
-                            <tr>
-                                <td>
-                                    <a id="cln{{$index_cln->client_id}}" href="javascript: changeReport('{{$index_cln->client_id}}','client')">{{$index_cln->name}}</a>
-
-                                </td>
-                                <td>{{$index_cln->imps}}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <!-- end widget content -->
-            </div>
-            <!-- end widget -->
-        </div>
-        <div class="col-md-6 " id="advertiser_box">
-            <div class="well">
-                <!-- widget content -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <p class="pull-left">Advertiser</p>
-                        <a href="javascript: changeReport('advertiser','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
-                    </div>
-                </div>
-                <hr/>
-                <div class="no-padding">
-
-                    <table id="advertiser_list" class="table table-striped table-bordered table-hover" width="100%">
-                        <thead>
-                        <tr>
-                            <th data-class="expand"> Name</th>
-                            <th> imps</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($advertiser as $index_adv)
-                            <tr>
-                                <td>
-                                    <a id="adv{{$index_adv->advertiser_id}}" href="javascript: changeReport('{{$index_adv->advertiser_id}}','advertiser')">{{$index_adv->name}}</a>
-                                </td>
-                                <td>{{$index_adv->imps}}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-
-                </div>
-                <!-- end widget content -->
-
-            </div>
-
-        </div>
-        <div class="col-md-6 " id="campaign_box">
-            <!-- Widget ID (each widget will need unique ID)-->
-            <div class="well">
-                <!-- widget content -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <p class="pull-left">Campaign</p>
-                        <a href="javascript: changeReport('campaign','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
-                    </div>
-                </div>
-                <hr/>
-                <div class="no-padding">
-
-                    <table id="campaign_list" class="table table-striped table-hover" width="100%">
-                        <thead>
-                        <tr>
-                            <th data-class="expand"> Name</th>
-                            <th> Imps</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($campaign as $index_cmp)
-                            <tr>
-                                <td>
-                                    <a id="cmp{{$index_cmp->campaign_id}}" href="javascript: changeReport('{{$index_cmp->campaign_id}}','campaign')">{{$index_cmp->name}}</a>
-
-                                </td>
-                                <td>{{$index_cmp->imps}}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-
-                </div>
-                <!-- end widget content -->
-
-            </div>
-            <!-- end widget div -->
-        </div>
-        <div class="col-md-6 " id="targetgroup_box">
-            <div class="well">
-                <div class="row">
-                    <div class="col-md-12">
-                        <p class="pull-left">Target Group</p>
-                        <a href="javascript: changeReport('targetgroup','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
-                    </div>
-                </div>
-                <hr/>
-                <div class="no-padding">
-
-                    <table id="targetgroup_list" class="table table-striped table-bordered table-hover" width="100%">
-                        <thead>
-                        <tr>
-                            <th data-class="expand"> Name</th>
-                            <th> imps</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($targetgroup as $index_tgp)
-                            <tr>
-                                <td>
-                                    <a id="tgp{{$index_tgp->targetgroup_id}}" href="javascript: changeReport('{{$index_tgp->targetgroup_id}}','targetgroup')">{{$index_tgp->name}}</a>
-                                </td>
-                                <td>{{$index_tgp->imps}}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-
-
-                </div>
-
-            </div>
-
-        </div>
-        <div class="col-md-6 " id="geosegment_box">
-            <div class="well">
-                <!-- widget content -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <p class="pull-left">Geo Segment</p>
-                        <a href="javascript: changeReport('geosegment','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
-                    </div>
-                </div>
-                <hr/>
-                <div class="no-padding">
-
-                    <table id="geosegment_list" class="table table-striped table-bordered table-hover" width="100%">
-                        <thead>
-                        <tr>
-                            <th data-class="expand"> Name</th>
-                            <th> imps</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($geosegment as $index_gsm)
-                            <tr>
-                                <td>
-                                    <a id="gsm{{$index_gsm->geosegment_id}}" href="javascript: changeReport('{{$index_gsm->geosegment_id}}','geosegment')">{{$index_gsm->name}}</a>
-                                </td>
-                                <td>{{$index_gsm->imps}}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-
-                </div>
-                <!-- end widget content -->
-
-            </div>
-
-        </div>
-        <div class="col-md-6 " id="creative_box">
-            <!-- Widget ID (each widget will need unique ID)-->
-            <div class="well">
-                <!-- widget content -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <p class="pull-left">Creative</p>
-                        <a href="javascript: changeReport('creative','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
-                    </div>
-                </div>
-                <hr/>
-                <div class="no-padding">
-
-                    <table id="creative_list" class="table table-striped table-hover" width="100%">
-                        <thead>
-                        <tr>
-                            <th data-class="expand"> Name</th>
-                            <th> Imps</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($creative as $index_crt)
-                            <tr>
-                                <td>
-                                    <a id="crt{{$index_crt->creative_id}}" href="javascript: changeReport('{{$index_crt->creative_id}}','creative')">{{$index_crt->name}}</a>
-
-                                </td>
-                                <td>{{$index_crt->imps}}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-
-                </div>
-                <!-- end widget content -->
-
-            </div>
-            <!-- end widget div -->
-        </div>
-
-    </div>
-
-    <div class="clearfix"></div>
-    <div class="row">
-        <div class="col-md-12 well" id="entity_box">
-
-        </div>
-    </div>
-
+    <!-- END MAIN PANEL -->
 @endsection
 @section('FooterScripts')
-
-    <script src="{{cdn('js/plugin/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatables/dataTables.bootstrap.min.js')}}"></script>
-    <script src="{{cdn('js/plugin/datatable-responsive/datatables.responsive.min.js')}}"></script>
-
+    <script src="{{cdn('js/plugin/jquery-form/jquery-form.min.js')}}"></script>
+    <script src="{{cdn('js/plugin/dygraphs/demo-data.min.js')}}"></script>
     <!-- DYGRAPH -->
     <script src="{{cdn('js/plugin/dygraphs/dygraph-combined.min.js')}}"></script>
     <!-- PAGE RELATED PLUGIN(S) -->
+    <script src="{{cdn('js/plugin/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{cdn('js/plugin/datatables/dataTables.col1Vis.min.js')}}"></script>
+    <script src="{{cdn('js/plugin/datatables/dataTables.tabl1eTools.min.js')}}"></script>
+    <script src="{{cdn('js/plugin/datatables/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{cdn('js/plugin/datatable-responsive/datatables.responsive.min.js')}}"></script>
 
     <script>
         $.ajaxSetup({
@@ -1705,6 +1804,7 @@
         }
         $(document).ready(function() {
 
+            pageSetUp();
             /* BASIC ;*/
             var client_list = undefined;
             var advertiser_list = undefined;
@@ -1834,6 +1934,7 @@
 
             $( ".glyphicon-search" ).parent().css( "display", "none" );
             /* END BASIC */
+            // START AND FINISH DATE
             g3 = new Dygraph(document.getElementById("conversion"), conversions, {
                 customBars : true,
                 ylabel : 'conversion',
@@ -1863,6 +1964,23 @@
                 showRangeSelector : true
             });
 
+            $('#startdate').datepicker({
+                dateFormat: 'dd.mm.yy',
+                prevText: '<i class="fa fa-chevron-left"></i>',
+                nextText: '<i class="fa fa-chevron-right"></i>',
+                onSelect: function (selectedDate) {
+                    $('#finishdate').datepicker('option', 'minDate', selectedDate);
+                }
+            });
+
+            $('#finishdate').datepicker({
+                dateFormat: 'dd.mm.yy',
+                prevText: '<i class="fa fa-chevron-left"></i>',
+                nextText: '<i class="fa fa-chevron-right"></i>',
+                onSelect: function (selectedDate) {
+                    $('#startdate').datepicker('option', 'maxDate', selectedDate);
+                }
+            });
         });
     </script>
 

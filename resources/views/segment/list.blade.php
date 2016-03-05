@@ -3,12 +3,10 @@
 
 @section('content')
     <div class="col-md-9">
-        <div class="panel light-blue">
-            <div class="panel-heading">
-                <div class="panel-title"><h4>Segment List</h4></div>
-            </div>
+        <div class="panel gray">
             <!--.panel-heading-->
-            <div class="panel-body">
+            <div class="panel-body hexagon-bg">
+                <div class="panel-title"><h4>Segment List</h4></div>
                 <div id="segment_grid"></div>
             </div>
             <!--.panel-body-->
@@ -16,7 +14,7 @@
         <!--.panel-->
     </div><!--.col-->
     <div class="col-md-3">
-        <div class="panel indigo">
+        <div class="panel gray">
             <div class="panel-heading">
                 <div class="panel-title">
                     <h4 class="pull-left">Activities</h4>

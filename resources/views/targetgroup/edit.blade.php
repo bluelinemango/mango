@@ -269,8 +269,7 @@
                                                             class="selecter "
                                                             id="iab_sub_category">
                                                         @if(!is_null($targetgroup_obj->iab_sub_category))
-                                                            <option value="{{$targetgroup_obj->iab_sub_category}}"
-                                                                    >
+                                                            <option value="{{$targetgroup_obj->iab_sub_category}}">
                                                                 {{$targetgroup_obj->iab_sub_category}}
                                                             </option>
                                                         @else
@@ -1150,6 +1149,7 @@
             $.ajax({
                 url: "{{url('/get_iab_sub_category')}}" + '/' + id
             }).success(function (response) {
+                console.log(response);
                 $('#iab_sub_category').html(response);
             });
         }

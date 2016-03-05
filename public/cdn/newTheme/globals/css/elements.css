@@ -12693,7 +12693,7 @@ ul.action li i {
   margin-right: -10px;
 }
 .footer-links a {
-  padding: 20px;
+  padding: 5px;
   position: relative;
   display: block;
   float: left;
@@ -14610,8 +14610,9 @@ pre .hljs {
   text-align: left;
 }
 .timeline.single .frame .timeline-badge {
-  left: 7px;
+  left: 3px;
   margin-left: 0;
+
 }
 .timeline.single .frame .timeline-content {
   margin-left: 35px;

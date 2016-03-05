@@ -1,128 +1,125 @@
-@extends('Layout')
+@extends('Layout1')
 @section('siteTitle')Edit Inventory: {{$inventory_obj->name}} @endsection
+@section('breadcrumb')
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="ion-home"></i></a></li>
+        <li><a href="#" class="active">Inventory : {{$inventory_obj->name}}</a></li>
+    </ol>
+@endsection
 @section('content')
-    <!-- MAIN PANEL -->
-    <div id="main" role="main">
+    <div class="col-md-9">
+        <div class="panel gray">
+            <div class="panel-heading with-gap">
+                <div class="panel-title">
+                    <h4>Edit Inventory #: invet{{$inventory_obj->id}}  </h4>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0">
+                <form id="order-form" class="form-horizontal parsley-validate"
+                      action="{{URL::route('inventory_update')}}" method="post"
+                      novalidate="novalidate">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="_method" value="PUT"/>
+                    <input type="hidden" name="inventory_id" value="{{$inventory_obj->id}}"/>
 
-        <!-- RIBBON -->
-        <div id="ribbon">
+                    <div class="form-body">
+                        <div class="note note-primary note-bottom-striped">
+                            <h4>General Informaition</h4>
 
-            <span class="ribbon-button-alignment">
-                <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
-                    <i class="fa fa-refresh"></i>
-                </span>
-            </span>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Name</label>
 
-            <!-- breadcrumb -->
-            <ol class="breadcrumb">
-               <li>Inventory : {{$inventory_obj->name}}</li>
-            </ol>
-            <!-- end breadcrumb -->
-
-            <!-- You can also add more buttons to the
-            ribbon for further usability
-
-            Example below:
-                        <span class="ribbon-button-alignment pull-right">
-            <span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
-            <span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
-            <span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
-            </span>
-
- -->
-
-        </div>
-        <!-- END RIBBON -->
-        <!-- MAIN CONTENT -->
-        <div id="content">
-            @if(Session::has('CaptchaError'))
-                <ul>
-                    <li>{{Session::get('CaptchaError')}}</li>
-                </ul>
-                @endif
-                <!-- widget grid -->
-                <section id="widget-grid" class="">
-                    <!-- START ROW -->
-                    <div class="row">
-                        <!-- NEW COL START -->
-                        <article class="col-sm-12 col-md-12 col-lg-12">
-
-                            <!-- Widget ID (each widget will need unique ID)-->
-                            <div class="well" >
-                                <header>
-                                    <h2>Edit Inventory #: invet{{$inventory_obj->id}} </h2>
-
-                                </header>
-
-                                <!-- widget div-->
-                                <div>
-                                    <!-- widget content -->
-                                    <div class="">
-
-                                        <form id="order-form" class="smart-form" action="{{URL::route('inventory_update')}}" method="post" novalidate="novalidate" >
-
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="_method" value="PUT"/>
-                                            <input type="hidden" name="inventory_id" value="{{$inventory_obj->id}}"/>
-                                            <header>
-                                                General Information
-                                            </header>
-
-                                            <fieldset>
-                                                <div class="row">
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Name</label>
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="name" placeholder="Name" value="{{$inventory_obj->name}}">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Type</label>
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="type" placeholder="Type" value="{{$inventory_obj->type}}">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Category</label>
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="category" placeholder="Category" value="{{$inventory_obj->category}}">
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-2">
-                                                        <label class="label" for="">Daily Limit</label>
-                                                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                                                            <input type="text" name="daily_limit" placeholder="Daily Limit" value="{{$inventory_obj->daily_limit}}">
-                                                        </label>
-                                                    </section>
-                                                </div>
-                                            </fieldset>
-
-                                            <footer>
-                                                <button type="submit"
-                                                        class=" button button--ujarak button--border-thick button--text-upper button--size-s button--inverted button--text-thick">
-                                                    Save
-                                                </button>
-                                            </footer>
-                                        </form>
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" id="name" name="name" placeholder="Name"
+                                                   class="form-control" value="{{$inventory_obj->name}}">
+                                        </div>
                                     </div>
-                                    <!-- end widget content -->
                                 </div>
-                                <!-- end widget div -->
                             </div>
-                            <!-- end widget -->
-                        </article>
-                        <!-- END COL -->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Type</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" id="type" name="type" placeholder="Type"
+                                                   class="form-control" value="{{$inventory_obj->type}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Category</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" id="category" name="category" placeholder="Category"
+                                                   class="form-control" value="{{$inventory_obj->category}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Daily Limit</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" id="daily_limit" name="daily_limit" placeholder="Daily Limit"
+                                                   class="form-control" value="{{$inventory_obj->daily_limit}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <!--.form-group-->
+                        </div>
+                        <hr/>
                     </div>
-                    <!-- END ROW -->
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-5 col-md-9" style="padding: 25px 0">
+                                <button type="submit" class="btn btn-success" style="width:20%">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
 
-                </section>
-                <!-- end widget grid -->
+            </div>
+            <!--.panel-body-->
         </div>
-        <!-- END MAIN CONTENT -->
+        <!--.panel-->
     </div>
-    <!-- END MAIN PANEL -->
+    <div class="col-md-3">
+        <div class="panel indigo">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="pull-left">Activities</h4>
 
-
+                    <div class="pull-right audit-select">
+                        <select id="audit_status" class="selecter col-md-12">
+                            <option value="entity">This Entity</option>
+                            <option value="all">All</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0px 0 0 10px;">
+                <div class="timeline single" id="show_audit">
+                </div>
+                <!--.timeline-->
+            </div>
+            <!--.panel-body-->
+        </div>
+        <!--.panel-->
+    </div>
 
 @endsection
 @section('FooterScripts')
@@ -130,14 +127,47 @@
 
     <script>
         $(document).ready(function () {
+            $.ajax({
+                url: "{{url('ajax/getAudit/geosegment/'.$geosegment_obj->id)}}"
+            }).success(function (response) {
+                $('#show_audit').html(response);
+            });
 
-            pageSetUp();
-
+            $('#audit_status').change(function () {
+                if($(this).val()=='all'){
+                    $.ajax({
+                        url: "{{url('ajax/getAllAudits')}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
+                }else if($(this).val()=='entity') {
+                    $.ajax({
+                        url: "{{url('ajax/getAudit/geosegment/'.$geosegment_obj->id)}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
+                }else if($(this).val()=='user') {
+                    $.ajax({
+                        url: "{{url('ajax/getAudit/user')}}"
+                    }).success(function (response) {
+                        $('#show_audit').html(response);
+                    });
+                }
+            });
 
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
                 rules: {
                     name: {
+                        required: true
+                    },
+                    category: {
+                        required: true
+                    },
+                    type: {
+                        required: true
+                    },
+                    daily_limit: {
                         required: true
                     }
                 },

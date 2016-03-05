@@ -3,17 +3,15 @@
 
 @section('content')
     <div class="col-md-9">
-        <div class="panel light-blue">
-            <div class="panel-heading">
+        <div class="panel gray">
+            <div class="panel-body hexagon-bg">
                 <div class="panel-title"><h4>List Of Users</h4></div>
-            </div><!--.panel-heading-->
-            <div class="panel-body">
                 <div id="user_grid"></div>
             </div><!--.panel-body-->
         </div><!--.panel-->
     </div><!--.col-->
     <div class="col-md-3">
-        <div class="panel indigo">
+        <div class="panel gray">
             <div class="panel-heading">
                 <div class="panel-title">
                     <h4 class="pull-left">Activities</h4>

@@ -197,3 +197,82 @@ em.invalid{
 .hexagon-bg5:after{
     border-top: 20.21px solid #a10f2b;
 }
+.jsgrid-table input{
+    background-color: #d6e8eb ;
+    border: none;
+}
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 59, 67, 0.80);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(0, 159, 176, 0.80);
+}
+.timeline .frame .timeline-badge{
+    position: relative;
+    width: 35px;
+    height: 20.21px;
+    background-color: #64C7CC;
+    margin: 10.10px 0;
+    border: none;
+    border-radius: 0;
+    float: left;
+    text-align: center;
+}
+.timeline-badge:before,
+.timeline-badge:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    border-left: 17.5px solid transparent;
+    border-right: 17.5px solid transparent;
+}
+.timeline-badge:before {
+    bottom: 100%;
+    border-bottom: 10.10px solid #64C7CC;
+    left: 0;
+}
+
+.timeline-badge:after {
+    top: 100%;
+    width: 0;
+    border-top: 10.10px solid #64C7CC;
+    left: 0;
+}
+.panel-body.hexagon-bg{
+    background-image: url("../img/top-panel-bg.png") ;
+    background-repeat: repeat-x ;
+}
+.note-bottom-striped{
+    border-width: 0 0 2px 0;
+    border-radius: 0;
+}
+.form-body hr{
+    margin-top: -20px;
+    border: 0;
+    border-top: 7px solid #eeeeee;
+}
+.panel-body .panel-title{
+    padding: 13px 20px 13px 20px;
+    font-size: 18px
+}
+.panel > .panel-heading.with-gap {
+    padding: 0;
+    border-radius: 0;
+    border-bottom: 10px solid #F7F7F7;
+}
+select{
+    overflow: auto;
+}

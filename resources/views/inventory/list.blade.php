@@ -3,101 +3,63 @@
 @section('header_extra')
 @endsection
 @section('content')
-
-    <div class="content">
-
-        <div class="page-header full-content">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h1>NOMADINI <small>Diffrent Ads</small></h1>
-                </div><!--.col-->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb">
-                        <li><a href="#"><i class="ion-home"></i></a></li>
-                        <li><a href="#">Inventory</a></li>
-                        <li><a href="#" class="active">List</a></li>
-                    </ol>
-                </div><!--.col-->
-            </div><!--.row-->
-        </div><!--.page-header-->
-
-        <!-- content -->
-        <div class="col-md-9">
-            <div class="panel light-blue">
-                <div class="panel-heading">
-                    <div class="panel-title"><h4>Inventory List</h4></div>
-                </div><!--.panel-heading-->
-                <div class="panel-body">
-                    <div id="inventory_grid"></div>
-                </div><!--.panel-body-->
-            </div><!--.panel-->
-        </div><!--.col-->
-        <div class="col-md-3">
-            <div class="panel indigo">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        <h4 class="pull-left">Activities</h4>
-                        <div class="pull-right audit-select">
-                            <select id="audit_status" class="selecter col-md-12" >
-                                <option value="all">All</option>
-                                <option value="user">User</option>
-                            </select>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <!--.panel-heading-->
-                <div class="panel-body" style="padding: 0px 0 0 10px;">
-                    <div class="timeline single" id="show_audit">
-                    </div>
-                    <!--.timeline-->
-                </div>
-                <!--.panel-body-->
+    <div class="col-md-9">
+        <div class="panel gray">
+            <div class="panel-heading">
             </div>
-            <!--.panel-->
+            <!--.panel-heading-->
+            <div class="panel-body hexagon-bg">
+                <div class="panel-title"><h4>Inventory List</h4></div>
+                <div id="inventory_grid"></div>
+            </div>
+            <!--.panel-body-->
         </div>
-        <!--.col-->
-        <!-- content -->
+        <!--.panel-->
+    </div><!--.col-->
+    <div class="col-md-3">
+        <div class="panel gray">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="pull-left">Activities</h4>
 
-        <div class="footer-links margin-top-40">
-            <div class="row no-gutters">
-                <div class="col-xs-6 bg-indigo">
-                    <a href="#">
-                        <span class="state">Pages</span>
-                        <span>Timeline</span>
-                        <span class="icon"><i class="ion-android-arrow-back"></i></span>
-                    </a>
-                </div><!--.col-->
-                <div class="col-xs-6 bg-cyan">
-                    <a href="#">
-                        <span class="state">Components</span>
-                        <span>Offline Detector</span>
-                        <span class="icon"><i class="ion-android-arrow-forward"></i></span>
-                    </a>
-                </div><!--.col-->
-            </div><!--.row-->
-        </div><!--.footer-links-->
-
-    </div><!--.content-->
-
+                    <div class="pull-right audit-select">
+                        <select id="audit_status" class="selecter col-md-12">
+                            <option value="all">All</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0px 0 0 10px;">
+                <div class="timeline single" id="show_audit">
+                </div>
+                <!--.timeline-->
+            </div>
+            <!--.panel-body-->
+        </div>
+        <!--.panel-->
+    </div>
+    <!--.col-->
 
     <div id="detailsDialog">
         <form id="detailsForm">
             <div class="details-form-field">
                 <label for="name">Name:</label>
-                <input id="name" name="name" type="text" />
+                <input id="name" name="name" type="text"/>
             </div>
             <div class="details-form-field">
                 <label for="category">Category:</label>
-                <input id="category" name="category" type="text" />
+                <input id="category" name="category" type="text"/>
             </div>
             <div class="details-form-field">
                 <label for="type">Type:</label>
-                <input id="type" name="type" type="text" />
+                <input id="type" name="type" type="text"/>
             </div>
             <div class="details-form-field">
                 <label for="daily_limit">Daily Limit:</label>
-                <input id="daily_limit" name="daily_limit" type="text" />
+                <input id="daily_limit" name="daily_limit" type="text"/>
             </div>
             <div class="details-form-field">
                 <button type="submit" id="save">Save</button>
@@ -106,7 +68,7 @@
     </div>
 @endsection
 @section('FooterScripts')
-<script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
+    <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
 
     <script>
         $.ajaxSetup({
@@ -120,13 +82,13 @@
     <script type="text/javascript">
 
         $('#audit_status').change(function () {
-            if($(this).val()=='all'){
+            if ($(this).val() == 'all') {
                 $.ajax({
                     url: "{{url('ajax/getAllAudits')}}"
                 }).success(function (response) {
                     $('#show_audit').html(response);
                 });
-            }else if($(this).val()=='user') {
+            } else if ($(this).val() == 'user') {
                 $.ajax({
                     url: "{{url('ajax/getAudit/user')}}"
                 }).success(function (response) {
@@ -135,19 +97,19 @@
             }
         });
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $.ajax({
                 url: "{{url('ajax/getAllAudits')}}"
             }).success(function (response) {
                 $('#show_audit').html(response);
             });
 
-            $(function() {
+            $(function () {
 
                 var db = {
 
-                    loadData: function(filter) {
-                        return $.grep(this.inventory, function(inventory) {
+                    loadData: function (filter) {
+                        return $.grep(this.inventory, function (inventory) {
                             return (!filter.name || inventory.name.indexOf(filter.name) > -1)
                                     && (!filter.category || inventory.category.indexOf(filter.category) > -1)
                                     && (!filter.type || inventory.type.indexOf(filter.type) > -1)
@@ -155,8 +117,8 @@
                         });
                     },
 
-                    insertItem: function(insertingInventory) {
-                        insertingInventory['oper']='add';
+                    insertItem: function (insertingInventory) {
+                        insertingInventory['oper'] = 'add';
                         console.log(insertingInventory);
                         $.ajax({
                             type: "PUT",
@@ -167,9 +129,9 @@
 
                     },
 
-                    updateItem: function(updatingInventory) {
-                        updatingInventory['oper']='edit';
-                        console.log(updatingInventory) ;
+                    updateItem: function (updatingInventory) {
+                        updatingInventory['oper'] = 'edit';
+                        console.log(updatingInventory);
                         $.ajax({
                             type: "PUT",
                             url: "{{url('/ajax/jqgrid/inventory')}}",
@@ -185,11 +147,11 @@
                 db.inventory = [
                     @foreach($inventory as $index)
                     {
-                        "id" : '{{$index->id}}',
-                        "name" : '{{$index->name}}',
-                        "category" : '{{$index->category}}',
-                        "type" : '{{$index->type}}',
-                        "date_modify" : '{{$index->updated_at}}',
+                        "id": '{{$index->id}}',
+                        "name": '{{$index->name}}',
+                        "category": '{{$index->category}}',
+                        "type": '{{$index->type}}',
+                        "date_modify": '{{$index->updated_at}}',
                         "action": '<a class="btn" href="{{url('/inventory/'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>'
 
                     },
@@ -212,17 +174,17 @@
 
                     controller: db,
                     fields: [
-                        { name: "id",title: "ID", type: "text",width: 20,align :"center",editing:false },
-                        { name: "name",title: "Name", type: "text", width: 70 },
-                        { name: "category",title: "Category", type: "text", width: 70 },
-                        { name: "type",title: "Type", type: "text", width: 70 },
-                        { name: "date_modify" ,title:"Date of Modify",align :"center"},
-                        { name: "action", title: "Full Action", sorting: false,width: 50,align :"center" },
+                        {name: "id", title: "ID", type: "text", width: 20, align: "center", editing: false},
+                        {name: "name", title: "Name", type: "text", width: 70},
+                        {name: "category", title: "Category", type: "text", width: 70},
+                        {name: "type", title: "Type", type: "text", width: 70},
+                        {name: "date_modify", title: "Date of Modify", align: "center"},
+                        {name: "action", title: "Full Action", sorting: false, width: 50, align: "center"},
                         {
                             type: "control",
                             modeSwitchButton: false,
                             editButton: false,
-                            headerTemplate: function() {
+                            headerTemplate: function () {
                                 return $("<button>").attr("type", "button").text("Add")
                                         .on("click", function () {
                                             showDetailsDialog("Add Inventory", {});
@@ -237,7 +199,7 @@
                 $("#detailsDialog").dialog({
                     autoOpen: false,
                     width: 400,
-                    close: function() {
+                    close: function () {
                         $("#detailsForm").validate().resetForm();
                         $("#detailsForm").find(".error").removeClass("error");
                     }
@@ -257,9 +219,9 @@
 
                 var formSubmitHandler = $.noop;
 
-                var showDetailsDialog = function(dialogType, inventory) {
+                var showDetailsDialog = function (dialogType, inventory) {
 
-                    formSubmitHandler = function() {
+                    formSubmitHandler = function () {
                         saveInventory(inventory, dialogType === "Add");
                     };
 
@@ -267,7 +229,7 @@
                             .dialog("open");
                 };
 
-                var saveInventory = function(inventory, isNew) {
+                var saveInventory = function (inventory, isNew) {
                     $.extend(inventory, {
                         name: $("#name").val(),
                         age: parseInt($("#age").val(), 10),
