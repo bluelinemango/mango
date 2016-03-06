@@ -17,6 +17,8 @@ Route::get('/', function () {
 });
 Route::get('/dashboard','UsersController@GetDashboardView');
 
+Route::post('/client/load-json-list','ClientController@testLoadJson');
+
 Route::post('/user/register/new', ['uses'=>'UsersController@user_create','as'=>'user_create']);
 Route::get('/user','UsersController@GetView');
 Route::get('/user/register','UsersController@RegisterView');
@@ -211,6 +213,7 @@ Route::group(['prefix' => 'ajax'], function()
         Route::put('/geolist', 'GeoSegmentController@jqgridList');
     });
     Route::group(['prefix' => 'status'], function() {
+        Route::get('/client/{id?}', 'ClientController@ChangeStatus');
         Route::get('/advertiser/{id?}', 'AdvertiserController@ChangeStatus');
         Route::get('/campaign/{id?}', 'CampaignController@ChangeStatus');
         Route::get('/creative/{id?}', 'CreativeController@ChangeStatus');

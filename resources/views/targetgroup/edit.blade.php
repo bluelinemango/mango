@@ -23,6 +23,10 @@
             font-size:10px;
             font-weight: 500;
         }
+        .panel-body{
+            padding: 0 !important;
+
+        }
     </style>
 @endsection
 @section('breadcrumb')
@@ -759,7 +763,7 @@
                                     </div><!--.tab-pane-->
 
                                     <div class="tab-pane" id="form3_tab3">
-                                        <div class="note note-primary note-bottom-striped" style="overflow: auto">
+                                        <div class="note note-primary note-bottom-striped">
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <table class="table table-hover time-table hour-table">
@@ -834,12 +838,16 @@
                                                     <div class="clearfix"></div>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <select name=""
+                                                <div class="form-group">
+
+                                                    <select name="" class="selecter"
                                                             id="suggested">
                                                         <option value="business-hours">Business Hours</option>
                                                         <option value="happy-hours">Happy Hours</option>
                                                         <option value="business-hours">Business Hours</option>
                                                     </select>
+
+                                                </div>
                                                 </div>
                                             </div>
 

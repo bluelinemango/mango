@@ -311,13 +311,13 @@ var Pleasure = {
 	listenToastrNotification: function () {
 		$('body').on('click', '.toastr-notify', function () {
 			var $this = $(this),
-					closeButton = $this.data('toastr-close-button'),
-					positionClass = $this.data('toastr-position'),
-					sticky = $this.data('toastr-sticky'),
-					type = $this.data('toastr-type'),
-					closeOthers = $this.data('toastr-close-others'),
-					title = $this.data('toastr-title')
-					notification = $this.data('toastr-notification');
+                closeButton = $this.data('toastr-close-button'),
+                positionClass = $this.data('toastr-position'),
+                sticky = $this.data('toastr-sticky'),
+                type = $this.data('toastr-type'),
+                closeOthers = $this.data('toastr-close-others'),
+                title = $this.data('toastr-title'),
+                notification = $this.data('toastr-notification');
 			Pleasure.handleToastrSettings(closeButton, positionClass, sticky, type, closeOthers, title, notification);
 		});
 	},

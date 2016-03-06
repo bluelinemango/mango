@@ -11,7 +11,7 @@
 @section('content')
     <div class="col-md-9">
         <div class="panel gray">
-            <div class="panel-heading">
+            <div class="panel-heading with-gap">
                 <div class="panel-title">
                     <h4>Edit Role {{$role_obj->name}}</h4>
                 </div>
@@ -44,6 +44,7 @@
                             <div class="clearfix"></div>
                             <!--.form-group-->
                         </div>
+                        <hr/>
                     </div>
                     <div class="form-actions">
                         <div class="row">

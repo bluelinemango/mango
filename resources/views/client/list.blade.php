@@ -43,20 +43,55 @@
     <!--.col-->
 
 
+    <div class="modal scale fade" id="defaultModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="detailsForm">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add Client</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row example-row">
+                            <div class="col-md-3">Name</div>
+                            <!--.col-md-3-->
+                            <div class="col-md-9">
+                                <div class="inputer">
+                                    <div class="input-wrapper">
+                                        <input type="text" id="name" name="name" class="form-control"
+                                               placeholder="Client Name">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--.col-md-9-->
+                        </div>
+                        <!--.row-->
+                        <div class="row example-row">
+                            <div class="col-md-3">Active</div><!--.col-md-3-->
+                            <div class="col-md-9">
+                                <div class="switcher">
+                                    <input id="active" name="active" type="checkbox" hidden="hidden">
+                                    <label for="active"></label>
+                                </div><!--.switcher-->
+                            </div><!--.col-md-9-->
+                        </div><!--.row-->
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success" style="width:20%">Submit
+                        </button>
+
+                    </div>
+                </form>
+            </div>
+            <!--.modal-content-->
+        </div>
+        <!--.modal-dialog-->
+    </div><!--.modal-->
+
+
+
     <div id="detailsDialog">
-        <form id="detailsForm">
-            <div class="details-form-field">
-                <label for="name">Name:</label>
-                <input id="name" name="name" type="text"/>
-            </div>
-            <div class="details-form-field">
-                <label for="status">Is Active</label>
-                <input id="status" name="status" type="checkbox"/>
-            </div>
-            <div class="details-form-field">
-                <button type="submit" id="save">Save</button>
-            </div>
-        </form>
     </div>
 @endsection
 @section('FooterScripts')
@@ -97,12 +132,31 @@
         $(function () {
 
             var db = {
+                loadData: function(filter) {
+                    var d = $.Deferred();
+                     $.ajax({
+                        type: "POST",
+                        url: "/client/load-json-list",
+                        data: filter,
+                        dataType: "json"
+                    }).success(function(result) {
+                         result = $.grep(result, function(item) {
+                             return (!result.name || item.name.indexOf(filter.name) > -1)
+                             && (!result.id || item.id.indexOf(filter.id) > -1);
+//                             return item.SomeField === filter.SomeField;
+                         });
 
-                loadData: function (filter) {
-                    return $.grep(this.clients, function (client) {
-                        return (!filter.Name || client.Name.indexOf(filter.Name) > -1);
+                         d.resolve(result);
+                         FormsSwitchery.init();
                     });
+                    return d.promise();
                 },
+//                loadData: function (filter) {
+//                    return $.grep(this.clients, function (client) {
+//                        return (!filter.name || client.name.indexOf(filter.name) > -1)
+//                        && (!filter.id || client.id.indexOf(filter.id) > -1);
+//                    });
+//                },
 
                 insertItem: function (insertingClient) {
                     insertingClient['oper'] = 'add';
@@ -113,30 +167,19 @@
                         data: insertingClient,
                         dataType: "json"
                     }).done(function (response) {
+                        $("#client_grid").jsGrid("render");
                         console.log(response);
                         if (response.success == true) {
-                            var title = "Success";
-                            var color = "#739E73";
-                            var icon = "fa fa-check";
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
                         } else if (response.success == false) {
-                            var title = "Warning";
-                            var color = "#C46A69";
-                            var icon = "fa fa-bell";
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'warning', '', '', response.msg);
                         }
-                        $.smallBox({
-                            title: title,
-                            content: response.msg,
-                            color: color,
-                            icon: icon,
-                            timeout: 8000
-                        });
                     });
 
                 },
 
                 updateItem: function (updatingClient) {
                     updatingClient['oper'] = 'edit';
-                    console.log(updatingClient);
                     $.ajax({
                         type: "PUT",
                         url: "{{url('/ajax/jqgrid/client')}}",
@@ -154,23 +197,6 @@
 
             window.db = db;
 
-            db.clients = [
-                @foreach($clients as $index)
-                {
-                    "id": '{{$index->id}}',
-                    "name": '{{$index->name}}',
-                    @if(count($index->getAdvertiser)>0)
-                    "advertiser": '{{$index->getAdvertiser[0]->client_count}}',
-                    @else
-                    "advertiser": '0',
-                    @endif
-                    "date_modify": '{{$index->updated_at}}',
-                    "action": '<a class="btn" href="{{url('/client/cl'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /> </a> |'@if(in_array('ADD_EDIT_ADVERTISER',$permission)) + ' <a class="btn txt-color-white" href="{{url('client/cl'.$index->id.'/advertiser/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
-
-
-                },
-                @endforeach
-            ];
 
             $("#client_grid").jsGrid({
                 width: "100%",
@@ -180,23 +206,26 @@
                 sorting: true,
                 paging: true,
                 autoload: true,
-
+                rowClick:function(item){console.log(item)},
                 pageSize: 15,
+                controller: db,
                 pageButtonCount: 5,
 
                 deleteConfirm: "Do you really want to delete the client?",
 
-                controller: db,
                 fields: [
                     {name: "id", title: "ID", width: 40, type: "text", align: "center", editing: false},
                     {name: "name", title: "Name", type: "text", width: 150},
                     {name: "advertiser", title: "#Advertiser", width: 50, editing: false, align: "center"},
-                    {name: "date_modify", title: "Last Modified", align: "center"},
+                    {name: "status", title: "Status", width: 50, align: "center"},
+                    {name: "updated_at", title: "Last Modified", align: "center"},
                     {name: "action", title: "Edit | +Advertiser", sorting: false, width: 70, align: "center"},
                     {
                         type: "control",
+                        deleteButton: false,
+                        editButtonTooltip: "Edit",
+                        editButton: true,
                         modeSwitchButton: false,
-                        editButton: false,
                         headerTemplate: function () {
                             return $("<button>").attr("type", "button").text("Add")
                                     .on("click", function () {
@@ -205,30 +234,19 @@
                         }
                     }
                 ]
-
             });
 
-
-            $("#detailsDialog").dialog({
-                autoOpen: false,
-                width: 400,
-                close: function () {
-                    $("#detailsForm").validate().resetForm();
-                    $("#detailsForm").find(".error").removeClass("error");
+            $("#detailsForm").validate({
+                rules: {
+                    name: "required"
+                },
+                messages: {
+                    name: "Please enter name"
+                },
+                submitHandler: function () {
+                    formSubmitHandler();
                 }
             });
-
-//            $("#detailsForm").validate({
-//                rules: {
-//                    name: "required"
-//                },
-//                messages: {
-//                    name: "Please enter name"
-//                },
-//                submitHandler: function() {
-//                    formSubmitHandler();
-//                }
-//            });
 
             var formSubmitHandler = $.noop;
 
@@ -237,28 +255,25 @@
                 formSubmitHandler = function () {
                     saveClient(client, dialogType === "Add");
                 };
-
-                $("#detailsDialog").dialog("option", "title", dialogType + " Client")
-                        .dialog("open");
+                $('#defaultModal').modal('show');
+//                $("#detailsDialog").dialog("option", "title", dialogType + " Client")
+//                        .dialog("open");
             };
 
             var saveClient = function (client, isNew) {
                 $.extend(client, {
                     name: $("#name").val(),
-                    age: parseInt($("#age").val(), 10),
-                    Address: $("#address").val(),
-                    Country: parseInt($("#country").val(), 10),
-                    Married: $("#married").is(":checked")
+                    active: $("#active").is(":checked")
                 });
-
-                $("#jsGrid").jsGrid(isNew ? "insertItem" : "updateItem", client);
-
-                $("#detailsDialog").dialog("close");
+                console.log(client);
+                $("#name").val('');
+                $("#client_grid").jsGrid(isNew ? "insertItem" : "updateItem", client);
+                $('#defaultModal').modal('hide');
+//                $("#detailsDialog").dialog("close");
             };
         });
 
     </script>
-
 
     <script type="text/javascript">
         $(document).ready(function () {

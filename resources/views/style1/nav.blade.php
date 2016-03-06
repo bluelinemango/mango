@@ -49,7 +49,7 @@
     <div class="menu-layer">
         <ul>
             <li data-open-after="true">
-                <a href="index.html">Dashboard</a>
+                <a href="{{url('dashboard')}}">Dashboard</a>
             </li>
             @if(in_array('VIEW_CLIENT',$permission))
                 <li>

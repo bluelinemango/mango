@@ -21,7 +21,34 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function testLoadJson(Request $request){
+//        return dd($request->all());
+        $clients = Client::with(['getAdvertiser' => function ($q) {
+            $q->select(DB::raw('*,count(client_id) as client_count'))->groupBy('client_id');
+        }])->get();
+        $result='';
+        foreach($clients as $index){
+            if (count($index->getAdvertiser) > 0) {
+                $index->setAttribute('advertiser', $index->getAdvertiser[0]->client_count);
+            }else {
+                $index->setAttribute('advertiser', '0');
+            }
+            $action="<a class='btn' href='".url('/client/cl'.$index->id.'/edit')."'>
+                        <img src='".cdn('img/edit_16x16.png')."' /> </a> |";
+            if(in_array('ADD_EDIT_ADVERTISER',$this->permission)){
+              $action .= "<a class='btn txt-color-white' href='".url('client/cl'.$index->id.'/advertiser/add')."'><img src='".cdn('img/plus_16x16.png')."'' /></a>";
+            }
+            $index->setAttribute('action', $action);
 
+            if ($index->status == 'Active') {
+                $index->status = "<input id=\"client$index->id\" onchange=\"ChangeStatus(`client`,`$index->id`)\" type=\"checkbox\" class=\"switchery-teal\" checked>";
+            } elseif ($index->status == 'Inactive') {
+                $index->status = "<input id=\"client$index->id\" onchange=\"ChangeStatus(`client`,`$index->id`)\" type=\"checkbox\" class=\"switchery-teal\" >";
+            }
+        }
+        return json_encode($clients);
+
+    }
     public function ListView(){
         if(Auth::check()){
             if(in_array('VIEW_CLIENT',$this->permission)) {
@@ -161,8 +188,13 @@ class ClientController extends Controller
                 if ($validate->passes()) {
                     switch ($request->input('oper')) {
                         case 'add':
+                            $active='Inactive';
+                            if($request->input('active')=='on'){
+                                $active='Active';
+                            }
                             $client = new Client();
                             $client->name = $request->input('name');
+                            $client->status = $active;
                             $client->user_id = Auth::user()->id;
                             $client->save();
                             $client_obj = Client::find($client->id);
@@ -186,6 +218,46 @@ class ClientController extends Controller
         return Redirect::to(url('user/login'));
     }
 
+    public function ChangeStatus($id)
+    {
+        if (Auth::check()) {
+            if (in_array('ADD_EDIT_CLIENT', $this->permission)) {
+                $client_id = $id;
+
+                if (User::isSuperAdmin()) {
+                    $client = Client::find($client_id);
+                } else {
+                    $usr_company = $this->user_company();
+                    $client = Client::whereIn('user_id', $usr_company)->find($id);
+                    if(!$client){
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                    }
+                }
+                if ($client) {
+                    $data = array();
+                    $audit = new AuditsController();
+                    if ($client->status == 'Active') {
+                        array_push($data, 'status');
+                        array_push($data, $client->status);
+                        array_push($data, 'Inactive');
+                        $client->status = 'Inactive';
+                        $msg = 'disable';
+                    } elseif ($client->status == 'Inactive') {
+                        array_push($data, 'status');
+                        array_push($data, $client->status);
+                        array_push($data, 'Active');
+                        $client->status = 'Active';
+                        $msg = 'actived';
+                    }
+                    $audit->store('client', $client_id, $data, 'edit');
+                    $client->save();
+                    return $msg;
+                }
+            }
+            return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
+        }
+        return Redirect::to(url('user/login'));
+    }
 
 
 }

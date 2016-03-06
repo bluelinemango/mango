@@ -51,46 +51,39 @@
     function ChangeStatus(entity,entity_id){ //CHANGE STATUS OF ALL ENTITY IN LIST VIEW
         console.log('ss');
         $("#"+entity+"_grid").jsGrid("cancelEdit");
-        {{--$.ajax({--}}
-            {{--url: "{{url('/ajax/status')}}" + '/' + entity  +'/'+entity_id--}}
-        {{--}).success(function (response) {--}}
-            {{--var obj=$('#'+entity+entity_id+' span');--}}
-            {{--if(response=='actived'){--}}
-                {{--obj.removeClass();--}}
-                {{--obj.html('Active');--}}
-                {{--obj.addClass('label label-success');--}}
-            {{--}else if(response=='disable'){--}}
-                {{--obj.removeClass();--}}
-                {{--obj.html('Inactive');--}}
-                {{--obj.addClass('label label-danger');--}}
-            {{--}else if(response =="You don't have permission"){--}}
-                {{--alert("You don't have permission");--}}
-            {{--}else if(response =="please Select your Client"){--}}
-                {{--alert("please Select your Client");--}}
-            {{--}--}}
-        {{--})--}}
+        $.ajax({
+            url: "{{url('/ajax/status')}}" + '/' + entity  +'/'+entity_id
+        }).success(function (response) {
+            var obj=$('#'+entity+entity_id+' span');
+            if(response=='actived'){
+                obj.removeClass();
+                obj.html('Active');
+                obj.addClass('label label-success');
+                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', 'your '+entity+' has been Actived');
+            }else if(response=='disable'){
+                obj.removeClass();
+                obj.html('Inactive');
+                obj.addClass('label label-danger');
+                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', 'your '+entity+' has been Inactive');
+            }else if(response =="You don't have permission"){
+                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', 'You don\'t have permission');
+            }else if(response =="please Select your Client"){
+                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'warning', '', '', 'please Select your Client');
+            }
+        })
     }
     $(document).ready(function() {
+//        Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', '');
 
-        //////////////////////////////SYSTEM MSG//////////////////////////////////////
+            //////////////////////////////SYSTEM MSG//////////////////////////////////////
         @if(isset($errors))
         @foreach($errors->get('msg') as $error)
-        {{--$.smallBox({--}}
-            {{--@if($errors->get('success')[0] == true)--}}
-            {{--title: "Success",--}}
-            {{--@elseif($errors->get('success')[0] == false)--}}
-            {{--title: "Warning",--}}
-            {{--@endif--}}
-            {{--content: "{{$error}}",--}}
-            {{--@if($errors->get('success')[0] == true)--}}
-            {{--color: "#739E73",--}}
-            {{--icon: "fa fa-check",--}}
-            {{--@elseif($errors->get('success')[0] == false)--}}
-            {{--color: "#C46A69",--}}
-            {{--icon: "fa fa-bell",--}}
-            {{--@endif--}}
-            {{--timeout: 8000--}}
-        {{--});--}}
+        @if($errors->get('success')[0] == true)
+        var type= "success";
+        @elseif($errors->get('success')[0] == false)
+        var type= "warning";
+        @endif
+        Pleasure.handleToastrSettings('true', "toast-top-full-width", '', type, '', '', '{{$error}}');
         @endforeach
         @endif
         });

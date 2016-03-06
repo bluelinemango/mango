@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-6">
             <h1>NOMADINI
-                <small>Diffrent Ads</small>
+                <small>the Biggest company in the world</small>
             </h1>
         </div>
         <!--.col-->

@@ -8,7 +8,10 @@
 @endsection
 
 @section('content')
-<div class="display-animation">
+    <button class="btn btn-default" data-toggle="modal" data-target="#defaultModal">Launch Default Modal</button>
+
+
+    <div class="display-animation">
 
     <div class="row image-row">
 
@@ -425,8 +428,6 @@
     <!-- BEGIN INITIALIZATION-->
     <script>
         $(document).ready(function () {
-            Pleasure.init();
-            Layout.init();
             Index.init();
             WidgetAudio.single();
             ChartsKnob.init();
