@@ -136,7 +136,7 @@
                     var d = $.Deferred();
                      $.ajax({
                         type: "POST",
-                        url: "/client/load-json-list",
+                        url: "{{url('/client/load-json-list')}}",
                         data: filter,
                         dataType: "json"
                     }).success(function(result) {
