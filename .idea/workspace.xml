@@ -64,11 +64,11 @@
       <file leaf-file-name="list.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/client/list.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.0587156" vertical-offset="2594" max-vertical-offset="6300">
-              <caret line="150" column="31" selection-start-line="150" selection-start-column="23" selection-end-line="150" selection-end-column="23" />
+            <state vertical-scroll-proportion="0.55779815" vertical-offset="3665" max-vertical-offset="6153">
+              <caret line="186" column="17" selection-start-line="186" selection-start-column="17" selection-end-line="186" selection-end-column="17" />
               <folding>
                 <element signature="e#3530#3547#0#HTML" expanded="true" />
-                <marker date="1457289668317" expanded="true" signature="5911:6242" placeholder="..." />
+                <marker date="1457290367147" expanded="true" signature="5825:6156" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -1197,7 +1197,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23036253" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -1717,11 +1717,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/client/list.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0587156" vertical-offset="2594" max-vertical-offset="6300">
-          <caret line="150" column="31" selection-start-line="150" selection-start-column="23" selection-end-line="150" selection-end-column="23" />
+        <state vertical-scroll-proportion="0.55779815" vertical-offset="3665" max-vertical-offset="6153">
+          <caret line="186" column="17" selection-start-line="186" selection-start-column="17" selection-end-line="186" selection-end-column="17" />
           <folding>
             <element signature="e#3530#3547#0#HTML" expanded="true" />
-            <marker date="1457289668317" expanded="true" signature="5911:6242" placeholder="..." />
+            <marker date="1457290367147" expanded="true" signature="5825:6156" placeholder="..." />
           </folding>
         </state>
       </provider>

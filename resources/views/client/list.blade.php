@@ -141,11 +141,9 @@
                         dataType: "json"
                     }).success(function(result) {
                          result = $.grep(result, function(item) {
-                             return (!result.name || item.name.indexOf(filter.name) > -1)
-                             && (!result.id || item.id.indexOf(filter.id) > -1);
-//                             return item.SomeField === filter.SomeField;
+                             return (!filter.name || item.name.indexOf(filter.name) > -1)
+                             && (!filter.id || item.id == filter.id );
                          });
-
                          d.resolve(result);
                          FormsSwitchery.init();
                     });
@@ -186,11 +184,6 @@
                         data: updatingClient,
                         dataType: "json"
                     });
-                },
-
-                deleteItem: function (deletingClient) {
-                    var clientIndex = $.inArray(deletingClient, this.clients);
-                    this.clients.splice(clientIndex, 1);
                 }
 
             };
