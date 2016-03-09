@@ -72,7 +72,6 @@ class AdvertiserController extends Controller
 
     public function add_advertiser(Request $request)
     {
-//        return dd($request->all());
         if (Auth::check()) {
             if (in_array('ADD_EDIT_ADVERTISER', $this->permission)) {
                 $validate = \Validator::make($request->all(), ['name' => 'required']);
@@ -311,16 +310,14 @@ class AdvertiserController extends Controller
                 $validate = \Validator::make($request->all(), ['name' => 'required']);
                 if ($validate->passes()) {
                     $adver_id = substr($request->input('id'),3);
-                    if (!User::isSuperAdmin()) {
+                    if (User::isSuperAdmin()) {
+                        $adver = Advertiser::find($adver_id);
+                    }else{
                         $usr_company = $this->user_company();
                         $adver = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
                         })->with('Campaign')->with('Model')->with('GeoSegment')->with('BWList')->with('Creative')->with('GetClientID')->find($adver_id);
-                        if (!$adver) {
-                            return $msg=(['success' => false, 'msg' => "Some things went wrong"]);
-                        }
                     }
-                    $adver = Advertiser::find($adver_id);
                     if ($adver) {
                         $data = array();
                         $audit = new AuditsController();
@@ -336,8 +333,7 @@ class AdvertiserController extends Controller
                     }
                     return $msg=(['success' => false, 'msg' => "Please Select an Advertiser First"]);
                 }
-                //return print_r($validate->messages());
-                return $msg=(['success' => false, 'msg' => "Please Type a Name"]);
+                return $msg=(['success' => false, 'msg' => "Please fill all Fields"]);
 
             }
             return $msg=(['success' => false, 'msg' => "You don't have permission"]);

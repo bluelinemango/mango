@@ -234,7 +234,7 @@ class MangoController extends Controller
                     }
                 }
                 return view('bulk.ajaxTask')
-                    ->with('taskAjax', 'showTargetgroupSelect')
+                    ->with('taskAjax', 'showCampaignSelect')
                     ->with('next_child', $next_child);
             }
             return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);

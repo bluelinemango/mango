@@ -144,7 +144,7 @@
                     <div class="input-wrapper">
                     <textarea name="description" class="form-control" rows="3"
                               placeholder="type minimum 5 characters"
-                              id="description" ></textarea>
+                              id="description" disabled ></textarea>
                     </div>
                 </div>
             </div>
@@ -152,7 +152,7 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="control-label" for="name">Select Client</label>
+                        <label class="control-label" for="client_id">Select Client</label>
 
                         <select name="client_id" class="selecter">
                             <option value="all">All Client</option>
@@ -164,7 +164,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="control-label" for="name">Select Advertiser</label>
+                        <label class="control-label" for="advertiser_id">Select Advertiser</label>
 
                         <select name="advertiser_id" class="selecter">
                             <option value="0">All Advertiser</option>
@@ -177,7 +177,7 @@
 
             <input type="hidden" name="campaign_list" id="campaign_list">
 
-            <div class="well col-md-12" id="showCapmaignList">
+            <div class="col-md-12" id="showCapmaignList">
                 <div id="campaign_grid"></div>
             </div>
             <div class="form-actions">

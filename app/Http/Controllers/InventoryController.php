@@ -13,11 +13,32 @@ use Illuminate\Support\Facades\Redirect;
 
 class InventoryController extends Controller
 {
+    public function LoadJson(Request $request){
+//        return dd($request->all());
+        if(Auth::check()){
+            if(User::isSuperAdmin()) {
+                $inventory=Inventory::get();
+                foreach($inventory as $index){
+                    $action="<a class='btn' href='".url('/inventory/'.$index->id.'/edit')."'><img src='".cdn('img/edit_16x16.png')."'/></a>";
+                    $index->setAttribute('action', $action);
+
+                    if ($index->status == 'Active') {
+                        $index->status = "<input id=\"inventory$index->id\" onchange=\"ChangeStatus(`inventory`,`$index->id`)\" type=\"checkbox\" class=\"switchery-teal\" checked>";
+                    } elseif ($index->status == 'Inactive') {
+                        $index->status = "<input id=\"inventory$index->id\" onchange=\"ChangeStatus(`inventory`,`$index->id`)\" type=\"checkbox\" class=\"switchery-teal\" >";
+                    }
+                }
+                return json_encode($inventory);
+            }
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
+        }
+        return Redirect::to('/user/login');
+    }
+
     public function ListView(){
         if(Auth::check()){
             if(User::isSuperAdmin()) {
-                $inventory = Inventory::get();
-                return view('inventory.list')->with('inventory', $inventory);
+                return view('inventory.list');
             }
             return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
@@ -140,15 +161,20 @@ class InventoryController extends Controller
                 if ($validate->passes()) {
                     switch ($request->input('oper')) {
                         case 'add':
+                            $audit = new AuditsController();
+                            $active='Inactive';
+                            if($request->input('active')=='true'){
+                                $active='Active';
+                            }
                             $inventory = new Inventory();
                             $inventory->name = $request->input('name');
                             $inventory->category = $request->input('category');
                             $inventory->type = $request->input('type');
+                            $inventory->status = $active;
                             $inventory->daily_limit = $request->input('daily_limit');
-                            $inventory->user_id = Auth::user()->id;
                             $inventory->save();
-                            $inventory_obj = Inventory::where('id', $inventory->id)->get();
-                            return json_encode($inventory_obj);
+                            $audit->store('inventory', $inventory->id, null, 'add');
+                            return $msg=(['success' => true, 'msg' => "your Inventory:$inventory->id Added successfully"]);
                             break;
                         case 'edit':
                             $inventory_id = $request->input('id');
@@ -162,15 +188,36 @@ class InventoryController extends Controller
                                     array_push($data,$request->input('name'));
                                     $inventory->name=$request->input('name');
                                 }
+                                if($inventory->category!=$request->input('category')){
+                                    array_push($data,'Category');
+                                    array_push($data,$inventory->category);
+                                    array_push($data,$request->input('category'));
+                                    $inventory->category=$request->input('category');
+                                }
+                                if($inventory->type!=$request->input('type')){
+                                    array_push($data,'Type');
+                                    array_push($data,$inventory->type);
+                                    array_push($data,$request->input('type'));
+                                    $inventory->type=$request->input('type');
+                                }
+                                if($inventory->daily_limit!=$request->input('daily_limit')){
+                                    array_push($data,'Daily Limit');
+                                    array_push($data,$inventory->daily_limit);
+                                    array_push($data,$request->input('daily_limit'));
+                                    $inventory->daily_limit=$request->input('daily_limit');
+                                }
                                 $audit->store('inventory',$inventory_id,$data,'edit');
                                 $inventory->save();
-                                return 'ok';
+                                return $msg=(['success' => true, 'msg' => "your Inventory:$inventory->id Saved successfully"]);
                             }
+                            return $msg=(['success' => false, 'msg' => "please Select your Inventory"]);
                             break;
                     }
+                    return $msg=(['success' => false, 'msg' => "Are U kidding me?"]);
                 }
+                return $msg=(['success' => false, 'msg' => "Please fill all fields"]);
             }
-            return "don't have permission";
+            return $msg=(['success' => false, 'msg' => "don't have permission"]);
         }
         return Redirect::to(url('user/login'));
     }

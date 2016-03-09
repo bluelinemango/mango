@@ -312,7 +312,7 @@
                                                         <span class="add-on input-group-addon"><i class="ion-android-calendar"></i></span>
                                                         <div class="inputer">
                                                             <div class="input-wrapper">
-                                                                <input type="text" style="width: 200px" name="date_range" class="form-control bootstrap-daterangepicker-basic-range" value="{{\Carbon\Carbon::parse($campaign_obj->start_date)->format('d/m/Y')}} - {{\Carbon\Carbon::parse($campaign_obj->end_date)->format('d/m/Y')}}" />
+                                                                <input type="text" style="width: 200px" name="date_range" class="form-control bootstrap-daterangepicker-basic-range" value="{{\Carbon\Carbon::parse($campaign_obj->start_date)->format('m/d/Y')}} - {{\Carbon\Carbon::parse($campaign_obj->end_date)->format('m/d/Y')}}" />
                                                             </div>
                                                         </div>
                                                     </div>

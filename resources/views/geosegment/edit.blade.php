@@ -140,17 +140,81 @@
 
     <div class="clearfix"></div>
 
-    <div id="detailsDialog">
-        <form id="detailsForm">
-            <div class="details-form-field">
-                <label for="domain">Domain:</label>
-                <input id="domain" name="domain" type="text"/>
+    <div class="modal scale fade" id="defaultModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="detailsForm">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add Geo Segment</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row example-row">
+                            <div class="col-md-3">Name</div>
+                            <!--.col-md-3-->
+                            <div class="col-md-9">
+                                <div class="inputer">
+                                    <div class="input-wrapper">
+                                        <input type="text" id="domain_name" name="domain_name" class="form-control"
+                                               placeholder="Name">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--.col-md-9-->
+                        </div>
+                        <div class="row example-row">
+                            <div class="col-md-3">Lat</div>
+                            <!--.col-md-3-->
+                            <div class="col-md-9">
+                                <div class="inputer">
+                                    <div class="input-wrapper">
+                                        <input type="text" id="lat" name="lat" class="form-control"
+                                               placeholder="Lat">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--.col-md-9-->
+                        </div>
+                        <div class="row example-row">
+                            <div class="col-md-3">Lon</div>
+                            <!--.col-md-3-->
+                            <div class="col-md-9">
+                                <div class="inputer">
+                                    <div class="input-wrapper">
+                                        <input type="text" id="lon" name="lon" class="form-control"
+                                               placeholder="Lon">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--.col-md-9-->
+                        </div>
+                        <div class="row example-row">
+                            <div class="col-md-3">Radius</div>
+                            <!--.col-md-3-->
+                            <div class="col-md-9">
+                                <div class="inputer">
+                                    <div class="input-wrapper">
+                                        <input type="text" id="segment_radius" name="segment_radius" class="form-control"
+                                               placeholder="Radius">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--.col-md-9-->
+                        </div>
+                        <!--.row-->
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success" style="width:20%">Submit
+                        </button>
+
+                    </div>
+                </form>
             </div>
-            <div class="details-form-field">
-                <button type="submit" id="save">Save</button>
-            </div>
-        </form>
-    </div>
+            <!--.modal-content-->
+        </div>
+        <!--.modal-dialog-->
+    </div><!--.modal-->
 @endsection
 @section('FooterScripts')
     <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
@@ -165,14 +229,23 @@
 
             var db = {
 
-                loadData: function (filter) {
-                    return $.grep(this.geosegment_entry, function (geosegment_entry) {
-                        return (!filter.name || geosegment_entry.name.indexOf(filter.name) > -1)
-                                && (!filter.id || geosegment_entry.id.indexOf(filter.id) > -1)
-                                && (!filter.lat || geosegment_entry.lat.indexOf(filter.lat) > -1)
-                                && (!filter.lon || geosegment_entry.lon.indexOf(filter.lon) > -1)
-                                && (!filter.segment_radius || geosegment_entry.segment_radius.indexOf(filter.segment_radius) > -1);
+                loadData: function(filter) {
+                    var d = $.Deferred();
+                    $.ajax({
+                        type: "GET",
+                        url: "{{url('/geosegment/load-entry-list/'.$geosegment_obj->id)}}" ,
+                        dataType: "json"
+                    }).success(function(result) {
+                        result = $.grep(result, function(item) {
+                            return (!filter.name || item.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1)
+                                    && (!filter.id || item.id == filter.id)
+                                    && (!filter.lat || item.lat== filter.lat)
+                                    && (!filter.lon || item.lon==filter.lon)
+                                    && (!filter.segment_radius || item.segment_radius== filter.segment_radius);
+                        });
+                        d.resolve(result);
                     });
+                    return d.promise();
                 },
 
                 insertItem: function (insertingGeosegemnt_entry) {
@@ -185,23 +258,17 @@
                         data: insertingGeosegemnt_entry,
                         dataType: "json"
                     }).done(function (response) {
-                        console.log(response);
+                        $("#geosegment_entry_grid").jsGrid("render");
                         if (response.success == true) {
-                            var title = "Success";
-                            var color = "#739E73";
-                            var icon = "fa fa-check";
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                            $.ajax({
+                                url: "{{url('ajax/getAudit/geosegment/'.$geosegment_obj->id)}}"
+                            }).success(function (response) {
+                                $('#show_audit').html(response);
+                            });
                         } else if (response.success == false) {
-                            var title = "Warning";
-                            var color = "#C46A69";
-                            var icon = "fa fa-bell";
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
                         }
-                        $.smallBox({
-                            title: title,
-                            content: response.msg,
-                            color: color,
-                            icon: icon,
-                            timeout: 8000
-                        });
                     });
 
                 },
@@ -214,42 +281,43 @@
                         data: updatingGeosegmentEntry,
                         dataType: "json"
                     }).done(function (response) {
+                        $("#geosegment_entry_grid").jsGrid("render");
                         if (response.success == true) {
-                            var title = "Success";
-                            var color = "#739E73";
-                            var icon = "fa fa-check";
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                            $.ajax({
+                                url: "{{url('ajax/getAudit/geosegment/'.$geosegment_obj->id)}}"
+                            }).success(function (response) {
+                                $('#show_audit').html(response);
+                            });
                         } else if (response.success == false) {
-                            var title = "Warning";
-                            var color = "#C46A69";
-                            var icon = "fa fa-bell";
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
                         }
-                        ;
-                        $.smallBox({
-                            title: title,
-                            content: response.msg,
-                            color: color,
-                            icon: icon,
-                            timeout: 8000
-                        });
+                    });
+                },
+                deleteItem: function (updatingGeosegmentEntry) {
+                    updatingGeosegmentEntry['oper'] = 'del';
+                    $.ajax({
+                        type: "PUT",
+                        url: "{{url('/geosegment_edit')}}",
+                        data: updatingGeosegmentEntry,
+                        dataType: "json"
+                    }).done(function (response) {
+                        $("#geosegment_entry_grid").jsGrid("render");
+                        if (response.success == true) {
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                            $.ajax({
+                                url: "{{url('ajax/getAudit/geosegment/'.$geosegment_obj->id)}}"
+                            }).success(function (response) {
+                                $('#show_audit').html(response);
+                            });
+                        } else if (response.success == false) {
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
+                        }
                     });
                 }
 
             };
             window.db = db;
-            db.geosegment_entry = [
-
-                @foreach($geosegment_obj->getGeoEntries as $index)
-                {
-                    "id": 'bwe{{$index->id}}',
-                    "name": '{{$index->name}}',
-                    "lat": '{{$index->lat}}',
-                    "lon": '{{$index->lon}}',
-                    "segment_radius": '{{$index->segment_radius}}',
-                    "date_modify": '{{$index->updated_at}}',
-                    "parent_id": '{{$geosegment_obj->id}}'
-                },
-                @endforeach
-            ];
 
             $("#geosegment_entry_grid").jsGrid({
                 width: "100%",
@@ -270,10 +338,9 @@
                     {name: "lat", title: "Lat", type: "text", width: 70},
                     {name: "lon", title: "Lon", type: "text", width: 70},
                     {name: "segment_radius", title: "Segment Radius", type: "text", width: 70},
-                    {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
+                    {name: "updated_at", title: "Last Modified", width: 70, align: "center"},
                     {
                         name: "parent_id",
-                        title: "Bid ID",
                         type: "text",
                         width: 40,
                         align: "center",
@@ -294,23 +361,19 @@
                 ]
 
             });
-            $("#detailsDialog").dialog({
-                autoOpen: false,
-                width: 400,
-                close: function () {
-                    $("#detailsForm").validate().resetForm();
-                    $("#detailsForm").find(".error").removeClass("error");
-                }
-            });
             $("#detailsForm").validate({
                 rules: {
-                    domain: {
+                    domain_name: {
                         required: true,
                         domain: true
-                    }
+                    },
+                    lat: "required",
+                    lon: "required",
+                    segment_radius: "required"
+
                 },
                 messages: {
-                    domain: "Please enter Domain name"
+                    domain_name: "Please enter Domain name"
                 },
                 submitHandler: function () {
                     formSubmitHandler();
@@ -319,24 +382,29 @@
 
             var formSubmitHandler = $.noop;
 
-            var showDetailsDialog = function (dialogType, bid_profile_entry) {
+            var showDetailsDialog = function (dialogType, geosegment_entry) {
 
                 formSubmitHandler = function () {
-                    saveClient(bid_profile_entry, dialogType === "Add");
+                    saveClient(geosegment_entry, dialogType === "Add");
                 };
 
-                $("#detailsDialog").dialog("option", "title", dialogType + " Bid Profile Entry")
-                        .dialog("open");
+                $('#defaultModal').modal('show');
             };
 
-            var saveClient = function (bid_profile_entry, isNew) {
-                $.extend(bid_profile_entry, {
-                    domain: $("#domain").val()
+            var saveClient = function (geosegment_entry, isNew) {
+                $.extend(geosegment_entry, {
+                    name: $("#domain_name").val(),
+                    lat: $("#lat").val(),
+                    lon: $("#lon").val(),
+                    segment_radius: $("#radius").val()
                 });
+                $("#domain_name").val('');
+                $("#lat").val('');
+                $("#lon").val('');
+                $("#segment_radius").val('');
 
-                $("#bid_profile_entry_grid").jsGrid(isNew ? "insertItem" : "updateItem", bid_profile_entry);
-
-                $("#detailsDialog").dialog("close");
+                $("#geosegment_entry_grid").jsGrid(isNew ? "insertItem" : "updateItem", geosegment_entry);
+                $('#defaultModal').modal('hide');
             };
 
         });

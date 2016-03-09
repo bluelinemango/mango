@@ -78,6 +78,8 @@
     </div>
 @endsection
 @section('FooterScripts')
+    <script src="{{cdn('js/multi_select/multiselect.min.js')}}"></script>
+
     <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
 
     <script>

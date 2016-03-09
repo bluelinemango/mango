@@ -19,6 +19,33 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class BWListController extends Controller
 {
+    private $pattern= '/(((http|ftp|https):\/{2})?+(([0-9a-z_-]+\.)+(aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|cz|de|dj|dk|dm|do|dz|ec|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mn|mn|mo|mp|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|nom|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ra|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw|arpa)(:[0-9]+)?((\/([~0-9a-zA-Z\#\+\%@\.\/_-]+))?(\?[0-9a-zA-Z\+\%@\/&\[\];=_-]+)?)?))\b/imuS
+';
+
+    public function LoadJson($parent_id){
+//        return dd($request->all());
+        if(Auth::check()){
+            if (User::isSuperAdmin()) {
+                $bwlist_obj = BWList::with('getEntries')->find($parent_id);
+            }else{
+                $usr_company = $this->user_company();
+                $bwlist_obj = BWList::whereHas('getAdvertiser' , function ($q) use($usr_company) {
+                    $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                        $p->whereIn('user_id', $usr_company);
+                    });
+                })->with('getEntries')->find($parent_id);
+            }
+            if($bwlist_obj) {
+                foreach($bwlist_obj->getEntries as $index){
+                    $index->setAttribute('parent_id', $parent_id);
+                }
+                return json_encode($bwlist_obj->getEntries);
+            }
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
+        }
+        return Redirect::to('/user/login');
+    }
+
     public function GetView(){
         if(Auth::check()){
             if(in_array('VIEW_BWLIST',$this->permission)) {
@@ -168,7 +195,6 @@ class BWListController extends Controller
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     $bwlist_id=substr($request->input('id'),3);
-//                    return dd($model_id);
                     if (User::isSuperAdmin()) {
                         $bwlist=BWList::find($bwlist_id);
                     }else{
@@ -178,9 +204,6 @@ class BWListController extends Controller
                                 $p->whereIn('user_id', $usr_company);
                             });
                         })->find($bwlist_id);
-                        if (!$bwlist) {
-                            return $msg=(['success' => false, 'msg' => "Some things went wrong"]);
-                        }
                     }
                     if ($bwlist) {
                         $data = array();
@@ -191,16 +214,13 @@ class BWListController extends Controller
                             array_push($data, $request->input('name'));
                             $bwlist->name = $request->input('name');
                         }
-                        $audit->store('campaign', $bwlist_id, $data, 'edit');
+                        $audit->store('bwlist', $bwlist_id, $data, 'edit');
                         $bwlist->save();
-                        return $msg=(['success' => true, 'msg' => "your Campaign Saved successfully"]);
+                        return $msg=(['success' => true, 'msg' => "your Black / White Saved successfully"]);
                     }
-
-                    return $msg=(['success' => false, 'msg' => "Please Select a Campaign First"]);
-
+                    return $msg=(['success' => false, 'msg' => "Please Select a Black / White First"]);
                 }
-                //return print_r($validate->messages());
-                return $msg=(['success' => false, 'msg' => "Please Check your field"]);
+                return $msg=(['success' => false, 'msg' => "Please fill all fields"]);
             }
             return $msg=(['success' => false, 'msg' => "You don't have permission"]);
 
@@ -209,28 +229,33 @@ class BWListController extends Controller
     }
 
     public function jqgrid(Request $request){
-        $pattern= '/(((http|ftp|https):\/{2})?+(([0-9a-z_-]+\.)+(aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|cz|de|dj|dk|dm|do|dz|ec|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mn|mn|mo|mp|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|nom|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ra|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw|arpa)(:[0-9]+)?((\/([~0-9a-zA-Z\#\+\%@\.\/_-]+))?(\?[0-9a-zA-Z\+\%@\/&\[\];=_-]+)?)?))\b/imuS
-';
+
 //        return dd($request->all());
         if(Auth::check()){
-            if(1==1){    //permission goes here
+            if(in_array('ADD_EDIT_BWLIST', $this->permission)){    //permission goes here
                 $validate=\Validator::make($request->all(),['domain_name' => 'required']);
                 if($validate->passes()) {
-                    $chkUser=BWList::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->find($request->input('bwlist_id'));
-//                    return dd($chkUser);
-                    if(!is_null($chkUser) and Auth::user()->id == $chkUser->getAdvertiser->GetClientID->user_id) {
-                        if(preg_match($pattern,$request->input('domain_name'))) {
+                    if (User::isSuperAdmin()) {
+                        $bwlist =BWList::find($request->input('parent_id'));
+                    }else{
+                        $usr_company = $this->user_company();
+                        $bwlist = BWList::whereHas('getAdvertiser' , function ($q) use($usr_company) {
+                            $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->find($request->input('parent_id'));
+                    }
+                    if($bwlist) {
+                        if(preg_match($this->pattern,$request->input('domain_name'))) {
                             $audit= new AuditsController();
                             switch ($request->input('oper')) {
                                 case 'add':
                                     $bwentries = new BWEntries();
                                     $bwentries->domain_name = $request->input('domain_name');
-                                    $bwentries->bwlist_id = $request->input('bwlist_id');
+                                    $bwentries->bwlist_id = $request->input('parent_id');
                                     $bwentries->save();
                                     $audit->store('bwlistentrie',$bwentries->id,$request->input('bwlist_id'),'add');
-                                    $bwentries=BWEntries::where('id',$bwentries->id)->get();
-//                                    return dd($result);
-                                    return json_encode($bwentries);
+                                    return $msg=(['success' => true, 'msg' => "your Entery has been Added"]);
                                 break;
                                 case 'edit':
                                     $bwentries = BWEntries::find($request->input('id'));
@@ -243,40 +268,25 @@ class BWListController extends Controller
                                     }
                                     $audit->store('bwlistentrie',$request->input('id'),$data,'edit');
                                     $bwentries->save();
-                                    return 'ok';
+                                    return $msg=(['success' => true, 'msg' => "your Entery has been Edited"]);
                                 break;
+                                case 'del':
+                                    $audit= new AuditsController();
+                                    $d=array($request->input('id'),$request->input('parent_id'));
+                                    $audit->store('bwlistentry',$request->input('id'),$d,'del');
+                                    BWEntries::where('id',$request->input('id'))->where('bwlist_id',$request->input('parent_id'))->delete();
+                                    return $msg=(['success' => true, 'msg' => "your Entery has been Deleted"]);
+                                    break;
                             }
-                        }else{
-                            return "PLZ enter valid Web site domain";
                         }
+                        return $msg=(['success' => false, 'msg' => "PLZ enter valid Web site domain"]);
                     }
-
+                    return $msg=(['success' => false, 'msg' => "Please Select an Entery First"]);
                 }
-                switch ($request->input('oper')) {
-                    case 'del':
-                        $audit= new AuditsController();
-                        $key= new AuditsController();
-                        $key=$key->generateRandomString();
-
-                        $a=explode(',',$request->input('id'));
-                        foreach($a as $index){
-                            $b=array();
-                            $bname=BWEntries::with('getParent')->where('id',$index)->get();
-//                            return dd($gname[0]->getParent->id);
-                            array_push($b,$bname[0]->name);
-                            array_push($b,$bname[0]->getParent->id);
-                            $audit->store('bwlistentrie',$request->input('id'),$b,'del',$key);
-                            BWEntries::where('id',$index)->delete();
-                        }
-                        return 'ok';
-                    break;
-                }
-                //return print_r($validate->messages());
-                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+                return $msg=(['success' => false, 'msg' => "Please fill all Fields"]);
             }
-        }else{
-            return Redirect::to('/user/login');
         }
+        return Redirect::to('/user/login');
     }
 
     public function add_bwlist(Request $request){

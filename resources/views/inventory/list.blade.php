@@ -43,29 +43,93 @@
     </div>
     <!--.col-->
 
-    <div id="detailsDialog">
-        <form id="detailsForm">
-            <div class="details-form-field">
-                <label for="name">Name:</label>
-                <input id="name" name="name" type="text"/>
+    <div class="modal scale fade" id="defaultModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="detailsForm">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add Inventory</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row example-row">
+                            <div class="col-md-3">Name</div>
+                            <!--.col-md-3-->
+                            <div class="col-md-9">
+                                <div class="inputer">
+                                    <div class="input-wrapper">
+                                        <input type="text" id="name" name="name" class="form-control"
+                                               placeholder="Inventory Name">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--.col-md-9-->
+                        </div>
+                        <div class="row example-row">
+                            <div class="col-md-3">Category</div>
+                            <!--.col-md-3-->
+                            <div class="col-md-9">
+                                <div class="inputer">
+                                    <div class="input-wrapper">
+                                        <input type="text" id="category" name="category" class="form-control"
+                                               placeholder="category">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--.col-md-9-->
+                        </div>
+                        <div class="row example-row">
+                            <div class="col-md-3">Type</div>
+                            <!--.col-md-3-->
+                            <div class="col-md-9">
+                                <div class="inputer">
+                                    <div class="input-wrapper">
+                                        <input type="text" id="type" name="type" class="form-control"
+                                               placeholder="Type">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--.col-md-9-->
+                        </div>
+                        <div class="row example-row">
+                            <div class="col-md-3">Daily Limit</div>
+                            <!--.col-md-3-->
+                            <div class="col-md-9">
+                                <div class="inputer">
+                                    <div class="input-wrapper">
+                                        <input type="text" id="daily_limit" name="daily_limit" class="form-control"
+                                               placeholder="Daily Limit">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--.col-md-9-->
+                        </div>
+                        <!--.row-->
+                        <div class="row example-row">
+                            <div class="col-md-3">Active</div><!--.col-md-3-->
+                            <div class="col-md-9">
+                                <div class="switcher">
+                                    <input id="active" name="active" type="checkbox" hidden="hidden">
+                                    <label for="active"></label>
+                                </div><!--.switcher-->
+                            </div><!--.col-md-9-->
+                        </div><!--.row-->
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success" style="width:20%">Submit
+                        </button>
+
+                    </div>
+                </form>
             </div>
-            <div class="details-form-field">
-                <label for="category">Category:</label>
-                <input id="category" name="category" type="text"/>
-            </div>
-            <div class="details-form-field">
-                <label for="type">Type:</label>
-                <input id="type" name="type" type="text"/>
-            </div>
-            <div class="details-form-field">
-                <label for="daily_limit">Daily Limit:</label>
-                <input id="daily_limit" name="daily_limit" type="text"/>
-            </div>
-            <div class="details-form-field">
-                <button type="submit" id="save">Save</button>
-            </div>
-        </form>
-    </div>
+            <!--.modal-content-->
+        </div>
+        <!--.modal-dialog-->
+    </div><!--.modal-->
+
+
+
 @endsection
 @section('FooterScripts')
     <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
@@ -97,6 +161,164 @@
             }
         });
 
+        $(function () {
+
+            var db = {
+
+                loadData: function(filter) {
+                    var d = $.Deferred();
+                    $.ajax({
+                        type: "POST",
+                        url: "{{url('/inventory/load-list')}}",
+                        data: filter,
+                        dataType: "json"
+                    }).success(function(result) {
+                        result = $.grep(result, function(item) {
+                            return (!filter.name || item.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1)
+                                    &&(!filter.category || item.category.toLowerCase().indexOf(filter.category.toLowerCase()) > -1)
+                                    &&(!filter.type || item.type.toLowerCase().indexOf(filter.type.toLowerCase()) > -1)
+                                    && (!filter.id || item.id ==filter.id );
+                        });
+                        d.resolve(result);
+                        FormsSwitchery.init();
+                    });
+                    return d.promise();
+                },
+
+                insertItem: function (insertingInventory) {
+                    insertingInventory['oper'] = 'add';
+                    console.log(insertingInventory);
+                    $.ajax({
+                        type: "PUT",
+                        url: "{{url('/ajax/jqgrid/inventory')}}",
+                        data: insertingInventory,
+                        dataType: "json"
+                    }).done(function (response) {
+                        $("#inventory_grid").jsGrid("render");
+                        if (response.success == true) {
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                            $.ajax({
+                                url: "{{url('ajax/getAudit/inventory')}}"
+                            }).success(function (response) {
+                                $('#show_audit').html(response);
+                            });
+                        } else if (response.success == false) {
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
+                        }
+
+                    });
+
+                },
+
+                updateItem: function (updatingInventory) {
+                    updatingInventory['oper'] = 'edit';
+                    console.log(updatingInventory);
+                    $.ajax({
+                        type: "PUT",
+                        url: "{{url('/ajax/jqgrid/inventory')}}",
+                        data: updatingInventory,
+                        dataType: "json"
+                    }).done(function (response) {
+                        $("#inventory_grid").jsGrid("render");
+                        if (response.success == true) {
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                            $.ajax({
+                                url: "{{url('ajax/getAudit/inventory')}}"
+                            }).success(function (response) {
+                                $('#show_audit').html(response);
+                            });
+                        } else if (response.success == false) {
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
+                        }
+                    });
+                }
+
+            };
+
+            window.db = db;
+
+            $("#inventory_grid").jsGrid({
+                width: "100%",
+
+                filtering: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                autoload: true,
+                rowClick:function(item){console.log(item)},
+                pageSize: 10,
+                pageButtonCount: 5,
+                controller: db,
+                fields: [
+                    {name: "id", title: "ID", type: "text", width: 20, align: "center", editing: false},
+                    {name: "name", title: "Name", type: "text", width: 70},
+                    {name: "category", title: "Category", type: "text", width: 70},
+                    {name: "type", title: "Type", type: "text", width: 70},
+                    {name: "status", title: "Status", width: 50, align: "center",editing: false},
+                    {name: "updated_at", title: "Date of Modify", align: "center"},
+                    {name: "action", title: "Full Action", sorting: false, width: 50, align: "center"},
+                    {
+                        type: "control",
+                        deleteButton: false,
+                        editButtonTooltip: "Edit",
+                        editButton: true,
+                        modeSwitchButton: false,
+                        headerTemplate: function () {
+                            return $("<button>").attr("type", "button").text("Add")
+                                    .on("click", function () {
+                                        showDetailsDialog("Add", {});
+                                    });
+                        }
+                    }
+                ]
+
+            });
+
+            $("#detailsForm").validate({
+                rules: {
+                    name: "required",
+                    category: "required",
+                    type: "required",
+                    daily_limit: "required"
+                },
+                messages: {
+                    name: "Please enter name"
+                },
+                submitHandler: function () {
+                    formSubmitHandler();
+                }
+            });
+
+            var formSubmitHandler = $.noop;
+
+            var showDetailsDialog = function (dialogType, inventory) {
+
+                formSubmitHandler = function () {
+                    saveInventory(inventory, dialogType === "Add");
+                };
+
+                $('#defaultModal').modal('show');
+            };
+
+            var saveInventory = function (inventory, isNew) {
+                $.extend(inventory, {
+                    name: $("#name").val(),
+                    category: $("#category").val(),
+                    type: $("#type").val(),
+                    daily_limit: $("#daily_limit").val(),
+                    active: $("#active").is(":checked")
+                });
+                $("#name").val('');
+                $("#category").val('');
+                $("#type").val('');
+                $("#daily_limit").val('');
+                $("#inventory_grid").jsGrid(isNew ? "insertItem" : "updateItem", inventory);
+                $('#defaultModal').modal('hide');
+
+            };
+        });
+
+
         $(document).ready(function () {
             $.ajax({
                 url: "{{url('ajax/getAllAudits')}}"
@@ -104,145 +326,6 @@
                 $('#show_audit').html(response);
             });
 
-            $(function () {
-
-                var db = {
-
-                    loadData: function (filter) {
-                        return $.grep(this.inventory, function (inventory) {
-                            return (!filter.name || inventory.name.indexOf(filter.name) > -1)
-                                    && (!filter.category || inventory.category.indexOf(filter.category) > -1)
-                                    && (!filter.type || inventory.type.indexOf(filter.type) > -1)
-                                    && (!filter.id || inventory.id.indexOf(filter.id) > -1);
-                        });
-                    },
-
-                    insertItem: function (insertingInventory) {
-                        insertingInventory['oper'] = 'add';
-                        console.log(insertingInventory);
-                        $.ajax({
-                            type: "PUT",
-                            url: "{{url('/ajax/jqgrid/inventory')}}",
-                            data: insertingInventory,
-                            dataType: "json"
-                        }).done();
-
-                    },
-
-                    updateItem: function (updatingInventory) {
-                        updatingInventory['oper'] = 'edit';
-                        console.log(updatingInventory);
-                        $.ajax({
-                            type: "PUT",
-                            url: "{{url('/ajax/jqgrid/inventory')}}",
-                            data: updatingInventory,
-                            dataType: "json"
-                        });
-                    }
-
-                };
-
-                window.db = db;
-
-                db.inventory = [
-                    @foreach($inventory as $index)
-                    {
-                        "id": '{{$index->id}}',
-                        "name": '{{$index->name}}',
-                        "category": '{{$index->category}}',
-                        "type": '{{$index->type}}',
-                        "date_modify": '{{$index->updated_at}}',
-                        "action": '<a class="btn" href="{{url('/inventory/'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>'
-
-                    },
-                    @endforeach
-                ];
-
-                $("#inventory_grid").jsGrid({
-                    width: "100%",
-
-                    filtering: true,
-                    editing: true,
-                    sorting: true,
-                    paging: true,
-                    autoload: true,
-
-                    pageSize: 10,
-                    pageButtonCount: 5,
-
-                    deleteConfirm: "Do you really want to delete the inventory?",
-
-                    controller: db,
-                    fields: [
-                        {name: "id", title: "ID", type: "text", width: 20, align: "center", editing: false},
-                        {name: "name", title: "Name", type: "text", width: 70},
-                        {name: "category", title: "Category", type: "text", width: 70},
-                        {name: "type", title: "Type", type: "text", width: 70},
-                        {name: "date_modify", title: "Date of Modify", align: "center"},
-                        {name: "action", title: "Full Action", sorting: false, width: 50, align: "center"},
-                        {
-                            type: "control",
-                            modeSwitchButton: false,
-                            editButton: false,
-                            headerTemplate: function () {
-                                return $("<button>").attr("type", "button").text("Add")
-                                        .on("click", function () {
-                                            showDetailsDialog("Add Inventory", {});
-                                        });
-                            }
-                        }
-                    ]
-
-                });
-
-
-                $("#detailsDialog").dialog({
-                    autoOpen: false,
-                    width: 400,
-                    close: function () {
-                        $("#detailsForm").validate().resetForm();
-                        $("#detailsForm").find(".error").removeClass("error");
-                    }
-                });
-
-//                $("#detailsForm").validate({
-//                    rules: {
-//                        name: "required"
-//                    },
-//                    messages: {
-//                        name: "Please enter name"
-//                    },
-//                    submitHandler: function() {
-//                        formSubmitHandler();
-//                    }
-//                });
-
-                var formSubmitHandler = $.noop;
-
-                var showDetailsDialog = function (dialogType, inventory) {
-
-                    formSubmitHandler = function () {
-                        saveInventory(inventory, dialogType === "Add");
-                    };
-
-                    $("#detailsDialog").dialog("option", "title", dialogType + " Inventory")
-                            .dialog("open");
-                };
-
-                var saveInventory = function (inventory, isNew) {
-                    $.extend(inventory, {
-                        name: $("#name").val(),
-                        age: parseInt($("#age").val(), 10),
-                        Address: $("#address").val(),
-                        Country: parseInt($("#country").val(), 10),
-                        Married: $("#married").is(":checked")
-                    });
-
-                    $("#jsGrid").jsGrid(isNew ? "insertItem" : "updateItem", inventory);
-
-                    $("#detailsDialog").dialog("close");
-                };
-            });
 
         });
     </script>

@@ -18,6 +18,30 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class GeoSegmentController extends Controller
 {
+    public function LoadJson($parent_id){
+//        return dd($request->all());
+        if(Auth::check()){
+            if (User::isSuperAdmin()) {
+                $geosegment_obj = GeoSegmentList::with('getGeoEntries')->find($parent_id);
+            }else{
+                $usr_company = $this->user_company();
+                $geosegment_obj = GeoSegmentList::whereHas('getAdvertiser' , function ($q) use($usr_company) {
+                    $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                        $p->whereIn('user_id', $usr_company);
+                    });
+                })->with('getGeoEntries')->find($parent_id);
+            }
+            if($geosegment_obj) {
+                foreach($geosegment_obj->getGeoEntries as $index){
+                    $index->setAttribute('parent_id', $parent_id);
+                }
+                return json_encode($geosegment_obj->getGeoEntries);
+            }
+            return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
+        }
+        return Redirect::to('/user/login');
+    }
+
     public function GetView(){
         if(Auth::check()){
             if(in_array('VIEW_GEOSEGMENTLIST',$this->permission)) {
@@ -259,27 +283,32 @@ class GeoSegmentController extends Controller
     public function jqgrid(Request $request){
 //        return dd($request->all());
         if(Auth::check()){
-            if(1==1){    //permission goes here
-                $validate=\Validator::make($request->all(),['name' => 'required','lat' => 'required','lon' => 'required','segment_radius' => 'required',]);
+            if(in_array('ADD_EDIT_GEOSEGMENTLIST', $this->permission)){    //permission goes here
+                $validate=\Validator::make($request->all(),['name' => 'required','lat' => 'required','lon' => 'required','segment_radius' => 'required']);
                 if($validate->passes()) {
-                    $chkUser=GeoSegmentList::with(['getAdvertiser'=>function($q){$q->with('GetClientID');}])->find($request->input('geosegment_id'));
-//                    return dd($chkUser);
-                    if(!is_null($chkUser) and Auth::user()->id == $chkUser->getAdvertiser->GetClientID->user_id) {
+                    if (User::isSuperAdmin()) {
+                        $geosegment =GeoSegmentList::find($request->input('parent_id'));
+                    }else{
+                        $usr_company = $this->user_company();
+                        $geosegment = GeoSegmentList::whereHas('getAdvertiser' , function ($q) use($usr_company) {
+                            $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->find($request->input('parent_id'));
+                    }
+                    if($geosegment) {
                         $audit= new AuditsController();
                         switch ($request->input('oper')) {
-
                             case 'add':
                                 $geosegment = new GeoSegment();
                                 $geosegment->name = $request->input('name');
                                 $geosegment->lat = $request->input('lat');
                                 $geosegment->lon = $request->input('lon');
                                 $geosegment->segment_radius = $request->input('segment_radius');
-                                $geosegment->geosegmentlist_id = $request->input('geosegment_id');
+                                $geosegment->geosegmentlist_id = $request->input('parent_id');
                                 $geosegment->save();
                                 $audit->store('geosegmententrie',$geosegment->id,$request->input('geosegment_id'),'add');
-                                $geosegment=GeoSegment::where('id',$geosegment->id)->get();
-//                                    return dd($result);
-                                return json_encode($geosegment);
+                                return $msg=(['success' => true, 'msg' => "your Geo Segment has been Added"]);
                                 break;
                             case 'edit':
                                 $geosegmententries = GeoSegment::find($request->input('id'));
@@ -303,43 +332,33 @@ class GeoSegmentController extends Controller
                                     $geosegmententries->lon = $request->input('lon');
                                 }
                                 if($geosegmententries->segment_radius != $request->input('segment_radius')){
-                                    array_push($data,'segment_radius');
+                                    array_push($data,'Segment Radius');
                                     array_push($data,$geosegmententries->segment_radius);
                                     array_push($data,$request->input('segment_radius'));
                                     $geosegmententries->segment_radius = $request->input('segment_radius');
                                 }
                                 $geosegmententries->save();
                                 $audit->store('geosegmententrie',$request->input('id'),$data,'edit');
-                                return 'ok';
+                                return $msg=(['success' => true, 'msg' => "your Geo Segment has been Edited"]);
                                 break;
+                            case 'del':
+                                $audit= new AuditsController();
+                                $d=array($request->input('id'),$request->input('parent_id'));
+                                $audit->store('geosegmententrie',$request->input('id'),$d,'del');
+                                GeoSegment::where('id',$request->input('id'))->where('geosegmentlist_id',$request->input('parent_id'))->delete();
+                                return $msg=(['success' => true, 'msg' => "your Geo Segment has been Deleted"]);
+                                break;
+
                         }
                     }
+                    return $msg=(['success' => false, 'msg' => "Please Select a Geo Segment First"]);
 
                 }
-                switch ($request->input('oper')) {
-                    case 'del':
-                        $audit= new AuditsController();
-                        $key= new AuditsController();
-                        $key=$key->generateRandomString();
-                        $a=explode(',',$request->input('id'));
-                        foreach($a as $index){
-                            $b=array();
-                            $gname=GeoSegment::with('getParent')->where('id',$index)->get();
-//                            return dd($gname[0]->getParent->id);
-                            array_push($b,$gname[0]->name);
-                            array_push($b,$gname[0]->getParent->id);
-                            $audit->store('geosegmententrie',$request->input('id'),$b,'del',$key);
-                            GeoSegment::where('id',$index)->delete();
-                        }
-                        return 'ok';
-                        break;
-                }
-                //return print_r($validate->messages());
-                return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
+                return $msg=(['success' => false, 'msg' => "Please fill all Fields"]);
             }
-        }else{
-            return Redirect::to('/user/login');
+            return $msg=(['success' => false, 'msg' => "You don't have permission"]);
         }
+        return Redirect::to('/user/login');
     }
 
     public function jqgridList(Request $request){

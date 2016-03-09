@@ -158,17 +158,41 @@
 
     <div class="clearfix"></div>
 
-    <div id="detailsDialog">
-        <form id="detailsForm">
-            <div class="details-form-field">
-                <label for="domain">Domain:</label>
-                <input id="domain" name="domain" type="text"/>
+    <div class="modal scale fade" id="defaultModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="detailsForm">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add Entry</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row example-row">
+                            <div class="col-md-3">Domain</div>
+                            <!--.col-md-3-->
+                            <div class="col-md-9">
+                                <div class="inputer">
+                                    <div class="input-wrapper">
+                                        <input type="text" id="domain_name" name="domain_name" class="form-control"
+                                               placeholder="Domain">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--.col-md-9-->
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success" style="width:20%">Submit
+                        </button>
+
+                    </div>
+                </form>
             </div>
-            <div class="details-form-field">
-                <button type="submit" id="save">Save</button>
-            </div>
-        </form>
-    </div>
+            <!--.modal-content-->
+        </div>
+        <!--.modal-dialog-->
+    </div><!--.modal-->
 
 @endsection
 @section('FooterScripts')
@@ -179,11 +203,20 @@
 
             var db = {
 
-                loadData: function (filter) {
-                    return $.grep(this.bwlist_entry, function (bwlist_entry) {
-                        return (!filter.domain_name || bwlist_entry.domain_name.indexOf(filter.domain_name) > -1)
-                                && (!filter.id || bwlist_entry.id.indexOf(filter.id) > -1);
+                loadData: function(filter) {
+                    var d = $.Deferred();
+                    $.ajax({
+                        type: "GET",
+                        url: "{{url('/bwlist/load-entry-list/'.$bwlist_obj->id)}}" ,
+                        dataType: "json"
+                    }).success(function(result) {
+                        result = $.grep(result, function(item) {
+                            return (!filter.domain_name || item.domain_name.toLowerCase().indexOf(filter.domain_name.toLowerCase()) > -1)
+                                    && (!filter.id || item.id == filter.id);
+                        });
+                        d.resolve(result);
                     });
+                    return d.promise();
                 },
 
                 insertItem: function (insertingbwlist_entry) {
@@ -192,27 +225,21 @@
                     insertingbwlist_entry['parent_id'] = '{{$bwlist_obj->id}}';
                     $.ajax({
                         type: "PUT",
-                        url: "{{url('/ajax/jqgrid/bwlist-entry')}}",
+                        url: "{{url('/bwlist_entriy')}}",
                         data: insertingbwlist_entry,
                         dataType: "json"
                     }).done(function (response) {
-                        console.log(response);
+                        $("#bwlist_entry_grid").jsGrid("render");
                         if (response.success == true) {
-                            var title = "Success";
-                            var color = "#739E73";
-                            var icon = "fa fa-check";
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                            $.ajax({
+                                url: "{{url('ajax/getAudit/bwlist/'.$bwlist_obj->id)}}"
+                            }).success(function (response) {
+                                $('#show_audit').html(response);
+                            });
                         } else if (response.success == false) {
-                            var title = "Warning";
-                            var color = "#C46A69";
-                            var icon = "fa fa-bell";
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
                         }
-                        $.smallBox({
-                            title: title,
-                            content: response.msg,
-                            color: color,
-                            icon: icon,
-                            timeout: 8000
-                        });
                     });
 
                 },
@@ -221,44 +248,48 @@
                     updatingBWlistEntry['oper'] = 'edit';
                     $.ajax({
                         type: "PUT",
-                        url: "{{url('/ajax/jqgrid/bwlist-entry')}}",
+                        url: "{{url('/bwlist_entriy')}}",
                         data: updatingBWlistEntry,
                         dataType: "json"
                     }).done(function (response) {
+                        $("#bwlist_entry_grid").jsGrid("render");
                         if (response.success == true) {
-                            var title = "Success";
-                            var color = "#739E73";
-                            var icon = "fa fa-check";
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                            $.ajax({
+                                url: "{{url('ajax/getAudit/bwlist/'.$bwlist_obj->id)}}"
+                            }).success(function (response) {
+                                $('#show_audit').html(response);
+                            });
                         } else if (response.success == false) {
-                            var title = "Warning";
-                            var color = "#C46A69";
-                            var icon = "fa fa-bell";
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
                         }
-                        ;
-                        $.smallBox({
-                            title: title,
-                            content: response.msg,
-                            color: color,
-                            icon: icon,
-                            timeout: 8000
-                        });
+                    });
+                },
+                deleteItem: function (updatingBWlistEntry) {
+                    updatingBWlistEntry['oper'] = 'del';
+                    $.ajax({
+                        type: "PUT",
+                        url: "{{url('/bwlist_entriy')}}",
+                        data: updatingBWlistEntry,
+                        dataType: "json"
+                    }).done(function (response) {
+                        $("#bwlist_entry_grid").jsGrid("render");
+                        if (response.success == true) {
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                            $.ajax({
+                                url: "{{url('ajax/getAudit/bwlist/'.$bwlist_obj->id)}}"
+                            }).success(function (response) {
+                                $('#show_audit').html(response);
+                            });
+                        } else if (response.success == false) {
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
+                        }
                     });
                 }
 
             };
 
             window.db = db;
-            db.bwlist_entry = [
-
-                @foreach($bwlist_obj->getEntries as $index)
-                {
-                    "id": 'bwe{{$index->id}}',
-                    "domain_name": '{{$index->domain_name}}',
-                    "date_modify": '{{$index->updated_at}}',
-                    "parent_id": '{{$bwlist_obj->id}}'
-                },
-                @endforeach
-            ];
 
             $("#bwlist_entry_grid").jsGrid({
                 width: "100%",
@@ -276,7 +307,7 @@
                 fields: [
                     {name: "id", title: "ID", type: "text", width: 40, align: "center", editing: false},
                     {name: "domain_name", title: "Domain", type: "text", width: 70},
-                    {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
+                    {name: "updated_at", title: "Last Modified", width: 70, align: "center"},
                     {
                         name: "parent_id",
                         title: "Bid ID",
@@ -300,63 +331,40 @@
                 ]
 
             });
-            $("#detailsDialog").dialog({
-                autoOpen: false,
-                width: 400,
-                close: function () {
-                    $("#detailsForm").validate().resetForm();
-                    $("#detailsForm").find(".error").removeClass("error");
-                }
-            });
             $("#detailsForm").validate({
                 rules: {
-                    domain: {
+                    domain_name: {
                         required: true,
                         domain: true
                     }
                 },
                 messages: {
-                    domain: "Please enter Domain name"
+                    domain_name: "Please enter Domain name"
                 },
                 submitHandler: function () {
                     formSubmitHandler();
                 }
             });
-            $('#bid_strategy').change(function () {
-                if ($(this).val() == 'Absolute') {
-                    $('#bid_value').show();
-                    $('#bid_value1').hide();
-                    $('.invalid').hide();
-                } else {
-                    $('#bid_value').hide();
-                    $('#bid_value1').show();
-                    $('.invalid').hide();
-                }
-            });
-
             var formSubmitHandler = $.noop;
 
-            var showDetailsDialog = function (dialogType, bid_profile_entry) {
+            var showDetailsDialog = function (dialogType, bw_entry) {
 
                 formSubmitHandler = function () {
-                    saveClient(bid_profile_entry, dialogType === "Add");
+                    saveClient(bw_entry, dialogType === "Add");
                 };
+                $('#defaultModal').modal('show');
 
-                $("#detailsDialog").dialog("option", "title", dialogType + " Bid Profile Entry")
-                        .dialog("open");
             };
 
-            var saveClient = function (bid_profile_entry, isNew) {
-                $.extend(bid_profile_entry, {
-                    domain: $("#domain").val(),
-                    bid_strategy: $("#bid_strategy").val(),
-                    bid_value: $("#bid_value").val(),
-                    bid_value1: $("#bid_value1").val()
+            var saveClient = function (bw_entry, isNew) {
+                $.extend(bw_entry, {
+                    domain_name: $("#domain_name").val()
                 });
+                $("#domain_name").val('');
 
-                $("#bid_profile_entry_grid").jsGrid(isNew ? "insertItem" : "updateItem", bid_profile_entry);
+                $("#bwlist_entry_grid").jsGrid(isNew ? "insertItem" : "updateItem", bw_entry);
 
-                $("#detailsDialog").dialog("close");
+                $('#defaultModal').modal('hide');
             };
 
         });

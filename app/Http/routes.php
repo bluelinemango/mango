@@ -53,6 +53,7 @@ Route::put('/company/edit/update', ['uses'=>'CompanyController@edit_company','as
 
 /////////////////////////Inventory///////////////////////////////////////////
 Route::get('/inventory','InventoryController@ListView');
+Route::post('/inventory/load-list','InventoryController@LoadJson');
 Route::get('/inventory/add','InventoryController@AddInventoryView');
 Route::get('/inventory/{id?}/edit','InventoryController@InventoryEditView');
 Route::post('/inventory/add/create', ['uses'=>'InventoryController@add_inventory','as'=>'inventory_create']);
@@ -128,6 +129,8 @@ Route::put('/pixel/edit/update', ['uses'=>'PixelController@edit_pixel','as'=>'pi
 
 /////////////////////////GeoSegment///////////////////////////////////////////
 Route::get('/geosegment','GeoSegmentController@GetView');
+Route::get('/geosegment/load-entry-list/{parent_id?}','GeoSegmentController@LoadJson');
+
 Route::get('/client/cl{clid?}/advertiser/adv{advid?}/geosegment/add','GeoSegmentController@GeosegmentAddView');
 Route::get('/client/cl{clid?}/advertiser/adv{advid?}/geosegment/gsm{gsmid?}/edit','GeoSegmentController@GeosegmentEditView');
 //Route::get('/creative/delete/{id?}','CreativeController@DeleteCreative');
@@ -139,6 +142,7 @@ Route::post('/geosegment/upload', ['uses'=>'GeoSegmentController@UploadGeosegmen
 
 /////////////////////////BWLIST///////////////////////////////////////////
 Route::get('/bwlist','BWListController@GetView');
+Route::get('/bwlist/load-entry-list/{parent_id?}','BWListController@LoadJson');
 Route::get('/client/cl{clid?}/advertiser/adv{advid?}/bwlist/add','BWListController@BwlistAddView');
 Route::get('/client/cl{clid?}/advertiser/adv{advid?}/bwlist/bwl{crtid?}/edit','BWListController@BwlistEditView');
 Route::get('/creative/delete/{id?}','CreativeController@DeleteCreative');
@@ -172,8 +176,8 @@ Route::post('/user/login/do',['uses'=>'LoginController@postLogin','as'=>'user_lo
 Route::get('/user/logout',['uses'=>'LoginController@getLogout','as'=>'user_logout']);
 
 Route::post('/ajax/client_list', 'ClientController@jqgrid');
-Route::post('/bwlist_entries_edit', 'BWListController@jqgrid');
-Route::post('/geosegment_edit', 'GeoSegmentController@jqgrid');
+Route::put('/bwlist_entriy', 'BWListController@jqgrid');
+Route::put('/geosegment_edit', 'GeoSegmentController@jqgrid');
 Route::get('/get_iab_sub_category/{id?}', ['uses'=>'TargetgroupController@Iab_Category','as'=>'get_iab_sub_category']);
 
 Route::post('/getTableGridTG', 'TargetgroupController@getTableGrid');
@@ -190,6 +194,7 @@ Route::group(['prefix' => 'ajax'], function()
     Route::get('/getCampaignSelect/{adv_id?}', 'MangoController@getCampaignSelect');
     Route::get('/getAssignList/{adv_id?}', 'MangoController@getAssign');
     Route::post('/bulk_campaign', ['uses'=>'MangoController@campaign_bulk','as'=>'campaign_bulk_update']);
+    Route::post('/bulk_targetgroup', ['uses'=>'MangoController@targetgroup_bulk','as'=>'targetgroup_bulk_update']);
     Route::post('/bulk_creative', ['uses'=>'MangoController@creative_bulk','as'=>'creative_bulk_update']);
     Route::get('/getCreative', 'MangoController@getCreative');
     Route::get('/getTargetgroup', 'MangoController@getTargetgroup');
@@ -199,6 +204,7 @@ Route::group(['prefix' => 'ajax'], function()
     Route::get('/getAudit/{id?}/{entity_id?}', 'AuditsController@getAudit');
     Route::group(['prefix' => 'jqgrid'], function() {
         Route::put('/client', 'ClientController@jqgrid');
+        Route::put('/inventory', 'InventoryController@jqgrid');
         Route::put('/advertiser', 'AdvertiserController@jqgrid');
         Route::put('/campaign', 'CampaignController@jqgrid');
         Route::put('/creative', 'CreativeController@jqgrid');
@@ -208,7 +214,7 @@ Route::group(['prefix' => 'ajax'], function()
         Route::put('/model', 'ModelController@jqgrid');
         Route::put('/user', 'UsersController@jqgrid');
         Route::put('/bwlist', 'BWListController@jqgridList');
-        Route::put('/bid-profile', 'BidProfileController@jqgridList');
+        Route::put('/bid_profile', 'BidProfileController@jqgridList');
         Route::put('/bid-profile-entry', 'BidProfileController@jqgrid');
         Route::put('/geolist', 'GeoSegmentController@jqgridList');
     });

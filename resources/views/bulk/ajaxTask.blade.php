@@ -1,10 +1,10 @@
 @if($taskAjax=='showCampaignSelect')
-<option value="all">All Campaign</option>
-@foreach($campaign_obj as $index)
-    <option value="{{$index->id}}">
-        {{$index->name}}
-    </option>
-@endforeach
+    <option value="all">All Campaign</option>
+    @foreach($next_child as $index)
+        <option value="{{$index->id}}">
+            {{$index->name}}
+        </option>
+    @endforeach
 @elseif($taskAjax=='showCampaignList')
     <div id="campaign_grid"></div>
     <script>
@@ -351,6 +351,8 @@
             {{$index->name}}
         </option>
     @endforeach
+    <script>
+    </script>
 @elseif($taskAjax=='showTargetgroupSelect')
     <option value="0">select one</option>
     @foreach($next_child as $index)

@@ -49,6 +49,7 @@ class ClientController extends Controller
         return json_encode($clients);
 
     }
+
     public function ListView(){
         if(Auth::check()){
             if(in_array('VIEW_CLIENT',$this->permission)) {
@@ -149,9 +150,6 @@ class ClientController extends Controller
                     } else {
                         $usr_company=$this->user_company();
                         $client = Client::whereIn('user_id', $usr_company)->find($client_id);
-                        if(!$client) {
-                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
-                        }
                     }
                     if($client){
                         $data=array();
@@ -172,6 +170,7 @@ class ClientController extends Controller
                         $client->save();
                         return Redirect::to(url('/client/cl'.$client->id.'/edit'))->withErrors(['success'=>true,'msg'=> 'Client Edited Successfully']);
                     }
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
@@ -188,8 +187,9 @@ class ClientController extends Controller
                 if ($validate->passes()) {
                     switch ($request->input('oper')) {
                         case 'add':
+                            $audit = new AuditsController();
                             $active='Inactive';
-                            if($request->input('active')=='on'){
+                            if($request->input('active')=='true'){
                                 $active='Active';
                             }
                             $client = new Client();
@@ -197,23 +197,38 @@ class ClientController extends Controller
                             $client->status = $active;
                             $client->user_id = Auth::user()->id;
                             $client->save();
-                            $client_obj = Client::find($client->id);
-                            return json_encode($client_obj);
-                        break;
+                            $audit->store('client', $client->id, null, 'add');
+                            return $msg=(['success' => true, 'msg' => "your Client:cl$client->id Added successfully"]);
+                            break;
                         case 'edit':
                             $client_id = $request->input('id');
-                            $client = Client::find($client_id);
-                            if ($client) {
-                                $client->name = $request->input('name');
-                                $client->save();
-                                return 'ok';
+                            if (User::isSuperAdmin()) {
+                                $client=Client::find($client_id);
+                            } else {
+                                $usr_company=$this->user_company();
+                                $client = Client::whereIn('user_id', $usr_company)->find($client_id);
                             }
+                            if($client){
+                                $data=array();
+                                $audit= new AuditsController();
+                                if($client->name!=$request->input('name')){
+                                    array_push($data,'Name');
+                                    array_push($data,$client->name);
+                                    array_push($data,$request->input('name'));
+                                    $client->name=$request->input('name');
+                                }
+                                $audit->store('client',$client_id,$data,'edit');
+                                $client->save();
+                                return $msg=(['success' => true, 'msg' => "your Client:cl$client_id Saved saved successfully"]);
+                            }
+                            return $msg=(['success' => false, 'msg' => "please Select your Client"]);
                         break;
                     }
+                    return $msg=(['success' => false, 'msg' => "Are U kidding me?"]);
                 }
-//                return Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();
+                return $msg=(['success' => false, 'msg' => "please fill all fields"]);
             }
-            return "don't have permission";
+            return $msg=(['success' => false, 'msg' => "you don\'t have permission"]);
         }
         return Redirect::to(url('user/login'));
     }

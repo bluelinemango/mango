@@ -141,7 +141,7 @@
                         dataType: "json"
                     }).success(function(result) {
                          result = $.grep(result, function(item) {
-                             return (!filter.name || item.name.indexOf(filter.name) > -1)
+                             return (!filter.name || item.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1)
                              && (!filter.id || item.id == filter.id );
                          });
                          d.resolve(result);
@@ -169,11 +169,16 @@
                         console.log(response);
                         if (response.success == true) {
                             Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                            $.ajax({
+                                url: "{{url('ajax/getAudit/client')}}"
+                            }).success(function (response) {
+                                $('#show_audit').html(response);
+                            });
+
                         } else if (response.success == false) {
-                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'warning', '', '', response.msg);
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
                         }
                     });
-
                 },
 
                 updateItem: function (updatingClient) {
@@ -183,6 +188,19 @@
                         url: "{{url('/ajax/jqgrid/client')}}",
                         data: updatingClient,
                         dataType: "json"
+                    }).done(function(response){
+                        $("#client_grid").jsGrid("render");
+                        console.log(response);
+                        if (response.success == true) {
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                            $.ajax({
+                                url: "{{url('ajax/getAudit/client')}}"
+                            }).success(function (response) {
+                                $('#show_audit').html(response);
+                            });
+                        } else if (response.success == false) {
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
+                        }
                     });
                 }
 
@@ -210,7 +228,7 @@
                     {name: "id", title: "ID", width: 40, type: "text", align: "center", editing: false},
                     {name: "name", title: "Name", type: "text", width: 150},
                     {name: "advertiser", title: "#Advertiser", width: 50, editing: false, align: "center"},
-                    {name: "status", title: "Status", width: 50, align: "center"},
+                    {name: "status", title: "Status", width: 50, align: "center",editing: false},
                     {name: "updated_at", title: "Last Modified", align: "center"},
                     {name: "action", title: "Edit | +Advertiser", sorting: false, width: 70, align: "center"},
                     {

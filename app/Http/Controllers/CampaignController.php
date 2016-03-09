@@ -9,6 +9,7 @@ use App\Models\Campaign;
 use App\Models\Campaign_Realtime;
 use App\Models\Creative;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -64,11 +65,11 @@ class CampaignController extends Controller
                     $advertiser_obj = Advertiser::whereHas('GetClientID' , function ($p) use ($usr_company) {
                         $p->whereIn('user_id', $usr_company);
                     })->find($advid);
-                    if(!$advertiser_obj){
-                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
-                    }
                 }
-                return view('campaign.add')->with('advertiser_obj', $advertiser_obj);
+                if($advertiser_obj){
+                    return view('campaign.add')->with('advertiser_obj', $advertiser_obj);
+                }
+                return Redirect::back()->withErrors(['success'=>false,'msg'=>'Somethings went wrong!']);
             }
             return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
         }
@@ -81,7 +82,7 @@ class CampaignController extends Controller
 //        return dd($request->all());
         if (Auth::check()) {
             if (in_array('ADD_EDIT_CAMPAIGN', $this->permission)) {
-                $validate = \Validator::make($request->all(), ['name' => 'required']);
+                $validate = \Validator::make($request->all(), ['name' => 'required','advertiser_domain_name'=>'required']);
                 if ($validate->passes()) {
                     if (User::isSuperAdmin()) {
                         $advertiser_obj = Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
@@ -146,16 +147,15 @@ class CampaignController extends Controller
                             });
                         })->with('Targetgroup')->find($cmpid);
 //                        return dd($campaign_obj);
-                        if(!$campaign_obj) {
-                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
-                        }
                     }
-                    $real_time=Campaign_Realtime::where('campaign_id',$cmpid)->get();
-
-                    return view('campaign.edit')
-                        ->with('real_time', $real_time)
-                        ->with('clone', $clone)
-                        ->with('campaign_obj', $campaign_obj);
+                    if($campaign_obj) {
+                        $real_time = Campaign_Realtime::where('campaign_id', $cmpid)->get();
+                        return view('campaign.edit')
+                            ->with('real_time', $real_time)
+                            ->with('clone', $clone)
+                            ->with('campaign_obj', $campaign_obj);
+                    }
+                    return Redirect::to(url('/campaign'))->withErrors(['success'=>false,'msg'=>'Somethings went wrong!']);
                 }
                 return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
             }
@@ -184,22 +184,20 @@ class CampaignController extends Controller
                             });
                         })->with('Targetgroup')->find($campaign_id);
 //                        return dd($campaign_obj);
-                        if(!$campaign) {
-                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
-                        }
                     }
                     if ($campaign) {
                         $active='Inactive';
                         if($request->input('active')=='on'){
                             $active='Active';
                         }
-
-                        if($campaign->start_date != $request->input('start_date')){
-                            $start_date = \DateTime::createFromFormat('d.m.Y', $request->input('start_date'));
-                        }
-                        if($campaign->end_date != $request->input('end_date')) {
-                            $end_date = \DateTime::createFromFormat('d.m.Y', $request->input('end_date'));
-                        }
+                        $start_date = date('Y-m-d');
+                        $end_date = date('Y-m-d');
+                        $date_range=explode('-',$request->input('date_range'));
+                        $start_date=Carbon::createFromFormat('m/d/Y',str_replace(' ','',$date_range[0]))->toDateString();
+                        $end_date=Carbon::createFromFormat('m/d/Y',str_replace(' ','',$date_range[1]))->toDateString();
+                        $start_date_old=Carbon::createFromFormat('Y-m-d H:i:s',$campaign->start_date)->toDateString();
+                        $end_date_old=Carbon::createFromFormat('Y-m-d H:i:s',$campaign->end_date)->toDateString();
+//                        return dd($start_date);
                         $active='Inactive';
                         if($request->input('active')=='on'){
                             $active='Active';
@@ -260,15 +258,15 @@ class CampaignController extends Controller
                             array_push($data,$request->input('description'));
                             $campaign->description = $request->input('description');
                         }
-                        if(isset($start_date)){
+                        if($start_date_old != $start_date){
                             array_push($data,'Start Date');
-                            array_push($data,$campaign->start_date);
+                            array_push($data,$start_date_old);
                             array_push($data,$start_date);
                             $campaign->start_date = $start_date;
                         }
-                        if(isset($end_date)){
+                        if($end_date_old != $end_date){
                             array_push($data,'End Date');
-                            array_push($data,$campaign->end_date);
+                            array_push($data,$end_date_old);
                             array_push($data,$end_date);
                             $campaign->end_date = $end_date;
                         }
@@ -277,10 +275,11 @@ class CampaignController extends Controller
                         $campaign->save();
                         return Redirect::back()->withErrors(['success' => true, 'msg' => 'Campaign Edited Successfully']);
                     }
+                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'Somethings went wrong!']);
                 }
                 return Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();
             }
-            return Redirect::back()->withErrors(['success' => false, 'msg' => 'dont have Edit Permission']);
+            return Redirect::back()->withErrors(['success' => false, 'msg' => 'don\'t have Edit Permission']);
         }
         return Redirect::to(url('/user/login'));
     }
@@ -302,9 +301,6 @@ class CampaignController extends Controller
                                 $p->whereIn('user_id', $usr_company);
                             });
                         })->find($camp_id);
-                        if (!$campaign) {
-                            return $msg=(['success' => false, 'msg' => "Some things went wrong"]);
-                        }
                     }
                     if ($campaign) {
                         $data = array();

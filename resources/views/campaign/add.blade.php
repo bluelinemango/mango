@@ -41,7 +41,7 @@
                                     <div class="inputer">
                                         <div class="input-wrapper">
                                             <input type="text" id="name" name="name" placeholder="Name"
-                                                   class="form-control">
+                                                   class="form-control" value="{{old('name')}}">
                                         </div>
                                     </div>
                                 </div>
@@ -65,7 +65,7 @@
                                         <div class="input-wrapper">
                                             <input type="text" name="advertiser_domain_name"
                                                    class="form-control" placeholder="Domain Name" id="advertiser_domain_name"
-                                                   >
+                                                   value="{{old('advertiser_domain_name')}}">
                                         </div>
                                     </div>
                                 </div>
@@ -95,7 +95,7 @@
                                             <input type="text" name="max_impression"
                                                    placeholder="Max Impression"
                                                    id="max_impression"
-                                                   class="form-control">
+                                                   class="form-control" value="{{old('max_impression')}}">
                                         </div>
                                     </div>
                                 </div>
@@ -110,7 +110,7 @@
                                             <input type="text" name="daily_max_impression"
                                                    placeholder="Daily Max Impression"
                                                    id="daily_max_impression"
-                                                   class="form-control">
+                                                   class="form-control" value="{{old('daily_max_impression')}}">
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +123,7 @@
                                         <div class="input-wrapper">
 
                                             <input type="text" name="max_budget"
-                                                   placeholder="Max Budget" class="form-control" id="max_budget">
+                                                   placeholder="Max Budget" class="form-control" id="max_budget" value="{{old('max_budget')}}">
                                         </div>
                                     </div>
                                 </div>
@@ -135,7 +135,7 @@
                                     <div class="inputer">
                                         <div class="input-wrapper">
                                             <input type="text" name="daily_max_budget"
-                                                   placeholder="Daily Max Budget" class="form-control" id="daily_max_budget">
+                                                   placeholder="Daily Max Budget" class="form-control" id="daily_max_budget" value="{{old('daily_max_budget')}}">
                                         </div>
                                     </div>
                                 </div>
@@ -148,7 +148,7 @@
                                     <div class="inputer">
                                         <div class="input-wrapper">
                                             <input type="text" name="cpm" placeholder="CPM" id="cpm"
-                                                   class="form-control">
+                                                   class="form-control" value="{{old('cpm')}}">
                                         </div>
                                     </div>
                                 </div>
@@ -182,7 +182,7 @@
                                     <div class="input-wrapper">
                                             <textarea name="description" class="form-control" rows="3"
                                                       placeholder="type minimum 5 characters"
-                                                      required></textarea>
+                                                      required> {{old('description')}}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -211,76 +211,76 @@
         $(document).ready(function () {
             FormsPickers.init();
             FormsSwitchery.init();
-            var $orderForm = $("#order-form").validate({
-                rules : {
-                    name : {
-                        required : true
-                    },
-                    advertiser_domain_name: {
-                        required: true,
-                        domain: true
-                    },
-                    advertiser_id : {
-                        required : true
-                    },
-                    max_impression : {
-                        required: true,
-                        min: 0,
-                        number: 'Enter number Plz'
-                    },
-                    daily_max_impression : {
-                        required: true,
-                        min: 0,
-                        number: 'Enter number Plz'
-                    },
-                    max_budget : {
-                        required: true,
-                        min: 0,
-                        number: 'Enter number Plz'
-                    },
-                    daily_max_budget : {
-                        required: true,
-                        min: 0,
-                        number: 'Enter number Plz'
-                    },
-                    cpm : {
-                        required: true,
-                        min: 0,
-                        number: 'Enter number Plz'
-                    },
-                    start_date : {
-                        required : true
-                    },
-                    end_date : {
-                        required : true
-                    }
-                },
-
-                // Messages for form validation
-                messages : {
-                    name : {
-                        required : 'Please enter your name'
-                    },
-                    email : {
-                        required : 'Please enter your email address',
-                        email : 'Please enter a VALID email address'
-                    },
-                    phone : {
-                        required : 'Please enter your phone number'
-                    },
-                    interested : {
-                        required : 'Please select interested service'
-                    },
-                    budget : {
-                        required : 'Please select your budget'
-                    }
-                },
-
-                // Do not change code below
-                errorPlacement : function(error, element) {
-                    error.insertAfter(element.parent());
-                }
-            });
+//            var $orderForm = $("#order-form").validate({
+//                rules : {
+//                    name : {
+//                        required : true
+//                    },
+//                    advertiser_domain_name: {
+//                        required: true,
+//                        domain: true
+//                    },
+//                    advertiser_id : {
+//                        required : true
+//                    },
+//                    max_impression : {
+//                        required: true,
+//                        min: 0,
+//                        number: 'Enter number Plz'
+//                    },
+//                    daily_max_impression : {
+//                        required: true,
+//                        min: 0,
+//                        number: 'Enter number Plz'
+//                    },
+//                    max_budget : {
+//                        required: true,
+//                        min: 0,
+//                        number: 'Enter number Plz'
+//                    },
+//                    daily_max_budget : {
+//                        required: true,
+//                        min: 0,
+//                        number: 'Enter number Plz'
+//                    },
+//                    cpm : {
+//                        required: true,
+//                        min: 0,
+//                        number: 'Enter number Plz'
+//                    },
+//                    start_date : {
+//                        required : true
+//                    },
+//                    end_date : {
+//                        required : true
+//                    }
+//                },
+//
+//                // Messages for form validation
+//                messages : {
+//                    name : {
+//                        required : 'Please enter your name'
+//                    },
+//                    email : {
+//                        required : 'Please enter your email address',
+//                        email : 'Please enter a VALID email address'
+//                    },
+//                    phone : {
+//                        required : 'Please enter your phone number'
+//                    },
+//                    interested : {
+//                        required : 'Please select interested service'
+//                    },
+//                    budget : {
+//                        required : 'Please select your budget'
+//                    }
+//                },
+//
+//                // Do not change code below
+//                errorPlacement : function(error, element) {
+//                    error.insertAfter(element.parent());
+//                }
+//            });
         })
 
     </script>

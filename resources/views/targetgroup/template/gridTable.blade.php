@@ -29,9 +29,7 @@
                     "name": '{{$index->name}}',
                     "lat": '{{$index->lat}}',
                     "lon": '{{$index->lon}}',
-                    "segment_radius": '{{$index->segment_radius}}',
-                    "date_modify": '{{$index->getParent->updated_at}}'
-
+                    "segment_radius": '{{$index->segment_radius}}'
                     },
                     @endforeach
                 @endforeach
@@ -53,8 +51,7 @@
                     {name: "name", title: "Name", type: "text", width: 70},
                     {name: "lat", title: "Lat", type: "text", width: 70},
                     {name: "lon", title: "Lon", type: "text", width: 70},
-                    {name: "segment_radius", title: "Radius", type: "text", width: 70},
-                    {name: "date_modify", title: "Last Modified", width: 70, align: "center"}
+                    {name: "segment_radius", title: "Radius", type: "text", width: 70}
                 ]
 
             });
@@ -91,11 +88,10 @@
                     "size":'{{$index->size}}',
                     "advertiser":'<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
                     @if($index->status == 'Active')
-                    "status": '<a id="creative{{$index->id}}" href="javascript: ChangeStatus(`creative`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                    "status": '<a id="creative{{$index->id}}" href="javascript: ChangeStatus(`creative`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>'
                     @elseif($index->status == 'Inactive')
-                    "status": '<a id="creative{{$index->id}}" href="javascript: ChangeStatus(`creative`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
+                    "status": '<a id="creative{{$index->id}}" href="javascript: ChangeStatus(`creative`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>'
                     @endif
-                    "date_modify": '{{$index->updated_at}}'
 
                     },
                 @endforeach
@@ -121,8 +117,7 @@
                     {name: "name", title: "Name", type: "text", width: 70},
                     {name: "size", title: "Size", type: "text", width: 50, align: "center",editing:false},
                     {name: "advertiser", title: "Advertiser", type: "text", width: 70, align: "center",editing:false},
-                    {name: "status", title: "Status", width: 50, align: "center"},
-                    {name: "date_modify", title: "Last Modified", align: "center"}
+                    {name: "status", title: "Status", width: 50, align: "center"}
                 ]
 
             });
@@ -161,8 +156,7 @@
                     "parent": '{{$index->getParent->name}}',
                     "domain": '{{$index->domain}}',
                     "strategy": '{{$index->bid_strategy}}',
-                    "value": '{{$index->bid_value}}',
-                    "date_modify": '{{$index->getParent->updated_at}}'
+                    "value": '{{$index->bid_value}}'
 
                     },
                     @endforeach
@@ -184,8 +178,7 @@
                     {name: "parent", title: "Parent", type: "text", width: 70},
                     {name: "domain", title: "Domain", type: "text", width: 70},
                     {name: "strategy", title: "Strategy", type: "text", width: 70},
-                    {name: "value", title: "Value", type: "text", width: 70},
-                    {name: "date_modify", title: "Last Modified", align: "center"}
+                    {name: "value", title: "Value", type: "text", width: 70}
                 ]
 
             });

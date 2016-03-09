@@ -64,8 +64,10 @@
 
                     loadData: function (filter) {
                         return $.grep(this.bid_profile, function (bid_profile) {
-                            return (!filter.name || bid_profile.name.indexOf(filter.name) > -1)
-                                    && (!filter.id || bid_profile.id.indexOf(filter.id) > -1);
+                            return (!filter.name || bid_profile.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1)
+                                    &&(!filter.advertiser_name || bid_profile.advertiser_name.toLowerCase().indexOf(filter.advertiser_name.toLowerCase()) > -1)
+                                    && (!filter.entry || bid_profile.entry.indexOf(filter.entry) > -1)
+                                    && (!filter.id || bid_profile.id.toLowerCase().indexOf(filter.id.toLowerCase()) > -1);
                         });
                     },
 
@@ -78,24 +80,17 @@
                             data: updatingBidProfile,
                             dataType: "json"
                         }).done(function (response) {
+                            $("#bid_profile_grid").jsGrid("refresh");
                             if (response.success == true) {
-                                var title = "Success";
-                                var color = "#739E73";
-                                var icon = "fa fa-check";
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                                $.ajax({
+                                    url: "{{url('ajax/getAudit/bid_profile')}}"
+                                }).success(function (response) {
+                                    $('#show_audit').html(response);
+                                });
                             } else if (response.success == false) {
-                                var title = "Warning";
-                                var color = "#C46A69";
-                                var icon = "fa fa-bell";
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
                             }
-                            ;
-
-                            $.smallBox({
-                                title: title,
-                                content: response.msg,
-                                color: color,
-                                icon: icon,
-                                timeout: 8000
-                            });
                         });
                     }
 
@@ -116,9 +111,9 @@
                         "entry": '0',
                         @endif
                         @if($index->status == 'Active')
-                        "status": '<a id="bid_profile{{$index->id}}" href="javascript: ChangeStatus(`bid_profile`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                        "status": '<input id="bid_profile{{$index->id}}" onchange="ChangeStatus(`bid_profile`,`{{$index->id}}`)" type="checkbox" class="switchery-teal" checked>',
                         @elseif($index->status == 'Inactive')
-                        "status": '<a id="bid_profile{{$index->id}}" href="javascript: ChangeStatus(`bid_profile`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
+                        "status": '<input id="bid_profile{{$index->id}}" onchange="ChangeStatus(`bid_profile`,`{{$index->id}}`)" type="checkbox" class="switchery-teal">',
                         @endif
                         "date_modify": '{{$index->updated_at}}',
                         "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bid-profile/bpf'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) + '| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bid-profile/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
@@ -139,8 +134,8 @@
 
                     pageSize: 10,
                     pageButtonCount: 5,
-
-                    deleteConfirm: "Do you really want to delete the client?",
+                    rowClick:function(item){console.log(item)},
+                    onRefreshed: function(args) {FormsSwitchery.init();},
 
                     controller: db,
                     fields: [
@@ -158,7 +153,11 @@
                         {name: "status", title: "Status", width: 50, align: "center"},
                         {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
                         {name: "action", title: "Edit | +BidProfile", sorting: false, width: 60, align: "center"},
-                        {type: "control"}
+                        {type: "control",
+                            deleteButton: false,
+                            editButtonTooltip: "Edit",
+                            editButton: true
+                        }
                     ]
 
                 });

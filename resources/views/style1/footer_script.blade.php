@@ -60,11 +60,23 @@
                 obj.html('Active');
                 obj.addClass('label label-success');
                 Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', 'your '+entity+' has been Actived');
+                $.ajax({
+                    url: "{{url('ajax/getAudit')}}"+ '/' + entity
+                }).success(function (response) {
+                    $('#show_audit').html(response);
+                });
+
             }else if(response=='disable'){
                 obj.removeClass();
                 obj.html('Inactive');
                 obj.addClass('label label-danger');
                 Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', 'your '+entity+' has been Inactive');
+                $.ajax({
+                    url: "{{url('ajax/getAudit')}}"+ '/' + entity
+                }).success(function (response) {
+                    $('#show_audit').html(response);
+                });
+
             }else if(response =="You don't have permission"){
                 Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', 'You don\'t have permission');
             }else if(response =="please Select your Client"){
@@ -81,7 +93,7 @@
         @if($errors->get('success')[0] == true)
         var type= "success";
         @elseif($errors->get('success')[0] == false)
-        var type= "warning";
+        var type= "error";
         @endif
         Pleasure.handleToastrSettings('true', "toast-top-full-width", '', type, '', '', '{{$error}}');
         @endforeach

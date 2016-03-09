@@ -128,7 +128,7 @@
     <script>
         $(document).ready(function () {
             $.ajax({
-                url: "{{url('ajax/getAudit/geosegment/'.$geosegment_obj->id)}}"
+                url: "{{url('ajax/getAudit/inventory/'.$inventory_obj->id)}}"
             }).success(function (response) {
                 $('#show_audit').html(response);
             });
@@ -142,7 +142,7 @@
                     });
                 }else if($(this).val()=='entity') {
                     $.ajax({
-                        url: "{{url('ajax/getAudit/geosegment/'.$geosegment_obj->id)}}"
+                        url: "{{url('ajax/getAudit/inventory/'.$inventory_obj->id)}}"
                     }).success(function (response) {
                         $('#show_audit').html(response);
                     });

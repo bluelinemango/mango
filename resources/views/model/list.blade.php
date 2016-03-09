@@ -79,99 +79,91 @@
             }).success(function (response) {
                 $('#show_audit').html(response);
             });
+        });
 
-            $(function () {
+        $(function () {
 
-                var db = {
+            var db = {
 
-                    loadData: function (filter) {
-                        return $.grep(this.model, function (model) {
-                            return (!filter.name || model.name.indexOf(filter.name) > -1)
-                                    && (!filter.id || model.id.indexOf(filter.id) > -1)
-                                    && (!filter.algo || model.algo.indexOf(filter.algo) > -1)
-                                    && (!filter.advertiser || model.advertiser.indexOf(filter.advertiser) > -1);
-                        });
-                    },
+                loadData: function (filter) {
+                    return $.grep(this.model, function (model) {
+                        return (!filter.name || model.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1)
+                                && (!filter.id || model.id.indexOf(filter.id) > -1)
+                                && (!filter.algo || model.algo.toLowerCase().indexOf(filter.algo.toLowerCase()) > -1)
+                                && (!filter.advertiser || model.advertiser.toLowerCase().indexOf(filter.advertiser.toLowerCase()) > -1);
+                    });
+                },
 
-                    updateItem: function (updatingModel) {
-                        updatingModel['oper'] = 'edit';
-                        console.log(updatingModel);
-                        $.ajax({
-                            type: "PUT",
-                            url: "{{url('/ajax/jqgrid/model')}}",
-                            data: updatingModel,
-                            dataType: "json"
-                        }).done(function (response) {
-                            console.log(response);
-                            if(response.success==true){
-                                var title= "Success";
-                                var color="#739E73";
-                                var icon="fa fa-check";
-                            }else if(response.success==false) {
-                                var title= "Warning";
-                                var color="#C46A69";
-                                var icon="fa fa-bell";
-                            };
-
-                            $.smallBox({
-                                title: title,
-                                content: response.msg,
-                                color: color,
-                                icon: icon,
-                                timeout: 8000
+                updateItem: function (updatingModel) {
+                    updatingModel['oper'] = 'edit';
+                    $.ajax({
+                        type: "PUT",
+                        url: "{{url('/ajax/jqgrid/model')}}",
+                        data: updatingModel,
+                        dataType: "json"
+                    }).done(function (response) {
+                        $("#model_grid").jsGrid("refresh");
+                        if (response.success == true) {
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                            $.ajax({
+                                url: "{{url('ajax/getAudit/model')}}"
+                            }).success(function (response) {
+                                $('#show_audit').html(response);
                             });
-                        });
-                    }
+                        } else if (response.success == false) {
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
+                        }
+                    });
+                }
 
-                };
+            };
 
-                window.db = db;
+            window.db = db;
 
-                db.model = [
-
-
-                    @foreach($model_obj as $index)
-                    {
-                        "id": 'mdl{{$index->id}}',
-                        "name": '{{$index->name}}',
-                        "algo":'{{$index->algo}}',
-                        "advertiser":'<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
-                        "date_modify":'{{$index->updated_at}}',
-                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/mdl'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_MODEL',$permission)) +'| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+            db.model = [
+                @foreach($model_obj as $index)
+                {
+                    "id": 'mdl{{$index->id}}',
+                    "name": '{{$index->name}}',
+                    "algo":'{{$index->algo}}',
+                    "advertiser":'<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
+                    "date_modify":'{{$index->updated_at}}',
+                    "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/mdl'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_MODEL',$permission)) +'| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
 
                     },
-                    @endforeach
-                ];
+                @endforeach
+            ];
 
-                $("#model_grid").jsGrid({
-                    width: "100%",
+            $("#model_grid").jsGrid({
+                width: "100%",
 
-                    filtering: true,
-                    editing: true,
-                    sorting: true,
-                    paging: true,
-                    autoload: true,
+                filtering: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                autoload: true,
 
-                    pageSize: 10,
-                    pageButtonCount: 5,
+                pageSize: 10,
+                pageButtonCount: 5,
 
-                    deleteConfirm: "Do you really want to delete the client?",
-
-                    controller: db,
-                    fields: [
-                        {name: "id", title: "ID", width: 40,editing:false,type: "text", align: "center"},
-                        {name: "name", title: "Name", type: "text", width: 70},
-                        {name: "algo", title: "Algoritm",editing:false,type: "text", width: 50, align: "center"},
-                        {name: "advertiser", title: "Advertiser",editing:false,type: "text", width: 70, align: "center"},
-                        {name: "date_modify", title: "Last Modified", align: "center"},
-                        {name: "action", title: "Edit | +Model", sorting: false, width: 80, align: "center"},
-                        {type: "control"}
-                    ]
-
-                });
+                controller: db,
+                fields: [
+                    {name: "id", title: "ID", width: 40,editing:false,type: "text", align: "center"},
+                    {name: "name", title: "Name", type: "text", width: 70},
+                    {name: "algo", title: "Algoritm",editing:false,type: "text", width: 50, align: "center"},
+                    {name: "advertiser", title: "Advertiser",editing:false,type: "text", width: 70, align: "center"},
+                    {name: "date_modify", title: "Last Modified", align: "center"},
+                    {name: "action", title: "Edit | +Model", sorting: false, width: 80, align: "center"},
+                    {type: "control",
+                        deleteButton: false,
+                        editButtonTooltip: "Edit",
+                        editButton: true
+                    }
+                ]
 
             });
-        })
+
+        });
 
     </script>
 

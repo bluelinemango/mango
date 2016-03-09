@@ -88,9 +88,9 @@
 
                     loadData: function (filter) {
                         return $.grep(this.creative, function (creative) {
-                            return (!filter.name || creative.name.indexOf(filter.name) > -1)
+                            return (!filter.name || creative.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1)
                                     && (!filter.size || creative.size.indexOf(filter.size) > -1)
-                                    && (!filter.advertiser || creative.advertiser.indexOf(filter.advertiser) > -1)
+                                    && (!filter.advertiser || creative.advertiser.toLowerCase().indexOf(filter.advertiser.toLowerCase()) > -1)
                                     && (!filter.id || creative.id.indexOf(filter.id) > -1);
                         });
                     },
@@ -104,25 +104,17 @@
                             data: updatingCreative,
                             dataType: "json"
                         }).done(function (response) {
-                            console.log(response);
+                            $("#creative_grid").jsGrid("refresh");
                             if (response.success == true) {
-                                var title = "Success";
-                                var color = "#739E73";
-                                var icon = "fa fa-check";
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                                $.ajax({
+                                    url: "{{url('ajax/getAudit/creative')}}"
+                                }).success(function (response) {
+                                    $('#show_audit').html(response);
+                                });
                             } else if (response.success == false) {
-                                var title = "Warning";
-                                var color = "#C46A69";
-                                var icon = "fa fa-bell";
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
                             }
-                            ;
-
-                            $.smallBox({
-                                title: title,
-                                content: response.msg,
-                                color: color,
-                                icon: icon,
-                                timeout: 8000
-                            });
                         });
                     }
 
@@ -138,10 +130,11 @@
                         "size": '{{$index->size}}',
                         "advertiser": '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
                         @if($index->status == 'Active')
-                        "status": '<a id="creative{{$index->id}}" href="javascript: ChangeStatus(`creative`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                        "status": '<input id="creative{{$index->id}}" onchange="ChangeStatus(`creative`,`{{$index->id}}`)" type="checkbox" class="switchery-teal" checked>',
                         @elseif($index->status == 'Inactive')
-                        "status": '<a id="creative{{$index->id}}" href="javascript: ChangeStatus(`creative`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
-                        @endif                        "date_modify": '{{$index->updated_at}}',
+                        "status": '<input id="creative{{$index->id}}" onchange="ChangeStatus(`creative`,`{{$index->id}}`)" type="checkbox" class="switchery-teal">',
+                        @endif
+                        "date_modify": '{{$index->updated_at}}',
                         "action": '<a class="btn " href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/crt'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_CREATIVE',$permission)) + '| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a> | <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/crt'.$index->id.'/clone/1')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
 
 
@@ -160,8 +153,8 @@
 
                     pageSize: 15,
                     pageButtonCount: 5,
-
-                    deleteConfirm: "Do you really want to delete the client?",
+                    rowClick:function(item){console.log(item)},
+                    onRefreshed: function(args) {FormsSwitchery.init();},
 
                     controller: db,
                     fields: [
@@ -185,7 +178,11 @@
                             width: 100,
                             align: "center"
                         },
-                        {type: "control"}
+                        {type: "control",
+                            deleteButton: false,
+                            editButtonTooltip: "Edit",
+                            editButton: true
+                        }
                     ]
 
                 });

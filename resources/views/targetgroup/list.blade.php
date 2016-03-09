@@ -50,99 +50,102 @@
             }
         });
         $(document).ready(function() {
-            $(function () {
+            $.ajax({
+                url: "{{url('ajax/getAudit/targetgroup')}}"
+            }).success(function (response) {
+                $('#show_audit').html(response);
+            });
 
-                var db = {
+        });
 
-                    loadData: function (filter) {
-                        return $.grep(this.targetgroup, function (targetgroup) {
-                            return (!filter.name || targetgroup.name.indexOf(filter.name) > -1)
-                                    && (!filter.campaign_name || targetgroup.campaign_name.indexOf(filter.campaign_name) > -1)
-                                    && (!filter.id || targetgroup.id.indexOf(filter.id) > -1);
-                        });
-                    },
+        $(function () {
 
-                    updateItem: function (updatingTargetgroup) {
-                        updatingTargetgroup['oper'] = 'edit';
-                        console.log(updatingTargetgroup);
-                        $.ajax({
-                            type: "PUT",
-                            url: "{{url('/ajax/jqgrid/targetgroup')}}",
-                            data: updatingTargetgroup,
-                            dataType: "json"
-                        }).done(function (response) {
-                            console.log(response);
-                            if(response.success==true){
-                                var title= "Success";
-                                var color="#739E73";
-                                var icon="fa fa-check";
-                            }else if(response.success==false) {
-                                var title= "Warning";
-                                var color="#C46A69";
-                                var icon="fa fa-bell";
-                            };
+            var db = {
 
-                            $.smallBox({
-                                title: title,
-                                content: response.msg,
-                                color: color,
-                                icon: icon,
-                                timeout: 8000
+                loadData: function (filter) {
+                    return $.grep(this.targetgroup, function (targetgroup) {
+                        return (!filter.name || targetgroup.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1)
+                                && (!filter.campaign_name || targetgroup.campaign_name.toLowerCase().indexOf(filter.campaign_name.toLowerCase()) > -1)
+                                && (!filter.id || targetgroup.id.indexOf(filter.id) > -1);
+                    });
+                },
+
+                updateItem: function (updatingTargetgroup) {
+                    updatingTargetgroup['oper'] = 'edit';
+                    console.log(updatingTargetgroup);
+                    $.ajax({
+                        type: "PUT",
+                        url: "{{url('/ajax/jqgrid/targetgroup')}}",
+                        data: updatingTargetgroup,
+                        dataType: "json"
+                    }).done(function (response) {
+                        $("#targetgroup_grid").jsGrid("refresh");
+                        if (response.success == true) {
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                            $.ajax({
+                                url: "{{url('ajax/getAudit/targetgroup')}}"
+                            }).success(function (response) {
+                                $('#show_audit').html(response);
                             });
-                        });
-                    }
+                        } else if (response.success == false) {
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
+                        }
+                    });
+                }
 
-                };
+            };
 
-                window.db = db;
+            window.db = db;
 
-                db.targetgroup = [
-                    @foreach($targetgroup_obj as $index)
-                    {
-                        "id": 'tg{{$index->id}}',
-                        "name": '{{$index->name}}',
-                        "campaign_name":'<a href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/edit')}}">{{$index->getCampaign->name}}</a>',
-                        @if($index->status == 'Active')
-                        "status": '<a id="targetgroup{{$index->id}}" href="javascript: ChangeStatus(`targetgroup`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
-                        @elseif($index->status == 'Inactive')
-                        "status": '<a id="targetgroup{{$index->id}}" href="javascript: ChangeStatus(`targetgroup`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
-                        @endif
-                        "date_modify": '{{$index->updated_at}}',
-                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/tg'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) +' <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+            db.targetgroup = [
+                @foreach($targetgroup_obj as $index)
+                {
+                    "id": 'tg{{$index->id}}',
+                    "name": '{{$index->name}}',
+                    "campaign_name":'<a href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/edit')}}">{{$index->getCampaign->name}}</a>',
+                    @if($index->status == 'Active')
+                    "status": '<input id="targetgroup{{$index->id}}" onchange="ChangeStatus(`targetgroup`,`{{$index->id}}`)" type="checkbox" class="switchery-teal" checked>',
+                    @elseif($index->status == 'Inactive')
+                    "status": '<input id="targetgroup{{$index->id}}" onchange="ChangeStatus(`targetgroup`,`{{$index->id}}`)" type="checkbox" class="switchery-teal">',
+                    @endif
+                    "date_modify": '{{$index->updated_at}}',
+                    "action": '<a class="btn" href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/tg'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) +' <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
 
                     },
-                    @endforeach
-                ];
+                @endforeach
+            ];
 
-                $("#targetgroup_grid").jsGrid({
-                    width: "100%",
+            $("#targetgroup_grid").jsGrid({
+                width: "100%",
 
-                    filtering: true,
-                    editing: true,
-                    sorting: true,
-                    paging: true,
-                    autoload: true,
+                filtering: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                autoload: true,
 
-                    pageSize: 15,
-                    pageButtonCount: 5,
-
-                    deleteConfirm: "Do you really want to delete the client?",
-
-                    controller: db,
-                    fields: [
-                        {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
-                        {name: "name", title: "Name", type: "text", width: 70},
-                        {name: "campaign_name", title: "Campaign", type: "text", width: 70, align: "center",editing:false},
-                        {name: "status", title: "Status", width: 50, align: "center"},
-                        {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
-                        {name: "action", title: "Edit / +TG", sorting: false, width: 70, align: "center"},
-                        {type: "control"}
-                    ]
-
-                });
+                pageSize: 10,
+                pageButtonCount: 5,
+                rowClick:function(item){console.log(item)},
+                onRefreshed: function(args) {FormsSwitchery.init();},
+                controller: db,
+                fields: [
+                    {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
+                    {name: "name", title: "Name", type: "text", width: 70},
+                    {name: "campaign_name", title: "Campaign", type: "text", width: 70, align: "center",editing:false},
+                    {name: "status", title: "Status", width: 50, align: "center"},
+                    {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
+                    {name: "action", title: "Edit / +TG", sorting: false, width: 70, align: "center"},
+                    {type: "control",
+                        deleteButton: false,
+                        editButtonTooltip: "Edit",
+                        editButton: true
+                    }
+                ]
 
             });
-        })
+
+        });
 
     </script>
 

@@ -83,7 +83,7 @@
 
                     loadData: function (filter) {
                         return $.grep(this.campaign, function (campaign) {
-                            return (!filter.name || campaign.name.indexOf(filter.name) > -1)
+                            return (!filter.name || campaign.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1)
                                     && (!filter.daily_max_imp || campaign.daily_max_imp.indexOf(filter.daily_max_imp) > -1)
                                     && (!filter.cpm || campaign.cpm.indexOf(filter.cpm) > -1)
                                     && (!filter.id || campaign.id.indexOf(filter.id) > -1)
@@ -100,24 +100,17 @@
                             data: updatingCampaign,
                             dataType: "json"
                         }).done(function (response) {
-                            console.log(response);
-                            if(response.success==true){
-                                var title= "Success";
-                                var color="#739E73";
-                                var icon="fa fa-check";
-                            }else if(response.success==false) {
-                                var title= "Warning";
-                                var color="#C46A69";
-                                var icon="fa fa-bell";
-                            };
-
-                            $.smallBox({
-                                title: title,
-                                content: response.msg,
-                                color: color,
-                                icon: icon,
-                                timeout: 8000
-                            });
+                            $("#campaign_grid").jsGrid("refresh");
+                            if (response.success == true) {
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                                $.ajax({
+                                    url: "{{url('ajax/getAudit/campaign')}}"
+                                }).success(function (response) {
+                                    $('#show_audit').html(response);
+                                });
+                            } else if (response.success == false) {
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
+                            }
                         });
                     }
 
@@ -134,9 +127,9 @@
                         "cpm":'{{$index->cpm}}',
                         "daily_max_budget":'{{$index->daily_max_budget}}',
                         @if($index->status == 'Active')
-                        "status": '<a id="campaign{{$index->id}}" href="javascript: ChangeStatus(`campaign`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                        "status": '<input id="campaign{{$index->id}}" onchange="ChangeStatus(`campaign`,`{{$index->id}}`)" type="checkbox" class="switchery-teal" checked>',
                         @elseif($index->status == 'Inactive')
-                        "status": '<a id="campaign{{$index->id}}" href="javascript: ChangeStatus(`campaign`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
+                        "status": '<input id="campaign{{$index->id}}" onchange="ChangeStatus(`campaign`,`{{$index->id}}`)" type="checkbox" class="switchery-teal">',
                         @endif
                         "date_modify": '{{$index->updated_at}}',
                         "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /> </a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) +' | <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/targetgroup/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif @if(in_array('ADD_EDIT_CAMPAIGN',$permission)) +' | <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a> | <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/clone/1')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
@@ -154,11 +147,10 @@
                     paging: true,
                     autoload: true,
 
+                    rowClick:function(item){console.log(item)},
+                    onRefreshed: function(args) {FormsSwitchery.init();},
                     pageSize: 10,
                     pageButtonCount: 5,
-
-                    deleteConfirm: "Do you really want to delete the client?",
-
                     controller: db,
                     fields: [
                         {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
@@ -169,7 +161,11 @@
                         {name: "status", title: "Status", width: 50, align: "center"},
                         {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
                         {name: "action", title: "Edit | +TG | +Camp | Clone", sorting: false, width: 160, align: "center"},
-                        {type: "control"}
+                        {type: "control",
+                            deleteButton: false,
+                            editButtonTooltip: "Edit",
+                            editButton: true
+                        }
                     ]
 
                 });

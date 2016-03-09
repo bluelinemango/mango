@@ -8,8 +8,6 @@
 @endsection
 
 @section('content')
-    <button class="btn btn-default" data-toggle="modal" data-target="#defaultModal">Launch Default Modal</button>
-
 
     <div class="display-animation">
 

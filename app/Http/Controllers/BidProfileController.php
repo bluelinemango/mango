@@ -257,51 +257,40 @@ class BidProfileController extends Controller
             if(in_array('ADD_EDIT_BIDPROFILE',$this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
-                    $bwlist_id=substr($request->input('id'),3);
-//                    return dd($model_id);
+                    $bid_profile_id=substr($request->input('id'),3);
                     if (User::isSuperAdmin()) {
-                        $bwlist=BWList::find($bwlist_id);
+                        $bid_profile=Bid_Profile::find($bid_profile_id);
                     }else{
                         $usr_company = $this->user_company();
-                        $bwlist=BWList::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                        $bid_profile=Bid_Profile::whereHas('getAdvertiser' , function ($q) use ($usr_company){
                             $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
                                 $p->whereIn('user_id', $usr_company);
                             });
-                        })->find($bwlist_id);
-                        if (!$bwlist) {
-                            return $msg=(['success' => false, 'msg' => "Some things went wrong"]);
-                        }
+                        })->find($bid_profile_id);
                     }
-                    if ($bwlist) {
+                    if ($bid_profile) {
                         $data = array();
                         $audit = new AuditsController();
-                        if ($bwlist->name != $request->input('name')) {
+                        if ($bid_profile->name != $request->input('name')) {
                             array_push($data, 'Name');
-                            array_push($data, $bwlist->name);
+                            array_push($data, $bid_profile->name);
                             array_push($data, $request->input('name'));
-                            $bwlist->name = $request->input('name');
+                            $bid_profile->name = $request->input('name');
                         }
-                        $audit->store('campaign', $bwlist_id, $data, 'edit');
-                        $bwlist->save();
-                        return $msg=(['success' => true, 'msg' => "your Campaign Saved successfully"]);
+                        $audit->store('bid_profile', $bid_profile_id, $data, 'edit');
+                        $bid_profile->save();
+                        return $msg=(['success' => true, 'msg' => "your Bid Profile Saved successfully"]);
                     }
-
-                    return $msg=(['success' => false, 'msg' => "Please Select a Campaign First"]);
-
+                    return $msg=(['success' => false, 'msg' => "Please Select a Bid Profile First"]);
                 }
-                //return print_r($validate->messages());
-                return $msg=(['success' => false, 'msg' => "Please Check your field"]);
+                return $msg=(['success' => false, 'msg' => "Please fill all Fields"]);
             }
             return $msg=(['success' => false, 'msg' => "You don't have permission"]);
-
         }
         return Redirect::to(url('/user/login'));
     }
 
     public function jqgrid(Request $request){  // TODO: must be in inventory
-//        return dd($request->input('parent_id'));
-        $pattern= '/(((http|ftp|https):\/{2})?+(([0-9a-z_-]+\.)+(aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|cz|de|dj|dk|dm|do|dz|ec|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mn|mn|mo|mp|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|nom|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ra|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw|arpa)(:[0-9]+)?((\/([~0-9a-zA-Z\#\+\%@\.\/_-]+))?(\?[0-9a-zA-Z\+\%@\/&\[\];=_-]+)?)?))\b/imuS
-';
 //        return dd($request->all());
         if(Auth::check()){
             if(1==1){    //permission goes here
@@ -323,7 +312,7 @@ class BidProfileController extends Controller
                         }
                     }
                     if($bid_profile_obj) {
-                        if(preg_match($pattern,$request->input('domain'))) {
+                        if(preg_match($this->pattern,$request->input('domain'))) {
 //                            return dd($request->all());
                             $audit= new AuditsController();
                             switch ($request->input('oper')) {
