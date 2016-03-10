@@ -39,16 +39,13 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label class="control-label" for="iab_sub_category">IAB Sub
+                    <label class="control-label" >IAB Sub
                         Category</label>
                     <select name="iab_sub_category"
                             class="selecter"
                             id="iab_sub_category">
-                        <option value="0"
-                                disabled>
-                            Select Iab
-                            Category First
-                            ...
+                        <option value="0">
+                            Select Iab Category ...
                         </option>
                     </select>
 
@@ -325,7 +322,7 @@
                     <label class="control-label" for="advertiser_id">Select Advertiser</label>
 
                     <select name="advertiser_id" class="selecter">
-                        <option value="0">All Advertiser</option>
+                        <option value="all">All Advertiser</option>
                     </select>
                 </div>
             </div>
@@ -334,7 +331,7 @@
                     <label class="control-label" for="campaign_id">Select Campaign</label>
 
                     <select name="campaign_id" class="selecter">
-                        <option value="0">All Campaign</option>
+                        <option value="all">All Campaign</option>
                     </select>
                 </div>
             </div>
@@ -560,5 +557,79 @@
             $('#showTargetgroupList').html("");
         }
     });
+
+    var $validator = $("#order-form").validate({
+
+        rules: {
+            name: {
+                required: true
+            },
+            domain_name: {
+                required: true,
+                domain: true
+            },
+            iab_sub_category: {
+                required: true
+            },
+            max_impression: {
+                required: true
+            },
+            daily_max_impression: {
+                required: true,
+                number: 'Enter number Plz'
+            },
+            max_budget: {
+                required: true,
+                number: 'Enter number Plz'
+            },
+            daily_max_budget: {
+                required: true,
+                minlength: 2,
+                number: 'Enter number Plz'
+            },
+            frequency_in_sec: {
+                required: true,
+                minlength: 2,
+                number: 'Enter number Plz'
+            },
+            cpm: {
+                required: true,
+                minlength: 2,
+                number: 'Enter number Plz'
+            },
+            pacing_plan: {
+                required: true,
+                minlength: 2,
+                number: 'Enter number Plz'
+            }
+        },
+
+        messages: {
+            fname: "Please specify your First name",
+            lname: "Please specify your Last name",
+            advertiser_domain_name: "Your site must be in the format of yourdomian.com",
+            email: {
+                required: "We need your email address to contact you",
+                email: "Your email address must be in the format of name@domain.com"
+            }
+        },
+
+        highlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function (error, element) {
+            if (element.parent('.input-group').length) {
+                error.insertAfter(element.parent());
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    });
+
 
 </script>

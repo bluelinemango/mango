@@ -190,18 +190,17 @@ class CampaignController extends Controller
                         if($request->input('active')=='on'){
                             $active='Active';
                         }
-                        $start_date = date('Y-m-d');
-                        $end_date = date('Y-m-d');
+                        $check_date=$this->date_validation($request->input('date_range'));
+                        if(!$check_date){
+                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'please check your date range!']);
+                        }
                         $date_range=explode('-',$request->input('date_range'));
+
                         $start_date=Carbon::createFromFormat('m/d/Y',str_replace(' ','',$date_range[0]))->toDateString();
                         $end_date=Carbon::createFromFormat('m/d/Y',str_replace(' ','',$date_range[1]))->toDateString();
                         $start_date_old=Carbon::createFromFormat('Y-m-d H:i:s',$campaign->start_date)->toDateString();
                         $end_date_old=Carbon::createFromFormat('Y-m-d H:i:s',$campaign->end_date)->toDateString();
-//                        return dd($start_date);
-                        $active='Inactive';
-                        if($request->input('active')=='on'){
-                            $active='Active';
-                        }
+//                        return dd($start_date_old);
                         $data=array();
                         $audit= new AuditsController();
                         if($campaign->name != $request->input('name')){

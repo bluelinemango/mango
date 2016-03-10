@@ -162,6 +162,8 @@
                 url: "{{url('/get_iab_sub_category')}}" + '/' + id
             }).success(function (response) {
                 $('#iab_sub_category').html(response);
+                $('select.selecter').selectpicker('refresh');
+
             });
         }
         function taggleBWList(type) {

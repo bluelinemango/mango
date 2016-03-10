@@ -479,18 +479,6 @@ class TargetgroupController extends Controller
                             array_push($data,$request->input('iab_sub_category'));
                             $targetgroup->iab_sub_category = $request->input('iab_sub_category');
                         }
-                        if($targetgroup->name != $request->input('name')){
-                            array_push($data,'name');
-                            array_push($data,$targetgroup->name);
-                            array_push($data,$request->input('name'));
-                            $targetgroup->name=$request->input('name');
-                        }
-                        if($targetgroup->name != $request->input('name')){
-                            array_push($data,'name');
-                            array_push($data,$targetgroup->name);
-                            array_push($data,$request->input('name'));
-                            $targetgroup->name=$request->input('name');
-                        }
                         if(isset($start_date)){
                             array_push($data,'Start Date');
                             array_push($data,$targetgroup->start_date);
