@@ -127,9 +127,9 @@
                         "cpm":'{{$index->cpm}}',
                         "daily_max_budget":'{{$index->daily_max_budget}}',
                         @if($index->status == 'Active')
-                        "status": '<input id="campaign{{$index->id}}" onchange="ChangeStatus(`campaign`,`{{$index->id}}`)" type="checkbox" class="switchery-teal" checked>',
+                        "status": '<div class="switcher"><input id="campaign{{$index->id}}" onchange="ChangeStatus(`campaign`,`{{$index->id}}`)" type="checkbox" checked hidden><label for="campaign{{$index->id}}"></label></div>',
                         @elseif($index->status == 'Inactive')
-                        "status": '<input id="campaign{{$index->id}}" onchange="ChangeStatus(`campaign`,`{{$index->id}}`)" type="checkbox" class="switchery-teal">',
+                        "status": '<div class="switcher"><input id="campaign{{$index->id}}" onchange="ChangeStatus(`campaign`,`{{$index->id}}`)" type="checkbox" hidden><label for="campaign{{$index->id}}"></label></div>',
                         @endif
                         "date_modify": '{{$index->updated_at}}',
                         "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /> </a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) +' | <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/targetgroup/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif @if(in_array('ADD_EDIT_CAMPAIGN',$permission)) +' | <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a> | <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/clone/1')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif

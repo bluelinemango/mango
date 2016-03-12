@@ -68,11 +68,11 @@
                                 <div class="form-group">
                                     <label class="control-label">Status</label>
 
-                                    <div class="checkboxer">
+                                    <div class="switcher">
                                         <input type="checkbox" name="active"
-                                               class="switchery-teal" @if($pixel_obj->status=='Active')
-                                               checked @endif>
-                                        <label for="check1">Active</label>
+                                               hidden @if($pixel_obj->status=='Active')
+                                               checked @endif id="active">
+                                        <label for="active"></label>
                                     </div>
                                 </div>
                             </div>
@@ -148,7 +148,6 @@
 @section('FooterScripts')
     <script>
         $(document).ready(function () {
-            FormsSwitchery.init();
             $.ajax({
                 url: "{{url('ajax/getAudit/pixel/'.$pixel_obj->id)}}"
             }).success(function (response) {

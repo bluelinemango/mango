@@ -104,9 +104,9 @@
                     "name": '{{$index->name}}',
                     "campaign_name":'<a href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/edit')}}">{{$index->getCampaign->name}}</a>',
                     @if($index->status == 'Active')
-                    "status": '<input id="targetgroup{{$index->id}}" onchange="ChangeStatus(`targetgroup`,`{{$index->id}}`)" type="checkbox" class="switchery-teal" checked>',
+                    "status": '<div class="switcher"><input id="targetgroup{{$index->id}}" onchange="ChangeStatus(`targetgroup`,`{{$index->id}}`)" type="checkbox" checked hidden><label for="targetgroup{{$index->id}}"></label></div>',
                     @elseif($index->status == 'Inactive')
-                    "status": '<input id="targetgroup{{$index->id}}" onchange="ChangeStatus(`targetgroup`,`{{$index->id}}`)" type="checkbox" class="switchery-teal">',
+                    "status": '<div class="switcher"><input id="targetgroup{{$index->id}}" onchange="ChangeStatus(`targetgroup`,`{{$index->id}}`)" type="checkbox" hidden><label for="targetgroup{{$index->id}}"></label></div>',
                     @endif
                     "date_modify": '{{$index->updated_at}}',
                     "action": '<a class="btn" href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/tg'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) +' <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
@@ -126,8 +126,6 @@
 
                 pageSize: 10,
                 pageButtonCount: 5,
-                rowClick:function(item){console.log(item)},
-                onRefreshed: function(args) {FormsSwitchery.init();},
                 controller: db,
                 fields: [
                     {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},

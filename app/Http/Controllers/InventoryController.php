@@ -23,9 +23,9 @@ class InventoryController extends Controller
                     $index->setAttribute('action', $action);
 
                     if ($index->status == 'Active') {
-                        $index->status = "<input id=\"inventory$index->id\" onchange=\"ChangeStatus(`inventory`,`$index->id`)\" type=\"checkbox\" class=\"switchery-teal\" checked>";
+                        $index->status = "<div class=\"switcher\"><input id=\"inventory{{$index->id}}\" onchange=\"ChangeStatus(`inventory`,`{{$index->id}}`)\" type=\"checkbox\" checked hidden><label for=\"inventory{{$index->id}}\"></label></div>";
                     } elseif ($index->status == 'Inactive') {
-                        $index->status = "<input id=\"inventory$index->id\" onchange=\"ChangeStatus(`inventory`,`$index->id`)\" type=\"checkbox\" class=\"switchery-teal\" >";
+                        $index->status = "<div class=\"switcher\"><input id=\"inventory{{$index->id}}\" onchange=\"ChangeStatus(`inventory`,`{{$index->id}}`)\" type=\"checkbox\" hidden><label for=\"inventory{{$index->id}}\"></label></div>";
                     }
                 }
                 return json_encode($inventory);

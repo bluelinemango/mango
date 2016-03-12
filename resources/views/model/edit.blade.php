@@ -50,11 +50,11 @@
                                             <div class="form-group">
                                                 <label class="control-label">Status</label>
 
-                                                <div class="checkboxer">
+                                                <div class="switcher">
                                                     <input type="checkbox" name="active"
-                                                           class="switchery-teal" @if($model_obj->status=='Active')
-                                                           checked @endif>
-                                                    <label for="check1">Active</label>
+                                                           hidden @if($model_obj->status=='Active')
+                                                           checked @endif id="active">
+                                                    <label for="active"></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -442,7 +442,6 @@
     <script type="text/javascript">
 
         $(document).ready(function() {
-            FormsSwitchery.init();
 
             $.ajax({
                 url: "{{url('ajax/getAudit/model/'.$model_obj->id)}}"

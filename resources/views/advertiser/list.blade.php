@@ -104,9 +104,9 @@
                     "campaign": '0',
                     @endif
                     @if($index->status == 'Active')
-                    "status": '<input id="advertiser{{$index->id}}" onchange="ChangeStatus(`advertiser`,`{{$index->id}}`)" type="checkbox" class="switchery-teal" checked>',
+                    "status": '<div class="switcher"><input id="advertiser{{$index->id}}" onchange="ChangeStatus(`advertiser`,`{{$index->id}}`)" type="checkbox" checked hidden><label for="advertiser{{$index->id}}"></label></div>',
                     @elseif($index->status == 'Inactive')
-                    "status": '<input id="advertiser{{$index->id}}" onchange="ChangeStatus(`advertiser`,`{{$index->id}}`)" type="checkbox" class="switchery-teal">',
+                    "status": '<div class="switcher"><input id="advertiser{{$index->id}}" onchange="ChangeStatus(`advertiser`,`{{$index->id}}`)" type="checkbox" hidden><label for="advertiser{{$index->id}}"></label></div>',
                     @endif
                     "date_modify": '{{$index->updated_at}}',
                     "action": '<a class="btn " href="{{url('/client/cl'.$index->GetClientID->id.'/advertiser/adv'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /> </a>'
@@ -123,8 +123,6 @@
                 sorting: true,
                 paging: true,
                 autoload: true,
-                rowClick:function(item){console.log(item)},
-                onRefreshed: function(args) {FormsSwitchery.init();},
                 pageSize: 10,
                 pageButtonCount: 5,
 

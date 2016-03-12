@@ -73,9 +73,10 @@
                             <div class="col-md-1">
                                 <div class="form-group">
                                     <label class="control-label">Status</label>
-                                    <div class="checkboxer">
-                                        <input type="checkbox" name="active" class="switchery-teal" >
-                                        <label for="check1">Active</label>
+                                    <div class="switcher">
+                                        <input type="checkbox" name="active"
+                                               hidden id="active">
+                                        <label for="active"></label>
                                     </div>
                                 </div>
                             </div>
@@ -205,84 +206,94 @@
     </div>
 @endsection
 @section('FooterScripts')
+
     <script src="{{cdn('newTheme/globals/plugins/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
     <script src="{{cdn('newTheme/globals/scripts/forms-pickers.js')}}"></script>
+
+
+    <!-- BEGIN INITIALIZATION-->
     <script>
         $(document).ready(function () {
             FormsPickers.init();
-            FormsSwitchery.init();
-//            var $orderForm = $("#order-form").validate({
-//                rules : {
-//                    name : {
-//                        required : true
-//                    },
-//                    advertiser_domain_name: {
-//                        required: true,
-//                        domain: true
-//                    },
-//                    advertiser_id : {
-//                        required : true
-//                    },
-//                    max_impression : {
-//                        required: true,
-//                        min: 0,
-//                        number: 'Enter number Plz'
-//                    },
-//                    daily_max_impression : {
-//                        required: true,
-//                        min: 0,
-//                        number: 'Enter number Plz'
-//                    },
-//                    max_budget : {
-//                        required: true,
-//                        min: 0,
-//                        number: 'Enter number Plz'
-//                    },
-//                    daily_max_budget : {
-//                        required: true,
-//                        min: 0,
-//                        number: 'Enter number Plz'
-//                    },
-//                    cpm : {
-//                        required: true,
-//                        min: 0,
-//                        number: 'Enter number Plz'
-//                    },
-//                    start_date : {
-//                        required : true
-//                    },
-//                    end_date : {
-//                        required : true
-//                    }
-//                },
-//
-//                // Messages for form validation
-//                messages : {
-//                    name : {
-//                        required : 'Please enter your name'
-//                    },
-//                    email : {
-//                        required : 'Please enter your email address',
-//                        email : 'Please enter a VALID email address'
-//                    },
-//                    phone : {
-//                        required : 'Please enter your phone number'
-//                    },
-//                    interested : {
-//                        required : 'Please select interested service'
-//                    },
-//                    budget : {
-//                        required : 'Please select your budget'
-//                    }
-//                },
-//
-//                // Do not change code below
-//                errorPlacement : function(error, element) {
-//                    error.insertAfter(element.parent());
-//                }
-//            });
+        });
+    </script>
+    <!-- END INITIALIZATION-->
+
+    <script>
+        $(document).ready(function () {
+            var $orderForm = $("#order-form").validate({
+                rules : {
+                    name : {
+                        required : true
+                    },
+                    advertiser_domain_name: {
+                        required: true,
+                        domain: true
+                    },
+                    advertiser_id : {
+                        required : true
+                    },
+                    max_impression : {
+                        required: true,
+                        min: 0,
+                        number: 'Enter number Plz'
+                    },
+                    daily_max_impression : {
+                        required: true,
+                        min: 0,
+                        number: 'Enter number Plz'
+                    },
+                    max_budget : {
+                        required: true,
+                        min: 0,
+                        number: 'Enter number Plz'
+                    },
+                    daily_max_budget : {
+                        required: true,
+                        min: 0,
+                        number: 'Enter number Plz'
+                    },
+                    cpm : {
+                        required: true,
+                        min: 0,
+                        number: 'Enter number Plz'
+                    },
+                    start_date : {
+                        required : true
+                    },
+                    end_date : {
+                        required : true
+                    }
+                },
+
+                // Messages for form validation
+                messages : {
+                    name : {
+                        required : 'Please enter your name'
+                    },
+                    email : {
+                        required : 'Please enter your email address',
+                        email : 'Please enter a VALID email address'
+                    },
+                    phone : {
+                        required : 'Please enter your phone number'
+                    },
+                    interested : {
+                        required : 'Please select interested service'
+                    },
+                    budget : {
+                        required : 'Please select your budget'
+                    }
+                },
+
+                // Do not change code below
+                errorPlacement : function(error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
         })
 
     </script>
+
 
 @endsection

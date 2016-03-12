@@ -132,9 +132,9 @@
                         "entreies": '0',
                         @endif
                         @if($index->status == 'Active')
-                        "status": '<input id="geosegment{{$index->id}}" onchange="ChangeStatus(`geosegment`,`{{$index->id}}`)" type="checkbox" class="switchery-teal" checked>',
+                        "status": '<div class="switcher"><input id="geosegment{{$index->id}}" onchange="ChangeStatus(`geosegment`,`{{$index->id}}`)" type="checkbox" checked hidden><label for="geosegment{{$index->id}}"></label></div>',
                         @elseif($index->status == 'Inactive')
-                        "status": '<input id="geosegment{{$index->id}}" onchange="ChangeStatus(`geosegment`,`{{$index->id}}`)" type="checkbox" class="switchery-teal">',
+                        "status": '<div class="switcher"><input id="geosegment{{$index->id}}" onchange="ChangeStatus(`geosegment`,`{{$index->id}}`)" type="checkbox" hidden><label for="geosegment{{$index->id}}"></label></div>',
                         @endif
                         "date_modify": '{{$index->updated_at}}',
                         "action": '<a class="btn " href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/gsm'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) + '| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
@@ -152,8 +152,6 @@
                     sorting: true,
                     paging: true,
                     autoload: true,
-                    rowClick:function(item){console.log(item)},
-                    onRefreshed: function(args) {FormsSwitchery.init();},
 
                     pageSize: 10,
                     pageButtonCount: 5,

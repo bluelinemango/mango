@@ -216,10 +216,10 @@
                                             <div class="col-md-1">
                                                 <div class="form-group">
                                                     <label class="control-label">Status</label>
-                                                    <div class="checkboxer">
-                                                        <input type="checkbox" name="active" class="switchery-teal" @if($campaign_obj->status=='Active')
-                                                               checked @endif>
-                                                        <label for="check1">Active</label>
+                                                    <div class="switcher">
+                                                        <input type="checkbox" name="active" hidden @if($campaign_obj->status=='Active')
+                                                               checked @endif id="active">
+                                                        <label for="active"></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -539,9 +539,9 @@
                     "name": '{{$index->name}}',
                     "campaign_name": '<a href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/edit')}}">{{$index->getCampaign->name}}</a>',
                     @if($index->status == 'Active')
-                    "status": '<input id="targetgroup{{$index->id}}" onchange="ChangeStatus(`targetgroup`,`{{$index->id}}`)" type="checkbox" class="switchery-teal" checked>',
+                    "status": '<div class="switcher"><input id="targetgroup{{$index->id}}" onchange="ChangeStatus(`targetgroup`,`{{$index->id}}`)" type="checkbox" checked hidden><label for="targetgroup{{$index->id}}"></label></div>',
                     @elseif($index->status == 'Inactive')
-                    "status": '<input id="targetgroup{{$index->id}}" onchange="ChangeStatus(`targetgroup`,`{{$index->id}}`)" type="checkbox" class="switchery-teal" >',
+                    "status": '<div class="switcher"><input id="targetgroup{{$index->id}}" onchange="ChangeStatus(`targetgroup`,`{{$index->id}}`)" type="checkbox" hidden><label for="targetgroup{{$index->id}}"></label></div>',
                     @endif
                     "date_modify": '{{$index->updated_at}}',
                     "action": '<a class="btn" href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/tg'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) + ' <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/targetgroup/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
@@ -562,10 +562,8 @@
                 paging: true,
                 autoload: true,
 
-                pageSize: 15,
+                pageSize: 10,
                 pageButtonCount: 5,
-
-                deleteConfirm: "Do you really want to delete the client?",
 
                 controller: db,
                 fields: [
@@ -582,7 +580,11 @@
                     {name: "status", title: "Status", width: 50, align: "center", editing: false},
                     {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
                     {name: "action", title: "Edit / +TG", sorting: false, width: 70, align: "center"},
-                    {type: "control"}
+                    {type: "control",
+                        deleteButton: false,
+                        editButtonTooltip: "Edit",
+                        editButton: true
+                    }
                 ]
 
             });
@@ -592,7 +594,6 @@
 
     <script>
         $(document).ready(function () {
-            FormsSwitchery.init();
 
             var $orderForm = $("#order-form").validate({
                 rules: {

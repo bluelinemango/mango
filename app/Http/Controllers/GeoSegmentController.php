@@ -45,6 +45,7 @@ class GeoSegmentController extends Controller
     public function GetView(){
         if(Auth::check()){
             if(in_array('VIEW_GEOSEGMENTLIST',$this->permission)) {
+                $geosegment_obj=array();
                 if (User::isSuperAdmin()) {
                     $geosegment_obj = GeoSegmentList::with(['getGeoEntries' => function ($q) {
                         $q->select(DB::raw('*,count(geosegmentlist_id) as geosegment_count'))->groupBy('geosegmentlist_id');
@@ -79,9 +80,9 @@ class GeoSegmentController extends Controller
                         $advertiser_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
                         })->find($advid);
-                        if (!$advertiser_obj) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
+                    }
+                    if (!$advertiser_obj) {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
                     return view('geosegment.add')->with('advertiser_obj', $advertiser_obj);
                 }
@@ -162,9 +163,6 @@ class GeoSegmentController extends Controller
                         $advertiser_obj = Advertiser::whereHas('GetClientID' , function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
                         })->find($request->input('advertiser_id'));
-                        if(!$advertiser_obj){
-                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
-                        }
                     }
                     if ($advertiser_obj) {
                         $chk=GeoSegmentList::where('advertiser_id',$request->input('advertiser_id'))->get();
@@ -229,9 +227,9 @@ class GeoSegmentController extends Controller
                                 $p->whereIn('user_id', $usr_company);
                             });
                         })->with('getGeoEntries')->find($gsmid);
-                        if (!$geosegment_obj) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
+                    }
+                    if (!$geosegment_obj) {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
                     return view('geosegment.edit')->with('geosegment_obj', $geosegment_obj);
                 }
@@ -241,7 +239,7 @@ class GeoSegmentController extends Controller
         }
     }
 
-    public function edit_geosegmentlist(Request $request){
+    public function edit_geosegmentlist(Request $request){ // TODO: correct this function
         if(Auth::check()){
             if(in_array('ADD_EDIT_GEOSEGMENTLIST',$this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
@@ -415,9 +413,6 @@ class GeoSegmentController extends Controller
                                 $p->whereIn('user_id', $usr_company);
                             });
                         })->find($id);
-                    if(!$entity){
-                        return 'please Select your Client';
-                    }
                 }
                 if($entity){
                     $data=array();
@@ -439,6 +434,7 @@ class GeoSegmentController extends Controller
                     $entity->save();
                     return $msg;
                 }
+                return 'please Select your Client';
             }
             return "You don't have permission";
         }

@@ -19,12 +19,12 @@ class UsersController extends Controller
       //TODO: chek if not super admin cant edit super admin user name
     public function GetView(){
         if(Auth::check()) {
+            $user_obj=array();
             if (User::isSuperAdmin()) {
                 $user_obj = User::with('getCompany')->with('getRole')->get();
             } else {
                 $user_obj = User::with('getCompany')->where('role_id','<>',1)->with('getRole')->where('company_id', Auth::user()->company_id)->get();
             }
-//        return dd($user_obj);
             return view('user.user_list')->with('user_obj', $user_obj)->with('permission', \Permission_Check::getPermission());
         }
         return Redirect::to(url('user/login'));

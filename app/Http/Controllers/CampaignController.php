@@ -26,11 +26,11 @@ class CampaignController extends Controller
     {
         if (Auth::check()) {
             if (in_array('VIEW_CAMPAIGN', $this->permission)) {
+                $campaign=array();
                 if (User::isSuperAdmin()) {
                     $campaign = Campaign::with(['getAdvertiser' => function ($q) {
                         $q->with('GetClientID');
                     }])->get();
-                    $audit= Audits::with('getUser')->where('entity_type','campaign')->orderBy('created_at','DESC')->get();
                 } else {
                     $usr_company = $this->user_company();
                     $campaign = Campaign::whereHas('getAdvertiser' , function ($q) use($usr_company) {
@@ -38,15 +38,8 @@ class CampaignController extends Controller
                             $p->whereIn('user_id', $usr_company);
                         });
                     })->get();
-                    $audit= Audits::with('getUser')->where('entity_type','campaign')->whereIn('user_id', $usr_company)->orderBy('created_at','DESC')->get();
-                }
-                $audit_obj= array();
-                if($audit) {
-                    $sub = new AuditsController();
-                    $audit_obj = $sub->SubAudit($audit);
                 }
                 return view('campaign.list')
-                    ->with('audit_obj',$audit_obj)
                     ->with('campaign_obj', $campaign);
             }
             return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
@@ -82,7 +75,7 @@ class CampaignController extends Controller
 //        return dd($request->all());
         if (Auth::check()) {
             if (in_array('ADD_EDIT_CAMPAIGN', $this->permission)) {
-                $validate = \Validator::make($request->all(), ['name' => 'required','advertiser_domain_name'=>'required']);
+                $validate = \Validator::make($request->all(), Campaign::$rule);
                 if ($validate->passes()) {
                     if (User::isSuperAdmin()) {
                         $advertiser_obj = Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
@@ -100,8 +93,14 @@ class CampaignController extends Controller
                         if($request->input('active')=='on'){
                             $active='Active';
                         }
-                        $start_date = \DateTime::createFromFormat('d.m.Y', $request->input('start_date'));
-                        $end_date = \DateTime::createFromFormat('d.m.Y', $request->input('end_date'));
+                        $check_date=$this->date_validation($request->input('date_range'));
+                        if(!$check_date){
+                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'please check your date range!']);
+                        }
+                        $date_range=explode('-',$request->input('date_range'));
+
+                        $start_date=Carbon::createFromFormat('m/d/Y',str_replace(' ','',$date_range[0]))->toDateString();
+                        $end_date=Carbon::createFromFormat('m/d/Y',str_replace(' ','',$date_range[1]))->toDateString();
                         $campaign = new Campaign();
                         $campaign->name = $request->input('name');
                         $campaign->max_impression = $request->input('max_impression');
@@ -169,7 +168,7 @@ class CampaignController extends Controller
 //        $start_date = \DateTime::createFromFormat('d.m.Y', $request->input('start_date'));
         if (Auth::check()) {
             if (in_array('ADD_EDIT_CAMPAIGN', $this->permission)) {
-                $validate = \Validator::make($request->all(), ['name' => 'required']);
+                $validate = \Validator::make($request->all(), Campaign::$rule);
                 if ($validate->passes()) {
                     $campaign_id = $request->input('campaign_id');
 

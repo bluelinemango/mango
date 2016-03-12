@@ -57,7 +57,7 @@
             }).success(function (response) {
                 $('#show_audit').html(response);
             });
-        })
+        });
 
         $(function () {
 
@@ -113,14 +113,12 @@
                     "website": '0',
                     @endif
                     @if($index->status == 'Active')
-                    "status": '<input id="bwlist{{$index->id}}" onchange="ChangeStatus(`bwlist`,`{{$index->id}}`)" type="checkbox" class="switchery-teal" checked>',
+                    "status": '<div class="switcher"><input id="bwlist{{$index->id}}" onchange="ChangeStatus(`bwlist`,`{{$index->id}}`)" type="checkbox" checked hidden><label for="bwlist{{$index->id}}"></label></div>',
                     @elseif($index->status == 'Inactive')
-                    "status": '<input id="bwlist{{$index->id}}" onchange="ChangeStatus(`bwlist`,`{{$index->id}}`)" type="checkbox" class="switchery-teal">',
+                    "status": '<div class="switcher"><input id="bwlist{{$index->id}}" onchange="ChangeStatus(`bwlist`,`{{$index->id}}`)" type="checkbox" hidden><label for="bwlist{{$index->id}}"></label></div>',
                     @endif
                     "date_modify": '{{$index->updated_at}}',
                     "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bwlist/bwl'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) + '| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bwlist/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
-
-
                     },
                 @endforeach
             ];
@@ -136,9 +134,6 @@
 
                 pageSize: 10,
                 pageButtonCount: 5,
-
-                rowClick:function(item){console.log(item)},
-                onRefreshed: function(args) {FormsSwitchery.init();},
 
                 controller: db,
                 fields: [

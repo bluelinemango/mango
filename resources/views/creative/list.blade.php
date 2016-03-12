@@ -130,9 +130,9 @@
                         "size": '{{$index->size}}',
                         "advertiser": '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
                         @if($index->status == 'Active')
-                        "status": '<input id="creative{{$index->id}}" onchange="ChangeStatus(`creative`,`{{$index->id}}`)" type="checkbox" class="switchery-teal" checked>',
+                        "status": '<div class="switcher"><input id="creative{{$index->id}}" onchange="ChangeStatus(`creative`,`{{$index->id}}`)" type="checkbox" checked hidden><label for="creative{{$index->id}}"></label></div>',
                         @elseif($index->status == 'Inactive')
-                        "status": '<input id="creative{{$index->id}}" onchange="ChangeStatus(`creative`,`{{$index->id}}`)" type="checkbox" class="switchery-teal">',
+                        "status": '<div class="switcher"><input id="creative{{$index->id}}" onchange="ChangeStatus(`creative`,`{{$index->id}}`)" type="checkbox" hidden><label for="creative{{$index->id}}"></label></div>',
                         @endif
                         "date_modify": '{{$index->updated_at}}',
                         "action": '<a class="btn " href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/crt'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_CREATIVE',$permission)) + '| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a> | <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/crt'.$index->id.'/clone/1')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
@@ -151,10 +151,8 @@
                     paging: true,
                     autoload: true,
 
-                    pageSize: 15,
+                    pageSize: 10,
                     pageButtonCount: 5,
-                    rowClick:function(item){console.log(item)},
-                    onRefreshed: function(args) {FormsSwitchery.init();},
 
                     controller: db,
                     fields: [

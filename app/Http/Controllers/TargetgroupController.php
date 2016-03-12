@@ -40,6 +40,7 @@ class TargetgroupController extends Controller
     {
         if (Auth::check()) {
             if (in_array('VIEW_TARGETGROUP', $this->permission)) {
+                $targetgroup=array();
                 if (User::isSuperAdmin()) {
                     $targetgroup = Targetgroup::with(['getCampaign' => function ($q) {
                         $q->with(['getAdvertiser' => function ($p) {
@@ -79,10 +80,10 @@ class TargetgroupController extends Controller
                         }]);
                     }])->find($cmpid);
 //                    return dd($campaign_obj);
-                    if (!$campaign_obj) {
-                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                    }
 
+                }
+                if (!$campaign_obj) {
+                    return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                 }
                 $geolocation_obj = Geolocation::get();
                 $iab_category_obj = Iab_Category::get();
@@ -94,10 +95,9 @@ class TargetgroupController extends Controller
             return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
         }
         return Redirect::to(url('/user/login'));
-
     }
 
-    public function add_targetgroup(Request $request)
+    public function add_targetgroup(Request $request)  //TODO: correct this function
     {
 //        return dd($request->all());
         if (Auth::check()) {
@@ -282,9 +282,9 @@ class TargetgroupController extends Controller
                                 $p->whereIn('user_id', $usr_company);
                             });
                         })->find($cmpid);
-                        if (!$targetgroup_obj) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
+                    }
+                    if (!$targetgroup_obj) {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
                     $real_time=Targetgroup_Realtime::where('targetgroup_id',$tgid)->get();
                     $hours = array();
@@ -371,9 +371,6 @@ class TargetgroupController extends Controller
                                 });
                             });
                         })->find($targetgroup_id);
-                        if (!$targetgroup) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
                     }
                     if ($targetgroup) {
                         $data=array();
@@ -668,6 +665,8 @@ class TargetgroupController extends Controller
 
                         return Redirect::back()->withErrors(['success' => true, 'msg' => 'Target Group Edited Successfully']);
                     }
+                    return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+
                 }
                 return Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();
             }
@@ -743,10 +742,9 @@ class TargetgroupController extends Controller
 
     public function Iab_Category($id)
     {
-        if (is($id)) {
+        if ($id) {
             $sub_category = Iab_Sub_Category::where('iab_category_id', $id)->get();
             return view('targetgroup.template.iab_category')->with('sub_category',$sub_category);
-//            return json_encode($sub_category);
         }
     }
 

@@ -57,11 +57,11 @@
                                 <div class="form-group">
                                     <label class="control-label">Status</label>
 
-                                    <div class="checkboxer">
+                                    <div class="switcher">
                                         <input type="checkbox" name="active"
-                                               class="switchery-teal" @if($client_obj->status=='Active')
-                                               checked @endif>
-                                        <label for="check1">Active</label>
+                                               hidden @if($client_obj->status=='Active')
+                                               checked @endif id="active">
+                                        <label for="active"></label>
                                     </div>
                                 </div>
                             </div>
@@ -84,6 +84,25 @@
             <!--.panel-body-->
         </div>
         <!--.panel-->
+        <div class="panel gray">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="pull-left">Advertiser List </h4>
+                    @if(in_array('ADD_EDIT_ADVERTISER',$permission))
+                        <a href="{{url('client/cl'.$client_obj->id.'/advertiser/add')}}"
+                           class="btn btn-primary pull-right">
+                            ADD Advertiser
+                        </a>
+                    @endif
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body">
+                <div id="advertiser_grid"></div>
+            </div>
+        </div>
+
     </div>
     <!--.col-->
 
@@ -116,26 +135,6 @@
     <!--.col-->
     <div class="clearfix"></div>
 
-    <div class="col-md-9">
-        <div class="panel gray">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <h4 class="pull-left">Advertiser List </h4>
-                    @if(in_array('ADD_EDIT_ADVERTISER',$permission))
-                        <a href="{{url('client/cl'.$client_obj->id.'/advertiser/add')}}"
-                           class="btn btn-primary pull-right">
-                            ADD Advertiser
-                        </a>
-                    @endif
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <!--.panel-heading-->
-            <div class="panel-body">
-                <div id="advertiser_grid"></div>
-            </div>
-        </div>
-    </div>
 @endsection
 @section('FooterScripts')
     <!-- PAGE RELATED PLUGIN(S) -->
@@ -144,8 +143,6 @@
     <script>
         $(document).ready(function () {
 
-            FormsSwitch.init();
-            FormsSwitchery.init();
 
             $.ajax({
                 url: "{{url('ajax/getAudit/client/'.$client_obj->id)}}"
@@ -227,9 +224,9 @@
                         "id": 'adv{{$index->id}}',
                         "name": '{{$index->name}}',
                         @if($index->status == 'Active')
-                        "status": '<a id="advertiser{{$index->id}}" href="javascript: ChangeStatus(`advertiser`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                        "status": '<div class="switcher"><input id="advertiser{{$index->id}}" onchange="ChangeStatus(`advertiser`,`{{$index->id}}`)" type="checkbox" checked hidden><label for="advertiser{{$index->id}}"></label></div>',
                         @elseif($index->status == 'Inactive')
-                        "status": '<a id="advertiser{{$index->id}}" href="javascript: ChangeStatus(`advertiser`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
+                        "status": '<div class="switcher"><input id="advertiser{{$index->id}}" onchange="ChangeStatus(`advertiser`,`{{$index->id}}`)" type="checkbox" hidden><label for="advertiser{{$index->id}}"></label></div>',
                         @endif
                         "date_modify": '{{$index->updated_at}}',
                         "action": '<a class="btn " href="{{url('/client/cl'.$index->GetClientID->id.'/advertiser/adv'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /> </a>'
@@ -247,10 +244,8 @@
                     paging: true,
                     autoload: true,
 
-                    pageSize: 15,
+                    pageSize: 10,
                     pageButtonCount: 5,
-
-                    deleteConfirm: "Do you really want to delete the client?",
 
                     controller: db,
                     fields: [
@@ -259,7 +254,11 @@
                         {name: "status", title: "Status", width: 50, align: "center"},
                         {name: "date_modify", title: "Last Modified", align: "center"},
                         {name: "action", title: "Edit", sorting: false, width: 50, align: "center"},
-                        {type: "control"}
+                        {type: "control",
+                            deleteButton: false,
+                            editButtonTooltip: "Edit",
+                            editButton: true
+                        }
                     ]
 
                 });

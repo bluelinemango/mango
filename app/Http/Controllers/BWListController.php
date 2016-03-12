@@ -55,10 +55,6 @@ class BWListController extends Controller
                     }])->with(['getAdvertiser' => function ($q) {
                         $q->with('GetClientID');
                     }])->get();
-                    $audit= Audits::with('getUser')
-                        ->where('entity_type','bwlist')
-                        ->orWhere('entity_type','bwlistentrie')
-                        ->orderBy('created_at','DESC')->get();
                 }else{
                     $usr_company = $this->user_company();
                     $bwlist = BWList::with(['getEntries' => function ($q) {
@@ -68,19 +64,8 @@ class BWListController extends Controller
                             $p->whereIn('user_id', $usr_company);
                         });
                     })->get();
-                    $audit= Audits::with('getUser')
-                        ->where('entity_type','bwlist')
-                        ->orWhere('entity_type','bwlistentrie')
-                        ->whereIn('user_id', $usr_company)
-                        ->orderBy('created_at','DESC')->get();
-                }
-                $audit_obj= array();
-                if($audit) {
-                    $sub = new AuditsController();
-                    $audit_obj = $sub->SubAudit($audit);
                 }
                 return view('bwlist.list')
-                    ->with('audit_obj',$audit_obj)
                     ->with('bwlist_obj',$bwlist);
             }
             return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
@@ -89,8 +74,6 @@ class BWListController extends Controller
     }
 
     public function UploadBwlist(Request $request){
-        $pattern= '/(((http|ftp|https):\/{2})?+(([0-9a-z_-]+\.)+(aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|cz|de|dj|dk|dm|do|dz|ec|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mn|mn|mo|mp|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|nom|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ra|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw|arpa)(:[0-9]+)?((\/([~0-9a-zA-Z\#\+\%@\.\/_-]+))?(\?[0-9a-zA-Z\+\%@\/&\[\];=_-]+)?)?))\b/imuS
-';
         if(Auth::check()){
             if(in_array('ADD_EDIT_BWLIST',$this->permission)) {
                 if($request->hasFile('upload')) {
@@ -134,7 +117,7 @@ class BWListController extends Controller
                                 $bwlist->advertiser_id = $request->input('advertiser_id');
                                 $bwlist->save();
                                 foreach ($second_array as $index) {
-                                    if(preg_match($pattern,$index)){
+                                    if(preg_match($this->pattern,$index)){
                                         $bwlistentries = new BWEntries();
                                         $bwlistentries->domain_name = $index;
                                         $bwlistentries->bwlist_id = $bwlist->id;
@@ -176,9 +159,9 @@ class BWListController extends Controller
                         $advertiser_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
                         })->find($advid);
-                        if (!$advertiser_obj) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
+                    }
+                    if (!$advertiser_obj) {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
                     return view('bwlist.add')->with('advertiser_obj', $advertiser_obj);
                 }
@@ -301,9 +284,6 @@ class BWListController extends Controller
                         $advertiser_obj = Advertiser::whereHas('GetClientID' , function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
                         })->find($request->input('advertiser_id'));
-                        if(!$advertiser_obj){
-                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
-                        }
                     }
                     if ($advertiser_obj) {
                         $chk=BWList::where('advertiser_id',$request->input('advertiser_id'))->get();
@@ -365,9 +345,9 @@ class BWListController extends Controller
                                 $p->whereIn('user_id', $usr_company);
                             });
                         })->with('getEntries')->find($bwlid);
-                        if (!$bwlist_obj) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
+                    }
+                    if (!$bwlist_obj) {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
                     return view('bwlist.edit')->with('bwlist_obj', $bwlist_obj);
                 }
@@ -377,7 +357,7 @@ class BWListController extends Controller
         }
     }
 
-    public function edit_bwlist(Request $request){
+    public function edit_bwlist(Request $request){//TODO: correct this function
         if(Auth::check()){
             if(in_array('ADD_EDIT_BWLIST',$this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
@@ -434,9 +414,6 @@ class BWListController extends Controller
                             $p->whereIn('user_id', $usr_company);
                         });
                     })->find($id);
-                    if(!$entity){
-                        return 'please Select your Client';
-                    }
                 }
                 if($entity){
                     $data=array();
@@ -458,6 +435,7 @@ class BWListController extends Controller
                     $entity->save();
                     return $msg;
                 }
+                return 'please Select your Client';
             }
             return "You don't have permission";
         }

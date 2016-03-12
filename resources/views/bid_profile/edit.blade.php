@@ -66,11 +66,11 @@
                                             <div class="form-group">
                                                 <label class="control-label">Status</label>
 
-                                                <div class="checkboxer">
+                                                <div class="switcher">
                                                     <input type="checkbox" name="active"
-                                                           class="switchery-teal" @if($bid_profile_obj->status=='Active')
-                                                           checked @endif>
-                                                    <label for="check1">Active</label>
+                                                           @if($bid_profile_obj->status=='Active')
+                                                           checked hidden id="active" @endif>
+                                                    <label for="active"></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -191,7 +191,7 @@
             }
         });
         $(document).ready(function() {
-            FormsSwitchery.init();
+
 
 
             $.ajax({

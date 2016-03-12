@@ -52,11 +52,11 @@
                                 <div class="form-group">
                                     <label class="control-label">Status</label>
 
-                                    <div class="checkboxer">
+                                    <div class="switcher">
                                         <input type="checkbox" name="active"
-                                               class="switchery-teal" @if($offer_obj->status=='Active')
-                                               checked @endif>
-                                        <label for="check1">Active</label>
+                                               hidden @if($offer_obj->status=='Active')
+                                               checked @endif id="active">
+                                        <label for="active"></label>
                                     </div>
                                 </div>
                             </div>
@@ -185,7 +185,6 @@
 
     <script>
         $(document).ready(function () {
-            FormsSwitchery.init();
 
             $('#assign_pixel').multiselect({
                 search: {

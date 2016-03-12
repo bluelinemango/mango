@@ -90,9 +90,6 @@
     </div><!--.modal-->
 
 
-
-    <div id="detailsDialog">
-    </div>
 @endsection
 @section('FooterScripts')
     <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
@@ -145,7 +142,6 @@
                              && (!filter.id || item.id == filter.id );
                          });
                          d.resolve(result);
-                         FormsSwitchery.init();
                     });
                     return d.promise();
                 },
@@ -217,12 +213,9 @@
                 sorting: true,
                 paging: true,
                 autoload: true,
-                rowClick:function(item){console.log(item)},
-                pageSize: 15,
+                pageSize: 10,
                 controller: db,
                 pageButtonCount: 5,
-
-                deleteConfirm: "Do you really want to delete the client?",
 
                 fields: [
                     {name: "id", title: "ID", width: 40, type: "text", align: "center", editing: false},

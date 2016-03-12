@@ -24,7 +24,7 @@
                 <form id="order-form" class="form-horizontal parsley-validate"
                       action="{{URL::route('advertiser_create')}}" method="post"
                       novalidate="novalidate">
-                    <input type="hidden" name="_token"
+                    <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <input type="hidden" name="client_id" value="{{$client_obj->id}}">
                     <div class="form-body">
                         <div class="note note-primary note-bottom-striped">
@@ -36,7 +36,7 @@
 
                                     <div class="inputer">
                                         <div class="input-wrapper">
-                                            <input type="text" id="name" name="name" placeholder="Name"
+                                            <input type="text" id="name" name="name" placeholder="Name" value="{{old('name')}}"
                                                    class="form-control">
                                         </div>
                                     </div>
@@ -56,7 +56,7 @@
                                         <div class="input-wrapper">
                                             <input type="text" name="domain_name"
                                                    class="form-control" placeholder="Domain Name"
-                                                   id="domain_name">
+                                                   id="domain_name" value="{{old('domain_name')}}">
                                         </div>
                                     </div>
                                 </div>
@@ -65,10 +65,10 @@
                                 <div class="form-group">
                                     <label class="control-label">Status</label>
 
-                                    <div class="checkboxer">
+                                    <div class="switcher">
                                         <input type="checkbox" name="active"
-                                               class="switchery-teal">
-                                        <label for="check1">Active</label>
+                                               hidden id="active">
+                                        <label for="active"></label>
                                     </div>
                                 </div>
                             </div>
@@ -113,44 +113,43 @@
 @section('FooterScripts')
     <script>
         $(document).ready(function () {
-            var $orderForm = $("#order-form").validate({
-                // Rules for form validation
-                rules : {
-                    name : {
-                        required : true
-                    },
-                    domain_name: {
-                        required: true,
-                        domain: true
-                    }
-                },
-
-                // Messages for form validation
-                messages : {
-                    name : {
-                        required : 'Please enter your name'
-                    },
-                    email : {
-                        required : 'Please enter your email address',
-                        email : 'Please enter a VALID email address'
-                    },
-                    phone : {
-                        required : 'Please enter your phone number'
-                    },
-                    client_id : {
-                        required : 'Please select Client Name'
-                    },
-                    budget : {
-                        required : 'Please select your budget'
-                    }
-                },
-
-                // Do not change code below
-                errorPlacement : function(error, element) {
-                    error.insertAfter(element.parent());
-                }
-            });
-            FormsSwitchery.init();
+//            var $orderForm = $("#order-form").validate({
+//                // Rules for form validation
+//                rules : {
+//                    name : {
+//                        required : true
+//                    },
+//                    domain_name: {
+//                        required: true,
+//                        domain: true
+//                    }
+//                },
+//
+//                // Messages for form validation
+//                messages : {
+//                    name : {
+//                        required : 'Please enter your name'
+//                    },
+//                    email : {
+//                        required : 'Please enter your email address',
+//                        email : 'Please enter a VALID email address'
+//                    },
+//                    phone : {
+//                        required : 'Please enter your phone number'
+//                    },
+//                    client_id : {
+//                        required : 'Please select Client Name'
+//                    },
+//                    budget : {
+//                        required : 'Please select your budget'
+//                    }
+//                },
+//
+//                // Do not change code below
+//                errorPlacement : function(error, element) {
+//                    error.insertAfter(element.parent());
+//                }
+//            });
         })
     </script>
 @endsection

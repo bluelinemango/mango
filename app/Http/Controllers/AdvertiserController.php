@@ -25,6 +25,7 @@ class AdvertiserController extends Controller
     {
         if (Auth::check()) {
             if (in_array('VIEW_ADVERTISER', $this->permission)) {
+                $entity=array();
                 if (User::isSuperAdmin()) {
                     $entity = Advertiser::with(['Campaign' => function ($q) {
                         $q->select(DB::raw('*,count(advertiser_id) as advertiser_count'))->groupBy('advertiser_id');
@@ -37,11 +38,7 @@ class AdvertiserController extends Controller
                     }])->whereHas('GetClientID', function ($p) use ($usr_company) {
                         $p->whereIn('user_id', $usr_company);
                     })->get();
-                    if (!$entity) {
-                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                    }
                 }
-//                return dd($advertiser);
                 return view('advertiser.list')->with('adver_obj', $entity);
             }
             return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
@@ -58,9 +55,9 @@ class AdvertiserController extends Controller
                 } else {
                     $usr_company = $this->user_company();
                     $client_obj = Client::whereIn('user_id', $usr_company)->find($clid);
-                    if (!$client_obj) {
-                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                    }
+                }
+                if (!$client_obj) {
+                    return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                 }
                 return view('advertiser.add_advertiser')
                     ->with('client_obj', $client_obj);
@@ -74,16 +71,13 @@ class AdvertiserController extends Controller
     {
         if (Auth::check()) {
             if (in_array('ADD_EDIT_ADVERTISER', $this->permission)) {
-                $validate = \Validator::make($request->all(), ['name' => 'required']);
+                $validate = \Validator::make($request->all(), Advertiser::$rule);
                 if ($validate->passes()) {
                     if (User::isSuperAdmin()) {
                         $client_obj = Client::find($request->input('client_id'));
                     } else {
                         $usr_company = $this->user_company();
                         $client_obj = Client::whereIn('user_id', $usr_company)->find($request->input('client_id'));
-                        if (!$client_obj) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
                     }
                     if ($client_obj) {
                         $active='Inactive';
@@ -135,9 +129,6 @@ class AdvertiserController extends Controller
                     $adver = Advertiser::whereHas('GetClientID' , function ($p) use ($usr_company) {
                         $p->whereIn('user_id', $usr_company);
                     })->find($adver_id);
-                    if(!$adver){
-                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                    }
                 }
                 if ($adver) {
                     $data = array();
@@ -159,6 +150,7 @@ class AdvertiserController extends Controller
                     $adver->save();
                     return $msg;
                 }
+                return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
             }
             return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
         }
@@ -186,9 +178,9 @@ class AdvertiserController extends Controller
                             $p->whereIn('user_id', $usr_company);
                         })->with('Campaign','Model','GeoSegment','BWList','Creative','GetClientID','Segment','BidProfile')->find($advid);
 
-                        if (!$adver) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
+                    }
+                    if (!$adver) {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
 
                     $push_arr = array();
@@ -210,23 +202,19 @@ class AdvertiserController extends Controller
 
     public function edit_advertiser(Request $request)
     {
-//        return dd($request->user());
+//        return dd($request->all());
         if (Auth::check()) {
             if (in_array('ADD_EDIT_ADVERTISER', $this->permission)) {
-                $validate = \Validator::make($request->all(), ['name' => 'required']);
+                $validate = \Validator::make($request->all(), Advertiser::$rule);
                 if ($validate->passes()) {
-                    $adver_id = $request->input('adver_id');
+                    $adver_id = $request->input('advertiser_id');
                     if (User::isSuperAdmin()) {
                         $adver = Advertiser::find($adver_id);
-
                     } else {
                         $usr_company = $this->user_company();
                         $adver = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
                         })->find($adver_id);
-                        if (!$adver) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
                     }
                     if ($adver) {
                         $active='Inactive';
@@ -289,12 +277,12 @@ class AdvertiserController extends Controller
                             }
 
                         }
-
-
                         $audit->store('advertiser', $adver_id, $data, 'edit');
                         $adver->save();
                         return Redirect::back()->withErrors(['success' => true, 'msg' => 'Advertiser Edited Successfully']);
                     }
+                    return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+
                 }
                 return Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();
             }

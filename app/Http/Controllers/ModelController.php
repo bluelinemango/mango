@@ -17,6 +17,7 @@ class ModelController extends Controller
     {
         if (Auth::check()) {
             if (in_array('VIEW_MODEL', $this->permission)) {
+                $model_obj=array();
                 if (User::isSuperAdmin()) {
                     $model_obj = ModelTable::with('getAdvertiser')->get();
                 } else {
@@ -27,7 +28,6 @@ class ModelController extends Controller
                         });
                     })->get();
                 }
-                $audit_obj = array();
                 return view('model.list')
                     ->with('model_obj', $model_obj);
             }
@@ -53,9 +53,9 @@ class ModelController extends Controller
                             $p->whereIn('user_id', $usr_company);
                         });
                     })->get();
-                    if (!$advertiser_obj) {
-                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                    }
+                }
+                if (!$advertiser_obj) {
+                    return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                 }
                 return view('model.add')
                     ->with('offer_obj', $offer)
@@ -80,9 +80,6 @@ class ModelController extends Controller
                         $advertiser_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
                         })->find($request->input('advertiser_id'));
-                        if (!$advertiser_obj) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
                     }
                     if ($advertiser_obj) {
                         $audit = new AuditsController();
@@ -166,9 +163,9 @@ class ModelController extends Controller
                                 $p->whereIn('user_id', $usr_company);
                             });
                         })->get();
-                        if (!$model_obj) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
+                    }
+                    if (!$model_obj) {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
                     $positive_offer_id = array();
                     $negative_offer_id = array();
@@ -206,9 +203,6 @@ class ModelController extends Controller
                             });
                         })->find($model_id);
 
-                        if (!$modelTable) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
                     }
                     if ($modelTable) {
                         $data = array();
@@ -354,6 +348,7 @@ class ModelController extends Controller
 //                        $audit->store('modelTable',$model_id,$data,'edit',$audit_key);
                         return Redirect::back()->withErrors(['success' => true, 'msg' => 'Model Edited Successfully']);
                     }
+                    return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                 }
                 return Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();
             }
@@ -379,9 +374,6 @@ class ModelController extends Controller
                                 $p->whereIn('user_id', $usr_company);
                             });
                         })->find($model_id);
-                        if (!$modelTable) {
-                            return $msg = (['success' => false, 'msg' => "Some things went wrong"]);
-                        }
                     }
                     if ($modelTable) {
                         $data = array();
@@ -406,74 +398,4 @@ class ModelController extends Controller
         return Redirect::to(url('/user/login'));
     }
 
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

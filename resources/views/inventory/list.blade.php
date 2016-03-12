@@ -180,7 +180,6 @@
                                     && (!filter.id || item.id ==filter.id );
                         });
                         d.resolve(result);
-                        FormsSwitchery.init();
                     });
                     return d.promise();
                 },
@@ -245,7 +244,6 @@
                 sorting: true,
                 paging: true,
                 autoload: true,
-                rowClick:function(item){console.log(item)},
                 pageSize: 10,
                 pageButtonCount: 5,
                 controller: db,

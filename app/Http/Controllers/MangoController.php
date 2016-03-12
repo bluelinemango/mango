@@ -33,6 +33,64 @@ class MangoController extends Controller
         return Redirect::to(url('/user/login'));
     }
 
+    public function validation(Request $request){
+        $rule=array();
+        if($request->has('name')){
+            $rule['name']= 'required';
+        }
+        if($request->has('domain_name')){
+            $rule['domain_name']= 'required';
+        }
+        if($request->has('advertiser_domain_name')){
+            $rule['advertiser_domain_name']= 'required';
+        }
+        if($request->has('max_impression')){
+            $rule['max_impression']= 'required|numeric';
+        }
+        if($request->has('daily_max_impression')){
+            $rule['daily_max_impression']= 'required|numeric';
+        }
+        if($request->has('max_budget')){
+            $rule['max_budget']= 'required|numeric';
+        }
+        if($request->has('daily_max_budget')){
+            $rule['daily_max_budget']= 'required|numeric';
+        }
+        if($request->has('cpm')){
+            $rule['cpm']= 'required|numeric';
+        }
+        if($request->has('frequency_in_sec')){
+            $rule['frequency_in_sec'] = 'required|numeric';
+        }
+        if($request->has('pacing_plan')){
+            $rule['pacing_plan'] = 'required|numeric';
+        }
+        if($request->has('date_range')){
+            $rule['date_range'] = 'required';
+        }
+        if($request->has('landing_page_url')){
+            $rule['landing_page_url'] = 'required';
+        }
+        if($request->has('attributes')){
+            $rule['attributes'] = 'required';
+        }
+        if($request->has('preview_url')){
+            $rule['preview_url'] = 'required';
+        }
+        if($request->has('size_width')){
+            $rule['size_width'] = 'required|numeric|min:0';
+        }
+        if($request->has('size_height')){
+            $rule['size_height'] = 'required|numeric|min:0';
+        }
+        if($request->has('ad_tag')){
+            $rule['ad_tag'] = 'required';
+        }
+//        return dd($rule);
+        $validate = \Validator::make($request->all(), $rule);
+        return $validate;
+    }
+
     public function getCampaign()
     {
         if (Auth::check()) {
@@ -280,145 +338,158 @@ class MangoController extends Controller
 //        return dd($request->all());
         if (Auth::check()) {
             if (in_array('ADD_EDIT_CAMPAIGN', $this->permission)) {
-                $validate = \Validator::make($request->all(), ['name' => '']);
+                $validate = $this->validation($request);
                 if ($validate->passes()) {
-                    $campaign_list=explode(',',$request->input('campaign_list'));
+                    $usr_company = $this->user_company();
                     $audit = new AuditsController();
                     $audit_key = $audit->generateRandomString();
-                    foreach ($campaign_list as $index) {
-                        $data = array();
-                        $campaign_id = $index;
+                    if($request->input('advertiser_id')=='all' and !$request->has('campaign_list')){
+                        if($request->input('client_id')=='all'){
+                            if (User::isSuperAdmin()) {
+                                $campaign_list = Campaign::get(['id'])->toArray();
+                            } else {
+                                $campaign_list = Campaign::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                                    $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                        $p->whereIn('user_id', $usr_company);
+                                    });
+                                })->get(['id'])->toArray();
+                            }
+
+                        }elseif($request->input('client_id')!='all'){
+                            if (User::isSuperAdmin()) {
+                                $campaign_list = Campaign::whereHas('getAdvertiser' , function ($q) use ($request){
+                                    $q->where('client_id',$request->input('client_id'));
+                                })->get(['id'])->toArray();
+                            } else {
+                                ////////////////////////
+                                $campaign_list = Campaign::whereHas('getAdvertiser' , function ($q) use ($usr_company,$request){
+                                    $q->whereHas('GetClientID' ,function ($p) use ($usr_company,$request) {
+                                        $p->where('id',$request->input('client_id'))->whereIn('user_id', $usr_company);
+                                    });
+                                })->get(['id'])->toArray();
+                            }
+
+                        }
+                    }elseif($request->input('advertiser_id')!='all' and !$request->has('campaign_list')){
                         if (User::isSuperAdmin()) {
-                            $campaign = Campaign::find($campaign_id);
+                            $campaign_list = Campaign::whereHas('getAdvertiser' , function ($q) use ($request){
+                                $q->where('id',$request->input('advertiser_id'));
+                            })->get(['id'])->toArray();
                         } else {
-                            $usr_company = $this->user_company();
-                            $campaign = Campaign::whereHas('getAdvertiser', function ($q) use ($usr_company) {
-                                $q->whereHas('GetClientID', function ($p) use ($usr_company) {
+                            ////////////////////////
+                            $campaign_list = Campaign::whereHas('getAdvertiser' , function ($q) use ($usr_company,$request){
+                                $q->where('id',$request->input('advertiser_id'))->whereHas('GetClientID' ,function ($p) use ($usr_company,$request) {
                                     $p->whereIn('user_id', $usr_company);
                                 });
-                            })->find($campaign_id);
+                            })->get(['id'])->toArray();
                         }
-                        if ($campaign) {
 
-                            $active = 'Inactive';
-                            if ($request->input('active') == 'on') {
-                                $active = 'Active';
-                            }
-                            if ($request->has('start_date')) {
-                                $start_date = \DateTime::createFromFormat('d.m.Y', $request->input('start_date'));
-                            }
-                            if ($request->has('end_date')) {
-                                $end_date = \DateTime::createFromFormat('d.m.Y', $request->input('end_date'));
-                            }
-                            $active = 'Inactive';
-                            if ($request->input('active') == 'on') {
-                                $active = 'Active';
-                            }
-                            if ($request->has('name')) {
-                                array_push($data, 'Name');
-                                array_push($data, $request->input('name'));
-                                $campaign->name = $request->input('name');
-                            }
-//                        if ($active) {
-//                            array_push($data, 'Status');
-//                            array_push($data, $campaign->status);
-//                            array_push($data, $active);
-//                            $campaign->name = $active;
-//                        }
-                            if ($request->has('max_impression')) {
-                                array_push($data, 'Max Imps');
-                                array_push($data, $request->input('max_impression'));
-                                $campaign->max_impression = $request->input('max_impression');
-                            }
-                            if ($request->has('daily_max_impression')) {
-                                array_push($data, 'Daily Max Imps');
-                                array_push($data, $request->input('daily_max_impression'));
-                                $campaign->daily_max_impression = $request->input('daily_max_impression');
-                            }
-                            if ($request->has('max_budget')) {
-                                array_push($data, 'Max Budget');
-                                array_push($data, $request->input('max_budget'));
-                                $campaign->max_budget = $request->input('max_budget');
-                            }
-                            if ($request->has('daily_max_budget')) {
-                                array_push($data, 'Daily Max Budget');
-                                array_push($data, $request->input('daily_max_budget'));
-                                $campaign->daily_max_budget = $request->input('daily_max_budget');
-                            }
-                            if ($request->has('cpm')) {
-                                array_push($data, 'CPM');
-                                array_push($data, $request->input('cpm'));
-                                $campaign->cpm = $request->input('cpm');
-                            }
-                            if ($request->has('advertiser_domain_name')) {
-                                array_push($data, 'Domain Name');
-                                array_push($data, $request->input('advertiser_domain_name'));
-                                $campaign->advertiser_domain_name = $request->input('advertiser_domain_name');
-                            }
-                            if ($request->has('description')) {
-                                array_push($data, 'Description');
-                                array_push($data, $request->input('description'));
-                                $campaign->description = $request->input('description');
-                            }
-                            if (isset($start_date)) {
-                                array_push($data, 'Start Date');
-                                array_push($data, $start_date);
-                                $campaign->start_date = $start_date;
-                            }
-                            if (isset($end_date)) {
-                                array_push($data, 'End Date');
-                                array_push($data, $end_date);
-                                $campaign->end_date = $end_date;
-                            }
-                            $audit->store('campaign', $campaign_id, $data, 'bulk_edit', $audit_key);
-                            $campaign->save();
-                        }
+                    }else{
+                        $campaign_list=explode(',',$request->input('campaign_list'));
                     }
-                    return Redirect::back()->withErrors(['success' => true, 'msg' => 'Campaigns Edited Successfully']);
+                    if(count($campaign_list)>0) {
+                        foreach ($campaign_list as $index) {
+                            $data = array();
+                            if(!$request->has('campaign_list')){
+                                $campaign_id = $index['id'];
+                                $campaign = Campaign::find($campaign_id);
+                            }else{
+                                $campaign_id = $index;
+                                if (User::isSuperAdmin()) {
+                                    $campaign = Campaign::find($campaign_id);
+                                } else {
+                                    $usr_company = $this->user_company();
+                                    $campaign = Campaign::whereHas('getAdvertiser', function ($q) use ($usr_company) {
+                                        $q->whereHas('GetClientID', function ($p) use ($usr_company) {
+                                            $p->whereIn('user_id', $usr_company);
+                                        });
+                                    })->find($campaign_id);
+                                }
+                            }
+                            if ($campaign) {
+                                if($request->has('date_range')) {
+                                    $check_date = $this->date_validation($request->input('date_range'));
+                                    if (!$check_date) {
+                                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please check your date range!']);
+                                    }
+                                    $date_range = explode('-', $request->input('date_range'));
+
+                                    $start_date = Carbon::createFromFormat('m/d/Y', str_replace(' ', '', $date_range[0]))->toDateString();
+                                    $end_date = Carbon::createFromFormat('m/d/Y', str_replace(' ', '', $date_range[1]))->toDateString();
+                                }
+
+                                if ($request->has('name')) {
+                                    array_push($data, 'Name');
+                                    array_push($data, $request->input('name'));
+                                    $campaign->name = $request->input('name');
+                                }
+                                if ($request->has('active')) {
+                                    $active = 'Inactive';
+                                    if ($request->input('active') == 'on') {
+                                        $active = 'Active';
+                                    }
+                                    array_push($data, 'Status');
+                                    array_push($data, $active);
+                                    $campaign->name = $active;
+                                }
+                                if ($request->has('max_impression')) {
+                                    array_push($data, 'Max Imps');
+                                    array_push($data, $request->input('max_impression'));
+                                    $campaign->max_impression = $request->input('max_impression');
+                                }
+                                if ($request->has('daily_max_impression')) {
+                                    array_push($data, 'Daily Max Imps');
+                                    array_push($data, $request->input('daily_max_impression'));
+                                    $campaign->daily_max_impression = $request->input('daily_max_impression');
+                                }
+                                if ($request->has('max_budget')) {
+                                    array_push($data, 'Max Budget');
+                                    array_push($data, $request->input('max_budget'));
+                                    $campaign->max_budget = $request->input('max_budget');
+                                }
+                                if ($request->has('daily_max_budget')) {
+                                    array_push($data, 'Daily Max Budget');
+                                    array_push($data, $request->input('daily_max_budget'));
+                                    $campaign->daily_max_budget = $request->input('daily_max_budget');
+                                }
+                                if ($request->has('cpm')) {
+                                    array_push($data, 'CPM');
+                                    array_push($data, $request->input('cpm'));
+                                    $campaign->cpm = $request->input('cpm');
+                                }
+                                if ($request->has('advertiser_domain_name')) {
+                                    array_push($data, 'Domain Name');
+                                    array_push($data, $request->input('advertiser_domain_name'));
+                                    $campaign->advertiser_domain_name = $request->input('advertiser_domain_name');
+                                }
+                                if ($request->has('description')) {
+                                    array_push($data, 'Description');
+                                    array_push($data, $request->input('description'));
+                                    $campaign->description = $request->input('description');
+                                }
+                                if (isset($start_date)) {
+                                    array_push($data, 'Start Date');
+                                    array_push($data, $start_date);
+                                    $campaign->start_date = $start_date;
+                                }
+                                if (isset($end_date)) {
+                                    array_push($data, 'End Date');
+                                    array_push($data, $end_date);
+                                    $campaign->end_date = $end_date;
+                                }
+                                $audit->store('campaign', $campaign_id, $data, 'bulk_edit', $audit_key);
+                                $campaign->save();
+                            }
+                        }
+                        return Redirect::back()->withErrors(['success' => true, 'msg' => 'Campaigns Edited Successfully']);
+                    }
                 }
                 return Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();
             }
-            return Redirect::back()->withErrors(['success' => false, 'msg' => 'dont have Edit Permission']);
+            return Redirect::back()->withErrors(['success' => false, 'msg' => 'don\'t have Edit Permission']);
         }
         return Redirect::to(url('/user/login'));
 
-    }
-
-    public function validation(Request $request){
-        $rule=array();
-        if($request->has('name')){
-            $rule['name']= 'required';
-        }
-        if($request->has('domain_name')){
-            $rule['domain_name']= 'required';
-        }
-        if($request->has('max_impression')){
-            $rule['max_impression']= 'required|numeric';
-        }
-        if($request->has('daily_max_impression')){
-            $rule['daily_max_impression']= 'required|numeric';
-        }
-        if($request->has('max_budget')){
-            $rule['max_budget']= 'required|numeric';
-        }
-        if($request->has('daily_max_budget')){
-            $rule['daily_max_budget']= 'required|numeric';
-        }
-        if($request->has('cpm')){
-            $rule['cpm']= 'required|numeric';
-        }
-        if($request->has('frequency_in_sec')){
-            $rule['frequency_in_sec'] = 'required|numeric';
-        }
-        if($request->has('pacing_plan')){
-            $rule['pacing_plan'] = 'required|numeric';
-        }
-        if($request->has('date_range')){
-            $rule['date_range'] = 'required';
-        }
-//        return dd($rule);
-        $validate = \Validator::make($request->all(), $rule);
-        return $validate;
     }
 
     public function targetgroup_bulk(Request $request)
@@ -481,6 +552,20 @@ class MangoController extends Controller
                                 })->get(['id'])->toArray();
                             }
                         }
+                    }elseif($request->input('campaign_id')!='all' and !$request->has('tg_list')){
+                        if (User::isSuperAdmin()) {
+                            $tg_list1 = Targetgroup::whereHas('getCampaign' ,function ($p) use ($request) {
+                                $p->where('id',$request->input('campaign_id'));
+                            })->get(['id'])->toArray();
+                        } else {
+                            $tg_list1 = Targetgroup::whereHas('getCampaign' ,function ($p) use ($usr_company,$request) {
+                                $p->where('id',$request->input('campaign_id'))->whereHas('getAdvertiser' , function ($q) use ($usr_company) {
+                                    $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                                        $p->whereIn('user_id', $usr_company);
+                                    });
+                                });
+                            })->get(['id'])->toArray();
+                        }
                     }else{
                         $tg_list1=explode(',',$request->input('tg_list'));
                     }
@@ -501,7 +586,7 @@ class MangoController extends Controller
                     if(count($tg_list1)>0){
                         foreach ($tg_list1 as $index) {
                             $data = array();
-                            if($request->input('campaign_id')=='all' and !$request->has('tg_list')){
+                            if(!$request->has('tg_list')){
                                 $tg_id = $index['id'];
                                 $tg = Targetgroup::find($tg_id);
                             }else{
@@ -751,93 +836,145 @@ class MangoController extends Controller
 //        return dd($request->all());
         if (Auth::check()) {
             if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
-                $validate = \Validator::make($request->all(), ['name' => '']);
+                $validate = $this->validation($request);
                 if ($validate->passes()) {
+                    $usr_company = $this->user_company();
                     $audit = new AuditsController();
                     $audit_key = $audit->generateRandomString();
-                    $creative_list=explode(',',$request->input('creative_list'));
-                    foreach ($creative_list as $index) {
-                        $data = array();
-                        $creative_id = $index;
-                        if (User::isSuperAdmin()) {
-                            $creative = Creative::find($creative_id);
-                        } else {
-                            $usr_company = $this->user_company();
-                            $creative = Creative::whereHas('getAdvertiser', function ($q) use ($usr_company) {
-                                $q->whereHas('GetClientID', function ($p) use ($usr_company) {
-                                    $p->whereIn('user_id', $usr_company);
-                                });
-                            })->find($creative_id);
+                    if($request->input('advertiser_id')=='all' and !$request->has('creative_list')){
+                        if($request->input('client_id')=='all'){
+                            if (User::isSuperAdmin()) {
+                                $creative_list = Creative::get(['id'])->toArray();
+                            } else {
+                                $creative_list = Creative::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                                    $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                        $p->whereIn('user_id', $usr_company);
+                                    });
+                                })->get(['id'])->toArray();
+                            }
+
+                        }elseif($request->input('client_id')!='all'){
+                            if (User::isSuperAdmin()) {
+                                $creative_list = Creative::whereHas('getAdvertiser' , function ($q) use ($request){
+                                    $q->where('client_id',$request->input('client_id'));
+                                })->get(['id'])->toArray();
+                            } else {
+                                ////////////////////////
+                                $creative_list = Creative::whereHas('getAdvertiser' , function ($q) use ($usr_company,$request){
+                                    $q->whereHas('GetClientID' ,function ($p) use ($usr_company,$request) {
+                                        $p->where('id',$request->input('client_id'))->whereIn('user_id', $usr_company);
+                                    });
+                                })->get(['id'])->toArray();
+                            }
 
                         }
-                        if ($creative) {
-                            if ($request->has('size_width') and $request->has('size_height'))
-                                $size = $request->input('size_width') . 'x' . $request->input('size_height');
-                            $active = 'Inactive';
-                            if ($request->input('active') == 'on') {
-                                $active = 'Active';
-                            }
-                            if ($request->input('name')) {
-                                array_push($data, 'Name');
-                                array_push($data, $request->input('name'));
-                                $creative->name = $request->input('name');
-                            }
-//                            if ($creative->status != $active) {
-//                                array_push($data, 'Status');
-//                                array_push($data, $creative->status);
-//                                array_push($data, $active);
-//                                $creative->status = $active;
-//                            }
-                            if ($request->input('ad_type')) {
-                                array_push($data, 'Ad Type');
-                                array_push($data, $request->input('ad_type'));
-                                $creative->ad_type = $request->input('ad_type');
-                            }
-                            if ($request->has('api')) {
-                                array_push($data, 'API');
-                                array_push($data, json_encode($request->input('api')));
-                                $creative->api = json_encode($request->input('api'));
-                            }
-                            if ($request->input('advertiser_domain_name')) {
-                                array_push($data, 'Domain Name');
-                                array_push($data, $request->input('advertiser_domain_name'));
-                                $creative->advertiser_domain_name = $request->input('advertiser_domain_name');
-                            }
-                            if ($request->input('description')) {
-                                array_push($data, 'Description');
-                                array_push($data, $request->input('description'));
-                                $creative->description = $request->input('description');
-                            }
-                            if ($request->input('landing_page_url')) {
-                                array_push($data, 'Landing Page URL');
-                                array_push($data, $request->input('landing_page_url'));
-                                $creative->landing_page_url = $request->input('landing_page_url');
-                            }
-                            if ($request->input('preview_url')) {
-                                array_push($data, 'Preview URL');
-                                array_push($data, $request->input('preview_url'));
-                                $creative->preview_url = $request->input('preview_url');
-                            }
-                            if ($request->input('attributes')) {
-                                array_push($data, 'Attributes');
-                                array_push($data, $request->input('attributes'));
-                                $creative->attributes = $request->input('attributes');
-                            }
-                            if ($request->input('ad_tag')) {
-                                array_push($data, 'AD Tag');
-                                array_push($data, $request->input('ad_tag'));
-                                $creative->ad_tag = $request->input('ad_tag');
-                            }
-                            if (isset($size)) {
-                                array_push($data, 'Size');
-                                array_push($data, $size);
-                                $creative->size = $size;
-                            }
-                            $audit->store('creative', $creative_id, $data, 'bulk_edit', $audit_key);
-                            $creative->save();
+                    }elseif($request->input('advertiser_id')!='all' and !$request->has('creative_list')){
+                        if (User::isSuperAdmin()) {
+                            $creative_list = Creative::whereHas('getAdvertiser' , function ($q) use ($request){
+                                $q->where('id',$request->input('advertiser_id'));
+                            })->get(['id'])->toArray();
+                        } else {
+                            ////////////////////////
+                            $creative_list = Creative::whereHas('getAdvertiser' , function ($q) use ($usr_company,$request){
+                                $q->where('id',$request->input('advertiser_id'))->whereHas('GetClientID' ,function ($p) use ($usr_company,$request) {
+                                    $p->whereIn('user_id', $usr_company);
+                                });
+                            })->get(['id'])->toArray();
                         }
+
+                    }else{
+                        $creative_list=explode(',',$request->input('creative_list'));
                     }
-                    return Redirect::back()->withErrors(['success' => true, 'msg' => 'Creatives Edited Successfully']);
+                    if(count($creative_list)>0){
+                        foreach ($creative_list as $index) {
+                            $data = array();
+                            if(!$request->has('creative_list')){
+                                $creative_id = $index['id'];
+                                $creative = Creative::find($creative_id);
+                            }else{
+                                $creative_id = $index;
+                                if (User::isSuperAdmin()) {
+                                    $creative = Creative::find($creative_id);
+                                } else {
+                                    $usr_company = $this->user_company();
+                                    $creative = Creative::whereHas('getAdvertiser', function ($q) use ($usr_company) {
+                                        $q->whereHas('GetClientID', function ($p) use ($usr_company) {
+                                            $p->whereIn('user_id', $usr_company);
+                                        });
+                                    })->find($creative_id);
+
+                                }
+                            }
+                            if ($creative) {
+                                if ($request->has('size_width') and $request->has('size_height'))
+                                    $size = $request->input('size_width') . 'x' . $request->input('size_height');
+                                if ($request->input('name')) {
+                                    array_push($data, 'Name');
+                                    array_push($data, $request->input('name'));
+                                    $creative->name = $request->input('name');
+                                }
+                                if ($request->has('active')) {
+                                    $active = 'Inactive';
+                                    if ($request->input('active') == 'on') {
+                                        $active = 'Active';
+                                    }
+                                    array_push($data, 'Status');
+                                    array_push($data, $active);
+                                    $creative->name = $active;
+                                }
+
+                                if ($request->input('ad_type')) {
+                                    array_push($data, 'Ad Type');
+                                    array_push($data, $request->input('ad_type'));
+                                    $creative->ad_type = $request->input('ad_type');
+                                }
+                                if ($request->has('api')) {
+                                    array_push($data, 'API');
+                                    array_push($data, json_encode($request->input('api')));
+                                    $creative->api = json_encode($request->input('api'));
+                                }
+                                if ($request->input('advertiser_domain_name')) {
+                                    array_push($data, 'Domain Name');
+                                    array_push($data, $request->input('advertiser_domain_name'));
+                                    $creative->advertiser_domain_name = $request->input('advertiser_domain_name');
+                                }
+                                if ($request->input('description')) {
+                                    array_push($data, 'Description');
+                                    array_push($data, $request->input('description'));
+                                    $creative->description = $request->input('description');
+                                }
+                                if ($request->input('landing_page_url')) {
+                                    array_push($data, 'Landing Page URL');
+                                    array_push($data, $request->input('landing_page_url'));
+                                    $creative->landing_page_url = $request->input('landing_page_url');
+                                }
+                                if ($request->input('preview_url')) {
+                                    array_push($data, 'Preview URL');
+                                    array_push($data, $request->input('preview_url'));
+                                    $creative->preview_url = $request->input('preview_url');
+                                }
+                                if ($request->input('attributes')) {
+                                    array_push($data, 'Attributes');
+                                    array_push($data, $request->input('attributes'));
+                                    $creative->attributes = $request->input('attributes');
+                                }
+                                if ($request->input('ad_tag')) {
+                                    array_push($data, 'AD Tag');
+                                    array_push($data, $request->input('ad_tag'));
+                                    $creative->ad_tag = $request->input('ad_tag');
+                                }
+                                if (isset($size)) {
+                                    array_push($data, 'Size');
+                                    array_push($data, $size);
+                                    $creative->size = $size;
+                                }
+                                $audit->store('creative', $creative_id, $data, 'bulk_edit', $audit_key);
+                                $creative->save();
+                            }
+                        }
+                        return Redirect::back()->withErrors(['success' => true, 'msg' => 'Creatives Edited Successfully']);
+
+                    }
 
                 }
                 return Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();

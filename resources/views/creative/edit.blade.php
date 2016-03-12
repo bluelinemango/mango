@@ -102,11 +102,11 @@
                                         <div class="form-group">
                                             <label class="control-label">Status</label>
 
-                                            <div class="checkboxer">
+                                            <div class="switcher">
                                                 <input type="checkbox" name="active"
-                                                       class="switchery-teal" @if($creative_obj->status=='Active')
-                                                       checked @endif>
-                                                <label for="check1">Active</label>
+                                                       hidden @if($creative_obj->status=='Active')
+                                                       checked @endif id="active">
+                                                <label for="active"></label>
                                             </div>
                                         </div>
                                     </div>
@@ -247,7 +247,7 @@
 
                                         <div class="inputer">
                                             <div class="input-wrapper">
-                                                    <textarea name="description" class="form-control" rows="3"
+                                                    <textarea name="ad_tag" class="form-control" rows="3"
                                                               placeholder="type minimum 5 characters"
                                                               required>{{$creative_obj->ad_tag}}</textarea>
                                             </div>

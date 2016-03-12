@@ -23,9 +23,16 @@ class ClientController extends Controller
      */
     public function testLoadJson(Request $request){
 //        return dd($request->all());
-        $clients = Client::with(['getAdvertiser' => function ($q) {
-            $q->select(DB::raw('*,count(client_id) as client_count'))->groupBy('client_id');
-        }])->get();
+        if(User::isSuperAdmin()){
+            $clients = Client::with(['getAdvertiser' => function ($q) {
+                $q->select(DB::raw('*,count(client_id) as client_count'))->groupBy('client_id');
+            }])->get();
+        }else {
+            $usr_comp = $this->user_company();
+            $clients = Client::with(['getAdvertiser' => function ($q) {
+                $q->select(DB::raw('*,count(client_id) as client_count'))->groupBy('client_id');
+            }])->whereIn('user_id', $usr_comp)->get();
+        }
         $result='';
         foreach($clients as $index){
             if (count($index->getAdvertiser) > 0) {
@@ -39,11 +46,10 @@ class ClientController extends Controller
               $action .= "<a class='btn txt-color-white' href='".url('client/cl'.$index->id.'/advertiser/add')."'><img src='".cdn('img/plus_16x16.png')."'' /></a>";
             }
             $index->setAttribute('action', $action);
-
             if ($index->status == 'Active') {
-                $index->status = "<input id=\"client$index->id\" onchange=\"ChangeStatus(`client`,`$index->id`)\" type=\"checkbox\" class=\"switchery-teal\" checked>";
+                $index->status = "<div class=\"switcher\"><input id=\"bid_profile{{$index->id}}\" onchange=\"ChangeStatus(`bid_profile`,`{{$index->id}}`)\" type=\"checkbox\" checked hidden><label for=\"bid_profile{{$index->id}}\"></label></div>";
             } elseif ($index->status == 'Inactive') {
-                $index->status = "<input id=\"client$index->id\" onchange=\"ChangeStatus(`client`,`$index->id`)\" type=\"checkbox\" class=\"switchery-teal\" >";
+                $index->status = "<div class=\"switcher\"><input id=\"bid_profile{{$index->id}}\" onchange=\"ChangeStatus(`bid_profile`,`{{$index->id}}`)\" type=\"checkbox\" hidden><label for=\"bid_profile{{$index->id}}\"></label></div>";
             }
         }
         return json_encode($clients);
@@ -53,27 +59,7 @@ class ClientController extends Controller
     public function ListView(){
         if(Auth::check()){
             if(in_array('VIEW_CLIENT',$this->permission)) {
-                if(User::isSuperAdmin()){
-                    $clients = Client::with(['getAdvertiser' => function ($q) {
-                        $q->select(DB::raw('*,count(client_id) as client_count'))->groupBy('client_id');
-                    }])->get();
-                    $audit= Audits::with('getUser')->where('entity_type','client')->orderBy('created_at','DESC')->get();
-
-                }else {
-                    $usr_comp = $this->user_company();
-                    $clients = Client::with(['getAdvertiser' => function ($q) {
-                        $q->select(DB::raw('*,count(client_id) as client_count'))->groupBy('client_id');
-                    }])->whereIn('user_id', $usr_comp)->get();
-                    $audit= Audits::with('getUser')->where('entity_type','client')->whereIn('user_id', $usr_comp)->orderBy('created_at','DESC')->get();
-                }
-                $audit_obj= array();
-                if($audit) {
-                    $sub = new AuditsController();
-                    $audit_obj = $sub->SubAudit($audit);
-                }
-                return view('client.list')
-                    ->with('audit_obj',$audit_obj)
-                    ->with('clients', $clients);
+                return view('client.list');
             }
             return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
         }
@@ -95,9 +81,9 @@ class ClientController extends Controller
             if(in_array('ADD_EDIT_CLIENT',$this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
-                    $active='Active';
+                    $active='Inactive';
                     if($request->input('active')=='on'){
-                        $active='Inactive';
+                        $active='Active';
                     }
                     $client=new Client();
                     $client->name=$request->input('name');
@@ -126,9 +112,9 @@ class ClientController extends Controller
                     } else {
                         $usr_company=$this->user_company();
                         $client_obj = Client::with('getAdvertiser')->whereIn('user_id', $usr_company)->find($id);
-                        if(!$client_obj) {
-                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
-                        }
+                    }
+                    if(!$client_obj) {
+                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
                     }
                     return view('client.edit')->with('client_obj',$client_obj);
                 }
@@ -154,11 +140,21 @@ class ClientController extends Controller
                     if($client){
                         $data=array();
                         $audit= new AuditsController();
+                        $active='Inactive';
+                        if($request->input('active')=='on'){
+                            $active='Active';
+                        }
                         if($client->name!=$request->input('name')){
                             array_push($data,'Name');
                             array_push($data,$client->name);
                             array_push($data,$request->input('name'));
                             $client->name=$request->input('name');
+                        }
+                        if ($client->status != $active) {
+                            array_push($data, 'Status');
+                            array_push($data, $client->status);
+                            array_push($data, $active);
+                            $client->status = $active;
                         }
                         if($client->company!=$request->input('company')){
                             array_push($data,'Company');
@@ -244,9 +240,6 @@ class ClientController extends Controller
                 } else {
                     $usr_company = $this->user_company();
                     $client = Client::whereIn('user_id', $usr_company)->find($id);
-                    if(!$client){
-                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                    }
                 }
                 if ($client) {
                     $data = array();
@@ -268,11 +261,12 @@ class ClientController extends Controller
                     $client->save();
                     return $msg;
                 }
+                return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+
             }
             return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
         }
         return Redirect::to(url('user/login'));
     }
-
 
 }

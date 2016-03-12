@@ -127,9 +127,9 @@
                     "id": 'ofr{{$index->id}}',
                     "name": '{{$index->name}}',
                     @if($index->status == 'Active')
-                    "status": '<input id="offer{{$index->id}}" onchange="ChangeStatus(`offer`,`{{$index->id}}`)" type="checkbox" class="switchery-teal" checked>',
+                    "status": '<div class="switcher"><input id="offer{{$index->id}}" onchange="ChangeStatus(`offer`,`{{$index->id}}`)" type="checkbox" checked hidden><label for="offer{{$index->id}}"></label></div>',
                     @elseif($index->status == 'Inactive')
-                    "status": '<input id="offer{{$index->id}}" onchange="ChangeStatus(`offer`,`{{$index->id}}`)" type="checkbox" class="switchery-teal">',
+                    "status": '<div class="switcher"><input id="offer{{$index->id}}" onchange="ChangeStatus(`offer`,`{{$index->id}}`)" type="checkbox" hidden><label for="offer{{$index->id}}"></label></div>',
                     @endif
                     "date_modify": '{{$index->updated_at}}',
                     "action": '<a class="btn " href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/offer/ofr'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) +'| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/offer/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
@@ -147,8 +147,6 @@
                 autoload: true,
                 pageSize: 10,
                 pageButtonCount: 5,
-                rowClick:function(item){console.log(item)},
-                onRefreshed: function(args) {FormsSwitchery.init();},
                 controller: db,
                 fields: [
                     {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},

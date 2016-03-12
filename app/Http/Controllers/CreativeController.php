@@ -21,20 +21,15 @@ use Illuminate\Support\Facades\File;
 
 class CreativeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function GetView(){
         if(Auth::check()){
             if (in_array('VIEW_CREATIVE', $this->permission)) {
+                $creative=array();
                 if (User::isSuperAdmin()) {
                     $creative = Creative::with(['getAdvertiser' => function ($q) {
                         $q->with('GetClientID');
                     }])->get();
-                    $audit= Audits::with('getUser')->where('entity_type','creative')->orderBy('created_at','DESC')->get();
                 }else{
                     $usr_company = $this->user_company();
                     $creative = Creative::whereHas('getAdvertiser' , function ($q) use($usr_company) {
@@ -42,15 +37,8 @@ class CreativeController extends Controller
                             $p->whereIn('user_id', $usr_company);
                         });
                     })->get();
-                    $audit= Audits::with('getUser')->where('entity_type','creative')->whereIn('user_id', $usr_company)->orderBy('created_at','DESC')->get();
-                }
-                $audit_obj= array();
-                if($audit) {
-                    $sub = new AuditsController();
-                    $audit_obj = $sub->SubAudit($audit);
                 }
                 return view('creative.list')
-                    ->with('audit_obj',$audit_obj)
                     ->with('creative_obj',$creative);
             }
             return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
@@ -69,11 +57,12 @@ class CreativeController extends Controller
                         $advertiser_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
                         })->find($advid);
-                        if (!$advertiser_obj) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
                     }
-                    return view('creative.add')->with('advertiser_obj', $advertiser_obj);
+                    if($advertiser_obj) {
+                        return view('creative.add')->with('advertiser_obj', $advertiser_obj);
+                    }
+                    return Redirect::back()->withErrors(['success' => false, 'msg' => 'Somethings Went wrong'])->withInput();
+
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
             }
@@ -84,7 +73,7 @@ class CreativeController extends Controller
     public function add_creative(Request $request){
         if(Auth::check()){
             if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
-                $validate=\Validator::make($request->all(),['name' => 'required']);
+                $validate=\Validator::make($request->all(), Creative::$rule);
                 if($validate->passes()) {
                     if (User::isSuperAdmin()) {
                         $advertiser_obj = Advertiser::with('GetClientID')->find($request->input('advertiser_id'));
@@ -93,9 +82,6 @@ class CreativeController extends Controller
                         $advertiser_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
                         })->find($request->input('advertiser_id'));
-                        if (!$advertiser_obj) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
                     }
                     if($advertiser_obj) {
                         $active='Inactive';
@@ -121,7 +107,7 @@ class CreativeController extends Controller
                         $audit->store('creative',$creative->id,null,'add');
                         return Redirect::to(url('/client/cl'.$advertiser_obj->GetClientID->id.'/advertiser/adv'.$request->input('advertiser_id').'/creative/crt'.$creative->id.'/edit'))->withErrors(['success' => true, 'msg' => "Creative added successfully"]);
                     }
-                    return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
+                    return Redirect::back()->withErrors(['success' => false, 'msg' => 'Somethings Went wrong'])->withInput();
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
@@ -145,10 +131,11 @@ class CreativeController extends Controller
                                 $p->whereIn('user_id', $usr_company);
                             });
                         })->find($crtid);
-                        if (!$creative_obj) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
                     }
+                    if (!$creative_obj) {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                    }
+
                     $api_select=array();
                     if(!is_null(json_decode($creative_obj->api))){
                         $api_select = json_decode($creative_obj->api);
@@ -169,7 +156,7 @@ class CreativeController extends Controller
 //        return dd(json_encode($request->input('api')));
         if(Auth::check()){
             if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
-                $validate=\Validator::make($request->all(),['name' => 'required']);
+                $validate=\Validator::make($request->all(), Creative::$rule);
                 if($validate->passes()) {
                     $creative_id = $request->input('creative_id');
                     if (User::isSuperAdmin()) {
@@ -181,9 +168,6 @@ class CreativeController extends Controller
                                 $p->whereIn('user_id', $usr_company);
                             });
                         })->find($creative_id);
-                        if (!$creative) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
                     }
                     if($creative){
                         $size = $request->input('size_width').'x'.$request->input('size_height');
@@ -263,6 +247,7 @@ class CreativeController extends Controller
                         $creative->save();
                         return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Creative Edited Successfully']);
                     }
+                    return Redirect::back()->withErrors(['success' => false, 'msg' => 'Somethings Went wrong'])->withInput();
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }

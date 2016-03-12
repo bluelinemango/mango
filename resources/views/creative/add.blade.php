@@ -42,7 +42,7 @@
 
                                     <div class="inputer">
                                         <div class="input-wrapper">
-                                            <input type="text" id="name" name="name" placeholder="Name"
+                                            <input type="text" id="name" name="name" placeholder="Name" value="{{old('name')}}"
                                                    class="form-control">
                                         </div>
                                     </div>
@@ -67,7 +67,7 @@
                                         <div class="input-wrapper">
                                             <input type="text" name="advertiser_domain_name"
                                                    class="form-control" placeholder="Domain Name"
-                                                   id="advertiser_domain_name">
+                                                   id="advertiser_domain_name" value="{{old('advertiser_domain_name')}}">
                                         </div>
                                     </div>
                                 </div>
@@ -76,10 +76,10 @@
                                 <div class="form-group">
                                     <label class="control-label">Status</label>
 
-                                    <div class="checkboxer">
+                                    <div class="switcher">
                                         <input type="checkbox" name="active"
-                                               class="switchery-teal">
-                                        <label for="check1">Active</label>
+                                               hidden id="active">
+                                        <label for="active"></label>
                                     </div>
                                 </div>
                             </div>
@@ -118,7 +118,7 @@
                                     <div class="inputer">
                                         <div class="input-wrapper">
                                             <input type="text" name="landing_page_url"
-                                                   placeholder="Landign Page URL" id="landing_page_url"
+                                                   placeholder="Landign Page URL" id="landing_page_url" value="{{old('landing_page_url')}}"
                                                    class="form-control">
                                         </div>
                                     </div>
@@ -130,7 +130,7 @@
 
                                     <div class="inputer">
                                         <div class="input-wrapper">
-                                            <input type="text" name="attributes" placeholder="Attributes"
+                                            <input type="text" name="attributes" placeholder="Attributes" value="{{old('attributes')}}"
                                                    class="form-control" id="attributes">
 
                                         </div>
@@ -143,7 +143,7 @@
 
                                     <div class="inputer">
                                         <div class="input-wrapper">
-                                            <input type="text" name="preview_url" placeholder="Preview URL"
+                                            <input type="text" name="preview_url" placeholder="Preview URL" value="{{old('preview_url')}}"
                                                    class="form-control" id="preview_url">
 
                                         </div>
@@ -177,7 +177,7 @@
                                         <div class="input-wrapper">
                                             <input type="text" name="size_width" placeholder="Width"
                                                    class="form-control"
-                                                   id="size_width">
+                                                   id="size_width" value="{{old('size_width')}}">
 
                                         </div>
                                     </div>
@@ -191,7 +191,7 @@
                                         <div class="input-wrapper">
                                             <input type="text" name="size_height" placeholder="Height"
                                                    id="size_height"
-                                                   class="form-control">
+                                                   class="form-control" value="{{old('size_height')}}">
 
                                         </div>
                                     </div>
@@ -209,7 +209,7 @@
                                     <div class="input-wrapper">
                                                     <textarea name="ad_tag" class="form-control" rows="3"
                                                               placeholder="type minimum 5 characters" id="ad_tag"
-                                                            ></textarea>
+                                                            >{{old('ad_tag')}}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -224,7 +224,7 @@
                                     <div class="input-wrapper">
                                                     <textarea name="description" class="form-control" rows="3"
                                                               placeholder="type minimum 5 characters"
-                                                              id="description"></textarea>
+                                                              id="description">{{old('description')}}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -250,7 +250,6 @@
 @section('FooterScripts')
     <script>
         $(document).ready(function () {
-            FormsSwitchery.init();
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
                 rules: {

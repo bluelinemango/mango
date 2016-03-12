@@ -375,7 +375,6 @@
             }
         });
         $(document).ready(function () {
-            FormsSwitchery.init();
 
             $('#multi_d').multiselect({
                 search: {

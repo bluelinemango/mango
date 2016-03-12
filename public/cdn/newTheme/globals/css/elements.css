@@ -4741,11 +4741,11 @@ label {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28), 0 0 0 20px rgba(128, 128, 128, 0.1);
 }
 .switcher input:checked + label {
-  background: rgba(51, 122, 183, 0.5);
+  background: rgb(30, 130, 143);
 }
 .switcher input:checked + label:before {
   left: 34px;
-  background: #337ab7;
+  background: #1E828F;
 }
 .switcher input:checked + label:active::before {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28), 0 0 0 20px rgba(51, 122, 183, 0.2);

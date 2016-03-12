@@ -21,11 +21,11 @@ class OfferController extends Controller
     public function GetView(){
         if(Auth::check()){
             if (in_array('VIEW_OFFER', $this->permission)) {
+                $offer_obj=array();
                 if (User::isSuperAdmin()) {
                     $offer_obj = Offer::with(['getAdvertiser' => function ($q) {
                         $q->with('GetClientID');
                     }])->get();
-                    $audit= Audits::with('getUser')->where('entity_type','offer')->orWhere('entity_type','offer_pixel_map')->orderBy('created_at','DESC')->get();
                 }else{
                     $usr_company = $this->user_company();
                     $offer_obj = Offer::whereHas('getAdvertiser' , function ($q) use($usr_company) {
@@ -33,16 +33,8 @@ class OfferController extends Controller
                             $p->whereIn('user_id', $usr_company);
                         });
                     })->get();
-                    $audit= Audits::with('getUser')->where('entity_type','offer')->orWhere('entity_type','offer_pixel_map')->whereIn('user_id', $usr_company)->orderBy('created_at','DESC')->get();
                 }
-                $audit_obj= array();
-                if($audit) {
-                    $sub = new AuditsController();
-                    $audit_obj = $sub->SubAudit($audit);
-                }
-
                 return view('offer.list')
-                    ->with('audit_obj',$audit_obj)
                     ->with('offer_obj',$offer_obj);
             }
             return Redirect::back()->withErrors(['success'=>false,'msg'=>"You don't have permission"]);
@@ -61,9 +53,9 @@ class OfferController extends Controller
                         $advertiser_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
                         })->find($advid);
-                        if (!$advertiser_obj) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
+                    }
+                    if (!$advertiser_obj) {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
                     return view('offer.add')->with('advertiser_obj', $advertiser_obj);
                 }
@@ -76,7 +68,7 @@ class OfferController extends Controller
     public function add_offer(Request $request){
 
         if(Auth::check()){
-            if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
+            if (in_array('ADD_EDIT_OFFER', $this->permission)) {
                 $validate=\Validator::make($request->all(),['name' => 'required']);
                 if($validate->passes()) {
                     if (User::isSuperAdmin()) {
@@ -86,9 +78,6 @@ class OfferController extends Controller
                         $advertiser_obj = Advertiser::whereHas('GetClientID' , function ($p) use ($usr_company) {
                             $p->whereIn('user_id', $usr_company);
                         })->find($request->input('advertiser_id'));
-                        if(!$advertiser_obj){
-                            return Redirect::back()->withErrors(['success'=>false,'msg'=>'please Select your Client'])->withInput();
-                        }
                     }
                     if ($advertiser_obj) {
                         $active='Inactive';
@@ -135,9 +124,9 @@ class OfferController extends Controller
                             });
                         })->get();
 
-                        if (!$offer_obj) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
+                    }
+                    if (!$offer_obj) {
+                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
 
                     $offer_pixel=Offer_Pixel_Map::where('offer_id',$ofrid)->get();
@@ -176,9 +165,6 @@ class OfferController extends Controller
                             });
                         })->find($offer_id);
 
-                        if (!$offer) {
-                            return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
-                        }
                     }
                     if($offer){
                         $key_audit= new AuditsController();
@@ -238,6 +224,8 @@ class OfferController extends Controller
                         $offer->save();
                         return Redirect::back()->withErrors(['success'=>true,'msg'=> 'Offer Edited Successfully']);
                     }
+                    return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+
                 }
                 return Redirect::back()->withErrors(['success'=>false,'msg'=>$validate->messages()->all()])->withInput();
             }
@@ -245,6 +233,7 @@ class OfferController extends Controller
         }
         return Redirect::to(url('/user/login'));
     }
+
     public function jqgrid(Request $request){
 //        return dd($request->all());
         if(Auth::check()){

@@ -8,6 +8,11 @@ class Advertiser extends Model
 {
     protected $table='advertiser';
 
+    public static $rule=array(
+        'name'=>'required',
+        'domain_name'=>'required'
+    );
+
     public function GetClientID(){
         return $this->belongsTo('App\Models\Client','client_id');
     }

@@ -13,7 +13,7 @@
 @section('content')
     <div class="col-md-9">
         <div class="panel gray">
-            <div class="panel-heading">
+            <div class="panel-heading with-gap">
                 <div class="panel-title">
                     <h4>Edit Advertiser: {{$adver_obj->name}} </h4>
                 </div>
@@ -21,409 +21,405 @@
             <!--.panel-heading-->
             <div class="panel-body" style="padding: 0">
 
-                            <form id="order-form" class="form-horizontal parsley-validate"
-                                  action="{{URL::route('advertiser_update')}}" method="post"
-                                  novalidate="novalidate">
-                                <input type="hidden" name="_token"
-                                    <input type="hidden" name="_method" value="PUT"/>
-                                    <input type="hidden" name="advertiser_id" value="{{$adver_obj->id}}"/>
-                                <div class="form-body">
-                                    <div class="note note-primary note-bottom-striped">
-                                        <h4>General Informaition</h4>
+                <form id="order-form" class="form-horizontal parsley-validate"
+                      action="{{URL::route('advertiser_update')}}" method="post"
+                      novalidate="novalidate">
+                    <input type="hidden" name="_token"
+                           value="{{ csrf_token() }}">
+                    <input type="hidden" name="_method" value="PUT"/>
+                    <input type="hidden" name="advertiser_id" value="{{$adver_obj->id}}"/>
 
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label class="control-label">Name</label>
+                    <div class="form-body">
+                        <div class="note note-primary note-bottom-striped">
+                            <h4>General Informaition</h4>
 
-                                                <div class="inputer">
-                                                    <div class="input-wrapper">
-                                                        <input type="text" id="name" name="name" placeholder="Name"
-                                                               class="form-control" value="{{$adver_obj->name}}">
-                                                    </div>
-                                                </div>
-                                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Name</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" id="name" name="name" placeholder="Name"
+                                                   class="form-control" value="{{$adver_obj->name}}">
                                         </div>
-                                        <div class="col-md-2">
-                                            <label class="control-label" for="">Client Name</label>
-                                            <h5>{{$adver_obj->GetClientID->name}}</h5>
-
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label class="control-label">Domain Name</label>
-
-                                                <div class="inputer">
-                                                    <div class="input-wrapper">
-                                                        <input type="text" name="domain_name"
-                                                               class="form-control" placeholder="Domain Name"
-                                                               id="domain_name"
-                                                               value="{{$adver_obj->domain_name}}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <div class="form-group">
-                                                <label class="control-label">Status</label>
-
-                                                <div class="checkboxer">
-                                                    <input type="checkbox" name="active"
-                                                           class="switchery-teal" @if($adver_obj->status=='Active')
-                                                           checked @endif>
-                                                    <label for="check1">Active</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="control-label" for="">Last Modified</label>
-                                            <h5>{{$adver_obj->updated_at}}</h5>
-
-                                        </div>
-
-                                        <div class="clearfix"></div>
-                                        <!--.form-group-->
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="control-label" for="">Client Name</label>
+                                <h5>{{$adver_obj->GetClientID->name}}</h5>
 
-                                    <div class="note note-info note-bottom-striped">
-                                        <h4>Assign Models</h4>
-                                        <div class="col-xs-5">
-                                            <select name="from_model[]" id="assign_model"
-                                                    class="form-control" size="4" multiple="multiple">
-                                                @foreach($model_obj as $index)
-                                                    <option value="{{$index->id}}">{{$index->name}}</option>
-                                                @endforeach
-                                            </select>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Domain Name</label>
+
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input type="text" name="domain_name"
+                                                   class="form-control" placeholder="Domain Name"
+                                                   id="domain_name"
+                                                   value="{{$adver_obj->domain_name}}">
                                         </div>
-
-                                        <div class="col-xs-2">
-                                            <button type="button" id="assign_model_rightAll"
-                                                    class="btn btn-block"><i
-                                                        class="glyphicon glyphicon-forward"></i>
-                                            </button>
-                                            <button type="button" id="assign_model_rightSelected"
-                                                    class="btn btn-block"><i
-                                                        class="glyphicon glyphicon-chevron-right"></i>
-                                            </button>
-                                            <button type="button" id="assign_model_leftSelected"
-                                                    class="btn btn-block"><i
-                                                        class="glyphicon glyphicon-chevron-left"></i>
-                                            </button>
-                                            <button type="button" id="assign_model_leftAll"
-                                                    class="btn btn-block"><i
-                                                        class="glyphicon glyphicon-backward"></i>
-                                            </button>
-                                        </div>
-
-                                        <div class="col-xs-5">
-                                            <select name="to_model[]" id="assign_model_to"
-                                                    class="form-control" size="4" multiple="multiple">
-                                                @foreach($model_obj as $index)
-                                                    @if(in_array($index->id,$adv_mdl_map))
-                                                        <option value="{{$index->id}}">{{$index->name}}</option>
-                                                    @endif
-                                                @endforeach
-
-                                            </select>
-                                        </div>
-                                        <div class="clearfix"></div>
-
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label class="control-label">Status</label>
 
+                                    <div class="switcher">
+                                        <input type="checkbox" name="active"
+                                        @if($adver_obj->status=='Active')
+                                               checked @endif hidden id="active">
+                                        <label for="active"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label" for="">Last Modified</label>
+                                <h5>{{$adver_obj->updated_at}}</h5>
 
-                                    <div style="padding: 15px">
+                            </div>
 
-                                        <div class="form-group">
-                                            <label class="control-label">Description</label>
+                            <div class="clearfix"></div>
+                            <!--.form-group-->
+                        </div>
+                        <hr/>
+                        <div class="note note-info note-bottom-striped">
+                            <h4>Assign Models</h4>
 
-                                            <div class="inputer">
-                                                <div class="input-wrapper">
+                            <div class="col-xs-5">
+                                <select name="from_model[]" id="assign_model"
+                                        class="form-control" size="4" multiple="multiple">
+                                    @foreach($model_obj as $index)
+                                        <option value="{{$index->id}}">{{$index->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-xs-2">
+                                <button type="button" id="assign_model_rightAll"
+                                        class="btn btn-block"><i
+                                            class="glyphicon glyphicon-forward"></i>
+                                </button>
+                                <button type="button" id="assign_model_rightSelected"
+                                        class="btn btn-block"><i
+                                            class="glyphicon glyphicon-chevron-right"></i>
+                                </button>
+                                <button type="button" id="assign_model_leftSelected"
+                                        class="btn btn-block"><i
+                                            class="glyphicon glyphicon-chevron-left"></i>
+                                </button>
+                                <button type="button" id="assign_model_leftAll"
+                                        class="btn btn-block"><i
+                                            class="glyphicon glyphicon-backward"></i>
+                                </button>
+                            </div>
+
+                            <div class="col-xs-5">
+                                <select name="to_model[]" id="assign_model_to"
+                                        class="form-control" size="4" multiple="multiple">
+                                    @foreach($model_obj as $index)
+                                        @if(in_array($index->id,$adv_mdl_map))
+                                            <option value="{{$index->id}}">{{$index->name}}</option>
+                                        @endif
+                                    @endforeach
+
+                                </select>
+                            </div>
+                            <div class="clearfix"></div>
+
+                        </div>
+                        <hr/>
+
+                        <div style="padding: 15px">
+
+                            <div class="form-group">
+                                <label class="control-label">Description</label>
+
+                                <div class="inputer">
+                                    <div class="input-wrapper">
                                                     <textarea name="description" class="form-control" rows="3"
                                                               placeholder="type minimum 5 characters"
                                                               required>{{$adver_obj->description}}</textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="clearfix"></div>
                                     </div>
                                 </div>
-                                <div class="form-actions">
-                                    <div class="row">
-                                        <div class="col-md-offset-5 col-md-9" style="padding: 25px 0">
-                                            <button type="submit" class="btn btn-success" style="width:20%">Submit
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-5 col-md-9" style="padding: 25px 0">
+                                <button type="submit" class="btn btn-success" style="width:20%">Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
 
             </div>
             <!--.panel-body-->
         </div>
         <!--.panel-->
-    </div>
-    <!--.col-->
-
-        <div class="col-md-3">
-            <div class="panel indigo">
+        <div class="">
+            <div class="panel gray" id="campaign_list" style="display: none">
                 <div class="panel-heading">
                     <div class="panel-title">
-                        <h4 class="pull-left">Activities</h4>
-
-                        <div class="pull-right audit-select">
-                            <select id="audit_status" class="selecter col-md-12">
-                                <option value="entity">This Entity</option>
-                                <option value="all">All</option>
-                                <option value="user">User</option>
-                            </select>
-                        </div>
-                        <div class="clearfix"></div>
+                        <h4 class=" pull-left">List Of Campaign</h4>
+                        @if(in_array('ADD_EDIT_CAMPAIGN',$permission))
+                            <h4 class=" pull-right"><a
+                                        href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/add')}}"
+                                        class=" btn btn-primary">
+                                    ADD Campaign
+                                </a>
+                            </h4>
+                        @endif
                     </div>
                 </div>
                 <!--.panel-heading-->
-                <div class="panel-body" style="padding: 0px 0 0 10px;">
-                    <div class="timeline single" id="show_audit">
+                <div class="panel-body">
+                    <div id="campaign_grid"></div>
+
+                </div>
+            </div>
+
+            <div class="panel gray" id="segment_list" style="display: none">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h4>List Of Segment</h4>
                     </div>
-                    <!--.timeline-->
                 </div>
-                <!--.panel-body-->
-            </div>
-            <!--.panel-->
-        </div>
-                <!--.col-->
-        <div class="clearfix"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="well"  style="position: fixed; width: 18%">
-                                <!-- widget div-->
-                                <div>
-                                    <!-- widget content -->
-                                    <div class="">
-                                        <button id="show_advertiser" class="btn btn-primary btn-block">Crearive </button>
-                                        <button id="show_campaign" class="btn btn-primary btn-block">Campaign </button>
-                                        <button id="show_bwlist" class="btn btn-primary btn-block">B W List </button>
-                                        <button id="show_geosegment" class="btn btn-primary btn-block">Geo Segment </button>
-                                        <button id="show_model" class="btn btn-primary btn-block">Model </button>
-                                        <button id="show_bid_profile" class="btn btn-primary btn-block">Bid Profile </button>
-                                        @if(\Illuminate\Support\Facades\Auth::user()->role_id==1)
-                                            <button id="show_segment" class="btn btn-primary btn-block">Segment </button>
-                                        @endif
-                                        @if(in_array('ADD_EDIT_OFFER',$permission))
-                                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/offer/add')}}"
-                                               class=" btn btn-primary btn-block">
-                                                Add Offer
-                                            </a>
-                                        @endif
-                                        @if(in_array('ADD_EDIT_PIXEL',$permission))
-                                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/pixel/add')}}"
-                                               class=" btn btn-primary btn-block">
-                                                Add Pixel
-                                            </a>
-                                        @endif
-                                    </div>
-                                    <!-- end widget content -->
-                                </div>
-                                <!-- end widget div -->
-                            </div>
-
-
-    <div class="col-md-9">
-        <div class="panel gray" id="campaign_list" style="display: none">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <h4 class=" pull-left">List Of Campaign</h4>
-                    @if(in_array('ADD_EDIT_CAMPAIGN',$permission))
-                        <h4 class=" pull-right">                                        <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/add')}}"
-                                                                                           class=" btn btn-primary">
-                                ADD Campaign
-                            </a>
-                        </h4>
-                    @endif
+                <!--.panel-heading-->
+                <div class="panel-body">
+                    <div id="segment_grid"></div>
                 </div>
             </div>
-            <!--.panel-heading-->
-            <div class="panel-body" >
-                <div id="campaign_grid"></div>
 
-            </div>
-        </div>
-        <div class="panel gray" id="segment_list" style="display: none">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <h4>List Of Segment</h4>
+            <div class="panel gray" id="creative_list" style="display: none">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h4 class=" pull-left">List Of Creative</h4>
+                        @if(in_array('ADD_EDIT_CREATIVE',$permission))
+                            <h4 class="pull-right">
+                                <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/creative/add')}}"
+                                   class=" btn btn-primary pull-left">
+                                    Add Creative
+                                </a>
+
+                            </h4>
+                            <h4 class="pull-right">
+                                <button type="reset" class="btn btn-primary " data-toggle="modal"
+                                        data-target="#myModal_creative">
+                                    Upload Creatives
+                                </button>
+
+                            </h4>
+                            <h4 class="pull-right">
+                                <a href="{{cdn('/excel_template/creative.xls')}}" type="reset" class="btn btn-primary ">
+                                    Download Creative Excel Template
+                                </a>
+
+                            </h4>
+
+                        @endif
+                    </div>
+                </div>
+                <!--.panel-heading-->
+                <div class="panel-body">
+                    <div id="creative_grid"></div>
                 </div>
             </div>
-            <!--.panel-heading-->
-            <div class="panel-body" >
-                <div id="segment_grid"></div>
-            </div>
-        </div>
 
-        <div class="panel gray" id="creative_list" style="display: none">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <h4 class=" pull-left">List Of Creative</h4>
-                    @if(in_array('ADD_EDIT_CREATIVE',$permission))
-                        <h4 class="pull-right">
-                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/creative/add')}}"
-                               class=" btn btn-primary pull-left">
-                                Add Creative
-                            </a>
+            <div class="panel gray" id="model_list" style="display: none">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h4 class=" pull-left">List Of Models</h4>
+                        @if(in_array('ADD_EDIT_MODEL',$permission))
+                            <h4 class="pull-right">
+                                <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/model/add')}}"
+                                   class=" btn btn-primary pull-left">
+                                    Add Model
+                                </a>
 
-                        </h4>
-                        <h4 class="pull-right">
-                            <button type="reset" class="btn btn-primary " data-toggle="modal"
-                                    data-target="#myModal_creative">
-                                Upload Creatives
-                            </button>
-
-                        </h4>
-                        <h4 class="pull-right">
-                            <a href="{{cdn('/excel_template/creative.xls')}}" type="reset" class="btn btn-primary " >
-                                Download Creative Excel Template
-                            </a>
-
-                        </h4>
-
-                    @endif
+                            </h4>
+                        @endif
+                    </div>
+                </div>
+                <!--.panel-heading-->
+                <div class="panel-body">
+                    <div id="model_grid"></div>
                 </div>
             </div>
-            <!--.panel-heading-->
-            <div class="panel-body" >
-                <div id="creative_grid"></div>
-            </div>
-        </div>
-        <div class="panel gray" id="model_list" style="display: none">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <h4 class=" pull-left">List Of Models</h4>
-                    @if(in_array('ADD_EDIT_MODEL',$permission))
-                        <h4 class="pull-right">
-                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/model/add')}}"
-                               class=" btn btn-primary pull-left">
-                                Add Model
-                            </a>
 
-                        </h4>
-                    @endif
+            <div class="panel gray" id="bwlist_list" style="display: none">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h4 class=" pull-left">List Of Black White List </h4>
+                        @if(in_array('ADD_EDIT_BWLIST',$permission))
+                            <h4 class="pull-right">
+                                <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/bwlist/add')}}"
+                                   class=" btn btn-primary pull-left">
+                                    Add B/W List
+                                </a>
+                            </h4>
+                            <h4 class="pull-right">
+                                <button type="reset" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#myModal">
+                                    Upload BW list
+                                </button>
+
+                            </h4>
+                            <h4 class="pull-right">
+                                <a href="{{cdn('/excel_template/bwlist.xls')}}" type="reset" class="btn btn-primary ">
+                                    Download BW List Excel Template
+                                </a>
+
+                            </h4>
+                        @endif
+                    </div>
+                </div>
+                <!--.panel-heading-->
+                <div class="panel-body">
+                    <div id="bwlist_grid"></div>
                 </div>
             </div>
-            <!--.panel-heading-->
-            <div class="panel-body" >
-                <div id="model_grid"></div>
-            </div>
-        </div>
-        <div class="panel gray" id="bwlist_list" style="display: none">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <h4 class=" pull-left">List Of Black White List </h4>
-                    @if(in_array('ADD_EDIT_BWLIST',$permission))
-                        <h4 class="pull-right">
-                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/bwlist/add')}}"
-                               class=" btn btn-primary pull-left">
-                                Add B/W List
-                            </a>
-                        </h4>
-                        <h4 class="pull-right">
-                            <button type="reset" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#myModal">
-                                Upload BW list
-                            </button>
 
-                        </h4>
-                        <h4 class="pull-right">
-                            <a href="{{cdn('/excel_template/bwlist.xls')}}" type="reset" class="btn btn-primary " >
-                                Download BW List Excel Template
-                            </a>
+            <div class="panel gray" id="geosegment_list" style="display: none">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h4 class=" pull-left">List Of Geo Segment List </h4>
+                        @if(in_array('ADD_EDIT_GEOSEGMENTLIST',$permission))
+                            <h4 class="pull-right">
+                                <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/geosegment/add')}}"
+                                   class=" btn btn-primary pull-left">
+                                    Add Geo Segment List
+                                </a>
+                            </h4>
+                            <h4 class="pull-right">
+                                <button type="reset" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#myModal_geo">
+                                    Upload Geo list
+                                </button>
+                            </h4>
+                            <h4 class="pull-right">
+                                <a href="{{cdn('/excel_template/geosegment.xls')}}" type="reset" class="btn btn-primary ">
+                                    Download Geo Segment Excel Template
+                                </a>
 
-                        </h4>
-                    @endif
+                            </h4>
+
+                        @endif
+                    </div>
+                </div>
+                <!--.panel-heading-->
+                <div class="panel-body">
+                    <div id="geosegment_grid"></div>
                 </div>
             </div>
-            <!--.panel-heading-->
-            <div class="panel-body" >
-                <div id="bwlist_grid"></div>
-            </div>
-        </div>
-        <div class="panel gray" id="geosegment_list" style="display: none">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <h4 class=" pull-left">List Of Geo Segment List </h4>
-                    @if(in_array('ADD_EDIT_GEOSEGMENTLIST',$permission))
-                        <h4 class="pull-right">
-                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/geosegment/add')}}"
-                               class=" btn btn-primary pull-left">
-                                Add Geo Segment List
-                            </a>
-                        </h4>
-                        <h4 class="pull-right">
-                            <button type="reset" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#myModal_geo">
-                                Upload Geo list
-                            </button>
-                        </h4>
-                        <h4 class="pull-right">
-                            <a href="{{cdn('/excel_template/geosegment.xls')}}" type="reset" class="btn btn-primary " >
-                                Download Geo Segment Excel Template
-                            </a>
 
-                        </h4>
+            <div class="panel gray" id="bid_profile_list" style="display: none">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h4 class=" pull-left">List Of Bid Profile </h4>
+                        @if(in_array('ADD_EDIT_BIDPROFILE',$permission))
+                            <h4 class="pull-right">
+                                <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/bid-profile/add')}}"
+                                   class=" btn btn-primary pull-left">
+                                    Add Bid Profile
+                                </a>
+                            </h4>
+                            <h4 class="pull-right">
+                                <button type="reset" class="btn btn-primary btn-lg" data-toggle="modal"
+                                        data-target="#myModal_bid_profile">
+                                    Upload Bid Profile
+                                </button>
+                            </h4>
+                            <h4 class="pull-right">
+                                <a href="{{cdn('/excel_template/bid_profile.xls')}}" type="reset" class="btn btn-primary ">
+                                    Download Bid Profile Excel Template
+                                </a>
 
-                    @endif
+                            </h4>
+
+                        @endif
+                    </div>
+                </div>
+                <!--.panel-heading-->
+                <div class="panel-body">
+                    <div id="bid_profile_grid"></div>
                 </div>
             </div>
-            <!--.panel-heading-->
-            <div class="panel-body" >
-                <div id="geosegment_grid"></div>
-            </div>
-        </div>
-        <div class="panel gray" id="bid_profile_list" style="display: none">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <h4 class=" pull-left">List Of Bid Profile </h4>
-                    @if(in_array('ADD_EDIT_BIDPROFILE',$permission))
-                        <h4 class="pull-right">
-                            <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/bid-profile/add')}}"
-                               class=" btn btn-primary pull-left">
-                                Add Bid Profile
-                            </a>
-                        </h4>
-                        <h4 class="pull-right">
-                            <button type="reset" class="btn btn-primary btn-lg" data-toggle="modal"
-                                    data-target="#myModal_bid_profile">
-                                Upload Bid Profile
-                            </button>
-                        </h4>
-                        <h4 class="pull-right">
-                            <a href="{{cdn('/excel_template/bid_profile.xls')}}" type="reset" class="btn btn-primary " >
-                                Download Bid Profile Excel Template
-                            </a>
 
-                        </h4>
-
-                    @endif
-                </div>
-            </div>
-            <!--.panel-heading-->
-            <div class="panel-body" >
-                <div id="bid_profile_grid"></div>
-            </div>
         </div>
 
     </div>
+    <!--.col-->
 
+    <div class="col-md-3">
+        <div class="panel indigo">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="pull-left">Activities</h4>
+
+                    <div class="pull-right audit-select">
+                        <select id="audit_status" class="selecter col-md-12">
+                            <option value="entity">This Entity</option>
+                            <option value="all">All</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0px 0 0 10px;">
+                <div class="timeline single" id="show_audit">
+                </div>
+                <!--.timeline-->
+            </div>
+            <!--.panel-body-->
+        </div>
+        <!--.panel-->
+        <div class="well">
+            <!-- widget div-->
+            <div>
+                <!-- widget content -->
+                <div class="">
+                    <button id="show_creative" class="btn btn-primary btn-block">Crearive</button>
+                    <button id="show_campaign" class="btn btn-primary btn-block">Campaign</button>
+                    <button id="show_bwlist" class="btn btn-primary btn-block">B W List</button>
+                    <button id="show_geosegment" class="btn btn-primary btn-block">Geo Segment</button>
+                    <button id="show_model" class="btn btn-primary btn-block">Model</button>
+                    <button id="show_bid_profile" class="btn btn-primary btn-block">Bid Profile</button>
+                    @if(\Illuminate\Support\Facades\Auth::user()->role_id==1)
+                        <button id="show_segment" class="btn btn-primary btn-block">Segment</button>
+                    @endif
+                    @if(in_array('ADD_EDIT_OFFER',$permission))
+                        <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/offer/add')}}"
+                           class=" btn btn-primary btn-block">
+                            Add Offer
+                        </a>
+                    @endif
+                    @if(in_array('ADD_EDIT_PIXEL',$permission))
+                        <a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/pixel/add')}}"
+                           class=" btn btn-primary btn-block">
+                            Add Pixel
+                        </a>
+                    @endif
+                </div>
+                <!-- end widget content -->
+            </div>
+            <!-- end widget div -->
+        </div>
+
+    </div>
+    <!--.col-->
+    <input type="text" id="active_show" hidden/>
+
+    <div class="clearfix"></div>
 
 
     <!-- Modal -->
@@ -477,7 +473,8 @@
     </div>
     <!-- /.modal -->
     <!-- Modal -->
-    <div class="modal fade" id="myModal_creative" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myModal_creative" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -527,7 +524,8 @@
     </div>
     <!-- /.modal -->
     <!-- Modal -->
-    <div class="modal fade" id="myModal_campaign" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myModal_campaign" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -650,7 +648,8 @@
                         <div class="col-md-12">
                             <div class="well well-sm well-primary">
                                 <form id="order-form" class="smart-form" role="form"
-                                      action="{{URL::route('bid_profile_upload')}}" method="post" novalidate="novalidate"
+                                      action="{{URL::route('bid_profile_upload')}}" method="post"
+                                      novalidate="novalidate"
                                       enctype="multipart/form-data">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <input type="hidden" name="advertiser_id" value="{{$adver_obj->id}}"/>
@@ -691,7 +690,6 @@
     </div>
     <!-- /.modal -->
 
-
 @endsection
 @section('FooterScripts')
 
@@ -699,81 +697,96 @@
     <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
 
     <script>
-        $('#show_campaign').click(function () {
-            var active_Show= $('#active_show').val();
-            $('#active_show').val('campaign_list');
-            $('#'+active_Show).hide();
-            $('#campaign_list').fadeIn("slow");
+        $('#show_creative').click(function () {
+            var active_Show = $('#active_show').val();
+            $('#active_show').val('creative_list');
+            $('#' + active_Show).hide();
+            $('#creative_list').fadeIn("slow");
+            $("#creative_grid").jsGrid("refresh");
             $('html, body').animate({
-                        scrollTop: $(document).height()-$(window).height()},
+                        scrollTop: $(document).height() - $(window).height()
+                    },
+                    1400,
+                    "easeOutQuint"
+            );
+
+        });
+        $('#show_campaign').click(function () {
+            var active_Show = $('#active_show').val();
+            $('#active_show').val('campaign_list');
+            $('#' + active_Show).hide();
+            $('#campaign_list').fadeIn("slow");
+            $("#campaign_grid").jsGrid("refresh");
+            $('html, body').animate({
+                        scrollTop: $(document).height() - $(window).height()
+                    },
                     1400,
                     "easeOutQuint"
             );
 
         });
         $('#show_segment').click(function () {
-            var active_Show= $('#active_show').val();
+            var active_Show = $('#active_show').val();
             $('#active_show').val('segment_list');
-            $('#'+active_Show).hide();
+            $('#' + active_Show).hide();
             $('#segment_list').fadeIn("slow");
+            $("#segment_grid").jsGrid("refresh");
             $('html, body').animate({
-                        scrollTop: $(document).height()-$(window).height()},
+                        scrollTop: $(document).height() - $(window).height()
+                    },
                     1400,
                     "easeOutQuint"
             );
 
         });
-        $('#show_advertiser').click(function () {
-            var active_Show= $('#active_show').val();
-            $('#active_show').val('advertiser_list');
-            $('#'+active_Show).hide();
-            $('#advertiser_list').fadeIn("slow");
-            $('html, body').animate({
-                        scrollTop: $(document).height()-$(window).height()},
-                    1400,
-                    "easeOutQuint"
-            );
-        });
         $('#show_model').click(function () {
-            var active_Show= $('#active_show').val();
+            var active_Show = $('#active_show').val();
             $('#active_show').val('model_list');
-            $('#'+active_Show).hide();
+            $('#' + active_Show).hide();
             $('#model_list').fadeIn("slow");
+            $("#model_grid").jsGrid("refresh");
             $('html, body').animate({
-                        scrollTop: $(document).height()-$(window).height()},
+                        scrollTop: $(document).height() - $(window).height()
+                    },
                     1400,
                     "easeOutQuint"
             );
         });
         $('#show_bwlist').click(function () {
-            var active_Show= $('#active_show').val();
+            var active_Show = $('#active_show').val();
             $('#active_show').val('bwlist_list');
-            $('#'+active_Show).hide();
+            $('#' + active_Show).hide();
             $('#bwlist_list').fadeIn("slow");
+            $("#bwlist_grid").jsGrid("refresh");
             $('html, body').animate({
-                        scrollTop: $(document).height()-$(window).height()},
+                        scrollTop: $(document).height() - $(window).height()
+                    },
                     1400,
                     "easeOutQuint"
             );
         });
         $('#show_geosegment').click(function () {
-            var active_Show= $('#active_show').val();
+            var active_Show = $('#active_show').val();
             $('#active_show').val('geosegment_list');
-            $('#'+active_Show).hide();
+            $('#' + active_Show).hide();
             $('#geosegment_list').fadeIn("slow");
+            $("#geosegment_grid").jsGrid("refresh");
             $('html, body').animate({
-                        scrollTop: $(document).height()-$(window).height()},
+                        scrollTop: $(document).height() - $(window).height()
+                    },
                     1400,
                     "easeOutQuint"
             );
         });
         $('#show_bid_profile').click(function () {
-            var active_Show= $('#active_show').val();
+            var active_Show = $('#active_show').val();
             $('#active_show').val('bid_profile_list');
-            $('#'+active_Show).hide();
+            $('#' + active_Show).hide();
             $('#bid_profile_list').fadeIn("slow");
+            $("#bid_profile_grid").jsGrid("refresh");
             $('html, body').animate({
-                        scrollTop: $(document).height()-$(window).height()},
+                        scrollTop: $(document).height() - $(window).height()
+                    },
                     1400,
                     "easeOutQuint"
             );
@@ -790,19 +803,19 @@
             });
 
             $('#audit_status').change(function () {
-                if($(this).val()=='all'){
+                if ($(this).val() == 'all') {
                     $.ajax({
                         url: "{{url('ajax/getAllAudits')}}"
                     }).success(function (response) {
                         $('#show_audit').html(response);
                     });
-                }else if($(this).val()=='entity') {
+                } else if ($(this).val() == 'entity') {
                     $.ajax({
                         url: "{{url('ajax/getAudit/advertiser/'.$adver_obj->id)}}"
                     }).success(function (response) {
                         $('#show_audit').html(response);
                     });
-                }else if($(this).val()=='user') {
+                } else if ($(this).val() == 'user') {
                     $.ajax({
                         url: "{{url('ajax/getAudit/user')}}"
                     }).success(function (response) {
@@ -813,9 +826,9 @@
 
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
-                rules : {
-                    name : {
-                        required : true
+                rules: {
+                    name: {
+                        required: true
                     },
                     domain_name: {
                         required: true,
@@ -824,27 +837,27 @@
                 },
 
                 // Messages for form validation
-                messages : {
-                    name : {
-                        required : 'Please enter your name'
+                messages: {
+                    name: {
+                        required: 'Please enter your name'
                     },
-                    email : {
-                        required : 'Please enter your email address',
-                        email : 'Please enter a VALID email address'
+                    email: {
+                        required: 'Please enter your email address',
+                        email: 'Please enter a VALID email address'
                     },
-                    phone : {
-                        required : 'Please enter your phone number'
+                    phone: {
+                        required: 'Please enter your phone number'
                     },
-                    client_id : {
-                        required : 'Please select Client Name'
+                    client_id: {
+                        required: 'Please select Client Name'
                     },
-                    budget : {
-                        required : 'Please select your budget'
+                    budget: {
+                        required: 'Please select your budget'
                     }
                 },
 
                 // Do not change code below
-                errorPlacement : function(error, element) {
+                errorPlacement: function (error, element) {
                     error.insertAfter(element.parent());
                 }
             });
@@ -858,57 +871,41 @@
             });
 
 
-            $(function() {
+            $(function () {
 
                 var db = {
 
-                    loadData: function(filter) {
-                        return $.grep(this.clients, function(client) {
-                            return (!filter.Name || client.Name.indexOf(filter.Name) > -1);
+                    loadData: function (filter) {
+                        return $.grep(this.campaign, function (campaign) {
+                            return (!filter.name || campaign.name.indexOf(filter.name) > -1);
                         });
                     },
 
-                    insertItem: function(insertingClient) {
-                        insertingClient['oper']='add';
-                        console.log(insertingClient);
+                    updateItem: function (updatingCampaign) {
+                        updatingCampaign['oper'] = 'edit';
+                        console.log(updatingCampaign);
                         $.ajax({
                             type: "PUT",
-                            url: "{{url('/ajax/jqgrid/client')}}",
-                            data: insertingClient,
-                            dataType: "json"
-                        }).done();
-
-                    },
-
-                    updateItem: function(updatingClient) {
-                        updatingClient['oper']='edit';
-                        console.log(updatingClient) ;
-                        $.ajax({
-                            type: "PUT",
-                            url: "{{url('/ajax/jqgrid/client')}}",
-                            data: updatingClient,
+                            url: "{{url('/ajax/jqgrid/campaign')}}",
+                            data: updatingCampaign,
                             dataType: "json"
                         });
-                    },
-
-                    deleteItem: function(deletingClient) {
-                        var clientIndex = $.inArray(deletingClient, this.clients);
-                        this.clients.splice(clientIndex, 1);
                     }
+
 
                 };
 
                 window.db = db;
 
-                db.clients = [
+                db.campaign = [
 
-                @foreach($adver_obj->Campaign as $index)
+                    @foreach($adver_obj->Campaign as $index)
                     {
-                        "id" : '<a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/cmp'.$index->id.'/edit')}}">cmp{{$index->id}}</a>',
-                        "name" : '{{$index->name}}',
+                        "id": '<a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/cmp'.$index->id.'/edit')}}">cmp{{$index->id}}</a>',
+                        "name": '{{$index->name}}',
                         "start_date": '{{$index->start_date}}',
                         "end_date": '{{$index->end_date}}',
-                        "date_modify" : '{{$index->updated_at}}',
+                        "date_modify": '{{$index->updated_at}}',
                         "action": '<a class="btn " href={{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/cmp'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>'
 
                     },
@@ -924,20 +921,23 @@
                     paging: true,
                     autoload: true,
 
-                    pageSize: 15,
+                    pageSize: 10,
                     pageButtonCount: 5,
-
-                    deleteConfirm: "Do you really want to delete the client?",
 
                     controller: db,
                     fields: [
-                        { name: "id",title: "ID", width: 40,align :"center" },
-                        { name: "name",title: "Name", type: "text", width: 70 },
-                        { name: "start_date", title:"Start Date", type: "text",  width: 100,align :"center" },
-                        { name: "end_date", title:"End Date", type: "text",  width: 100,align :"center" },
-                        { name: "date_modify" ,title:"Date of Modify",align :"center"},
-                        { name: "action", title: "Full Action", sorting: false,width: 50,align :"center" },
-                        { type: "control" }
+                        {name: "id", title: "ID", width: 40, align: "center"},
+                        {name: "name", title: "Name", type: "text", width: 70},
+                        {name: "start_date", title: "Start Date", type: "text", width: 100, align: "center"},
+                        {name: "end_date", title: "End Date", type: "text", width: 100, align: "center"},
+                        {name: "date_modify", title: "Date of Modify", align: "center"},
+                        {name: "action", title: "Full Action", sorting: false, width: 50, align: "center"},
+                        {
+                            type: "control",
+                            deleteButton: false,
+                            editButtonTooltip: "Edit",
+                            editButton: true
+                        }
                     ]
 
                 });
@@ -957,37 +957,8 @@
                                     && (!filter.id || segment.id.indexOf(filter.id) > -1)
                                     && (!filter.daily_max_budget || segment.daily_max_budget.indexOf(filter.daily_max_budget) > -1);
                         });
-                    },
-
-                    updateItem: function (updatingSegment) {
-                        updatingSegment['oper'] = 'edit';
-                        console.log(updatingSegment);
-                        $.ajax({
-                            type: "PUT",
-                            url: "{{url('/ajax/jqgrid/segment')}}",
-                            data: updatingSegment,
-                            dataType: "json"
-                        }).done(function (response) {
-                            console.log(response);
-                            if(response.success==true){
-                                var title= "Success";
-                                var color="#739E73";
-                                var icon="fa fa-check";
-                            }else if(response.success==false) {
-                                var title= "Warning";
-                                var color="#C46A69";
-                                var icon="fa fa-bell";
-                            };
-
-                            $.smallBox({
-                                title: title,
-                                content: response.msg,
-                                color: color,
-                                icon: icon,
-                                timeout: 8000
-                            });
-                        });
                     }
+
 
                 };
 
@@ -1014,14 +985,12 @@
                     paging: true,
                     autoload: true,
 
-                    pageSize: 15,
+                    pageSize: 10,
                     pageButtonCount: 5,
-
-                    deleteConfirm: "Do you really want to delete the client?",
 
                     controller: db,
                     fields: [
-                        {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
+                        {name: "id", title: "ID", type: "text", width: 40, align: "center", editing: false},
                         {name: "name", title: "Name", type: "text", width: 70},
                         {name: "advertiser", title: "Advertiser", type: "text", width: 70, align: "center"},
                         {name: "model", title: "Model", type: "text", width: 60, align: "center"},
@@ -1034,15 +1003,15 @@
             @endif
 
             //Creative //
-            $(function () {//LIST OF CREATIVE
+            $(function () {
 
                 var db = {
 
                     loadData: function (filter) {
                         return $.grep(this.creative, function (creative) {
-                            return (!filter.name || creative.name.indexOf(filter.name) > -1)
+                            return (!filter.name || creative.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1)
                                     && (!filter.size || creative.size.indexOf(filter.size) > -1)
-                                    && (!filter.advertiser || creative.advertiser.indexOf(filter.advertiser) > -1)
+                                    && (!filter.advertiser || creative.advertiser.toLowerCase().indexOf(filter.advertiser.toLowerCase()) > -1)
                                     && (!filter.id || creative.id.indexOf(filter.id) > -1);
                         });
                     },
@@ -1056,24 +1025,17 @@
                             data: updatingCreative,
                             dataType: "json"
                         }).done(function (response) {
-                            console.log(response);
-                            if(response.success==true){
-                                var title= "Success";
-                                var color="#739E73";
-                                var icon="fa fa-check";
-                            }else if(response.success==false) {
-                                var title= "Warning";
-                                var color="#C46A69";
-                                var icon="fa fa-bell";
-                            };
-
-                            $.smallBox({
-                                title: title,
-                                content: response.msg,
-                                color: color,
-                                icon: icon,
-                                timeout: 8000
-                            });
+                            $("#creative_grid").jsGrid("refresh");
+                            if (response.success == true) {
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                                $.ajax({
+                                    url: "{{url('ajax/getAudit/creative')}}"
+                                }).success(function (response) {
+                                    $('#show_audit').html(response);
+                                });
+                            } else if (response.success == false) {
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
+                            }
                         });
                     }
 
@@ -1086,43 +1048,59 @@
                     {
                         "id": 'crt{{$index->id}}',
                         "name": '{{$index->name}}',
-                        "size":'{{$index->size}}',
-                        "advertiser":'<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
+                        "size": '{{$index->size}}',
+                        "advertiser": '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
                         @if($index->status == 'Active')
-                        "status": '<a id="creative{{$index->id}}" href="javascript: ChangeStatus(`creative`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                        "status": '<div class="switcher"><input id="creative{{$index->id}}" onchange="ChangeStatus(`creative`,`{{$index->id}}`)" type="checkbox" checked hidden><label for="creative{{$index->id}}"></label></div>',
                         @elseif($index->status == 'Inactive')
-                        "status": '<a id="creative{{$index->id}}" href="javascript: ChangeStatus(`creative`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
-                        @endif                        "date_modify": '{{$index->updated_at}}',
-                        "action": '<a class="btn " href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/crt'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_CREATIVE',$permission)) +'| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+                        "status": '<div class="switcher"><input id="creative{{$index->id}}" onchange="ChangeStatus(`creative`,`{{$index->id}}`)" type="checkbox" hidden><label for="creative{{$index->id}}"></label></div>',
+                        @endif
+                        "date_modify": '{{$index->updated_at}}',
+                        "action": '<a class="btn " href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/crt'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_CREATIVE',$permission)) + '| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a> | <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/creative/crt'.$index->id.'/clone/1')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
 
-            },
+
+
+                    },
                     @endforeach
                 ];
 
                 $("#creative_grid").jsGrid({
                     width: "100%",
-
                     filtering: true,
                     editing: true,
                     sorting: true,
                     paging: true,
                     autoload: true,
-
-                    pageSize: 15,
+                    pageSize: 10,
                     pageButtonCount: 5,
-
-                    deleteConfirm: "Do you really want to delete the client?",
-
                     controller: db,
                     fields: [
-                        {name: "id", title: "ID", width: 40, type: "text", align: "center",editing:false},
+                        {name: "id", title: "ID", width: 40, type: "text", align: "center", editing: false},
                         {name: "name", title: "Name", type: "text", width: 70},
-                        {name: "size", title: "Size", type: "text", width: 50, align: "center",editing:false},
-                        {name: "advertiser", title: "Advertiser", type: "text", width: 70, align: "center",editing:false},
+                        {name: "size", title: "Size", type: "text", width: 50, align: "center", editing: false},
+                        {
+                            name: "advertiser",
+                            title: "Advertiser",
+                            type: "text",
+                            width: 70,
+                            align: "center",
+                            editing: false
+                        },
                         {name: "status", title: "Status", width: 50, align: "center"},
                         {name: "date_modify", title: "Last Modified", align: "center"},
-                        {name: "action", title: "Edit | +Creative", sorting: false, width: 70, align: "center"},
-                        {type: "control"}
+                        {
+                            name: "action",
+                            title: "Edit | +Creative | Clone",
+                            sorting: false,
+                            width: 100,
+                            align: "center"
+                        },
+                        {
+                            type: "control",
+                            deleteButton: false,
+                            editButtonTooltip: "Edit",
+                            editButton: true
+                        }
                     ]
 
                 });
@@ -1154,15 +1132,16 @@
                             dataType: "json"
                         }).done(function (response) {
                             console.log(response);
-                            if(response.success==true){
-                                var title= "Success";
-                                var color="#739E73";
-                                var icon="fa fa-check";
-                            }else if(response.success==false) {
-                                var title= "Warning";
-                                var color="#C46A69";
-                                var icon="fa fa-bell";
-                            };
+                            if (response.success == true) {
+                                var title = "Success";
+                                var color = "#739E73";
+                                var icon = "fa fa-check";
+                            } else if (response.success == false) {
+                                var title = "Warning";
+                                var color = "#C46A69";
+                                var icon = "fa fa-bell";
+                            }
+                            ;
 
                             $.smallBox({
                                 title: title,
@@ -1184,11 +1163,11 @@
                     {
                         "id": 'bwl{{$index->id}}',
                         "name": '{{$index->name}}',
-                        "advertiser_name" : '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
+                        "advertiser_name": '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
                         @if(count($index->getEntries)>0)
                         "website": '{{$index->getEntries[0]->bwlist_count}}',
                         @else
-                        "website" : '0',
+                        "website": '0',
                         @endif
                         @if($index->status == 'Active')
                         "status": '<a id="bwlist{{$index->id}}" href="javascript: ChangeStatus(`bwlist`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
@@ -1196,7 +1175,8 @@
                         "status": '<a id="bwlist{{$index->id}}" href="javascript: ChangeStatus(`bwlist`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
                         @endif
                         "date_modify": '{{$index->updated_at}}',
-                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bwlist/bwl'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) +'| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bwlist/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bwlist/bwl'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) + '| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bwlist/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+
 
                     },
                     @endforeach
@@ -1214,18 +1194,28 @@
                     pageSize: 10,
                     pageButtonCount: 5,
 
-                    deleteConfirm: "Do you really want to delete the client?",
-
                     controller: db,
                     fields: [
-                        {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
+                        {name: "id", title: "ID", type: "text", width: 40, align: "center", editing: false},
                         {name: "name", title: "Name", type: "text", width: 70},
-                        {name: "advertiser_name", title: "Advertiser", type: "text", width: 60, align: "center",editing:false},
-                        {name: "website", title: "#Entery", type: "text", width: 40, align: "center",editing:false},
+                        {
+                            name: "advertiser_name",
+                            title: "Advertiser",
+                            type: "text",
+                            width: 60,
+                            align: "center",
+                            editing: false
+                        },
+                        {name: "website", title: "#Entery", type: "text", width: 40, align: "center", editing: false},
                         {name: "status", title: "Status", width: 50, align: "center"},
                         {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
                         {name: "action", title: "Edit | + B/W", sorting: false, width: 60, align: "center"},
-                        {type: "control"}
+                        {
+                            type: "control",
+                            deleteButton: false,
+                            editButtonTooltip: "Edit",
+                            editButton: true
+                        }
                     ]
 
                 });
@@ -1258,15 +1248,16 @@
                             dataType: "json"
                         }).done(function (response) {
                             console.log(response);
-                            if(response.success==true){
-                                var title= "Success";
-                                var color="#739E73";
-                                var icon="fa fa-check";
-                            }else if(response.success==false) {
-                                var title= "Warning";
-                                var color="#C46A69";
-                                var icon="fa fa-bell";
-                            };
+                            if (response.success == true) {
+                                var title = "Success";
+                                var color = "#739E73";
+                                var icon = "fa fa-check";
+                            } else if (response.success == false) {
+                                var title = "Warning";
+                                var color = "#C46A69";
+                                var icon = "fa fa-bell";
+                            }
+                            ;
 
                             $.smallBox({
                                 title: title,
@@ -1288,11 +1279,11 @@
                     {
                         "id": 'gsm{{$index->id}}',
                         "name": '{{$index->name}}',
-                        "advertiser_name" : '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
+                        "advertiser_name": '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
                         @if(count($index->getGeoEntries)>0)
                         "entreies": '{{$index->getGeoEntries[0]->geosegment_count}} ',
                         @else
-                        "entreies" : '0',
+                        "entreies": '0',
                         @endif
                         @if($index->status == 'Active')
                         "status": '<a id="geosegment{{$index->id}}" href="javascript: ChangeStatus(`geosegment`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
@@ -1300,7 +1291,8 @@
                         "status": '<a id="geosegment{{$index->id}}" href="javascript: ChangeStatus(`geosegment`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
                         @endif
                         "date_modify": '{{$index->updated_at}}',
-                        "action": '<a class="btn " href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/gsm'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) +'| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+                        "action": '<a class="btn " href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/gsm'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) + '| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+
 
                     },
                     @endforeach
@@ -1318,18 +1310,28 @@
                     pageSize: 10,
                     pageButtonCount: 5,
 
-                    deleteConfirm: "Do you really want to delete the client?",
-
                     controller: db,
                     fields: [
-                        {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
+                        {name: "id", title: "ID", type: "text", width: 40, align: "center", editing: false},
                         {name: "name", title: "Name", type: "text", width: 70},
-                        {name: "advertiser_name", title: "Advertiser", type: "text", width: 60, align: "center",editing:false},
-                        {name: "entreies", title: "#Entery", type: "text", width: 40, align: "center",editing:false},
+                        {
+                            name: "advertiser_name",
+                            title: "Advertiser",
+                            type: "text",
+                            width: 60,
+                            align: "center",
+                            editing: false
+                        },
+                        {name: "entreies", title: "#Entery", type: "text", width: 40, align: "center", editing: false},
                         {name: "status", title: "Status", width: 50, align: "center"},
                         {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
                         {name: "action", title: "Edit | +Geo", sorting: false, width: 60, align: "center"},
-                        {type: "control"}
+                        {
+                            type: "control",
+                            deleteButton: false,
+                            editButtonTooltip: "Edit",
+                            editButton: true
+                        }
                     ]
 
                 });
@@ -1361,15 +1363,16 @@
                             dataType: "json"
                         }).done(function (response) {
                             console.log(response);
-                            if(response.success==true){
-                                var title= "Success";
-                                var color="#739E73";
-                                var icon="fa fa-check";
-                            }else if(response.success==false) {
-                                var title= "Warning";
-                                var color="#C46A69";
-                                var icon="fa fa-bell";
-                            };
+                            if (response.success == true) {
+                                var title = "Success";
+                                var color = "#739E73";
+                                var icon = "fa fa-check";
+                            } else if (response.success == false) {
+                                var title = "Warning";
+                                var color = "#C46A69";
+                                var icon = "fa fa-bell";
+                            }
+                            ;
 
                             $.smallBox({
                                 title: title,
@@ -1392,10 +1395,11 @@
                     {
                         "id": 'mdl{{$index->id}}',
                         "name": '{{$index->name}}',
-                        "algo":'{{$index->algo}}',
-                        "advertiser":'<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
-                        "date_modify":'{{$index->updated_at}}',
-                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/mdl'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_MODEL',$permission)) +'| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+                        "algo": '{{$index->algo}}',
+                        "advertiser": '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
+                        "date_modify": '{{$index->updated_at}}',
+                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/mdl'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_MODEL',$permission)) + '| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+
 
                     },
                     @endforeach
@@ -1413,17 +1417,27 @@
                     pageSize: 10,
                     pageButtonCount: 5,
 
-                    deleteConfirm: "Do you really want to delete the client?",
-
                     controller: db,
                     fields: [
-                        {name: "id", title: "ID", width: 40,editing:false,type: "text", align: "center"},
+                        {name: "id", title: "ID", width: 40, editing: false, type: "text", align: "center"},
                         {name: "name", title: "Name", type: "text", width: 70},
-                        {name: "algo", title: "Algoritm",editing:false,type: "text", width: 50, align: "center"},
-                        {name: "advertiser", title: "Advertiser",editing:false,type: "text", width: 70, align: "center"},
+                        {name: "algo", title: "Algoritm", editing: false, type: "text", width: 50, align: "center"},
+                        {
+                            name: "advertiser",
+                            title: "Advertiser",
+                            editing: false,
+                            type: "text",
+                            width: 70,
+                            align: "center"
+                        },
                         {name: "date_modify", title: "Last Modified", align: "center"},
                         {name: "action", title: "Edit | +Model", sorting: false, width: 80, align: "center"},
-                        {type: "control"}
+                        {
+                            type: "control",
+                            deleteButton: false,
+                            editButtonTooltip: "Edit",
+                            editButton: true
+                        }
                     ]
 
                 });
@@ -1453,15 +1467,16 @@
                             data: updatingBidProfile,
                             dataType: "json"
                         }).done(function (response) {
-                            if(response.success==true){
-                                var title= "Success";
-                                var color="#739E73";
-                                var icon="fa fa-check";
-                            }else if(response.success==false) {
-                                var title= "Warning";
-                                var color="#C46A69";
-                                var icon="fa fa-bell";
-                            };
+                            if (response.success == true) {
+                                var title = "Success";
+                                var color = "#739E73";
+                                var icon = "fa fa-check";
+                            } else if (response.success == false) {
+                                var title = "Warning";
+                                var color = "#C46A69";
+                                var icon = "fa fa-bell";
+                            }
+                            ;
 
                             $.smallBox({
                                 title: title,
@@ -1483,11 +1498,11 @@
                     {
                         "id": 'bpf{{$index->id}}',
                         "name": '{{$index->name}}',
-                        "advertiser_name" : '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
+                        "advertiser_name": '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
                         @if(count($index->getEntries)>0)
                         "entry": '{{$index->getEntries[0]->bid_profile_count}}',
                         @else
-                        "entry" : '0',
+                        "entry": '0',
                         @endif
                         @if($index->status == 'Active')
                         "status": '<a id="bid_profile{{$index->id}}" href="javascript: ChangeStatus(`bid_profile`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
@@ -1495,7 +1510,8 @@
                         "status": '<a id="bid_profile{{$index->id}}" href="javascript: ChangeStatus(`bid_profile`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
                         @endif
                         "date_modify": '{{$index->updated_at}}',
-                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bid-profile/bpf'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) +'| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bid-profile/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bid-profile/bpf'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) + '| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bid-profile/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+
 
                     },
                     @endforeach
@@ -1517,14 +1533,26 @@
 
                     controller: db,
                     fields: [
-                        {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
+                        {name: "id", title: "ID", type: "text", width: 40, align: "center", editing: false},
                         {name: "name", title: "Name", type: "text", width: 70},
-                        {name: "advertiser_name", title: "Advertiser", type: "text", width: 60, align: "center",editing:false},
-                        {name: "entry", title: "#Entery", type: "text", width: 40, align: "center",editing:false},
+                        {
+                            name: "advertiser_name",
+                            title: "Advertiser",
+                            type: "text",
+                            width: 60,
+                            align: "center",
+                            editing: false
+                        },
+                        {name: "entry", title: "#Entery", type: "text", width: 40, align: "center", editing: false},
                         {name: "status", title: "Status", width: 50, align: "center"},
                         {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
                         {name: "action", title: "Edit | + B/W", sorting: false, width: 60, align: "center"},
-                        {type: "control"}
+                        {
+                            type: "control",
+                            deleteButton: false,
+                            editButtonTooltip: "Edit",
+                            editButton: true
+                        }
                     ]
 
                 });
@@ -1532,9 +1560,6 @@
             });
 
             //End Bid Profile//
-
-            FormsSwitch.init();
-            FormsSwitchery.init();
 
         });
         /* END BASIC */
