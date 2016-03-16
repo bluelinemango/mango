@@ -15,7 +15,9 @@
     <div class="nav-search">
         <span class="search"></span>
     </div><!--.nav-search-->
-
+    <div class="logout-btn">
+        <a href="{{url('/user/logout')}}" class="btn btn-floating btn-deep-orange btn-ripple"><i class="ion-android-share"></i></a>
+    </div>
     <div class="nav-user">
         <div class="user">
             <img src="{{cdn('newTheme/globals/img/faces/tolga-ergin.jpg')}}" alt="">

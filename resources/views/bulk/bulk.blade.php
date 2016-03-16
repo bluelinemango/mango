@@ -1,12 +1,7 @@
 @extends('Layout1')
 @section('siteTitle')Bulk Editing @endsection
-@section('breadcrumb')
-    <ol class="breadcrumb">
-        <li><a href="#"><i class="ion-home"></i></a></li>
-        <li><a href="#" class="active">Bulk Editing</a></li>
-    </ol>
-@endsection
 @section('headerCss')
+    <link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css')}}">
     <style>
         .time_table_unselect {
             background-color: rgba(19, 222, 230, 0.45);
@@ -34,6 +29,13 @@
             cursor: pointer;
         }
     </style>
+
+@endsection
+@section('breadcrumb')
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="ion-home"></i></a></li>
+        <li><a href="#" class="active">Bulk Editing</a></li>
+    </ol>
 @endsection
 @section('content')
     <div class="col-md-12">

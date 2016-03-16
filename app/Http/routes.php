@@ -189,9 +189,9 @@ Route::group(['prefix' => 'ajax'], function()
 {
     ////////////////////BULK EDITING////////////////////////
     Route::get('/getCampaign', 'MangoController@getCampaign');
-    Route::get('/getCampaignList/{adv_id?}', 'MangoController@getCampaignList');
-    Route::get('/getCreativeList/{adv_id?}', 'MangoController@getCreativeList');
-    Route::get('/getTargetgroupList/{cmp_id?}', 'MangoController@getTargetgroupList');
+    Route::get('/getCampaignList/{entity_filter?}/{adv_id?}', 'MangoController@getCampaignList');
+    Route::get('/getCreativeList/{entity_filter?}/{adv_id?}', 'MangoController@getCreativeList');
+    Route::get('/getTargetgroupList/{entity_filter?}/{cmp_id?}', 'MangoController@getTargetgroupList');
     Route::get('/getAdvertiserSelect/{cln_id?}', 'MangoController@getAdvertiserSelect');
     Route::get('/getCampaignSelect/{adv_id?}', 'MangoController@getCampaignSelect');
     Route::get('/getAssignList/{adv_id?}', 'MangoController@getAssign');

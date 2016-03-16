@@ -106,6 +106,31 @@
         <!--.panel-->
     </div>
     <!--.col-->
+    <div class="col-md-3">
+        <div class="panel indigo">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="pull-left">Activities</h4>
+                    <div class="pull-right audit-select">
+                        <select id="audit_status" class="selecter col-md-12" >
+                            <option value="all">All</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0px 0 0 10px;">
+                <div class="timeline single" id="show_audit">
+                </div>
+                <!--.timeline-->
+            </div>
+            <!--.panel-body-->
+        </div>
+        <!--.panel-->
+    </div>
+    <!--.col-->
 
 
 
@@ -113,43 +138,45 @@
 @section('FooterScripts')
     <script>
         $(document).ready(function () {
-//            var $orderForm = $("#order-form").validate({
-//                // Rules for form validation
-//                rules : {
-//                    name : {
-//                        required : true
-//                    },
-//                    domain_name: {
-//                        required: true,
-//                        domain: true
-//                    }
-//                },
-//
-//                // Messages for form validation
-//                messages : {
-//                    name : {
-//                        required : 'Please enter your name'
-//                    },
-//                    email : {
-//                        required : 'Please enter your email address',
-//                        email : 'Please enter a VALID email address'
-//                    },
-//                    phone : {
-//                        required : 'Please enter your phone number'
-//                    },
-//                    client_id : {
-//                        required : 'Please select Client Name'
-//                    },
-//                    budget : {
-//                        required : 'Please select your budget'
-//                    }
-//                },
-//
-//                // Do not change code below
-//                errorPlacement : function(error, element) {
-//                    error.insertAfter(element.parent());
-//                }
-//            });
+
+
+            var $orderForm = $("#order-form").validate({
+                // Rules for form validation
+                rules : {
+                    name : {
+                        required : true
+                    },
+                    domain_name: {
+                        required: true,
+                        domain: true
+                    }
+                },
+
+                // Messages for form validation
+                messages : {
+                    name : {
+                        required : 'Please enter your name'
+                    },
+                    email : {
+                        required : 'Please enter your email address',
+                        email : 'Please enter a VALID email address'
+                    },
+                    phone : {
+                        required : 'Please enter your phone number'
+                    },
+                    client_id : {
+                        required : 'Please select Client Name'
+                    },
+                    budget : {
+                        required : 'Please select your budget'
+                    }
+                },
+
+                // Do not change code below
+                errorPlacement : function(error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
         })
     </script>
 @endsection

@@ -56,10 +56,10 @@ class AuditsController extends Controller
     public function getAllAudits(){
         if(Auth::check()){
             if(User::isSuperAdmin()){
-                $audit= Audits::with('getUser')->orderBy('created_at','DESC')->get();
+                $audit= Audits::with('getUser')->orderBy('created_at','DESC')->skip(0)->take(100)->get();
             }else {
                 $usr_comp = $this->user_company();
-                $audit= Audits::with('getUser')->whereIn('user_id', $usr_comp)->orderBy('created_at','DESC')->get();
+                $audit= Audits::with('getUser')->whereIn('user_id', $usr_comp)->orderBy('created_at','DESC')->skip(0)->take(100)->get();
             }
             $audit_obj= array();
             if($audit) {

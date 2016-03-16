@@ -328,7 +328,7 @@ class BidProfileController extends Controller
         if (Auth::check()) {
             if (in_array('ADD_EDIT_BIDPROFILE', $this->permission)) {    //permission goes here
                 $rules = array('domain' => 'required', 'bid_strategy' => 'required');
-                if($request->input('oper')=='edit'){
+                if($request->input('oper')=='edit' or $request->input('oper')=='del'){
                     $rules['bid_value'] = 'required';
                 }else {
                     if ($request->input('bid_strategy') == 'Absolute' or $request->input('bid_strategy') == 1) {

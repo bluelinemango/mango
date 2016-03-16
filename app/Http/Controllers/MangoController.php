@@ -12,13 +12,14 @@ use App\Models\GeoSegmentList;
 use App\Models\Iab_Category;
 use App\Models\Targetgroup;
 use App\Models\Targetgroup_Bidhour_Map;
+use App\Models\Targetgroup_Bidprofile_Map;
 use App\Models\Targetgroup_Bwlist_Map;
 use App\Models\Targetgroup_Creative_Map;
 use App\Models\Targetgroup_Geolocation_Map;
 use App\Models\Targetgroup_Geosegmentlist_Map;
 use App\Models\Targetgroup_Segment_Map;
-use Carbon\Carbon;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -33,57 +34,58 @@ class MangoController extends Controller
         return Redirect::to(url('/user/login'));
     }
 
-    public function validation(Request $request){
-        $rule=array();
-        if($request->has('name')){
-            $rule['name']= 'required';
+    public function validation(Request $request)
+    {
+        $rule = array();
+        if ($request->has('name')) {
+            $rule['name'] = 'required';
         }
-        if($request->has('domain_name')){
-            $rule['domain_name']= 'required';
+        if ($request->has('domain_name')) {
+            $rule['domain_name'] = 'required';
         }
-        if($request->has('advertiser_domain_name')){
-            $rule['advertiser_domain_name']= 'required';
+        if ($request->has('advertiser_domain_name')) {
+            $rule['advertiser_domain_name'] = 'required';
         }
-        if($request->has('max_impression')){
-            $rule['max_impression']= 'required|numeric';
+        if ($request->has('max_impression')) {
+            $rule['max_impression'] = 'required|numeric';
         }
-        if($request->has('daily_max_impression')){
-            $rule['daily_max_impression']= 'required|numeric';
+        if ($request->has('daily_max_impression')) {
+            $rule['daily_max_impression'] = 'required|numeric';
         }
-        if($request->has('max_budget')){
-            $rule['max_budget']= 'required|numeric';
+        if ($request->has('max_budget')) {
+            $rule['max_budget'] = 'required|numeric';
         }
-        if($request->has('daily_max_budget')){
-            $rule['daily_max_budget']= 'required|numeric';
+        if ($request->has('daily_max_budget')) {
+            $rule['daily_max_budget'] = 'required|numeric';
         }
-        if($request->has('cpm')){
-            $rule['cpm']= 'required|numeric';
+        if ($request->has('cpm')) {
+            $rule['cpm'] = 'required|numeric';
         }
-        if($request->has('frequency_in_sec')){
+        if ($request->has('frequency_in_sec')) {
             $rule['frequency_in_sec'] = 'required|numeric';
         }
-        if($request->has('pacing_plan')){
+        if ($request->has('pacing_plan')) {
             $rule['pacing_plan'] = 'required|numeric';
         }
-        if($request->has('date_range')){
+        if ($request->has('date_range')) {
             $rule['date_range'] = 'required';
         }
-        if($request->has('landing_page_url')){
+        if ($request->has('landing_page_url')) {
             $rule['landing_page_url'] = 'required';
         }
-        if($request->has('attributes')){
+        if ($request->has('attributes')) {
             $rule['attributes'] = 'required';
         }
-        if($request->has('preview_url')){
+        if ($request->has('preview_url')) {
             $rule['preview_url'] = 'required';
         }
-        if($request->has('size_width')){
+        if ($request->has('size_width')) {
             $rule['size_width'] = 'required|numeric|min:0';
         }
-        if($request->has('size_height')){
+        if ($request->has('size_height')) {
             $rule['size_height'] = 'required|numeric|min:0';
         }
-        if($request->has('ad_tag')){
+        if ($request->has('ad_tag')) {
             $rule['ad_tag'] = 'required';
         }
 //        return dd($rule);
@@ -99,7 +101,7 @@ class MangoController extends Controller
                     $campaign = Campaign::with(['getAdvertiser' => function ($q) {
                         $q->with('GetClientID');
                     }])->get();
-                    $client_obj=Client::get();
+                    $client_obj = Client::get();
                 } else {
                     $usr_company = $this->user_company();
                     $campaign = Campaign::whereHas('getAdvertiser', function ($q) use ($usr_company) {
@@ -107,7 +109,7 @@ class MangoController extends Controller
                             $p->whereIn('user_id', $usr_company);
                         });
                     })->get();
-                    $client_obj=Client::whereIn('user_id', $usr_company)->get();
+                    $client_obj = Client::whereIn('user_id', $usr_company)->get();
                     if (!$campaign) {
                         return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
@@ -128,7 +130,7 @@ class MangoController extends Controller
                     $creative = Creative::with(['getAdvertiser' => function ($q) {
                         $q->with('GetClientID');
                     }])->get();
-                    $client_obj=Client::get();
+                    $client_obj = Client::get();
                 } else {
                     $usr_company = $this->user_company();
                     $creative = Creative::whereHas('getAdvertiser', function ($q) use ($usr_company) {
@@ -136,7 +138,7 @@ class MangoController extends Controller
                             $p->whereIn('user_id', $usr_company);
                         });
                     })->get();
-                    $client_obj=Client::whereIn('user_id', $usr_company)->get();
+                    $client_obj = Client::whereIn('user_id', $usr_company)->get();
                     if (!$creative) {
                         return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
@@ -153,14 +155,14 @@ class MangoController extends Controller
     {
         if (Auth::check()) {
             if (in_array('ADD_EDIT_TARGETGROUP', $this->permission)) {
-                $adver_obj='';
+                $adver_obj = '';
                 if (User::isSuperAdmin()) {
                     $targetgroup = Targetgroup::with(['getCampaign' => function ($q) {
                         $q->with(['getAdvertiser' => function ($p) {
                             $p->with('GetClientID');
                         }]);
                     }])->get();
-                    $client_obj=Client::get();
+                    $client_obj = Client::get();
                 } else {
                     $usr_company = $this->user_company();
                     $targetgroup = Targetgroup::whereHas('getCampaign', function ($p) use ($usr_company) {
@@ -170,7 +172,7 @@ class MangoController extends Controller
                             });
                         });
                     })->get();
-                    $client_obj=Client::whereIn('user_id', $usr_company)->get();
+                    $client_obj = Client::whereIn('user_id', $usr_company)->get();
                     if (!$targetgroup) {
                         return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
@@ -185,78 +187,194 @@ class MangoController extends Controller
         }
     }   //Get TargetGroup view
 
-    public function getCampaignList($adv_id)
+    public function getCampaignList($entity_filter,$entity_id)
     {
         if (Auth::check()) {
             if (in_array('VIEW_CAMPAIGN', $this->permission)) {
                 if (User::isSuperAdmin()) {
-                    $campaign= Campaign::where('advertiser_id',$adv_id)->get();
+                    switch ($entity_filter) {
+                        case('client'):
+                            $entity_list = Campaign::whereHas('getAdvertiser', function ($q) use ($entity_id) {
+                                $q->whereHas('GetClientID', function ($p) use ($entity_id) {
+                                    $p->where('id',$entity_id);
+                                });
+                            })->get();
+                            break;
+                        case('advertiser'):
+                            $entity_list = Campaign::where('advertiser_id',$entity_id)->get();
+                            break;
+                        default:
+                            $entity_list=array();
+                            break;
+                    }
                 } else {
                     $usr_company = $this->user_company();
-                    $campaign= Campaign::whereHas('getAdvertiser', function ($q) use ($usr_company) {
-                        $q->whereHas('GetClientID', function ($p) use ($usr_company) {
-                            $p->whereIn('user_id', $usr_company);
-                        });
-                    })->where('advertiser_id',$adv_id)->get();
-                    if (!$campaign) {
-                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                    switch ($entity_filter) {
+                        case('client'):
+                            $entity_list = Campaign::whereHas('getAdvertiser', function ($q) use ($usr_company,$entity_id) {
+                                $q->whereHas('GetClientID', function ($p) use ($usr_company) {
+                                    $p->whereIn('user_id', $usr_company);
+                                })->where('client_id',$entity_id);
+                            })->get();
+                            break;
+                        case('advertiser'):
+                            $entity_list = Campaign::whereHas('getAdvertiser', function ($q) use ($usr_company) {
+                                $q->whereHas('GetClientID', function ($p) use ($usr_company) {
+                                    $p->whereIn('user_id', $usr_company);
+                                });
+                            })->where('advertiser_id',$entity_id)->get();
+                            break;
+                        default:
+                            $entity_list=array();
+                            break;
                     }
+                }
+                if (!$entity_list) {
+                    return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                 }
                 return view('bulk.ajaxTask')
                     ->with('taskAjax', 'showCampaignList')
-                    ->with('campaign_obj', $campaign);
+                    ->with('campaign_obj', $entity_list);
             }
             return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
         }
     }
 
-    public function getCreativeList($adv_id)
+    public function getCreativeList($entity_filter,$entity_id)
     {
         if (Auth::check()) {
             if (in_array('VIEW_CREATIVE', $this->permission)) {
+                $entity_list=array();
                 if (User::isSuperAdmin()) {
-                    $creative= Creative::where('advertiser_id',$adv_id)->get();
+                    switch ($entity_filter) {
+                        case('client'):
+                            $entity_list = Creative::whereHas('getAdvertiser', function ($q) use ($entity_id) {
+                                $q->whereHas('GetClientID', function ($p) use ($entity_id) {
+                                    $p->where('id',$entity_id);
+                                });
+                            })->get();
+                            break;
+                        case('advertiser'):
+                            $entity_list = Creative::where('advertiser_id',$entity_id)->get();
+                            break;
+                        default:
+                            $entity_list=array();
+                            break;
+                    }
                 } else {
                     $usr_company = $this->user_company();
-                    $creative= Creative::whereHas('getAdvertiser', function ($q) use ($usr_company) {
-                        $q->whereHas('GetClientID', function ($p) use ($usr_company) {
-                            $p->whereIn('user_id', $usr_company);
-                        });
-                    })->where('advertiser_id',$adv_id)->get();
-                    if (!$creative) {
-                        return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
+                    switch ($entity_filter) {
+                        case('client'):
+                            $entity_list = Creative::whereHas('getAdvertiser', function ($q) use ($usr_company,$entity_id) {
+                                $q->whereHas('GetClientID', function ($p) use ($usr_company) {
+                                    $p->whereIn('user_id', $usr_company);
+                                })->where('client_id',$entity_id);
+                            })->get();
+                            break;
+                        case('advertiser'):
+                            $entity_list = Creative::whereHas('getAdvertiser', function ($q) use ($usr_company) {
+                                $q->whereHas('GetClientID', function ($p) use ($usr_company) {
+                                    $p->whereIn('user_id', $usr_company);
+                                });
+                            })->where('advertiser_id',$entity_id)->get();
+                            break;
+                        default:
+                            $entity_list=array();
+                            break;
                     }
+                }
+                if (!$entity_list) {
+                    return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                 }
                 return view('bulk.ajaxTask')
                     ->with('taskAjax', 'showCreativeList')
-                    ->with('creative_obj', $creative);
+                    ->with('creative_obj', $entity_list);
             }
             return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
         }
     }
 
-    public function getTargetgroupList($cmp_id)
+    public function getTargetgroupList($entity_filter,$entity_id)
     {
         if (Auth::check()) {
             if (in_array('VIEW_TARGETGROUP', $this->permission)) {
+                $entity_list=array();
                 if (User::isSuperAdmin()) {
-                    $targetgroup= Targetgroup::where('campaign_id',$cmp_id)->get();
+                    switch ($entity_filter) {
+                        case('client'):
+                            $entity_list = Targetgroup::whereHas('getCampaign', function ($p) use ($entity_id) {
+                                $p->whereHas('getAdvertiser', function ($q) use ($entity_id) {
+                                    $q->whereHas('GetClientID', function ($p) use ($entity_id) {
+                                        $p->where('id', $entity_id);
+                                    });
+                                });
+                            })->get();
+                            break;
+                        case('advertiser'):
+                            $entity_list = Targetgroup::whereHas('getCampaign', function ($p) use ($entity_id) {
+                                $p->whereHas('getAdvertiser', function ($q) use ($entity_id) {
+                                    $q->where('id',$entity_id);
+                                });
+                            })->get();
+                            break;
+                        case('campaign'):
+                            $entity_list = Targetgroup::whereHas('getCampaign', function ($p) use ($entity_id) {
+                                $p->where('id',$entity_id);
+                            })->get();
+                            break;
+                        default:
+                            $entity_list=array();
+                            break;
+                    }
                 } else {
                     $usr_company = $this->user_company();
-                    $targetgroup= Targetgroup::whereHas('getCampaign' ,function ($p) use ($usr_company) {
-                        $p->whereHas('getAdvertiser' , function ($q) use ($usr_company) {
-                            $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                    switch ($entity_filter) {
+                        case('client'):
+                            $entity_list = Targetgroup::whereHas('getCampaign', function ($p) use ($entity_id,$usr_company) {
+                                $p->whereHas('getAdvertiser', function ($q) use ($entity_id,$usr_company) {
+                                    $q->whereHas('GetClientID', function ($p) use ($entity_id,$usr_company) {
+                                        $p->whereIn('user_id', $usr_company)->where('id', $entity_id);
+                                    });
+                                });
+                            })->get();
+                            break;
+                        case('advertiser'):
+                            $entity_list = Targetgroup::whereHas('getCampaign', function ($p) use ($entity_id,$usr_company) {
+                                $p->whereHas('getAdvertiser', function ($q) use ($entity_id,$usr_company) {
+                                    $q->whereHas('GetClientID', function ($p) use ($entity_id,$usr_company) {
+                                        $p->whereIn('user_id', $usr_company)->where('id', $entity_id);
+                                    })->where('id',$entity_id);
+                                });
+                            })->get();
+                            break;
+                        case('campaign'):
+                            $entity_list = Targetgroup::whereHas('getCampaign', function ($p) use ($entity_id,$usr_company) {
+                                $p->whereHas('getAdvertiser', function ($q) use ($entity_id,$usr_company) {
+                                    $q->whereHas('GetClientID', function ($p) use ($entity_id,$usr_company) {
+                                        $p->whereIn('user_id', $usr_company)->where('id', $entity_id);
+                                    });
+                                })->where('id',$entity_id);
+                            })->get();
+                            break;
+                        default:
+                            $entity_list=array();
+                            break;
+                    }
+
+                    $entity_list = Targetgroup::whereHas('getCampaign', function ($p) use ($usr_company) {
+                        $p->whereHas('getAdvertiser', function ($q) use ($usr_company) {
+                            $q->whereHas('GetClientID', function ($p) use ($usr_company) {
                                 $p->whereIn('user_id', $usr_company);
                             });
                         });
-                    })->where('campaign_id',$cmp_id)->get();
-                    if (!$targetgroup) {
+                    })->where('campaign_id', $entity_id)->get();
+                    if (!$entity_list) {
                         return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                     }
                 }
                 return view('bulk.ajaxTask')
                     ->with('taskAjax', 'showTargetgroupList')
-                    ->with('targetgroup_obj', $targetgroup);
+                    ->with('targetgroup_obj', $entity_list);
             }
             return Redirect::back()->withErrors(['success' => false, 'msg' => "You don't have permission"]);
         }
@@ -270,7 +388,7 @@ class MangoController extends Controller
                     $next_child = Advertiser::where('client_id', $cln_id)->get();
                 } else {
                     $usr_company = $this->user_company();
-                    $next_child= Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
+                    $next_child = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
                         $p->whereIn('user_id', $usr_company);
                     })->where('client_id', $cln_id)->get();
                     if (!$next_child) {
@@ -293,7 +411,7 @@ class MangoController extends Controller
                     $next_child = Campaign::where('advertiser_id', $adv_id)->get();
                 } else {
                     $usr_company = $this->user_company();
-                    $next_child= Campaign::whereHas('GetClientID', function ($p) use ($usr_company) {
+                    $next_child = Campaign::whereHas('GetClientID', function ($p) use ($usr_company) {
                         $p->whereIn('user_id', $usr_company);
                     })->where('advertiser_id', $adv_id)->get();
                     if (!$next_child) {
@@ -314,7 +432,7 @@ class MangoController extends Controller
 
             if (User::isSuperAdmin()) {
                 $adver_obj = Advertiser::with('Creative', 'GeoSegment', 'BWList')
-                ->find($adv_id);
+                    ->find($adv_id);
             } else {
                 $usr_company = $this->user_company();
                 $adver_obj = Advertiser::whereHas('GetClientID', function ($p) use ($usr_company) {
@@ -324,7 +442,7 @@ class MangoController extends Controller
                     return Redirect::back()->withErrors(['success' => false, 'msg' => 'please Select your Client'])->withInput();
                 }
             }
-            if($adver_obj) {
+            if ($adver_obj) {
                 $geolocation_obj = Geolocation::get();
                 return view('bulk.assign')
                     ->with('geolocation_obj', $geolocation_obj)
@@ -343,57 +461,57 @@ class MangoController extends Controller
                     $usr_company = $this->user_company();
                     $audit = new AuditsController();
                     $audit_key = $audit->generateRandomString();
-                    if($request->input('advertiser_id')=='all' and !$request->has('campaign_list')){
-                        if($request->input('client_id')=='all'){
+                    if ($request->input('advertiser_id') == 'all' and !$request->has('campaign_list')) {
+                        if ($request->input('client_id') == 'all') {
                             if (User::isSuperAdmin()) {
                                 $campaign_list = Campaign::get(['id'])->toArray();
                             } else {
-                                $campaign_list = Campaign::whereHas('getAdvertiser' , function ($q) use ($usr_company){
-                                    $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $campaign_list = Campaign::whereHas('getAdvertiser', function ($q) use ($usr_company) {
+                                    $q->whereHas('GetClientID', function ($p) use ($usr_company) {
                                         $p->whereIn('user_id', $usr_company);
                                     });
                                 })->get(['id'])->toArray();
                             }
 
-                        }elseif($request->input('client_id')!='all'){
+                        } elseif ($request->input('client_id') != 'all') {
                             if (User::isSuperAdmin()) {
-                                $campaign_list = Campaign::whereHas('getAdvertiser' , function ($q) use ($request){
-                                    $q->where('client_id',$request->input('client_id'));
+                                $campaign_list = Campaign::whereHas('getAdvertiser', function ($q) use ($request) {
+                                    $q->where('client_id', $request->input('client_id'));
                                 })->get(['id'])->toArray();
                             } else {
                                 ////////////////////////
-                                $campaign_list = Campaign::whereHas('getAdvertiser' , function ($q) use ($usr_company,$request){
-                                    $q->whereHas('GetClientID' ,function ($p) use ($usr_company,$request) {
-                                        $p->where('id',$request->input('client_id'))->whereIn('user_id', $usr_company);
+                                $campaign_list = Campaign::whereHas('getAdvertiser', function ($q) use ($usr_company, $request) {
+                                    $q->whereHas('GetClientID', function ($p) use ($usr_company, $request) {
+                                        $p->where('id', $request->input('client_id'))->whereIn('user_id', $usr_company);
                                     });
                                 })->get(['id'])->toArray();
                             }
 
                         }
-                    }elseif($request->input('advertiser_id')!='all' and !$request->has('campaign_list')){
+                    } elseif ($request->input('advertiser_id') != 'all' and !$request->has('campaign_list')) {
                         if (User::isSuperAdmin()) {
-                            $campaign_list = Campaign::whereHas('getAdvertiser' , function ($q) use ($request){
-                                $q->where('id',$request->input('advertiser_id'));
+                            $campaign_list = Campaign::whereHas('getAdvertiser', function ($q) use ($request) {
+                                $q->where('id', $request->input('advertiser_id'));
                             })->get(['id'])->toArray();
                         } else {
                             ////////////////////////
-                            $campaign_list = Campaign::whereHas('getAdvertiser' , function ($q) use ($usr_company,$request){
-                                $q->where('id',$request->input('advertiser_id'))->whereHas('GetClientID' ,function ($p) use ($usr_company,$request) {
+                            $campaign_list = Campaign::whereHas('getAdvertiser', function ($q) use ($usr_company, $request) {
+                                $q->where('id', $request->input('advertiser_id'))->whereHas('GetClientID', function ($p) use ($usr_company, $request) {
                                     $p->whereIn('user_id', $usr_company);
                                 });
                             })->get(['id'])->toArray();
                         }
 
-                    }else{
-                        $campaign_list=explode(',',$request->input('campaign_list'));
+                    } else {
+                        $campaign_list = explode(',', $request->input('campaign_list'));
                     }
-                    if(count($campaign_list)>0) {
+                    if (count($campaign_list) > 0) {
                         foreach ($campaign_list as $index) {
                             $data = array();
-                            if(!$request->has('campaign_list')){
+                            if (!$request->has('campaign_list')) {
                                 $campaign_id = $index['id'];
                                 $campaign = Campaign::find($campaign_id);
-                            }else{
+                            } else {
                                 $campaign_id = $index;
                                 if (User::isSuperAdmin()) {
                                     $campaign = Campaign::find($campaign_id);
@@ -407,7 +525,7 @@ class MangoController extends Controller
                                 }
                             }
                             if ($campaign) {
-                                if($request->has('date_range')) {
+                                if ($request->has('date_range')) {
                                     $check_date = $this->date_validation($request->input('date_range'));
                                     if (!$check_date) {
                                         return Redirect::back()->withErrors(['success' => false, 'msg' => 'please check your date range!']);
@@ -502,72 +620,72 @@ class MangoController extends Controller
                 if ($validate->passes()) {
                     $audit = new AuditsController();
                     $audit_key = $audit->generateRandomString();
-                    if($request->input('campaign_id')=='all' and !$request->has('tg_list')){
-                        if($request->input('advertiser_id')=='all' and $request->input('client_id')=='all'){
+                    if ($request->input('campaign_id') == 'all' and !$request->has('tg_list')) {
+                        if ($request->input('advertiser_id') == 'all' and $request->input('client_id') == 'all') {
                             if (User::isSuperAdmin()) {
                                 $tg_list1 = Targetgroup::get(['id'])->toArray();
                             } else {
-                                $tg_list1 = Targetgroup::whereHas('getCampaign' ,function ($p) use ($usr_company) {
-                                    $p->whereHas('getAdvertiser' , function ($q) use ($usr_company) {
-                                        $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                                $tg_list1 = Targetgroup::whereHas('getCampaign', function ($p) use ($usr_company) {
+                                    $p->whereHas('getAdvertiser', function ($q) use ($usr_company) {
+                                        $q->whereHas('GetClientID', function ($p) use ($usr_company) {
                                             $p->whereIn('user_id', $usr_company);
                                         });
                                     });
                                 })->get(['id'])->toArray();
                             }
 
-                        }elseif($request->input('advertiser_id')!='all'){
+                        } elseif ($request->input('advertiser_id') != 'all') {
                             if (User::isSuperAdmin()) {
-                                $tg_list1 = Targetgroup::whereHas('getCampaign' ,function ($p) use ($request) {
-                                    $p->whereHas('getAdvertiser' , function ($q) use ($request) {
-                                        $q->where('id',$request->input('advertiser_id'));
+                                $tg_list1 = Targetgroup::whereHas('getCampaign', function ($p) use ($request) {
+                                    $p->whereHas('getAdvertiser', function ($q) use ($request) {
+                                        $q->where('id', $request->input('advertiser_id'));
                                     });
                                 })->get(['id'])->toArray();
                             } else {
-                                $tg_list1 = Targetgroup::whereHas('getCampaign' ,function ($p) use ($usr_company,$request) {
-                                    $p->whereHas('getAdvertiser' , function ($q) use ($usr_company,$request) {
-                                        $q->where('id',$request->input('advertiser_id'))->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                                $tg_list1 = Targetgroup::whereHas('getCampaign', function ($p) use ($usr_company, $request) {
+                                    $p->whereHas('getAdvertiser', function ($q) use ($usr_company, $request) {
+                                        $q->where('id', $request->input('advertiser_id'))->whereHas('GetClientID', function ($p) use ($usr_company) {
                                             $p->whereIn('user_id', $usr_company);
                                         });
                                     });
                                 })->get(['id'])->toArray();
                             }
 
-                        }elseif($request->input('client_id')!='all'){
+                        } elseif ($request->input('client_id') != 'all') {
                             if (User::isSuperAdmin()) {
-                                $tg_list1 = Targetgroup::whereHas('getCampaign' ,function ($p) use ($request) {
-                                    $p->whereHas('getAdvertiser' , function ($q) use ($request) {
-                                        $q->whereHas('GetClientID' , function ($p) use ($request) {
-                                            $p->where('id',$request->input('client_id'));
+                                $tg_list1 = Targetgroup::whereHas('getCampaign', function ($p) use ($request) {
+                                    $p->whereHas('getAdvertiser', function ($q) use ($request) {
+                                        $q->whereHas('GetClientID', function ($p) use ($request) {
+                                            $p->where('id', $request->input('client_id'));
                                         });
                                     });
                                 })->get(['id'])->toArray();
                             } else {
-                                $tg_list1 = Targetgroup::whereHas('getCampaign' ,function ($p) use ($usr_company,$request) {
-                                    $p->whereHas('getAdvertiser' , function ($q) use ($usr_company,$request) {
-                                        $q->where('id',$request->input('advertiser_id'))->whereHas('GetClientID' , function ($p) use ($usr_company,$request) {
-                                            $p->where('id',$request->input('client_id'))->whereIn('user_id', $usr_company);
+                                $tg_list1 = Targetgroup::whereHas('getCampaign', function ($p) use ($usr_company, $request) {
+                                    $p->whereHas('getAdvertiser', function ($q) use ($usr_company, $request) {
+                                        $q->where('id', $request->input('advertiser_id'))->whereHas('GetClientID', function ($p) use ($usr_company, $request) {
+                                            $p->where('id', $request->input('client_id'))->whereIn('user_id', $usr_company);
                                         });
                                     });
                                 })->get(['id'])->toArray();
                             }
                         }
-                    }elseif($request->input('campaign_id')!='all' and !$request->has('tg_list')){
+                    } elseif ($request->input('campaign_id') != 'all' and !$request->has('tg_list')) {
                         if (User::isSuperAdmin()) {
-                            $tg_list1 = Targetgroup::whereHas('getCampaign' ,function ($p) use ($request) {
-                                $p->where('id',$request->input('campaign_id'));
+                            $tg_list1 = Targetgroup::whereHas('getCampaign', function ($p) use ($request) {
+                                $p->where('id', $request->input('campaign_id'));
                             })->get(['id'])->toArray();
                         } else {
-                            $tg_list1 = Targetgroup::whereHas('getCampaign' ,function ($p) use ($usr_company,$request) {
-                                $p->where('id',$request->input('campaign_id'))->whereHas('getAdvertiser' , function ($q) use ($usr_company) {
-                                    $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                            $tg_list1 = Targetgroup::whereHas('getCampaign', function ($p) use ($usr_company, $request) {
+                                $p->where('id', $request->input('campaign_id'))->whereHas('getAdvertiser', function ($q) use ($usr_company) {
+                                    $q->whereHas('GetClientID', function ($p) use ($usr_company) {
                                         $p->whereIn('user_id', $usr_company);
                                     });
                                 });
                             })->get(['id'])->toArray();
                         }
-                    }else{
-                        $tg_list1=explode(',',$request->input('tg_list'));
+                    } else {
+                        $tg_list1 = explode(',', $request->input('tg_list'));
                     }
 //                    return dd($tg_list1);
                     $bid_hour = '';
@@ -575,7 +693,7 @@ class MangoController extends Controller
                     for ($i = 0; $i < 7; $i++) {
                         for ($j = 0; $j < 24; $j++) {
                             if (!is_null($request->input($i . '-' . $j . '-hour'))) {
-                                $flg=1;
+                                $flg = 1;
                                 $bid_hour1[$j] = "1";
                             } else {
                                 $bid_hour1[$j] = "0";
@@ -583,20 +701,20 @@ class MangoController extends Controller
                         }
                         $bid_hour[$i + 1] = $bid_hour1;
                     }
-                    if(count($tg_list1)>0){
+                    if (count($tg_list1) > 0) {
                         foreach ($tg_list1 as $index) {
                             $data = array();
-                            if(!$request->has('tg_list')){
+                            if (!$request->has('tg_list')) {
                                 $tg_id = $index['id'];
                                 $tg = Targetgroup::find($tg_id);
-                            }else{
+                            } else {
                                 $tg_id = $index;
                                 if (User::isSuperAdmin()) {
                                     $tg = Targetgroup::find($tg_id);
                                 } else {
-                                    $tg = Targetgroup::whereHas('getCampaign' ,function ($p) use ($usr_company) {
-                                        $p->whereHas('getAdvertiser' , function ($q) use ($usr_company) {
-                                            $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                                    $tg = Targetgroup::whereHas('getCampaign', function ($p) use ($usr_company) {
+                                        $p->whereHas('getAdvertiser', function ($q) use ($usr_company) {
+                                            $q->whereHas('GetClientID', function ($p) use ($usr_company) {
                                                 $p->whereIn('user_id', $usr_company);
                                             });
                                         });
@@ -606,7 +724,7 @@ class MangoController extends Controller
 //                    return dd($tg_id);
                             if ($tg) {
 //                            return dd($tg);
-                                if($request->has('date_range')) {
+                                if ($request->has('date_range')) {
                                     $check_date = $this->date_validation($request->input('date_range'));
                                     if (!$check_date) {
                                         return Redirect::back()->withErrors(['success' => false, 'msg' => 'please check your date range!']);
@@ -616,8 +734,8 @@ class MangoController extends Controller
                                     $start_date = Carbon::createFromFormat('m/d/Y', str_replace(' ', '', $date_range[0]))->toDateString();
                                     $end_date = Carbon::createFromFormat('m/d/Y', str_replace(' ', '', $date_range[1]))->toDateString();
                                 }
-                                if($flg==1) {
-                                    $target_bid_hour = Targetgroup_Bidhour_Map::where('targetgroup_id',$tg_id)->first();
+                                if ($flg == 1) {
+                                    $target_bid_hour = Targetgroup_Bidhour_Map::where('targetgroup_id', $tg_id)->first();
                                     $target_bid_hour->hours = json_encode($bid_hour);
                                     $target_bid_hour->save();
                                 }
@@ -669,16 +787,16 @@ class MangoController extends Controller
                                 if ($request->has('frequency_in_sec')) {
                                     array_push($data, 'Frequency in Sec');
                                     array_push($data, $request->input('frequency_in_sec'));
-                                    $tg->frequency_in_sec =$request->input('frequency_in_sec');
+                                    $tg->frequency_in_sec = $request->input('frequency_in_sec');
                                 }
-                                if($request->has('iab_category')){
-                                    array_push($data,'Iab Category');
-                                    array_push($data,$request->input('iab_category'));
+                                if ($request->has('iab_category')) {
+                                    array_push($data, 'Iab Category');
+                                    array_push($data, $request->input('iab_category'));
                                     $tg->iab_category = $request->input('iab_category');
                                 }
-                                if($request->has('iab_sub_category')){
-                                    array_push($data,'Iab Sub Category');
-                                    array_push($data,$request->input('iab_sub_category'));
+                                if ($request->has('iab_sub_category')) {
+                                    array_push($data, 'Iab Sub Category');
+                                    array_push($data, $request->input('iab_sub_category'));
                                     $tg->iab_sub_category = $request->input('iab_sub_category');
                                 }
                                 if ($request->has('domain_name')) {
@@ -701,77 +819,77 @@ class MangoController extends Controller
                                     array_push($data, $end_date);
                                     $tg->end_date = $end_date;
                                 }
-                                if($request->has('unassign_geolocation')){
-                                    Targetgroup_Geolocation_Map::where('targetgroup_id',$tg_id)->delete();
+                                if ($request->has('unassign_geolocation')) {
+                                    Targetgroup_Geolocation_Map::where('targetgroup_id', $tg_id)->delete();
                                 }
-                                if($request->has('unassign_geosegment')) {
-                                    Targetgroup_Geosegmentlist_Map::where('targetgroup_id',$tg_id)->delete();
+                                if ($request->has('unassign_geosegment')) {
+                                    Targetgroup_Geosegmentlist_Map::where('targetgroup_id', $tg_id)->delete();
                                 }
-                                if($request->has('unassign_segment')) {
-                                    Targetgroup_Segment_Map::where('targetgroup_id',$tg_id)->delete();
+                                if ($request->has('unassign_segment')) {
+                                    Targetgroup_Segment_Map::where('targetgroup_id', $tg_id)->delete();
                                 }
-                                if($request->has('unassign_segment')) {
-                                    Targetgroup_Bwlist_Map::where('targetgroup_id',$tg_id)->delete();
+                                if ($request->has('unassign_segment')) {
+                                    Targetgroup_Bwlist_Map::where('targetgroup_id', $tg_id)->delete();
                                 }
-                                if($request->has('unassign_creative')) {
-                                    Targetgroup_Creative_Map::where('targetgroup_id',$tg_id)->delete();
+                                if ($request->has('unassign_creative')) {
+                                    Targetgroup_Creative_Map::where('targetgroup_id', $tg_id)->delete();
                                 }
-                                if($request->has('unassign_bidprofile')) {
-
+                                if ($request->has('unassign_bidprofile')) {
+                                    Targetgroup_Bidprofile_Map::where('targetgroup_id', $tg_id)->delete();
                                 }
                                 if (count($request->input('to_geosegment')) > 0) {
-                                    $geoSegment_map=Targetgroup_Geosegmentlist_Map::where('targetgroup_id', $tg_id)->get();
-                                    $geoSegArr=array();
-                                    foreach($geoSegment_map as $index2){
-                                        array_push($geoSegArr,$index2->geosegmentlist_id);
+                                    $geoSegment_map = Targetgroup_Geosegmentlist_Map::where('targetgroup_id', $tg_id)->get();
+                                    $geoSegArr = array();
+                                    foreach ($geoSegment_map as $index2) {
+                                        array_push($geoSegArr, $index2->geosegmentlist_id);
                                     }
                                     foreach ($request->input('to_geosegment') as $index1) {
                                         if (!in_array($index1, $geoSegArr)) {
                                             if (User::isSuperAdmin()) {
-                                                $check = true;
+                                                $check = GeoSegmentList::find($index1);
                                             } else {
-                                                $check=GeoSegmentList::whereHas('getAdvertiser' , function ($q) use($usr_company) {
-                                                    $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                                                $check = GeoSegmentList::whereHas('getAdvertiser', function ($q) use ($usr_company) {
+                                                    $q->whereHas('GetClientID', function ($p) use ($usr_company) {
                                                         $p->whereIn('user_id', $usr_company);
                                                     });
                                                 })->find($index1);
                                             }
-                                            if($check) {
+                                            if ($check) {
                                                 $geosegment_assign = new Targetgroup_Geosegmentlist_Map();
                                                 $geosegment_assign->targetgroup_id = $tg_id;
                                                 $geosegment_assign->geosegmentlist_id = $index1;
                                                 $geosegment_assign->save();
-                                                $data = array('targetgroup_geosegment', $geosegment_assign->id);
-                                                $audit->store('targetgroup', $tg_id, $data, 'bulk_edit', $audit_key);
+                                                $assign_data = array('Geo Segment', $check->name);
+                                                $audit->store('targetgroup', $tg_id, $assign_data, 'bulk_edit', $audit_key);
                                             }
                                             array_push($geoSegArr, $index1);
                                         }
                                     }
                                 }
                                 if (count($request->input('to_creative')) > 0) {
-                                    $map=Targetgroup_Creative_Map::where('targetgroup_id', $tg_id)->get();
-                                    $mapArr=array();
-                                    foreach($map as $index1){
-                                        array_push($mapArr,$index1->creative_id);
+                                    $map = Targetgroup_Creative_Map::where('targetgroup_id', $tg_id)->get();
+                                    $mapArr = array();
+                                    foreach ($map as $index1) {
+                                        array_push($mapArr, $index1->creative_id);
                                     }
                                     foreach ($request->input('to_creative') as $index1) {
                                         if (!in_array($index1, $mapArr)) {
                                             if (User::isSuperAdmin()) {
-                                                $check = true;
+                                                $check = Creative::find($index1);
                                             } else {
-                                                $check = Creative::whereHas('getAdvertiser' , function ($q) use($usr_company) {
-                                                    $q->whereHas('GetClientID' , function ($p) use ($usr_company) {
+                                                $check = Creative::whereHas('getAdvertiser', function ($q) use ($usr_company) {
+                                                    $q->whereHas('GetClientID', function ($p) use ($usr_company) {
                                                         $p->whereIn('user_id', $usr_company);
                                                     });
                                                 })->find($index1);
                                             }
-                                            if($check) {
+                                            if ($check) {
                                                 $creative_assign = new Targetgroup_Creative_Map();
                                                 $creative_assign->targetgroup_id = $tg_id;
                                                 $creative_assign->creative_id = $index1;
                                                 $creative_assign->save();
-                                                $data = array('targetgroup_creative', $creative_assign->id);
-                                                $audit->store('targetgroup', $tg_id, $data, 'bulk_edit', $audit_key);
+                                                $assign_data = array('Creative', $check->name);
+                                                $audit->store('targetgroup', $tg_id, $assign_data, 'bulk_edit', $audit_key);
                                             }
                                             array_push($mapArr, $index1);
                                         }
@@ -779,10 +897,10 @@ class MangoController extends Controller
                                 }
 
                                 if (count($request->input('to_segment')) > 0) {
-                                    $segment_map=Targetgroup_Segment_Map::where('targetgroup_id', $tg_id)->get();
-                                    $segArr=array();
-                                    foreach($segment_map as $index1){
-                                        array_push($segArr,$index1->segment_id);
+                                    $segment_map = Targetgroup_Segment_Map::where('targetgroup_id', $tg_id)->get();
+                                    $segArr = array();
+                                    foreach ($segment_map as $index1) {
+                                        array_push($segArr, $index1->segment_id);
                                     }
                                     foreach ($request->input('to_geosegment') as $index1) {
                                         if (!in_array($index1, $segArr)) {
@@ -790,18 +908,18 @@ class MangoController extends Controller
                                             $segment_assign->targetgroup_id = $tg_id;
                                             $segment_assign->segment_id = $index;
                                             $segment_assign->save();
-                                            $data=array('targetgroup_segment',$segment_assign->id);
-                                            $audit->store('targetgroup',$tg_id, $data, 'bulk_edit', $audit_key);
+                                            $assign_data = array('Segment', 'segmentID:'.$segment_assign->id);
+                                            $audit->store('targetgroup', $tg_id, $assign_data, 'bulk_edit', $audit_key);
                                             array_push($segArr, $index1);
                                         }
                                     }
                                 }
 
                                 if (count($request->input('to_geolocation')) > 0) {
-                                    $map=Targetgroup_Geolocation_Map::where('targetgroup_id', $tg_id)->get();
-                                    $mapArr=array();
-                                    foreach($map as $index1){
-                                        array_push($mapArr,$index1->geolocation_id);
+                                    $map = Targetgroup_Geolocation_Map::where('targetgroup_id', $tg_id)->get();
+                                    $mapArr = array();
+                                    foreach ($map as $index1) {
+                                        array_push($mapArr, $index1->geolocation_id);
                                     }
                                     foreach ($request->input('to_geolocation') as $index1) {
                                         if (!in_array($index1, $mapArr)) {
@@ -809,8 +927,8 @@ class MangoController extends Controller
                                             $geolocation_assign->targetgroup_id = $tg_id;
                                             $geolocation_assign->geolocation_id = $index1;
                                             $geolocation_assign->save();
-                                            $data=array('targetgroup_geolocation',$geolocation_assign->id);
-                                            $audit->store('targetgroup',$tg_id, $data, 'bulk_edit', $audit_key);
+                                            $assign_data = array('Geo Location', 'gln'.$geolocation_assign->id);
+                                            $audit->store('targetgroup', $tg_id, $assign_data, 'bulk_edit', $audit_key);
                                             array_push($mapArr, $index1);
                                         }
                                     }
@@ -841,57 +959,57 @@ class MangoController extends Controller
                     $usr_company = $this->user_company();
                     $audit = new AuditsController();
                     $audit_key = $audit->generateRandomString();
-                    if($request->input('advertiser_id')=='all' and !$request->has('creative_list')){
-                        if($request->input('client_id')=='all'){
+                    if ($request->input('advertiser_id') == 'all' and !$request->has('creative_list')) {
+                        if ($request->input('client_id') == 'all') {
                             if (User::isSuperAdmin()) {
                                 $creative_list = Creative::get(['id'])->toArray();
                             } else {
-                                $creative_list = Creative::whereHas('getAdvertiser' , function ($q) use ($usr_company){
-                                    $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $creative_list = Creative::whereHas('getAdvertiser', function ($q) use ($usr_company) {
+                                    $q->whereHas('GetClientID', function ($p) use ($usr_company) {
                                         $p->whereIn('user_id', $usr_company);
                                     });
                                 })->get(['id'])->toArray();
                             }
 
-                        }elseif($request->input('client_id')!='all'){
+                        } elseif ($request->input('client_id') != 'all') {
                             if (User::isSuperAdmin()) {
-                                $creative_list = Creative::whereHas('getAdvertiser' , function ($q) use ($request){
-                                    $q->where('client_id',$request->input('client_id'));
+                                $creative_list = Creative::whereHas('getAdvertiser', function ($q) use ($request) {
+                                    $q->where('client_id', $request->input('client_id'));
                                 })->get(['id'])->toArray();
                             } else {
                                 ////////////////////////
-                                $creative_list = Creative::whereHas('getAdvertiser' , function ($q) use ($usr_company,$request){
-                                    $q->whereHas('GetClientID' ,function ($p) use ($usr_company,$request) {
-                                        $p->where('id',$request->input('client_id'))->whereIn('user_id', $usr_company);
+                                $creative_list = Creative::whereHas('getAdvertiser', function ($q) use ($usr_company, $request) {
+                                    $q->whereHas('GetClientID', function ($p) use ($usr_company, $request) {
+                                        $p->where('id', $request->input('client_id'))->whereIn('user_id', $usr_company);
                                     });
                                 })->get(['id'])->toArray();
                             }
 
                         }
-                    }elseif($request->input('advertiser_id')!='all' and !$request->has('creative_list')){
+                    } elseif ($request->input('advertiser_id') != 'all' and !$request->has('creative_list')) {
                         if (User::isSuperAdmin()) {
-                            $creative_list = Creative::whereHas('getAdvertiser' , function ($q) use ($request){
-                                $q->where('id',$request->input('advertiser_id'));
+                            $creative_list = Creative::whereHas('getAdvertiser', function ($q) use ($request) {
+                                $q->where('id', $request->input('advertiser_id'));
                             })->get(['id'])->toArray();
                         } else {
                             ////////////////////////
-                            $creative_list = Creative::whereHas('getAdvertiser' , function ($q) use ($usr_company,$request){
-                                $q->where('id',$request->input('advertiser_id'))->whereHas('GetClientID' ,function ($p) use ($usr_company,$request) {
+                            $creative_list = Creative::whereHas('getAdvertiser', function ($q) use ($usr_company, $request) {
+                                $q->where('id', $request->input('advertiser_id'))->whereHas('GetClientID', function ($p) use ($usr_company, $request) {
                                     $p->whereIn('user_id', $usr_company);
                                 });
                             })->get(['id'])->toArray();
                         }
 
-                    }else{
-                        $creative_list=explode(',',$request->input('creative_list'));
+                    } else {
+                        $creative_list = explode(',', $request->input('creative_list'));
                     }
-                    if(count($creative_list)>0){
+                    if (count($creative_list) > 0) {
                         foreach ($creative_list as $index) {
                             $data = array();
-                            if(!$request->has('creative_list')){
+                            if (!$request->has('creative_list')) {
                                 $creative_id = $index['id'];
                                 $creative = Creative::find($creative_id);
-                            }else{
+                            } else {
                                 $creative_id = $index;
                                 if (User::isSuperAdmin()) {
                                     $creative = Creative::find($creative_id);

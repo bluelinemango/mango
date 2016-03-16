@@ -67,9 +67,9 @@
                 <div class="form-group">
                     <label class="control-label" for="active">Status</label>
 
-                    <div class="checkboxer">
-                        <input type="checkbox" id="active" name="active" class="switchery-teal" disabled>
-                        <label for="check1">Active</label>
+                    <div class="switcher">
+                        <input type="checkbox" name="active" hidden disabled id="active">
+                        <label for="active"></label>
                     </div>
                 </div>
             </div>
@@ -354,8 +354,13 @@
     </div>
 </form>
 
+<script src="{{cdn('newTheme/globals/plugins/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{cdn('newTheme/globals/scripts/forms-pickers.js')}}"></script>
 
 <script>
+    $(document).ready(function () {
+        FormsPickers.init();
+    });
     $('select.selecter').selectpicker();
 
     for (var i = 0; i < 7; i++) {
@@ -501,12 +506,17 @@
     $("select[name='client_id']").change(function () {
         $('input[name="targetgroup_list"]').val('');
         $('#showTargetgroupList').html('');
-        var ad_id = $(this).val();
-        if (ad_id != 'all') {
+        var cln_id = $(this).val();
+        if (cln_id != 'all') {
             $.ajax({
-                url: "{{url('ajax/getAdvertiserSelect')}}" + '/' + ad_id
+                url: "{{url('ajax/getAdvertiserSelect')}}" + '/' + cln_id
             }).success(function (response) {
                 $('select[name="advertiser_id"]').html(response);
+                $.ajax({
+                    url: "{{url('ajax/getTargetgroupList/client')}}" + '/' + cln_id
+                }).success(function (response) {
+                    $('#showTargetgroupList').html(response);
+                });
                 $('select.selecter').selectpicker('refresh');
             });
         } else {
@@ -522,8 +532,12 @@
             $.ajax({
                 url: "{{url('ajax/getCampaignSelect')}}" + '/' + ad_id
             }).success(function (response) {
-                console.log(response);
                 $('select[name="campaign_id"]').html(response);
+                $.ajax({
+                    url: "{{url('ajax/getTargetgroupList/advertiser')}}" + '/' + ad_id
+                }).success(function (response) {
+                    $('#showTargetgroupList').html(response);
+                });
                 $('select.selecter').selectpicker('refresh');
 
             });
@@ -545,13 +559,12 @@
         console.log('ss');
         $('input[name="targetgroup_list"]').val('');
         $('#showTargetgroupList').html('');
-        var ad_id = $(this).val();
-        if (ad_id != 'all') {
+        var cmp_id = $(this).val();
+        if (cmp_id != 'all') {
             $.ajax({
-                url: "{{url('ajax/getTargetgroupList')}}" + '/' + ad_id
+                url: "{{url('ajax/getTargetgroupList/campaign/')}}" + '/' + cmp_id
             }).success(function (response) {
                 $('#showTargetgroupList').html(response);
-
             });
         } else {
             $('#showTargetgroupList').html("");

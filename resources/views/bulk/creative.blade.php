@@ -37,10 +37,9 @@
                     <div class="form-group">
                         <label class="control-label" for="active">Status</label>
 
-                        <div class="checkboxer">
-                            <input type="checkbox" name="active" id="active"
-                                   class="switchery-teal" disabled>
-                            <label for="check1">Active</label>
+                        <div class="switcher">
+                            <input type="checkbox" name="active" hidden disabled id="active">
+                            <label for="active"></label>
                         </div>
                     </div>
                 </div>
@@ -241,6 +240,13 @@
                 url: "{{url('ajax/getAdvertiserSelect')}}" + '/' + ad_id
             }).success(function (response) {
                 $('select[name="advertiser_id"]').html(response);
+                $.ajax({
+                    url: "{{url('ajax/getCreativeList/client')}}" + '/' + ad_id
+                }).success(function (response) {
+                    $('#showCreativeList').html(response);
+                });
+                $('select.selecter').selectpicker('refresh');
+
             });
         } else {
             $('select[name="advertiser_id"]').html("");
@@ -252,11 +258,12 @@
         var ad_id = $(this).val();
         if (ad_id != 'all') {
             $.ajax({
-                url: "{{url('ajax/getCreativeList')}}" + '/' + ad_id
+                url: "{{url('ajax/getCreativeList/advertiser')}}" + '/' + ad_id
             }).success(function (response) {
                 $('#showCreativeList').html(response);
-
+                $('select.selecter').selectpicker('refresh');
             });
+
         } else {
             $('#showCreativeList').html("");
         }

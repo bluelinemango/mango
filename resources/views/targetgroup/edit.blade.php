@@ -1156,6 +1156,7 @@
             }).success(function (response) {
                 console.log(response);
                 $('#iab_sub_category').html(response);
+                $('select.selecter').selectpicker('refresh');
             });
         }
         function setReview() {
@@ -1520,21 +1521,9 @@
         });
 
         $('#audit_status').change(function () {
-            if ($(this).val() == 'all') {
-                $.ajax({
-                    url: "{{url('ajax/getAllAudits')}}"
-                }).success(function (response) {
-                    $('#show_audit').html(response);
-                });
-            } else if ($(this).val() == 'entity') {
+            if ($(this).val() == 'entity') {
                 $.ajax({
                     url: "{{url('ajax/getAudit/targetgroup/'.$targetgroup_obj->id)}}"
-                }).success(function (response) {
-                    $('#show_audit').html(response);
-                });
-            } else if ($(this).val() == 'user') {
-                $.ajax({
-                    url: "{{url('ajax/getAudit/user')}}"
                 }).success(function (response) {
                     $('#show_audit').html(response);
                 });

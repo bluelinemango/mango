@@ -163,21 +163,9 @@
 
 
             $('#audit_status').change(function () {
-                if ($(this).val() == 'all') {
-                    $.ajax({
-                        url: "{{url('ajax/getAllAudits')}}"
-                    }).success(function (response) {
-                        $('#show_audit').html(response);
-                    });
-                } else if ($(this).val() == 'entity') {
+                if ($(this).val() == 'entity') {
                     $.ajax({
                         url: "{{url('ajax/getAudit/bid_profile')}}"
-                    }).success(function (response) {
-                        $('#show_audit').html(response);
-                    });
-                } else if ($(this).val() == 'user') {
-                    $.ajax({
-                        url: "{{url('ajax/getAudit/user')}}"
                     }).success(function (response) {
                         $('#show_audit').html(response);
                     });

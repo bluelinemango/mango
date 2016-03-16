@@ -1,5 +1,6 @@
 {{--{{dd($audit_obj)}}--}}
 @for($i=0;$i<count($audit_obj);)
+    @if(isset($audit_obj[$i]))
     <div class="frame">
         <div class="timeline-badge">
             <i class="fa fa-headphones"></i>
@@ -68,27 +69,31 @@
                     <?php $save = $audit_obj[$i+1]->id ?>
                     <?php $i = $i + 2; ?>
                 @endwhile
+                @if(!isset($audit_obj[$i]))
+                    <?php continue ?>
+                @endif
             @elseif($audit_obj[$i]->entity_type == 'creative')
                 <a href="{{url('client/cl'.$audit_obj[$i+1]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1]->getAdvertiser->id.'/creative/crt'.$audit_obj[$i+1]->id.'/edit')}}">crt{{$audit_obj[$i+1]->id}}</a>
 
             @endif
-            @if($audit_obj[$i]->entity_type == 'offer')
+
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'offer')
                <a href="{{url('client/cl'.$audit_obj[$i+1]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1]->getAdvertiser->id.'/offer/ofr'.$audit_obj[$i+1]->id.'/edit')}}">ofr{{$audit_obj[$i+1]->id}}</a>
 
             @endif
-            @if($audit_obj[$i]->entity_type == 'pixel')
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'pixel')
                 <a href="{{url('client/cl'.$audit_obj[$i+1]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1]->getAdvertiser->id.'/pixel/pxl'.$audit_obj[$i+1]->id.'/edit')}}">pxl{{$audit_obj[$i+1]->id}}</a>
 
             @endif
-            @if($audit_obj[$i]->entity_type == 'bwlist')
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'bwlist')
                <a href="{{url('client/cl'.$audit_obj[$i+1]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1]->getAdvertiser->id.'/bwlist/bwl'.$audit_obj[$i+1]->id.'/edit')}}">{{$audit_obj[$i+1]->name}}</a>
 
             @endif
-            @if($audit_obj[$i]->entity_type == 'geosegment')
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'geosegment')
                 <a href="{{url('client/cl'.$audit_obj[$i+1]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1]->getAdvertiser->id.'/geosegment/gsm'.$audit_obj[$i+1]->id.'/edit')}}">{{$audit_obj[$i+1]->name}}</a>
 
             @endif
-            @if($audit_obj[$i]->entity_type == 'campaign' and $audit_obj[$i]->audit_type =='bulk_edit')
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'campaign' and $audit_obj[$i]->audit_type =='bulk_edit')
                 <?php $flg_content = 0; ?>
                 <?php $body .= "<p><strong>" . $audit_obj[$i]->field . "</strong> to <strong>" . $audit_obj[$i]->after_value . "</strong></p>"?>
                 @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='bulk_edit')
@@ -106,35 +111,53 @@
                     <?php $save = $audit_obj[$i+1]->id ?>
                     <?php $i = $i + 2; ?>
                 @endwhile
-            @elseif($audit_obj[$i]->entity_type == 'campaign')
+            @elseif(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'campaign')
                 <a href="{{url('client/cl'.$audit_obj[$i+1]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1]->getAdvertiser->id.'/campaign/cmp'.$audit_obj[$i+1]->id.'/edit')}}">cmp{{$audit_obj[$i+1]->id}}</a>
 
             @endif
-            @if($audit_obj[$i]->entity_type == 'modelTable')
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'modelTable')
                <a href="{{url('client/cl'.$audit_obj[$i+1]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1]->getAdvertiser->id.'/model/mdl'.$audit_obj[$i+1]->id.'/edit')}}">mdl{{$audit_obj[$i+1]->id}}</a>
 
             @endif
-            @if($audit_obj[$i]->entity_type == 'positive_offer_model' or $audit_obj[$i]->entity_type == 'negative_offer_model')
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'positive_offer_model' or $audit_obj[$i]->entity_type == 'negative_offer_model')
                <a href="{{url('client/cl'.$audit_obj[$i+1]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1]->getAdvertiser->id.'/model/mdl'.$audit_obj[$i]->after_value.'/edit')}}">mdl{{$audit_obj[$i]->after_value}}</a>
 
             @endif
-            @if($audit_obj[$i]->entity_type == 'advertiser_model_map')
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'advertiser_model_map')
               <a href="{{url('client/cl'.$audit_obj[$i+1]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1]->getAdvertiser->id.'/edit')}}">adv{{$audit_obj[$i]->after_value}}</a>
 
             @endif
-            @if($audit_obj[$i]->entity_type == 'offer_pixel_map')
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'offer_pixel_map')
                <a href="{{url('client/cl'.$audit_obj[$i+1]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1]->getAdvertiser->id.'/offer/ofr'.$audit_obj[$i]->after_value.'/edit')}}">ofr{{$audit_obj[$i]->after_value}}</a>
 
             @endif
-            @if($audit_obj[$i]->entity_type == 'targetgroup')
+
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'targetgroup' and $audit_obj[$i]->audit_type =='bulk_edit')
+                <?php $flg_content = 0; ?>
+                <?php $body .= "<p><strong>" . $audit_obj[$i]->field . "</strong> to <strong>" . $audit_obj[$i]->after_value . "</strong></p>"?>
+                @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='bulk_edit')
+                    @if(isset($audit_obj[$i+2]) and $audit_obj[$i]->entity_id == $audit_obj[$i+2]->entity_id and $flg_content == 0)
+                        <?php $body .= "<p><strong>" . $audit_obj[$i + 2]->field . "</strong> to <strong>" . $audit_obj[$i + 2]->after_value . "</strong></p>"?>
+                    @else
+                        <?php $flg_content = 1; ?>
+                    @endif
+                    @if($save != $audit_obj[$i+1]->id)
+                        <strong><a href="{{url('client/cl'.$audit_obj[$i+1]->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1]->getCampaign->getAdvertiser->id.'/campaign/cmp'.$audit_obj[$i+1]->getCampaign->id.'/targetgroup/tg'.$audit_obj[$i+1]->id.'/edit')}}">tg{{$audit_obj[$i+1]->id}}</a>
+                            ,
+                        </strong>
+                    @endif
+                    <?php $save = $audit_obj[$i+1]->id ?>
+                    <?php $i = $i + 2; ?>
+                @endwhile
+            @elseif(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'targetgroup')
                 <a href="{{url('client/cl'.$audit_obj[$i+1]->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1]->getCampaign->getAdvertiser->id.'/campaign/cmp'.$audit_obj[$i+1]->getCampaign->id.'/targetgroup/tg'.$audit_obj[$i+1]->id.'/edit')}}">{{$audit_obj[$i+1]->name}}</a>
 
             @endif
             <?php $map=array('targetgroup_creative_map','targetgroup_geolocation_map','targetgroup_segment_map','targetgroup_geosegment_map','targetgroup_bwlist_map','targetgroup_bidprofile_map',)?>
-            @if(in_array($audit_obj[$i]->entity_type,$map))
+            @if(isset($audit_obj[$i]) and in_array($audit_obj[$i]->entity_type,$map))
                 tg{{$audit_obj[$i]->after_value}}
             @endif
-            @if($audit_obj[$i]->entity_type == 'geosegmententrie')
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'geosegmententrie')
                 @if($audit_obj[$i]->audit_type == 'del')
                     <strong>{{$audit_obj[$i]->before_vale}}</strong>
                     from
@@ -145,7 +168,7 @@
                     <strong>GSL{{$audit_obj[$i]->after_value}}</strong>
                 @endif
             @endif
-            @if($audit_obj[$i]->entity_type == 'bwlistentrie')
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'bwlistentrie')
                 @if($audit_obj[$i]->audit_type == 'del')
                     <strong>{{$audit_obj[$i]->before_vale}}</strong>
                     from
@@ -156,7 +179,7 @@
                     <strong>BWL{{$audit_obj[$i]->after_value}}</strong>
                 @endif
             @endif
-            @if($audit_obj[$i]->entity_type == 'bid_profile_entry')
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'bid_profile_entry')
                 @if($audit_obj[$i]->audit_type == 'del')
                     <strong>BPE{{$audit_obj[$i]->before_vale}}</strong>
                     from
@@ -192,7 +215,7 @@
 
             @endif
 
-            @if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'add' and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->entity_type==$entity_type)
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->audit_type == 'add' and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->entity_type==$entity_type)
 {{--                    {{dd($entity_type)}}--}}
                 <div class="timeline-content">
                     @if($audit_obj[$i]->entity_type == 'geosegment')
@@ -312,7 +335,7 @@
 
             @endif
                 {{--{{dd($entity_type)}}--}}
-            @if(isset($audit_obj[$i]->audit_type) and $audit_obj[$i]->audit_type == 'del' and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->entity_type==$entity_type)
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->audit_type == 'del' and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->entity_type==$entity_type)
                 <div class="timeline-content">
                     @if($audit_obj[$i]->entity_type == 'geosegment')
                         Entrie(s):
@@ -417,4 +440,5 @@
         <?php if(isset($audit_obj[$i])) $entity_type=$audit_obj[$i]->entity_type; ?>
         @endwhile
     </div>
+    @endif
 @endfor

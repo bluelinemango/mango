@@ -276,3 +276,13 @@ em.invalid{
 select{
     overflow: auto;
 }
+
+.logout-btn{
+    position: fixed;
+    z-index: 4;
+    top: 120px;
+    left: 5px;
+    width: 70px;
+    padding: 27px 20px 0 0px;
+    cursor: pointer;
+}

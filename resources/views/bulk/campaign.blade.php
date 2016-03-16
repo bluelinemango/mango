@@ -34,9 +34,9 @@
                 <div class="col-md-1">
                     <div class="form-group">
                         <label class="control-label" for="active">Status</label>
-                        <div class="checkboxer">
-                            <input type="checkbox" id="active" name="active" class="switchery-teal" disabled>
-                            <label for="check1">Active</label>
+                        <div class="switcher">
+                            <input type="checkbox" name="active" hidden disabled id="active">
+                            <label for="active"></label>
                         </div>
                     </div>
                 </div>
@@ -127,7 +127,7 @@
                             <span class="add-on input-group-addon"><i class="ion-android-calendar"></i></span>
                             <div class="inputer">
                                 <div class="input-wrapper">
-                                    <input type="text" style="width: 200px" name="date_range" class="form-control bootstrap-daterangepicker-basic-range" value="" id="date_range" />
+                                    <input type="text" style="width: 200px" name="date_range" class="form-control bootstrap-daterangepicker-basic-range" value="" id="date_range" disabled />
                                 </div>
                             </div>
                         </div>
@@ -192,7 +192,14 @@
     </form>
 </div>
 
+<script src="{{cdn('newTheme/globals/plugins/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{cdn('newTheme/globals/scripts/forms-pickers.js')}}"></script>
+
 <script>
+    $(document).ready(function () {
+        FormsPickers.init();
+    });
+
     var $orderForm = $("#order-form").validate({
         // Rules for form validation
         rules: {
@@ -275,6 +282,12 @@
                 url: "{{url('ajax/getAdvertiserSelect')}}" + '/' + ad_id
             }).success(function (response) {
                 $('select[name="advertiser_id"]').html(response);
+                $.ajax({
+                    url: "{{url('ajax/getCampaignList/client')}}" + '/' + ad_id
+                }).success(function (response) {
+                    $('#showCapmaignList').html(response);
+                });
+                $('select.selecter').selectpicker('refresh');
             });
         } else {
             $('select[name="advertiser_id"]').html("");
@@ -286,10 +299,10 @@
         var ad_id = $(this).val();
         if (ad_id != 'all') {
             $.ajax({
-                url: "{{url('ajax/getCampaignList')}}" + '/' + ad_id
+                url: "{{url('ajax/getCampaignList/advertiser')}}" + '/' + ad_id
             }).success(function (response) {
                 $('#showCapmaignList').html(response);
-
+                $('select.selecter').selectpicker('refresh');
             });
         } else {
             $('#showCapmaignList').html("");

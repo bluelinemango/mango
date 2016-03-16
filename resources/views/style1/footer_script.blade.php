@@ -47,6 +47,21 @@
 
 
 <script>
+    $('#audit_status').change(function () {
+        if ($(this).val() == 'all') {
+            $.ajax({
+                url: "{{url('ajax/getAllAudits')}}"
+            }).success(function (response) {
+                $('#show_audit').html(response);
+            });
+        } else if ($(this).val() == 'user') {
+            $.ajax({
+                url: "{{url('ajax/getAudit/user')}}"
+            }).success(function (response) {
+                $('#show_audit').html(response);
+            });
+        }
+    });
 
     function ChangeStatus(entity,entity_id){ //CHANGE STATUS OF ALL ENTITY IN LIST VIEW
         console.log('ss');
@@ -87,6 +102,13 @@
     $(document).ready(function() {
 //        Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', '');
 
+        @if(strpos(Request::path(), '/add'))
+        $.ajax({
+            url: "{{url('ajax/getAllAudits')}}"
+        }).success(function (response) {
+            $('#show_audit').html(response);
+        });
+        @endif
             //////////////////////////////SYSTEM MSG//////////////////////////////////////
         @if(isset($errors))
         @foreach($errors->get('msg') as $error)
