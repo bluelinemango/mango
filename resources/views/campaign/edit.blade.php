@@ -537,7 +537,6 @@
                 {
                     "id": 'tg{{$index->id}}',
                     "name": '{{$index->name}}',
-                    "campaign_name": '<a href="{{url('/client/cl'.$index->getCampaign->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getCampaign->getAdvertiser->id.'/campaign/cmp'.$index->getCampaign->id.'/edit')}}">{{$index->getCampaign->name}}</a>',
                     @if($index->status == 'Active')
                     "status": '<div class="switcher"><input id="targetgroup{{$index->id}}" onchange="ChangeStatus(`targetgroup`,`{{$index->id}}`)" type="checkbox" checked hidden><label for="targetgroup{{$index->id}}"></label></div>',
                     @elseif($index->status == 'Inactive')
@@ -569,14 +568,6 @@
                 fields: [
                     {name: "id", title: "ID", type: "text", width: 40, align: "center", editing: false},
                     {name: "name", title: "Name", type: "text", width: 70},
-                    {
-                        name: "campaign_name",
-                        title: "Campaign",
-                        type: "text",
-                        width: 70,
-                        align: "center",
-                        editing: false
-                    },
                     {name: "status", title: "Status", width: 50, align: "center", editing: false},
                     {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
                     {name: "action", title: "Edit / +TG", sorting: false, width: 70, align: "center"},
@@ -667,7 +658,7 @@
 
 
 
-        })
+        });
         $('#audit_status').change(function () {
             if ($(this).val() == 'all') {
                 $.ajax({

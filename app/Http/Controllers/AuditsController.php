@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Audits;
 use App\Models\Bid_Profile;
 use App\Models\Bid_Profile_Entry;
+use App\Models\Geolocation;
+use App\Models\Segment;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -118,14 +120,20 @@ class AuditsController extends Controller
                     break;
                 case 'targetgroup':
                     if(!is_null($entity_id)) {
-                        $query .= " and (entity_type = 'targetgroup' and entity_id = '".$entity_id."')";
+                        $query .= " and ((entity_type = 'targetgroup' and entity_id = '".$entity_id."')
+                        or (entity_type = 'targetgroup_creative_map' and after_value='".$entity_id."' )
+                        or (entity_type = 'targetgroup_geolocation_map' and after_value='".$entity_id."' )
+                        or (entity_type = 'targetgroup_segment_map' and after_value='".$entity_id."' )
+                        or (entity_type = 'targetgroup_geosegment_map' and after_value='".$entity_id."' )
+                        or (entity_type = 'targetgroup_bwlist_map' and after_value='".$entity_id."' )
+                        or (entity_type = 'targetgroup_bidprofile_map' and after_value='".$entity_id."' ))";
                     }else{
                         $query .= " and (entity_type = 'targetgroup')";
                     }
                     break;
                 case 'geosegment':
                     if(!is_null($entity_id)) {
-                        $query .= " and (entity_type = 'geosegment' and entity_id = '".$entity_id."')";
+                        $query .= " and ((entity_type = 'geosegment' and entity_id = '".$entity_id."') or (entity_type = 'geosegmententrie' and after_value ='".$entity_id."') )";
                     }else{
                         $query .= " and (entity_type = 'geosegment')";
                     }
@@ -268,12 +276,12 @@ class AuditsController extends Controller
             switch ($index->entity_type){
                 case 'client':
                     if(in_array('VIEW_CLIENT',$this->permission)) {
-                        $entity_obj=Client::where('id',$index->entity_id)->get(['id','name']);
+                        $entity_obj=Client::find($index->entity_id);
                     }
                     break;
                 case 'advertiser':
                     if(in_array('VIEW_ADVERTISER',$this->permission)) {
-                        $entity_obj=Advertiser::with('GetClientID')->where('id',$index->entity_id)->get();
+                        $entity_obj=Advertiser::with('GetClientID')->find($index->entity_id);
                     }
                     break;
                 case 'creative':
@@ -281,7 +289,7 @@ class AuditsController extends Controller
                         $entity_obj = Creative::with(['getAdvertiser'=>function($q){
                             $q->with('GetClientID');
                         }])
-                            ->where('id', $index->entity_id)->get();
+                            ->find($index->entity_id);
                     }
                     break;
                 case 'campaign':
@@ -289,42 +297,97 @@ class AuditsController extends Controller
                         $entity_obj = Campaign::with(['getAdvertiser'=>function($q){
                             $q->with('GetClientID');
                         }])
-                            ->where('id', $index->entity_id)->get();
+                            ->find($index->entity_id);
                     }
                     break;
                 case 'offer':
                     if(in_array('VIEW_OFFER',$this->permission)) {
                         $entity_obj = Offer::with(['getAdvertiser'=>function($q){
                             $q->with('GetClientID');
-                        }])->where('id', $index->entity_id)->get();
+                        }])->find($index->entity_id);
                     }
                     break;
                 case 'pixel':
                     if(in_array('VIEW_PIXEL',$this->permission)) {
                         $entity_obj = Pixel::with(['getAdvertiser'=>function($q){
                             $q->with('GetClientID');
-                        }])->where('id', $index->entity_id)->get();
+                        }])->find($index->entity_id);
                     }
                     break;
                 case 'targetgroup':
                     if(in_array('VIEW_TARGETGROUP',$this->permission)) {
-                        $entity_obj = Targetgroup::where('id', $index->entity_id)->get(['id', 'name']);
+                        $entity_obj = Targetgroup::find($index->entity_id);
                     }
                     break;
+                case 'targetgroup_geolocation_map':
+                    if(in_array('VIEW_TARGETGROUP',$this->permission)) {
+                        if($index->audit_type=='del') {
+                            $entity_obj = Geolocation::find($index->after_value);
+                        }else {
+                            $entity_obj = Geolocation::find($index->entity_id);
+                        }
+                    }
+                    break;
+                case 'targetgroup_creative_map':
+                    if(in_array('VIEW_TARGETGROUP',$this->permission)) {
+                        if($index->audit_type=='del') {
+                            $entity_obj = Creative::find($index->after_value);
+                        }else {
+                            $entity_obj = Creative::find($index->entity_id);
+                        }
+                    }
+                    break;
+                case 'targetgroup_segment_map':
+                    if(in_array('VIEW_TARGETGROUP',$this->permission)) {
+                        if($index->audit_type=='del') {
+                            $entity_obj = Segment::find($index->after_value);
+                        }else {
+                            $entity_obj = Segment::find($index->entity_id);
+                        }
+                    }
+                    break;
+                case 'targetgroup_geosegment_map':
+                    if(in_array('VIEW_TARGETGROUP',$this->permission)) {
+                        if($index->audit_type=='del') {
+                            $entity_obj = GeoSegmentList::find($index->after_value);
+                        }else {
+                            $entity_obj = GeoSegmentList::find($index->entity_id);
+                        }
+                    }
+                    break;
+                case 'targetgroup_bwlist_map':
+                    if(in_array('VIEW_TARGETGROUP',$this->permission)) {
+                        if($index->audit_type=='del') {
+                            $entity_obj = BWList::find($index->after_value);
+                        }else {
+                            $entity_obj = BWList::find($index->entity_id);
+                        }
+                    }
+                    break;
+                case 'targetgroup_bidprofile_map':
+                    if(in_array('VIEW_TARGETGROUP',$this->permission)) {
+                        if($index->audit_type=='del') {
+                            $entity_obj = Bid_Profile::find($index->after_value);
+                        }else {
+                            $entity_obj = Bid_Profile::find($index->entity_id);
+                        }
+                    }
+                    break;
+
                 case 'geosegment':
                     if(in_array('VIEW_GEOSEGMENTLIST',$this->permission)) {
                         $entity_obj = GeoSegmentList::with(['getAdvertiser'=>function($q){
                             $q->with('GetClientID');
                         }])
-                            ->where('id', $index->entity_id)->get();
+                            ->find($index->entity_id);
                     }
                     break;
                 case 'geosegmententrie':
                     if(in_array('VIEW_GEOSEGMENTLIST',$this->permission)) {
                         if($index->audit_type=='del') {
-                            $entity_obj = GeoSegmentList::where('id', $index->after_value)->get();
+                            $entity_obj = GeoSegment::find($index->after_value);
                         }else{
-                            $entity_obj = GeoSegmentList::where('id', $index->after_value)->get();
+                            $entity_obj = GeoSegment::find($index->entity_id);
                         }
                     }
                     break;
@@ -333,16 +396,16 @@ class AuditsController extends Controller
                         $entity_obj = BWList::with(['getAdvertiser'=>function($q){
                             $q->with('GetClientID');
                         }])
-                            ->where('id', $index->entity_id)->get();
+                            ->find($index->entity_id);
                     }
                     break;
                 case 'bwlistentrie':
                     if(in_array('VIEW_BWLIST',$this->permission)) {
                         if($index->audit_type=='del') {
-                            $entity_obj = BWList::where('id', $index->after_value)->get();
+                            $entity_obj = BWEntries::find($index->after_value);
 
                         }else {
-                            $entity_obj = BWList::where('id', $index->after_value)->get();
+                            $entity_obj = BWEntries::find($index->entity_id);
                         }
                     }
                     break;
@@ -351,28 +414,28 @@ class AuditsController extends Controller
                         $entity_obj = Bid_Profile::with(['getAdvertiser'=>function($q){
                             $q->with('GetClientID');
                         }])
-                            ->where('id', $index->entity_id)->get();
+                            ->find($index->entity_id);
                     }
                     break;
                 case 'bid_profile_entry':
                     if(in_array('VIEW_BIDPROFILE',$this->permission)) {
                         if($index->audit_type=='del') {
-                            $entity_obj = Bid_Profile::where('id', $index->after_value)->get();
+                            $entity_obj = Bid_Profile::where('id', $index->after_value)->first();
 
                         }else {
-                            $entity_obj = Bid_Profile_Entry::with('getParent')->where('id', $index->entity_id)->get();
+                            $entity_obj = Bid_Profile_Entry::with('getParent')->find($index->entity_id);
                         }
                     }
                     break;
                 case 'modelTable':
                     if(in_array('VIEW_MODEL',$this->permission)) {
                         if($index->audit_type=='del') {
-                            $entity_obj = BWList::where('id', $index->after_value)->get();
+                            $entity_obj = BWList::where('id', $index->after_value)->first();
 
                         }else{
                             $entity_obj = ModelTable::with(['getAdvertiser'=>function($q){
                                 $q->with('GetClientID');
-                            }])->where('id', $index->entity_id)->get();
+                            }])->find($index->entity_id);
                         }
                     }
                     break;
@@ -380,28 +443,28 @@ class AuditsController extends Controller
                     if(in_array('VIEW_OFFER',$this->permission)) {
                         $entity_obj = Pixel::with(['getAdvertiser'=>function($q){
                             $q->with('GetClientID');
-                        }])->where('id', $index->entity_id)->get();
+                        }])->find($index->entity_id);
                     }
                     break;
                 case 'advertiser_model_map':
                     if(in_array('VIEW_ADVERTISER',$this->permission)) {
                         $entity_obj = ModelTable::with(['getAdvertiser'=>function($q){
                             $q->with('GetClientID');
-                        }])->where('id', $index->entity_id)->get();
+                        }])->find($index->entity_id);
                     }
                     break;
                 case 'positive_offer_model':
                     if(in_array('VIEW_MODEL',$this->permission)) {
                         $entity_obj = Offer::with(['getAdvertiser'=>function($q){
                             $q->with('GetClientID');
-                        }])->where('id', $index->entity_id)->get();
+                        }])->find($index->entity_id);
                     }
                     break;
                 case 'negative_offer_model':
                     if(in_array('VIEW_MODEL',$this->permission)) {
                         $entity_obj = Offer::with(['getAdvertiser'=>function($q){
                             $q->with('GetClientID');
-                        }])->where('id', $index->entity_id)->get();
+                        }])->find($index->entity_id);
                     }
                     break;
             }

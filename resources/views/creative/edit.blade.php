@@ -160,16 +160,48 @@
                                         <div class="form-group">
                                             <label class="control-label">Attributes</label>
 
-                                            <div class="inputer">
-                                                <div class="input-wrapper">
-                                                    <input type="text" name="attributes" placeholder="Attributes"
-                                                           value="{{$creative_obj->attributes}}"
-                                                           class="form-control" id="attributes">
-
-                                                </div>
-                                            </div>
+                                            <select name="attributes[]" id="attributes" multiple class="selecter">
+                                                <option value="AUDIO-AD-(AUTO-PLAY)" @if(in_array('AUDIO-AD-(AUTO-PLAY)',$attributes_select))
+                                                        selected @endif>Audio Ad (Auto-Play)</option>
+                                                <option value="AUDIO-AD-(USER INITIATED)" @if(in_array('AUDIO-AD-(USER INITIATED)',$attributes_select))
+                                                        selected @endif>Audio Ad (User Initiated)</option>
+                                                <option value="EXPANDABLE-(AUTOMATIC)" @if(in_array('EXPANDABLE-(AUTOMATIC)',$attributes_select))
+                                                        selected @endif> Expandable (Automatic)
+                                                </option>
+                                                <option value="EXPANDABLE-(USER-INITIATED-CLICK)" @if(in_array('EXPANDABLE-(USER-INITIATED-CLICK)',$attributes_select))
+                                                        selected @endif>Expandable (User Initiated - Click)
+                                                </option>
+                                                <option value="EXPANDABLE-(USER-INITIATED-ROLLOVER)" @if(in_array('EXPANDABLE-(USER-INITIATED-ROLLOVER)',$attributes_select))
+                                                        selected @endif>Expandable (User Initiated - Rollover)
+                                                </option>
+                                                <option value="IN-BANNER-VIDEO-AD-(AUTO-PLAY)" @if(in_array('IN-BANNER-VIDEO-AD-(AUTO-PLAY)',$attributes_select))
+                                                        selected @endif>In-Banner Video Ad (Auto-Play)</option>
+                                                <option value="IN-BANNER VIDEO AD (USER INITIATED)" @if(in_array('IN-BANNER VIDEO AD (USER INITIATED)',$attributes_select))
+                                                        selected @endif>In-Banner Video Ad (User Initiated)</option>
+                                                <option value="POP" @if(in_array('POP',$attributes_select))
+                                                        selected @endif>Pop</option>
+                                                <option value="PROVOCATIVE OR SUGGESTIVE IMAGERY" @if(in_array('PROVOCATIVE OR SUGGESTIVE IMAGERY',$attributes_select))
+                                                        selected @endif>Provocative or Suggestive Imagery</option>
+                                                <option value="SHAKY, FLASHING, FLICKERING, EXTREME ANIMATION, SMILEYS" @if(in_array('SHAKY, FLASHING, FLICKERING, EXTREME ANIMATION, SMILEYS',$attributes_select))
+                                                        selected @endif>Shaky, Flashing, Flickering, Extreme Animation, Smileys</option>
+                                                <option value="SURVEYS" @if(in_array('SURVEYS',$attributes_select))
+                                                        selected @endif>Surveys</option>
+                                                <option value="TEXT-ONLY" @if(in_array('TEXT-ONLY',$attributes_select))
+                                                        selected @endif>Text Only</option>
+                                                <option value="USER INTERACTIVE (E.G., EMBEDDED GAMES)" @if(in_array('USER INTERACTIVE (E.G., EMBEDDED GAMES)',$attributes_select))
+                                                        selected @endif>User Interactive (e.g., Embedded Games)</option>
+                                                <option value="WINDOWS DIALOG OR ALERT STYLE" @if(in_array('WINDOWS DIALOG OR ALERT STYLE',$attributes_select))
+                                                        selected @endif>Windows Dialog or Alert Style</option>
+                                                <option value="HAS AUDIO ON/OFF BUTTON" @if(in_array('HAS AUDIO ON/OFF BUTTON',$attributes_select))
+                                                        selected @endif>Has Audio On/Off Button</option>
+                                                <option value="AD CAN BE SKIPPED" @if(in_array('AD CAN BE SKIPPED',$attributes_select))
+                                                        selected @endif>Ad Can be Skipped</option>
+                                            </select>
                                         </div>
                                     </div>
+
+
+
                                     <div class="col-md-3 ">
                                         <div class="form-group">
                                             <label class="control-label">Preview URL</label>

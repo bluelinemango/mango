@@ -56,17 +56,6 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    <label class="control-label">Status</label>
-
-                                    <div class="checkboxer">
-                                        <input type="checkbox" name="active"
-                                               class="switchery-teal">
-                                        <label for="check1">Active</label>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-md-2">
                                 <label class="control-label" for="">Advertiser Name</label>
                                 <h5>{{$advertiser_obj->name}}</h5>

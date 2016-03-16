@@ -332,7 +332,7 @@
                                 </a>
                             </h4>
                             <h4 class="pull-right">
-                                <button type="reset" class="btn btn-primary btn-lg" data-toggle="modal"
+                                <button type="reset" class="btn btn-primary " data-toggle="modal"
                                         data-target="#myModal_bid_profile">
                                     Upload Bid Profile
                                 </button>

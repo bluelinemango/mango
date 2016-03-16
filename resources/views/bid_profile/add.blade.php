@@ -69,20 +69,6 @@
                             <div class="clearfix"></div>
                             <!--.form-group-->
                         </div>
-                        <div style="padding: 15px">
-
-                            <div class="form-group">
-                                <label class="control-label">Description</label>
-
-                                <div class="inputer">
-                                    <div class="input-wrapper">
-                                                    <textarea name="description" class="form-control" rows="3"
-                                                              placeholder="type minimum 5 characters"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">

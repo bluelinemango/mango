@@ -71,6 +71,7 @@ class CreativeController extends Controller
     }
 
     public function add_creative(Request $request){
+//        return dd($request->all());
         if(Auth::check()){
             if (in_array('ADD_EDIT_CREATIVE', $this->permission)) {
                 $validate=\Validator::make($request->all(), Creative::$rule);
@@ -101,7 +102,7 @@ class CreativeController extends Controller
                         $creative->api = json_encode($request->input('api'));
                         $creative->landing_page_url = $request->input('landing_page_url');
                         $creative->preview_url = $request->input('preview_url');
-                        $creative->attributes = $request->input('attributes');
+                        $creative->attributes = json_encode($request->input('attributes'));
                         $creative->save();
                         $audit= new AuditsController();
                         $audit->store('creative',$creative->id,null,'add');
@@ -137,11 +138,16 @@ class CreativeController extends Controller
                     }
 
                     $api_select=array();
+                    $attributes_select=array();
                     if(!is_null(json_decode($creative_obj->api))){
                         $api_select = json_decode($creative_obj->api);
                     }
+                    if(!is_null(json_decode($creative_obj->attributes))){
+                        $attributes_select = json_decode($creative_obj->attributes);
+                    }
                     return view('creative.edit')
                         ->with('api_select', $api_select)
+                        ->with('attributes_select', $attributes_select)
                         ->with('clone', $clone)
                         ->with('creative_obj', $creative_obj);
                 }
@@ -201,6 +207,12 @@ class CreativeController extends Controller
                             array_push($data,json_encode($request->input('api')));
                             $creative->api=json_encode($request->input('api'));
                         }
+                        if($creative->attributes!=json_encode($request->input('attributes'))){
+                            array_push($data,'Attributes');
+                            array_push($data,$creative->attributes);
+                            array_push($data,json_encode($request->input('attributes')));
+                            $creative->attributes=json_encode($request->input('attributes'));
+                        }
                         if($creative->advertiser_domain_name!=$request->input('advertiser_domain_name')){
                             array_push($data,'Domain Name');
                             array_push($data,$creative->advertiser_domain_name);
@@ -224,12 +236,6 @@ class CreativeController extends Controller
                             array_push($data,$creative->preview_url);
                             array_push($data,$request->input('preview_url'));
                             $creative->preview_url=$request->input('preview_url');
-                        }
-                        if($creative->attributes!=$request->input('attributes')){
-                            array_push($data,'Attributes');
-                            array_push($data,$creative->attributes);
-                            array_push($data,$request->input('attributes'));
-                            $creative->attributes=$request->input('attributes');
                         }
                         if($creative->ad_tag!=$request->input('ad_tag')){
                             array_push($data,'AD Tag');

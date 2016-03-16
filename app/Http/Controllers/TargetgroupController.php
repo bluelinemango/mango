@@ -19,6 +19,7 @@ use App\Models\Iab_Sub_Category;
 use App\Models\Targetgroup;
 use App\Models\Targetgroup_Bid_Advpublisher;
 use App\Models\Targetgroup_Bidhour_Map;
+use App\Models\Targetgroup_Bidprofile_Map;
 use App\Models\Targetgroup_Bwlist_Map;
 use App\Models\Targetgroup_Creative_Map;
 use App\Models\Targetgroup_Geolocation_Map;
@@ -26,6 +27,7 @@ use App\Models\Targetgroup_Geosegmentlist_Map;
 use App\Models\Targetgroup_Realtime;
 use App\Models\Targetgroup_Segment_Map;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -257,7 +259,7 @@ class TargetgroupController extends Controller
                                 $p->with('GetClientID');
                             }]);
                         }])
-                            ->with('getCreative', 'getBWList', 'getGeoSegment','getSegment','getGeoLocation','getBidhour')
+                            ->with('getCreative', 'getBWList', 'getGeoSegment','getSegment','getGeoLocation','getBidhour','getBidProfile')
                             ->with(['getBidAdvPublisher'=>function($r){
                                 $r->with('getPublisher');
                             }])
@@ -275,7 +277,7 @@ class TargetgroupController extends Controller
                                 });
                             });
                         })
-                            ->with('getCreative', 'getBWList', 'getGeoSegment','getSegment','getGeoLocation','getBidhour','getBidAdvPublisher')
+                            ->with('getCreative', 'getBWList', 'getGeoSegment','getSegment','getGeoLocation','getBidhour','getBidProfile')
                             ->find($tgid);
                         $campaign_obj = Campaign::whereHas('getAdvertiser' , function ($q) use ($usr_company) {
                             $q->with('Creative', 'GeoSegment', 'BWList','Segment','BidProfile')->whereHas('GetClientID' , function ($p) use ($usr_company) {
@@ -297,6 +299,7 @@ class TargetgroupController extends Controller
                     $iab_category_obj = Iab_Category::get();
                     $geolocation_obj = Geolocation::get();
                     $targetgroupCreative = array();
+                    $targetgroupBidProfile = array();
                     $targetgroupBWList = array();
                     $targetgroupGeoSegment = array();
                     $targetgroupSegment = array();
@@ -304,6 +307,11 @@ class TargetgroupController extends Controller
                     if (count($targetgroup_obj->getCreative) > 0) {
                         foreach ($targetgroup_obj->getCreative as $index) {
                             array_push($targetgroupCreative, $index->creative_id);
+                        }
+                    }
+                    if (count($targetgroup_obj->getBidProfile) > 0) {
+                        foreach ($targetgroup_obj->getBidProfile as $index) {
+                            array_push($targetgroupBidProfile, $index->bid_profile_id);
                         }
                     }
                     if (count($targetgroup_obj->getBWList) > 0) {
@@ -335,6 +343,7 @@ class TargetgroupController extends Controller
                         ->with('targetgroup_obj', $targetgroup_obj)
                         ->with('campaign_obj', $campaign_obj)
                         ->with('targetgroupCreative', $targetgroupCreative)
+                        ->with('targetgroupBidProfile', $targetgroupBidProfile)
                         ->with('targetgroupBWList', $targetgroupBWList)
                         ->with('ad_select',$ad_select )
                         ->with('targetgroupGeoSegment', $targetgroupGeoSegment)
@@ -356,9 +365,12 @@ class TargetgroupController extends Controller
 //        return dd($request->all());
         if (Auth::check()) {
             if (in_array('ADD_EDIT_TARGETGROUP', $this->permission)) {
-
-                $validate = \Validator::make($request->all(), ['name' => 'required']);
+                $validate = \Validator::make($request->all(), Targetgroup::$rules);
                 if ($validate->passes()) {
+                    $check_date=$this->date_validation($request->input('date_range'));
+                    if(!$check_date){
+                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please check your date range!']);
+                    }
                     $targetgroup_id = $request->input('targetgroup_id');
                     if (User::isSuperAdmin()) {
                         $targetgroup = Targetgroup::find($targetgroup_id);
@@ -376,6 +388,19 @@ class TargetgroupController extends Controller
                         $data=array();
                         $audit=new AuditsController();
                         $audit_key=$audit->generateRandomString();
+
+                        $date_range=explode('-',$request->input('date_range'));
+
+                        $start_date=Carbon::createFromFormat('m/d/Y',str_replace(' ','',$date_range[0]))->toDateString();
+                        $end_date=Carbon::createFromFormat('m/d/Y',str_replace(' ','',$date_range[1]))->toDateString();
+                        $start_date_old=Carbon::createFromFormat('Y-m-d H:i:s',$targetgroup->start_date)->toDateString();
+                        $end_date_old=Carbon::createFromFormat('Y-m-d H:i:s',$targetgroup->end_date)->toDateString();
+
+                        $active='Inactive';
+                        if($request->input('active')=='on'){
+                            $active='Active';
+                        }
+
                         $bid_hour = '';
                         for ($i = 0; $i < 7; $i++) {
                             for ($j = 0; $j < 24; $j++) {
@@ -392,12 +417,7 @@ class TargetgroupController extends Controller
                         $target_bid_hour->hours = json_encode($bid_hour);
                         $target_bid_hour->save();
 
-                        if($targetgroup->start_date != $request->input('startdate')){
-                            $start_date = \DateTime::createFromFormat('m.d.Y', $request->input('startdate'));
-                        }
-                        if($targetgroup->end_date != $request->input('finishdate')){
-                            $end_date = \DateTime::createFromFormat('m.d.Y', $request->input('finishdate'));
-                        }
+
                         if($targetgroup->name != $request->input('name')){
                             array_push($data,'name');
                             array_push($data,$targetgroup->name);
@@ -409,6 +429,12 @@ class TargetgroupController extends Controller
                             array_push($data,$targetgroup->max_impression);
                             array_push($data,$request->input('max_impression'));
                             $targetgroup->max_impression = $request->input('max_impression');
+                        }
+                        if ($targetgroup->status != $active) {
+                            array_push($data, 'Status');
+                            array_push($data, $targetgroup->status);
+                            array_push($data, $active);
+                            $targetgroup->status = $active;
                         }
                         if($targetgroup->daily_max_impression != $request->input('daily_max_impression')){
                             array_push($data,'Daily max Impression');
@@ -476,18 +502,19 @@ class TargetgroupController extends Controller
                             array_push($data,$request->input('iab_sub_category'));
                             $targetgroup->iab_sub_category = $request->input('iab_sub_category');
                         }
-                        if(isset($start_date)){
+                        if($start_date_old != $start_date){
                             array_push($data,'Start Date');
-                            array_push($data,$targetgroup->start_date);
+                            array_push($data,$start_date_old);
                             array_push($data,$start_date);
                             $targetgroup->start_date = $start_date;
                         }
-                        if(isset($end_date)){
+                        if($end_date_old != $end_date){
                             array_push($data,'End Date');
-                            array_push($data,$targetgroup->end_date);
+                            array_push($data,$end_date_old);
                             array_push($data,$end_date);
                             $targetgroup->end_date = $end_date;
                         }
+
                         $targetgroup->save();
 
                         $audit->store('targetgroup',$targetgroup_id,$data,'edit',$audit_key);
@@ -521,6 +548,36 @@ class TargetgroupController extends Controller
                                 $audit->store('targetgroup_geosegment_map', $index->geosegmentlist_id, $targetgroup_id, 'remove', $audit_key);
                             }
 
+                        }
+
+                        ///////////////////BID PROFILE Assign////////////////////////
+                        $bid_profile_map=Targetgroup_Bidprofile_Map::where('targetgroup_id', $targetgroup_id)->get();
+                        $bidProfileArr=array();
+                        foreach($bid_profile_map as $index){
+                            array_push($bidProfileArr,$index->bid_profile_id);
+                        }
+//                        return dd($geoSegArr);
+                        if ($request->has('to_bid_profile')) {
+                            foreach ($request->input('to_bid_profile') as $index) {
+                                if (!in_array($index, $bidProfileArr)) {
+                                    $bid_profile_assign = new Targetgroup_Bidprofile_Map();
+                                    $bid_profile_assign->targetgroup_id = $targetgroup->id;
+                                    $bid_profile_assign->bid_profile_id = $index;
+                                    $bid_profile_assign->save();
+                                    $audit->store('targetgroup_bidprofile_map', $index, $targetgroup_id, 'add', $audit_key);
+                                }
+                            }
+                            foreach ($bid_profile_map as $index) {
+                                if (!in_array($index->bid_profile_id, $request->input('to_bid_profile'))) {
+                                    Targetgroup_Bidprofile_Map::where('targetgroup_id',$targetgroup_id)->where('bid_profile_id',$index->bid_profile_id)->delete();
+                                    $audit->store('targetgroup_bidprofile_map', $index->bid_profile_id, $targetgroup_id, 'remove', $audit_key);
+                                }
+                            }
+                        }else{
+                            foreach ($bid_profile_map as $index) {
+                                Targetgroup_Bidprofile_Map::where('targetgroup_id',$targetgroup_id)->where('bid_profile_id',$index->bid_profile_id)->delete();
+                                $audit->store('targetgroup_bidprofile_map', $index->bid_profile_id, $targetgroup_id, 'remove', $audit_key);
+                            }
                         }
 
                         /////////////////// Segment Assign////////////////////////

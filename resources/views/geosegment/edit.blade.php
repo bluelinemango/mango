@@ -149,7 +149,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="row example-row">
-                            <div class="col-md-3">Name</div>
+                            <div class="col-md-3">Domain</div>
                             <!--.col-md-3-->
                             <div class="col-md-9">
                                 <div class="inputer">
@@ -294,6 +294,7 @@
                         }
                     });
                 },
+
                 deleteItem: function (updatingGeosegmentEntry) {
                     updatingGeosegmentEntry['oper'] = 'del';
                     $.ajax({
@@ -367,9 +368,22 @@
                         required: true,
                         domain: true
                     },
-                    lat: "required",
-                    lon: "required",
-                    segment_radius: "required"
+                    lat: {
+                        required:true,
+                        min:0,
+                        number: 'Enter number Plz'
+
+                    },
+                    lon: {
+                        required:true,
+                        min:0,
+                        number: 'Enter number Plz'
+                    },
+                    segment_radius: {
+                        required:true,
+                        min:0,
+                        number: 'Enter number Plz'
+                    }
 
                 },
                 messages: {
@@ -393,10 +407,10 @@
 
             var saveClient = function (geosegment_entry, isNew) {
                 $.extend(geosegment_entry, {
-                    name: $("#domain_name").val(),
+                    domain_name: $("#domain_name").val(),
                     lat: $("#lat").val(),
                     lon: $("#lon").val(),
-                    segment_radius: $("#radius").val()
+                    segment_radius: $("#segment_radius").val()
                 });
                 $("#domain_name").val('');
                 $("#lat").val('');

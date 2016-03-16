@@ -282,7 +282,14 @@ class GeoSegmentController extends Controller
 //        return dd($request->all());
         if(Auth::check()){
             if(in_array('ADD_EDIT_GEOSEGMENTLIST', $this->permission)){    //permission goes here
-                $validate=\Validator::make($request->all(),['name' => 'required','lat' => 'required','lon' => 'required','segment_radius' => 'required']);
+                $rules=array('lat' => 'required','lon' => 'required','segment_radius' => 'required');
+                if($request->has('domain_name')){
+                    $rules['domain_name'] = 'required';
+                }else{
+                    $rules['name'] = 'required';
+                }
+
+                $validate=\Validator::make($request->all(), $rules);
                 if($validate->passes()) {
                     if (User::isSuperAdmin()) {
                         $geosegment =GeoSegmentList::find($request->input('parent_id'));
@@ -299,13 +306,13 @@ class GeoSegmentController extends Controller
                         switch ($request->input('oper')) {
                             case 'add':
                                 $geosegment = new GeoSegment();
-                                $geosegment->name = $request->input('name');
+                                $geosegment->name = $request->input('domain_name');
                                 $geosegment->lat = $request->input('lat');
                                 $geosegment->lon = $request->input('lon');
                                 $geosegment->segment_radius = $request->input('segment_radius');
                                 $geosegment->geosegmentlist_id = $request->input('parent_id');
                                 $geosegment->save();
-                                $audit->store('geosegmententrie',$geosegment->id,$request->input('geosegment_id'),'add');
+                                $audit->store('geosegmententrie',$geosegment->id,$request->input('parent_id'),'add');
                                 return $msg=(['success' => true, 'msg' => "your Geo Segment has been Added"]);
                                 break;
                             case 'edit':

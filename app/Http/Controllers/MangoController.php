@@ -430,7 +430,7 @@ class MangoController extends Controller
                                     }
                                     array_push($data, 'Status');
                                     array_push($data, $active);
-                                    $campaign->name = $active;
+                                    $campaign->status = $active;
                                 }
                                 if ($request->has('max_impression')) {
                                     array_push($data, 'Max Imps');
@@ -634,7 +634,7 @@ class MangoController extends Controller
                                     }
                                     array_push($data, 'Status');
                                     array_push($data, $active);
-                                    $tg->name = $active;
+                                    $tg->status = $active;
                                 }
                                 if ($request->has('max_impression')) {
                                     array_push($data, 'Max Imps');
@@ -920,7 +920,7 @@ class MangoController extends Controller
                                     }
                                     array_push($data, 'Status');
                                     array_push($data, $active);
-                                    $creative->name = $active;
+                                    $creative->status = $active;
                                 }
 
                                 if ($request->input('ad_type')) {

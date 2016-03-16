@@ -154,11 +154,13 @@ Route::post('/bwlist/upload', ['uses'=>'BWListController@UploadBwlist','as'=>'bw
 
 /////////////////////////Bid Profile///////////////////////////////////////////
 Route::get('/bid-profile','BidProfileController@GetView');
+Route::get('//bid-profile/load-entry-list/{parent_id?}','BidProfileController@LoadJson');
 Route::get('/client/cl{clid?}/advertiser/adv{advid?}/bid-profile/add','BidProfileController@BidProfileAddView');
 Route::get('/client/cl{clid?}/advertiser/adv{advid?}/bid-profile/bpf{bpfid?}/edit','BidProfileController@BidProfileEditView');
 Route::post('/bid-profile/add/create', ['uses'=>'BidProfileController@add_bidProfile','as'=>'bidProfile_create']);
 Route::put('/bid-profile/edit/update', ['uses'=>'BidProfileController@edit_bidProfile','as'=>'bidProfile_update']);
 Route::post('/bid-profile/upload', ['uses'=>'BidProfileController@UploadBidProfile','as'=>'bid_profile_upload']);
+Route::put('/bid_profile_edit', 'BidProfileController@jqgrid');
 
 /////////////////////////END Bid Profile///////////////////////////////////////////
 
@@ -215,7 +217,6 @@ Route::group(['prefix' => 'ajax'], function()
         Route::put('/user', 'UsersController@jqgrid');
         Route::put('/bwlist', 'BWListController@jqgridList');
         Route::put('/bid_profile', 'BidProfileController@jqgridList');
-        Route::put('/bid-profile-entry', 'BidProfileController@jqgrid');
         Route::put('/geolist', 'GeoSegmentController@jqgridList');
     });
     Route::group(['prefix' => 'status'], function() {
@@ -224,6 +225,7 @@ Route::group(['prefix' => 'ajax'], function()
         Route::get('/campaign/{id?}', 'CampaignController@ChangeStatus');
         Route::get('/creative/{id?}', 'CreativeController@ChangeStatus');
         Route::get('/geosegment/{id?}', 'GeoSegmentController@ChangeStatus');
+        Route::get('/inventory/{id?}', 'InventoryController@ChangeStatus');
         Route::get('/bwlist/{id?}', 'BWListController@ChangeStatus');
         Route::get('/bid_profile/{id?}', 'BidProfileController@ChangeStatus');
         Route::get('/targetgroup/{id?}', 'TargetgroupController@ChangeStatus');

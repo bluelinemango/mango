@@ -237,7 +237,7 @@ class BWListController extends Controller
                                     $bwentries->domain_name = $request->input('domain_name');
                                     $bwentries->bwlist_id = $request->input('parent_id');
                                     $bwentries->save();
-                                    $audit->store('bwlistentrie',$bwentries->id,$request->input('bwlist_id'),'add');
+                                    $audit->store('bwlistentrie',$bwentries->id,$request->input('parent_id'),'add');
                                     return $msg=(['success' => true, 'msg' => "your Entery has been Added"]);
                                 break;
                                 case 'edit':

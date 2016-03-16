@@ -1,6 +1,7 @@
 @extends('Layout1')
 @section('siteTitle')Edit Target Group @endsection
 @section('headerCss')
+    <link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css')}}">
     <style>
         td > span {
             color: #3ca319;
@@ -222,10 +223,10 @@
                                             <div class="col-md-1">
                                                 <div class="form-group">
                                                     <label class="control-label">Status</label>
-                                                    <div class="checkboxer">
-                                                        <input type="checkbox" name="active" class="switchery-teal" @if($targetgroup_obj->status=='Active')
-                                                               checked @endif>
-                                                        <label for="check1">Active</label>
+                                                    <div class="switcher">
+                                                        <input type="checkbox" name="active" hidden @if($targetgroup_obj->status=='Active')
+                                                               checked @endif id="active">
+                                                        <label for="active"></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -397,7 +398,7 @@
                                             </div>
                                             <div class="col-md-3 ">
                                                 <div class="form-group">
-                                                    <label class="control-label">Pacing Plan</label>
+                                                    <label class="control-label">Ad Position</label>
                                                     <select name="ad_position[]" multiple class="selecter">
                                                         <option value="ANY" @if(in_array('ANY',$ad_select)) selected @endif>Any</option>
                                                         <option value="ABOVE_THE_FOLD" @if(in_array('ABOVE_THE_FOLD',$ad_select)) selected @endif>Above the Fold</option>
@@ -423,13 +424,29 @@
                                                         <span class="add-on input-group-addon"><i class="ion-android-calendar"></i></span>
                                                         <div class="inputer">
                                                             <div class="input-wrapper">
-                                                                <input type="text" style="width: 200px" name="date_range" class="form-control bootstrap-daterangepicker-basic-range" value="{{\Carbon\Carbon::parse($targetgroup_obj->start_date)->format('d/m/Y')}} - {{\Carbon\Carbon::parse($targetgroup_obj->end_date)->format('d/m/Y')}}" />
+                                                                <input type="text" style="width: 200px" name="date_range" class="form-control bootstrap-daterangepicker-basic-range" value="{{\Carbon\Carbon::parse($targetgroup_obj->start_date)->format('m/d/Y')}} - {{\Carbon\Carbon::parse($targetgroup_obj->end_date)->format('m/d/Y')}}" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div style="padding: 15px">
+
+                                            <div class="form-group">
+                                                <label class="control-label">Description</label>
+
+                                                <div class="inputer">
+                                                    <div class="input-wrapper">
+                                                        <textarea name="description" class="form-control" rows="3"
+                                                                  placeholder="type minimum 5 characters"
+                                                                  required>{{$targetgroup_obj->description}}</textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+
                                     </div><!--.tab-pane-->
 
                                     <div class="tab-pane" id="form3_tab2">
@@ -741,11 +758,12 @@
 
                                                     <div class="col-xs-5">
                                                         <select name="to_bid_profile[]" id="assign_bid_profile_to" class="form-control" size="8" multiple="multiple">
-                                                            @foreach($campaign_obj->getAdvertiser->Segment as $index)
-                                                                @if(in_array($index->id,$targetgroupSegment))
+                                                            @foreach($campaign_obj->getAdvertiser->BidProfile as $index)
+                                                                @if(in_array($index->id,$targetgroupBidProfile))
                                                                     <option value="{{$index->id}}">{{$index->name}}</option>
                                                                 @endif
                                                             @endforeach
+
 
                                                         </select>
                                                     </div>
@@ -1080,6 +1098,8 @@
     <script src="{{cdn('newTheme/globals/plugins/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js')}}"></script>
     <script src="{{cdn('newTheme/globals/scripts/forms-wizard.js')}}"></script>
     <!-- END PLUGINS INITIALIZATION AND SETTINGS -->
+    <script src="{{cdn('newTheme/globals/plugins/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+    <script src="{{cdn('newTheme/globals/scripts/forms-pickers.js')}}"></script>
 
     <script src="{{cdn('js/multi_select/multiselect.min.js')}}"></script>
     <script>
@@ -1130,29 +1150,6 @@
             $('#'+active_Show).hide();
             $('#bwList').fadeIn("slow");
         });
-        function submitForm() {
-//            var form=$('#publisher_bid');
-//            console.log(form);
-            var url = '{{url('/advertiser_publisher/create')}}';
-            var formData = {};
-            formData['advertiser_id'] = '{{$campaign_obj->getAdvertiser->id}}';
-            $('#advertiser_publisher').find("input").each(function (index, node) {
-                formData[node.name] = node.value;
-            });
-            console.log(formData);
-//
-            $.post(url, formData).done(function (data) {
-                $('#advertiser_publisher').find("input").each(function (index, node) {
-                    node.value = '';
-                });
-                var data = JSON.parse(data);
-                for (var i = 0; i < data.length; i = i + 3) {
-                    var elem = '';
-                    elem = "<tr><td>" + data[i] + "</td><td>" + data[i + 1] + "</td><td><input type='text' class='form-control' name='" + data[i] + "-bid' value='" + data[i + 2] + "'></td></tr>";
-                    $('#show_bid').append(elem);
-                }
-            });
-        }
         function ShowSubCategory(id) {
             $.ajax({
                 url: "{{url('/get_iab_sub_category')}}" + '/' + id
@@ -1276,9 +1273,8 @@
     </script>
     <script>
         $(document).ready(function () {
-            FormsSwitch.init();
-            FormsSwitchery.init();
             FormsWizard.init();
+            FormsPickers.init();
             $('.previous-btn').click(function (e) {
                 e.preventDefault();
             });
@@ -1436,6 +1432,12 @@
                 }
             });
 
+            $.ajax({
+                url: "{{url('ajax/getAudit/targetgroup/'.$targetgroup_obj->id)}}"
+            }).success(function (response) {
+                $('#show_audit').html(response);
+            });
+
 
             var $validator = $("#form3").validate({
 
@@ -1515,7 +1517,29 @@
                     }
                 }
             });
-        })
+        });
+
+        $('#audit_status').change(function () {
+            if ($(this).val() == 'all') {
+                $.ajax({
+                    url: "{{url('ajax/getAllAudits')}}"
+                }).success(function (response) {
+                    $('#show_audit').html(response);
+                });
+            } else if ($(this).val() == 'entity') {
+                $.ajax({
+                    url: "{{url('ajax/getAudit/targetgroup/'.$targetgroup_obj->id)}}"
+                }).success(function (response) {
+                    $('#show_audit').html(response);
+                });
+            } else if ($(this).val() == 'user') {
+                $.ajax({
+                    url: "{{url('ajax/getAudit/user')}}"
+                }).success(function (response) {
+                    $('#show_audit').html(response);
+                });
+            }
+        });
 
     </script>
 

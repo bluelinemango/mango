@@ -46,18 +46,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-1">
-                                            <div class="form-group">
-                                                <label class="control-label">Status</label>
-
-                                                <div class="switcher">
-                                                    <input type="checkbox" name="active"
-                                                           hidden @if($model_obj->status=='Active')
-                                                           checked @endif id="active">
-                                                    <label for="active"></label>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="col-md-2">
                                             <label class="control-label" for="">Advertiser Name</label>
                                             <h5>{{$model_obj->getAdvertiser->name}}</h5>

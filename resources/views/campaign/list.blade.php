@@ -146,9 +146,6 @@
                     sorting: true,
                     paging: true,
                     autoload: true,
-
-                    rowClick:function(item){console.log(item)},
-                    onRefreshed: function(args) {FormsSwitchery.init();},
                     pageSize: 10,
                     pageButtonCount: 5,
                     controller: db,

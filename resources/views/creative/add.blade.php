@@ -126,17 +126,31 @@
                             </div>
                             <div class="col-md-3 ">
                                 <div class="form-group">
-                                    <label class="control-label">Attributes</label>
-
-                                    <div class="inputer">
-                                        <div class="input-wrapper">
-                                            <input type="text" name="attributes" placeholder="Attributes" value="{{old('attributes')}}"
-                                                   class="form-control" id="attributes">
-
-                                        </div>
-                                    </div>
+                                    <label class="control-label" for="attributes">Attributes</label>
+                                    <select name="attributes[]" multiple id="attributes" class="selecter">
+                                        <option value="AUDIO-AD-(AUTO-PLAY)">Audio Ad (Auto-Play)</option>
+                                        <option value="AUDIO-AD-(USER INITIATED)">Audio Ad (User Initiated)</option>
+                                        <option value="EXPANDABLE-(AUTOMATIC)"> Expandable (Automatic)
+                                        </option>
+                                        <option value="EXPANDABLE-(USER-INITIATED-CLICK)">Expandable (User Initiated - Click)
+                                        </option>
+                                        <option value="EXPANDABLE-(USER-INITIATED-ROLLOVER)">Expandable (User Initiated - Rollover)
+                                        </option>
+                                        <option value="IN-BANNER-VIDEO-AD-(AUTO-PLAY)">In-Banner Video Ad (Auto-Play)</option>
+                                        <option value="IN-BANNER VIDEO AD (USER INITIATED)">In-Banner Video Ad (User Initiated)</option>
+                                        <option value="POP">Pop</option>
+                                        <option value="PROVOCATIVE OR SUGGESTIVE IMAGERY">Provocative or Suggestive Imagery</option>
+                                        <option value="SHAKY, FLASHING, FLICKERING, EXTREME ANIMATION, SMILEYS">Shaky, Flashing, Flickering, Extreme Animation, Smileys</option>
+                                        <option value="SURVEYS">Surveys</option>
+                                        <option value="TEXT-ONLY">Text Only</option>
+                                        <option value="USER INTERACTIVE (E.G., EMBEDDED GAMES)">User Interactive (e.g., Embedded Games)</option>
+                                        <option value="WINDOWS DIALOG OR ALERT STYLE">Windows Dialog or Alert Style</option>
+                                        <option value="HAS AUDIO ON/OFF BUTTON">Has Audio On/Off Button</option>
+                                        <option value="AD CAN BE SKIPPED">Ad Can be Skipped</option>
+                                    </select>
                                 </div>
                             </div>
+
                             <div class="col-md-3 ">
                                 <div class="form-group">
                                     <label class="control-label">Preview URL</label>

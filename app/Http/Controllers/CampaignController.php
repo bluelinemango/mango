@@ -212,7 +212,7 @@ class CampaignController extends Controller
                             array_push($data, 'Status');
                             array_push($data, $campaign->status);
                             array_push($data, $active);
-                            $campaign->name = $active;
+                            $campaign->status = $active;
                         }
                         if($campaign->max_impression != $request->input('max_impression')){
                             array_push($data,'Max Imps');
@@ -309,17 +309,23 @@ class CampaignController extends Controller
                             array_push($data, $request->input('name'));
                             $campaign->name = $request->input('name');
                         }
-                        if ($campaign->max_impression != $request->input('max_imp')) {
-                            array_push($data, 'Max Impression');
-                            array_push($data, $campaign->max_impression);
-                            array_push($data, $request->input('max_imp'));
-                            $campaign->max_impression = $request->input('max_imp');
+                        if ($campaign->daily_max_impression != $request->input('daily_max_imp')) {
+                            array_push($data, 'Daily Max Impression');
+                            array_push($data, $campaign->daily_max_impression);
+                            array_push($data, $request->input('daily_max_imp'));
+                            $campaign->daily_max_impression = $request->input('daily_max_imp');
                         }
-                        if ($campaign->max_budget != $request->input('max_budget')) {
-                            array_push($data, 'Max Budget');
-                            array_push($data, $campaign->max_budget);
-                            array_push($data, $request->input('max_budget'));
-                            $campaign->max_budget = $request->input('max_budget');
+                        if ($campaign->cpm != $request->input('cpm')) {
+                            array_push($data, 'CPM');
+                            array_push($data, $campaign->cpm);
+                            array_push($data, $request->input('cpm'));
+                            $campaign->cpm = $request->input('cpm');
+                        }
+                        if ($campaign->daily_max_budget != $request->input('daily_max_budget')) {
+                            array_push($data, 'Daily Max Budget');
+                            array_push($data, $campaign->daily_max_budget);
+                            array_push($data, $request->input('daily_max_budget'));
+                            $campaign->daily_max_budget = $request->input('daily_max_budget');
                         }
                         $audit->store('campaign', $camp_id, $data, 'edit');
                         $campaign->save();
