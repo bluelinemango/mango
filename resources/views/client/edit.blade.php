@@ -142,7 +142,11 @@
 
     <script>
         $(document).ready(function () {
-
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
             $.ajax({
                 url: "{{url('ajax/getAudit/client/'.$client_obj->id)}}"
@@ -179,25 +183,12 @@
                             data: updatingAdvertiser,
                             dataType: "json"
                         }).done(function (response) {
-                            console.log(response);
+                            $("#advertiser_grid").jsGrid("refresh");
                             if (response.success == true) {
-                                var title = "Success";
-                                var color = "#739E73";
-                                var icon = "fa fa-check";
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
                             } else if (response.success == false) {
-                                var title = "Warning";
-                                var color = "#C46A69";
-                                var icon = "fa fa-bell";
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
                             }
-                            ;
-
-                            $.smallBox({
-                                title: title,
-                                content: response.msg,
-                                color: color,
-                                icon: icon,
-                                timeout: 8000
-                            });
                         });
                     }
 

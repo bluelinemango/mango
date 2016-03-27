@@ -60,7 +60,7 @@
                 }).success(function (response) {
                     $('#show_audit').html(response);
                 });
-            }}
+            }
         });
 
         $(document).ready(function () {

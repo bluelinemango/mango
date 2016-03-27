@@ -599,7 +599,6 @@
                         required: true,
                         min: 0,
                         number: 'Enter number Plz'
-
                     },
                     daily_max_impression: {
                         required: true,

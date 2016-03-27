@@ -45,6 +45,7 @@ Route::put('/client/edit/update', ['uses'=>'ClientController@edit_client','as'=>
 
 /////////////////////////Company///////////////////////////////////////////
 Route::get('/company','CompanyController@ListView');
+Route::post('/company/load-json-list','CompanyController@testLoadJson');
 Route::get('/company/add','CompanyController@AddCompanyView');
 Route::get('/company/{id?}/edit','CompanyController@CompanyEditView');
 Route::post('/company/add/create', ['uses'=>'CompanyController@add_company','as'=>'company_create']);
@@ -206,6 +207,7 @@ Route::group(['prefix' => 'ajax'], function()
     Route::get('/getAudit/{id?}/{entity_id?}', 'AuditsController@getAudit');
     Route::group(['prefix' => 'jqgrid'], function() {
         Route::put('/client', 'ClientController@jqgrid');
+        Route::put('/company', 'CompanyController@jqgrid');
         Route::put('/inventory', 'InventoryController@jqgrid');
         Route::put('/advertiser', 'AdvertiserController@jqgrid');
         Route::put('/campaign', 'CampaignController@jqgrid');

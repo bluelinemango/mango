@@ -133,12 +133,6 @@
                     });
                     return d.promise();
                 },
-//                loadData: function (filter) {
-//                    return $.grep(this.clients, function (client) {
-//                        return (!filter.name || client.name.indexOf(filter.name) > -1)
-//                        && (!filter.id || client.id.indexOf(filter.id) > -1);
-//                    });
-//                },
 
                 insertItem: function (insertingClient) {
                     insertingClient['oper'] = 'add';
@@ -257,7 +251,6 @@
                     name: $("#name").val(),
                     active: $("#active").is(":checked")
                 });
-                console.log(client);
                 $("#name").val('');
                 $("#client_grid").jsGrid(isNew ? "insertItem" : "updateItem", client);
                 $('#defaultModal').modal('hide');

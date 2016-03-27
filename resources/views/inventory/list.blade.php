@@ -24,6 +24,7 @@
 
                     <div class="pull-right audit-select">
                         <select id="audit_status" class="selecter col-md-12">
+                            <option value="entity">This Entity</option>
                             <option value="all">All</option>
                             <option value="user">User</option>
                         </select>
@@ -32,7 +33,7 @@
                 </div>
             </div>
             <!--.panel-heading-->
-            <div class="panel-body" style="padding: 0px 0 0 10px;">
+            <div class="panel-body" style="padding: 0 0 0 10px;">
                 <div class="timeline single" id="show_audit">
                 </div>
                 <!--.timeline-->
@@ -304,13 +305,23 @@
 
         $(document).ready(function () {
             $.ajax({
-                url: "{{url('ajax/getAllAudits')}}"
+                url: "{{url('ajax/getAudit/inventory')}}"
             }).success(function (response) {
                 $('#show_audit').html(response);
             });
 
 
         });
+        $('#audit_status').change(function () {
+            if ($(this).val() == 'entity') {
+                $.ajax({
+                    url: "{{url('ajax/getAudit/inventory')}}"
+                }).success(function (response) {
+                    $('#show_audit').html(response);
+                });
+            }
+        });
+
     </script>
 
 @endsection

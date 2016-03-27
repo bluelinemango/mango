@@ -47,9 +47,9 @@ class ClientController extends Controller
             }
             $index->setAttribute('action', $action);
             if ($index->status == 'Active') {
-                $index->status = "<div class=\"switcher\"><input id=\"bid_profile{{$index->id}}\" onchange=\"ChangeStatus(`bid_profile`,`{{$index->id}}`)\" type=\"checkbox\" checked hidden><label for=\"bid_profile{{$index->id}}\"></label></div>";
+                $index->status = "<div class=\"switcher\"><input id=\"client$index->id\" onchange=\"ChangeStatus(`client`,`$index->id`)\" type=\"checkbox\" checked hidden><label for=\"client$index->id\"></label></div>";
             } elseif ($index->status == 'Inactive') {
-                $index->status = "<div class=\"switcher\"><input id=\"bid_profile{{$index->id}}\" onchange=\"ChangeStatus(`bid_profile`,`{{$index->id}}`)\" type=\"checkbox\" hidden><label for=\"bid_profile{{$index->id}}\"></label></div>";
+                $index->status = "<div class=\"switcher\"><input id=\"client{{$index->id}}\" onchange=\"ChangeStatus(`client`,`$index->id`)\" type=\"checkbox\" hidden><label for=\"client$index->id\"></label></div>";
             }
         }
         return json_encode($clients);

@@ -66,111 +66,112 @@
             }).success(function (response) {
                 $('#show_audit').html(response);
             });
-            $(function () {
+        });
+        $(function () {
 
-                var db = {
+            var db = {
 
-                    loadData: function (filter) {
-                        return $.grep(this.geosegment, function (geosegment) {
-                            return (!filter.name || geosegment.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1)
-                                    && (!filter.id || geosegment.id.indexOf(filter.id) > -1)
-                                    && (!filter.advertiser_name || geosegment.advertiser_name.toLowerCase().indexOf(filter.advertiser_name.toLowerCase()) > -1)
-                                    && (!filter.entreies || geosegment.entreies.indexOf(filter.entreies) > -1)
-                                    ;
-                        });
-                    },
+                loadData: function (filter) {
+                    return $.grep(this.geosegment, function (geosegment) {
+                        return (!filter.name || geosegment.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1)
+                                && (!filter.id || geosegment.id.indexOf(filter.id) > -1)
+                                && (!filter.advertiser_name || geosegment.advertiser_name.toLowerCase().indexOf(filter.advertiser_name.toLowerCase()) > -1)
+                                && (!filter.entreies || geosegment.entreies.indexOf(filter.entreies) > -1)
+                                ;
+                    });
+                },
 
-                    updateItem: function (updatingGeo) {
-                        updatingGeo['oper'] = 'edit';
-                        console.log(updatingGeo);
-                        $.ajax({
-                            type: "PUT",
-                            url: "{{url('/ajax/jqgrid/geolist')}}",
-                            data: updatingGeo,
-                            dataType: "json"
-                        }).done(function (response) {
-                            $("#geosegment_grid").jsGrid("refresh");
-                            if (response.success == true) {
-                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
-                                $.ajax({
-                                    url: "{{url('ajax/getAudit/geosegment')}}"
-                                }).success(function (response) {
-                                    $('#show_audit').html(response);
-                                });
-                            } else if (response.success == false) {
-                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
-                            }
-                        });
-                    }
-
-                };
-
-                window.db = db;
-
-                db.geosegment = [
-
-                    @foreach($geosegment_obj as $index)
-                    {
-                        "id": 'gsm{{$index->id}}',
-                        "name": '{{$index->name}}',
-                        "advertiser_name": '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
-                        @if(count($index->getGeoEntries)>0)
-                        "entreies": '{{$index->getGeoEntries[0]->geosegment_count}} ',
-                        @else
-                        "entreies": '0',
-                        @endif
-                        @if($index->status == 'Active')
-                        "status": '<div class="switcher"><input id="geosegment{{$index->id}}" onchange="ChangeStatus(`geosegment`,`{{$index->id}}`)" type="checkbox" checked hidden><label for="geosegment{{$index->id}}"></label></div>',
-                        @elseif($index->status == 'Inactive')
-                        "status": '<div class="switcher"><input id="geosegment{{$index->id}}" onchange="ChangeStatus(`geosegment`,`{{$index->id}}`)" type="checkbox" hidden><label for="geosegment{{$index->id}}"></label></div>',
-                        @endif
-                        "date_modify": '{{$index->updated_at}}',
-                        "action": '<a class="btn " href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/gsm'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) + '| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
-
-
-                    },
-                    @endforeach
-                ];
-
-                $("#geosegment_grid").jsGrid({
-                    width: "100%",
-
-                    filtering: true,
-                    editing: true,
-                    sorting: true,
-                    paging: true,
-                    autoload: true,
-
-                    pageSize: 10,
-                    pageButtonCount: 5,
-
-                    controller: db,
-                    fields: [
-                        {name: "id", title: "ID", type: "text", width: 40, align: "center", editing: false},
-                        {name: "name", title: "Name", type: "text", width: 70},
-                        {
-                            name: "advertiser_name",
-                            title: "Advertiser",
-                            type: "text",
-                            width: 60,
-                            align: "center",
-                            editing: false
-                        },
-                        {name: "entreies", title: "#Entery", type: "text", width: 40, align: "center", editing: false},
-                        {name: "status", title: "Status", width: 50, align: "center"},
-                        {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
-                        {name: "action", title: "Edit | +Geo", sorting: false, width: 60, align: "center"},
-                        {type: "control",
-                            deleteButton: false,
-                            editButtonTooltip: "Edit",
-                            editButton: true
+                updateItem: function (updatingGeo) {
+                    updatingGeo['oper'] = 'edit';
+                    console.log(updatingGeo);
+                    $.ajax({
+                        type: "PUT",
+                        url: "{{url('/ajax/jqgrid/geolist')}}",
+                        data: updatingGeo,
+                        dataType: "json"
+                    }).done(function (response) {
+                        $("#geosegment_grid").jsGrid("refresh");
+                        if (response.success == true) {
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                            $.ajax({
+                                url: "{{url('ajax/getAudit/geosegment')}}"
+                            }).success(function (response) {
+                                $('#show_audit').html(response);
+                            });
+                        } else if (response.success == false) {
+                            Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
                         }
-                    ]
+                    });
+                }
 
-                });
+            };
+
+            window.db = db;
+
+            db.geosegment = [
+
+                @foreach($geosegment_obj as $index)
+                {
+                    "id": 'gsm{{$index->id}}',
+                    "name": '{{$index->name}}',
+                    "advertiser_name": '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
+                    @if(count($index->getGeoEntries)>0)
+                    "entreies": '{{$index->getGeoEntries[0]->geosegment_count}} ',
+                    @else
+                    "entreies": '0',
+                    @endif
+                    @if($index->status == 'Active')
+                    "status": '<div class="switcher"><input id="geosegment{{$index->id}}" onchange="ChangeStatus(`geosegment`,`{{$index->id}}`)" type="checkbox" checked hidden><label for="geosegment{{$index->id}}"></label></div>',
+                    @elseif($index->status == 'Inactive')
+                    "status": '<div class="switcher"><input id="geosegment{{$index->id}}" onchange="ChangeStatus(`geosegment`,`{{$index->id}}`)" type="checkbox" hidden><label for="geosegment{{$index->id}}"></label></div>',
+                    @endif
+                    "date_modify": '{{$index->updated_at}}',
+                    "action": '<a class="btn " href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/gsm'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) + '| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
+
+
+                    },
+                @endforeach
+            ];
+
+            $("#geosegment_grid").jsGrid({
+                width: "100%",
+
+                filtering: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                autoload: true,
+
+                pageSize: 10,
+                pageButtonCount: 5,
+
+                controller: db,
+                fields: [
+                    {name: "id", title: "ID", type: "text", width: 40, align: "center", editing: false},
+                    {name: "name", title: "Name", type: "text", width: 70},
+                    {
+                        name: "advertiser_name",
+                        title: "Advertiser",
+                        type: "text",
+                        width: 60,
+                        align: "center",
+                        editing: false
+                    },
+                    {name: "entreies", title: "#Entery", type: "text", width: 40, align: "center", editing: false},
+                    {name: "status", title: "Status", width: 50, align: "center"},
+                    {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
+                    {name: "action", title: "Edit | +Geo", sorting: false, width: 60, align: "center"},
+                    {type: "control",
+                        deleteButton: false,
+                        editButtonTooltip: "Edit",
+                        editButton: true
+                    }
+                ]
 
             });
-        })
+
+        });
+
     </script>
 
 @endsection

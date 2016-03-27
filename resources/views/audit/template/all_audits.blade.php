@@ -13,7 +13,7 @@
 
         <div class="time-line-title">
             <a href="{{url('user/usr'.$audit_obj[$i]->user_id.'/edit')}}">{{$audit_obj[$i]->getUser->name}}</a>
-            @if($audit_obj[$i]->audit_type == 'add')
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->audit_type == 'add')
                 @if($audit_obj[$i]->entity_type == 'positive_offer_model' or $audit_obj[$i]->entity_type == 'negative_offer_model')
                     changed Model:
                 @elseif($audit_obj[$i]->entity_type == 'offer_pixel_map')
@@ -37,22 +37,34 @@
                 @else
                     created a new {{$audit_obj[$i]->entity_type}}:
                 @endif
-            @elseif($audit_obj[$i]->audit_type == 'bulk_edit')
+            @elseif(isset($audit_obj[$i]) and $audit_obj[$i]->audit_type == 'bulk_edit')
                 Bulk Edit {{$audit_obj[$i]->entity_type}}:
-            @elseif($audit_obj[$i]->audit_type == 'edit')
+            @elseif(isset($audit_obj[$i]) and $audit_obj[$i]->audit_type == 'edit')
                 changed {{$audit_obj[$i]->entity_type}}:
-            @elseif($audit_obj[$i]->audit_type == 'del')
+            @elseif(isset($audit_obj[$i]) and $audit_obj[$i]->audit_type == 'del')
                 deleted {{$audit_obj[$i]->entity_type}}:
             @endif
-            @if($audit_obj[$i]->entity_type == 'client')
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'user')
+                <a href="{{url('user/usr'.$audit_obj[$i]->entity_id.'/edit')}}">{{$audit_obj[$i+1]->name}}</a>
+
+            @endif
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'inventory')
+                <a href="{{url('inventory/'.$audit_obj[$i]->entity_id.'/edit')}}">{{$audit_obj[$i+1]->name}}</a>
+
+            @endif
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'company')
+                <a href="{{url('company/'.$audit_obj[$i]->entity_id.'/edit')}}">{{$audit_obj[$i+1]->name}}</a>
+
+            @endif
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'client')
                 <a href="{{url('client/cl'.$audit_obj[$i+1]->id.'/edit')}}">cl{{$audit_obj[$i+1]->id}}</a>
 
             @endif
-            @if($audit_obj[$i]->entity_type == 'advertiser')
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'advertiser')
                 <a href="{{url('client/cl'.$audit_obj[$i+1]->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1]->id.'/edit')}}">adv{{$audit_obj[$i+1]->id}}</a>
 
             @endif
-            @if($audit_obj[$i]->entity_type == 'creative' and $audit_obj[$i]->audit_type =='bulk_edit')
+            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'creative' and $audit_obj[$i]->audit_type =='bulk_edit')
                 <?php $flg_content = 0; ?>
                 <?php $body .= "<p><strong>" . $audit_obj[$i]->field . "</strong> to <strong>" . $audit_obj[$i]->after_value . "</strong></p>"?>
                 @while(isset($audit_obj[$i]) and $audit_obj[$i]->change_key==$change_key and $audit_obj[$i]->audit_type =='bulk_edit')
@@ -72,7 +84,7 @@
                 @if(!isset($audit_obj[$i]))
                     <?php continue ?>
                 @endif
-            @elseif($audit_obj[$i]->entity_type == 'creative')
+            @elseif(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'creative')
                 <a href="{{url('client/cl'.$audit_obj[$i+1]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1]->getAdvertiser->id.'/creative/crt'.$audit_obj[$i+1]->id.'/edit')}}">crt{{$audit_obj[$i+1]->id}}</a>
 
             @endif
@@ -119,7 +131,7 @@
                <a href="{{url('client/cl'.$audit_obj[$i+1]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1]->getAdvertiser->id.'/model/mdl'.$audit_obj[$i+1]->id.'/edit')}}">mdl{{$audit_obj[$i+1]->id}}</a>
 
             @endif
-            @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'positive_offer_model' or $audit_obj[$i]->entity_type == 'negative_offer_model')
+            @if(isset($audit_obj[$i]) and ($audit_obj[$i]->entity_type == 'positive_offer_model' or $audit_obj[$i]->entity_type == 'negative_offer_model'))
                <a href="{{url('client/cl'.$audit_obj[$i+1]->getAdvertiser->GetClientID->id.'/advertiser/adv'.$audit_obj[$i+1]->getAdvertiser->id.'/model/mdl'.$audit_obj[$i]->after_value.'/edit')}}">mdl{{$audit_obj[$i]->after_value}}</a>
 
             @endif

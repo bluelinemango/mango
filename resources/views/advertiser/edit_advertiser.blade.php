@@ -697,6 +697,12 @@
     <script type="text/javascript" src="{{cdn('js/srcjsgrid/jsgrid.min.js')}}"></script>
 
     <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
         $('#show_creative').click(function () {
             var active_Show = $('#active_show').val();
             $('#active_show').val('creative_list');
@@ -793,6 +799,16 @@
         });
     </script>
     <script>
+        $('#audit_status').change(function () {
+            if ($(this).val() == 'entity') {
+                $.ajax({
+                    url: "{{url('ajax/getAudit/advertiser/'.$adver_obj->id)}}"
+                }).success(function (response) {
+                    $('#show_audit').html(response);
+                });
+            }
+        });
+
         $(document).ready(function () {
 
 
@@ -802,15 +818,6 @@
                 $('#show_audit').html(response);
             });
 
-            $('#audit_status').change(function () {
-                if ($(this).val() == 'entity') {
-                    $.ajax({
-                        url: "{{url('ajax/getAudit/advertiser/'.$adver_obj->id)}}"
-                    }).success(function (response) {
-                        $('#show_audit').html(response);
-                    });
-                }
-            });
 
             var $orderForm = $("#order-form").validate({
                 // Rules for form validation
@@ -865,7 +872,11 @@
 
                     loadData: function (filter) {
                         return $.grep(this.campaign, function (campaign) {
-                            return (!filter.name || campaign.name.indexOf(filter.name) > -1);
+                            return (!filter.name || campaign.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1)
+                                    && (!filter.daily_max_imp || campaign.daily_max_imp.indexOf(filter.daily_max_imp) > -1)
+                                    && (!filter.cpm || campaign.cpm.indexOf(filter.cpm) > -1)
+                                    && (!filter.id || campaign.id.indexOf(filter.id) > -1)
+                                    && (!filter.daily_max_budget || campaign.daily_max_budget.indexOf(filter.daily_max_budget) > -1);
                         });
                     },
 
@@ -877,24 +888,35 @@
                             url: "{{url('/ajax/jqgrid/campaign')}}",
                             data: updatingCampaign,
                             dataType: "json"
+                        }).done(function (response) {
+                            $("#campaign_grid").jsGrid("refresh");
+                            if (response.success == true) {
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
+                            } else if (response.success == false) {
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
+                            }
                         });
                     }
-
 
                 };
 
                 window.db = db;
 
                 db.campaign = [
-
                     @foreach($adver_obj->Campaign as $index)
                     {
-                        "id": '<a href="{{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/cmp'.$index->id.'/edit')}}">cmp{{$index->id}}</a>',
+                        "id": 'cmp{{$index->id}}',
                         "name": '{{$index->name}}',
-                        "start_date": '{{$index->start_date}}',
-                        "end_date": '{{$index->end_date}}',
+                        "daily_max_imp":'{{$index->daily_max_impression}}',
+                        "cpm":'{{$index->cpm}}',
+                        "daily_max_budget":'{{$index->daily_max_budget}}',
+                        @if($index->status == 'Active')
+                        "status": '<div class="switcher"><input id="campaign{{$index->id}}" onchange="ChangeStatus(`campaign`,`{{$index->id}}`)" type="checkbox" checked hidden><label for="campaign{{$index->id}}"></label></div>',
+                        @elseif($index->status == 'Inactive')
+                        "status": '<div class="switcher"><input id="campaign{{$index->id}}" onchange="ChangeStatus(`campaign`,`{{$index->id}}`)" type="checkbox" hidden><label for="campaign{{$index->id}}"></label></div>',
+                        @endif
                         "date_modify": '{{$index->updated_at}}',
-                        "action": '<a class="btn " href={{url('/client/cl'.$adver_obj->GetClientID->id.'/advertiser/adv'.$adver_obj->id.'/campaign/cmp'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>'
+                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /> </a>' @if(in_array('ADD_EDIT_TARGETGROUP',$permission)) +' | <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/targetgroup/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif @if(in_array('ADD_EDIT_CAMPAIGN',$permission)) +' | <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a> | <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/campaign/cmp'.$index->id.'/clone/1')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
 
                     },
                     @endforeach
@@ -908,20 +930,19 @@
                     sorting: true,
                     paging: true,
                     autoload: true,
-
                     pageSize: 10,
                     pageButtonCount: 5,
-
                     controller: db,
                     fields: [
-                        {name: "id", title: "ID", width: 40, align: "center"},
+                        {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
                         {name: "name", title: "Name", type: "text", width: 70},
-                        {name: "start_date", title: "Start Date", type: "text", width: 100, align: "center"},
-                        {name: "end_date", title: "End Date", type: "text", width: 100, align: "center"},
-                        {name: "date_modify", title: "Date of Modify", align: "center"},
-                        {name: "action", title: "Full Action", sorting: false, width: 50, align: "center"},
-                        {
-                            type: "control",
+                        {name: "daily_max_imp", title: "Daily Imps", type: "text", width: 70, align: "center"},
+                        {name: "cpm", title: "CPM", type: "text", width: 60, align: "center"},
+                        {name: "daily_max_budget", title: "Daily Budget", type: "text", width: 80, align: "center"},
+                        {name: "status", title: "Status", width: 50, align: "center"},
+                        {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
+                        {name: "action", title: "Edit | +TG | +Camp | Clone", sorting: false, width: 160, align: "center"},
+                        {type: "control",
                             deleteButton: false,
                             editButtonTooltip: "Edit",
                             editButton: true
@@ -1016,11 +1037,6 @@
                             $("#creative_grid").jsGrid("refresh");
                             if (response.success == true) {
                                 Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
-                                $.ajax({
-                                    url: "{{url('ajax/getAudit/creative')}}"
-                                }).success(function (response) {
-                                    $('#show_audit').html(response);
-                                });
                             } else if (response.success == false) {
                                 Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
                             }
@@ -1097,13 +1113,13 @@
             //End Creative //
 
             //BWLIST //
-            $(function () { //BW LIST
+            $(function () {
 
                 var db = {
 
                     loadData: function (filter) {
                         return $.grep(this.bwlist, function (bwlist) {
-                            return (!filter.name || bwlist.name.indexOf(filter.name) > -1)
+                            return (!filter.name || bwlist.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1)
                                     && (!filter.advertiser_name || bwlist.advertiser_name.indexOf(filter.advertiser_name) > -1)
                                     && (!filter.id || bwlist.id.indexOf(filter.id) > -1)
                                     && (!filter.website || bwlist.website.indexOf(filter.website) > -1);
@@ -1119,25 +1135,13 @@
                             data: updatingBWlist,
                             dataType: "json"
                         }).done(function (response) {
+                            $("#bwlist_grid").jsGrid("refresh");
                             console.log(response);
                             if (response.success == true) {
-                                var title = "Success";
-                                var color = "#739E73";
-                                var icon = "fa fa-check";
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
                             } else if (response.success == false) {
-                                var title = "Warning";
-                                var color = "#C46A69";
-                                var icon = "fa fa-bell";
-                            }
-                            ;
-
-                            $.smallBox({
-                                title: title,
-                                content: response.msg,
-                                color: color,
-                                icon: icon,
-                                timeout: 8000
-                            });
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
+                            };
                         });
                     }
 
@@ -1158,14 +1162,12 @@
                         "website": '0',
                         @endif
                         @if($index->status == 'Active')
-                        "status": '<a id="bwlist{{$index->id}}" href="javascript: ChangeStatus(`bwlist`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                        "status": '<div class="switcher"><input id="bwlist{{$index->id}}" onchange="ChangeStatus(`bwlist`,`{{$index->id}}`)" type="checkbox" checked hidden><label for="bwlist{{$index->id}}"></label></div>',
                         @elseif($index->status == 'Inactive')
-                        "status": '<a id="bwlist{{$index->id}}" href="javascript: ChangeStatus(`bwlist`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
+                        "status": '<div class="switcher"><input id="bwlist{{$index->id}}" onchange="ChangeStatus(`bwlist`,`{{$index->id}}`)" type="checkbox" hidden><label for="bwlist{{$index->id}}"></label></div>',
                         @endif
                         "date_modify": '{{$index->updated_at}}',
                         "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bwlist/bwl'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) + '| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bwlist/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
-
-
                     },
                     @endforeach
                 ];
@@ -1198,16 +1200,13 @@
                         {name: "status", title: "Status", width: 50, align: "center"},
                         {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
                         {name: "action", title: "Edit | + B/W", sorting: false, width: 60, align: "center"},
-                        {
-                            type: "control",
+                        {type: "control",
                             deleteButton: false,
                             editButtonTooltip: "Edit",
                             editButton: true
                         }
                     ]
-
                 });
-
             });
             //END BWLIST //
 
@@ -1218,9 +1217,9 @@
 
                     loadData: function (filter) {
                         return $.grep(this.geosegment, function (geosegment) {
-                            return (!filter.name || geosegment.name.indexOf(filter.name) > -1)
+                            return (!filter.name || geosegment.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1)
                                     && (!filter.id || geosegment.id.indexOf(filter.id) > -1)
-                                    && (!filter.advertiser_name || geosegment.advertiser_name.indexOf(filter.advertiser_name) > -1)
+                                    && (!filter.advertiser_name || geosegment.advertiser_name.toLowerCase().indexOf(filter.advertiser_name.toLowerCase()) > -1)
                                     && (!filter.entreies || geosegment.entreies.indexOf(filter.entreies) > -1)
                                     ;
                         });
@@ -1235,25 +1234,12 @@
                             data: updatingGeo,
                             dataType: "json"
                         }).done(function (response) {
-                            console.log(response);
+                            $("#geosegment_grid").jsGrid("refresh");
                             if (response.success == true) {
-                                var title = "Success";
-                                var color = "#739E73";
-                                var icon = "fa fa-check";
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
                             } else if (response.success == false) {
-                                var title = "Warning";
-                                var color = "#C46A69";
-                                var icon = "fa fa-bell";
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
                             }
-                            ;
-
-                            $.smallBox({
-                                title: title,
-                                content: response.msg,
-                                color: color,
-                                icon: icon,
-                                timeout: 8000
-                            });
                         });
                     }
 
@@ -1274,9 +1260,9 @@
                         "entreies": '0',
                         @endif
                         @if($index->status == 'Active')
-                        "status": '<a id="geosegment{{$index->id}}" href="javascript: ChangeStatus(`geosegment`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                        "status": '<div class="switcher"><input id="geosegment{{$index->id}}" onchange="ChangeStatus(`geosegment`,`{{$index->id}}`)" type="checkbox" checked hidden><label for="geosegment{{$index->id}}"></label></div>',
                         @elseif($index->status == 'Inactive')
-                        "status": '<a id="geosegment{{$index->id}}" href="javascript: ChangeStatus(`geosegment`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
+                        "status": '<div class="switcher"><input id="geosegment{{$index->id}}" onchange="ChangeStatus(`geosegment`,`{{$index->id}}`)" type="checkbox" hidden><label for="geosegment{{$index->id}}"></label></div>',
                         @endif
                         "date_modify": '{{$index->updated_at}}',
                         "action": '<a class="btn " href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/gsm'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) + '| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/geosegment/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
@@ -1314,8 +1300,7 @@
                         {name: "status", title: "Status", width: 50, align: "center"},
                         {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
                         {name: "action", title: "Edit | +Geo", sorting: false, width: 60, align: "center"},
-                        {
-                            type: "control",
+                        {type: "control",
                             deleteButton: false,
                             editButtonTooltip: "Edit",
                             editButton: true
@@ -1334,41 +1319,27 @@
 
                     loadData: function (filter) {
                         return $.grep(this.model, function (model) {
-                            return (!filter.name || model.name.indexOf(filter.name) > -1)
+                            return (!filter.name || model.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1)
                                     && (!filter.id || model.id.indexOf(filter.id) > -1)
-                                    && (!filter.algo || model.algo.indexOf(filter.algo) > -1)
-                                    && (!filter.advertiser || model.advertiser.indexOf(filter.advertiser) > -1);
+                                    && (!filter.algo || model.algo.toLowerCase().indexOf(filter.algo.toLowerCase()) > -1)
+                                    && (!filter.advertiser || model.advertiser.toLowerCase().indexOf(filter.advertiser.toLowerCase()) > -1);
                         });
                     },
 
                     updateItem: function (updatingModel) {
                         updatingModel['oper'] = 'edit';
-                        console.log(updatingModel);
                         $.ajax({
                             type: "PUT",
                             url: "{{url('/ajax/jqgrid/model')}}",
                             data: updatingModel,
                             dataType: "json"
                         }).done(function (response) {
-                            console.log(response);
+                            $("#model_grid").jsGrid("refresh");
                             if (response.success == true) {
-                                var title = "Success";
-                                var color = "#739E73";
-                                var icon = "fa fa-check";
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
                             } else if (response.success == false) {
-                                var title = "Warning";
-                                var color = "#C46A69";
-                                var icon = "fa fa-bell";
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
                             }
-                            ;
-
-                            $.smallBox({
-                                title: title,
-                                content: response.msg,
-                                color: color,
-                                icon: icon,
-                                timeout: 8000
-                            });
                         });
                     }
 
@@ -1377,17 +1348,14 @@
                 window.db = db;
 
                 db.model = [
-
-
                     @foreach($adver_obj->Model as $index)
                     {
                         "id": 'mdl{{$index->id}}',
                         "name": '{{$index->name}}',
-                        "algo": '{{$index->algo}}',
-                        "advertiser": '<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
-                        "date_modify": '{{$index->updated_at}}',
-                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/mdl'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_MODEL',$permission)) + '| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
-
+                        "algo":'{{$index->algo}}',
+                        "advertiser":'<a href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/edit')}}">{{$index->getAdvertiser->name}}</a>',
+                        "date_modify":'{{$index->updated_at}}',
+                        "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/mdl'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_MODEL',$permission)) +'| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/model/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
 
                     },
                     @endforeach
@@ -1407,21 +1375,13 @@
 
                     controller: db,
                     fields: [
-                        {name: "id", title: "ID", width: 40, editing: false, type: "text", align: "center"},
+                        {name: "id", title: "ID", width: 40,editing:false,type: "text", align: "center"},
                         {name: "name", title: "Name", type: "text", width: 70},
-                        {name: "algo", title: "Algoritm", editing: false, type: "text", width: 50, align: "center"},
-                        {
-                            name: "advertiser",
-                            title: "Advertiser",
-                            editing: false,
-                            type: "text",
-                            width: 70,
-                            align: "center"
-                        },
+                        {name: "algo", title: "Algoritm",editing:false,type: "text", width: 50, align: "center"},
+                        {name: "advertiser", title: "Advertiser",editing:false,type: "text", width: 70, align: "center"},
                         {name: "date_modify", title: "Last Modified", align: "center"},
                         {name: "action", title: "Edit | +Model", sorting: false, width: 80, align: "center"},
-                        {
-                            type: "control",
+                        {type: "control",
                             deleteButton: false,
                             editButtonTooltip: "Edit",
                             editButton: true
@@ -1441,8 +1401,10 @@
 
                     loadData: function (filter) {
                         return $.grep(this.bid_profile, function (bid_profile) {
-                            return (!filter.name || bid_profile.name.indexOf(filter.name) > -1)
-                                    && (!filter.id || bid_profile.id.indexOf(filter.id) > -1);
+                            return (!filter.name || bid_profile.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1)
+                                    &&(!filter.advertiser_name || bid_profile.advertiser_name.toLowerCase().indexOf(filter.advertiser_name.toLowerCase()) > -1)
+                                    && (!filter.entry || bid_profile.entry.indexOf(filter.entry) > -1)
+                                    && (!filter.id || bid_profile.id.toLowerCase().indexOf(filter.id.toLowerCase()) > -1);
                         });
                     },
 
@@ -1455,24 +1417,12 @@
                             data: updatingBidProfile,
                             dataType: "json"
                         }).done(function (response) {
+                            $("#bid_profile_grid").jsGrid("refresh");
                             if (response.success == true) {
-                                var title = "Success";
-                                var color = "#739E73";
-                                var icon = "fa fa-check";
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'success', '', '', response.msg);
                             } else if (response.success == false) {
-                                var title = "Warning";
-                                var color = "#C46A69";
-                                var icon = "fa fa-bell";
+                                Pleasure.handleToastrSettings('true', "toast-top-full-width", '', 'error', '', '', response.msg);
                             }
-                            ;
-
-                            $.smallBox({
-                                title: title,
-                                content: response.msg,
-                                color: color,
-                                icon: icon,
-                                timeout: 8000
-                            });
                         });
                     }
 
@@ -1493,9 +1443,9 @@
                         "entry": '0',
                         @endif
                         @if($index->status == 'Active')
-                        "status": '<a id="bid_profile{{$index->id}}" href="javascript: ChangeStatus(`bid_profile`,`{{$index->id}}`)"><span class="label label-success">Active</span> </a>',
+                        "status": '<div class="switcher"><input id="bid_profile{{$index->id}}" onchange="ChangeStatus(`bid_profile`,`{{$index->id}}`)" type="checkbox" checked hidden><label for="bid_profile{{$index->id}}"></label></div>',
                         @elseif($index->status == 'Inactive')
-                        "status": '<a id="bid_profile{{$index->id}}" href="javascript: ChangeStatus(`bid_profile`,`{{$index->id}}`)"><span class="label label-danger">Inactive</span> </a>',
+                        "status": '<div class="switcher"><input id="bid_profile{{$index->id}}" onchange="ChangeStatus(`bid_profile`,`{{$index->id}}`)" type="checkbox" hidden><label for="bid_profile{{$index->id}}"></label></div>',
                         @endif
                         "date_modify": '{{$index->updated_at}}',
                         "action": '<a class="btn" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bid-profile/bpf'.$index->id.'/edit')}}"><img src="{{cdn('img/edit_16x16.png')}}" /></a>' @if(in_array('ADD_EDIT_OFFER',$permission)) + '| <a class="btn txt-color-white" href="{{url('/client/cl'.$index->getAdvertiser->GetClientID->id.'/advertiser/adv'.$index->getAdvertiser->id.'/bid-profile/add')}}"><img src="{{cdn('img/plus_16x16.png')}}" /></a>'@endif
@@ -1516,9 +1466,6 @@
 
                     pageSize: 10,
                     pageButtonCount: 5,
-
-                    deleteConfirm: "Do you really want to delete the client?",
-
                     controller: db,
                     fields: [
                         {name: "id", title: "ID", type: "text", width: 40, align: "center", editing: false},
@@ -1534,9 +1481,8 @@
                         {name: "entry", title: "#Entery", type: "text", width: 40, align: "center", editing: false},
                         {name: "status", title: "Status", width: 50, align: "center"},
                         {name: "date_modify", title: "Last Modified", width: 70, align: "center"},
-                        {name: "action", title: "Edit | + B/W", sorting: false, width: 60, align: "center"},
-                        {
-                            type: "control",
+                        {name: "action", title: "Edit | +BidProfile", sorting: false, width: 60, align: "center"},
+                        {type: "control",
                             deleteButton: false,
                             editButtonTooltip: "Edit",
                             editButton: true

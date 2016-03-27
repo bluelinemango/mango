@@ -34,7 +34,7 @@
                                     <div class="inputer">
                                         <div class="input-wrapper">
                                             <input type="text" id="name" name="name" placeholder="Name"
-                                                   class="form-control">
+                                                   class="form-control" value="{{old('name')}}">
                                         </div>
                                     </div>
                                 </div>
@@ -46,7 +46,7 @@
                                     <div class="inputer">
                                         <div class="input-wrapper">
                                             <input type="text" id="email" name="email" placeholder="Email Address"
-                                                   class="form-control">
+                                                   class="form-control" value="{{old('email')}}">
                                         </div>
                                     </div>
                                 </div>
@@ -121,6 +121,31 @@
         </div>
         <!--.panel-->
     </div>
+    <div class="col-md-3">
+        <div class="panel indigo">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="pull-left">Activities</h4>
+                    <div class="pull-right audit-select">
+                        <select id="audit_status" class="selecter col-md-12" >
+                            <option value="all">All</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!--.panel-heading-->
+            <div class="panel-body" style="padding: 0px 0 0 10px;">
+                <div class="timeline single" id="show_audit">
+                </div>
+                <!--.timeline-->
+            </div>
+            <!--.panel-body-->
+        </div>
+        <!--.panel-->
+    </div>
+
 @endsection
 @section('FooterScripts')
     <script>
@@ -131,8 +156,12 @@
                     name: {
                         required: true
                     },
-                    email: {
+                    password: {
                         required: true
+                    },
+                    email: {
+                        required: true,
+                        email:"Please enter a VALID email address"
                     }
                 },
 
@@ -161,6 +190,13 @@
                     error.insertAfter(element.parent());
                 }
             });
+            $.ajax({
+                url: "{{url('ajax/getAllAudits')}}"
+            }).success(function (response) {
+                $('#show_audit').html(response);
+            });
+
         });
+
     </script>
 @endsection

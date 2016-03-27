@@ -95,7 +95,7 @@
         <!--.panel-->
     </div>
     <div class="col-md-3">
-        <div class="panel indigo">
+        <div class="panel gray">
             <div class="panel-heading">
                 <div class="panel-title">
                     <h4 class="pull-left">Activities</h4>
@@ -111,7 +111,7 @@
                 </div>
             </div>
             <!--.panel-heading-->
-            <div class="panel-body" style="padding: 0px 0 0 10px;">
+            <div class="panel-body" style="padding: 0 0 0 10px;">
                 <div class="timeline single" id="show_audit">
                 </div>
                 <!--.timeline-->

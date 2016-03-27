@@ -1,3 +1,4 @@
+
 var FormsWizard = {
 
 	manageFormElements: function (tab, navigation, index) {
@@ -21,32 +22,59 @@ var FormsWizard = {
 
 	getRules: function () {
 		var rules = {
-			email: {
-				minlength: 5,
-				required: true,
-				email: true
-			},
-			password: {
-				minlength: 5,
+			name: {
+				minlength: 1,
 				required: true
 			},
-			rpassword: {
-				minlength: 5,
-				required: true
-				//equalTo: '#mirror-password'
-			},
-			facebook: {
+            advertiser_domain_name: {
 				required: true,
-				minlength: 3
+                domain:true
 			},
-			twitter: {
-				required: true,
-				minlength: 3
-			},
-			address: {
-				required: true,
-				minlength: 3
-			}
+            max_impression: {
+                required: true,
+                min: 0,
+                number: 'Enter number Plz'
+
+            },
+            daily_max_impression: {
+                required: true,
+                min: 0,
+                number: 'Enter number Plz'
+            },
+            max_budget: {
+                required: true,
+                min: 0,
+                number: 'Enter number Plz'
+            },
+            daily_max_budget: {
+                required: true,
+                min: 0,
+                number: 'Enter number Plz'
+            },
+            cpm: {
+                required: true,
+                min: 0,
+                number: 'Enter number Plz'
+            },
+            frequency_in_sec: {
+                required: true,
+                min: 0,
+                number: 'Enter number Plz'
+            },
+            pacing_plan: {
+                required: true,
+                min: 0,
+                number: 'Enter number Plz'
+            },
+            iab_category: {
+                require: true
+            },
+            iab_sub_category: {
+                require: true
+            },
+            ad_position: {
+                require: true
+            }
 		}
 		return rules;
 	},

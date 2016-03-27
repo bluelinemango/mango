@@ -46,117 +46,6 @@
     </ol>
 @endsection
 @section('content')
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-3" style="width: 20% !important;">
-                <div class="real-time-box">
-                    <div class="hexagon pull-left hexagon-bg1">
-                        <i class="fa fa-eye"></i>
-                    </div>
-
-                    <div class="real-time-content real-color1">
-                        Imps to Now
-                        <br/>
-                        <br/>
-                        <strong>{{(isset($real_time[0])) ? $real_time[0]->impressions_shown_today_until_now : '0'}}</strong>
-                    </div>
-                    <div class="clearfix"></div>
-
-                    <div class="col-md-4 btn-border-real-box-left1">
-                    </div>
-                    <div class="col-md-8 btn-border-real-box-right1">
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-md-3" style="width: 20% !important;">
-                <div class="real-time-box">
-                    <div class="hexagon pull-left hexagon-bg2">
-                        <i class="fa fa-eye"></i>
-                    </div>
-
-                    <div class="real-time-content real-color2">
-                        Total Imps
-                        <br/>
-                        <br/>
-                        <strong>{{(isset($real_time[0])) ? $real_time[0]->total_impression_show_until_now : '0'}}</strong>
-                    </div>
-                    <div class="clearfix"></div>
-
-                    <div class="col-md-4 btn-border-real-box-left2">
-                    </div>
-                    <div class="col-md-8 btn-border-real-box-right2 ">
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-md-3" style="width: 20% !important;">
-                <div class="real-time-box">
-                    <div class="hexagon pull-left hexagon-bg3">
-                        <i class="fa fa-dollar"></i>
-                    </div>
-
-                    <div class="real-time-content real-color3">
-                        Budget to Now
-                        <br/>
-                        <br/>
-                        <strong>{{(isset($real_time[0])) ? $real_time[0]->daily_budget_spent_today_until_now : '0'}}</strong>
-                    </div>
-                    <div class="clearfix"></div>
-
-                    <div class="col-md-4 btn-border-real-box-left3">
-                    </div>
-                    <div class="col-md-8 btn-border-real-box-right3">
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-md-3" style="width: 20% !important;">
-                <div class="real-time-box">
-                    <div class="hexagon pull-left hexagon-bg4">
-                        <i class="fa fa-dollar"></i>
-                    </div>
-
-                    <div class="real-time-content real-color4">
-                        Total Budget
-                        <br/>
-                        <br/>
-                        <strong>{{(isset($real_time[0])) ? $real_time[0]->total_budget_spent_until_now : '0'}}</strong>
-                    </div>
-                    <div class="clearfix"></div>
-
-                    <div class="col-md-4 btn-border-real-box-left4">
-                    </div>
-                    <div class="col-md-8 btn-border-real-box-right4">
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-md-3" style="width: 20% !important;">
-                <div class="real-time-box">
-                    <div class="hexagon pull-left hexagon-bg5">
-                        <i class="fa fa-eye"></i>
-                    </div>
-
-                    <div class="real-time-content real-color5">
-                        Last Shown
-                        <br/>
-                        <br/>
-                            <span style="font-size: 12px">
-                                {{(isset($real_time[0])) ? $real_time[0]->last_time_ad_shown : '0'}}
-                            </span>
-                    </div>
-                    <div class="clearfix"></div>
-
-                    <div class="col-md-4 btn-border-real-box-left5">
-                    </div>
-                    <div class="col-md-8 btn-border-real-box-right5">
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- content -->
     <div class="col-md-9">
         <div class="panel gray">
@@ -387,7 +276,7 @@
                                             <div class="col-md-3 ">
                                                 <div class="form-group">
                                                     <label class="control-label">Ad Position</label>
-                                                    <select name="ad_position[]" multiple class="selecter">
+                                                    <select name="ad_position[]" multiple class="selecter" id="ad_position">
                                                         <option value="ANY" >Any</option>
                                                         <option value="ABOVE_THE_FOLD" >Above the Fold</option>
                                                         <option value="BELOW_THE_FOLD">Below the Fold</option>
@@ -412,7 +301,7 @@
                                                         <span class="add-on input-group-addon"><i class="ion-android-calendar"></i></span>
                                                         <div class="inputer">
                                                             <div class="input-wrapper">
-                                                                <input type="text" style="width: 200px" name="date_range" class="form-control bootstrap-daterangepicker-basic-range" value="{{old('date_range')}}" />
+                                                                <input type="text" style="width: 200px" name="date_range" id="date_range" class="form-control bootstrap-daterangepicker-basic-range" value="{{old('date_range')}}" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -426,9 +315,7 @@
 
                                                 <div class="inputer">
                                                     <div class="input-wrapper">
-                                                        <textarea name="description" class="form-control" rows="3"
-                                                                  placeholder="type minimum 5 characters"
-                                                                  required>{{old('description')}}</textarea>
+                                                        <textarea name="description" class="form-control" rows="3" placeholder="type minimum 5 characters">{{old('description')}}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -854,10 +741,8 @@
                                                                         id="rev_pacing_plan"></span></td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="2">Start Date: <span
-                                                                        id="rev_start_date"></span></td>
-                                                            <td colspan="2">End Date: <span
-                                                                        id="rev_end_date"></span></td>
+                                                            <td colspan="4">Date Range: <span
+                                                                        id="rev_date_range"></span></td>
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -1145,8 +1030,7 @@
             $('#rev_frequency_in_sec').html($('#frequency_in_sec').val());
             $('#rev_cpm').html($('#cpm').val());
             $('#rev_pacing_plan').html($('#pacing_plan').val());
-            $('#rev_start_date').html($('#startdate').val());
-            $('#rev_end_date').html($('#finishdate').val());
+            $('#rev_date_range').html($('#date_range').val());
 //            $('#rev_').html($('#name').val());
 
         }

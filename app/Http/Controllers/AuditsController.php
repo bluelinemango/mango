@@ -6,6 +6,7 @@ use App\Models\Audits;
 use App\Models\Bid_Profile;
 use App\Models\Bid_Profile_Entry;
 use App\Models\Geolocation;
+use App\Models\Inventory;
 use App\Models\Segment;
 use App\Models\User;
 use Carbon\Carbon;
@@ -76,6 +77,27 @@ class AuditsController extends Controller
         if(Auth::check()){
             $query = '1';
             switch ($id){
+                case 'user':
+                    if(!is_null($entity_id)) {
+                        $query .= " and (entity_type = 'user' and entity_id = '".$entity_id."')";
+                    }else{
+                        $query .= " and (entity_type = 'user')";
+                    }
+                    break;
+                case 'company':
+                    if(!is_null($entity_id)) {
+                        $query .= " and (entity_type = 'company' and entity_id = '".$entity_id."')";
+                    }else{
+                        $query .= " and (entity_type = 'company')";
+                    }
+                    break;
+                case 'inventory':
+                    if(!is_null($entity_id)) {
+                        $query .= " and (entity_type = 'inventory' and entity_id = '".$entity_id."')";
+                    }else{
+                        $query .= " and (entity_type = 'inventory')";
+                    }
+                    break;
                 case 'client':
                     if(!is_null($entity_id)) {
                         $query .= " and (entity_type = 'client' and entity_id = '".$entity_id."')";
@@ -169,7 +191,7 @@ class AuditsController extends Controller
                 $audit= Audits::with('getUser')->whereRaw($query)->orderBy('created_at','DESC')->get();
             }else {
                 $usr_comp = $this->user_company();
-                $audit= Audits::with('getUser')->whereRaw($query)->whereIn('user_id', $usr_comp)->orderBy('created_at','DESC')->get();
+                $audit= Audits::with('getUser')->whereIn('user_id', $usr_comp)->whereRaw($query)->whereIn('user_id', $usr_comp)->orderBy('created_at','DESC')->get();
             }
             $audit_obj= array();
             if($audit) {
@@ -274,6 +296,21 @@ class AuditsController extends Controller
         foreach($audit as $index){
             $entity_obj=null;
             switch ($index->entity_type){
+                case 'user':
+                    if(in_array('VIEW_USER',$this->permission)) {
+                        $entity_obj=User::find($index->entity_id);
+                    }
+                    break;
+                case 'company':
+                    if(User::isSuperAdmin()) {
+                        $entity_obj=\App\Models\Company::find($index->entity_id);
+                    }
+                    break;
+                case 'inventory':
+                    if(User::isSuperAdmin()) {
+                        $entity_obj=Inventory::find($index->entity_id);
+                    }
+                    break;
                 case 'client':
                     if(in_array('VIEW_CLIENT',$this->permission)) {
                         $entity_obj=Client::find($index->entity_id);

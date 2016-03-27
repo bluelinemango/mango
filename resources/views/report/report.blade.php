@@ -1,6 +1,7 @@
 @extends('Layout1')
 @section('siteTitle') System Reporting @endsection
 @section('headerCss')
+    {{--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">--}}
     <link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/datatables/media/css/jquery.dataTables.min.css')}}">
     <link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/datatables/themes/bootstrap/dataTables.bootstrap.css')}}">
 
@@ -123,22 +124,40 @@
                         <input type="hidden" value="today" name="report_type"/>
                         <div class="row">
                             <div class="col-md-7">
-                                <div class="col-md-12">
-                                    <div class="col-md-1 no-padding">
-                                        <span style="line-height: 22px; font-weight: bold">From</span>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label class="control-label">From</label>
+                                        </div>
+                                        <div class="col-md-8 ">
+                                            <div class="inputer">
+                                                <div class="input-wrapper">
+                                                    <input type="text" name="startdate"
+                                                           placeholder="start date" class="form-control" id="startdate">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4 ">
-                                        <input type="text" name="startdate" id="startdate" placeholder="start date">
+
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <label class="control-label">to</label>
+                                        </div>
+                                        <div class="col-md-10 ">
+                                            <div class="inputer">
+                                                <div class="input-wrapper">
+                                                    <input type="text" name="finishdate"
+                                                           placeholder="finish date" class="form-control" id="finishdate">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-1 no-padding">
-                                        <span style="line-height: 22px; font-weight: bold">To</span>
-                                    </div>
-                                    <div class="col-md-4 ">
-                                        <input type="text" name="finishdate" id="finishdate" placeholder="finish date">
-                                    </div>
-                                    <div class="col-md-2 no-padding">
-                                        <a href="javascript:changeReport('rang','report_type');" class="btn btn-primary"><i class="fa fa-search"></i></a>
-                                    </div>
+
+                                </div>
+                                <div class="col-md-2 no-padding">
+                                    <a href="javascript:changeReport('rang','report_type');" class="btn btn-primary"><i class="fa fa-search"></i></a>
                                 </div>
                             </div>
                             <div class="col-md-5">
@@ -177,14 +196,14 @@
             <div class="well">
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="pull-left">Client</p>
+                        <h4 class="pull-left">Client</h4>
                         <a href="javascript: changeReport('client','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
                     </div>
                 </div>
                 <hr/>
                 <!-- widget content -->
-                <div class="no-padding">
-                    <table id="client_list" class="table table-striped table-hover" width="100%">
+                <div class="">
+                    <table id="client_list" class="display datatables-basic ">
                         <thead>
                         <tr>
                             <th data-class="expand"> Name</th>
@@ -213,7 +232,7 @@
                 <!-- widget content -->
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="pull-left">Advertiser</p>
+                        <h4 class="pull-left">Advertiser</h4>
                         <a href="javascript: changeReport('advertiser','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
                     </div>
                 </div>
@@ -251,7 +270,7 @@
                 <!-- widget content -->
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="pull-left">Campaign</p>
+                        <h4 class="pull-left">Campaign</h4>
                         <a href="javascript: changeReport('campaign','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
                     </div>
                 </div>
@@ -288,7 +307,7 @@
             <div class="well">
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="pull-left">Target Group</p>
+                        <h4 class="pull-left">Target Group</h4>
                         <a href="javascript: changeReport('targetgroup','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
                     </div>
                 </div>
@@ -325,7 +344,7 @@
                 <!-- widget content -->
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="pull-left">Geo Segment</p>
+                        <h4 class="pull-left">Geo Segment</h4>
                         <a href="javascript: changeReport('geosegment','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
                     </div>
                 </div>
@@ -363,7 +382,7 @@
                 <!-- widget content -->
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="pull-left">Creative</p>
+                        <h4 class="pull-left">Creative</h4>
                         <a href="javascript: changeReport('creative','close_entity') "><span class="pull-right"><i class="fa fa-plus"></i></span>                                              </a>
                     </div>
                 </div>
@@ -418,6 +437,16 @@
     <!-- PAGE RELATED PLUGIN(S) -->
 
     <script>
+        function imps() {
+            return "Date,Imps\n";
+        }
+        function clicks() {
+            return "Date,Clicks\n";
+        }
+        function conversions() {
+            return "Date,Conversions\n";
+        }
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1123,6 +1152,7 @@
                         }
 
                     }
+
                     if (response[0] == 'report_type') {
                         if (response[1].length == 0) {
                             client.val('');
@@ -1703,7 +1733,9 @@
                 });
             }
         }
+
         $(document).ready(function() {
+            $('#advertiser_list_filter input').attr("id",'advertiser_list_filter');
 
             /* BASIC ;*/
             var client_list = undefined;
@@ -1729,6 +1761,7 @@
                         client_list = new ResponsiveDatatablesHelper($('#client_list'));
                     }
                 },
+                "searching": false,
                 "rowCallback" : function(nRow) {
                     client_list.createExpandIcon(nRow);
                 },
@@ -1742,6 +1775,7 @@
                 "t"+
                 "<'dt-toolbar-footer'<'col-xs-12 col-sm-12'p>>",
                 "autoWidth" : true,
+                "searching": false,
                 "preDrawCallback" : function() {
                     // Initialize the responsive datatables helper once.
                     if (!advertiser_list) {
@@ -1755,11 +1789,13 @@
                     advertiser_list.respond();
                 }
             });
+
             $('#campaign_list').dataTable({
                 "lengthMenu": [[3, 5, 10], [3, 5, 10]],
                 "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-9'f><'col-sm-3 col-xs-12 hidden-xs'l>r>"+
                 "t"+
                 "<'dt-toolbar-footer'<'col-xs-12 col-sm-12'p>>",
+                "searching": false,
                 "autoWidth" : true,
                 "preDrawCallback" : function() {
                     // Initialize the responsive datatables helper once.
@@ -1774,11 +1810,13 @@
                     campaign_list.respond();
                 }
             });
+
             $('#targetgroup_list').dataTable({
                 "lengthMenu": [[3, 5, 10], [3, 5, 10]],
                 "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-9'f><'col-sm-3 col-xs-12 hidden-xs'l>r>"+
                 "t"+
                 "<'dt-toolbar-footer'<'col-xs-12 col-sm-12'p>>",
+                "searching": false,
                 "autoWidth" : true,
                 "preDrawCallback" : function() {
                     // Initialize the responsive datatables helper once.
@@ -1793,12 +1831,14 @@
                     targetgroup_list.respond();
                 }
             });
+
             $('#creative_list').dataTable({
                 "lengthMenu": [[3, 5, 10], [3, 5, 10]],
                 "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-9'f><'col-sm-3 col-xs-12 hidden-xs'l>r>"+
                 "t"+
                 "<'dt-toolbar-footer'<'col-xs-12 col-sm-12'p>>",
                 "autoWidth" : true,
+                "searching": false,
                 "preDrawCallback" : function() {
                     // Initialize the responsive datatables helper once.
                     if (!creative_list) {
@@ -1812,11 +1852,13 @@
                     creative_list.respond();
                 }
             });
+
             $('#geosegment_list').dataTable({
                 "lengthMenu": [[3, 5, 10], [3, 5, 10]],
                 "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-9'f><'col-sm-3 col-xs-12 hidden-xs'l>r>"+
                 "t"+
                 "<'dt-toolbar-footer'<'col-xs-12 col-sm-12'p>>",
+                "searching": false,
                 "autoWidth" : true,
                 "preDrawCallback" : function() {
                     // Initialize the responsive datatables helper once.
@@ -1862,7 +1904,6 @@
                 },
                 showRangeSelector : true
             });
-
         });
     </script>
 

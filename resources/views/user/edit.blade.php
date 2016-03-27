@@ -100,10 +100,10 @@
                                 <div class="form-group">
                                     <label class="control-label">Status</label>
 
-                                    <div class="checkboxer">
+                                    <div class="switcher">
                                         <input type="checkbox" name="active"
-                                               class="switchery-teal" @if($user_obj->status=="Active") checked @endif>
-                                        <label for="check1">Active</label>
+                                               hidden id="active" @if($user_obj->status=="Active") checked @endif>
+                                        <label for="active"></label>
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +160,6 @@
 @section('FooterScripts')
     <script>
         $(document).ready(function () {
-            FormsSwitchery.init();
             $.ajax({
                 url: "{{url('ajax/getAudit/user/'.$user_obj->id)}}"
             }).success(function (response) {
@@ -168,21 +167,9 @@
             });
 
             $('#audit_status').change(function () {
-                if ($(this).val() == 'all') {
-                    $.ajax({
-                        url: "{{url('ajax/getAllAudits')}}"
-                    }).success(function (response) {
-                        $('#show_audit').html(response);
-                    });
-                } else if ($(this).val() == 'entity') {
+                if ($(this).val() == 'entity') {
                     $.ajax({
                         url: "{{url('ajax/getAudit/user/'.$user_obj->id)}}"
-                    }).success(function (response) {
-                        $('#show_audit').html(response);
-                    });
-                } else if ($(this).val() == 'user') {
-                    $.ajax({
-                        url: "{{url('ajax/getAudit/user')}}"
                     }).success(function (response) {
                         $('#show_audit').html(response);
                     });
@@ -196,7 +183,8 @@
                         required: true
                     },
                     email: {
-                        required: true
+                        required: true,
+                        email: 'Please enter a VALID email address'
                     }
                 },
 

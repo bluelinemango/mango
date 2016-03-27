@@ -1,4 +1,3 @@
-
 <!-- BEGIN GLOBAL AND THEME VENDORS -->
 <script src="{{cdn('newTheme/globals/js/global-vendors.js')}}"></script>
 <!-- END GLOBAL AND THEME VENDORS -->

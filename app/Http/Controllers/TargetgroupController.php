@@ -99,20 +99,30 @@ class TargetgroupController extends Controller
         return Redirect::to(url('/user/login'));
     }
 
-    public function add_targetgroup(Request $request)  //TODO: correct this function
+    public function add_targetgroup(Request $request)
     {
 //        return dd($request->all());
         if (Auth::check()) {
             if (in_array('ADD_EDIT_TARGETGROUP', $this->permission)) {
-                $validate = \Validator::make($request->all(), ['name' => 'required']);
+                $validate = \Validator::make($request->all(), Targetgroup::$rules);
                 if ($validate->passes()) {
-                    $checkAdv = Campaign::find($request->input('campaign_id'));
-                    $user_company=$this->user_company();
-                    $chekUser = Advertiser::with(['GetClientID'=>function($q)use($user_company){
-                        $q->whereIn('user_id', $user_company);
-                    }])->find($checkAdv->advertiser_id);
-//                    return dd(count($chekUser));
-                    if (count($chekUser) > 0 ) {
+                    $check_date=$this->date_validation($request->input('date_range'));
+                    if(!$check_date){
+                        return Redirect::back()->withErrors(['success'=>false,'msg'=>'please check your date range!']);
+                    }
+                    if (User::isSuperAdmin()) {
+                        $campaign = Campaign::whereHas('getAdvertiser' , function ($q){
+                            $q->whereHas('GetClientID');
+                        })->find($request->input('campaign_id'));
+                    } else {
+                        $usr_company = $this->user_company();
+                        $campaign = Campaign::whereHas('getAdvertiser' , function ($q) use ($usr_company){
+                            $q->whereHas('GetClientID' ,function ($p) use ($usr_company) {
+                                $p->whereIn('user_id', $usr_company);
+                            });
+                        })->with('Targetgroup')->find($request->input('campaign_id'));
+                    }
+                    if ($campaign) {
                         $bid_hour = '';
                         for ($i = 0; $i < 7; $i++) {
                             for ($j = 0; $j < 24; $j++) {
@@ -124,12 +134,13 @@ class TargetgroupController extends Controller
                             }
                             $bid_hour[$i + 1] = $bid_hour1;
                         }
-//                        return dd(json_encode($bid_hour));
-                        $start_date = \DateTime::createFromFormat('d.m.Y', $request->input('startdate'));
-                        $end_date = \DateTime::createFromFormat('d.m.Y', $request->input('finishdate'));
-//                        return dd($end_date);
-                        $key_audit = new AuditsController();
-                        $key_audit = $key_audit->generateRandomString();
+                        $date_range=explode('-',$request->input('date_range'));
+
+                        $start_date=Carbon::createFromFormat('m/d/Y',str_replace(' ','',$date_range[0]))->toDateString();
+                        $end_date=Carbon::createFromFormat('m/d/Y',str_replace(' ','',$date_range[1]))->toDateString();
+
+                        $audit = new AuditsController();
+                        $audit_key = $audit->generateRandomString();
                         $targetgroup = new Targetgroup();
                         $targetgroup->name = $request->input('name');
                         $targetgroup->max_impression = $request->input('max_impression');
@@ -147,26 +158,12 @@ class TargetgroupController extends Controller
                         $targetgroup->end_date = $end_date;
                         $targetgroup->save();
 
-                        $publish_bid = $request->all();
-                        foreach ($publish_bid as $key => $value) {
-                            if (strpos($key, '-bid') !== false) {
-                                $chkPublish = Advertiser_Publisher::find(substr($key, 0, -4));
-                                if (!is_null($chkPublish)) {
-                                    $p_bid = new Targetgroup_Bid_Advpublisher();
-                                    $p_bid->bid_price = $value;
-                                    $p_bid->advertiser_publisher_id = substr($key, 0, -4);
-                                    $p_bid->targetgroup_id = $targetgroup->id;
-                                    $p_bid->save();
-                                }
-                            }
-                        }
 
                         $target_bid_hour = new Targetgroup_Bidhour_Map();
                         $target_bid_hour->hours = json_encode($bid_hour);
                         $target_bid_hour->targetgroup_id = $targetgroup->id;
                         $target_bid_hour->save();
-                        $audit = new AuditsController();
-                        $audit->store('targetgroup', $targetgroup->id, null, 'add', $key_audit);
+                        $audit->store('targetgroup', $targetgroup->id, null, 'add', $audit_key);
 
                         if (count($request->input('to_geosegment')) > 0) {
                             $chk = array();
@@ -176,7 +173,33 @@ class TargetgroupController extends Controller
                                     $geosegment_assign->targetgroup_id = $targetgroup->id;
                                     $geosegment_assign->geosegmentlist_id = $index;
                                     $geosegment_assign->save();
-                                    $audit->store('targetgroup_geosegment', $geosegment_assign->id, $targetgroup->id, 'add', $key_audit);
+                                    $audit->store('targetgroup_geosegment_map', $geosegment_assign->id, $targetgroup->id, 'add', $audit_key);
+                                    array_push($chk, $index);
+                                }
+                            }
+                        }
+                        if (count($request->input('to_segment')) > 0) {
+                            $chk = array();
+                            foreach ($request->input('to_segment') as $index) {
+                                if (!in_array($index, $chk)) {
+                                    $segment_assign = new Targetgroup_Segment_Map();
+                                    $segment_assign->targetgroup_id = $targetgroup->id;
+                                    $segment_assign->segmentlist_id = $index;
+                                    $segment_assign->save();
+                                    $audit->store('targetgroup_segment_map', $segment_assign->id, $targetgroup->id, 'add', $audit_key);
+                                    array_push($chk, $index);
+                                }
+                            }
+                        }
+                        if (count($request->input('to_bid_profile')) > 0) {
+                            $chk = array();
+                            foreach ($request->input('to_bid_profile') as $index) {
+                                if (!in_array($index, $chk)) {
+                                    $bid_profile_assign = new Targetgroup_Bidprofile_Map();
+                                    $bid_profile_assign->targetgroup_id = $targetgroup->id;
+                                    $bid_profile_assign->bid_profile_id = $index;
+                                    $bid_profile_assign->save();
+                                    $audit->store('targetgroup_bidprofile_map', $bid_profile_assign->id, $targetgroup->id, 'add', $audit_key);
                                     array_push($chk, $index);
                                 }
                             }
@@ -190,7 +213,7 @@ class TargetgroupController extends Controller
                                     $creative_assign->targetgroup_id = $targetgroup->id;
                                     $creative_assign->creative_id = $index;
                                     $creative_assign->save();
-                                    $audit->store('targetgroup_creative', $creative_assign->id, $targetgroup->id, 'add', $key_audit);
+                                    $audit->store('targetgroup_creative_map', $creative_assign->id, $targetgroup->id, 'add', $audit_key);
                                     array_push($chk, $index);
                                 }
                             }
@@ -204,7 +227,7 @@ class TargetgroupController extends Controller
                                     $geolocation_assign->targetgroup_id = $targetgroup->id;
                                     $geolocation_assign->geolocation_id = $index;
                                     $geolocation_assign->save();
-                                    $audit->store('targetgroup_geolocation', $geolocation_assign->id, $targetgroup->id, 'add', $key_audit);
+                                    $audit->store('targetgroup_geolocation_map', $geolocation_assign->id, $targetgroup->id, 'add', $audit_key);
                                     array_push($chk, $index);
                                 }
                             }
@@ -218,8 +241,7 @@ class TargetgroupController extends Controller
                                     $blacklist_assign->targetgroup_id = $targetgroup->id;
                                     $blacklist_assign->bwlist_id = $index;
                                     $blacklist_assign->save();
-                                    $audit->store('targetgroup_bwlist', $blacklist_assign->id, $targetgroup->id, 'add', $key_audit);
-
+                                    $audit->store('targetgroup_bwlist_map', $blacklist_assign->id, $targetgroup->id, 'add', $audit_key);
                                     array_push($chk, $index);
                                 }
                             }
@@ -231,14 +253,14 @@ class TargetgroupController extends Controller
                                     $whitelist_assign->targetgroup_id = $targetgroup->id;
                                     $whitelist_assign->bwlist_id = $index;
                                     $whitelist_assign->save();
-                                    $audit->store('targetgroup_bwlist', $whitelist_assign->id, $targetgroup->id, 'add', $key_audit);
+                                    $audit->store('targetgroup_bwlist_map', $whitelist_assign->id, $targetgroup->id, 'add', $audit_key);
                                     array_push($chk, $index);
                                 }
                             }
                         } else {
                             //return 2 ta chiz baham select shode
                         }
-                        return Redirect::to(url('/client/cl' . $chekUser->GetClientID->id . '/advertiser/adv' . $chekUser->id . '/campaign/cmp' . $request->input('campaign_id') . '/targetgroup/tg'.$targetgroup->id.'/edit'))->withErrors(['success'=> true ,'msg'=>'Your Target Group Added Successfully']);
+                        return Redirect::to(url('/client/cl' . $campaign->getAdvertiser->GetClientID->id . '/advertiser/adv' . $campaign->getAdvertiser->id . '/campaign/cmp' . $request->input('campaign_id') . '/targetgroup/tg'.$targetgroup->id.'/edit'))->withErrors(['success'=> true ,'msg'=>'Your Target Group Added Successfully']);
                     }
                 }
                 return Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();

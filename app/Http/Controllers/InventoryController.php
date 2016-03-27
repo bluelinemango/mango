@@ -66,6 +66,7 @@ class InventoryController extends Controller
                     if ($request->input('active') == 'on') {
                         $active = 'Active';
                     }
+                    $audit = new AuditsController();
 
                     $inventory = new Inventory();
                     $inventory->name = $request->input('name');
@@ -74,6 +75,7 @@ class InventoryController extends Controller
                     $inventory->status = $active;
                     $inventory->daily_limit = $request->input('daily_limit');
                     $inventory->save();
+                    $audit->store('inventory', $inventory->id, null, 'add');
                     return Redirect::to(url('/inventory/' . $inventory->id . '/edit'))->withErrors(['success' => true, 'msg' => "Inventory added successfully"]);
                 }
                 return Redirect::back()->withErrors(['success' => false, 'msg' => $validate->messages()->all()])->withInput();

@@ -34,7 +34,7 @@
                                     <div class="inputer">
                                         <div class="input-wrapper">
                                             <input type="text" id="name" name="name" placeholder="Name"
-                                                   class="form-control">
+                                                   class="form-control" value="{{old('name')}}">
                                         </div>
                                     </div>
                                 </div>

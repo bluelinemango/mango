@@ -30,7 +30,7 @@
                             <h4>General Informaition</h4>
 
                             <div class="col-md-2">
-                                <label class="control-label" for="">Advertiser Name</label>
+                                <label class="control-label" for="">Role Name</label>
                                 <h5>{{$role_obj->name}}</h5>
 
                             </div>
