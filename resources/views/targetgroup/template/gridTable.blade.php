@@ -60,6 +60,59 @@
 
     </script>
 @endif
+@if($entity_type == 'bwlist')
+    <div id="bwlist_grid"></div>
+    <script>
+        $(function () {
+
+            var db = {
+                loadData: function (filter) {
+                    return $.grep(this.bwlist, function (bwlist) {
+                        return (!filter.name || bwlist.name.indexOf(filter.name) > -1)
+                                && (!filter.id || bwlist.id.indexOf(filter.id) > -1)
+                                && (!filter.parent || bwlist.parent.indexOf(filter.parent) > -1);
+                    });
+                }
+
+            };
+
+            window.db = db;
+
+            db.bwlist = [
+
+                @foreach($entity_obj as $index1)
+                    @foreach($index1 as $index)
+                {
+                    "id": '{{$index->id}}',
+                    "parent": '{{$index->getParent->name}}',
+                    "name": '{{$index->domain_name}}'
+                    },
+                    @endforeach
+                @endforeach
+            ];
+
+            $("#bwlist_grid").jsGrid({
+                width: "100%",
+                filtering: true,
+                editing: false,
+                sorting: true,
+                paging: true,
+                autoload: true,
+                pageSize: 10,
+                pageButtonCount: 5,
+                controller: db,
+                fields: [
+                    {name: "id", title: "ID", type: "text", width: 40, align: "center",editing:false},
+                    {name: "parent", title: "Parent", type: "text", width: 70},
+                    {name: "name", title: "Name", type: "text", width: 70}
+                ]
+
+            });
+
+        });
+
+    </script>
+@endif
 @if($entity_type == 'creative')
     <div id="creative_grid"></div>
     <script>

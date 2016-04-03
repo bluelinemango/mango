@@ -95,12 +95,8 @@
         </div>
         <!--.panel-->
 
-        <div class="panel light-blue">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <h4>Edit Bid Profile: bpf{{$bid_profile_obj->name}} </h4>
-                </div>
-            </div>
+        <div class="panel ">
+
             <!--.panel-heading-->
             <div class="panel-body">
                 <div id="bid_profile_entry_grid"></div>

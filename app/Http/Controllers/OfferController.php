@@ -87,6 +87,7 @@ class OfferController extends Controller
                         $offer = new Offer();
                         $offer->name = $request->input('name');
                         $offer->advertiser_id = $request->input('advertiser_id');
+                        $offer->description = $request->input('description');
                         $offer->status = $active;
                         $offer->save();
                         $audit= new AuditsController();
@@ -182,6 +183,12 @@ class OfferController extends Controller
                             array_push($data,$offer->name);
                             array_push($data,$request->input('name'));
                             $offer->name=$request->input('name');
+                        }
+                        if($offer->description != $request->input('description')){
+                            array_push($data,'Description');
+                            array_push($data,$offer->description);
+                            array_push($data,$request->input('description'));
+                            $offer->description=$request->input('description');
                         }
                         if ($offer->status != $active) {
                             array_push($data, 'Status');

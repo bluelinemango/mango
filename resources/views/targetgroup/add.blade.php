@@ -90,7 +90,6 @@
                         </div><!--.panel-heading-->
                         <div class="panel-body">
                             <form id="form3" method="post" action="{{URL::route('targetgroup_create')}}" class="" novalidate="novalidate">
-                                <input type="hidden" name="_method" value="PUT"/>
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="hidden" name="campaign_id" value="{{$campaign_obj->id}}">
 
@@ -140,8 +139,7 @@
                                                             class="selecter"
                                                             id="iab_category"
                                                             onchange="ShowSubCategory(this.value)">
-                                                        <option value="0"
-                                                                disabled>
+                                                        <option value="0">
                                                             Select one ...
                                                         </option>
                                                         @foreach($iab_category_obj as $index)
@@ -325,7 +323,7 @@
                                     </div><!--.tab-pane-->
 
                                     <div class="tab-pane" id="form3_tab2">
-                                        <div class="row">
+                                        <div style="margin-top: 20px">
                                             <div class="col-md-3 pull-right">
                                                 <div class="well"  >
                                                     <button id="show_geoLocation" class="btn btn-primary btn-block">Assign Geo Location </button>
@@ -405,23 +403,21 @@
 
                                             <div class="well col-md-9" id="bwList" style="display: none">
 
-                                                <div class="panel-group"
+                                                <div class="panel-group accordion"
                                                      id="accordion">
                                                     <!-- accordion 1 -->
-                                                    <div class="panel panel-primary">
+                                                    <div class="panel ">
 
                                                         <div class="panel-heading">
                                                             <!-- panel-heading -->
-                                                            <h4 class="panel-title">
                                                                 <!-- title 1 -->
-                                                                <a data-toggle="collapse"
+                                                                <a class="panel-title" data-toggle="collapse"
                                                                    data-parent="#accordion"
                                                                    href="#blacklist"
                                                                    onclick="taggleBWList('blacklist')">
                                                                     Assign Black
                                                                     List
                                                                 </a>
-                                                            </h4>
                                                         </div>
                                                         <!-- panel body -->
                                                         <div id="blacklist"
@@ -459,20 +455,18 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="panel panel-success">
+                                                    <div class="panel">
                                                         <!-- accordion 2 -->
 
                                                         <div class="panel-heading">
-                                                            <h4 class="panel-title">
                                                                 <!-- title 2 -->
-                                                                <a data-toggle="collapse"
+                                                                <a class="panel-title" data-toggle="collapse"
                                                                    data-parent="#accordion"
                                                                    href="#accordionTwo"
                                                                    onclick="taggleBWList('whitelist')">
                                                                     Assign White
                                                                     List
                                                                 </a>
-                                                            </h4>
                                                         </div>
                                                         <!-- panel body -->
                                                         <div id="accordionTwo"
@@ -511,6 +505,13 @@
                                                     </div>
 
                                                 </div>
+
+                                                <div class="clearfix"></div>
+                                                <br/>
+                                                <div class="col-md-12" id="bwlistTable">
+
+                                                </div>
+
                                             </div>
 
                                             <div class="well col-md-9" id="geoSegment" style="display: none">
@@ -694,7 +695,7 @@
 
                                                         <select name="" class="selecter"
                                                                 id="suggested">
-                                                            <option value="business-hours">Business Hours</option>
+                                                            <option value="0">Select One..</option>
                                                             <option value="happy-hours">Happy Hours</option>
                                                             <option value="business-hours">Business Hours</option>
                                                         </select>
@@ -1254,6 +1255,33 @@
                 search: {
                     left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
                     right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                },
+                afterMoveToRight: function($left, $right, $options) {
+                    var data=[];
+                    $('#assign_blacklist_to').find('option').each(function() {
+                        data.push($(this).val());
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "{{url('/getTableGridTG')}}",
+                        data: {data:data,entity_type:'bwlist'}
+                    }).success(function (response) {
+                        $('#bwlistTable').html(response);
+                    });
+
+                },
+                afterMoveToLeft: function($left, $right, $options) {
+                    var data=[];
+                    $('#assign_blacklist_to').find('option').each(function() {
+                        data.push($(this).val());
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "{{url('/getTableGridTG')}}",
+                        data: {data:data,entity_type:'bwlist'}
+                    }).success(function (response) {
+                        $('#bwlistTable').html(response);
+                    });
                 }
             });
 
@@ -1261,6 +1289,33 @@
                 search: {
                     left: '<input type="text" name="q" class="form-control" placeholder="Search..." />',
                     right: '<input type="text" name="q" class="form-control" placeholder="Search..." />'
+                },
+                afterMoveToRight: function($left, $right, $options) {
+                    var data=[];
+                    $('#assign_whitelist_to').find('option').each(function() {
+                        data.push($(this).val());
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "{{url('/getTableGridTG')}}",
+                        data: {data:data,entity_type:'bwlist'}
+                    }).success(function (response) {
+                        $('#bwlistTable').html(response);
+                    });
+
+                },
+                afterMoveToLeft: function($left, $right, $options) {
+                    var data=[];
+                    $('#assign_whitelist_to').find('option').each(function() {
+                        data.push($(this).val());
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "{{url('/getTableGridTG')}}",
+                        data: {data:data,entity_type:'bwlist'}
+                    }).success(function (response) {
+                        $('#bwlistTable').html(response);
+                    });
                 }
             });
 

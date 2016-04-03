@@ -78,7 +78,7 @@
                                     <div class="input-wrapper">
                                                     <textarea name="description" class="form-control" rows="3"
                                                               placeholder="type minimum 5 characters"
-                                                              required></textarea>
+                                                             ></textarea>
                                     </div>
                                 </div>
                             </div>

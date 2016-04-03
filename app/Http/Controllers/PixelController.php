@@ -88,6 +88,7 @@ class PixelController extends Controller
                         $pixel->name = $request->input('name');
                         $pixel->status = $active;
                         $pixel->advertiser_id = $request->input('advertiser_id');
+                        $pixel->description = $request->input('description');
                         $pixel->version = 'version1';
                         $pixel->part_a = $rndstr->randomStr();
                         $pixel->part_b = $rndstr->randomStr();
@@ -162,6 +163,12 @@ class PixelController extends Controller
                             array_push($data, $pixel->name);
                             array_push($data, $request->input('name'));
                             $pixel->name = $request->input('name');
+                        }
+                        if ($pixel->description != $request->input('description')) {
+                            array_push($data, 'Description');
+                            array_push($data, $pixel->description);
+                            array_push($data, $request->input('description'));
+                            $pixel->description = $request->input('description');
                         }
                         if ($pixel->status != $active) {
                             array_push($data, 'Status');

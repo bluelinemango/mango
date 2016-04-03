@@ -207,7 +207,7 @@ var FormsWizard = {
 			onTabShow: function(tab, navigation, index) {
 				tab.prev().children().removeClass('btn-primary').addClass('btn-success');
 				tab.children().addClass('btn-primary');
-				tab.parents('.panel:first').find('.panel-title').html( tab.data('title') );
+				tab.parents('.panel:first').find('.panel-title').first().html( tab.data('title') );
 
 				var $total = navigation.find('li').length;
 				var $current = index+1;

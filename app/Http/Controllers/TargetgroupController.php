@@ -112,7 +112,7 @@ class TargetgroupController extends Controller
                     }
                     if (User::isSuperAdmin()) {
                         $campaign = Campaign::whereHas('getAdvertiser' , function ($q){
-                            $q->whereHas('GetClientID');
+                            $q->with('GetClientID');
                         })->find($request->input('campaign_id'));
                     } else {
                         $usr_company = $this->user_company();

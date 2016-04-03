@@ -4339,6 +4339,7 @@ textarea {
 }
 label {
   font-weight: normal;
+  display: block;
 }
 .has-success .form-control,
 .has-warning .form-control,
