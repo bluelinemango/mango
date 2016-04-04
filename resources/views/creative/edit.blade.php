@@ -322,7 +322,7 @@
 @if($clone==0)
 
     <div class="col-md-3">
-        <div class="panel indigo">
+        <div class="panel gray">
             <div class="panel-heading">
                 <div class="panel-title">
                     <h4 class="pull-left">Activities</h4>

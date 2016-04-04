@@ -252,7 +252,7 @@ class ModelController extends Controller
                             $modelTable->feature_recency_in_sec = $request->input('feature_recency_in_sec');
                         }
                         if ($modelTable->max_num_both_neg_pos_devices != $request->input('max_num_both_neg_pos_devices')) {
-                            array_push($data, 'Xax #Both Devices');
+                            array_push($data, 'Max #Both Devices');
                             array_push($data, $modelTable->max_num_both_neg_pos_devices);
                             array_push($data, $request->input('max_num_both_neg_pos_devices'));
                             $modelTable->max_num_both_neg_pos_devices = $request->input('max_num_both_neg_pos_devices');

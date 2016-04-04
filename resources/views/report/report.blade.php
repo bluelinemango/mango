@@ -2,7 +2,9 @@
 @section('siteTitle') System Reporting @endsection
 @section('headerCss')
     {{--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">--}}
-    <link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/datatables/media/css/jquery.dataTables.min.css')}}">
+    <link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css')}}">
+
+<link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/datatables/media/css/jquery.dataTables.min.css')}}">
     <link rel="stylesheet" href="{{cdn('newTheme/globals/plugins/datatables/themes/bootstrap/dataTables.bootstrap.css')}}">
 
     <style>
@@ -94,9 +96,8 @@
         #impression, #click , #conversion{
             height: 160px !important;
         }
-        .masonry .panel-body{
-            padding: 0 !important;
-            font-size:12px;
+        .entity .col-md-6{
+            width: 47% !important;
         }
     </style>
 @endsection
@@ -119,47 +120,64 @@
                         <input type="hidden" value="" name="campaign"/>
                         <input type="hidden" value="" name="targetgroup"/>
                         <input type="hidden" value="" name="creative"/>
-                        <input type="hidden" value="" name="startdate"/>
-                        <input type="hidden" value="" name="enddate"/>
+                        <input type="hidden" value="" name="date_range"/>
                         <input type="hidden" value="today" name="report_type"/>
                         <div class="row">
                             <div class="col-md-7">
-                                <div class="col-md-5">
-                                    <div class="form-group">
-                                        <div class="col-md-4">
-                                            <label class="control-label">From</label>
-                                        </div>
-                                        <div class="col-md-8 ">
+
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="ion-android-calendar"></i></span>
                                             <div class="inputer">
                                                 <div class="input-wrapper">
-                                                    <input type="text" name="startdate"
-                                                           placeholder="start date" class="form-control" id="startdate">
+                                                    <input type="text" name="date_range" class="form-control bootstrap-daterangepicker-date-time" id="date_range" >
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="form-group">
-                                        <div class="col-md-2">
-                                            <label class="control-label">to</label>
-                                        </div>
-                                        <div class="col-md-10 ">
-                                            <div class="inputer">
-                                                <div class="input-wrapper">
-                                                    <input type="text" name="finishdate"
-                                                           placeholder="finish date" class="form-control" id="finishdate">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 </div>
                                 <div class="col-md-2 no-padding">
-                                    <a href="javascript:changeReport('rang','report_type');" class="btn btn-primary"><i class="fa fa-search"></i></a>
+                                    <a  onclick="changeReport('rang','report_type')" class="btn btn-primary"><i class="fa fa-search"></i></a>
                                 </div>
-                            </div>
+
+
+                            </div><!--.col-md-9-->
+
+                            {{--<div class="col-md-7">--}}
+                                {{--<div class="col-md-5">--}}
+                                    {{--<div class="form-group">--}}
+                                        {{--<div class="col-md-4">--}}
+                                            {{--<label class="control-label">From</label>--}}
+                                        {{--</div>--}}
+                                        {{--<div class="col-md-8 ">--}}
+                                            {{--<div class="inputer">--}}
+                                                {{--<div class="input-wrapper">--}}
+                                                    {{--<input type="text" name="startdate"--}}
+                                                           {{--placeholder="start date" class="form-control" id="startdate">--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+
+                                {{--</div>--}}
+                                {{--<div class="col-md-5">--}}
+                                    {{--<div class="form-group">--}}
+                                        {{--<div class="col-md-2">--}}
+                                            {{--<label class="control-label">to</label>--}}
+                                        {{--</div>--}}
+                                        {{--<div class="col-md-10 ">--}}
+                                            {{--<div class="inputer">--}}
+                                                {{--<div class="input-wrapper">--}}
+                                                    {{--<input type="text" name="finishdate"--}}
+                                                           {{--placeholder="finish date" class="form-control" id="finishdate">--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+
+                                {{--</div>--}}
+                            {{--</div>--}}
                             <div class="col-md-5">
                                 <div id="btn-report-type" class="col-md-12">
                                     <a id="10m" href="javascript: changeReport('10m','report_type');" class="btn btn-primary">10m</a>
@@ -415,9 +433,7 @@
             </div>
             <!-- end widget div -->
         </div>
-
     </div>
-
     <div class="clearfix"></div>
     <div class="row">
         <div class="col-md-12 well" id="entity_box">
@@ -432,9 +448,15 @@
     <script src="{{cdn('js/plugin/datatables/dataTables.bootstrap.min.js')}}"></script>
     <script src="{{cdn('js/plugin/datatable-responsive/datatables.responsive.min.js')}}"></script>
 
+    <script src="{{cdn('newTheme/globals/plugins/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+
+    <script src="{{cdn('newTheme/globals/scripts/forms-pickers.js')}}"></script>
     <!-- DYGRAPH -->
     <script src="{{cdn('js/plugin/dygraphs/dygraph-combined.min.js')}}"></script>
     <!-- PAGE RELATED PLUGIN(S) -->
+    <script src="{{cdn('newTheme/globals/plugins/masonry/dist/masonry.pkgd.min.js')}}"></script>
+
+    <script src="{{cdn('newTheme/globals/scripts/grids-masonry.js')}}"></script>
 
     <script>
         function imps() {
@@ -465,8 +487,7 @@
             var geosegment=$('input[name="geosegment"]');
             var creative=$('input[name="creative"]');
             var report_type=$('input[name="report_type"]');
-            var start_date=$('input[name="startdate"]');
-            var end_date=$('input[name="enddate"]');
+            var date_range=$('input[name="date_range"]');
             if(type=='client'){
                 if(client.val()==id){
                     client.val('');
@@ -495,31 +516,37 @@
                     client.val('');
                     $('#client_box').animate({height: "toggle" , opacity:0},300);
                     $('#entity_box').append("<a id='client_expand' class='col-md-2' href='javascript: changeReport(`client`,`open_entity`)'><h5>Client <i class='fa fa-plus'></i></h5></a>");
+                    GridsMasonry.init();
                     type='unfilter';
                 }else if(id=='advertiser'){
                     advertiser.val('');
                     $('#advertiser_box').animate({height: "toggle" , opacity:0},300);
                     $('#entity_box').append("<a id='advertiser_expand' class='col-md-2' href='javascript: changeReport(`advertiser`,`open_entity`)'><h5>Advertiser <i class='fa fa-plus'></i></h5></a>");
+                    GridsMasonry.init();
                     type='unfilter';
                 }else if(id=='creative'){
                     creative.val('');
                     $('#creative_box').animate({height: "toggle" , opacity:0},300);
                     $('#entity_box').append("<a id='creative_expand' class='col-md-2' href='javascript: changeReport(`creative`,`open_entity`)'><h5>Creative <i class='fa fa-plus'></i></h5></a>");
+                    GridsMasonry.init();
                     type='unfilter';
                 }else if(id=='geosegment'){
                     geosegment.val('');
                     $('#geosegment_box').animate({height: "toggle" , opacity:0},300);
                     $('#entity_box').append("<a id='geosegment_expand' class='col-md-2' href='javascript: changeReport(`geosegment`,`open_entity`)'><h5>Geo Segment <i class='fa fa-plus'></i></h5></a>");
+                    GridsMasonry.init();
                     type='unfilter';
                 }else if(id=='campaign'){
                     campaign.val('');
                     $('#campaign_box').animate({height: "toggle" , opacity:0},300);
                     $('#entity_box').append("<a id='campaign_expand' class='col-md-2' href='javascript: changeReport(`campaign`,`open_entity`)'><h5>Campaign<i class='fa fa-plus'></i></h5></a>");
+                    GridsMasonry.init();
                     type='unfilter';
                 }else if(id=='targetgroup'){
                     targetgroup.val('');
                     $('#targetgroup_box').animate({height: "toggle" , opacity:0},300);
                     $('#entity_box').append("<a id='targetgroup_expand' class='col-md-2' href='javascript: changeReport(`targetgroup`,`open_entity`)'><h5>Target Group<i class='fa fa-plus'></i></h5></a>");
+                    GridsMasonry.init();
                     type='unfilter';
                 }
 
@@ -529,31 +556,37 @@
                     client.val('');
                     $('#client_box').animate({height: "toggle" , opacity:1},300);
                     $('#client_expand').remove();
+                    GridsMasonry.init();
                     type='do_nothing';
                 }else if(id=='advertiser'){
                     advertiser.val('');
                     $('#advertiser_box').animate({height: "toggle" , opacity:1},300);
                     $('#advertiser_expand').remove();
+                    GridsMasonry.init();
                     type='do_nothing';
                 }else if(id=='creative'){
                     creative.val('');
                     $('#creative_box').animate({height: "toggle" , opacity:1},300);
                     $('#creative_expand').remove();
+                    GridsMasonry.init();
                     type='do_nothing';
                 }else if(id=='geosegment'){
                     geosegment.val('');
                     $('#geosegment_box').animate({height: "toggle" , opacity:1},300);
                     $('#geosegment_expand').remove();
+                    GridsMasonry.init();
                     type='do_nothing';
                 }else if(id=='campaign'){
                     campaign.val('');
                     $('#campaign_box').animate({height: "toggle" , opacity:1},300);
                     $('#campaign_expand').remove();
+                    GridsMasonry.init();
                     type='do_nothing';
                 }else if(id=='targetgroup'){
                     targetgroup.val('');
                     $('#targetgroup_box').animate({height: "toggle" , opacity:1},300);
                     $('#targetgroup_expand').remove();
+                    GridsMasonry.init();
                     type='do_nothing';
                 }
 
@@ -663,22 +696,17 @@
                 report_type.val(id);
                 if(id=='rang'){
                     $('#btn-report-type').find('a').removeClass('active-btn');
-                    start_date.val($('#startdate').val());
-                    end_date.val($('#finishdate').val());
+//                    date_range.val($('#date_range').val());
                 }else{
-                    $('#startdate').val('');
-                    $('#finishdate').val('');
+                    $('#date_range').val('');
                     $('#btn-report-type').find('a').removeClass('active-btn');
                     $('#'+id).addClass('active-btn');
-
                 }
             }
             if(type!='do_nothing') {
                 $.ajax({
                     type: "POST",
                     url: "{{url('/report/changestate')}}",
-                    beforeSend: function () {
-                    },
                     data: {
                         id: id,
                         client: client.val(),
@@ -689,10 +717,10 @@
                         targetgroup: targetgroup.val(),
                         type: type ,
                         report_type: report_type.val(),
-                        start_date: start_date.val(),
-                        end_date: end_date.val()
+                        date_range: date_range.val()
                     }
                 }).success(function (response) {
+                    console.log(response);
                     var response = JSON.parse(response);
                     console.log(response);
                     if (response[0] == 'client') {
@@ -787,7 +815,6 @@
                             $('#targetgroup_list').dataTable().fnAddData(data);
                         }
                     }
-
                     if (response[0] == 'client_unfilter') {
                         $('#client_list').dataTable().fnClearTable();
                         $('#advertiser_list').dataTable().fnClearTable();
@@ -873,16 +900,13 @@
                                 }
                                 var link1 = "<a id='tgp" + this.id + "' href='javascript: changeReport(" + this.id + ",`targetgroup`)'>" + this.name + "</a>";
                                 data += '["' + link1 + '", '+this.imps+'],';
-
                             });
                             data = data.substr(0, data.length - 1);
                             data = '[' + data + ']';
                             data = JSON.parse(data);
                             $('#targetgroup_list').dataTable().fnAddData(data);
                         }
-
                     }
-
                     if (response[0] == 'unfilter') {
                         if (response[1].length > 0) {
                             $('#client_list').dataTable().fnClearTable();
@@ -975,7 +999,6 @@
                             $('#targetgroup_list').dataTable().fnAddData(data);
                         }
                     }
-
                     if (response[0] == 'campaign_unfilter') {
                         $('#campaign_list').dataTable().fnClearTable();
                         $('#targetgroup_list').dataTable().fnClearTable();
@@ -1020,7 +1043,6 @@
                             $('#targetgroup_list').dataTable().fnAddData(data);
                         }
                     }
-
                     if (response[0] == 'creative_unfilter') {
                         $('#creative_list').dataTable().fnClearTable();
                         if (response[1].length > 0) {
@@ -1035,7 +1057,6 @@
                             $('#creative_list').dataTable().fnAddData(data);
                         }
                     }
-
                     if (response[0] == 'geosegment_unfilter') {
                         $('#geosegment_list').dataTable().fnClearTable();
                         if (response[1].length > 0) {
@@ -1050,7 +1071,6 @@
                             $('#geosegment_list').dataTable().fnAddData(data);
                         }
                     }
-
                     if (response[0] == 'campaign') {
                         $('#campaign_list').dataTable().fnClearTable();
                         $('#targetgroup_list').dataTable().fnClearTable();
@@ -1150,9 +1170,7 @@
                             data = JSON.parse(data);
                             $('#targetgroup_list').dataTable().fnAddData(data);
                         }
-
                     }
-
                     if (response[0] == 'report_type') {
                         if (response[1].length == 0) {
                             client.val('');
@@ -1259,7 +1277,6 @@
                         }
                         if(targetgroup.val()=='') {
                             $('#targetgroup_list').dataTable().fnClearTable();
-
                             if (response[6].length > 0) {
                                 var data = '';
                                 $.each(response[6], function () {
@@ -1276,7 +1293,6 @@
                             }
                         }
                     }
-
                     if (response[0] == 'targetgroup') {
                         $('#targetgroup_list').dataTable().fnClearTable();
                         if(client.val()=='') {
@@ -1378,9 +1394,7 @@
                             data = JSON.parse(data);
                             $('#targetgroup_list').dataTable().fnAddData(data);
                         }
-
                     }
-
                     if (response[0] == 'creative') {
                         $('#creative_list').dataTable().fnClearTable();
                         if(client.val()=='') {
@@ -1483,7 +1497,6 @@
                             }
                         }
                     }
-
                     if (response[0] == 'geosegment') {
                         $('#geosegment_list').dataTable().fnClearTable();
                         if(client.val()=='') {
@@ -1585,9 +1598,7 @@
                                 $('#targetgroup_list').dataTable().fnAddData(data);
                             }
                         }
-
                     }
-
                     if (response[0] == 'advertiser') {
                         $('#advertiser_list').dataTable().fnClearTable();
                         $('#campaign_list').dataTable().fnClearTable();
@@ -1682,7 +1693,6 @@
                             $('#targetgroup_list').dataTable().fnAddData(data);
                         }
                     }
-
                     function Imps_chart() {
                         return response[7];
                     }
@@ -1695,7 +1705,6 @@
                         },
                         showRangeSelector : true
                     });
-
                     function Click_chart() {
                         return response[8];
                     }
@@ -1708,7 +1717,6 @@
                         },
                         showRangeSelector : true
                     });
-
                     function Conversions_chart() {
                         return response[9];
                     }
@@ -1721,7 +1729,6 @@
                         },
                         showRangeSelector : true
                     });
-
 //                var cb = '';
 //                var data = jQuery.parseJSON(response);
 //                var len = data.length;
@@ -1735,6 +1742,17 @@
         }
 
         $(document).ready(function() {
+            GridsMasonry.init();
+            $('.bootstrap-daterangepicker-date-time').daterangepicker({
+                timePicker: true,
+                timePickerIncrement: 5,
+                format: 'MM/DD/YYYY h:mm '
+            }, function(start, end, label) {
+                $('input[name="date_range"]').val(start.toISOString().slice(0,-1)+'&'+end.toISOString().slice(0,-1));
+                console.log(start.toISOString().slice(0,-1), end.toISOString().slice(0,-1));
+            });
+
+
             $('#advertiser_list_filter input').attr("id",'advertiser_list_filter');
 
             /* BASIC ;*/

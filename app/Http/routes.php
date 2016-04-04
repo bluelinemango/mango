@@ -204,6 +204,7 @@ Route::group(['prefix' => 'ajax'], function()
     ////////////////////END BULK EDITING////////////////////////
 
     Route::get('/getAllAudits', 'AuditsController@getAllAudits');
+    Route::get('/getAllUserAudits', 'AuditsController@getAllUserAudits');
     Route::get('/getAudit/{id?}/{entity_id?}', 'AuditsController@getAudit');
     Route::group(['prefix' => 'jqgrid'], function() {
         Route::put('/client', 'ClientController@jqgrid');

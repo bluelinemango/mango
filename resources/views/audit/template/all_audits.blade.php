@@ -42,7 +42,7 @@
             @elseif(isset($audit_obj[$i]) and $audit_obj[$i]->audit_type == 'edit')
                 changed {{$audit_obj[$i]->entity_type}}:
             @elseif(isset($audit_obj[$i]) and $audit_obj[$i]->audit_type == 'del')
-                deleted {{$audit_obj[$i]->entity_type}}:
+                madified {{$audit_obj[$i]->entity_type}}:
             @endif
             @if(isset($audit_obj[$i]) and $audit_obj[$i]->entity_type == 'user')
                 <a href="{{url('user/usr'.$audit_obj[$i]->entity_id.'/edit')}}">{{$audit_obj[$i+1]->name}}</a>

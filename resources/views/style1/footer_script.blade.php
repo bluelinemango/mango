@@ -55,7 +55,7 @@
             });
         } else if ($(this).val() == 'user') {
             $.ajax({
-                url: "{{url('ajax/getAudit/user')}}"
+                url: "{{url('ajax/getAllUserAudits')}}"
             }).success(function (response) {
                 $('#show_audit').html(response);
             });

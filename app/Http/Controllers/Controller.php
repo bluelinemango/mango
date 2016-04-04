@@ -41,5 +41,21 @@ abstract class Controller extends BaseController
         }
         return true;
     }
+    protected function report_date_validation($date){
+        if(!strpos($date,'&')){
+            return false;
+        }
+        $date_range=explode('&',$date);
+        if(!strpos($date_range[0],'T') or !strpos($date_range[1],'T')){
+            return false;
+        }
+        $start_date=explode('T',$date_range[0]);
+        $end_date=explode('T',$date_range[1]);
+
+        if(!preg_match('/^[0-9]{4}\-(0[1-9]|1[0-2])\-(0[1-9]|[1-2][0-9]|3[0-1])$/', str_replace(' ','',$start_date[0])) or !preg_match('/^[0-9]{4}\-(0[1-9]|1[0-2])\-(0[1-9]|[1-2][0-9]|3[0-1])$/', str_replace(' ','',$end_date[0]))){
+            return false;
+        }
+        return true;
+    }
 
 }

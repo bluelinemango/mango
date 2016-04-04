@@ -104,7 +104,7 @@ class ReportController extends Controller
     {
 //        return dd($request->all());
         if (Auth::check()) {
-            if (in_array('VIEW_ADVERTISER', $this->permission)) {
+            if (in_array('VIEW_ADVERTISER', $this->permission)) { //TODO: set report permission
                 $type = $request->input('type');
                 $arr = array();
                 array_push($arr, $type);
@@ -140,7 +140,7 @@ class ReportController extends Controller
                     }
 
                     if($request->input('report_type')=='today'){
-                        $time="between '".date('Y-m-d H:i:s',time() - 60 * 60 * 24)."' and '".date('Y-m-d H:i:s')."'";
+                        $time="between '".date('Y-m-d H:i:s',time() - 60 * 60 * 24)."' and '".date('Y-m-d H:i:s',time() + 60*30*10)."'";
                         $interval=300;
                         $query .=" and impression.created_at ". $time;
                     }
@@ -175,11 +175,14 @@ class ReportController extends Controller
                         $interval=60*60;
                     }
                     if($request->input('report_type')=='rang'){ //todo: 120 noghte
-                        $start_date = DateTime::createFromFormat('d.m.Y', $request->input('start_date'));
-                        $end_date = DateTime::createFromFormat('d.m.Y', $request->input('end_date'));
-                        $time="between '".$start_date->format('Y-m-d H:i:s')."' and '".$end_date->format('Y-m-d H:i:s')."'";
-                        $query .=" and impression.created_at ". $time;
-                        $interval=24*60*60;
+                        if($this->report_date_validation($request->input('date_range'))){
+                            $date_range=explode('&',$request->input('date_range'));
+                            $start_date=explode('T',$date_range[0]);
+                            $end_date=explode('T',$date_range[1]);
+                            $time="between '".$start_date[0].' '.$start_date[1] ."' and '".$end_date[0].' '.$end_date[1]."'";
+                            $query .=" and impression.created_at ". $time;
+                            $interval=24*60*60;
+                        }
                     }
 
                     switch ($type) {
@@ -515,8 +518,6 @@ class ReportController extends Controller
                             ->orderBy('imps', 'DESC')
                             ->get();
                     }
-
-
 
 //                    return dd($query);
 

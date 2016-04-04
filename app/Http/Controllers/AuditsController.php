@@ -72,6 +72,24 @@ class AuditsController extends Controller
         }
         return 'check ur login';
     }
+    public function getAllUserAudits(){
+        if(Auth::check()){
+            if(User::isSuperAdmin()){
+                $audit= Audits::with('getUser')->where('user_id',Auth::user()->id)->orderBy('created_at','DESC')->skip(0)->take(100)->get();
+            }else {
+                $usr_comp = $this->user_company();
+                $audit= Audits::with('getUser')->where('user_id',Auth::user()->id)->whereIn('user_id', $usr_comp)->orderBy('created_at','DESC')->skip(0)->take(100)->get();
+            }
+            $audit_obj= array();
+            if($audit) {
+                $sub = new AuditsController();
+                $audit_obj = $sub->SubAudit($audit);
+            }
+            return view('audit.template.all_audits')
+                ->with('audit_obj',$audit_obj);
+        }
+        return 'check ur login';
+    }
 
     public function getAudit($id,$entity_id=null){
         if(Auth::check()){
